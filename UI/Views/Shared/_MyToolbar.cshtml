@@ -1,69 +1,79 @@
 ﻿@model UI.Models.MyToolbarViewModel
 
 
-<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3 @Model.BG" id="nav1" style="margin-bottom:10px;">
-    <div class="navbar-brand" style="margin: 0px;">
-
-    </div>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-
-
-        <div>
-
-            <div class="btn-group" style="margin-left: 7px; margin-top: 3px;">
-                <button type="submit" action="@Model.ControllorName" class="btn btn-success">Uložit změny</button>
-
-            </div>
-
-            @if (Model.IsDelete)
-            {
-                <div class="btn-group" style="margin-left: 7px; margin-top: 3px;">
-                    <button type="button" class="btn btn-danger" onclick="toolbar_try_delete()">Odstranit</button>
-
-                </div>
-            }
-            @if (Model.IsRefresh)
-            {
-                <div class="btn-group" style="margin-left: 7px; margin-top: 3px;">
-                    <a asp-action="@Model.ControllorName" class="btn btn-light" asp-route-pid="@Model.Record.pid">Občerstvit</a>
-                </div>
-            }
-            @if (Model.IsClone)
-            {
-                <div class="btn-group" style="margin-left: 7px; margin-top: 3px;">
-                    <a asp-action="@Model.ControllorName" class="btn btn-light" asp-route-pid="@Model.Record.pid" asp-route-isclone="true">Kopírovat</a>
-                </div>
-            }
-            @if (Model.IsToArchive)
-            {
-                <div class="btn-group" style="margin-left: 7px; margin-top: 3px;">
-                    <button type="button" onclick="toolbar_handle_archive(1)" class="btn btn-light">Přesunout do archivu</button>
-                </div>
-            }
-            @if (Model.IsFromArchive)
-            {
-                <div class="btn-group" style="margin-left: 7px; margin-top: 3px;">
-                    <button type="button" onclick="toolbar_handle_archive(2)" class="btn btn-warning">Obnovit z archivu</button>
-                </div>
-            }
-
-            <div class="btn-group">
-                <span id="toolbar_message" class="badge-info">@Model.Message</span>
-
-            </div>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3 @Model.BG" id="nav1" style="margin-bottom:10px;">
+        <div class="navbar-brand" style="margin: 0px;">
 
         </div>
-    </div>
-</nav>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+
+
+            <div>
+
+                <div class="btn-group" style="margin-left: 7px; margin-top: 3px;">
+                    <button type="submit" action="@Model.ControllorName" class="btn btn-success">Uložit změny</button>
+
+                </div>
+
+                @if (Model.IsDelete)
+                {
+                    <div class="btn-group" style="margin-left: 7px; margin-top: 3px;">
+                        <button type="button" class="btn btn-danger" onclick="toolbar_try_delete()">Odstranit</button>
+
+                    </div>
+                }
+                @if (Model.IsRefresh)
+                {
+                    <div class="btn-group" style="margin-left: 7px; margin-top: 3px;">
+                        <a asp-action="@Model.ControllorName" onclick="before_clicked(event)" class="btn btn-light" asp-route-pid="@Model.Record.pid">Občerstvit</a>
+                    </div>
+                }
+                @if (Model.IsClone)
+                {
+                    <div class="btn-group" style="margin-left: 7px; margin-top: 3px;">
+                        <a asp-action="@Model.ControllorName" onclick="before_clicked(event)" class="btn btn-light" asp-route-pid="@Model.Record.pid" asp-route-isclone="true">Kopírovat</a>
+                    </div>
+                }
+                @if (Model.IsToArchive)
+                {
+                    <div class="btn-group" style="margin-left: 7px; margin-top: 3px;">
+                        <button type="button" onclick="toolbar_handle_archive(1)" class="btn btn-light">Přesunout do archivu</button>
+                    </div>
+                }
+                @if (Model.IsFromArchive)
+                {
+                    <div class="btn-group" style="margin-left: 7px; margin-top: 3px;">
+                        <button type="button" onclick="toolbar_handle_archive(2)" class="btn btn-warning">Obnovit z archivu</button>
+                    </div>
+                }
+
+                <div class="btn-group">
+                    <span id="toolbar_message" class="badge-info">@Model.Message</span>
+
+                </div>
+
+            </div>
+        </div>
+        <code id="toolbar_changeinfo" style="float:right;"></code>
+    </nav>
 
 <input type="hidden" id="hidArchiveFlag" asp-for="@Model.ArchiveFlag" />
 
 
 <script type="text/javascript">
+    $(document).ready(function () {
+        $("input, textarea").change(function () {
+            $("#toolbar_changeinfo").text("Změny potvrďte tlačítkem [Uložit změny]...")
+
+        });
+
+    })
+    
+
     function toolbar_try_delete() {
         $.showConfirm({
             title: "Rozhodněte se...", body: "Opravdu chcete nenávratně odstranit tento záznam?", textTrue: "ANO", textFalse: "NE",
@@ -97,5 +107,10 @@
         $("#hidArchiveFlag").val(flag);
         if (flag == 1) { $("#toolbar_message").text("Po uložení dojde k přesunutí záznamu do archivu.") };
         if (flag == 2) { $("#toolbar_message").text("Po uložení dojde k obnovení záznamu z archivu.") };
+    }
+    function before_clicked(e) {
+        if ($("#toolbar_changeinfo").text() != "") {
+            if (!confirm("Chcete pokračovat bez uložení změn?")) e.preventDefault();
+        }        
     }
 </script>

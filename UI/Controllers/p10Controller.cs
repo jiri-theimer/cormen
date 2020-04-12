@@ -9,6 +9,20 @@ namespace UI.Controllers
 {
     public class p10Controller : BaseController
     {
+        public IActionResult Preview(int pid)
+        {
+            var v = new Models.p10PreviewViewModel();
+            v.Rec = Factory.p10MasterProductBL.Load(pid);
+            if (v.Rec == null)
+            {
+                return this.StopPage(false, "Hledaný záznam neexistuje!");
+            }
+            else
+            {
+                return View(v);
+            }
+
+        }
         public IActionResult Record(int pid, bool isclone)
         {
             var v = new Models.p10RecordViewModel();

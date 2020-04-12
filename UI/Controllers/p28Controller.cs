@@ -9,6 +9,22 @@ namespace UI.Controllers
 {
     public class p28Controller : BaseController
     {
+        public IActionResult Preview(int pid)
+        {
+            var v = new Models.p28PreviewViewModel();
+
+            v.Rec = Factory.p28CompanyBL.Load(pid);
+            if (v.Rec == null)
+            {
+                return this.StopPage(false, "Hledaný záznam neexistuje!");
+            }
+            else
+            {
+                return View(v);
+            }
+            
+
+        }
         public IActionResult Record(int pid, bool isclone)
         {
             var v = new Models.p28RecordViewModel();

@@ -9,7 +9,7 @@
 
 @using (Html.BeginForm())
 {
-    <h2>TPV</h2>
+    <h4>TPV</h4>
     @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
     @Html.HiddenFor(m => m.Rec.pid)
 
@@ -17,18 +17,16 @@
 
         <div class="form-row">
             <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
-            <div class="col-sm-11 col-md-10">
+            <div class="col-sm-9 col-md-8">
                 <input class="form-control" asp-for="Rec.p13Name" />
                 <span asp-validation-for="Rec.p13Name" class="text-danger"></span>
             </div>
-        </div>
-        <div class="form-row">
-            <label class="col-sm-1 col-md-2 col-form-label">Kód:</label>
-            <div class="col-sm-11 col-md-10">
-                <input class="form-control" asp-for="Rec.p13Code" />
+            <div class="col-sm-2 col-md-2">
+                <input class="form-control" asp-for="Rec.p13Code" placeholder="Kód" />
                 <span asp-validation-for="Rec.p13Code" class="text-danger"></span>
             </div>
         </div>
+        
 
         <div class="form-row">
             <textarea asp-for="Rec.p13Memo" class="form-control" style="height:200px;"></textarea>

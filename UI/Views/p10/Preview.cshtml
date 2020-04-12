@@ -1,0 +1,54 @@
+﻿@model p10PreviewViewModel
+
+@{
+    ViewData["Title"] = "Master produkt";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="modal_record_container">
+
+    <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Master produkt:</label>
+        <div class="col-sm-9 col-md-8">
+            <input class="form-control" asp-for="Rec.p10Name" readonly="readonly" />
+
+        </div>
+        <div class="col-sm-2 col-md-2">
+            <input class="form-control" asp-for="Rec.p10Code" readonly="readonly" />
+
+        </div>
+    </div>
+
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
+        <div class="col-sm-11 col-md-10">
+            <input class="form-control" asp-for="Rec.b02Name" readonly="readonly" />
+        </div>
+    </div>
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">TPV:</label>
+        <div class="col-sm-11 col-md-10">
+            <input class="form-control" asp-for="Rec.p13Name" readonly="readonly" />
+        </div>
+    </div>
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Kategorie/Skupina:</label>
+        <div class="col-sm-11 col-md-10">
+            <input class="form-control" asp-for="Rec.o12Name" readonly="readonly" />
+        </div>
+    </div>
+
+
+    @if (Model.Rec.p10Memo != null)
+    {
+        <hr />
+
+        <pre>@Html.DisplayFor(m => m.Rec.p10Memo, new { @class = "form-control" });</pre>
+
+
+    }
+
+
+</div>
+
+@Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")

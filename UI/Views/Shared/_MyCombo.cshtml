@@ -53,6 +53,7 @@
                 $(ctl[0]).val(v);
                 $(ctl[1]).val(t);
                 $("#@(@Model.ControlID+"_cmdCombo")").text(t);
+                if ($("#toolbar_changeinfo").length) $("#toolbar_changeinfo").text("Změny potvrďte tlačítkem [Uložit změny]...");
             });
 
             $("#@(@Model.ControlID+"_search")").focus();
@@ -81,6 +82,7 @@
         var ctl = $("#@Model.ControlID_Dropdown :input[type='hidden']");
         $(ctl[0]).val("");
         $("#@(@Model.ControlID+"_cmdCombo")").text("");
+        
     });
 
 

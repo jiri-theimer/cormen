@@ -1,0 +1,102 @@
+﻿@model p28PreviewViewModel
+
+@{
+    ViewData["Title"] = "Preview";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="modal_record_container">
+
+    @Html.HiddenFor(m => m.Rec.pid)
+
+    <div class="form-row">
+        <label class="col-sm-2 col-md-3 col-form-label">Firma:</label>
+        <div class="col-sm-7 col-md-6">
+            <input class="form-control" asp-for="Rec.p28Name" readonly="readonly" />
+
+        </div>
+        @if (Model.Rec.p28ShortName != null)
+        {
+            <div class="col-sm-2 col-md-2">
+                <input class="form-control" asp-for="Rec.p28ShortName" readonly="readonly" />
+            </div>
+        }
+
+        <div class="col-sm-1 col-md-1">
+            <input class="form-control" asp-for="Rec.p28Code" readonly="readonly" />
+
+        </div>
+    </div>
+   
+
+    <div class="form-row">
+        <label class="col-sm-2 col-md-3 col-form-label">IČ/DIČ:</label>
+        <div class="col-sm-7 col-md-6">
+            <input class="form-control" asp-for="Rec.p28RegID" readonly="readonly" />
+
+        </div>
+        <div class="col-sm-3 col-md-3">
+            <input class="form-control" asp-for="Rec.p28VatID" readonly="readonly" />
+
+        </div>
+    </div>
+    <div class="card-header" style="padding:1px;">Primární adresa</div>
+    <div class="form-row">
+        <label class="col-sm-2 col-md-3 col-form-label">Město:</label>
+        <div class="col-sm-10 col-md-9">
+            <input class="form-control" asp-for="Rec.p28City1" readonly="readonly" />
+        </div>
+    </div>
+    <div class="form-row">
+        <label class="col-sm-2 col-md-3 col-form-label">Ulice:</label>
+        <div class="col-sm-10 col-md-9">
+            <input class="form-control" asp-for="Rec.p28Street1" readonly="readonly" />
+        </div>
+    </div>
+
+    <div class="form-row">
+        <label class="col-sm-2 col-md-3 col-form-label"></label>
+        <div class="col-sm-3 col-md-3">
+            <input class="form-control" asp-for="Rec.p28PostCode1" readonly="readonly" />
+
+        </div>
+        <div class="col-sm-7 col-md-6">
+            <input class="form-control" asp-for="@Model.Rec.p28Country1" readonly="readonly" />
+
+        </div>
+    </div>
+    @if (Model.Rec.p28City2 != null || Model.Rec.p28Street2 != null)
+    {
+        <div class="card-header" style="padding:1px;">Poštovní adresa</div>
+        <div class="form-row">
+            <label class="col-sm-2 col-md-3 col-form-label">Město:</label>
+            <div class="col-sm-10 col-md-9">
+                <input class="form-control" asp-for="Rec.p28City2" readonly="readonly" />
+            </div>
+        </div>
+        <div class="form-row">
+            <label class="col-sm-2 col-md-3 col-form-label">Ulice:</label>
+            <div class="col-sm-10 col-md-9">
+                <input class="form-control" asp-for="Rec.p28Street2" readonly="readonly" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <label class="col-sm-2 col-md-3 col-form-label"></label>
+            <div class="col-sm-3 col-md-3">
+                <input class="form-control" asp-for="Rec.p28PostCode2" readonly="readonly" />
+
+            </div>
+            <div class="col-sm-7 col-md-6">
+                <input class="form-control" asp-for="@Model.Rec.p28Country2" readonly="readonly" />
+            </div>
+        </div>
+    }
+
+
+
+
+</div>
+@Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
+
