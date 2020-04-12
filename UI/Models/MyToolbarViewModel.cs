@@ -74,7 +74,7 @@ namespace UI.Models
             }
         }
 
-        public DateTime GetValidUntil(BO.BaseBO rec)
+        public DateTime? GetValidUntil(BO.BaseBO rec)
         {
             switch (this.ArchiveFlag)
             {
@@ -94,7 +94,7 @@ namespace UI.Models
                                         
             }            
         }
-        public DateTime GetValidFrom(BO.BaseBO rec)
+        public DateTime? GetValidFrom(BO.BaseBO rec)
         {
             if (rec.pid == 0)
             {

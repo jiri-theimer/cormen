@@ -9,6 +9,20 @@ namespace UI.Controllers
 {
     public class p21Controller : BaseController
     {
+        public IActionResult Preview(int pid)
+        {
+            var v = new Models.p21PreviewViewModel();
+            v.Rec = Factory.p21LicenseBL.Load(pid);
+            if (v.Rec == null)
+            {
+                return this.StopPage(false, "Hledaný záznam neexistuje!");
+            }
+            else
+            {
+                return View(v);
+            }
+
+        }
         public IActionResult Record(int pid, bool isclone)
         {
             var v = new Models.p21RecordViewModel();
@@ -52,8 +66,8 @@ namespace UI.Controllers
                 c.b02ID = BO.BAS.InInt(v.ComboB02ID.SelectedValue);
                 c.p28ID = BO.BAS.InInt(v.ComboP28ID.SelectedValue);
 
-                c.ValidUntil = v.Toolbar.GetValidUntil(c);
-                c.ValidFrom = v.Toolbar.GetValidFrom(c);
+                c.ValidFrom = v.Rec.ValidFrom;
+                c.ValidUntil = v.Rec.ValidUntil;
 
                 v.Rec.pid = Factory.p21LicenseBL.Save(c);
                 if (v.Rec.pid > 0)

@@ -165,7 +165,9 @@ namespace BL.DL
             }
             pars.Add("DateUpdate", DateTime.Now, System.Data.DbType.DateTime);
             pars.Add("UserUpdate", AppRunning.Get().User.j02Login, System.Data.DbType.String);
+            if (rec.ValidFrom == null) rec.ValidFrom = System.DateTime.Now;
             pars.Add("ValidFrom", rec.ValidFrom, System.Data.DbType.DateTime);
+            if (rec.ValidUntil == null) rec.ValidUntil = new DateTime(3000, 1, 1);
             pars.Add("ValidUntil", rec.ValidUntil, System.Data.DbType.DateTime);
 
 
