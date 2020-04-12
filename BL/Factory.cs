@@ -7,12 +7,18 @@ namespace BL
     public class Factory
     {
         private Ij02PersonBL _j02;
+        private Ip10MasterProductBL _p10;
+        private Ip13TpvBL _p13;
         private Ip28CompanyBL _p28;
+        private Ip21LicenseBL _p21;
         private Ip26MszBL _p26;
         private Ij04UserRoleBL _j04;
+        private Ib02StatusBL _b02;
+        private Io12CategoryBL _o12;
         private IDataGridBL _grid;
         private ICBL _cbl;
         private IFBL _fbl;
+
         
         public Factory(string login)
         {
@@ -79,6 +85,46 @@ namespace BL
             {
                 if (_p26 == null) _p26 = new p26MszBL();
                 return _p26;
+            }
+        }
+        public Ip21LicenseBL p21LicenseBL
+        {
+            get
+            {
+                if (_p21 == null) _p21 = new p21LicenseBL();
+                return _p21;
+            }
+        }
+        public Ib02StatusBL b02StatusBL
+        {
+            get
+            {
+                if (_b02 == null) _b02 = new b02StatusBL();
+                return _b02;
+            }
+        }
+        public Io12CategoryBL o12CategoryBL
+        {
+            get
+            {
+                if (_o12 == null) _o12 = new o12CategoryBL();
+                return _o12;
+            }
+        }
+        public Ip13TpvBL p13TpvBL
+        {
+            get
+            {
+                if (_p13 == null) _p13 = new p13TpvBL();
+                return _p13;
+            }
+        }
+        public Ip10MasterProductBL p10MasterProductBL
+        {
+            get
+            {
+                if (_p10 == null) _p10 = new p10MasterProductBL();
+                return _p10;
             }
         }
     }

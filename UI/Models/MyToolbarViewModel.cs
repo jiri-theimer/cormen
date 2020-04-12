@@ -8,6 +8,7 @@ namespace UI.Models
     public class MyToolbarViewModel
     {        
         public BO.BaseBO Record { get; set; }
+        public string ControllorName { get; set; } = "Record";
         public bool IsCurrentClone { get; set; }
         public bool IsSave { get; set; }
         public bool IsRefresh { get; set; }

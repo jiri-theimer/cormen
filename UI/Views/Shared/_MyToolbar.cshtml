@@ -15,7 +15,7 @@
         <div>
 
             <div class="btn-group" style="margin-left: 7px; margin-top: 3px;">
-                <button type="submit" action="Record" class="btn btn-success">Uložit změny</button>
+                <button type="submit" action="@Model.ControllorName" class="btn btn-success">Uložit změny</button>
 
             </div>
 
@@ -29,13 +29,13 @@
             @if (Model.IsRefresh)
             {
                 <div class="btn-group" style="margin-left: 7px; margin-top: 3px;">
-                    <a asp-action="Record" class="btn btn-light" asp-route-pid="@Model.Record.pid">Občerstvit</a>
+                    <a asp-action="@Model.ControllorName" class="btn btn-light" asp-route-pid="@Model.Record.pid">Občerstvit</a>
                 </div>
             }
             @if (Model.IsClone)
             {
                 <div class="btn-group" style="margin-left: 7px; margin-top: 3px;">
-                    <a asp-action="Record" class="btn btn-light" asp-route-pid="@Model.Record.pid" asp-route-isclone="true">Kopírovat</a>
+                    <a asp-action="@Model.ControllorName" class="btn btn-light" asp-route-pid="@Model.Record.pid" asp-route-isclone="true">Kopírovat</a>
                 </div>
             }
             @if (Model.IsToArchive)

@@ -46,9 +46,14 @@ namespace UI.Controllers
                     break;
                 case "p26":
                     strCols = "p26Name,p26Code";
-
+                    break;
+                case "p13":
+                    strCols = "p13Name,p13Code,p13Memo";
                     break;
                 case "b02":
+                    mq.query_by_entity_prefix = param1;
+                    break;
+                case "o12":
                     mq.query_by_entity_prefix = param1;
                     break;
                 default:

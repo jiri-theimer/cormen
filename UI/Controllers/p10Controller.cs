@@ -7,16 +7,14 @@ using UI.Models;
 
 namespace UI.Controllers
 {
-    public class p26Controller : BaseController
+    public class p10Controller : BaseController
     {
-       
-
         public IActionResult Record(int pid, bool isclone)
         {
-            var v = new Models.p26RecordViewModel();
+            var v = new Models.p10RecordViewModel();
             if (pid > 0)
             {
-                v.Rec = Factory.p26MszBL.Load(pid);
+                v.Rec = Factory.p10MasterProductBL.Load(pid);
                 if (v.Rec == null)
                 {
                     return this.StopPage(false, "Hledaný záznam neexistuje!");
@@ -25,13 +23,15 @@ namespace UI.Controllers
             }
             else
             {
-                v.Rec = new BO.p26Msz();
+                v.Rec = new BO.p10MasterProduct();
 
             }
 
-            v.ComboP28ID = new MyComboViewModel("p28", v.Rec.p28ID.ToString(), v.Rec.p28Name,"cbx1");
+            v.ComboP13ID = new MyComboViewModel("p13", v.Rec.p13ID.ToString(), v.Rec.p13Name, "cbx1");
             v.ComboB02ID = new MyComboViewModel("b02", v.Rec.b02ID.ToString(), v.Rec.b02Name, "cbx2");
-            v.ComboB02ID.Param1 = "p26";
+            v.ComboB02ID.Param1 = "p10";
+            v.ComboO12ID = new MyComboViewModel("o12", v.Rec.o12ID.ToString(), v.Rec.o12Name, "cbx3");
+            v.ComboO12ID.Param1 = "p10";
 
             v.Toolbar = new MyToolbarViewModel(v.Rec);
             if (isclone) { v.Toolbar.MakeClone(); }
@@ -41,23 +41,24 @@ namespace UI.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Record(Models.p26RecordViewModel v)
+        public IActionResult Record(Models.p10RecordViewModel v)
         {
             if (ModelState.IsValid)
             {
-                BO.p26Msz c = new BO.p26Msz();
-                if (v.Rec.pid > 0) c = Factory.p26MszBL.Load(v.Rec.pid);
+                BO.p10MasterProduct c = new BO.p10MasterProduct();
+                if (v.Rec.pid > 0) c = Factory.p10MasterProductBL.Load(v.Rec.pid);
 
-                c.p26Code = v.Rec.p26Code;
-                c.p26Name = v.Rec.p26Name;
-                c.p26Memo = v.Rec.p26Memo;
+                c.p10Code = v.Rec.p10Code;
+                c.p10Name = v.Rec.p10Name;
+                c.p10Memo = v.Rec.p10Memo;
                 c.b02ID = BO.BAS.InInt(v.ComboB02ID.SelectedValue);
-                c.p28ID = BO.BAS.InInt(v.ComboP28ID.SelectedValue);
+                c.p13ID = BO.BAS.InInt(v.ComboP13ID.SelectedValue);
+                c.o12ID = BO.BAS.InInt(v.ComboO12ID.SelectedValue);
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
 
-                v.Rec.pid = Factory.p26MszBL.Save(c);
+                v.Rec.pid = Factory.p10MasterProductBL.Save(c);
                 if (v.Rec.pid > 0)
                 {
                     return RedirectToAction("Grid", new { pid = v.Rec.pid });
@@ -70,9 +71,11 @@ namespace UI.Controllers
             else
             {
                 v.Toolbar = new MyToolbarViewModel(v.Rec);
-                v.ComboP28ID = new MyComboViewModel("p28", v.ComboP28ID.SelectedValue, v.ComboP28ID.SelectedText, "cbx1");
+                v.ComboP13ID = new MyComboViewModel("p13", v.ComboP13ID.SelectedValue, v.ComboP13ID.SelectedText, "cbx1");
                 v.ComboB02ID = new MyComboViewModel("b02", v.ComboB02ID.SelectedValue, v.ComboB02ID.SelectedText, "cbx2");
-                v.ComboB02ID.Param1 = "p26";
+                v.ComboB02ID.Param1 = "p10";
+                v.ComboO12ID = new MyComboViewModel("o12", v.ComboB02ID.SelectedValue, v.ComboB02ID.SelectedText, "cbx3");
+                v.ComboO12ID.Param1 = "p10";
 
                 return View(v);
             }

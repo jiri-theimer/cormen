@@ -24,9 +24,13 @@ namespace BL.DL
             {
                 if (mq.Entity == "j02" || mq.Entity == "p26") AQ(ref lis, "a.p28ID=@p28id", "p28id", mq.p28id);
             }
-            if (mq.Entity == "b02" && mq.query_by_entity_prefix == "p26")
+            if (mq.Entity == "b02" && !string.IsNullOrEmpty(mq.query_by_entity_prefix))
             {
                 AQ(ref lis, "a.b02Entity=@prefix", "prefix", mq.query_by_entity_prefix);    //filtr seznamu stavů podle druhu entity
+            }
+            if (mq.Entity == "o12" && !string.IsNullOrEmpty(mq.query_by_entity_prefix))
+            {
+                AQ(ref lis, "a.o12Entity=@prefix", "prefix", mq.query_by_entity_prefix);    //filtr seznamu kategorií podle druhu entity
             }
 
             var ret = new DL.FinalSqlCommand();

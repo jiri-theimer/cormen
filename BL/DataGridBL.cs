@@ -35,6 +35,21 @@ namespace BL
                 case "p28":
                     s = string.Format("SELECT {0},a.* from p28Company a", GetSQL_SELECT_Ocas("p28"));
                     break;
+                case "p26":
+                    s = string.Format("SELECT {0},a.*,,b02.b02Name,p28.p28Name FROM p26Msz a LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID", GetSQL_SELECT_Ocas("p26"));
+                    break;
+                case "p21":
+                    s = string.Format("SELECT {0},a.*,,b02.b02Name,p28.p28Name FROM p21License a LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID", GetSQL_SELECT_Ocas("p21"));
+                    break;
+                case "o12":
+                    s = string.Format("SELECT {0},a.* from o12Category a", GetSQL_SELECT_Ocas("o12"));
+                    break;
+                case "p10":
+                    s = string.Format("SELECT {0},a.*,o12.o12Name,b02.b02Name,p13.p13Name FROM p10MasterProduct a LEFT OUTER JOIN p13Tpv p13 ON a.p13ID=p13.p13ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID", GetSQL_SELECT_Ocas("p10"));
+                    break;
+                case "p13":
+                    s = string.Format("SELECT {0},a.* from p13Tpv a", GetSQL_SELECT_Ocas("p13"));
+                    break;
                 default:
                     break;
             }

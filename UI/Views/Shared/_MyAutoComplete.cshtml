@@ -37,6 +37,7 @@
                 s = $(this).find("td:first").text();
 
                 $("#@(@Model.ControlID+"_txt1")").val(s);
+                $("#@(@Model.ControlID+"_txt1")").select();
             });
 
         });
