@@ -1,0 +1,125 @@
+﻿@model UI.Models.j02RecordViewModel
+@{
+    ViewData["Title"] = "Osoba";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+@using (Html.BeginForm())
+{
+
+    <h2>Osoba | Uživatel</h2>
+    @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
+    @Html.HiddenFor(m => m.Rec.pid)
+
+    <div class="modal_record_container">
+
+
+
+
+        <div class="form-row" style="margin-bottom:10px;">
+            <div class="col-sm-2 col-md-2">
+                @Html.EditorFor(m => m.TitleBeforeName, "~/Views/Shared/_MyAutoComplete.cshtml")
+            </div>
+            <div class="col-sm-3 col-md-3">
+                <input class="form-control" asp-for="Rec.j02FirstName" placeholder="Jméno" />
+                <span asp-validation-for="Rec.j02FirstName" class="text-danger"></span>
+
+            </div>
+            <div class="col-sm-5 col-md-5">
+                <input class="form-control" asp-for="Rec.j02LastName" placeholder="Příjmení" />
+                <span asp-validation-for="Rec.j02LastName" class="text-danger"></span>
+            </div>
+            <div class="col-sm-2 col-md-2">
+                @Html.EditorFor(m => m.TitleAfterName, "~/Views/Shared/_MyAutoComplete.cshtml")
+            </div>
+
+        </div>
+
+
+        <div class="card-header">
+            <input asp-for="Rec.j02IsUser" />
+            <label for="Rec_j02IsUser">Má uživatelský účet?</label>
+        </div>
+        <div id="ucet">
+            <div class="form-row">
+                <label class="col-sm-2 col-md-3 col-form-label">Uživatelský účet (Login):</label>
+                <div class="col-sm-10 col-md-9">
+                    <input class="form-control" asp-for="Rec.j02Login" />
+                    <span asp-validation-for="Rec.j02Login" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <label class="col-sm-2 col-md-3 col-form-label">Aplikační role:</label>
+                <div class="col-sm-10 col-md-9">
+                    @Html.EditorFor(m => m.ComboJ04ID, "~/Views/Shared/_MyCombo.cshtml")
+                </div>
+            </div>
+        </div>
+
+        <div class="card-header">
+            Kontakt
+        </div>
+
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-2 col-md-3 col-form-label">Firma:</label>
+            <div class="col-sm-10 col-md-9">
+                @Html.EditorFor(m => m.ComboP28ID, "~/Views/Shared/_MyCombo.cshtml")
+            </div>
+        </div>
+        <div class="form-row">
+            <label class="col-sm-2 col-md-3 col-form-label">E-mail:</label>
+            <div class="col-sm-10 col-md-9">
+                <input class="form-control" type="email" asp-for="Rec.j02Email" />
+                <span asp-validation-for="Rec.j02Email" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <label class="col-sm-2 col-md-3 col-form-label">Tel1 (Mobil):</label>
+            <div class="col-sm-10 col-md-9">
+                <input class="form-control" type="tel" asp-for="Rec.j02Tel1" />
+                <span asp-validation-for="Rec.j02Tel1" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row">
+            <label class="col-sm-2 col-md-3 col-form-label">Tel2 (Pevná):</label>
+            <div class="col-sm-10 col-md-9">
+                <input class="form-control" type="tel" asp-for="Rec.j02Tel2" />
+                <span asp-validation-for="Rec.j02Tel2" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+}
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        handle_ucet_state();
+
+
+    });
+
+    
+
+    $("#Rec_j02IsUser").on("click", function () {
+        handle_ucet_state();
+    });
+
+
+    function handle_ucet_state() {
+        if ($("#Rec_j02IsUser").prop("checked") == true) {
+            $("#ucet").css("display", "block");
+        } else {
+            $("#ucet").css("display", "none");
+        }
+    }
+
+
+</script>
+
+@Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
+
+

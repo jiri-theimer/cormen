@@ -1,0 +1,60 @@
+﻿@model UI.Models.MyAutoCompleteViewModel
+
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <div id="@Model.ControlID_Dropdown" class="dropdown mycombo">
+                <button class="btn btn-light dropdown-toggle" type="button" id="@(@Model.ControlID+"_cmdCombo")" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-align:left;width:100%;">
+                </button>
+                <div class="dropdown-menu" aria-labelledby="@(@Model.ControlID+"_cmdCombo")" style="width:@Model.DropDownWidth;">
+
+                    <input type="text" id="@(@Model.ControlID+"_search")" class="form-control" placeholder="Najít..." autocomplete="off" />
+
+                    <div id="@(@Model.ControlID+"_divtab")" style="height:200px;overflow:auto;">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <input id="@(@Model.ControlID+"_txt1")" asp-for="@Model.SelectedText" class="form-control" placeholder="@Model.PlaceHolder" />
+    </div>
+
+
+    <script type="text/javascript">
+
+    $("#@Model.ControlID_Dropdown").on("show.bs.dropdown", function () {
+
+        if ($("#@Model.ControlID_Dropdown").prop("filled") == true) return;    //combo už bylo dříve otevřeno
+
+
+        var url = '@Url.Action("GetAutoCompleteHtmlItems", "Common")';
+        $.post(url, { o15flag: "@Model.o15Flag", tableid:"@Model.ControlID_Table" }, function (data) {
+            $("#@(@Model.ControlID+ "_divtab")").html(data);
+
+            $("#@Model.ControlID_Dropdown").prop("filled", true);
+
+            $("#@Model.ControlID_Table .txz").on("click", function () {
+                s = $(this).find("td:first").text();
+
+                $("#@(@Model.ControlID+"_txt1")").val(s);
+            });
+
+        });
+
+
+    })
+
+    $("#@(@Model.ControlID+"_search")").on("focus", function () {
+        document.getElementById("@(@Model.ControlID+"_search")").select();
+    });
+
+    $("#@(@Model.ControlID+"_search")").on("keyup", function () {
+        var value = $(this).val().toLowerCase();
+        $("#@Model.ControlID_Table tr").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+
+
+
+    </script>

@@ -1,0 +1,85 @@
+﻿@model UI.Models.MyGridViewModel
+
+<table class="display compact" id="@Model.TableElementID">
+    <thead>
+        <tr>
+            @foreach (var c in Model.Columns)
+            {
+                <th>@c.ColHeader</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.RowsCount; i++)
+        {
+            <tr id="@("tr"+@Model.DT.Rows[i][Model.ColFieldPid])" data-ic="@Model.DT.Rows[i]["isclosed"]">
+                
+                @foreach (var col in Model.Columns)
+                {
+                    @switch (col.ColType)
+                    {
+                        case "date":
+                            <td>@Model.DT.Rows[i][col.ColField]</td>
+                            break;
+                        case "number":
+                            <td>@Model.DT.Rows[i][col.ColField]</td>
+                            break;
+                        default:
+                            <td>@Model.DT.Rows[i][col.ColField]</td>
+                            break;
+                    }
+
+
+
+                }
+            </tr>
+
+
+
+        }
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    $(document).ready(function () {        
+        $("tr[data-ic='1']").each(function () {
+            $(this).addClass("isclosed");
+            //$(this).css("background-color", "gray");
+            //$(this).css("color", "white");
+        });
+
+       
+        var h = $("#@Model.TableElementID").parent().height();
+
+        var tab=$("#@Model.TableElementID").DataTable({
+            "scrollY": h+"px",
+            "scrollCollapse": true,
+            "select": true,
+            "stateSave": true,
+            "paging": true,
+            "language": {
+                "decimal": ","
+            }
+        });
+
+        //tab.search("Hodková").draw();
+        var pid = get_request_param("pid");
+        if (pid != "") {
+            var row = tab.row("#tr" + pid);
+
+            if (row.length > 0) {
+                row.select();
+
+                row.draw().show().draw(false);
+                row.node().scrollIntoView();
+
+
+
+            }
+        }
+
+
+
+
+    });
+</script>

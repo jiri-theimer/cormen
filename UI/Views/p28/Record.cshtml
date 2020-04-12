@@ -1,0 +1,104 @@
+﻿@model p28RecordViewModel
+
+@{
+    ViewData["Title"] = "Company";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Firma | Subjekt</h2>
+
+<div class="modal_record_container">
+
+    @using (Html.BeginForm())
+    {
+
+        @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
+
+        @Html.HiddenFor(m => m.Rec.pid)
+
+        <div class="form-row">
+            <label class="col-sm-2 col-md-3 col-form-label">Název:</label>
+            <div class="col-sm-7 col-md-6">
+                <input class="form-control" asp-for="Rec.p28Name" />
+                <span asp-validation-for="Rec.p28Name" class="text-danger"></span>
+            </div>
+            <div class="col-sm-3 col-md-3">
+                <input class="form-control" asp-for="Rec.p28ShortName" placeholder="Zkrácený název" />
+            </div>
+
+        </div>
+        <div class="form-row">
+            <label class="col-sm-2 col-md-3 col-form-label">Kód:</label>
+            <div class="col-sm-10 col-md-9">
+                <input class="form-control" asp-for="Rec.p28Code" />
+                <span asp-validation-for="Rec.p28Code" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <label class="col-sm-2 col-md-3 col-form-label">IČ/DIČ:</label>
+            <div class="col-sm-7 col-md-6">
+                <input class="form-control" asp-for="Rec.p28RegID" placeholder="IČ" />
+                <span asp-validation-for="Rec.p28RegID" class="text-danger"></span>
+            </div>
+            <div class="col-sm-3 col-md-3">
+                <input class="form-control" asp-for="Rec.p28VatID" placeholder="DIČ" />
+                <span asp-validation-for="Rec.p28VatID" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="card-header">Primární adresa</div>
+        <div class="form-row">
+            <label class="col-sm-2 col-md-3 col-form-label">Město:</label>
+            <div class="col-sm-10 col-md-9">
+                <input class="form-control" asp-for="Rec.p28City1" />
+            </div>
+        </div>
+        <div class="form-row">
+            <label class="col-sm-2 col-md-3 col-form-label">Ulice:</label>
+            <div class="col-sm-10 col-md-9">
+                <input class="form-control" asp-for="Rec.p28Street1" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <label class="col-sm-2 col-md-3 col-form-label"></label>
+            <div class="col-sm-3 col-md-3">
+                <input class="form-control" asp-for="Rec.p28PostCode1" placeholder="PSČ" />
+                <span asp-validation-for="Rec.p28PostCode1" class="text-danger"></span>
+            </div>
+            <div class="col-sm-7 col-md-6">
+                @Html.EditorFor(m => m.Country1, "~/Views/Shared/_MyAutoComplete.cshtml")
+            </div>
+        </div>
+        <div class="card-header">Poštovní adresa</div>
+        <div class="form-row">
+            <label class="col-sm-2 col-md-3 col-form-label">Město:</label>
+            <div class="col-sm-10 col-md-9">
+                <input class="form-control" asp-for="Rec.p28City2" />
+            </div>
+        </div>
+        <div class="form-row">
+            <label class="col-sm-2 col-md-3 col-form-label">Ulice:</label>
+            <div class="col-sm-10 col-md-9">
+                <input class="form-control" asp-for="Rec.p28Street2" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <label class="col-sm-2 col-md-3 col-form-label"></label>
+            <div class="col-sm-3 col-md-3">
+                <input class="form-control" asp-for="Rec.p28PostCode2" placeholder="PSČ" />
+                <span asp-validation-for="Rec.p28PostCode2" class="text-danger"></span>
+            </div>
+            <div class="col-sm-7 col-md-6">
+                @Html.EditorFor(m => m.Country2, "~/Views/Shared/_MyAutoComplete.cshtml")
+            </div>
+        </div>
+
+
+    }
+
+    @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
+
+
+</div>
