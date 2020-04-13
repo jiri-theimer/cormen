@@ -92,3 +92,10 @@ tr.isclosed {
 .txz{
     cursor:default;
 }
+
+textarea {
+    display: block;
+    overflow: hidden;
+    resize: none;    
+}
+

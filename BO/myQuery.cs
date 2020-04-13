@@ -6,7 +6,7 @@ namespace BO
 {
     public class myQuery
     {
-        public string Entity = "";
+        public string Entity;
 
         public bool? IsRecordValid;
 
@@ -16,5 +16,9 @@ namespace BO
         public string query_by_entity_prefix;
         
        
+        public myQuery(string strEntity)
+        {
+            this.Entity = strEntity;
+        }
     }
 }

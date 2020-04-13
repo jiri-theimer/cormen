@@ -20,7 +20,7 @@ namespace UI.Models
                 return this.DT.Rows.Count;
             }
         }
-        public MyGridViewModel(string strColFieldPid, string strTableElementID)
+        public MyGridViewModel(string strColFieldPid="pid", string strTableElementID="mg1")
         {
             this.ScrollingHeight = "500px";
             this.ColFieldPid = strColFieldPid;

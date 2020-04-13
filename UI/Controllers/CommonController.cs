@@ -33,13 +33,16 @@ namespace UI.Controllers
 
         public string GetComboHtmlItems(string entity, string curvalue, string tableid,string param1) //Vrací HTML zdroj tabulky pro MyCombo
         {
-            var mq = new BO.myQuery();                        
+            var mq = new BO.myQuery(entity);                        
             string strCols = string.Format("{0}Name", entity);
 
             switch (entity)
             {
                 case "j02":
                     strCols = "fullname_desc,j04Name,j02Email,p28Name";
+                    break;
+                case "p10":
+                    strCols = "p10Name,p10Code,b02Name,p13Name,o12Name";
                     break;
                 case "p28":
                     strCols = "p28Name,p28RegID,p28City1,p28Country1";
@@ -66,7 +69,7 @@ namespace UI.Controllers
             var s = new System.Text.StringBuilder();
             var cols = BO.BAS.ConvertString2List(strCols);
 
-            s.Append(string.Format("<table id='{0}' class='table table-sm table-hover'>", tableid));
+            s.Append(string.Format("<table id='{0}' class='table table-sm table-hover' style='font-size:90%;'>", tableid));
             for (int i = 0; i < intRows; i++)
             {
                 s.Append(string.Format("<tr class='txz' data-v='{0}'>", dt.Rows[i]["pid"]));

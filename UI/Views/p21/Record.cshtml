@@ -12,55 +12,64 @@
     @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
     @Html.HiddenFor(m => m.Rec.pid)
 
-<div class="modal_record_container">
+    <div class="modal_record_container">
 
-    <div class="form-row">
-        <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
-        <div class="col-sm-8 col-md-7">
-            <input class="form-control" asp-for="Rec.p21Name" />
-            <span asp-validation-for="Rec.p21Name" class="text-danger"></span>
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
+            <div class="col-sm-8 col-md-7">
+                <input class="form-control" asp-for="Rec.p21Name" />
+                <span asp-validation-for="Rec.p21Name" class="text-danger"></span>
+            </div>
+            <div class="col-sm-3 col-md-3">
+                <input class="form-control" asp-for="Rec.p21Code" placeholder="Kód" />
+                <span asp-validation-for="Rec.p21Code" class="text-danger"></span>
+            </div>
         </div>
-        <div class="col-sm-3 col-md-3">
-            <input class="form-control" asp-for="Rec.p21Code" placeholder="Kód" />
-            <span asp-validation-for="Rec.p21Code" class="text-danger"></span>
+
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Klient:</label>
+            <div class="col-sm-11 col-md-10">
+                @Html.EditorFor(m => m.ComboP28ID, "~/Views/Shared/_MyCombo.cshtml")
+            </div>
         </div>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
+            <div class="col-sm-11 col-md-10">
+                @Html.EditorFor(m => m.ComboB02ID, "~/Views/Shared/_MyCombo.cshtml")
+            </div>
+        </div>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Platnost od:</label>
+            <div class="col-sm-2 col-md-2">
+                <input asp-for="Rec.ValidFrom" type="date" class="form-control" />
+            </div>
+            <div class="col-sm-1 col-md-1">
+                do:
+            </div>
+            <div class="col-sm-2 col-md-2">
+                <input asp-for="Rec.ValidUntil" type="date" class="form-control" />
+            </div>
+        </div>
+
+
+        <div class="form-row">
+            <textarea asp-for="Rec.p21Memo" class="form-control" placeholder="Podrobný popis"></textarea>
+        </div>
+
+
     </div>
-
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Klient:</label>
-        <div class="col-sm-11 col-md-10">
-            @Html.EditorFor(m => m.ComboP28ID, "~/Views/Shared/_MyCombo.cshtml")
-        </div>
-    </div>
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
-        <div class="col-sm-11 col-md-10">
-            @Html.EditorFor(m => m.ComboB02ID, "~/Views/Shared/_MyCombo.cshtml")
-        </div>
-    </div>
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Platnost od:</label>
-        <div class="col-sm-2 col-md-2">
-            <input asp-for="Rec.ValidFrom" type="date" class="form-control" />
-        </div>
-        <div class="col-sm-1 col-md-1">
-            do:
-        </div>
-        <div class="col-sm-2 col-md-2">
-            <input asp-for="Rec.ValidUntil" type="date" class="form-control" />
-        </div>
-    </div>
-
-
-    <div class="form-row">
-        <textarea asp-for="Rec.p21Memo" class="form-control" style="height:200px;"></textarea>
-    </div>
-
-
-</div>
+    @Html.EditorFor(m => m.ComboSelectP10ID, "~/Views/Shared/_MyCombo.cshtml")
+    
 }
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
+
+
+<script type="text/javascript">
+    function handle_append_product(p10id) {
+        alert(p10id);
+    }
+</script>
 
 
 

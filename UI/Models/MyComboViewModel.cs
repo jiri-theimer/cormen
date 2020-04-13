@@ -13,6 +13,7 @@ namespace UI.Models
         public string ControlID { get; set; } = "cbx1";
         public string TableWidth { get; set; } = "100%;";
         public string Param1 { get; set; }
+        public string OnChange_Event { get; set; }
 
         public string ControlID_Table { get; set; }
         

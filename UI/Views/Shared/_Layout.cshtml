@@ -62,11 +62,34 @@
 
     <script type="text/javascript">
         //zabránit submit formuláře po stisknutí ENTER na jakémkoliv non-submit input elementu
-        $('form').submit(function () {
-            if ($(document.activeElement).attr('type') == 'submit')
-                return true;
-            else return false;
+        
+
+        $(document).ready(function () {
+            if ($("#toolbar_changeinfo").length) {
+                //události na editačních formulářích
+                $("form").submit(function () {
+                    if ($(document.activeElement).attr("type") == "submit")
+                        return true;
+                    else return false;
+                });
+
+                $("textarea").each(function () {
+                    this.style.height = "auto";
+                    this.style.height = (this.scrollHeight) + "px";
+
+                    $(this).on("input", function () {
+                        this.style.height = "auto";
+                        this.style.height = (this.scrollHeight) + "px";
+                    });
+                });
+            }
+            
+
+            
+            
         });
+
+        
     </script>
 </body>
 </html>

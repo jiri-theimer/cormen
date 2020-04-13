@@ -38,7 +38,7 @@
 
                 $("#@(@Model.ControlID+"_txt1")").val(s);
                 $("#@(@Model.ControlID+"_txt1")").select();
-                if ($("#toolbar_changeinfo").length) $("#toolbar_changeinfo").text("Změny potvrďte tlačítkem [Uložit změny]...");
+                _toolbar_warn2save_changes();
             });
 
         });

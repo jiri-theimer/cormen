@@ -33,7 +33,7 @@
 
         if ($("#@Model.ControlID_Dropdown").prop("filled") == true) {
 
-            focusAndCursor(document.getElementById("@(@Model.ControlID+"_search")"));
+            _focusAndCursor(document.getElementById("@(@Model.ControlID+"_search")"));
             return;    //combo už bylo dříve otevřeno
         }
 
@@ -53,7 +53,12 @@
                 $(ctl[0]).val(v);
                 $(ctl[1]).val(t);
                 $("#@(@Model.ControlID+"_cmdCombo")").text(t);
-                if ($("#toolbar_changeinfo").length) $("#toolbar_changeinfo").text("Změny potvrďte tlačítkem [Uložit změny]...");
+                _toolbar_warn2save_changes();                
+                var fire_event = "@Model.OnChange_Event";
+                if (fire_event != "") {
+                    eval(fire_event + "('" + v + "')");  //nastavená JS událost po výběru hodnoty
+                }
+                
             });
 
             $("#@(@Model.ControlID+"_search")").focus();
