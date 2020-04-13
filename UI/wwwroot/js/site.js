@@ -26,14 +26,15 @@ function _toolbar_warn2save_changes() {
 }
 
 
-function _notify_message(strMessage, strTemplate, is_permanent) {
+function _notify_message(strMessage, strTemplate = "error", milisecs="3000") {
     if (document.getElementById("notify_container")) {
         //notify div na stránce již existuje          
     } else {
         var el = document.createElement("DIV");
         $(el).css("position", "absolute");
-        $(el).css("top","0px");
-        $(el).css("left", window.innerWidth-400);
+        $(el).css("top", "0px");
+        if (screen.availWidth > 500) $(el).css("left", window.innerWidth - 500);
+        
         el.id = "notify_container";
         document.body.appendChild(el);
     }
@@ -59,12 +60,11 @@ function _notify_message(strMessage, strTemplate, is_permanent) {
     node.id = "box" + parseInt(100000 * Math.random());
     var w = "400px";
     if (screen.availWidth < 400) w = "95%";
-
-
-    var s = "<div id='" + toast_id+"' class='toast' data-autohide='true' data-delay='3000' data-animation='true' style='font-size:180%;min-width:"+w+";'>";
-    s = s + "<div class='toast-header bg-" + strTemplate+"'><i class='fas fa-"+img+"'></i>";
-    s = s + "<strong class='mr-auto' style='color:black;'>Toast Header</strong>";
-    s = s + "<button type='button' class='ml-2 mb-1 close' data-dismiss='toast'>&times;</button>";
+    
+    var s = "<div id='" + toast_id + "' class='toast' data-autohide='true' data-delay='" + milisecs+"' data-animation='true' style='margin-top:10px;min-width:"+w+";'>";
+    s = s + "<div class='toast-header text-dark bg-" + strTemplate+"'><i class='fas fa-"+img+"'></i>";
+    //s = s + "<strong class='mr-auto' style='color:black;'>Toast Header</strong>";
+    s = s + "<div style='width:90%;'> " + strTemplate+"</div><button type='button' class='ml-2 mb-1 close' data-dismiss='toast'>&times;</button>";
     s = s + "</div>";
     s = s + "<div class='toast-body'>";
     s = s + strMessage;
