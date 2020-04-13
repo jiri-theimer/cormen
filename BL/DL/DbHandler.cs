@@ -146,7 +146,7 @@ namespace BL.DL
             }
         }
 
-        public static int SaveRecord(string strTable,DynamicParameters pars,BO.BaseBO rec)
+        public static int SaveRecord(BO.RunningUser u, string strTable,DynamicParameters pars,BO.BaseBO rec)
         {
             var strPidField = strTable.Substring(0, 3) + "ID";
             var s = new System.Text.StringBuilder();
@@ -157,14 +157,14 @@ namespace BL.DL
             {
                 s.Append(string.Format("INSERT INTO {0} (", strTable));
                 pars.Add("DateInsert", DateTime.Now, System.Data.DbType.DateTime);
-                pars.Add("UserInsert", AppRunning.Get().User.j02Login, System.Data.DbType.String);
+                pars.Add("UserInsert", u.j02Login, System.Data.DbType.String);
             }
             else
             {
                 s.Append(string.Format("UPDATE {0} SET ", strTable));
             }
             pars.Add("DateUpdate", DateTime.Now, System.Data.DbType.DateTime);
-            pars.Add("UserUpdate", AppRunning.Get().User.j02Login, System.Data.DbType.String);
+            pars.Add("UserUpdate", u.j02Login, System.Data.DbType.String);
             if (rec.ValidFrom == null) rec.ValidFrom = System.DateTime.Now;
             pars.Add("ValidFrom", rec.ValidFrom, System.Data.DbType.DateTime);
             if (rec.ValidUntil == null) rec.ValidUntil = new DateTime(3000, 1, 1);

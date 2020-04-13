@@ -12,6 +12,11 @@ namespace BL
     }
     class o12CategoryBL : Io12CategoryBL
     {
+        private BO.RunningUser _cUser;
+        public o12CategoryBL(BO.RunningUser cUser)
+        {
+            _cUser = cUser;
+        }
         private string GetSQL1()
         {
             return "SELECT a.*," + DL.DbHandler.GetSQL1_Ocas("o12") + " FROM o12Category a";
@@ -36,7 +41,7 @@ namespace BL
             p.Add("o12Entity", rec.o12Entity);
 
 
-            return DL.DbHandler.SaveRecord("o12Category", p, rec);
+            return DL.DbHandler.SaveRecord(_cUser,"o12Category", p, rec);
         }
     }
 }

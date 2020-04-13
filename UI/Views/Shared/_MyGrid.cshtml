@@ -12,27 +12,30 @@
     <tbody>
         @for (int i = 0; i < Model.RowsCount; i++)
         {
-            <tr id="@("tr"+@Model.DT.Rows[i][Model.ColFieldPid])" data-ic="@Model.DT.Rows[i]["isclosed"]">
-                
-                @foreach (var col in Model.Columns)
+        <tr id="@("tr"+@Model.DT.Rows[i][Model.ColFieldPid])" data-ic="@Model.DT.Rows[i]["isclosed"]">
+
+            @foreach (var col in Model.Columns)
+            {
+                @switch (col.ColType)
                 {
-                    @switch (col.ColType)
-                    {
-                        case "date":
-                            <td>@Model.DT.Rows[i][col.ColField]</td>
-                            break;
-                        case "number":
-                            <td>@Model.DT.Rows[i][col.ColField]</td>
-                            break;
-                        default:
-                            <td>@Model.DT.Rows[i][col.ColField]</td>
-                            break;
-                    }
-
-
-
+                    case "date":
+                        <td>@(BO.BAS.ObjectDate2String(@Model.DT.Rows[i][col.ColField]))</td>
+                        break;
+                    case "datetime":
+                        <td>@Model.DT.Rows[i][col.ColField]</td>
+                        break;
+                    case "number":
+                        <td>@Model.DT.Rows[i][col.ColField]</td>
+                        break;
+                    default:
+                        <td>@Model.DT.Rows[i][col.ColField]</td>
+                        break;
                 }
-            </tr>
+
+
+
+            }
+        </tr>
 
 
 
@@ -48,7 +51,13 @@
             //$(this).css("color", "white");
         });
 
-       
+        if ($("#divGridContainer").length) {
+            var hInner = window.innerHeight;
+            var offset = $("#divGridContainer").offset();
+            var h = parseInt(hInner - offset.top-20);
+            $("#divGridContainer").css("height", h + "px");
+        }
+               
         var h = $("#@Model.TableElementID").parent().height();
 
         var tab=$("#@Model.TableElementID").DataTable({

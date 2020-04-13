@@ -3,179 +3,39 @@
 }
 
 
-<h1 class="display-4">Welcome</h1>
-<p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-<hr />
-<h1>@User.Identity.Name</h1>
-<h1>Uživatel je přihlášený: @ViewBag.uzivatel</h1>
+    <div class="jumbotron py-4">
+        <h1 class="display-4"><strong style="color:blue;">C</strong>ormen <strong style="color:blue;">C</strong>loud [CC]</h1>
+    </div>
 
-<div id="combo1" class="dropdown keep-open">
-    <button class="btn btn-light dropdown-toggle" type="button" id="cmdCombo" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="min-width:150px;">
-        Admininistrátorský účet to je
-    </button>
-    <div class="dropdown-menu" aria-labelledby="cmdCombo" style="width:400px;">
-        <div class="input-group">
-            <input type="text" id="search1" class="form-control" placeholder="Najít..." autocomplete="off" />
-        </div>
+    <div class="alert alert-primary" role="alert">
+        <h5>Tento týden probíhá vývoj [theimer] framework pro 2020+.</h5>
+        <ul>
+            <li>
+                <kbd>Vývoj na straně serveru</kbd> ASP.NET CORE 3.1 | C#
+                <br />
+                <small><i>Bez povinné vazby na Window Server, lze nasadit i na LINUXu, byť to dělat nikdy nebudeme.</i></small>
+            </li>
+            <li>
+            <kbd>UI (html/javascript)</kbd> BOOTSTRAP | JQUERY | DATATABLES
+                <br />
+                <small>Zatím bez využití komerčních knihoven, to až později.</small>
+                <br />
+                <small><i>Responsivní stránky, mělo by fungovat i v prohlížeči tabletů a mobilních telefonů.</i></small>
+                <br />
+                <small style="color:red;">Na Apple (Safari) nebude pravděpodobně zatím funkční date-time picker.</small>
+            </li>
+            <li><kbd>Databázový server</kbd> MS SQL 2017 Standard Edition</li>
+        </ul>
+    </div>
+   
 
-        <div style="height:200px;overflow:auto;">
-            <table id="tab1" class="table table-sm table-hover">
-                <thead>
-                    <tr>
-                        <th>Sloupec1</th>
-                        <th>Sloupec2</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    <tr class="tr1" data-pid="1">
-                        <td>Jan</td>
-                        <td>Vomáčka</td>
-                    </tr>
-                    <tr class="tr1" data-pid="2">
-                        <td>Rudolf</td>
-                        <td>Slánský</td>
-                    </tr>
-                    <tr class="tr1" data-pid="11">
-                        <td>Rudolf</td>
-                        <td>Slánský</td>
-                    </tr>
-                    <tr class="tr1" data-pid="15">
-                        <td>Rudolf</td>
-                        <th>Slánský</th>
-                    </tr>
-                    <tr class="tr1" data-pid="41">
-                        <td>Rudolf</td>
-                        <td>Slánský</td>
-                    </tr>
-                    <tr class="tr1" data-pid="21">
-                        <td>Rudolf</td>
-                        <td>Slánský</td>
-                    </tr>
-                    <tr class="tr1" data-pid="114">
-                        <td>Rudolf</td>
-                        <td>Slánský</td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="card">
+        <div class="card-header">Odkazy</div>
+        <div class="card-body">            
+            <a href="https://marktime.cz/cormen3" target="_blank">Fyzický datový model</a>
+            <br />
+            <a href="https://github.com/jiri-theimer/cormen" target="_blank">GITHUB: Zdrojové kódy</a>
         </div>
     </div>
-</div>
 
-
-<button type="button" onclick="pokus()">pokus</button>
-
-<hr />
-
-
-
-
-<div id="hovermenu" style="display: none; position: absolute;">
-    <a id="aEdit" href="#">Upravit</a>
-    <a id="aClone" href="#">Kopírovat</a>
-    <a id="aDelete" href="#">Odstranit</a>
-</div>
-
-@section Scripts{
-    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("#tab2").DataTable({
-                "scrollY": "400px",
-                "scrollCollapse": true,
-                "paging": false
-            });
-
-
-
-            $(".tr1").click(function () {
-                var pid = $(this).attr("data-pid");
-                //$("#combo1").prop("closable", true);
-
-                //$("#combo1").prop("closable", true);
-                //$("#combo1").dropdown('hide');
-                alert(pid);
-                $("#combo1").dropdown('dispose');
-
-            })
-
-
-            $("#search1").on("keyup", function () {
-                var value = $(this).val().toLowerCase();
-                $("#tab1 tr").filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                });
-            });
-
-            $("#tab2 tr").hover(
-                function (e) {
-                    var pid = $(this).attr("data-pid");
-                    var pTop = $(this).offset().top;
-                    
-                    //var pLeft = e.clientX + 50;
-                    var pLeft = $(this).offset().left + $(this).width() - $("#hovermenu").width();
-                    if (screen.availWidth - e.clientX < $("#hovermenu").width()) {
-                        pLeft = e.clientX - $("#hovermenu").width() - 20;
-                    }
-                    
-                    $("#aEdit").attr("href", "javascript:record_edit(" + pid + ")");
-                    $("#hovermenu").css({
-                        top: pTop,
-                        left: pLeft
-                    }).show();
-                },
-                function () {
-                    $("#hovermenu").hide();
-                });
-
-        });
-
-
-        $("#hovermenu").hover(
-            function () {
-                $(this).show();
-            },
-            function () { }
-        );
-
-
-        $(".xxdropdown.xxkeep-open").on({
-            "shown.bs.dropdown": function () { this.closable = true; },
-            "click": function (e) {
-
-                if (e.target.id == "cmdComboClose" || e.target.id == "cmdCombo") {
-                    this.closable = true;
-                } else {
-                    this.closable = false;
-                }
-
-
-
-            },
-            "hide.bs.dropdown": function (e) {
-
-
-                return this.closable;
-            }
-        });
-
-        $("#cmdCombo").click(function () {
-            if ($("#combo1").prop("closable") == false) {
-                $("#combo1").prop("closable", true);
-            }
-
-        })
-
-        function pokus() {
-            alert($("#combo1").prop("closable"));
-            $("#combo1").dropdown('hide');
-
-        }
-
-        function record_edit(pid) {
-            alert(pid);
-        }
-
-    </script>
-}
+    

@@ -14,6 +14,11 @@ namespace BL
     }
     class j02PersonBL : Ij02PersonBL
     {
+        private BO.RunningUser _cUser;
+        public j02PersonBL(BO.RunningUser cUser)
+        {
+            _cUser = cUser;
+        }
         private string GetSQL1()
         {
             return "SELECT a.*,"+DL.DbHandler.GetSQL1_Ocas("j02")+",j04.j04Name as _j04Name,p28.p28Name as _p28Name FROM j02Person a LEFT OUTER JOIN j04UserRole j04 ON a.j04ID=j04.j04ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID";
@@ -49,7 +54,7 @@ namespace BL
             p.Add("j02Tel2", rec.j02Tel2);
             
 
-            return DL.DbHandler.SaveRecord("j02Person", p,rec);
+            return DL.DbHandler.SaveRecord(_cUser,"j02Person", p,rec);
         }
 
         

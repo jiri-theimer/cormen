@@ -10,6 +10,11 @@ namespace BL
     }
     class FBL:IFBL
     {
+        private BO.RunningUser _cUser;
+        public FBL(BO.RunningUser cUser)
+        {
+            _cUser = cUser;
+        }
         public IEnumerable<BO.COM.GetString> GetListAutoComplete(int intO15Flag)
         {
             return DL.DbHandler.GetList<BO.COM.GetString>("SELECT o15Value as Value FROM o15AutoComplete WHERE o15Flag=@flag ORDER BY o15Ordinary,o15Value", new { flag = intO15Flag });

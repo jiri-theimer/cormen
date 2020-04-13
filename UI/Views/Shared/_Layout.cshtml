@@ -28,9 +28,9 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color: #CCE5FF;">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CC</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="color:blue;" title="Cormen Cloud">CC</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -39,10 +39,48 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">HOME</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                NOVÝ
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="@(@Url.Action("Record","p21")+"?entity=p21")">Licence</a>
+                                <a class="dropdown-item" href="@(@Url.Action("Record","p28")+"?entity=p28")">Zákazník | Subjekt</a>
+                                <a class="dropdown-item" href="@(@Url.Action("Record","p10")+"?entity=p10")">Master produkt</a>
+                                <a class="dropdown-item" href="@(@Url.Action("Record","p13")+"?entity=p13")">TPV</a>
+                                <a class="dropdown-item" href="@(@Url.Action("Record","p26")+"?entity=p26")">Stroj | MSZ</a>
+                                <a class="dropdown-item" href="@(@Url.Action("Record","j02")+"?entity=j02")">Osoba | Uživatel</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                AGENDY
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="@(@Url.Action("Index","TheGrid")+"?entity=p21")">Licence</a>
+                                <a class="dropdown-item" href="@(@Url.Action("Index","TheGrid")+"?entity=p28")">Firmy | Subjekty</a>
+                                <a class="dropdown-item" href="@(@Url.Action("Index","TheGrid")+"?entity=p10")">Master produkty</a>
+                                <a class="dropdown-item" href="@(@Url.Action("Index","TheGrid")+"?entity=p13")">TPV</a>
+                                <a class="dropdown-item" href="@(@Url.Action("Index","TheGrid")+"?entity=p26")">Stroje | MSZ</a>
+                                <a class="dropdown-item" href="@(@Url.Action("Index","TheGrid")+"?entity=j02")">Lidé | Uživatelé</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                ČÍSELNÍKY
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="@(@Url.Action("Index","TheGrid")+"?entity=b02")">Stavy</a>
+                                <a class="dropdown-item" href="@(@Url.Action("Index","TheGrid")+"?entity=o12")">Kategorie | Skupiny</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
                         </li>
                     </ul>
                 </div>

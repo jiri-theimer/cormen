@@ -1,14 +1,79 @@
 ﻿@model TheGridViewMode
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Přehledy";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+    var _url_reloud = @Url.Action("Record", Model.Entity);
+
 }
 
-<h1>Index</h1>
+<div class="row" style="background-color:#F9F9F9;padding:10px;">
 
-<div style="height:600px;">
+    <div class="col-6">
+        <select asp-for="@Model.Entity" class="form-control" onchange="reload(this)">
+            <option value="p10">Master produkty</option>
+            <option value="p13">TPV</option>
+            <option value="p21">Licence</option>
+            <option value="p28">Firmy | Sujekty</option>
+            <option value="p26">Stroje | MSZ</option>
+            <option value="j02">Lidé | Uživatelé</option>
+        </select>
+    </div>
+    <div class="col-2">
+        <button type="button" class="btn btn-primary" onclick="create()">Nový</button>
+    </div>
+
+</div>
+
+<div id="divGridContainer">
 
     @Html.DisplayFor(m => m.grid1, "~/Views/Shared/_MyGrid.cshtml")
 </div>
+
+<script type="text/javascript">
+
+
+
+    $(document).ready(function () {
+
+
+
+
+    });
+
+    function reload(ctl) {
+        var url = "@Url.Action("Index")" + "?entity=" + ctl.value;
+        location.replace(url);
+    }
+    function create() {
+
+        location.replace("@_url_reloud");
+
+    }
+
+
+        $("#tab2 tr").hover(function (e) {
+            var pid = $(this).attr("data-pid");
+            var pTop = $(this).offset().top;
+
+            //var pLeft = e.clientX + 50;
+            var pLeft = $(this).offset().left + $(this).width() - $("#hovermenu").width();
+            if (screen.availWidth - e.clientX < $("#hovermenu").width()) {
+                pLeft = e.clientX - $("#hovermenu").width() - 20;
+            }
+
+            $("#aEdit").attr("href", "javascript:record_edit(" + pid + ")");
+            $("#hovermenu").css({
+                top: pTop,
+                left: pLeft
+            }).show();
+        },
+        function () {
+            $("#hovermenu").hide();
+        });
+
+
+</script>
 

@@ -14,6 +14,11 @@ namespace BL
     }
     class DataGridBL:IDataGridBL
     {
+        private BO.RunningUser _cUser;
+        public DataGridBL(BO.RunningUser cUser)
+        {
+            _cUser = cUser;
+        }
         private string GetSQL_SELECT_Ocas(string strPrefix)
         {
             return string.Format("a.{0}ID as pid,CASE WHEN GETDATE() BETWEEN a.ValidFrom AND a.ValidUntil THEN 0 ELSE 1 end as isclosed,'{0}' as entity", strPrefix);
@@ -36,10 +41,10 @@ namespace BL
                     s = string.Format("SELECT {0},a.* from p28Company a", GetSQL_SELECT_Ocas("p28"));
                     break;
                 case "p26":
-                    s = string.Format("SELECT {0},a.*,,b02.b02Name,p28.p28Name FROM p26Msz a LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID", GetSQL_SELECT_Ocas("p26"));
+                    s = string.Format("SELECT {0},a.*,b02.b02Name,p28.p28Name FROM p26Msz a LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID", GetSQL_SELECT_Ocas("p26"));
                     break;
                 case "p21":
-                    s = string.Format("SELECT {0},a.*,,b02.b02Name,p28.p28Name FROM p21License a LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID", GetSQL_SELECT_Ocas("p21"));
+                    s = string.Format("SELECT {0},a.*,b02.b02Name,p28.p28Name FROM p21License a LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID", GetSQL_SELECT_Ocas("p21"));
                     break;
                 case "o12":
                     s = string.Format("SELECT {0},a.* from o12Category a", GetSQL_SELECT_Ocas("o12"));

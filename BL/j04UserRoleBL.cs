@@ -12,6 +12,11 @@ namespace BL
     }
     class j04UserRoleBL: Ij04UserRoleBL
     {
+        private BO.RunningUser _cUser;
+        public j04UserRoleBL(BO.RunningUser cUser)
+        {
+            _cUser = cUser;
+        }
         public BO.j04UserRole Load(int pid)
         {            
             return DL.DbHandler.Load<BO.j04UserRole>(string.Format("SELECT a.*,{0} FROM j04UserRole a WHERE a.j04ID={1}", DL.DbHandler.GetSQL1_Ocas("j04"), pid.ToString()));

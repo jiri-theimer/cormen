@@ -12,6 +12,11 @@ namespace BL
     }
     class p26MszBL:Ip26MszBL
     {
+        private BO.RunningUser _cUser;
+        public p26MszBL(BO.RunningUser cUser)
+        {
+            _cUser = cUser;
+        }
         private string GetSQL1()
         {
             return "SELECT a.*," + DL.DbHandler.GetSQL1_Ocas("p26") + ",b02.b02Name as _b02name,p28.p28Name as _p28Name FROM p26Msz a LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID";
@@ -36,7 +41,7 @@ namespace BL
             p.Add("p26Memo", rec.p26Memo);
             
 
-            return DL.DbHandler.SaveRecord("p26Msz", p, rec);
+            return DL.DbHandler.SaveRecord(_cUser,"p26Msz", p, rec);
         }
     }
 }

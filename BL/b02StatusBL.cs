@@ -12,6 +12,11 @@ namespace BL
     }
     class b02StatusBL : Ib02StatusBL
     {
+        private BO.RunningUser _cUser;
+        public b02StatusBL(BO.RunningUser cUser)
+        {
+            _cUser = cUser;
+        }
         private string GetSQL1()
         {
             return "SELECT a.*," + DL.DbHandler.GetSQL1_Ocas("b02") +" FROM b02Status a";
@@ -36,7 +41,7 @@ namespace BL
             p.Add("b02Entity", rec.b02Entity);
 
 
-            return DL.DbHandler.SaveRecord("b02Status", p, rec);
+            return DL.DbHandler.SaveRecord(_cUser,"b02Status", p, rec);
         }
     }
 }

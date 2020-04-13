@@ -76,7 +76,7 @@ namespace UI.Controllers
                 v.Rec.pid = Factory.p21LicenseBL.Save(c);
                 if (v.Rec.pid > 0)
                 {
-                    return RedirectToAction("Grid", new { pid = v.Rec.pid });
+                    return RedirectToAction("Index", "TheGrid", new { pid = v.Rec.pid, entity = "p21" });
                 }
                 else
                 {

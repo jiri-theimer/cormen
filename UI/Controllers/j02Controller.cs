@@ -92,7 +92,7 @@ namespace UI.Controllers
                 v.Rec.pid = Factory.j02PersonBL.Save(c);
                 if (v.Rec.pid > 0)
                 {
-                    return RedirectToAction("Grid", new { pid = v.Rec.pid });
+                    return RedirectToAction("Index", "TheGrid", new { pid = v.Rec.pid, entity = "j02" });
                 }
                 else
                 {

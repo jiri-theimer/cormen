@@ -6,6 +6,7 @@ namespace BL
 {
     public class Factory
     {
+        public BO.RunningUser CurrentUser;
         private Ij02PersonBL _j02;
         private Ip10MasterProductBL _p10;
         private Ip13TpvBL _p13;
@@ -20,21 +21,17 @@ namespace BL
         private IFBL _fbl;
 
         
-        public Factory(string login)
+        public Factory(string strLogin)
         {
-            AppRunning.SetCurrentUser(login);
-            if (login != "")
-            {
-                var s = AppRunning.Get().UserID;
-            }
-            
+            CurrentUser = DL.DbHandler.Load<BO.RunningUser>("SELECT a.j02ID as pid,a.j02Login,a.j02FirstName+' '+a.j02LastName as FullName,a.j02IsMustChangePassword,b.j04PermissionValue FROM j02Person a INNER JOIN j04UserRole b ON a.j04ID=b.j04ID WHERE a.j02Login LIKE @login", new { login = strLogin });
+
 
         }
         public IDataGridBL gridBL
         {
             get
             {
-                if (_grid == null) _grid = new DataGridBL();
+                if (_grid == null) _grid = new DataGridBL(CurrentUser);
                 return _grid;
             }
         }
@@ -42,7 +39,7 @@ namespace BL
         {
             get
             {
-                if (_cbl == null) _cbl = new CBL();
+                if (_cbl == null) _cbl = new CBL(CurrentUser);
                 return _cbl;
             }
         }
@@ -50,7 +47,7 @@ namespace BL
         {
             get
             {
-                if (_fbl == null) _fbl = new FBL();
+                if (_fbl == null) _fbl = new FBL(CurrentUser);
                 return _fbl;
             }
         }
@@ -59,7 +56,7 @@ namespace BL
         {
             get
             {
-                if (_j02 == null) _j02 = new j02PersonBL();
+                if (_j02 == null) _j02 = new j02PersonBL(CurrentUser);
                 return _j02;
             }
         }
@@ -67,7 +64,7 @@ namespace BL
         {
             get
             {
-                if (_j04 == null) _j04= new j04UserRoleBL();
+                if (_j04 == null) _j04= new j04UserRoleBL(CurrentUser);
                 return _j04;
             }
         }
@@ -75,7 +72,7 @@ namespace BL
         {
             get
             {
-                if (_p28 == null) _p28 = new p28CompanyBL();
+                if (_p28 == null) _p28 = new p28CompanyBL(CurrentUser);
                 return _p28;
             }
         }
@@ -83,7 +80,7 @@ namespace BL
         {
             get
             {
-                if (_p26 == null) _p26 = new p26MszBL();
+                if (_p26 == null) _p26 = new p26MszBL(CurrentUser);
                 return _p26;
             }
         }
@@ -91,7 +88,7 @@ namespace BL
         {
             get
             {
-                if (_p21 == null) _p21 = new p21LicenseBL();
+                if (_p21 == null) _p21 = new p21LicenseBL(CurrentUser);
                 return _p21;
             }
         }
@@ -99,7 +96,7 @@ namespace BL
         {
             get
             {
-                if (_b02 == null) _b02 = new b02StatusBL();
+                if (_b02 == null) _b02 = new b02StatusBL(CurrentUser);
                 return _b02;
             }
         }
@@ -107,7 +104,7 @@ namespace BL
         {
             get
             {
-                if (_o12 == null) _o12 = new o12CategoryBL();
+                if (_o12 == null) _o12 = new o12CategoryBL(CurrentUser);
                 return _o12;
             }
         }
@@ -115,7 +112,7 @@ namespace BL
         {
             get
             {
-                if (_p13 == null) _p13 = new p13TpvBL();
+                if (_p13 == null) _p13 = new p13TpvBL(CurrentUser);
                 return _p13;
             }
         }
@@ -123,7 +120,7 @@ namespace BL
         {
             get
             {
-                if (_p10 == null) _p10 = new p10MasterProductBL();
+                if (_p10 == null) _p10 = new p10MasterProductBL(CurrentUser);
                 return _p10;
             }
         }

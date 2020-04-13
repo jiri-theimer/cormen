@@ -12,6 +12,11 @@ namespace BL
     }
     class p13TpvBL : Ip13TpvBL
     {
+        private BO.RunningUser _cUser;
+        public p13TpvBL(BO.RunningUser cUser)
+        {
+            _cUser = cUser;
+        }
         private string GetSQL1()
         {
             return "SELECT a.*," + DL.DbHandler.GetSQL1_Ocas("p13") + " FROM p13Tpv a";
@@ -36,7 +41,7 @@ namespace BL
             p.Add("p13Memo", rec.p13Memo);
 
 
-            return DL.DbHandler.SaveRecord("p13Tpv", p, rec);
+            return DL.DbHandler.SaveRecord(_cUser,"p13Tpv", p, rec);
         }
     }
 }

@@ -13,6 +13,7 @@ namespace BO
         public int b02ID { get; set; }
         [Required(ErrorMessage = "Chybí vyplnit název!")]
         public string p21Name { get; set; }
+        [MaxLength(1000, ErrorMessage = "Maximum 1000 znaků")]
         public string p21Memo { get; set; }
 
         [Required(ErrorMessage = "Chybí vyplnit kód!")]

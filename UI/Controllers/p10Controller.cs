@@ -75,7 +75,8 @@ namespace UI.Controllers
                 v.Rec.pid = Factory.p10MasterProductBL.Save(c);
                 if (v.Rec.pid > 0)
                 {
-                    return RedirectToAction("Grid", new { pid = v.Rec.pid });
+                    return RedirectToActionPermanent("Index","TheGrid", new { pid = v.Rec.pid, entity = "p10" });
+                    //return RedirectToAction("TheGrid", new { pid = v.Rec.pid });
                 }
                 else
                 {

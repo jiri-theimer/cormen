@@ -43,6 +43,11 @@ namespace UI.Models
             var c = new MyGridColumn() { ColType = "date", ColField = strField, ColHeader = strColHeader };
             Columns.Add(c);
         }
+        public void AddDateTimeCol(string strColHeader, string strField)
+        {
+            var c = new MyGridColumn() { ColType = "datetime", ColField = strField, ColHeader = strColHeader };
+            Columns.Add(c);
+        }
     }
 
     public class MyGridColumn

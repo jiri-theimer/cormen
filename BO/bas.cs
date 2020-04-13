@@ -53,6 +53,11 @@ namespace BO
             }
         }
 
+        public static string ObjectDate2String(object d,string format="dd.MM.yyyy")
+        {            
+            return Convert.ToDateTime(d).ToString(format);
+        }
+
     }
 
 

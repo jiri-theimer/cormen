@@ -12,6 +12,11 @@ namespace BL
     }
     class p10MasterProductBL : Ip10MasterProductBL
     {
+        private BO.RunningUser _cUser;
+        public p10MasterProductBL(BO.RunningUser cUser)
+        {
+            _cUser = cUser;
+        }
         private string GetSQL1()
         {
             return "SELECT a.*," + DL.DbHandler.GetSQL1_Ocas("p10") + ",b02.b02Name as _b02name,p13.p13Name as _p13Name,o12.o12Name as _o12Name FROM p10MasterProduct a LEFT OUTER JOIN p13Tpv p13 ON a.p13ID=p13.p13ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID";
@@ -37,7 +42,7 @@ namespace BL
             p.Add("p10Memo", rec.p10Memo);
 
 
-            return DL.DbHandler.SaveRecord("p10MasterProduct", p, rec);
+            return DL.DbHandler.SaveRecord(_cUser,"p10MasterProduct", p, rec);
         }
     }
 }
