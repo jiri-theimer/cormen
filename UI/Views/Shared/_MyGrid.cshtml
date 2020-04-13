@@ -1,8 +1,11 @@
 ﻿@model UI.Models.MyGridViewModel
 
-<table class="display compact" id="@Model.TableElementID">
+
+
+<table class="display compact thegrid" id="@Model.TableElementID">
     <thead>
         <tr>
+            <th style="width:55px;"></th>
             @foreach (var c in Model.Columns)
             {
                 <th>@c.ColHeader</th>
@@ -12,30 +15,33 @@
     <tbody>
         @for (int i = 0; i < Model.RowsCount; i++)
         {
-        <tr id="@("tr"+@Model.DT.Rows[i][Model.ColFieldPid])" data-ic="@Model.DT.Rows[i]["isclosed"]">
+            <tr id="@("tr"+@Model.DT.Rows[i][Model.ColFieldPid])" data-ic="@Model.DT.Rows[i]["isclosed"]">
+                <td style="width:55px;">
 
-            @foreach (var col in Model.Columns)
-            {
-                @switch (col.ColType)
+                    
+                </td>
+                @foreach (var col in Model.Columns)
                 {
-                    case "date":
-                        <td>@(BO.BAS.ObjectDate2String(@Model.DT.Rows[i][col.ColField]))</td>
-                        break;
-                    case "datetime":
-                        <td>@Model.DT.Rows[i][col.ColField]</td>
-                        break;
-                    case "number":
-                        <td>@Model.DT.Rows[i][col.ColField]</td>
-                        break;
-                    default:
-                        <td>@Model.DT.Rows[i][col.ColField]</td>
-                        break;
+                    @switch (col.ColType)
+                    {
+                        case "date":
+                            <td>@(BO.BAS.ObjectDate2String(@Model.DT.Rows[i][col.ColField]))</td>
+                            break;
+                        case "datetime":
+                            <td>@Model.DT.Rows[i][col.ColField]</td>
+                            break;
+                        case "number":
+                            <td>@Model.DT.Rows[i][col.ColField]</td>
+                            break;
+                        default:
+                            <td>@Model.DT.Rows[i][col.ColField]</td>
+                            break;
+                    }
+
+
+
                 }
-
-
-
-            }
-        </tr>
+            </tr>
 
 
 
@@ -43,8 +49,17 @@
     </tbody>
 </table>
 
+
+<div id="gridMenu" style="position:absolute;display:none;">
+    <a id="cmdMyGridClone" title="Zkopírovat do nového záznamu" class="btn btn-primary py-0 px-1"><i class="fas fa-clone"></i></a>   
+    <a id="cmdMyGridPreview" title="Stránka/Náhled záznamu" class="btn btn-secondary py-0 px-0"><i class="fas fa-book-open"></i></a>    
+    <a id="cmdMyGridEdit" title="Upravit/Odstranit/Archivovat" class="btn btn-success py-0 px-1"><i class="fas fa-edit"></i></a>
+</div>
+
 <script type="text/javascript">
-    $(document).ready(function () {        
+    $(document).ready(function () {
+        var _last_hover_pid = "";
+
         $("tr[data-ic='1']").each(function () {
             $(this).addClass("isclosed");
             //$(this).css("background-color", "gray");
@@ -57,7 +72,7 @@
             var h = parseInt(hInner - offset.top-20);
             $("#divGridContainer").css("height", h + "px");
         }
-               
+
         var h = $("#@Model.TableElementID").parent().height();
 
         var tab=$("#@Model.TableElementID").DataTable({
@@ -67,13 +82,40 @@
             "stateSave": true,
             "paging": true,
             "language": {
-                "decimal": ","
+                decimal: ",",
+                processing: "Provádím...",
+                search: "Najít&nbsp;:",
+                lengthMenu: "Záznamů na stránce: _MENU_",
+                info: "Zobrazuji _START_ až _END_ z celkem <span class='badge badge-primary' style='font-size:110%;'> _TOTAL_ </span> záznamů",
+                infoEmpty: "Zobrazuji 0 až 0 z 0 záznamů",
+                infoFiltered: "(filtrováno z celkem _MAX_ záznamů)",
+                infoPostFix: "",
+                loadingRecords: "Loading...",
+                zeroRecords: "Žádné záznamy nebyly nalezeny.",
+                emptyTable: "Tabulka neobsahuje žádná data",
+                paginate: {
+                    first: "První",
+                    previous: "Předchozí",
+                    next: "Další",
+                    last: "Poslední"
+                },
+                aria: {
+                    sortAscending: ": activer pour trier la colonne par ordre croissant",
+                    sortDescending: ": activer pour trier la colonne par ordre décroissant"
+                }
             }
         });
 
-        //tab.search("Hodková").draw();
-        var pid = get_request_param("pid");
+        $("#@Model.TableElementID").on("dblclick", "tr", function () {            
+            var pid = this.id.replace("tr", "");
+            var url = "@(@Url.Action("Record", Model.Entity))";            
+            location.replace(url + "?pid=" + pid);
+        });
+
+        //tab.search("Ho    dková").draw();
+        var pid = _get_request_param("pid");
         if (pid != "") {
+
             var row = tab.row("#tr" + pid);
 
             if (row.length > 0) {
@@ -86,6 +128,54 @@
 
             }
         }
+
+        $("#@Model.TableElementID tr").hover(
+            function (e) {
+                var pid = this.id.replace("tr", "");
+
+                if (_last_hover_pid == pid) {
+                    return;
+                }
+                var pTop = $(this).offset().top;
+
+                var pLeft = 15;
+
+                $("#gridMenu").css({
+                    top: pTop,
+                    left: pLeft
+                }).show();
+
+
+                var url = "@(@Url.Action("Record", Model.Entity))";
+                url = url + "?pid=" + pid;
+
+                $("#cmdMyGridEdit").attr("href", url);
+                $("#cmdMyGridClone").attr("href", url + "&isclone=true");
+                url = "@(@Url.Action("Preview", Model.Entity))";
+                url = url + "?pid=" + pid;
+                $("#cmdMyGridPreview").attr("href", url);
+
+                _last_hover_pid = pid;
+
+        });
+
+        $("#@Model.TableElementID").mouseleave(function (e) {
+
+            if ($("#gridMenu").css("display") == "none") return;
+            var tab = document.getElementById("@Model.TableElementID");
+
+            if (e.clientY < $(tab).offset().top) {
+                $("#gridMenu").css("display", "none");
+                _last_hover_pid = "";
+                return;
+            }
+            if (e.clientY > $(tab).height()+$(tab).offset().top) {
+                $("#gridMenu").css("display", "none");
+                _last_hover_pid = "";
+            }
+
+        });
+
 
 
 

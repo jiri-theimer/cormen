@@ -10,33 +10,7 @@ namespace UI.Controllers
     public class j02Controller:BaseController
     {
         
-        public IActionResult Index()
-        {
-            return View();
-        }
-        
-      
-        public IActionResult Grid(int pid)
-        {
-            System.Data.DataTable dt = Factory.gridBL.GetList("j02");
-            var v = new Models.j02gridViewModel();
-            v.grid1 = new MyGridViewModel("pid", "tab1");
-            
-            v.grid1.AddStringCol("", "j02TitleBeforeName");
-            v.grid1.AddStringCol("Jméno", "j02FirstName");
-            v.grid1.AddStringCol("Příjmení", "j02LastName");
-            v.grid1.AddStringCol("E-mail", "j02Email");
-            v.grid1.AddStringCol("Role", "j04Name");          
-            v.grid1.AddStringCol("Mobil", "j02Tel1");
-            v.grid1.AddDateCol("Založeno", "DateInsert");
-            v.grid1.AddDateCol("Aktualizováno", "DateUpdate");
-            v.grid1.DT = dt;
-
-            return View(v);
-
-
-        }
-        
+       
         public IActionResult Record(int pid, bool isclone)
         {            
             var v = new Models.j02RecordViewModel();
@@ -52,7 +26,7 @@ namespace UI.Controllers
             else
             {
                 v.Rec = new BO.j02Person();
-                
+                v.Rec.entity = "j02";
             }
             
             v.ComboJ04ID = new MyComboViewModel("j04", v.Rec.j04ID.ToString(), v.Rec.j04Name,"cbx1");

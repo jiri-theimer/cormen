@@ -40,6 +40,7 @@ namespace UI.Controllers
             else
             {
                 v.Rec = new BO.p28Company();
+                v.Rec.entity = "p28";
 
             }
 

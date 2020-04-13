@@ -38,7 +38,7 @@ namespace UI.Controllers
             else
             {
                 v.Rec = new BO.p21License();
-
+                v.Rec.entity = "p21";
             }
 
             v.ComboP28ID = new MyComboViewModel("p28", v.Rec.p28ID.ToString(), v.Rec.p28Name, "cbx1");

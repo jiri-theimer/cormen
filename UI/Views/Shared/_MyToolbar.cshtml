@@ -50,6 +50,12 @@
                         <button type="button" onclick="toolbar_handle_archive(2)" class="btn btn-warning">Obnovit z archivu</button>
                     </div>
                 }
+                @if (Model.IsGrid)
+                {
+                    <div class="btn-group" style="margin-left: 7px; margin-top: 3px;">
+                        <a asp-action="Index" asp-controller="TheGrid" onclick="before_clicked(event)" class="btn btn-light" asp-route-pid="@Model.Record.pid" asp-route-entity="@Model.Record.entity">Grid</a>
+                    </div>
+                }
 
                 <div class="btn-group">
                     <span id="toolbar_message" class="badge-info">@Model.Message</span>
@@ -72,7 +78,7 @@
         });
 
     })
-    
+
 
     function toolbar_try_delete() {
         $.showConfirm({
@@ -80,11 +86,13 @@
             onSubmit: function (result) {
                 if (result) {
                     var url = '@Url.Action("DeleteRecord", "Common")';
-                    
+
                     $.post(url, { entity:"@Model.Record.entity", pid: @Model.Record.pid }, function (data) {
-                        
+
                         if (data == "1") {
-                            location.replace("@Url.ActionLink("Grid")");
+                            var url = "@Url.ActionLink("Index", "TheGrid")";
+                            url = url + "?entity=@Model.Record.entity";
+                            location.replace(url);
 
                         } else {
                             alert(data);
@@ -111,6 +119,6 @@
     function before_clicked(e) {
         if ($("#toolbar_changeinfo").text() != "") {
             if (!confirm("Chcete pokračovat bez uložení změn?")) e.preventDefault();
-        }        
+        }
     }
 </script>

@@ -18,8 +18,8 @@ namespace UI.Controllers
 
             
             
-            v.grid1 = new MyGridViewModel("pid","grid1_"+ v.Entity);
-
+            v.grid1 = new MyGridViewModel(v.Entity,"pid","grid1_"+ v.Entity);
+            
             switch (v.Entity)
             {
                 case "p10":
@@ -86,7 +86,7 @@ namespace UI.Controllers
             }
             
 
-            v.grid1.DT = Factory.gridBL.GetList(entity, mq);
+            v.grid1.DT = Factory.gridBL.GetList(v.Entity, mq);
 
             return View(v);
         }

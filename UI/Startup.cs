@@ -67,6 +67,10 @@ namespace UI
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseRequestLocalization();
+            System.Globalization.CultureInfo.DefaultThreadCurrentCulture = new System.Globalization.CultureInfo("cs-CZ");
+            System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = new System.Globalization.CultureInfo("cs-CZ");
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

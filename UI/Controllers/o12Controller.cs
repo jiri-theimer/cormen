@@ -7,28 +7,15 @@ using UI.Models;
 
 namespace UI.Controllers
 {
-    public class p13Controller : BaseController
+    public class o12Controller : BaseController
     {
-        public IActionResult Preview(int pid)
-        {
-            var v = new Models.p13PreviewViewModel();
-            v.Rec = Factory.p13TpvBL.Load(pid);
-            if (v.Rec == null)
-            {
-                return this.StopPage(false, "Hledaný záznam neexistuje!");
-            }
-            else
-            {
-                return View(v);
-            }
-           
-        }
+        ///KATEGORIE
         public IActionResult Record(int pid, bool isclone)
         {
-            var v = new Models.p13RecordViewModel();
+            var v = new Models.o12RecordViewModel();
             if (pid > 0)
             {
-                v.Rec = Factory.p13TpvBL.Load(pid);
+                v.Rec = Factory.o12CategoryBL.Load(pid);
                 if (v.Rec == null)
                 {
                     return this.StopPage(false, "Hledaný záznam neexistuje!");
@@ -37,8 +24,8 @@ namespace UI.Controllers
             }
             else
             {
-                v.Rec = new BO.p13Tpv();
-                v.Rec.entity = "p13";
+                v.Rec = new BO.o12Category();
+                v.Rec.entity = "o12";
             }
 
             v.Toolbar = new MyToolbarViewModel(v.Rec);            
@@ -48,24 +35,24 @@ namespace UI.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Record(Models.p13RecordViewModel v)
+        public IActionResult Record(Models.o12RecordViewModel v)
         {
             if (ModelState.IsValid)
             {
-                BO.p13Tpv c = new BO.p13Tpv();
-                if (v.Rec.pid > 0) c = Factory.p13TpvBL.Load(v.Rec.pid);
+                BO.o12Category c = new BO.o12Category();
+                if (v.Rec.pid > 0) c = Factory.o12CategoryBL.Load(v.Rec.pid);
 
-                c.p13Code = v.Rec.p13Code;
-                c.p13Name = v.Rec.p13Name;
-                c.p13Memo = v.Rec.p13Memo;
+                c.o12Code = v.Rec.o12Code;
+                c.o12Name = v.Rec.o12Name;
+                c.o12Entity = v.Rec.o12Entity;
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
 
-                v.Rec.pid = Factory.p13TpvBL.Save(c);
+                v.Rec.pid = Factory.o12CategoryBL.Save(c);
                 if (v.Rec.pid > 0)
                 {
-                    return RedirectToAction("Index", "TheGrid", new { pid = v.Rec.pid, entity = "p13" });
+                    return RedirectToActionPermanent("Index", "TheGrid", new { pid = v.Rec.pid, entity = "o12" });
                 }
                 else
                 {
@@ -74,7 +61,8 @@ namespace UI.Controllers
             }
             else
             {
-                v.Toolbar = new MyToolbarViewModel(v.Rec);                
+                v.Toolbar = new MyToolbarViewModel(v.Rec);
+                
 
                 return View(v);
             }

@@ -7,6 +7,7 @@ namespace UI.Models
 {
     public class MyGridViewModel
     {
+        public string Entity { get; set; }
         public List<MyGridColumn> Columns { get; set; }
         public string ColFieldPid { get; set; } = "pid";
         public string ScrollingHeight { get; set; }        
@@ -20,8 +21,9 @@ namespace UI.Models
                 return this.DT.Rows.Count;
             }
         }
-        public MyGridViewModel(string strColFieldPid="pid", string strTableElementID="mg1")
+        public MyGridViewModel(string strEntity,string strColFieldPid="pid", string strTableElementID="mg1")
         {
+            this.Entity = strEntity;
             this.ScrollingHeight = "500px";
             this.ColFieldPid = strColFieldPid;
             this.TableElementID = strTableElementID;

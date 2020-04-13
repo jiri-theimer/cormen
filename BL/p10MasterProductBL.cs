@@ -25,6 +25,10 @@ namespace BL
         {
             return DL.DbHandler.Load<BO.p10MasterProduct>(string.Format("{0} WHERE a.p10ID={1}", GetSQL1(), pid));
         }
+        public BO.p10MasterProduct LoadByCode(string strCode,int intExcludePID)
+        {
+            return DL.DbHandler.Load<BO.p10MasterProduct>(string.Format("{0} WHERE a.p10Code LIKE @code AND a.p10ID<>@exclude", GetSQL1()),new { code = strCode, exclude = intExcludePID });
+        }
         public IEnumerable<BO.p10MasterProduct> GetList(BO.myQuery mq)
         {
             return DL.DbHandler.GetList<BO.p10MasterProduct>(GetSQL1());
@@ -32,6 +36,10 @@ namespace BL
 
         public int Save(BO.p10MasterProduct rec)
         {
+            if (ValidateBeforeSave(rec) == false)
+            {
+                return 0;
+            }
             var p = new Dapper.DynamicParameters();
             p.Add("pid", rec.p10ID);
             p.Add("p13ID", BO.BAS.TestIntAsDbKey(rec.p13ID));
@@ -43,6 +51,16 @@ namespace BL
 
 
             return DL.DbHandler.SaveRecord(_cUser,"p10MasterProduct", p, rec);
+        }
+
+        private bool ValidateBeforeSave(BO.p10MasterProduct rec)
+        {
+            if (LoadByCode(rec.p10Code,rec.pid) != null)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

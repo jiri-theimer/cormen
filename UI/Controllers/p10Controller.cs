@@ -38,7 +38,7 @@ namespace UI.Controllers
             else
             {
                 v.Rec = new BO.p10MasterProduct();
-
+                v.Rec.entity = "p10";
             }
 
             v.ComboP13ID = new MyComboViewModel("p13", v.Rec.p13ID.ToString(), v.Rec.p13Name, "cbx1");
@@ -76,7 +76,7 @@ namespace UI.Controllers
                 if (v.Rec.pid > 0)
                 {
                     return RedirectToActionPermanent("Index","TheGrid", new { pid = v.Rec.pid, entity = "p10" });
-                    //return RedirectToAction("TheGrid", new { pid = v.Rec.pid });
+                    
                 }
                 else
                 {

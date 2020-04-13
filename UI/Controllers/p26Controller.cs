@@ -26,7 +26,7 @@ namespace UI.Controllers
             else
             {
                 v.Rec = new BO.p26Msz();
-
+                v.Rec.entity = "p26";
             }
 
             v.ComboP28ID = new MyComboViewModel("p28", v.Rec.p28ID.ToString(), v.Rec.p28Name,"cbx1");
