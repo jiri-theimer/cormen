@@ -218,6 +218,18 @@ namespace BL.DL
             return 0;
         }
 
+        public static bool RunSql(string strSQL, object param=null)
+        {
+            using (SqlConnection con = new SqlConnection(GetConString()))
+            {
+                if (con.Execute(strSQL, param) > 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public static string GetSQL1_Ocas(string strPrefix)
         {
             return string.Format("a.{0}ID as pid,CASE WHEN GETDATE() BETWEEN a.ValidFrom AND a.ValidUntil THEN 0 ELSE 1 end as isclosed,'{0}' as entity", strPrefix);

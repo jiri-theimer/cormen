@@ -7,6 +7,8 @@ namespace BO
     public class myQuery
     {
         public string Entity;
+        public List<int> pids;
+
 
         public bool? IsRecordValid;
 

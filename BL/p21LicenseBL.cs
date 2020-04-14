@@ -8,7 +8,7 @@ namespace BL
     {
         public BO.p21License Load(int pid);
         public IEnumerable<BO.p21License> GetList(BO.myQuery mq);
-        public int Save(BO.p21License rec);
+        public int Save(BO.p21License rec, List<int> p10ids = null);
     }
     class p21LicenseBL:Ip21LicenseBL
     {
@@ -25,6 +25,10 @@ namespace BL
         {
             return DL.DbHandler.Load<BO.p21License>(string.Format("{0} WHERE a.p21ID={1}", GetSQL1(), pid));
         }
+        public BO.p21License LoadByCode(string strCode, int intExcludePID)
+        {
+            return DL.DbHandler.Load<BO.p21License>(string.Format("{0} WHERE a.p21Code LIKE @code AND a.p21ID<>@exclude", GetSQL1()), new { code = strCode, exclude = intExcludePID });
+        }
         public IEnumerable<BO.p21License> GetList(BO.myQuery mq)
         {
             DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq);
@@ -32,8 +36,12 @@ namespace BL
             
         }
 
-        public int Save(BO.p21License rec)
+        public int Save(BO.p21License rec,List<int> p10ids)
         {
+            if (ValidateBeforeSave(rec) == false)
+            {
+                return 0;
+            }
             var p = new Dapper.DynamicParameters();
             p.Add("pid", rec.p21ID);
             p.Add("p28ID", BO.BAS.TestIntAsDbKey(rec.p28ID));
@@ -43,7 +51,21 @@ namespace BL
             p.Add("p21Memo", rec.p21Memo);
 
 
-            return DL.DbHandler.SaveRecord(_cUser,"p21License", p, rec);
+            int intPID= DL.DbHandler.SaveRecord(_cUser,"p21License", p, rec);
+
+            return intPID;
+            
+        }
+
+        private bool ValidateBeforeSave(BO.p21License rec)
+        {
+            if (LoadByCode(rec.p21Code, rec.pid) != null)
+            {
+                _cUser.ErrorMessage = string.Format("Zadaný kód nemůže být duplicitní s jinou licencí [{0}].", LoadByCode(rec.p21Code, rec.pid).p21Name);
+                return false;
+            }
+
+            return true;
         }
     }
 }

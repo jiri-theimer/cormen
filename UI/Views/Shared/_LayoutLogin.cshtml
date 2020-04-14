@@ -1,4 +1,4 @@
-﻿@model BaseViewModel
+﻿
 
 <!DOCTYPE html>
 <html lang="cs">
@@ -101,43 +101,6 @@
 
     @RenderSection("Scripts", required: false)
 
-    <script type="text/javascript">
-        //zabránit submit formuláře po stisknutí ENTER na jakémkoliv non-submit input elementu
-
-
-    $(document).ready(function () {
-           @if (Model.NotifyMessages != null) {
-           @foreach (var c in Model.NotifyMessages) {  // <----  placed on the same line, WORKING !!!
-            <text>
-            _notify_message("@c.Value","@c.Key");
-            </text>
-            }
-            }
-            if ($("#toolbar_changeinfo").length) {
-                //události na editačních formulářích
-                $("form").submit(function () {
-                    if ($(document.activeElement).attr("type") == "submit")
-                        return true;
-                    else return false;
-                });
-
-                $("textarea").each(function () {
-                    this.style.height = "auto";
-                    this.style.height = (this.scrollHeight) + "px";
-
-                    $(this).on("input", function () {
-                        this.style.height = "auto";
-                        this.style.height = (this.scrollHeight) + "px";
-                    });
-                });
-            }
-
-
-
-
-        });
-
-
-    </script>
+    
 </body>
 </html>

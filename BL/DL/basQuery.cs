@@ -12,6 +12,10 @@ namespace BL.DL
         {
             var lis = new List<DL.QueryRow>();
 
+            if (mq.pids !=null && mq.pids.Any())
+            {
+                AQ(ref lis, mq.Entity + "ID IN (" + String.Join(",", mq.pids) + ")", "", null);
+            }
             if (mq.b02id > 0)
             {
                 AQ(ref lis, "a.b02ID=@b02id", "b02id", mq.b02id);
@@ -39,7 +43,7 @@ namespace BL.DL
             {
                 ret.Parameters = new Dapper.DynamicParameters();
                 if (bolPrepareParam4DT) ret.Parameters4DT = new List<DL.Param4DT>();
-                foreach (var c in lis)
+                foreach (var c in lis.Where(p=>String.IsNullOrEmpty(p.ParName)==false))
                 {
                     ret.Parameters.Add(c.ParName, c.ParValue);
                     if (bolPrepareParam4DT) ret.Parameters4DT.Add(new DL.Param4DT() { ParName = c.ParName, ParValue = c.ParValue });

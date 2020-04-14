@@ -28,9 +28,9 @@ namespace UI.Controllers
         {
             
             var v = new HomeViewModel();
-            v.Notify(String.Format("Testovací info zpráva, aktuální čas: {0}", DateTime.Now.ToString()),"info");
-            v.Notify(String.Format("Testovací warning zpráva, aktuální čas: {0}", DateTime.Now.ToString()), "warning");
-            v.Notify(String.Format("Testovací error zpráva, aktuální čas: {0}", DateTime.Now.ToString()), "error");
+            //v.Notify(String.Format("Testovací info zpráva, aktuální čas: {0}", DateTime.Now.ToString()), "info");
+            //v.Notify(String.Format("Testovací warning zpráva, aktuální čas: {0}", DateTime.Now.ToString()), "warning");
+            //v.Notify(String.Format("Testovací error zpráva, aktuální čas: {0}", DateTime.Now.ToString()), "error");
 
 
 
