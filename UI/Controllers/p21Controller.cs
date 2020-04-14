@@ -80,20 +80,17 @@ namespace UI.Controllers
                 }
                 else
                 {
-                    return this.StopPage(false, "Chyba");
-                }
+                    v.Notify(Factory.CurrentUser.ErrorMessage);
+                }               
             }
-            else
-            {
-                v.Toolbar = new MyToolbarViewModel(v.Rec);
-                v.ComboP28ID = new MyComboViewModel("p28", v.ComboP28ID.SelectedValue, v.ComboP28ID.SelectedText, "cbx1");
-                v.ComboB02ID = new MyComboViewModel("b02", v.ComboB02ID.SelectedValue, v.ComboB02ID.SelectedText, "cbx2");
-                v.ComboB02ID.Param1 = "p21";
-                v.ComboSelectP10ID = new MyComboViewModel("p10", "", "Přidat produkt...", "cbx3");
-                v.ComboSelectP10ID.OnChange_Event = "handle_append_product";
-
-                return View(v);
-            }
+            v.Toolbar = new MyToolbarViewModel(v.Rec);
+            v.ComboP28ID = new MyComboViewModel("p28", v.ComboP28ID.SelectedValue, v.ComboP28ID.SelectedText, "cbx1");
+            v.ComboB02ID = new MyComboViewModel("b02", v.ComboB02ID.SelectedValue, v.ComboB02ID.SelectedText, "cbx2");
+            v.ComboB02ID.Param1 = "p21";
+            v.ComboSelectP10ID = new MyComboViewModel("p10", "", "Přidat produkt do licence...", "cbx3");
+            v.ComboSelectP10ID.OnChange_Event = "handle_append_product";
+            v.Notify("Záznam zatím nebyl uložen.", "warning");
+            return View(v);
 
 
         }

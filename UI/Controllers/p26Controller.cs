@@ -64,19 +64,16 @@ namespace UI.Controllers
                 }
                 else
                 {
-                    return this.StopPage(false, "Chyba");
+                    v.Notify(Factory.CurrentUser.ErrorMessage);
                 }
+                
             }
-            else
-            {
-                v.Toolbar = new MyToolbarViewModel(v.Rec);
-                v.ComboP28ID = new MyComboViewModel("p28", v.ComboP28ID.SelectedValue, v.ComboP28ID.SelectedText, "cbx1");
-                v.ComboB02ID = new MyComboViewModel("b02", v.ComboB02ID.SelectedValue, v.ComboB02ID.SelectedText, "cbx2");
-                v.ComboB02ID.Param1 = "p26";
-
-                return View(v);
-            }
-
+            v.Toolbar = new MyToolbarViewModel(v.Rec);
+            v.ComboP28ID = new MyComboViewModel("p28", v.ComboP28ID.SelectedValue, v.ComboP28ID.SelectedText, "cbx1");
+            v.ComboB02ID = new MyComboViewModel("b02", v.ComboB02ID.SelectedValue, v.ComboB02ID.SelectedText, "cbx2");
+            v.ComboB02ID.Param1 = "p26";
+            v.Notify("Záznam zatím nebyl uložen.", "warning");
+            return View(v);
 
         }
     }

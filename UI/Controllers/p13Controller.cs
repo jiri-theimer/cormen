@@ -69,15 +69,13 @@ namespace UI.Controllers
                 }
                 else
                 {
-                    return this.StopPage(false, "Chyba");
+                    v.Notify(Factory.CurrentUser.ErrorMessage);
                 }
+                
             }
-            else
-            {
-                v.Toolbar = new MyToolbarViewModel(v.Rec);                
+            v.Toolbar = new MyToolbarViewModel(v.Rec);
 
-                return View(v);
-            }
+            return View(v);
         }
     }
 }

@@ -70,20 +70,19 @@ namespace UI.Controllers
                 }
                 else
                 {
-                    return this.StopPage(false, "Chyba");
+                    v.Notify(Factory.CurrentUser.ErrorMessage);
                 }
+               
             }
-            else
-            {
-                v.Toolbar = new MyToolbarViewModel(v.Rec);
-                v.ComboJ04ID = new MyComboViewModel("j04", v.ComboJ04ID.SelectedValue, v.ComboJ04ID.SelectedText,"cbx1");
-                v.ComboP28ID = new MyComboViewModel("p28", v.ComboP28ID.SelectedValue, v.ComboP28ID.SelectedText, "cbx2");
-                v.TitleBeforeName = new MyAutoCompleteViewModel(1, v.TitleBeforeName.SelectedText, "Titul","pop1");
-                v.TitleAfterName = new MyAutoCompleteViewModel(2, v.TitleAfterName.SelectedText,"", "pop2");
-                return View(v);
-            }
-            
-           
+            v.Toolbar = new MyToolbarViewModel(v.Rec);
+            v.ComboJ04ID = new MyComboViewModel("j04", v.ComboJ04ID.SelectedValue, v.ComboJ04ID.SelectedText, "cbx1");
+            v.ComboP28ID = new MyComboViewModel("p28", v.ComboP28ID.SelectedValue, v.ComboP28ID.SelectedText, "cbx2");
+            v.TitleBeforeName = new MyAutoCompleteViewModel(1, v.TitleBeforeName.SelectedText, "Titul", "pop1");
+            v.TitleAfterName = new MyAutoCompleteViewModel(2, v.TitleAfterName.SelectedText, "", "pop2");
+            v.Notify("Záznam zatím nebyl uložen.", "warning");
+            return View(v);
+
+
         }
     }
 }

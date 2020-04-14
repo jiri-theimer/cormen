@@ -58,16 +58,13 @@ namespace UI.Controllers
                 }
                 else
                 {
-                    return this.StopPage(false, "Chyba");
+                    v.Notify(Factory.CurrentUser.ErrorMessage);
                 }
+               
             }
-            else
-            {
-                v.Toolbar = new MyToolbarViewModel(v.Rec);
-                
-
-                return View(v);
-            }
+            v.Toolbar = new MyToolbarViewModel(v.Rec);
+            v.Notify("Záznam zatím nebyl uložen.", "warning");
+            return View(v);
         }
 
 

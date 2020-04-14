@@ -77,7 +77,7 @@ namespace UI.Controllers
                 }
                 else
                 {
-                    v.Notify("Chyba z matky: "+Factory.CurrentUser.ErrorMessage, "error");                    
+                    v.Notify(Factory.CurrentUser.ErrorMessage);                    
                 }
             }
           

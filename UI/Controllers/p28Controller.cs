@@ -84,23 +84,21 @@ namespace UI.Controllers
                 v.Rec.pid = Factory.p28CompanyBL.Save(c);
                 if (v.Rec.pid > 0)
                 {
-                    return RedirectToAction("Index", "TheGrid", new { pid = v.Rec.pid, entity = "p28" });                    
-
+                    return RedirectToAction("Index", "TheGrid", new { pid = v.Rec.pid, entity = "p28" });
                 }
                 else
                 {
-                    return this.StopPage(false, "Chyba");
+                    v.Notify(Factory.CurrentUser.ErrorMessage);
                 }
+               
             }
-            else
-            {
-                v.Toolbar = new MyToolbarViewModel(v.Rec);                
-                v.Country1 = new MyAutoCompleteViewModel(328, v.Country1.SelectedText,"Stát");
-                v.Country1.DropDownWidth = "300px";
-                v.Country2 = new MyAutoCompleteViewModel(328, v.Country1.SelectedText, "Stát","pop2");
-                v.Country2.DropDownWidth = "300px";
-                return View(v);
-            }
+            v.Toolbar = new MyToolbarViewModel(v.Rec);
+            v.Country1 = new MyAutoCompleteViewModel(328, v.Country1.SelectedText, "Stát");
+            v.Country1.DropDownWidth = "300px";
+            v.Country2 = new MyAutoCompleteViewModel(328, v.Country1.SelectedText, "Stát", "pop2");
+            v.Country2.DropDownWidth = "300px";
+            v.Notify("Záznam zatím nebyl uložen.", "warning");
+            return View(v);
 
 
         }
