@@ -13,9 +13,14 @@ namespace BL
     class p10MasterProductBL : Ip10MasterProductBL
     {
         private BO.RunningUser _cUser;
+        
         public p10MasterProductBL(BO.RunningUser cUser)
         {
+            //_matka = matka;
             _cUser = cUser;
+
+
+
         }
         private string GetSQL1()
         {
@@ -57,6 +62,7 @@ namespace BL
         {
             if (LoadByCode(rec.p10Code,rec.pid) != null)
             {
+                _cUser.ErrorMessage = string.Format("Zadaný kód nemůže být duplicitní s jiným záznamem [{0}].", LoadByCode(rec.p10Code, rec.pid).p10Name);
                 return false;
             }
 

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace UI.Models
 {
-    public class p26RecordViewModel
+    public class p26RecordViewModel : BaseViewModel
     {
         public BO.p26Msz Rec { get; set; }
 

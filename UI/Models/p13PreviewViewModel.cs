@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace UI.Models
 {
-    public class p13PreviewViewModel
+    public class p13PreviewViewModel : BaseViewModel
     {
         public BO.p13Tpv Rec { get; set; }
     }

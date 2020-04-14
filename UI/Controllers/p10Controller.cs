@@ -7,31 +7,28 @@ using UI.Models;
 
 namespace UI.Controllers
 {
+    
     public class p10Controller : BaseController
     {
-        public IActionResult Preview(int pid)
+        public IActionResult Index(int pid)
         {
             var v = new Models.p10PreviewViewModel();
             v.Rec = Factory.p10MasterProductBL.Load(pid);
-            if (v.Rec == null)
-            {
-                return this.StopPage(false, "Hledaný záznam neexistuje!");
-            }
-            else
-            {
-                return View(v);
-            }
+            if (v.Rec == null) v.Notify("Hledaný záznam neexistuje!");
+            return View(v);
 
         }
         public IActionResult Record(int pid, bool isclone)
-        {
+        {            
             var v = new Models.p10RecordViewModel();
+            
             if (pid > 0)
             {
                 v.Rec = Factory.p10MasterProductBL.Load(pid);
                 if (v.Rec == null)
                 {
-                    return this.StopPage(false, "Hledaný záznam neexistuje!");
+                    v.Notify("Hledaný záznam neexistuje!");
+                    return View(v);
                 }
 
             }
@@ -80,20 +77,18 @@ namespace UI.Controllers
                 }
                 else
                 {
-                    return this.StopPage(false, "Chyba");
+                    v.Notify("Chyba z matky: "+Factory.CurrentUser.ErrorMessage, "error");                    
                 }
             }
-            else
-            {
-                v.Toolbar = new MyToolbarViewModel(v.Rec);
-                v.ComboP13ID = new MyComboViewModel("p13", v.ComboP13ID.SelectedValue, v.ComboP13ID.SelectedText, "cbx1");
-                v.ComboB02ID = new MyComboViewModel("b02", v.ComboB02ID.SelectedValue, v.ComboB02ID.SelectedText, "cbx2");
-                v.ComboB02ID.Param1 = "p10";
-                v.ComboO12ID = new MyComboViewModel("o12", v.ComboB02ID.SelectedValue, v.ComboB02ID.SelectedText, "cbx3");
-                v.ComboO12ID.Param1 = "p10";
-
-                return View(v);
-            }
+          
+            v.Toolbar = new MyToolbarViewModel(v.Rec);
+            v.ComboP13ID = new MyComboViewModel("p13", v.ComboP13ID.SelectedValue, v.ComboP13ID.SelectedText, "cbx1");
+            v.ComboB02ID = new MyComboViewModel("b02", v.ComboB02ID.SelectedValue, v.ComboB02ID.SelectedText, "cbx2");
+            v.ComboB02ID.Param1 = "p10";
+            v.ComboO12ID = new MyComboViewModel("o12", v.ComboB02ID.SelectedValue, v.ComboB02ID.SelectedText, "cbx3");
+            v.ComboO12ID.Param1 = "p10";
+            v.Notify("Záznam zatím nebyl uložen.","warning");
+            return View(v);
 
 
         }

@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace UI.Models
 {
-    public class j02gridViewModel : BaseViewModel
+    public class HomeViewModel:BaseViewModel
     {
-        public MyGridViewModel grid1 { get; set; }
+        public string Pozdrav { get; set; }
     }
 }

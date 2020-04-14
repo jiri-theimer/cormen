@@ -11,5 +11,7 @@ namespace BO
         public string FullName { get; set; }
         public int j04PermissionValue { get;set;}
         public bool j02IsMustChangePassword { get; set; }
+
+        public string ErrorMessage { get; set; }
     }
 }

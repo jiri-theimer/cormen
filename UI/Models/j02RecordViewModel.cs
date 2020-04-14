@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace UI.Models
 {
-    public class j02RecordViewModel
+    public class j02RecordViewModel : BaseViewModel
     {
         public BO.j02Person Rec { get; set; }
         

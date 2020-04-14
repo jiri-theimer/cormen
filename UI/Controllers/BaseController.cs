@@ -15,7 +15,7 @@ namespace UI.Controllers
     {
         
         public BL.Factory Factory;
-
+        
         //Test probíhá před spuštěním každé Akce!
         public override void OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext context)
         {
@@ -29,8 +29,14 @@ namespace UI.Controllers
             //context.Result = new RedirectResult("~/Home/Index");
 
         }
-        
-       
+        //Test probíhá po spuštění každé Akce:
+        //public override void OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext context)
+        //{
+
+        //    base.OnActionExecuted(context);
+        //}
+
+
         //public MotherController(IHttpContextAccessor context)
         //{
 

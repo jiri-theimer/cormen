@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@model BaseViewModel
+
+<!DOCTYPE html>
 <html lang="cs">
 <head>
     <meta charset="utf-8" />
@@ -7,9 +9,9 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css">
-    
 
-    
+
+
 
     <link rel="stylesheet" href="~/css/site.css" />
 
@@ -97,14 +99,20 @@
 
 
 
-
     @RenderSection("Scripts", required: false)
 
     <script type="text/javascript">
         //zabránit submit formuláře po stisknutí ENTER na jakémkoliv non-submit input elementu
 
 
-        $(document).ready(function () {
+    $(document).ready(function () {
+           @if (Model.NotifyMessages != null) {
+           @foreach (var c in Model.NotifyMessages) {  // <----  placed on the same line, WORKING !!!
+            <text>
+            _notify_message("@c.Value","@c.Key");
+            </text>
+            }
+            }
             if ($("#toolbar_changeinfo").length) {
                 //události na editačních formulářích
                 $("form").submit(function () {

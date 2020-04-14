@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace UI.Models
 {
-    public class p21RecordViewModel
+    public class p21RecordViewModel : BaseViewModel
     {
         public BO.p21License Rec { get; set; }
 

@@ -66,7 +66,7 @@ function _notify_message(strMessage, strTemplate = "error", milisecs="3000") {
     //s = s + "<strong class='mr-auto' style='color:black;'>Toast Header</strong>";
     s = s + "<div style='width:90%;'> " + strTemplate+"</div><button type='button' class='ml-2 mb-1 close' data-dismiss='toast'>&times;</button>";
     s = s + "</div>";
-    s = s + "<div class='toast-body'>";
+    s = s + "<div class='toast-body' style='font-size:130%;'>";
     s = s + strMessage;
     s = s + "</div>";
     s = s + "</div>";

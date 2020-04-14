@@ -9,7 +9,7 @@ namespace UI.Controllers
 {
     public class p13Controller : BaseController
     {
-        public IActionResult Preview(int pid)
+        public IActionResult Index(int pid)
         {
             var v = new Models.p13PreviewViewModel();
             v.Rec = Factory.p13TpvBL.Load(pid);

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace UI.Models
 {
-    public class b02RecordViewModel
+    public class b02RecordViewModel:BaseViewModel
     {
         public BO.b02Status Rec { get; set; }
 

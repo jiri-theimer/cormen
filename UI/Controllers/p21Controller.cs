@@ -9,7 +9,7 @@ namespace UI.Controllers
 {
     public class p21Controller : BaseController
     {
-        public IActionResult Preview(int pid)
+        public IActionResult Index(int pid)
         {
             var v = new Models.p21PreviewViewModel();
             v.Rec = Factory.p21LicenseBL.Load(pid);

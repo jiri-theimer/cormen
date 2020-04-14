@@ -5,7 +5,7 @@ using System.Text;
 namespace BL
 {
     public class Factory
-    {
+    {        
         public BO.RunningUser CurrentUser;
         private Ij02PersonBL _j02;
         private Ip10MasterProductBL _p10;
@@ -23,7 +23,7 @@ namespace BL
         
         public Factory(string strLogin)
         {
-            CurrentUser = DL.DbHandler.Load<BO.RunningUser>("SELECT a.j02ID as pid,a.j02Login,a.j02FirstName+' '+a.j02LastName as FullName,a.j02IsMustChangePassword,b.j04PermissionValue FROM j02Person a INNER JOIN j04UserRole b ON a.j04ID=b.j04ID WHERE a.j02Login LIKE @login", new { login = strLogin });
+            CurrentUser = DL.DbHandler.Load<BO.RunningUser>("SELECT a.j02ID as pid,a.j02Login,a.j02FirstName+' '+a.j02LastName as FullName,a.j02IsMustChangePassword,b.j04PermissionValue,null as ErrorMessage FROM j02Person a INNER JOIN j04UserRole b ON a.j04ID=b.j04ID WHERE a.j02Login LIKE @login", new { login = strLogin });
 
 
         }

@@ -151,7 +151,7 @@
 
                 $("#cmdMyGridEdit").attr("href", url);
                 $("#cmdMyGridClone").attr("href", url + "&isclone=true");
-                url = "@(@Url.Action("Preview", Model.Entity))";
+                url = "@(@Url.Action("Index", Model.Entity))";
                 url = url + "?pid=" + pid;
                 $("#cmdMyGridPreview").attr("href", url);
 

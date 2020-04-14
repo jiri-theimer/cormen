@@ -3,7 +3,7 @@
 
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3 @Model.BG" id="nav1" style="margin-bottom:10px;">
         <div class="navbar-brand" style="margin: 0px;">
-
+            
         </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -13,49 +13,50 @@
 
 
             <div>
+                @if (Model.IsGrid)
+                {
+                    <div class="btn-group">
+                        <a asp-action="Index" asp-controller="TheGrid" onclick="before_clicked(event)" class="btn btn-light" asp-route-pid="@Model.Record.pid" asp-route-entity="@Model.Record.entity">Grid</a>
+                    </div>
+                }
 
-                <div class="btn-group" style="margin-left: 7px; margin-top: 3px;">
+                <div class="btn-group" style="margin-left: 7px;">
                     <button type="submit" action="@Model.ControllorName" class="btn btn-success">Uložit změny</button>
 
                 </div>
 
                 @if (Model.IsDelete)
                 {
-                    <div class="btn-group" style="margin-left: 7px; margin-top: 3px;">
+                    <div class="btn-group" style="margin-left: 7px;">
                         <button type="button" class="btn btn-danger" onclick="toolbar_try_delete()">Odstranit</button>
 
                     </div>
                 }
                 @if (Model.IsRefresh)
                 {
-                    <div class="btn-group" style="margin-left: 7px; margin-top: 3px;">
+                    <div class="btn-group" style="margin-left: 7px;">
                         <a asp-action="@Model.ControllorName" onclick="before_clicked(event)" class="btn btn-light" asp-route-pid="@Model.Record.pid">Občerstvit</a>
                     </div>
                 }
                 @if (Model.IsClone)
                 {
-                    <div class="btn-group" style="margin-left: 7px; margin-top: 3px;">
+                    <div class="btn-group" style="margin-left: 7px;">
                         <a asp-action="@Model.ControllorName" onclick="before_clicked(event)" class="btn btn-light" asp-route-pid="@Model.Record.pid" asp-route-isclone="true">Kopírovat</a>
                     </div>
                 }
                 @if (Model.IsToArchive)
                 {
-                    <div class="btn-group" style="margin-left: 7px; margin-top: 3px;">
+                    <div class="btn-group" style="margin-left: 7px;">
                         <button type="button" onclick="toolbar_handle_archive(1)" class="btn btn-light">Přesunout do archivu</button>
                     </div>
                 }
                 @if (Model.IsFromArchive)
                 {
-                    <div class="btn-group" style="margin-left: 7px; margin-top: 3px;">
+                    <div class="btn-group" style="margin-left: 7px;">
                         <button type="button" onclick="toolbar_handle_archive(2)" class="btn btn-warning">Obnovit z archivu</button>
                     </div>
                 }
-                @if (Model.IsGrid)
-                {
-                    <div class="btn-group" style="margin-left: 7px; margin-top: 3px;">
-                        <a asp-action="Index" asp-controller="TheGrid" onclick="before_clicked(event)" class="btn btn-light" asp-route-pid="@Model.Record.pid" asp-route-entity="@Model.Record.entity">Grid</a>
-                    </div>
-                }
+
 
                 <div class="btn-group">
                     <span id="toolbar_message" class="badge-info">@Model.Message</span>
