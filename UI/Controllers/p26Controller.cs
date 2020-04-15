@@ -19,7 +19,7 @@ namespace UI.Controllers
                 v.Rec = Factory.p26MszBL.Load(pid);
                 if (v.Rec == null)
                 {
-                    return this.StopPage(false, "Hledaný záznam neexistuje!");
+                    return RecNotFound(v);
                 }
 
             }
@@ -29,7 +29,7 @@ namespace UI.Controllers
                 v.Rec.entity = "p26";
             }
 
-            v.ComboP28ID = new MyComboViewModel("p28", v.Rec.p28ID.ToString(), v.Rec.p28Name,"cbx1");
+            
             v.ComboB02ID = new MyComboViewModel("b02", v.Rec.b02ID.ToString(), v.Rec.b02Name, "cbx2");
             v.ComboB02ID.Param1 = "p26";
 
@@ -52,7 +52,7 @@ namespace UI.Controllers
                 c.p26Name = v.Rec.p26Name;
                 c.p26Memo = v.Rec.p26Memo;
                 c.b02ID = BO.BAS.InInt(v.ComboB02ID.SelectedValue);
-                c.p28ID = BO.BAS.InInt(v.ComboP28ID.SelectedValue);
+                
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
@@ -68,8 +68,7 @@ namespace UI.Controllers
                 }
                 
             }
-            v.Toolbar = new MyToolbarViewModel(v.Rec);
-            v.ComboP28ID = new MyComboViewModel("p28", v.ComboP28ID.SelectedValue, v.ComboP28ID.SelectedText, "cbx1");
+            v.Toolbar = new MyToolbarViewModel(v.Rec);            
             v.ComboB02ID = new MyComboViewModel("b02", v.ComboB02ID.SelectedValue, v.ComboB02ID.SelectedText, "cbx2");
             v.ComboB02ID.Param1 = "p26";
             v.Notify("Záznam zatím nebyl uložen.", "warning");

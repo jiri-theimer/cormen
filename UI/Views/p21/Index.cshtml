@@ -9,11 +9,11 @@
 
         <div class="form-row">
             <label class="col-sm-1 col-md-2 col-form-label">Licence:</label>
-            <div class="col-sm-8 col-md-7">
+            <div class="col-sm-6 col-md-6">
                 <input class="form-control" asp-for="Rec.p21Name" readonly="readonly" />
 
             </div>
-            <div class="col-sm-3 col-md-3">
+            <div class="col-sm-5 col-md-4">
                 <input class="form-control" asp-for="Rec.p21Code" readonly="readonly" />
 
             </div>
@@ -21,27 +21,33 @@
 
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Klient:</label>
-            <div class="col-sm-11 col-md-10">
+            <div class="col-sm-6 col-md-5">
                 <input class="form-control" asp-for="Rec.p28Name" readonly="readonly" />
             </div>
+            <label class="col-sm-1 col-md-1 col-form-label">Stroj:</label>
+            <div class="col-sm-4 col-md-4">
+                <input class="form-control" asp-for="Rec.p26Name" readonly="readonly" />
+            </div>
         </div>
+        
         <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
-            <div class="col-sm-11 col-md-10">
+            <label class="col-sm-1 col-md-2 col-form-label">Platnost:</label>
+            <div class="col-sm-6 col-md-5">
+                <div class="btn-group">
+                    <span class="form-control bg-light">@(BO.BAS.ObjectDate2String(@Model.Rec.ValidFrom))</span>
+                     <span class="form-control"> - </span>
+                    <span class="form-control bg-light">@(BO.BAS.ObjectDate2String(@Model.Rec.ValidUntil))</span>
+                    
+
+                </div>
+                
+
+            </div>
+            <label class="col-sm-1 col-md-1 col-form-label">Stav:</label>
+            <div class="col-sm-4 col-md-4">
                 <input class="form-control" asp-for="Rec.b02Name" readonly="readonly" />
             </div>
-        </div>
-        <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Platnost od:</label>
-            <div class="col-sm-2 col-md-2">
-                <input asp-for="Rec.ValidFrom" class="form-control" readonly="readonly" />
-            </div>
-            <div class="col-sm-1 col-md-1">
-                do:
-            </div>
-            <div class="col-sm-2 col-md-2">
-                <input asp-for="Rec.ValidUntil" class="form-control" readonly="readonly" />
-            </div>
+
         </div>
 
 

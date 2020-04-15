@@ -9,7 +9,7 @@ namespace BO
     {
         [Key]
         public int p26ID { get; set; }
-        public int p28ID { get; set; }
+        
         public int b02ID { get; set; }
         [Required(ErrorMessage = "Chybí vyplnit název!")]
         [MaxLength(100, ErrorMessage = "Maximum 100 znaků")]
@@ -20,8 +20,7 @@ namespace BO
         [Required(ErrorMessage = "Chybí vyplnit kód!")]
         public string p26Code { get; set; }
 
-        private string _p28Name;
-        public string p28Name { get { return _p28Name; } }
+       
 
         private string _b02Name;
         public string b02Name { get { return _b02Name; } }

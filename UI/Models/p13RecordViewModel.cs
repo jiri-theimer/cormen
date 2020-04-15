@@ -7,7 +7,7 @@ namespace UI.Models
 {
     public class p13RecordViewModel : BaseViewModel
     {
-        public BO.p13Tpv Rec { get; set; }
+        public BO.p13MasterTpv Rec { get; set; }
 
         public MyToolbarViewModel Toolbar { get; set; }
     }

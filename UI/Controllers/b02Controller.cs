@@ -20,7 +20,7 @@ namespace UI.Controllers
                 v.Rec = Factory.b02StatusBL.Load(pid);
                 if (v.Rec == null)
                 {
-                    return this.StopPage(false, "Hledaný záznam neexistuje!");
+                    return RecNotFound(v);
                 }
 
             }

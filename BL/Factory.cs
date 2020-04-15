@@ -9,13 +9,14 @@ namespace BL
         public BO.RunningUser CurrentUser;
         private Ij02PersonBL _j02;
         private Ip10MasterProductBL _p10;
-        private Ip13TpvBL _p13;
+        private Ip13MasterTpvBL _p13;
         private Ip28CompanyBL _p28;
         private Ip21LicenseBL _p21;
         private Ip26MszBL _p26;
         private Ij04UserRoleBL _j04;
         private Ib02StatusBL _b02;
         private Io12CategoryBL _o12;
+        private Io23DocBL _o23;
         private IDataGridBL _grid;
         private ICBL _cbl;
         private IFBL _fbl;
@@ -108,11 +109,19 @@ namespace BL
                 return _o12;
             }
         }
-        public Ip13TpvBL p13TpvBL
+        public Io23DocBL o23DocBL
         {
             get
             {
-                if (_p13 == null) _p13 = new p13TpvBL(CurrentUser);
+                if (_o23 == null) _o23 = new o23DocBL(CurrentUser);
+                return _o23;
+            }
+        }
+        public Ip13MasterTpvBL p13MasterTpvBL
+        {
+            get
+            {
+                if (_p13 == null) _p13 = new p13MasterTpvBL(CurrentUser);
                 return _p13;
             }
         }

@@ -54,8 +54,26 @@ namespace BO
         }
 
         public static string ObjectDate2String(object d,string format="dd.MM.yyyy")
-        {            
+        {
+            if (d == System.DBNull.Value) return "";
             return Convert.ToDateTime(d).ToString(format);
+        }
+
+        public static string getEntityAlias(string strEntity)
+        {
+            switch (strEntity)
+            {
+                case "p28":return "Klient";
+                case "p26":return "Stroj";
+                case "j02":return "Osoba/Uživatel";
+                case "p21": return "Licence";
+                case "p10": return "Master produkt";
+                case "p13": return "Master TPV";
+                case "o23": return "Dokument";
+                case "p41": return "Výrobní zakázka";
+                default:
+                    return "";
+            }
         }
 
     }

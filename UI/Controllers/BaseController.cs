@@ -59,6 +59,11 @@ namespace UI.Controllers
         }
 
         
+        public ViewResult RecNotFound(UI.Models.BaseViewModel v)
+        {            
+            v.Notify("Hledaný záznam neexistuje!");
+            return View(v);
+        }
         
     }
 }

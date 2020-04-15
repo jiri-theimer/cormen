@@ -14,7 +14,7 @@ namespace UI.Controllers
         {
             var v = new Models.p10PreviewViewModel();
             v.Rec = Factory.p10MasterProductBL.Load(pid);
-            if (v.Rec == null) v.Notify("Hledaný záznam neexistuje!");
+            if (v.Rec == null) return RecNotFound(v);
             return View(v);
 
         }
@@ -27,8 +27,7 @@ namespace UI.Controllers
                 v.Rec = Factory.p10MasterProductBL.Load(pid);
                 if (v.Rec == null)
                 {
-                    v.Notify("Hledaný záznam neexistuje!");
-                    return View(v);
+                    return RecNotFound(v);
                 }
 
             }

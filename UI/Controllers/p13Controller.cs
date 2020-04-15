@@ -12,10 +12,10 @@ namespace UI.Controllers
         public IActionResult Index(int pid)
         {
             var v = new Models.p13PreviewViewModel();
-            v.Rec = Factory.p13TpvBL.Load(pid);
+            v.Rec = Factory.p13MasterTpvBL.Load(pid);
             if (v.Rec == null)
             {
-                return this.StopPage(false, "Hledaný záznam neexistuje!");
+                return RecNotFound(v);
             }
             else
             {
@@ -28,16 +28,16 @@ namespace UI.Controllers
             var v = new Models.p13RecordViewModel();
             if (pid > 0)
             {
-                v.Rec = Factory.p13TpvBL.Load(pid);
+                v.Rec = Factory.p13MasterTpvBL.Load(pid);
                 if (v.Rec == null)
                 {
-                    return this.StopPage(false, "Hledaný záznam neexistuje!");
+                    return RecNotFound(v);
                 }
 
             }
             else
             {
-                v.Rec = new BO.p13Tpv();
+                v.Rec = new BO.p13MasterTpv();
                 v.Rec.entity = "p13";
             }
 
@@ -52,8 +52,8 @@ namespace UI.Controllers
         {
             if (ModelState.IsValid)
             {
-                BO.p13Tpv c = new BO.p13Tpv();
-                if (v.Rec.pid > 0) c = Factory.p13TpvBL.Load(v.Rec.pid);
+                BO.p13MasterTpv c = new BO.p13MasterTpv();
+                if (v.Rec.pid > 0) c = Factory.p13MasterTpvBL.Load(v.Rec.pid);
 
                 c.p13Code = v.Rec.p13Code;
                 c.p13Name = v.Rec.p13Name;
@@ -62,7 +62,7 @@ namespace UI.Controllers
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
 
-                v.Rec.pid = Factory.p13TpvBL.Save(c);
+                v.Rec.pid = Factory.p13MasterTpvBL.Save(c);
                 if (v.Rec.pid > 0)
                 {
                     return RedirectToAction("Index", "TheGrid", new { pid = v.Rec.pid, entity = "p13" });

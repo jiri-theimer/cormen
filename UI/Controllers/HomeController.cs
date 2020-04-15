@@ -28,18 +28,20 @@ namespace UI.Controllers
         {
             
             var v = new HomeViewModel();
-            //v.Notify(String.Format("Testovací info zpráva, aktuální čas: {0}", DateTime.Now.ToString()), "info");
-            //v.Notify(String.Format("Testovací warning zpráva, aktuální čas: {0}", DateTime.Now.ToString()), "warning");
-            //v.Notify(String.Format("Testovací error zpráva, aktuální čas: {0}", DateTime.Now.ToString()), "error");
-
-
-
-
-
+            
             return View(v);
         }
 
+        [AllowAnonymous]
+        public IActionResult Client()
+        {
+
+            var v = new HomeViewModel();
+           
+            return View(v);
+        }
         
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Stroj | MSZ";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    if (Model.Rec == null) return;
 }
 
 
@@ -29,12 +30,7 @@
         </div>
     </div>
    
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Klient:</label>
-        <div class="col-sm-11 col-md-10">
-            @Html.EditorFor(m => m.ComboP28ID, "~/Views/Shared/_MyCombo.cshtml")
-        </div>
-    </div>
+   
     <div class="form-row" style="margin-top:10px;">
         <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
         <div class="col-sm-11 col-md-10">

@@ -30,11 +30,12 @@
         </div>
 
         <div class="form-row">
-            <label class="col-sm-1 col-md-2 col-form-label">Entita:</label>
+            <label class="col-sm-1 col-md-2 col-form-label">Vazba:</label>
             <div class="col-sm-11 col-md-10">
                 <select asp-for="Rec.o12Entity" class="form-control">
                     <option value=""></option>
                     <option value="p10">Master produkt</option>
+                    <option value="o23">Dokument</option>
                 </select>
                 <span asp-validation-for="Rec.o12Entity" class="text-danger"></span>
             </div>

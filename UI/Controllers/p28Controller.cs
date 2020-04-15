@@ -16,7 +16,7 @@ namespace UI.Controllers
             v.Rec = Factory.p28CompanyBL.Load(pid);
             if (v.Rec == null)
             {
-                return this.StopPage(false, "Hledaný záznam neexistuje!");
+                return RecNotFound(v);
             }
             else
             {
@@ -32,8 +32,8 @@ namespace UI.Controllers
             {
                 v.Rec = Factory.p28CompanyBL.Load(pid);
                 if (v.Rec == null)
-                {
-                    return this.StopPage(false, "Hledaný záznam neexistuje!");
+                {                    
+                    return RecNotFound(v);
                 }
 
             }

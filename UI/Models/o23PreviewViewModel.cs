@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace UI.Models
 {
-    public class p13PreviewViewModel : BaseViewModel
+    public class o23PreviewViewModel:BaseViewModel
     {
-        public BO.p13MasterTpv Rec { get; set; }
+        public BO.o23Doc Rec { get; set; }
     }
 }

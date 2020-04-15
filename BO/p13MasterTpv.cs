@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BO
 {
-    public class p13Tpv:BaseBO
+    public class p13MasterTpv:BaseBO
     {
         [Key]
         public int p13ID { get; set; }

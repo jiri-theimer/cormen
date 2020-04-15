@@ -1,0 +1,98 @@
+﻿@model o23RecordViewModel
+
+@{
+    ViewData["Title"] = "Dokument";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (Model.Rec == null) return;
+    string _displayMore = "none";
+    if (Model.Rec.o12ID>0 || Model.Rec.o23Memo != null)
+    {
+        _displayMore = "block";
+    }
+}
+
+@using (Html.BeginForm())
+{
+    <h4>Dokument</h4>
+    @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
+    @Html.HiddenFor(m => m.Rec.pid)
+
+<div class="modal_record_container">
+
+    <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Vazba:</label>
+        <div class="col-sm-11 col-md-10">
+
+            <select asp-for="Rec.o23Entity" class="form-control">
+                <option value=""></option>
+                <option value="p28">Klient | Subjekt</option>
+                <option value="p26">Stroj | MSZ</option>
+                <option value="p10">Master produkt</option>
+                <option value="p21">Licence</option>
+                <option value="o23">Osoba | Uživatel</option>
+                <option value="p41">Zakázka</option>
+            </select>
+            <span asp-validation-for="Rec.o23Entity" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
+        <div class="col-sm-11 col-md-10">
+            <input class="form-control" asp-for="Rec.o23Name" />
+            <span asp-validation-for="Rec.o23Name" class="text-danger"></span>
+        </div>
+
+    </div>
+
+    <button id="cmdMore" type="button" class="btn btn-light">
+        <i class="fas fa-caret-down"></i>
+        Více
+    </button>
+    <div id="divMore" style="display:@_displayMore">
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Kategorie:</label>
+            <div class="col-sm-11 col-md-10">
+                @Html.EditorFor(m => m.ComboO12ID, "~/Views/Shared/_MyCombo.cshtml")
+            </div>
+        </div>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Datum:</label>
+            <div class="col-sm-11 col-md-10">
+                <input asp-for="Rec.o23Date" type="date" class="form-control" />
+            </div>
+        </div>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
+            <div class="col-sm-11 col-md-10">
+                @Html.EditorFor(m => m.ComboB02ID, "~/Views/Shared/_MyCombo.cshtml")
+            </div>
+        </div>
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Kód:</label>
+            <div class="col-sm-11 col-md-10">
+                <input class="form-control" asp-for="Rec.o23Code" />
+                <span asp-validation-for="Rec.o23Code" class="text-danger"></span>
+            </div>
+        </div>
+
+
+        <div class="form-row">
+            <textarea asp-for="Rec.o23Memo" class="form-control" placeholder="Podrobný popis"></textarea>
+            <span asp-validation-for="Rec.o23Memo" class="text-danger"></span>
+        </div>
+    </div>
+
+</div>
+    
+
+}
+
+@Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
+
+
+<script type="text/javascript">
+    $("#cmdMore").click(function () {
+        $("#divMore").slideToggle();
+    });
+</script>
