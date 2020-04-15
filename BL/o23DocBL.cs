@@ -8,7 +8,7 @@ namespace BL
     {
         public BO.o23Doc Load(int pid);
         public IEnumerable<BO.o23Doc> GetList(BO.myQuery mq);
-        public int Save(BO.o23Doc rec, List<BO.o27Attachment> lisO27_Append, List<BO.o27Attachment> lisO27_Remove = null);
+        public int Save(BO.o23Doc rec, List<BO.o27Attachment> lisO27_Append, List<int> o27IDs_Remove = null);
         public IEnumerable<BO.o27Attachment> GetListO27(int intO23ID);
         public BO.o27Attachment LoadO27ByGuid(string strGUID);
     }
@@ -42,7 +42,7 @@ namespace BL
             return DL.DbHandler.GetList<BO.o27Attachment>("SELECT a.*,"+DL.DbHandler.GetSQL1_Ocas("o27")+" FROM o27Attachment a WHERE a.o23ID=@pid", new { pid = intO23ID });
         }
 
-        public int Save(BO.o23Doc rec,List<BO.o27Attachment> lisO27_Append, List<BO.o27Attachment> lisO27_Remove=null)
+        public int Save(BO.o23Doc rec,List<BO.o27Attachment> lisO27_Append, List<int> o27IDs_Remove = null)
         {
             var p = new Dapper.DynamicParameters();
             p.Add("pid", rec.o23ID);
@@ -76,11 +76,11 @@ namespace BL
                     DL.DbHandler.SaveRecord(_cUser, "o27Attachment", p, c);
                 }
             }
-            if (intO23ID>0 && lisO27_Remove !=null && lisO27_Remove.Count > 0)
+            if (intO23ID>0 && o27IDs_Remove !=null && o27IDs_Remove.Count > 0)
             {
-                foreach(var c in lisO27_Remove)
+                foreach(var intO27ID in o27IDs_Remove)
                 {
-                    DL.DbHandler.RunSql("DELETE FROM o27Attachment WHERE o27ID=@o27id", new { o27id = c.pid });
+                    DL.DbHandler.RunSql("DELETE FROM o27Attachment WHERE o27ID=@o27id", new { o27id = intO27ID });
                 }
             }
 

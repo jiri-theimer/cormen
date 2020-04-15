@@ -40,6 +40,19 @@ namespace BO
 
             return lis;
         }
+        public static List<int> ConvertString2ListInt(string s, string strDelimiter = ",")
+        {
+            var lis = new List<int>();
+
+            if (s == null)
+                return lis;
+            foreach(var ss in s.Split(strDelimiter))
+            {
+                lis.Add(BO.BAS.InInt(ss));
+            }
+            
+            return lis;
+        }
 
         public static int? TestIntAsDbKey(int intPID)
         {

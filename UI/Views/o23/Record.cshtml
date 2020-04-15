@@ -97,15 +97,18 @@
                         @foreach (var c in Model.lisO27)
                         {
                             <text>
-                                <tr>
+                                <tr id="@("tr"+@c.pid)">
                                     <td style="width:30px;">
                                         <a title="Stáhnout" asp-action="FileDownload" asp-route-guid="@c.o27GUID"><i class="fas fa-download"></i></a>
                                     </td>
-                                    <td style="width:50px;">
+                                    <td style="width:60px;">
                                         <small>@BO.BAS.FormatFileSize(c.o27FileSize)</small>
                                     </td>
                                     <td>
                                         <a title="Stáhnout a otevřít v přidružené aplikaci" asp-action="FileDownloadInline" target="_blank" asp-route-guid="@c.o27GUID">@c.o27Name</a>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm" onclick="remove(@c.pid)" title="Odstranit soubor z dokumentu"><i class="fas fa-trash-alt"></i></button>
                                     </td>
                                 </tr>
                             </text>
@@ -122,6 +125,7 @@
     </div>
 
     <input type="hidden" asp-for="Guid" />
+    <input type="hidden" asp-for="o27IDs4Delete" />
 
 }
 
@@ -142,5 +146,15 @@
     function start_upload() {
         $("#frmUpload").submit();
 
+    }
+    function remove(o27id) {
+        if ($("#o27IDs4Delete").val() != "") {
+            $("#o27IDs4Delete").val($("#o27IDs4Delete").val() + "," + o27id);
+        } else {
+            $("#o27IDs4Delete").val(o27id);
+        }
+        $("#tr" + o27id).css("display", "none");
+        _toolbar_warn2save_changes();
+        
     }
 </script>
