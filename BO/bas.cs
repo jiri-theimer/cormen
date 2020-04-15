@@ -76,6 +76,32 @@ namespace BO
             }
         }
 
+        public static string GetGuid()
+        {
+
+            return System.Guid.NewGuid().ToString("N");
+        }
+
+
+        public static string FormatFileSize(int byteCount)
+        {
+            string size = "0 Bytes";
+            if (byteCount >= 1073741824)
+                size = String.Format("{0:##.##}", byteCount / 1073741824) + " GB";
+            else if (byteCount >= 1048576)
+                size = String.Format("{0:##.##}", byteCount / 1048576) + " MB";
+            else if (byteCount >= 1024)
+                size = String.Format("{0:##.##}", byteCount / 1024) + " KB";
+            else if (byteCount > 0 && byteCount < 1024)
+                size = byteCount.ToString() + " Bytes";
+
+            return size;
+        }
+
+
+
+
+
     }
 
 

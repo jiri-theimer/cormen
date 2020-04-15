@@ -11,6 +11,13 @@ namespace UI.Controllers
 {
     public class FileUploadController : Controller
     {
+		public IActionResult Index()
+		{
+
+			
+			return View();
+		}
+
 		[HttpPost("FileUpload")]
 		public async Task<IActionResult> Index(List<IFormFile> files)
 		{

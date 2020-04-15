@@ -1,0 +1,36 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>FileUpload</title>
+</head>
+<body>
+
+
+    <div class="row">
+        <section>
+            <form method="post" id="frmUpload" enctype="multipart/form-data" asp-controller="FileUpload" asp-action="Index">
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <strong>Nahrát jeden nebo více souborů/příloh dokumentu:</strong>
+                        <input type="file" name="files" multiple />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <input type="submit" class="btn btn-primary py-0" value="Nahrát na server" />
+                    </div>
+                </div>
+            </form>
+        </section>
+    </div>
+
+
+</body>
+</html>

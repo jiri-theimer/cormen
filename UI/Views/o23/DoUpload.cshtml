@@ -1,0 +1,74 @@
+﻿
+@{
+    Layout = null;
+    string strDir = @"c:\temp\CORE_UPLOAD\";
+    var _files = new List<string>();
+
+    foreach (string file in System.IO.Directory.EnumerateFiles(strDir,ViewBag.guid+"_*",System.IO.SearchOption.AllDirectories))
+    {
+        if (!file.EndsWith(".infox"))
+        {
+            _files.Add(System.IO.Path.GetFileName(file).Replace(ViewBag.guid + "_", ""));
+        }
+
+
+    }
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />    
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <form method="post" id="frmUpload" enctype="multipart/form-data" asp-controller="o23" asp-action="DoUpload" asp-route-guid="@ViewBag.guid">
+        <div class="form-group">
+            <strong>Nahrát jeden nebo více souborových příloh k dokumentu:</strong>
+            <div class="col-md-10">
+
+                <input type="file" name="files" multiple />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <input type="submit" class="btn btn-primary py-0" value="Nahrát na server" />
+            </div>
+        </div>
+
+        <input type="hidden" id="Guid" name="Guid" />
+    </form>
+
+    <ul>
+        @foreach (var s in _files)
+        {
+            <li>
+            <a asp-action="FileDownloadTempFile" asp-controller="o23" asp-route-tempfilename="@(ViewBag.guid+"_"+@s)" asp-route-guid="@ViewBag.guid">@s</a>
+            </li>
+        }
+    </ul>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#Guid").val("@ViewBag.guid");
+
+            @if (_files.Count > 0)
+            {
+                <text>
+            _notify_message("Nahrané přílohy (@_files.Count) uložíte k dokumentu až tlačítkem [Uložit změny]. ","info");
+                </text>
+            }
+            
+        });
+    </script>
+</body>
+</html >

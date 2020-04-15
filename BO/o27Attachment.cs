@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BO
 {
-    public class o27Attachment
+    public class o27Attachment:BaseBO
     {
         [Key]
         public int o27ID { get; set; }    

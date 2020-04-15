@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29926.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "UI\UI.csproj", "{7AC6ED56-6D8F-479A-BDD3-06CDB11F506E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UI", "UI\UI.csproj", "{7AC6ED56-6D8F-479A-BDD3-06CDB11F506E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BO", "BO\BO.csproj", "{F2656231-08C7-4F5E-ABA6-3A1076FCEE20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BO", "BO\BO.csproj", "{F2656231-08C7-4F5E-ABA6-3A1076FCEE20}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BL", "BL\BL.csproj", "{7F9CE58A-EB23-489E-8002-116A29CE9CC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BL", "BL\BL.csproj", "{7F9CE58A-EB23-489E-8002-116A29CE9CC6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

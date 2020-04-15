@@ -8,7 +8,9 @@ namespace BL
     {
         public BO.o23Doc Load(int pid);
         public IEnumerable<BO.o23Doc> GetList(BO.myQuery mq);
-        public int Save(BO.o23Doc rec);
+        public int Save(BO.o23Doc rec, List<BO.o27Attachment> lisO27_Append, List<BO.o27Attachment> lisO27_Remove = null);
+        public IEnumerable<BO.o27Attachment> GetListO27(int intO23ID);
+        public BO.o27Attachment LoadO27ByGuid(string strGUID);
     }
     class o23DocBL:Io23DocBL
     {
@@ -31,8 +33,16 @@ namespace BL
             return DL.DbHandler.GetList<BO.o23Doc>(fq.FinalSql, fq.Parameters);
 
         }
+        public BO.o27Attachment LoadO27ByGuid(string strGUID)
+        {
+            return DL.DbHandler.Load<BO.o27Attachment>("SELECT a.*," + DL.DbHandler.GetSQL1_Ocas("o27") + " FROM o27Attachment a WHERE a.o27GUID=@guid", new { guid = strGUID });
+        }
+        public IEnumerable<BO.o27Attachment> GetListO27(int intO23ID)
+        {
+            return DL.DbHandler.GetList<BO.o27Attachment>("SELECT a.*,"+DL.DbHandler.GetSQL1_Ocas("o27")+" FROM o27Attachment a WHERE a.o23ID=@pid", new { pid = intO23ID });
+        }
 
-        public int Save(BO.o23Doc rec)
+        public int Save(BO.o23Doc rec,List<BO.o27Attachment> lisO27_Append, List<BO.o27Attachment> lisO27_Remove=null)
         {
             var p = new Dapper.DynamicParameters();
             p.Add("pid", rec.o23ID);
@@ -49,7 +59,32 @@ namespace BL
             p.Add("o23Memo", rec.o23Memo);
 
 
-            return DL.DbHandler.SaveRecord(_cUser, "o23Doc", p, rec);
+            int intO23ID= DL.DbHandler.SaveRecord(_cUser, "o23Doc", p, rec);
+            if (intO23ID > 0 && lisO27_Append != null && lisO27_Append.Count>0)
+            {
+                foreach(var c in lisO27_Append)
+                {
+                    p= new Dapper.DynamicParameters();
+                    p.Add("pid", 0);
+                    p.Add("o23ID", intO23ID);
+                    p.Add("o27Name", c.o27Name);
+                    p.Add("o27ArchiveFileName", c.o27ArchiveFileName);
+                    p.Add("o27ArchiveFolder", c.o27ArchiveFolder);
+                    p.Add("o27FileSize", c.o27FileSize);
+                    p.Add("o27ContentType", c.o27ContentType);
+                    p.Add("o27GUID", c.o27GUID);
+                    DL.DbHandler.SaveRecord(_cUser, "o27Attachment", p, c);
+                }
+            }
+            if (intO23ID>0 && lisO27_Remove !=null && lisO27_Remove.Count > 0)
+            {
+                foreach(var c in lisO27_Remove)
+                {
+                    DL.DbHandler.RunSql("DELETE FROM o27Attachment WHERE o27ID=@o27id", new { o27id = c.pid });
+                }
+            }
+
+            return intO23ID;
         }
     }
 }
