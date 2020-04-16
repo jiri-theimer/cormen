@@ -50,6 +50,11 @@ namespace UI.Models
             var c = new MyGridColumn() { ColType = "datetime", ColField = strField, ColHeader = strColHeader };
             Columns.Add(c);
         }
+        public void AddLinkCol(string strColHeader, string strField)    //navíc musí existovat sloupec _LinkAlias
+        {
+            var c = new MyGridColumn() { ColType = "link", ColField = strField, ColHeader = strColHeader };
+            Columns.Add(c);
+        }
     }
 
     public class MyGridColumn

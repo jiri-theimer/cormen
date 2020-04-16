@@ -13,6 +13,15 @@ namespace UI.Controllers
 {
     public class o23Controller : BaseController
 {
+        public IActionResult Index(int pid)
+        {
+            var v = new Models.o23PreviewViewModel();
+            v.Rec = Factory.o23DocBL.Load(pid);
+            if (v.Rec == null) return RecNotFound(v);
+            v.lisO27 = Factory.o23DocBL.GetListO27(pid);
+            return View(v);
+
+        }
         public IActionResult Record(int pid, bool isclone)
         {
             var v = new Models.o23RecordViewModel();
@@ -35,10 +44,15 @@ namespace UI.Controllers
             v.ComboB02ID.Param1 = "o23";
             v.ComboO12ID = new MyComboViewModel("o12", v.Rec.o12ID.ToString(), v.Rec.o12Name, "cbxO12");
             v.ComboO12ID.Param1 = "o23";
+            
+            v.ComboRecordPid = new MyComboViewModel(v.Rec.o23Entity, v.Rec.o23RecordPid.ToString(), v.Rec.RecordUrlAlias, "cbxPID");
+            v.ComboRecordPid.Param1 = "o23";
             v.Toolbar = new MyToolbarViewModel(v.Rec);
-            if (isclone) { v.Toolbar.MakeClone(); }
+            if (isclone) {
+                v.Toolbar.MakeClone();
+            }
 
-            if (pid>0) v.lisO27 = Factory.o23DocBL.GetListO27(pid);
+            if (pid>0 && !isclone) v.lisO27 = Factory.o23DocBL.GetListO27(pid);
 
             return View(v);
         }
@@ -60,6 +74,8 @@ namespace UI.Controllers
                 c.o23Code = v.Rec.o23Code;
                 c.o23Name = v.Rec.o23Name;
                 c.o23Entity = v.Rec.o23Entity;
+                c.o23RecordPid = BO.BAS.InInt(v.ComboRecordPid.SelectedValue);
+                
                 c.o23Memo = v.Rec.o23Memo;
                 c.o23Date = v.Rec.o23Date;
                 c.b02ID = BO.BAS.InInt(v.ComboB02ID.SelectedValue);
@@ -68,8 +84,9 @@ namespace UI.Controllers
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
 
-                string strTempDir = "c:\\temp\\CORE_UPLOAD\\TEMP";
-                string strUploadDir = "c:\\temp\\CORE_UPLOAD";
+                string strTempDir = BL.RunningApp.Instance().TempFolder;
+                string strUploadDir = BL.RunningApp.Instance().UploadFolder;
+                
                 var lisO27 = new List<BO.o27Attachment>();
                 foreach (string file in System.IO.Directory.EnumerateFiles(strTempDir, v.Guid + "_*.infox", System.IO.SearchOption.AllDirectories))
                 {
@@ -103,6 +120,8 @@ namespace UI.Controllers
             v.ComboB02ID.Param1 = "o23";
             v.ComboO12ID = new MyComboViewModel("o12", v.ComboB02ID.SelectedValue, v.ComboB02ID.SelectedText, "cbxO12");
             v.ComboO12ID.Param1 = "o23";
+            v.ComboRecordPid = new MyComboViewModel(v.Rec.o23Entity ,v.ComboRecordPid.SelectedValue, v.ComboRecordPid.SelectedText, "cbxPID");
+            v.ComboRecordPid.Param1 = "o23";
             v.Toolbar = new MyToolbarViewModel(v.Rec);
             v.Notify("Záznam zatím nebyl uložen.", "warning");
             return View(v);
@@ -122,7 +141,8 @@ namespace UI.Controllers
             long size = files.Sum(f => f.Length);
 
             var tempfiles = new List<string>();
-            var tempDir = @"c:\temp\CORE_UPLOAD\TEMP\";
+            var tempDir = BL.RunningApp.Instance().TempFolder + "\\";
+            
             foreach (var formFile in files)
             {
                 if (formFile.Length > 0)
@@ -152,7 +172,7 @@ namespace UI.Controllers
         public ActionResult FileDownloadInline(string guid)
         {
             var c = Factory.o23DocBL.LoadO27ByGuid(guid);
-            string strUploadDir = "c:\\temp\\CORE_UPLOAD";
+            string strUploadDir = BL.RunningApp.Instance().UploadFolder;
 
             string fullPath = strUploadDir + "\\" + c.o27ArchiveFolder + "\\" + c.o27ArchiveFileName;
             if (System.IO.File.Exists(fullPath))
@@ -173,7 +193,7 @@ namespace UI.Controllers
         public ActionResult FileDownload(string guid)
         {
             var c = Factory.o23DocBL.LoadO27ByGuid(guid);
-            string strUploadDir = "c:\\temp\\CORE_UPLOAD";
+            string strUploadDir = BL.RunningApp.Instance().UploadFolder;
             Response.Headers["Content-Type"] = c.o27ContentType;
             Response.Headers["Content-Length"] = c.o27FileSize.ToString();
 
@@ -190,9 +210,8 @@ namespace UI.Controllers
         }
 
         public ActionResult FileDownloadNotFound(BO.o27Attachment c)
-        {
-            string strUploadDir = "c:\\temp";
-            var fullPath = strUploadDir + "\\notfound.txt";
+        {            
+            var fullPath = BL.RunningApp.Instance().TempFolder + "\\notfound.txt";
             System.IO.File.WriteAllText(fullPath, string.Format("Soubor [{0}] na serveru [??????\\{1}] neexistuje!", c.o27Name, c.o27ArchiveFolder));
             Response.Headers["Content-Disposition"] = string.Format("inline; filename={0}", "notfound.txt");
             var fileContentResult = new FileContentResult(System.IO.File.ReadAllBytes(fullPath), "text/plain");
@@ -201,11 +220,9 @@ namespace UI.Controllers
         }
 
         public ActionResult FileDownloadTempFile(string tempfilename,string guid)
-        {
-            
-            string strTempDir = "c:\\temp\\CORE_UPLOAD\\TEMP";
+        {                        
 
-            string fullPath = strTempDir + "\\" + tempfilename;
+            string fullPath = BL.RunningApp.Instance().TempFolder + "\\" + tempfilename;
 
             
             return File(System.IO.File.ReadAllBytes(fullPath), "application/octet-stream", tempfilename.Replace(guid + "_",""));

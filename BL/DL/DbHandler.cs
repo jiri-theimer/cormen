@@ -9,26 +9,27 @@ namespace BL.DL
 {
     public class DbHandler
     {
-        private static string _connectString = "";
+        //private static string _connectString = "";
         private static string _log = "c:\\temp\\hovado.txt";
 
-         private static string GetConString()
-        {
-            if (_connectString == "")
-            {
-                var relativePath = @"../UI/appsettings.json";
-                var s = System.IO.File.ReadAllText(System.IO.Path.GetFullPath(relativePath));
+        // private static string GetConString()
+        //{
+        //    return BL.RunningApp.Instance().ConnectString;
+        //    //if (_connectString == "")
+        //    //{
+        //    //    var relativePath = @"../UI/appsettings.json";
+        //    //    var s = System.IO.File.ReadAllText(System.IO.Path.GetFullPath(relativePath));
 
-                var lis = s.Split("\"");
+        //    //    var lis = s.Split("\"");
 
-                _connectString = lis.Where(p => p.Contains("server=") == true).First().Replace("\\\\", "\\");
-            }            
-            return _connectString;
-        }
+        //    //    _connectString = lis.Where(p => p.Contains("server=") == true).First().Replace("\\\\", "\\");
+        //    //}            
+        //    //return _connectString;
+        //}
 
         public static string RunSp(string strProcName, Dapper.DynamicParameters pars)
         {            
-            using (SqlConnection con = new SqlConnection(GetConString()))
+            using (SqlConnection con = new SqlConnection(BL.RunningApp.Instance().ConnectString))
             {
                 try
                 {
@@ -56,7 +57,7 @@ namespace BL.DL
 
         public static T Load<T>(string strSQL)
         {
-            using (SqlConnection con = new SqlConnection(GetConString()))
+            using (SqlConnection con = new SqlConnection(BL.RunningApp.Instance().ConnectString))
             {
                 return con.Query<T>(strSQL).FirstOrDefault();
                 
@@ -64,7 +65,7 @@ namespace BL.DL
         }
         public static T Load<T>(string strSQL, object param)
         {
-            using (SqlConnection con = new SqlConnection(GetConString()))
+            using (SqlConnection con = new SqlConnection(BL.RunningApp.Instance().ConnectString))
             {
                 
                 try
@@ -81,7 +82,7 @@ namespace BL.DL
         }
         public static T Load<T>(string strSQL, Dapper.DynamicParameters pars)
         {
-            using (SqlConnection con = new SqlConnection(GetConString()))
+            using (SqlConnection con = new SqlConnection(BL.RunningApp.Instance().ConnectString))
             {                            
                 return con.Query<T>(strSQL, pars).FirstOrDefault();
                 
@@ -90,7 +91,7 @@ namespace BL.DL
         }
         public static IEnumerable<T> GetList<T>(string strSQL)
         {
-            using (SqlConnection con = new SqlConnection(GetConString()))
+            using (SqlConnection con = new SqlConnection(BL.RunningApp.Instance().ConnectString))
             {
                 try
                 {
@@ -106,7 +107,7 @@ namespace BL.DL
         }
         public static IEnumerable<T> GetList<T>(string strSQL, object param)
         {
-            using (SqlConnection con = new SqlConnection(GetConString()))
+            using (SqlConnection con = new SqlConnection(BL.RunningApp.Instance().ConnectString))
             {
                 return con.Query<T>(strSQL, param);
 
@@ -114,7 +115,7 @@ namespace BL.DL
         }
         public static IEnumerable<T> GetList<T>(string strSQL, Dapper.DynamicParameters pars)
         {
-            using (SqlConnection con = new SqlConnection(GetConString()))
+            using (SqlConnection con = new SqlConnection(BL.RunningApp.Instance().ConnectString))
             {
                 return con.Query<T>(strSQL, pars);
                 
@@ -125,7 +126,7 @@ namespace BL.DL
         {
             System.Data.DataTable dt = new System.Data.DataTable();
 
-            using (SqlConnection con = new SqlConnection(GetConString()))
+            using (SqlConnection con = new SqlConnection(BL.RunningApp.Instance().ConnectString))
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = strSQL;
@@ -197,7 +198,7 @@ namespace BL.DL
             }
 
 
-            using (SqlConnection con = new SqlConnection(GetConString()))
+            using (SqlConnection con = new SqlConnection(BL.RunningApp.Instance().ConnectString))
             {
                 if (bolInsert)
                 {
@@ -220,7 +221,7 @@ namespace BL.DL
 
         public static bool RunSql(string strSQL, object param=null)
         {
-            using (SqlConnection con = new SqlConnection(GetConString()))
+            using (SqlConnection con = new SqlConnection(BL.RunningApp.Instance().ConnectString))
             {
                 if (con.Execute(strSQL, param) > 0)
                 {

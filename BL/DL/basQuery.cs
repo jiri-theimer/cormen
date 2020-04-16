@@ -36,6 +36,25 @@ namespace BL.DL
             {
                 AQ(ref lis, "a.o12Entity=@prefix", "prefix", mq.query_by_entity_prefix);    //filtr seznamu kategorií podle druhu entity
             }
+            if (mq.SearchString !=null && mq.SearchString.Length>1)
+            {
+                if (mq.Entity == "p28")
+                {
+                    AQ(ref lis, "(a.p28Name LIKE '%'+@expr+'%' OR a.p28RegID LIKE '%'+@expr+'%' OR a.p28VatID LIKE '%'+@expr+'%' OR a.p28Code LIKE '%'+@expr+'%')", "expr", mq.SearchString);
+                }
+                if (mq.Entity == "p26")
+                {
+                    AQ(ref lis, "(a.p26Name LIKE '%'+@expr+'%' OR a.p26Code LIKE '%'+@expr+'%')", "expr", mq.SearchString);
+                }
+                if (mq.Entity == "p10")
+                {
+                    AQ(ref lis, "(a.p10Name LIKE '%'+@expr+'%' OR a.p10Code LIKE '%'+@expr+'%')", "expr", mq.SearchString);
+                }
+                if (mq.Entity == "o23")
+                {
+                    AQ(ref lis, "(a.o23Name LIKE '%'+@expr+'%' OR a.o23Code LIKE '%'+@expr+'%' OR a.o23Memo LIKE '%'+@expr+'%')", "expr", mq.SearchString);
+                }
+            }
 
             var ret = new DL.FinalSqlCommand();
             

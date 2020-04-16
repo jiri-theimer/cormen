@@ -84,3 +84,13 @@ function _notify_message(strMessage, strTemplate = "error", milisecs="3000") {
 
 
 }
+
+
+function _handle_searchbox(searchstring,url,divid) {
+    $.post(url, { expr: searchstring}, function (data) {
+        $("#" + divid).css("display","block");
+        $("#" + divid).html(data);
+
+
+    });
+}

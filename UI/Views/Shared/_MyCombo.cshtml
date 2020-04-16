@@ -1,35 +1,38 @@
 ﻿@model UI.Models.MyComboViewModel
+@{ 
+
+}
 <!--MyCombo @Model.ControlID začátek-->
-<div id="@Model.ControlID_Dropdown" class="dropdown mycombo">
-    <button class="btn btn-light dropdown-toggle" type="button" id="@(@Model.ControlID+"_cmdCombo")" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-align:left;width:100%;">
-        @Model.SelectedText
-    </button>
-    <div class="dropdown-menu" aria-labelledby="@(@Model.ControlID+"_cmdCombo")" style="width:@Model.TableWidth;">
+    <div id="@Model.ControlID_Dropdown" class="dropdown mycombo">
+        <button class="btn btn-light dropdown-toggle" type="button" id="@(@Model.ControlID+"_cmdCombo")" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-align:left;width:100%;">
+            @Model.SelectedText
+        </button>
+        <div class="dropdown-menu" aria-labelledby="@(@Model.ControlID+"_cmdCombo")" style="width:@Model.TableWidth;">
 
-        <div class="form-row">
-            <div class="col-10">
-                <input type="text" id="@(@Model.ControlID+"_search")" class="form-control" placeholder="Najít..." autocomplete="off" />
+            <div class="form-row">
+                <div class="col-10">
+                    <input type="text" id="@(@Model.ControlID+"_search")" class="form-control" placeholder="Najít..." autocomplete="off" />
+                </div>
+                <div class="col-2">
+                    <button type="button" id="@(@Model.ControlID+"_clear")" class="btn btn-light">Vyčistit</button>
+                </div>
             </div>
-            <div class="col-2">
-                <button type="button" id="@(@Model.ControlID+"_clear")" class="btn btn-light">Vyčistit</button>
+
+            <div id="@(@Model.ControlID+"_divtab")" style="height:200px;overflow:auto;">
+
             </div>
         </div>
-
-        <div id="@(@Model.ControlID+"_divtab")" style="height:200px;overflow:auto;">
-
-        </div>
+        <input type="hidden" asp-for="@Model.SelectedValue" />
+        <input type="hidden" asp-for="@Model.SelectedText" />
+        <input type="hidden" id="@(@Model.ControlID+"_entity")" asp-for="@Model.Entity" />
     </div>
-    <input type="hidden" asp-for="@Model.SelectedValue" />
-    <input type="hidden" asp-for="@Model.SelectedText" />
-</div>
 
 
 
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
     $("#@Model.ControlID_Dropdown").on("show.bs.dropdown", function (e) {
-        var strCurValue = $("#hidSelectedValue").val();
 
         if ($("#@Model.ControlID_Dropdown").prop("filled") == true) {
 
@@ -39,7 +42,8 @@
 
 
         var url = '@Url.Action("GetComboHtmlItems", "Common")';
-        $.post(url, { entity: "@Model.Entity", curvalue: strCurValue, tableid:"@Model.ControlID_Table", param1:"@Model.Param1" }, function (data) {
+        var prefix = $("#@(@Model.ControlID+"_entity")").val();
+        $.post(url, { entity: prefix, curvalue: null, tableid:"@Model.ControlID_Table", param1:"@Model.Param1" }, function (data) {
             $("#@(@Model.ControlID+"_divtab")").html(data);
 
             $("#@Model.ControlID_Dropdown").prop("filled", true);
@@ -53,17 +57,17 @@
                 $(ctl[0]).val(v);
                 $(ctl[1]).val(t);
                 $("#@(@Model.ControlID+"_cmdCombo")").text(t);
-                _toolbar_warn2save_changes();                
+                _toolbar_warn2save_changes();
                 var fire_event = "@Model.OnChange_Event";
                 if (fire_event != "") {
                     eval(fire_event + "('" + v + "')");  //nastavená JS událost po výběru hodnoty
                 }
-                
+
             });
 
             $("#@(@Model.ControlID+"_search")").focus();
 
-            
+
 
         });
 
@@ -86,13 +90,15 @@
 
         var ctl = $("#@Model.ControlID_Dropdown :input[type='hidden']");
         $(ctl[0]).val("");
+        $(ctl[1]).val("");
         $("#@(@Model.ControlID+"_cmdCombo")").text("");
-        
+        $("#@Model.ControlID_Dropdown").prop("filled", false);
+
     });
 
 
 
 
 
-</script>
+    </script>
 <!--MyCombo @Model.ControlID konec-->

@@ -29,7 +29,12 @@
             <span asp-validation-for="Rec.p26Code" class="text-danger"></span>
         </div>
     </div>
-   
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Klient/Vlastník:</label>
+        <div class="col-sm-11 col-md-10">
+            @Html.EditorFor(m => m.ComboP28ID, "~/Views/Shared/_MyCombo.cshtml")
+        </div>
+    </div>
    
     <div class="form-row" style="margin-top:10px;">
         <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>

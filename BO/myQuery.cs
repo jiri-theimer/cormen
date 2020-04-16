@@ -16,7 +16,8 @@ namespace BO
         public int b02id;
         public int p28id;
         public string query_by_entity_prefix;
-        
+
+        public string SearchString;
        
         public myQuery(string strEntity)
         {

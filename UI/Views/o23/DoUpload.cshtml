@@ -1,7 +1,7 @@
 ﻿
 @{
     Layout = null;
-    string strDir = @"c:\temp\CORE_UPLOAD\";
+    string strDir = BL.RunningApp.Instance().TempFolder;   
     var _files = new List<string>();
 
     foreach (string file in System.IO.Directory.EnumerateFiles(strDir,ViewBag.guid+"_*",System.IO.SearchOption.AllDirectories))
@@ -35,12 +35,12 @@
             <strong>Nahrát jeden nebo více souborových příloh k dokumentu:</strong>
             <div class="col-md-10">
 
-                <input type="file" name="files" multiple />
+                <input id="upload1" type="file" name="files" multiple />
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-10">
-                <input type="submit" class="btn btn-primary py-0" value="Nahrát na server" />
+                <input type="submit" id="cmdUpload" class="btn btn-primary py-0" value="Nahrát na server" style="display:none;" />
             </div>
         </div>
 
@@ -58,6 +58,9 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
+            $("#upload1").change(function () {
+                $("#cmdUpload").css("display", "block");
+            });
 
             $("#Guid").val("@ViewBag.guid");
 

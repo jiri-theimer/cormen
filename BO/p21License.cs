@@ -10,7 +10,7 @@ namespace BO
         [Key]
         public int p21ID { get; set; }
         public int p28ID { get; set; }
-        public int p26ID { get; set; }
+        
         public int b02ID { get; set; }
         [Required(ErrorMessage = "Chybí vyplnit název!")]
         public string p21Name { get; set; }
@@ -23,8 +23,8 @@ namespace BO
 
         private string _p28Name;
         public string p28Name { get { return _p28Name; } }
-        private string _p26Name;
-        public string p26Name { get { return _p26Name; } }
+        
+        
 
         private string _b02Name;
         public string b02Name { get { return _b02Name; } }

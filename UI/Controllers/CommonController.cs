@@ -44,22 +44,28 @@ namespace UI.Controllers
                 case "p10":
                     strCols = "p10Name,p10Code,b02Name,p13Name,o12Name";
                     break;
+                case "p21":
+                    strCols = "p21Name,p21Code,p28Name,b02Name";
+                    break;
                 case "p28":
                     strCols = "p28Name,p28RegID,p28City1,p28Country1";
                     break;
                 case "p26":
-                    strCols = "p26Name,p26Code";
+                    strCols = "p26Name,p26Code,p28Name,b02Name";
                     break;
                 case "p13":
                     strCols = "p13Name,p13Code,p13Memo";
                     break;
                 case "o23":
-                    strCols = "o23Name,EntityAlias,o12Name";
+                    strCols = "o23Name,RecordUrlName,o12Name";
                     break;
+               
                 case "b02":
+                    strCols = "b02Name,b02Code";
                     mq.query_by_entity_prefix = param1;
                     break;
                 case "o12":
+                    strCols = "o12Name,o12Code";
                     mq.query_by_entity_prefix = param1;
                     break;
                 default:
@@ -90,11 +96,58 @@ namespace UI.Controllers
         {
             var lis = Factory.FBL.GetListAutoComplete(o15flag);
             var s = new System.Text.StringBuilder();
+            
             s.Append(string.Format("<table id='{0}' class='table table-sm table-hover'>", tableid));
             foreach (var item in lis)
             {
                 s.Append(string.Format("<tr class='txz'><td>{0}</td></tr>", item.Value));
             }
+            s.Append("</table>");
+
+            return s.ToString();
+        }
+
+
+        public string GetSearchBoxHtml(string expr)
+        {
+            //Vrací HTML zdroj tabulky pro searchbox
+            if (expr.TrimEnd().Length <= 1)
+            {
+                return "<tr><td>Je třeba zadat minimálně 2 znaky.</td></tr>";
+            }
+            var mq = new BO.myQuery("p28");
+            mq.SearchString = expr;
+
+            var s = new System.Text.StringBuilder();
+            s.Append("<div style='background-color:silver;'><button type='button' onclick='searchbox1_destroy()' class='btn btn-secondary py-0'>Zavřít</button></div>");
+            s.Append("<table class='table table-sm table-hover' onclick='searchbox1_destroy()'>");
+            var dt = Factory.gridBL.GetList("p28", mq);
+            var intRows = dt.Rows.Count;
+            if (intRows > 20) intRows = 20;
+
+            for (int i = 0; i <= intRows-1; i++){
+                s.Append(string.Format("<tr class='table-primary'><td><a href='/p28/?pid={0}'>{1}</a></td><td>{2}</td><td>Klient</td></tr>",dt.Rows[i]["pid"],dt.Rows[i]["p28Name"], dt.Rows[i]["p28Code"]));
+            }
+
+            mq.Entity = "p10";
+            dt = Factory.gridBL.GetList("p10", mq);
+            intRows = dt.Rows.Count;
+            if (intRows > 20) intRows = 20;
+            for (int i = 0; i <= intRows - 1; i++)
+            {
+                s.Append(string.Format("<tr class='table-success'><td><a href='/p10/?pid={0}'>{1}</a></td><td>{2}</td><td>Master produkt</td></tr>", dt.Rows[i]["pid"], dt.Rows[i]["p10Name"], dt.Rows[i]["p10Code"]));
+            }
+
+            mq.Entity = "o23";
+            dt = Factory.gridBL.GetList("o23", mq);
+            intRows = dt.Rows.Count;
+            if (intRows > 20) intRows = 20;
+            for (int i = 0; i <= intRows - 1; i++)
+            {
+                s.Append(string.Format("<tr class='table-warning'><td><a href='/o23/?pid={0}'>{1}</a></td><td>{2}</td><td>Dokument</td></tr>", dt.Rows[i]["pid"], dt.Rows[i]["o23Name"], dt.Rows[i]["RecordUrlName"]));
+            }
+
+
             s.Append("</table>");
 
             return s.ToString();

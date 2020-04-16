@@ -5,13 +5,13 @@
     <hr />
     <div>
         <small>Záznam založen:</small>
-        <small class="text-info">@Model.UserInsert @Model.DateInsert.ToLocalTime()</small>
+        <small class="text-info">@Model.UserInsert @Model.DateInsert</small>
         
 
         @if (Model.DateUpdate > Model.DateInsert || 1==1)
         {
             <small style="margin-left:20px;">Poslední aktualizace:</small>
-            <small class="text-info">@Model.UserUpdate @Model.DateUpdate.ToLocalTime()</small>
+            <small class="text-info">@Model.UserUpdate @Model.DateUpdate</small>
             
         }
     </div>

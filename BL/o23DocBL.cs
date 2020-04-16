@@ -21,7 +21,7 @@ namespace BL
         }
         private string GetSQL1()
         {
-            return "SELECT a.*," + DL.DbHandler.GetSQL1_Ocas("o23") + ",o12.o12Name as _o12Name,b02.b02Name as _b02Name FROM o23Doc a LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID";
+            return "SELECT a.*," + DL.DbHandler.GetSQL1_Ocas("o23") + ",o12.o12Name as _o12Name,b02.b02Name as _b02Name,dbo.getRecordAlias(a.o23Entity,a.o23RecordPid) as RecordUrlAlias FROM o23Doc a LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID";
         }
         public BO.o23Doc Load(int pid)
         {
@@ -44,6 +44,11 @@ namespace BL
 
         public int Save(BO.o23Doc rec,List<BO.o27Attachment> lisO27_Append, List<int> o27IDs_Remove = null)
         {
+            if (rec.o23RecordPid == 0)
+            {
+                _cUser.ErrorMessage = "Chybí vyplnit svázaný záznam k dokumentu!";
+                return 0;
+            }
             var p = new Dapper.DynamicParameters();
             p.Add("pid", rec.o23ID);
             if (rec.j02ID_Owner == 0) rec.j02ID_Owner = _cUser.pid;

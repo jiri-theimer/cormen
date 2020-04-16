@@ -7,30 +7,37 @@
 
 @Html.HiddenFor(m => m.Rec.pid)
 
-<div class="modal_record_container">
-
-    <div class="form-row">
-        <label class="col-sm-1 col-md-2 col-form-label">TPV:</label>
-        <div class="col-sm-9 col-md-8">
-            <input class="form-control" asp-for="Rec.p13Name" readonly="readonly" />
-
+    <div class="modal_record_container">
+        <div class="btn-group">
+            <a asp-action="Index" asp-controller="TheGrid" class="btn btn-light" asp-route-pid="@Model.Rec.pid" asp-route-entity="p13">Grid</a>
         </div>
-        <div class="col-sm-2 col-md-2">
-            <input class="form-control" asp-for="Rec.p13Code" readonly="readonly" />
-
+        <div class="btn-group">
+            <a asp-action="Record" class="btn btn-light" asp-route-pid="@Model.Rec.pid" asp-route-entity="p13">Upravit</a>
         </div>
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">TPV:</label>
+            <div class="col-sm-9 col-md-8">
+                <input class="form-control" asp-for="Rec.p13Name" readonly="readonly" />
+
+            </div>
+            <div class="col-sm-2 col-md-2">
+                <input class="form-control" asp-for="Rec.p13Code" readonly="readonly" />
+
+            </div>
+        </div>
+
+        @if (Model.Rec.p13Memo != null)
+        {
+            <hr />
+
+            <pre>@Html.DisplayFor(m => m.Rec.p13Memo, new { @class = "form-control" });</pre>
+
+
+        }
+
     </div>
-
-    @if (Model.Rec.p13Memo != null)
-    {
-        <hr />
-        
-        <pre>@Html.DisplayFor(m => m.Rec.p13Memo, new { @class = "form-control" });</pre>
-        
-
-    }
-
-</div>
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
 
+
+<h1>Prostor pro 1:N přehledy z plánování, výroby apod.</h1>

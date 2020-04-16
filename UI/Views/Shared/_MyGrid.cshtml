@@ -15,33 +15,34 @@
     <tbody>
         @for (int i = 0; i < Model.RowsCount; i++)
         {
-            <tr id="@("tr"+@Model.DT.Rows[i][Model.ColFieldPid])" data-ic="@Model.DT.Rows[i]["isclosed"]">
-                <td style="width:55px;">
-
-                    
-                </td>
-                @foreach (var col in Model.Columns)
+        <tr id="@("tr"+@Model.DT.Rows[i][Model.ColFieldPid])" data-ic="@Model.DT.Rows[i]["isclosed"]">
+            <td style="width:55px;">
+            </td>
+            @foreach (var col in Model.Columns)
+            {
+                @switch (col.ColType)
                 {
-                    @switch (col.ColType)
-                    {
-                        case "date":
-                            <td>@(BO.BAS.ObjectDate2String(@Model.DT.Rows[i][col.ColField]))</td>
-                            break;
-                        case "datetime":
-                            <td>@Model.DT.Rows[i][col.ColField]</td>
-                            break;
-                        case "number":
-                            <td>@Model.DT.Rows[i][col.ColField]</td>
-                            break;
-                        default:
-                            <td>@Model.DT.Rows[i][col.ColField]</td>
-                            break;
-                    }
-
-
-
+                    case "date":
+                        <td>@(BO.BAS.ObjectDate2String(@Model.DT.Rows[i][col.ColField]))</td>
+                        break;
+                    case "datetime":
+                        <td>@Model.DT.Rows[i][col.ColField]</td>
+                        break;
+                    case "number":
+                        <td>@Model.DT.Rows[i][col.ColField]</td>
+                        break;
+                    case "link":
+                        <td><a href="@Model.DT.Rows[i][col.ColField]">@Model.DT.Rows[i][col.ColField+"Name"]</a></td>
+                        break;
+                    default:
+                        <td>@Model.DT.Rows[i][col.ColField]</td>
+                        break;
                 }
-            </tr>
+
+
+
+            }
+        </tr>
 
 
 

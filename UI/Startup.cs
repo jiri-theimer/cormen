@@ -83,6 +83,12 @@ namespace UI
             loggerFactory.AddFile("Logs/debug-{Date}.log", LogLevel.Debug);
             loggerFactory.AddFile("Logs/error-{Date}.log", LogLevel.Error);
 
+
+            var conf = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();            
+            BL.RunningApp.SetConnectString(conf.GetSection("ConnectionStrings")["AppConnection"]);
+            BL.RunningApp.SetFolders(conf.GetSection("Folders")["Upload"], conf.GetSection("Folders")["Temp"]);
+
+            
         }
     }
 }

@@ -34,14 +34,14 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color: #CCE5FF;">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="color:blue;" title="Cormen Cloud">CC<small> home</small></a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="color:blue;" title="Cormen Cloud">CC</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
 
-                    <partial name="_LoginPartial" />                    
+                    <partial name="_LoginPartial" />
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuSWITCH" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             CORMEN
@@ -57,7 +57,11 @@
 
 
                     <ul class="navbar-nav flex-grow-1">
-
+                        <li class="nav-item" style="width:150px;">
+                            <input type="text" id="searchbox1" placeholder="Najít..." class="form-control" />
+                            <div id="searchbox_result" style="position:absolute;left:70px;top:50px;z-index:1000;overflow:auto;height:200px;"></div>
+                            
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownNOVY" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 NOVÝ
@@ -88,7 +92,8 @@
                                 POSTUPY
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarPOSTUPY">
-                                <a class="dropdown-item" href="#">Grid s filtrováním</a>
+                                <a class="dropdown-item" href="@(@Url.Action("Index","TheGrid")+"?entity=p13")">TPV</a>
+
                                 <a class="dropdown-item" href="#">Import</a>
                             </div>
                         </li>
@@ -98,7 +103,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarPRODUKTY">
                                 <a class="dropdown-item" href="@(@Url.Action("Index","TheGrid")+"?entity=p10")">Master produkty</a>
-                                <a class="dropdown-item" href="@(@Url.Action("Index","TheGrid")+"?entity=p13")">TPV</a>
+
                                 <a class="dropdown-item" href="#">Import</a>
                             </div>
                         </li>
@@ -108,7 +113,16 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarKLIENTI">
                                 <a class="dropdown-item" href="@(@Url.Action("Index","TheGrid")+"?entity=p28")">Grid s filtrováním</a>
-                                
+
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDOKUMENTY" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                LICENCE
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDOKUMENTY">
+
+                                <a class="dropdown-item" href="@(@Url.Action("Index","TheGrid")+"?entity=p21")">Grid</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -163,7 +177,7 @@
 
     @RenderSection("Scripts", required: false)
 
-    <script type="text/javascript">
+<script type="text/javascript">
         //zabránit submit formuláře po stisknutí ENTER na jakémkoliv non-submit input elementu
 
 
@@ -192,14 +206,40 @@
                         this.style.height = (this.scrollHeight) + "px";
                     });
                 });
+        }
+
+        $("#searchbox1").on("input", function (e) {
+
+            if (typeof _combo_ajax_input_timeout !== "undefined") {
+                clearTimeout(_combo_ajax_input_timeout);
+
             }
+            //start new time, to perform ajax stuff in 500ms
+            _combo_ajax_input_timeout = setTimeout(function () {      //kvůli ochraně přetěžování serveru odchází dotaz na server až po půl sekundě, aby uživatel stihl napsat všechny znaky pro hledání
+                //your ajax stuff
+                
+                var url = '@Url.Action("GetSearchBoxHtml", "Common")';
+                _handle_searchbox(e.target.value, url,"searchbox_result");
+                
+            }, 500);
 
-
-
+            return;
 
         });
+        
+
+        
 
 
-    </script>
+
+    });
+
+    
+    function searchbox1_destroy() {
+        $("#searchbox_result").html("");
+    }
+
+
+</script>
 </body>
 </html>

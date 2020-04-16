@@ -19,7 +19,7 @@ namespace BL
         }
         private string GetSQL1()
         {
-            return "SELECT a.*," + DL.DbHandler.GetSQL1_Ocas("b02") +" FROM b02Status a";
+            return "SELECT a.*," + DL.DbHandler.GetSQL1_Ocas("b02") + " FROM b02Status a";
         }
         public BO.b02Status Load(int pid)
         {

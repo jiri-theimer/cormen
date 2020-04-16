@@ -9,8 +9,15 @@ namespace UI.Controllers
 {    
     public class j02Controller:BaseController
     {
-        
-       
+
+        public IActionResult Index(int pid)
+        {
+            var v = new Models.j02PreviewViewModel();
+            v.Rec = Factory.j02PersonBL.Load(pid);
+            if (v.Rec == null) return RecNotFound(v);
+            return View(v);
+
+        }
         public IActionResult Record(int pid, bool isclone)
         {            
             var v = new Models.j02RecordViewModel();

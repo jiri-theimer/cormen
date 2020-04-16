@@ -42,7 +42,7 @@ namespace UI.Controllers
             }
 
             v.ComboP28ID = new MyComboViewModel("p28", v.Rec.p28ID.ToString(), v.Rec.p28Name, "cbx1");
-            v.ComboP26ID = new MyComboViewModel("p26", v.Rec.p26ID.ToString(), v.Rec.p26Name, "cbx3");
+            
             v.ComboB02ID = new MyComboViewModel("b02", v.Rec.b02ID.ToString(), v.Rec.b02Name, "cbx2");
             v.ComboB02ID.Param1 = "p21";
             v.ComboSelectP10ID = new MyComboViewModel("p10","", "Přidat Master produkt...", "cbxProduct");
@@ -68,8 +68,7 @@ namespace UI.Controllers
                 c.p21Memo = v.Rec.p21Memo;
                 c.b02ID = BO.BAS.InInt(v.ComboB02ID.SelectedValue);
                 c.p28ID = BO.BAS.InInt(v.ComboP28ID.SelectedValue);
-                c.p26ID = BO.BAS.InInt(v.ComboP26ID.SelectedValue);
-
+               
                 c.ValidFrom = v.Rec.ValidFrom;
                 var d = new DateTime(3000,1,1);
                 if (v.Rec.ValidUntil != null) d = Convert.ToDateTime((v.Rec.ValidUntil));
@@ -87,7 +86,7 @@ namespace UI.Controllers
             }
             v.Toolbar = new MyToolbarViewModel(v.Rec);
             v.ComboP28ID = new MyComboViewModel("p28", v.ComboP28ID.SelectedValue, v.ComboP28ID.SelectedText, "cbx1");
-            v.ComboP26ID = new MyComboViewModel("p26", v.ComboP26ID.SelectedValue, v.ComboP26ID.SelectedText, "cbx3");
+            
             v.ComboB02ID = new MyComboViewModel("b02", v.ComboB02ID.SelectedValue, v.ComboB02ID.SelectedText, "cbx2");
             v.ComboB02ID.Param1 = "p21";
             v.ComboSelectP10ID = new MyComboViewModel("p10", "", "Přidat Master produkt", "cbx3");

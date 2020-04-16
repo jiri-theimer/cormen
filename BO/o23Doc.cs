@@ -9,6 +9,8 @@ namespace BO
     {
         [Key]
         public int o23ID { get; set; }
+
+        [Required(ErrorMessage = "Chybí vyplnit svázaný záznam!")]
         public int o23RecordPid { get; set; }
         [Required(ErrorMessage = "Chybí vyplnit druh entity!")]
         public string o23Entity { get; set; }
@@ -29,6 +31,8 @@ namespace BO
         public string o12Name { get { return _o12Name; } }
         private string _b02Name;
         public string b02Name { get { return _b02Name; } }
+
+        public string RecordUrlAlias;
 
         public string EntityAlias { get
             {
