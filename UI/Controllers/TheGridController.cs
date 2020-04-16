@@ -23,7 +23,7 @@ namespace UI.Controllers
             switch (v.Entity)
             {
                 case "p10":
-                    v.grid1.AddStringCol("Název produktu", "p10Name");
+                    v.grid1.AddLinkCol("Název produktu", "p10");
                     v.grid1.AddStringCol("Kód", "p10Code");
                     v.grid1.AddStringCol("Stav", "b02Name");
                     v.grid1.AddLinkCol("TPV", "p13");
@@ -31,7 +31,7 @@ namespace UI.Controllers
                     v.grid1.AddDateTimeCol("Založeno", "DateInsert");
                     break;
                 case "p13":
-                    v.grid1.AddStringCol("Název", "p13Name");
+                    v.grid1.AddLinkCol("Název", "p13");
                     v.grid1.AddStringCol("Kód", "p13Code");
                     v.grid1.AddStringCol("Popis", "p13Memo");
                     v.grid1.AddDateTimeCol("Založeno", "DateInsert");
@@ -47,7 +47,7 @@ namespace UI.Controllers
                     v.grid1.AddDateTimeCol("Založeno", "DateInsert");
                     break;
                 case "p21":
-                    v.grid1.AddStringCol("Název", "p21Name");
+                    v.grid1.AddLinkCol("Název", "p21");
                     v.grid1.AddStringCol("Kód", "p21Code");
                     v.grid1.AddStringCol("Stav", "b02Name");
                     v.grid1.AddLinkCol("Klient", "p28");                    
@@ -56,14 +56,14 @@ namespace UI.Controllers
                     v.grid1.AddDateTimeCol("Založeno", "DateInsert");
                     break;
                 case "p26":
-                    v.grid1.AddStringCol("Název", "p26Name");
+                    v.grid1.AddLinkCol("Název", "p26");
                     v.grid1.AddStringCol("Kód", "p26Code");
                     v.grid1.AddLinkCol("Klient", "p28");
                     v.grid1.AddStringCol("Stav", "b02Name");                            
                     v.grid1.AddDateTimeCol("Založeno", "DateInsert");
                     break;
                 case "p28":
-                    v.grid1.AddStringCol("Název", "p28Name");                    
+                    v.grid1.AddLinkCol("Název", "p28");                    
                     v.grid1.AddStringCol("Město", "p28City1");
                     v.grid1.AddStringCol("Ulice", "p28Street1");
                     v.grid1.AddStringCol("Kód", "p28Code");
@@ -83,7 +83,7 @@ namespace UI.Controllers
                     v.grid1.AddDateTimeCol("Založeno", "DateInsert");
                     break;
                 case "o23":
-                    v.grid1.AddStringCol("Název", "o23Name");
+                    v.grid1.AddLinkCol("Název", "o23");
                     v.grid1.AddLinkCol("Vazba", "RecordUrl");
                     v.grid1.AddStringCol("", "EntityAlias");
 

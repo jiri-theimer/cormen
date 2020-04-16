@@ -21,7 +21,7 @@ namespace BL
         }
         private string GetSQL_SELECT_Ocas(string strPrefix)
         {
-            return string.Format("a.{0}ID as pid,CASE WHEN GETDATE() BETWEEN a.ValidFrom AND a.ValidUntil THEN 0 ELSE 1 end as isclosed,'{0}' as entity", strPrefix);
+            return string.Format("a.{0}ID as pid,CASE WHEN GETDATE() BETWEEN a.ValidFrom AND a.ValidUntil THEN 0 ELSE 1 end as isclosed,'{0}' as entity,'{0}/?pid='+convert(varchar(10),a.{0}ID) as {0}", strPrefix);
         }
         public DataTable GetList(string strEntity,BO.myQuery mq=null)
         {
