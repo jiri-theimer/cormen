@@ -30,6 +30,7 @@
     <script src="https://kit.fontawesome.com/688258440d.js" crossorigin="anonymous"></script>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/controls.js" asp-append-version="true"></script>
 
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color: #CCE5FF;">
@@ -60,7 +61,7 @@
                         <li class="nav-item" style="width:150px;">
                             <input type="text" id="searchbox1" placeholder="Najít..." class="form-control" />
                             <div id="searchbox_result" style="position:absolute;left:70px;top:50px;z-index:1000;overflow:auto;height:200px;"></div>
-                            
+
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownNOVY" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -177,7 +178,7 @@
 
     @RenderSection("Scripts", required: false)
 
-<script type="text/javascript">
+    <script type="text/javascript">
         //zabránit submit formuláře po stisknutí ENTER na jakémkoliv non-submit input elementu
 
 
@@ -217,29 +218,29 @@
             //start new time, to perform ajax stuff in 500ms
             _combo_ajax_input_timeout = setTimeout(function () {      //kvůli ochraně přetěžování serveru odchází dotaz na server až po půl sekundě, aby uživatel stihl napsat všechny znaky pro hledání
                 //your ajax stuff
-                
+
                 var url = '@Url.Action("GetSearchBoxHtml", "Common")';
                 _handle_searchbox(e.target.value, url,"searchbox_result");
-                
+
             }, 500);
 
             return;
 
         });
-        
 
-        
+
+
 
 
 
     });
 
-    
+
     function searchbox1_destroy() {
         $("#searchbox_result").html("");
     }
 
 
-</script>
+    </script>
 </body>
 </html>

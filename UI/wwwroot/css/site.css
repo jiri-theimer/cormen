@@ -1,7 +1,10 @@
-﻿body {
+﻿
+body {
     font-size: 0.875rem;
     margin: 0;
 }
+
+
 
 a.navbar-brand {
     white-space: normal;

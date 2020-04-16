@@ -21,42 +21,14 @@
 
 
     <script type="text/javascript">
+        var _myac@(@Model.ControlID)={
+            controlid: "@Model.ControlID",
+            dropdownid: "@Model.ControlID_Dropdown",
+            tableid: "@Model.ControlID_Table",
+            posturl: "@Url.Action("GetAutoCompleteHtmlItems", "Common")",
+            o15flag: "@Model.o15Flag"
+        };
 
-    $("#@Model.ControlID_Dropdown").on("show.bs.dropdown", function () {
-
-        if ($("#@Model.ControlID_Dropdown").prop("filled") == true) return;    //combo už bylo dříve otevřeno
-
-
-        var url = '@Url.Action("GetAutoCompleteHtmlItems", "Common")';
-        $.post(url, { o15flag: "@Model.o15Flag", tableid:"@Model.ControlID_Table" }, function (data) {
-            $("#@(@Model.ControlID+ "_divtab")").html(data);
-
-            $("#@Model.ControlID_Dropdown").prop("filled", true);
-
-            $("#@Model.ControlID_Table .txz").on("click", function () {
-                s = $(this).find("td:first").text();
-
-                $("#@(@Model.ControlID+"_txt1")").val(s);
-                $("#@(@Model.ControlID+"_txt1")").select();
-                _toolbar_warn2save_changes();
-            });
-
-        });
-
-
-    })
-
-    $("#@(@Model.ControlID+"_search")").on("focus", function () {
-        document.getElementById("@(@Model.ControlID+"_search")").select();
-    });
-
-    $("#@(@Model.ControlID+"_search")").on("keyup", function () {
-        var value = $(this).val().toLowerCase();
-        $("#@Model.ControlID_Table tr").filter(function () {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        });
-    });
-
-
+        _myac_init(_myac@(@Model.ControlID));
 
     </script>
