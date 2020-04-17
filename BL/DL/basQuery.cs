@@ -28,6 +28,11 @@ namespace BL.DL
             {
                 if (mq.Entity == "p10") AQ(ref lis, "a.p10ID IN (select p10ID FROM p22LicenseBinding WHERE p21ID=@p21id)", "p21id", mq.p21id);
             }
+            if (mq.p10id > 0)
+            {
+                if (mq.Entity == "p21") AQ(ref lis, "a.p21ID IN (select p21ID FROM p22LicenseBinding WHERE p10ID=@p10id)", "p10id", mq.p10id);
+            }
+
             if (mq.p28id > 0)
             {
                 if (mq.Entity == "j02" || mq.Entity == "p26") AQ(ref lis, "a.p28ID=@p28id", "p28id", mq.p28id);

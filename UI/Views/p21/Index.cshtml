@@ -3,76 +3,76 @@
 @{
     ViewData["Title"] = "Licence";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    
+
 }
 
-    <div class="modal_record_container">
-        <div class="btn-group">
-            <a asp-action="Index" asp-controller="TheGrid" class="btn btn-light" asp-route-pid="@Model.Rec.pid" asp-route-entity="p21">Grid</a>
-        </div>
-        <div class="btn-group">
-            <a asp-action="Record" class="btn btn-light" asp-route-pid="@Model.Rec.pid" asp-route-entity="p21">Upravit</a>
-        </div>
-        <div class="form-row">
-            <label class="col-sm-1 col-md-2 col-form-label">Licence:</label>
-            <div class="col-sm-6 col-md-6">
-                <input class="form-control" asp-for="Rec.p21Name" readonly="readonly" />
-
-            </div>
-            <div class="col-sm-5 col-md-4">
-                <input class="form-control" asp-for="Rec.p21Code" readonly="readonly" />
-
-            </div>
-        </div>
-
-        <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Klient:</label>
-            <div class="col-sm-11 col-md-10">
-                <input class="form-control" asp-for="Rec.p28Name" readonly="readonly" />
-            </div>
-
-        </div>
-
-        <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Platnost:</label>
-            <div class="col-sm-6 col-md-5">
-                <div class="btn-group">
-                    <span class="form-control bg-light">@(BO.BAS.ObjectDate2String(@Model.Rec.ValidFrom))</span>
-                    <span class="form-control"> - </span>
-                    <span class="form-control bg-light">@(BO.BAS.ObjectDate2String(@Model.Rec.ValidUntil))</span>
-
-
-                </div>
-
-
-            </div>
-            <label class="col-sm-1 col-md-1 col-form-label">Stav:</label>
-            <div class="col-sm-4 col-md-4">
-                <input class="form-control" asp-for="Rec.b02Name" readonly="readonly" />
-            </div>
-
-        </div>
-
-
-        @if (Model.Rec.p21Memo != null)
-        {
-            <hr />
-
-            <pre>@Html.DisplayFor(m => m.Rec.p21Memo, new { @class = "form-control" });</pre>
-
-
-        }
-
-        <div class="card">
-            <div class="card-header">
-                Produkty v licenci
-            </div>
-            <div class="card-body" id="divP10">
-
-            </div>
-        </div>
-        
+<div class="modal_record_container">
+    <div class="btn-group">
+        <a asp-action="Index" asp-controller="TheGrid" class="btn btn-light" asp-route-pid="@Model.Rec.pid" asp-route-entity="p21">Grid</a>
     </div>
+    <div class="btn-group">
+        <a asp-action="Record" class="btn btn-light" asp-route-pid="@Model.Rec.pid" asp-route-entity="p21">Upravit</a>
+    </div>
+    <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Licence:</label>
+        <div class="col-sm-6 col-md-6">
+            <input class="form-control" asp-for="Rec.p21Name" readonly="readonly" />
+
+        </div>
+        <div class="col-sm-5 col-md-4">
+            <input class="form-control" asp-for="Rec.p21Code" readonly="readonly" />
+
+        </div>
+    </div>
+
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Klient:</label>
+        <div class="col-sm-11 col-md-10">
+            <input class="form-control" asp-for="Rec.p28Name" readonly="readonly" />
+        </div>
+
+    </div>
+
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Platnost:</label>
+        <div class="col-sm-6 col-md-5">
+            <div class="btn-group">
+                <span class="form-control bg-light">@(BO.BAS.ObjectDate2String(@Model.Rec.ValidFrom))</span>
+                <span class="form-control"> - </span>
+                <span class="form-control bg-light">@(BO.BAS.ObjectDate2String(@Model.Rec.ValidUntil))</span>
+
+
+            </div>
+
+
+        </div>
+        <label class="col-sm-1 col-md-1 col-form-label">Stav:</label>
+        <div class="col-sm-4 col-md-4">
+            <input class="form-control" asp-for="Rec.b02Name" readonly="readonly" />
+        </div>
+
+    </div>
+
+
+    @if (Model.Rec.p21Memo != null)
+    {
+        <hr />
+
+        <pre>@Html.DisplayFor(m => m.Rec.p21Memo, new { @class = "form-control" });</pre>
+
+
+    }
+
+    <div class="card">
+        <div class="card-header">
+            Produkty v licenci
+        </div>
+        <div class="card-body" id="divP10">
+
+        </div>
+    </div>
+
+</div>
 
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
@@ -83,12 +83,10 @@
 <script type="text/javascript">
     $(document).ready(function () {
         var url = "@Url.Action("GetWorkTable", "Common")";
-        var pids = "@Model.p10IDs";
-        if (pids != "") {
-            $.post(url, { entity: "p10", tableid: "tabp10", pids: pids }, function (data) {
+
+        $.post(url, { entity: "p10", tableid: "tabp10", queryfield:"p21id", queryvalue:@Model.Rec.pid }, function (data) {
                 $("#divP10").html(data);
             });
-        }
 
 
     });

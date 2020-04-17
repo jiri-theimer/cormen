@@ -18,10 +18,7 @@ namespace UI.Controllers
                 return RecNotFound(v);
             }
             else
-            {
-                var mq = new BO.myQuery("p10");
-                mq.p21id = pid;
-                v.p10IDs = string.Join(",", Factory.p10MasterProductBL.GetList(mq).Select(p => p.pid));
+            {                
                 return View(v);
             }
 

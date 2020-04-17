@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 namespace UI.Controllers
 {
@@ -30,11 +31,17 @@ namespace UI.Controllers
             return this.Factory.CBL.DeleteRecord(entity, pid);
         }
 
-        private System.Data.DataTable CompleteDT(ref string strCols,string entity,  string param1, string pids)
+        private System.Data.DataTable CompleteDT(ref string strCols,string entity,  string param1, string pids, string queryfield, string queryvalue)
         {
             var mq = new BO.myQuery(entity);
             if (pids != null) mq.pids = BO.BAS.ConvertString2ListInt(pids);
+            if (queryfield != null && queryvalue !=null)
+            {                        
+               BO.Reflexe.SetPropertyValue(mq, queryfield, queryvalue);    //reflexe
+            }
+            
 
+            
             strCols = string.Format("{0}Name", entity);
 
             switch (entity)
@@ -43,7 +50,7 @@ namespace UI.Controllers
                     strCols = "fullname_desc,j04Name,j02Email,p28Name";
                     break;
                 case "p10":
-                    strCols = "p10Name,p10Code,b02Name,p13Name,o12Name";
+                    strCols = "p10Name,p10Code,b02Name,p13Code,o12Name";
                     break;
                 case "p21":
                     strCols = "p21Name,p21Code,p28Name,b02Name";
@@ -75,10 +82,10 @@ namespace UI.Controllers
 
             return Factory.gridBL.GetList(entity, mq);
         }
-        public string GetWorkTable(string entity, string tableid, string param1, string pids,string delete_function) //Vrací HTML zdroj tabulky pro MyCombo
+        public string GetWorkTable(string entity, string tableid, string param1, string pids,string delete_function,string queryfield,string queryvalue)
         {
             string strCols = "";
-            var dt = CompleteDT(ref strCols, entity, param1, pids);
+            var dt = CompleteDT(ref strCols, entity, param1, pids,queryfield,queryvalue);
             var intRows = dt.Rows.Count;
 
             var s = new System.Text.StringBuilder();
@@ -105,7 +112,7 @@ namespace UI.Controllers
         public string GetComboHtmlItems(string entity, string curvalue, string tableid,string param1,string pids) //Vrací HTML zdroj tabulky pro MyCombo
         {
             string strCols = "";
-            var dt = CompleteDT(ref strCols,entity,param1, pids);
+            var dt = CompleteDT(ref strCols,entity,param1, pids,null,null);
             var intRows = dt.Rows.Count;
 
             var s = new System.Text.StringBuilder();

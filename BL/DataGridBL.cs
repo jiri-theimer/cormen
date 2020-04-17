@@ -50,7 +50,7 @@ namespace BL
                     s = string.Format("SELECT {0},a.*,dbo.getEntityAlias(a.o12Entity) as EntityAlias from o12Category a", GetSQL_SELECT_Ocas("o12"));
                     break;
                 case "p10":
-                    s = string.Format("SELECT {0},a.*,o12.o12Name,b02.b02Name,p13.p13Name,'p13/?pid='+convert(varchar(10),a.p13ID) as p13 FROM p10MasterProduct a LEFT OUTER JOIN p13MasterTpv p13 ON a.p13ID=p13.p13ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID", GetSQL_SELECT_Ocas("p10"));
+                    s = string.Format("SELECT {0},a.*,o12.o12Name,b02.b02Name,p13.p13Code,p13.p13Name,'p13/?pid='+convert(varchar(10),a.p13ID) as p13 FROM p10MasterProduct a LEFT OUTER JOIN p13MasterTpv p13 ON a.p13ID=p13.p13ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID", GetSQL_SELECT_Ocas("p10"));
                     break;
                 case "p13":
                     s = string.Format("SELECT {0},a.* from p13MasterTpv a", GetSQL_SELECT_Ocas("p13"));

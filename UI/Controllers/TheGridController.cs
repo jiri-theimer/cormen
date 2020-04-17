@@ -26,13 +26,13 @@ namespace UI.Controllers
                     v.grid1.AddLinkCol("Název produktu", "p10");
                     v.grid1.AddStringCol("Kód", "p10Code");
                     v.grid1.AddStringCol("Stav", "b02Name");
-                    v.grid1.AddLinkCol("TPV", "p13");
+                    v.grid1.AddStringCol("TPV", "p13Code");
                     v.grid1.AddStringCol("Kategorie", "o12Name");
                     v.grid1.AddDateTimeCol("Založeno", "DateInsert");
                     break;
                 case "p13":
                     v.grid1.AddLinkCol("Název", "p13");
-                    v.grid1.AddStringCol("Kód", "p13Code");
+                    v.grid1.AddStringCol("Číslo postupu", "p13Code");
                     v.grid1.AddStringCol("Popis", "p13Memo");
                     v.grid1.AddDateTimeCol("Založeno", "DateInsert");
                     break;
@@ -94,8 +94,9 @@ namespace UI.Controllers
                     v.grid1.AddDateTimeCol("Založeno", "DateInsert");
                     break;
             }
-            
 
+
+            
             v.grid1.DT = Factory.gridBL.GetList(v.Entity, mq);
 
             return View(v);

@@ -130,6 +130,8 @@ namespace BL.DL
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = strSQL;
+                
+                
                 cmd.Connection = con;
                 if (pars != null)
                 {

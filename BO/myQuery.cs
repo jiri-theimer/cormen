@@ -12,10 +12,11 @@ namespace BO
 
         public bool? IsRecordValid;
 
-        public int j04id;
-        public int b02id;
-        public int p28id;
-        public int p21id;
+        public int j04id { get; set; }
+        public int b02id { get; set; }
+        public int p28id { get; set; }
+        public int p21id { get; set; }
+        public int p10id { get; set; }
         public string query_by_entity_prefix;
 
         public string SearchString;

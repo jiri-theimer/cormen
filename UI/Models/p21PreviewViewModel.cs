@@ -8,6 +8,6 @@ namespace UI.Models
     public class p21PreviewViewModel : BaseViewModel
     {
         public BO.p21License Rec { get; set; }
-        public string p10IDs { get; set; }
+        
     }
 }
