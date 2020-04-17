@@ -11,7 +11,7 @@
 {
     <h4>Licence</h4>
     @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
-    @Html.HiddenFor(m => m.Rec.pid)
+    @Html.HiddenFor(m => m.Rec.pid)    
 
     <div class="modal_record_container">
 
@@ -61,16 +61,68 @@
 
 
     </div>
+    <input type="hidden" id="hidP10IDs" asp-for="@Model.p10IDs" />
+
     @Html.EditorFor(m => m.ComboSelectP10ID, "~/Views/Shared/_MyCombo.cshtml")
 
 }
+
+<div id="divP10" style="margin-top:20px;"></div>
+
+
+
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
 
 
 <script type="text/javascript">
+    $(document).ready(function () {        
+        if ($("#hidP10IDs").val() != "") {
+            refresh_p10_table();
+        }
+
+
+
+    });
     function handle_append_product(p10id) {
-        _notify_message("Přidání master produktu nefunguje.");
+        var p10ids = [];
+        if ($("#hidP10IDs").val() != "") p10ids = $("#hidP10IDs").val().split(",");
+        if (p10ids.includes(p10id)) {
+            _notify_message("Tento produkt je již v seznamu.", "info");
+            return;
+        }
+        p10ids.push(p10id);
+        $("#hidP10IDs").val(p10ids.join(","));
+        refresh_p10_table();
+
+
+        $("#cbxProduct_clear").click(); //kliknout na vyčistit
+
+
+    }
+    function handle_delete_product(p10id) {
+        var p10ids = [];
+        p10ids = $("#hidP10IDs").val().split(",");
+        var x = p10ids.indexOf(p10id.toString());             
+        p10ids.splice(x, 1);   
+        
+        $("#hidP10IDs").val(p10ids.join(","));
+        refresh_p10_table();
+        _toolbar_warn2save_changes();
+
+    }
+
+    function refresh_p10_table() {
+        var url = "@Url.Action("GetWorkTable", "Common")";
+        var pids = $("#hidP10IDs").val();
+
+        if (pids == "") {
+            $("#divP10").html("");
+            return;
+        }
+        $.post(url, { entity: "p10", tableid: "tabP10IDs", pids: pids, delete_function: "handle_delete_product" }, function (data) {
+            $("#divP10").html(data);
+        });
     }
 </script>
 

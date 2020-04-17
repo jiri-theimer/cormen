@@ -24,6 +24,10 @@ namespace BL.DL
             {
                 AQ(ref lis, "a.j04ID=@j04id", "j04id", mq.j04id);
             }
+            if (mq.p21id >0)
+            {
+                if (mq.Entity == "p10") AQ(ref lis, "a.p10ID IN (select p10ID FROM p22LicenseBinding WHERE p21ID=@p21id)", "p21id", mq.p21id);
+            }
             if (mq.p28id > 0)
             {
                 if (mq.Entity == "j02" || mq.Entity == "p26") AQ(ref lis, "a.p28ID=@p28id", "p28id", mq.p28id);

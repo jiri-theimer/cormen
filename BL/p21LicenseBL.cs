@@ -35,38 +35,42 @@ namespace BL
             return DL.DbHandler.GetList<BO.p21License>(fq.FinalSql, fq.Parameters);
             
         }
+        
 
         public int Save(BO.p21License rec,List<int> p10ids)
-        {
-            if (ValidateBeforeSave(rec) == false)
+        {           
+            var strGUID = BO.BAS.GetGuid();
+            BO.p85Tempbox cP85;
+            var tempBL = new BL.p85TempboxBL(_cUser);
+            cP85 = new BO.p85Tempbox() {p85RecordPid=rec.pid, p85GUID = strGUID, p85Prefix = "p21", p85FreeText01 = rec.p21Name, p85FreeText02 = rec.p21Code, p85Message = rec.p21Memo, p85OtherKey1 = rec.p28ID, p85OtherKey2 = rec.b02ID, p85FreeDate01 = rec.ValidFrom, p85FreeDate02 = rec.ValidUntil };
+            tempBL.Save(cP85);
+
+            foreach (var p10id in p10ids)
             {
-                return 0;
+                cP85= new BO.p85Tempbox() { p85GUID = strGUID, p85Prefix = "p22", p85OtherKey1 = p10id };                
+                tempBL.Save(cP85);
             }
+           
             var p = new Dapper.DynamicParameters();
-            p.Add("pid", rec.p21ID);
-            p.Add("p28ID", BO.BAS.TestIntAsDbKey(rec.p28ID));
-            p.Add("b02ID", BO.BAS.TestIntAsDbKey(rec.b02ID));            
-            p.Add("p21Name", rec.p21Name);
-            p.Add("p21Code", rec.p21Code);
-            p.Add("p21Memo", rec.p21Memo);
+            p.Add("userid", _cUser.pid);                 
+            p.Add("guid", strGUID);
+            p.Add("pid_ret", rec.pid, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            p.Add("err_ret", "", System.Data.DbType.String, System.Data.ParameterDirection.Output);
 
-
-            int intPID= DL.DbHandler.SaveRecord(_cUser,"p21License", p, rec);
-
-            return intPID;
+            string s1 = DL.DbHandler.RunSp("p21_save",ref p);
+            if (s1 == "1")
+            {
+                return p.Get<int>("pid_ret");
+            }
+            else
+            {                
+                _cUser.ErrorMessage = s1;
+                return 0;
+            }           
             
         }
 
-        private bool ValidateBeforeSave(BO.p21License rec)
-        {
-            if (LoadByCode(rec.p21Code, rec.pid) != null)
-            {
-                _cUser.ErrorMessage = string.Format("Zadaný kód nemůže být duplicitní s jinou licencí [{0}].", LoadByCode(rec.p21Code, rec.pid).p21Name);
-                return false;
-            }
-
-            return true;
-        }
+       
     }
 }
 

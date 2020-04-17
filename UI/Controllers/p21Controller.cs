@@ -19,6 +19,9 @@ namespace UI.Controllers
             }
             else
             {
+                var mq = new BO.myQuery("p10");
+                mq.p21id = pid;
+                v.p10IDs = string.Join(",", Factory.p10MasterProductBL.GetList(mq).Select(p => p.pid));
                 return View(v);
             }
 
@@ -34,6 +37,9 @@ namespace UI.Controllers
                     return RecNotFound(v);
                 }
 
+                var mq = new BO.myQuery("p10");
+                mq.p21id = pid;                
+                v.p10IDs = string.Join(",", Factory.p10MasterProductBL.GetList(mq).Select(p => p.pid));
             }
             else
             {
@@ -45,8 +51,11 @@ namespace UI.Controllers
             
             v.ComboB02ID = new MyComboViewModel("b02", v.Rec.b02ID.ToString(), v.Rec.b02Name, "cbx2");
             v.ComboB02ID.Param1 = "p21";
-            v.ComboSelectP10ID = new MyComboViewModel("p10","", "Přidat Master produkt...", "cbxProduct");
+            v.ComboSelectP10ID = new MyComboViewModel("p10","", "Přidat do licence master produkt...", "cbxProduct");
             v.ComboSelectP10ID.OnChange_Event = "handle_append_product";
+            
+            
+            
 
             v.Toolbar = new MyToolbarViewModel(v.Rec);
             if (isclone) { v.Toolbar.MakeClone(); }
@@ -74,7 +83,7 @@ namespace UI.Controllers
                 if (v.Rec.ValidUntil != null) d = Convert.ToDateTime((v.Rec.ValidUntil));
                 c.ValidUntil = d.AddDays(1).AddMinutes(-1);
 
-                v.Rec.pid = Factory.p21LicenseBL.Save(c);
+                v.Rec.pid = Factory.p21LicenseBL.Save(c,BO.BAS.ConvertString2ListInt(v.p10IDs));
                 if (v.Rec.pid > 0)
                 {
                     return RedirectToAction("Index", "TheGrid", new { pid = v.Rec.pid, entity = "p21" });

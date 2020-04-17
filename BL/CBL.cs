@@ -33,7 +33,7 @@ namespace BL
                     break;
                 
                 default:
-                    return DL.DbHandler.RunSp(entity + "_delete", pars);                    
+                    return DL.DbHandler.RunSp(entity + "_delete", ref pars);                    
             }
 
             return "";
@@ -62,7 +62,7 @@ namespace BL
             pars.Add("x36key", strKey, System.Data.DbType.String);
             pars.Add("x36value", strValue, System.Data.DbType.String);
 
-            if (DL.DbHandler.RunSp("x36userparam_save", pars) == "1")
+            if (DL.DbHandler.RunSp("x36userparam_save", ref pars) == "1")
             {
                 return true;
             }

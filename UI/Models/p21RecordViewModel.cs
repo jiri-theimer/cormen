@@ -15,5 +15,7 @@ namespace UI.Models
         public MyComboViewModel ComboB02ID { get; set; }
 
         public MyComboViewModel ComboSelectP10ID { get; set; }
+        public string p10IDs { get; set; }
+        
     }
 }

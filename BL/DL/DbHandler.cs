@@ -27,7 +27,7 @@ namespace BL.DL
         //    //return _connectString;
         //}
 
-        public static string RunSp(string strProcName, Dapper.DynamicParameters pars)
+        public static string RunSp(string strProcName,ref Dapper.DynamicParameters pars)
         {            
             using (SqlConnection con = new SqlConnection(BL.RunningApp.Instance().ConnectString))
             {

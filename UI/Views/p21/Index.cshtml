@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Licence";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    
 }
 
     <div class="modal_record_container">
@@ -62,7 +63,15 @@
 
         }
 
+        <div class="card">
+            <div class="card-header">
+                Produkty v licenci
+            </div>
+            <div class="card-body" id="divP10">
 
+            </div>
+        </div>
+        
     </div>
 
 
@@ -71,7 +80,19 @@
 <h1>Prostor pro 1:N přehledy z plánování, výroby apod.</h1>
 
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        var url = "@Url.Action("GetWorkTable", "Common")";
+        var pids = "@Model.p10IDs";
+        if (pids != "") {
+            $.post(url, { entity: "p10", tableid: "tabp10", pids: pids }, function (data) {
+                $("#divP10").html(data);
+            });
+        }
 
+
+    });
+</script>
 
 
 

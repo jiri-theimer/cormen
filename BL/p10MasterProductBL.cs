@@ -36,7 +36,9 @@ namespace BL
         }
         public IEnumerable<BO.p10MasterProduct> GetList(BO.myQuery mq)
         {
-            return DL.DbHandler.GetList<BO.p10MasterProduct>(GetSQL1());
+            DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq);
+            return DL.DbHandler.GetList<BO.p10MasterProduct>(fq.FinalSql, fq.Parameters);
+            
         }
 
         public int Save(BO.p10MasterProduct rec)

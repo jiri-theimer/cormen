@@ -30,11 +30,12 @@ namespace UI.Controllers
             return this.Factory.CBL.DeleteRecord(entity, pid);
         }
 
-
-        public string GetComboHtmlItems(string entity, string curvalue, string tableid,string param1) //Vrací HTML zdroj tabulky pro MyCombo
+        private System.Data.DataTable CompleteDT(ref string strCols,string entity,  string param1, string pids)
         {
-            var mq = new BO.myQuery(entity);                        
-            string strCols = string.Format("{0}Name", entity);
+            var mq = new BO.myQuery(entity);
+            if (pids != null) mq.pids = BO.BAS.ConvertString2ListInt(pids);
+
+            strCols = string.Format("{0}Name", entity);
 
             switch (entity)
             {
@@ -59,7 +60,7 @@ namespace UI.Controllers
                 case "o23":
                     strCols = "o23Name,RecordUrlName,o12Name";
                     break;
-               
+
                 case "b02":
                     strCols = "b02Name,b02Code";
                     mq.query_by_entity_prefix = param1;
@@ -72,7 +73,39 @@ namespace UI.Controllers
                     break;
             }
 
-            var dt = Factory.gridBL.GetList(entity, mq);
+            return Factory.gridBL.GetList(entity, mq);
+        }
+        public string GetWorkTable(string entity, string tableid, string param1, string pids,string delete_function) //Vrací HTML zdroj tabulky pro MyCombo
+        {
+            string strCols = "";
+            var dt = CompleteDT(ref strCols, entity, param1, pids);
+            var intRows = dt.Rows.Count;
+
+            var s = new System.Text.StringBuilder();
+            var cols = BO.BAS.ConvertString2List(strCols);
+
+            s.Append(string.Format("<table id='{0}' class='table table-sm table-hover'>", tableid));
+            for (int i = 0; i < intRows; i++)
+            {
+                s.Append(string.Format("<tr data-v='{0}'>", dt.Rows[i]["pid"]));
+                foreach (var strCol in cols)
+                {
+                    s.Append(string.Format("<td>{0}</td>", dt.Rows[i][strCol]));
+                }
+                if (delete_function != null)
+                {
+                    s.Append(string.Format("<td><button type='button' title='Odstranit řádek' onclick='{0}({1})'><i class='fas fa-trash-alt'></i></button></td>", delete_function, dt.Rows[i]["pid"]));
+                }
+                s.Append("</tr>");
+            }
+            s.Append("</table>");
+
+            return s.ToString();
+        }
+        public string GetComboHtmlItems(string entity, string curvalue, string tableid,string param1,string pids) //Vrací HTML zdroj tabulky pro MyCombo
+        {
+            string strCols = "";
+            var dt = CompleteDT(ref strCols,entity,param1, pids);
             var intRows = dt.Rows.Count;
 
             var s = new System.Text.StringBuilder();

@@ -25,6 +25,8 @@ function _mycombo_init(c) {
 
     });
 
+    
+
 
     $("#" + c.dropdownid).on("show.bs.dropdown", function (e) {
         _focusAndCursor(document.getElementById(c.controlid + "_search"));

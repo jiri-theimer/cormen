@@ -20,6 +20,7 @@ namespace BL
         private IDataGridBL _grid;
         private ICBL _cbl;
         private IFBL _fbl;
+        private Ip85TempboxBL _p85;
 
         
         public Factory(string strLogin)
@@ -131,6 +132,14 @@ namespace BL
             {
                 if (_p10 == null) _p10 = new p10MasterProductBL(CurrentUser);
                 return _p10;
+            }
+        }
+        public Ip85TempboxBL ip85TempboxBL
+        {
+            get
+            {
+                if (_p85 == null) _p85 = new p85TempboxBL(CurrentUser);
+                return _p85;
             }
         }
     }
