@@ -21,8 +21,8 @@ namespace BL
         private ICBL _cbl;
         private IFBL _fbl;
         private Ip85TempboxBL _p85;
+        private Ip14MasterOperBL _p14;
 
-        
         public Factory(string strLogin)
         {
             CurrentUser = DL.DbHandler.Load<BO.RunningUser>("SELECT a.j02ID as pid,a.j02Login,a.j02FirstName+' '+a.j02LastName as FullName,a.j02IsMustChangePassword,b.j04PermissionValue,null as ErrorMessage FROM j02Person a INNER JOIN j04UserRole b ON a.j04ID=b.j04ID WHERE a.j02Login LIKE @login", new { login = strLogin });
@@ -124,6 +124,14 @@ namespace BL
             {
                 if (_p13 == null) _p13 = new p13MasterTpvBL(CurrentUser);
                 return _p13;
+            }
+        }
+        public Ip14MasterOperBL p14MasterOperBL
+        {
+            get
+            {
+                if (_p14 == null) _p14 = new p14MasterOperBL(CurrentUser);
+                return _p14;
             }
         }
         public Ip10MasterProductBL p10MasterProductBL

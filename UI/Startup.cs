@@ -13,8 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-//using Microsoft.AspNetCore.Http;
-
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace UI
 {
@@ -40,6 +40,35 @@ namespace UI
             //services.AddHttpContextAccessor();
             //services.AddSingleton<UI.Models.GlobalHelper>();
             //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+
+            // Set requirements for security
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequiredLength = 6;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = true;
+
+                // Default User settings.
+                options.User.AllowedUserNameCharacters ="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = true;                
+            });
+
+
+
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.Cookie.HttpOnly = true;
+                options.LoginPath = "/Identity/Account/Login"; // Set here login path.
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied"; // set here access denied path.
+                options.SlidingExpiration = true; // resets cookie expiration if more than half way through lifespan
+                options.ExpireTimeSpan = TimeSpan.FromDays(1); // cookie validation time
+                options.Cookie.Name = "CormenCloudCore";
+            });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,11 +94,17 @@ namespace UI
             app.UseRouting();
 
             app.UseAuthentication();
+            
             app.UseAuthorization();
+
+
+
 
             app.UseRequestLocalization();
             System.Globalization.CultureInfo.DefaultThreadCurrentCulture = new System.Globalization.CultureInfo("cs-CZ");
             System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = new System.Globalization.CultureInfo("cs-CZ");
+
+
 
             app.UseEndpoints(endpoints =>
             {
@@ -84,11 +119,11 @@ namespace UI
             loggerFactory.AddFile("Logs/error-{Date}.log", LogLevel.Error);
 
 
-            var conf = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();            
+            var conf = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
             BL.RunningApp.SetConnectString(conf.GetSection("ConnectionStrings")["AppConnection"]);
             BL.RunningApp.SetFolders(conf.GetSection("Folders")["Upload"], conf.GetSection("Folders")["Temp"]);
 
-            
+
         }
     }
 }

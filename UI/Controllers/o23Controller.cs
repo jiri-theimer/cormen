@@ -20,7 +20,7 @@ namespace UI.Controllers
             if (v.Rec == null) return RecNotFound(v);
             v.lisO27 = Factory.o23DocBL.GetListO27(pid);
             return View(v);
-
+            
         }
         public IActionResult Record(int pid, bool isclone)
         {
