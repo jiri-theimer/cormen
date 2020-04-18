@@ -56,38 +56,49 @@ namespace UI.Controllers
                 if (v.Rec.pid > 0) c = Factory.j02PersonBL.Load(v.Rec.pid);
 
                 c.j02IsUser = v.Rec.j02IsUser;
-                c.j04ID = BO.BAS.InInt(v.ComboJ04ID.SelectedValue);
+                if (c.j02IsUser)
+                {
+                    c.j04ID = BO.BAS.InInt(v.ComboJ04ID.SelectedValue);
+                    c.j02Login = v.Rec.j02Login;
+                }
+                else
+                {
+                    c.j04ID = 0;
+                    c.j02Login = null;
+                    c.j02PasswordHash = null;
+                }                
                 c.p28ID = BO.BAS.InInt(v.ComboP28ID.SelectedValue);
                 c.j02TitleBeforeName = v.TitleBeforeName.SelectedText;
                 c.j02TitleAfterName = v.TitleAfterName.SelectedText;
                 c.j02FirstName = v.Rec.j02FirstName;
-                c.j02LastName = v.Rec.j02LastName;
-                c.j02Login = v.Rec.j02Login;
+                c.j02LastName = v.Rec.j02LastName;                
                 c.j02Email = v.Rec.j02Email;
                 c.j02Tel1 = v.Rec.j02Tel1;
                 c.j02Tel2 = v.Rec.j02Tel2;
                 
-
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
 
-                v.Rec.pid = Factory.j02PersonBL.Save(c);
-                if (v.Rec.pid > 0)
+                if (ValidateBeforeSave(c, v))
                 {
-                    if (!string.IsNullOrEmpty(v.ResetPassword))
+                    v.Rec.pid = Factory.j02PersonBL.Save(c);
+                    if (v.Rec.pid > 0)
                     {
-                        c = Factory.j02PersonBL.Load(v.Rec.pid);
-                        var hasher = new BO.COM.PasswordHasher();
-                        c.j02PasswordHash = hasher.HashPassword(c.j02Login.ToUpper() + "+kurkuma+" + v.ResetPassword + "+" + v.Rec.pid.ToString());
-                        Factory.j02PersonBL.Save(c);
-                    }
+                        if (!string.IsNullOrEmpty(v.ResetPassword))
+                        {
+                            c = Factory.j02PersonBL.Load(v.Rec.pid);
+                            var hasher = new BO.COM.PasswordHasher();
+                            c.j02PasswordHash = hasher.HashPassword(c.j02Login.ToUpper() + "+kurkuma+" + v.ResetPassword + "+" + v.Rec.pid.ToString());
+                            Factory.j02PersonBL.Save(c);
+                        }
 
-                    return RedirectToAction("Index", "TheGrid", new { pid = v.Rec.pid, entity = "j02" });
-                }
-                else
-                {
-                    v.Notify(Factory.CurrentUser.ErrorMessage);
-                }
+                        return RedirectToAction("Index", "TheGrid", new { pid = v.Rec.pid, entity = "j02" });
+                    }
+                    else
+                    {
+                        v.Notify(Factory.CurrentUser.ErrorMessage);
+                    }
+                }                
                
             }
             v.Toolbar = new MyToolbarViewModel(v.Rec);
@@ -99,6 +110,35 @@ namespace UI.Controllers
             return View(v);
 
 
+        }
+
+        private bool ValidateBeforeSave(BO.j02Person c,j02RecordViewModel v)
+        {
+            if (c.j02IsUser)
+            {
+                if (!string.IsNullOrEmpty(v.ResetPassword))
+                {
+                    if (v.ResetPassword.Length < 6)
+                    {
+                        v.Notify("Délka hesla musí být minimálně 6 znaků.");
+                        return false;
+                    }
+                }
+
+                if (string.IsNullOrEmpty(c.j02Login) || c.j04ID==0)
+                {
+                    v.Notify("Uživatel musí mít vyplněný uživatelský účet.");return false;
+                }
+                if ((c.pid == 0 && string.IsNullOrEmpty(v.ResetPassword)) || (c.pid>0 && string.IsNullOrEmpty(c.j02PasswordHash) && string.IsNullOrEmpty(v.ResetPassword)))
+                {
+                    v.Notify("Pro nového uživatele musíte definovat výchozí heslo.");return false;
+                    
+                }
+            }
+            
+            
+            
+            return true;
         }
     }
 }
