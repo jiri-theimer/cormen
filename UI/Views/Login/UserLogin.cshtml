@@ -1,0 +1,43 @@
+﻿@model BO.LoggingUser
+
+@{
+    ViewData["Title"] = "Přihlášení";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+
+    var _returnurl = @Context.Request.Query["returnurl"];
+}
+
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="UserLogin">
+            <h2>Přihlášení do aplikace</h2>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="@Model.Login" class="control-label"></label>
+                <input asp-for="@Model.Login" class="form-control" />
+                <span asp-validation-for="@Model.Login" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Password" class="control-label"></label>
+                <input type="password" asp-for="@Model.Password" class="form-control" />
+                <span asp-validation-for="@Model.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Přihlásit se" class="btn btn-default btn-primary" asp-route-returnurl="@_returnurl" />
+            </div>
+        </form>
+    </div>
+
+
+
+
+</div>
+@if (Model.Message != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <h4>@Model.Message</h4>
+    </div>
+}
+

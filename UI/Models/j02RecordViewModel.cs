@@ -19,6 +19,8 @@ namespace UI.Models
         public MyAutoCompleteViewModel TitleBeforeName { get; set; }
         public MyAutoCompleteViewModel TitleAfterName { get; set; }
 
+        public string ResetPassword { get; set; }
+
 
 
     }

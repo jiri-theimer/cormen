@@ -66,6 +66,7 @@ namespace UI.Controllers
                 c.j02Email = v.Rec.j02Email;
                 c.j02Tel1 = v.Rec.j02Tel1;
                 c.j02Tel2 = v.Rec.j02Tel2;
+                
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
@@ -73,6 +74,14 @@ namespace UI.Controllers
                 v.Rec.pid = Factory.j02PersonBL.Save(c);
                 if (v.Rec.pid > 0)
                 {
+                    if (!string.IsNullOrEmpty(v.ResetPassword))
+                    {
+                        c = Factory.j02PersonBL.Load(v.Rec.pid);
+                        var hasher = new BO.COM.PasswordHasher();
+                        c.j02PasswordHash = hasher.HashPassword(c.j02Login.ToUpper() + "+kurkuma+" + v.ResetPassword + "+" + v.Rec.pid.ToString());
+                        Factory.j02PersonBL.Save(c);
+                    }
+
                     return RedirectToAction("Index", "TheGrid", new { pid = v.Rec.pid, entity = "j02" });
                 }
                 else

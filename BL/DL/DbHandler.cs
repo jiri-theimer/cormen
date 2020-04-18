@@ -202,6 +202,7 @@ namespace BL.DL
 
             using (SqlConnection con = new SqlConnection(BL.RunningApp.Instance().ConnectString))
             {
+                //System.IO.File.WriteAllText(_log,s.ToString());
                 if (bolInsert)
                 {
                     s.Append("; SELECT CAST(SCOPE_IDENTITY() as int) as Value");

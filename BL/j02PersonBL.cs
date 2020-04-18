@@ -52,6 +52,11 @@ namespace BL
             p.Add("j02Login", rec.j02Login);
             p.Add("j02Tel1", rec.j02Tel1);
             p.Add("j02Tel2", rec.j02Tel2);
+            p.Add("j02AccessFailedCount", rec.j02AccessFailedCount);
+            if (!String.IsNullOrEmpty(rec.j02PasswordHash))
+            {
+                p.Add("j02PasswordHash", rec.j02PasswordHash);
+            }
             
 
             return DL.DbHandler.SaveRecord(_cUser,"j02Person", p,rec);

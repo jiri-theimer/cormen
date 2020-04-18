@@ -1,106 +1,48 @@
-﻿
-
-<!DOCTYPE html>
-<html lang="cs">
+﻿<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - [CC] Cormen Cloud</title>
+    <title>@ViewData["Title"] - CC</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css">
-
-
-
-
     <link rel="stylesheet" href="~/css/site.css" />
-
 </head>
-
 <body>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
-
-    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/plug-ins/1.10.20/api/row().show().js"></script>
-
-    <script src="~/lib/modal_bootstrap/bootstrap-show-modal.js"></script>
-    <script src="https://kit.fontawesome.com/688258440d.js" crossorigin="anonymous"></script>
-
-    <script src="~/js/site.js" asp-append-version="true"></script>
-
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color: #CCE5FF;">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="color:blue;" title="Cormen Cloud">CC</a>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="display:none;">Cormen Cloud</a>
+                <span class="navbar-brand">Cormen Cloud</span>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">HOME</a>
+                        <li class="nav-item" style="display:none;">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                NOVÝ
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="@(@Url.Action("Record","p28")+"?entity=p28")">Zákazník | Subjekt</a>
-                                <a class="dropdown-item" href="@(@Url.Action("Record","p10")+"?entity=p10")">Master produkt</a>
-                                <a class="dropdown-item" href="@(@Url.Action("Record","p13")+"?entity=p13")">TPV</a>
-                                <a class="dropdown-item" href="@(@Url.Action("Record","p26")+"?entity=p26")">Stroj | MSZ</a>
-                                <a class="dropdown-item" href="@(@Url.Action("Record","p21")+"?entity=p21")">Licence</a>
-                                <a class="dropdown-item" href="@(@Url.Action("Record","j02")+"?entity=j02")">Osoba | Uživatel</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                AGENDY
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="@(@Url.Action("Index","TheGrid")+"?entity=p28")">Firmy | Subjekty</a>
-                                <a class="dropdown-item" href="@(@Url.Action("Index","TheGrid")+"?entity=p10")">Master produkty</a>
-                                <a class="dropdown-item" href="@(@Url.Action("Index","TheGrid")+"?entity=p13")">TPV</a>
-                                <a class="dropdown-item" href="@(@Url.Action("Index","TheGrid")+"?entity=p26")">Stroje | MSZ</a>
-                                <a class="dropdown-item" href="@(@Url.Action("Index","TheGrid")+"?entity=p21")">Licence</a>
-                                <a class="dropdown-item" href="@(@Url.Action("Index","TheGrid")+"?entity=j02")">Lidé | Uživatelé</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                ČÍSELNÍKY
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="@(@Url.Action("Index","TheGrid")+"?entity=b02")">Stavy</a>
-                                <a class="dropdown-item" href="@(@Url.Action("Index","TheGrid")+"?entity=o12")">Kategorie | Skupiny</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </li>
+                        
+                        
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container-fluid">
+    <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-
-
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - Cormen Cloud
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
-
-    
 </body>
 </html>

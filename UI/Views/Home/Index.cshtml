@@ -10,6 +10,65 @@
     <a class="btn btn-secondary" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Identita účtu @User.Identity.Name</a>
 </div>
 
+
+        
+<table id="tab1" class="table table-hover" style="width:900px;">
+    <thead>
+        <tr>
+            <th style="width:200px;">První</th>
+            <th style="width:200px;">Druhý</th>
+            <th style="width: 200px;">Třetí</th>
+            <th>Combo</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td contenteditable="true" data-type="number">
+                1
+            </td>
+            <td contenteditable="true">
+            </td>
+            <td contenteditable="true">
+                3
+            </td>
+            <td contenteditable="false">
+                zde by mělo být combo
+            </td>
+        </tr>
+        <tr>
+            <td contenteditable="true" data-type="number">
+                8888
+            </td>
+            <td contenteditable="true">
+                B
+            </td>
+            <td contenteditable="true">
+                C
+            </td>
+            <td>
+                <select id="cbx1" class="form-control">
+                    <option value="1">první</option>
+                    <option value="2">druhý</option>
+                    <option value="3">třetí</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td contenteditable="true" data-type="number">
+                86,3
+            </td>
+            <td contenteditable="true">
+                nic
+            </td>
+            <td contenteditable="true">
+            </td>
+            <td contenteditable="false">
+            </td>
+        </tr>
+    </tbody>
+</table>
+<input type="text" id="log1" class="form-control" style="background-color:lime;" />
+
 <div class="alert alert-primary" role="alert">
 
     <ul>
@@ -43,12 +102,72 @@
 
 
 
+<input type="number" id="txt1" style="position:absolute;" />
+
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        //$(".toast").toast("show");
+    var _changed_cell;
+
+    $(document).ready(function () {        
+       
+
+        $("#tab1 td").on("blur", function (e) {
+            var val = $(this).text();
+            if (this == _changed_cell) {
+                $("#log1").val("change: " + val + ", data-type: " + $(this).attr("data-type"));
+            }
+            _changed_cell = null;
+            //$("#log1").val(val);
+        });
+
+        $("#tab1 td").on("input", function (e) {
+            _changed_cell = this;
+            var val = $(this).text();
+            //$("#log1").val(val);
+            
+        });
+
+        $("#tab1 td").on("focus", function (e) {
+            
+            
+
+            $("#tab1 .inedit").removeClass("inedit");
+
+            $(this).addClass("inedit");
+           
+           
+            
+        });
+
+
+        $("#tab1 td").on("keypress", function (e) {
+            //$("#log1").val(e.keyCode);
+            if ($(this).attr("data-type") == "number") {
+
+                if ((e.keyCode >= 48 && e.keyCode <= 57) || e.keyCode === 13 || e.keyCode == 44 || e.keyCode == 46) {
+                    return true;
+                } else {
+                    return false;
+                }
+
+            }
+            
+
+        });
+
+      
 
     });
+
+    function testNumeric(event) {
+        if ((event.keyCode >= 48 && event.keyCode <= 57) || event.keyCode === 13) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
 
 
 </script>

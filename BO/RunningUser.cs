@@ -7,6 +7,7 @@ namespace BO
     public class RunningUser
     {
         public int pid { get; set; }
+        public bool isclosed { get; set; }
         public string j02Login { get; set; }
         public string FullName { get; set; }
         public int j04PermissionValue { get;set;}

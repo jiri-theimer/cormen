@@ -25,7 +25,7 @@ namespace BL
 
         public Factory(string strLogin)
         {
-            CurrentUser = DL.DbHandler.Load<BO.RunningUser>("SELECT a.j02ID as pid,a.j02Login,a.j02FirstName+' '+a.j02LastName as FullName,a.j02IsMustChangePassword,b.j04PermissionValue,null as ErrorMessage FROM j02Person a INNER JOIN j04UserRole b ON a.j04ID=b.j04ID WHERE a.j02Login LIKE @login", new { login = strLogin });
+            CurrentUser = DL.DbHandler.Load<BO.RunningUser>("SELECT a.j02ID as pid,a.j02Login,a.j02FirstName+' '+a.j02LastName as FullName,a.j02IsMustChangePassword,b.j04PermissionValue,null as ErrorMessage,CASE WHEN GETDATE() BETWEEN a.ValidFrom AND a.ValidUntil THEN 0 ELSE 1 end as isclosed FROM j02Person a INNER JOIN j04UserRole b ON a.j04ID=b.j04ID WHERE a.j02Login LIKE @login", new { login = strLogin });
 
 
         }

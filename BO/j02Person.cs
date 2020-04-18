@@ -33,5 +33,8 @@ namespace BO
         public string j02Tel1 { get; set; }
         public string j02Tel2 { get; set; }
 
+        public string j02PasswordHash { get; set; }
+        public int j02AccessFailedCount { get; set; }
+
     }
 }

@@ -30,43 +30,45 @@ namespace UI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddControllersWithViews();
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(
+            //        Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
+            
             services.AddRazorPages();
             //services.AddHttpContextAccessor();
             //services.AddSingleton<UI.Models.GlobalHelper>();
             //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 
+            services.AddAuthentication("CookieAuthentication")
+                 .AddCookie("CookieAuthentication", config =>
+                 {
+                     config.ExpireTimeSpan = TimeSpan.FromHours(2);
+                     config.Cookie.Name = "CormenCloudCore";
+                     config.ReturnUrlParameter = "returnurl";
+                     config.LoginPath = "/Login/UserLogin";
+
+                     //config.Events.OnValidatePrincipal = Program.PrincipalValidator.ValidateAsync;
+                 });
+
             // Set requirements for security
-            services.Configure<IdentityOptions>(options =>
-            {
-                options.Password.RequiredLength = 6;
-                options.Password.RequireUppercase = true;
-                options.Password.RequireLowercase = true;
+            //services.Configure<IdentityOptions>(options =>
+            //{
+            //    options.Password.RequiredLength = 6;
+            //    options.Password.RequireUppercase = true;
+            //    options.Password.RequireLowercase = true;
+            //    options.Lockout.MaxFailedAccessAttempts = 5;
 
-                // Default User settings.
-                options.User.AllowedUserNameCharacters ="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-                options.User.RequireUniqueEmail = true;                
-            });
+            //    // Default User settings.
+            //    options.User.AllowedUserNameCharacters ="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+            //    options.User.RequireUniqueEmail = true;                
+            //});
 
 
+            services.AddControllersWithViews();
 
-
-            services.ConfigureApplicationCookie(options =>
-            {
-                // Cookie settings
-                options.Cookie.HttpOnly = true;
-                options.LoginPath = "/Identity/Account/Login"; // Set here login path.
-                options.AccessDeniedPath = "/Identity/Account/AccessDenied"; // set here access denied path.
-                options.SlidingExpiration = true; // resets cookie expiration if more than half way through lifespan
-                options.ExpireTimeSpan = TimeSpan.FromDays(1); // cookie validation time
-                options.Cookie.Name = "CormenCloudCore";
-            });
 
 
         }
@@ -97,7 +99,9 @@ namespace UI
             
             app.UseAuthorization();
 
-
+            
+          
+            
 
 
             app.UseRequestLocalization();

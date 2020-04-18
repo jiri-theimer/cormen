@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using UI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
 
 namespace UI.Controllers
 {
@@ -21,8 +22,16 @@ namespace UI.Controllers
           
         }
 
+        public async Task<IActionResult> Logout()
+        {
+            //await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync("CookieAuthentication");
 
-        
+            return View();
+
+        }
+
+
         [AllowAnonymous]        
         public IActionResult Index()
         {
