@@ -22,7 +22,16 @@ namespace UI.Controllers
             if (Factory == null)
             {
                 Factory = new BL.Factory(context.HttpContext.User.Identity.Name);
-                
+                if (Factory.CurrentUser.isclosed)
+                {
+                    context.Result = new RedirectResult("~/Login/UserLogin");
+                }
+                if (Factory.CurrentUser.j02IsMustChangePassword && context.RouteData.Values["action"].ToString() !="ChangePassword")
+                {
+                    
+                    context.Result = new RedirectResult("~/Home/ChangePassword");
+                    // RedirectToAction("ChangePassword", "Home");
+                }
             }
 
             //Příklad přesměrování stránky jinam:

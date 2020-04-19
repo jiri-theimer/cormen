@@ -45,11 +45,16 @@
             <label for="Rec_j02IsUser">Má uživatelský účet?</label>
             @if (Model.Rec.pid > 0)
             {
-                <a id="cmdResetPwd"  style="float:right;" href="javascript:reset_password()">Resetovat přihlašovací heslo</a>
+                <div style="float:right;">
+                    <a id="cmdResetPwd" style="float:right;" href="javascript:reset_password()">Resetovat přihlašovací heslo</a>
+
+                </div>
+
             }
+          
         </div>
         <div id="ucet">
-            <div id="divNewPwd" class="form-row" style="visibility:hidden;">
+            <div id="divNewPwd" class="form-row" style="display:none;">
                 <label class="col-sm-2 col-md-3 col-form-label">Nové heslo:</label>
                 <div class="col-sm-10 col-md-9">
                     <input class="form-control bg-warning" asp-for="@Model.ResetPassword" placeholder="Pokud zůstane prázdné, nedojde k resetu hesla!" />
@@ -71,7 +76,10 @@
                 </div>
             </div>
 
-
+            <div class="form-row">
+                <input asp-for="Rec.j02IsMustChangePassword" />
+                <label for="Rec_j02IsMustChangePassword">Vynutit si od uživatele změnu hesla</label>
+            </div>
         </div>
 
         <div class="card-header">
@@ -118,7 +126,7 @@
     });
 
     function reset_password() {
-        $("#divNewPwd").css("visibility", "visible");
+        $("#divNewPwd").css("display", "block");
         $("#ResetPassword").focus();
 
         var s = Math.random().toString(36).substr(2, 5) + Math.floor(Math.random() * 1000000);
@@ -126,7 +134,7 @@
         $("#ResetPassword").val(s);
         _notify_message("Změnu hesla potvrdíte tlačítkem [Uložit změny].", "info");
     }
-    
+
 
     $("#Rec_j02IsUser").on("click", function () {
         handle_ucet_state();

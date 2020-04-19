@@ -42,6 +42,7 @@ namespace BL
             var p = new Dapper.DynamicParameters();
             p.Add("pid", rec.j02ID);
             p.Add("j02IsUser", rec.j02IsUser, System.Data.DbType.Boolean);
+            p.Add("j02IsMustChangePassword", rec.j02IsMustChangePassword, System.Data.DbType.Boolean);
             p.Add("j04ID", BO.BAS.TestIntAsDbKey(rec.j04ID));
             p.Add("p28ID", BO.BAS.TestIntAsDbKey(rec.p28ID));
             p.Add("j02FirstName", rec.j02FirstName);

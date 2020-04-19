@@ -39,7 +39,12 @@ namespace UI.Controllers
         }
         public IActionResult ChangePassword()
         {
-            return View(new ChangePasswordViewModel());
+            var v = new ChangePasswordViewModel();
+            if (Factory.CurrentUser.j02IsMustChangePassword)
+            {
+                v.Notify("Administrátor nastavil, že si musíte změnit přihlašovací heslo.", "info");
+            }
+            return View(v);
         }
         [HttpPost]
         public IActionResult ChangePassword(Models.ChangePasswordViewModel v)
@@ -50,6 +55,7 @@ namespace UI.Controllers
             if (ret.Flag == BO.ResultEnum.Success)
             {                                
                 cJ02.j02PasswordHash = lu.Pwd2Hash(v.NewPassword, cJ02);
+                cJ02.j02IsMustChangePassword = false;
                 if (Factory.j02PersonBL.Save(cJ02) > 0)
                 {
                     v.Notify("Heslo bylo změněno.", "info");

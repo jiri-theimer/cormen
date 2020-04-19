@@ -111,3 +111,13 @@ textarea {
     border-color:blue;
    
 }
+
+input[type="checkbox"] {
+    margin-right: 3px;
+    margin-left:3px;
+    cursor: pointer;
+}
+
+    input[type="checkbox"] + label {
+        cursor: pointer;
+    }

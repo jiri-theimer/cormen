@@ -27,6 +27,17 @@
             <div class="form-group">
                 <input type="submit" value="Přihlásit se" class="btn btn-default btn-primary" asp-route-returnurl="@_returnurl" />
             </div>
+            <div class="form-group">
+                
+                <select asp-for="@Model.CookieExpiresInHours" class="form-control">
+                    <option value="1">Trvalé přihlášení (1 hodina)</option>
+                    <option value="2">2 hodiny</option>
+                    <option value="6">6 hodin</option>
+                    <option value="12">12 hodin</option>
+                    <option value="24">24 hodin</option>
+                    <option value="48">48 hodin</option>
+                </select>
+            </div>
         </form>
     </div>
 

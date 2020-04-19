@@ -11,6 +11,7 @@ namespace BO
         public int j02ID { get; set; }
         public int p28ID { get; set; }
         public bool j02IsUser { get; set; }
+        public bool j02IsMustChangePassword { get; set; }
         public int j04ID { get; set; }
         private string _j04Name;
         public string j04Name { get { return _j04Name; } }
