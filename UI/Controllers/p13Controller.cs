@@ -193,7 +193,7 @@ namespace UI.Controllers
                 s.Append(string.Format("<td contenteditable='true' data-field='p85FreeText01'>{0}</td>", c.p85FreeText01)); //p14OperNum
                 s.Append(string.Format("<td contenteditable='true' data-field='p85FreeText02'>{0}</td>", c.p85FreeText02)); //p14OperCode
                 s.Append(string.Format("<td contenteditable='true' data-field='p85FreeText03'>{0}</td>", c.p85FreeText03)); //p14Name
-                s.Append(string.Format("<td data-type='number' contenteditable='true' data-field='p85FreeNumber02'>{0}</td>", c.p85FreeNumber02)); //p14OperParam
+                s.Append(string.Format("<td data-type='number' contenteditable='true' data-field='p85FreeNumber02'>{0}</td>", BO.BAS.TestDouleAsDbKey(c.p85FreeNumber02))); //p14OperParam
                 s.Append(string.Format("<td contenteditable='true' data-field='p85FreeText04'>{0}</td>", c.p85FreeText04)); //p14MaterialCode
                 s.Append(string.Format("<td contenteditable='true' data-field='p85FreeText05'>{0}</td>", c.p85FreeText05)); //p14MaterialName
                 s.Append(string.Format("<td data-type='number' contenteditable='true' data-field='p85FreeNumber03'>{0}</td>", BO.BAS.TestDouleAsDbKey(c.p85FreeNumber03))); //p14UnitsCount
