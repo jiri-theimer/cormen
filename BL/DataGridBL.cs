@@ -25,7 +25,8 @@ namespace BL
         }
         public DataTable GetList(string strEntity,BO.myQuery mq=null)
         {
-            string s = "";            
+            string s = "";
+              
             switch (strEntity)
             {
                 case "j02":
@@ -56,7 +57,7 @@ namespace BL
                     s = string.Format("SELECT {0},a.* from p13MasterTpv a", GetSQL_SELECT_Ocas("p13"));
                     break;
                 case "p14":
-                    s = string.Format("SELECT {0},a.* from p14MasterOper a", GetSQL_SELECT_Ocas("p14"));
+                    s = string.Format("SELECT {0},a.* from p14MasterOper a", GetSQL_SELECT_Ocas("p14"));                    
                     break;
                 case "o23":
                     s = string.Format("SELECT {0},a.*,o12.o12Name,b02.b02Name,dbo.getEntityAlias(a.o23Entity) as EntityAlias,dbo.getRecordAlias(a.o23Entity,a.o23RecordPid) as RecordUrlName,a.o23Entity+'/?pid='+convert(varchar(10),a.o23RecordPid) as RecordUrl", GetSQL_SELECT_Ocas("o23"));
@@ -72,7 +73,7 @@ namespace BL
             }
             //parametrický dotaz s WHERE klauzulí
             if (mq.Entity == "") mq.Entity = strEntity;
-            DL.FinalSqlCommand q = DL.basQuery.ParseFinalSql(s,mq,null,true);
+            DL.FinalSqlCommand q = DL.basQuery.ParseFinalSql(s,mq,true);
             
             return DL.DbHandler.GetDataTable(q.FinalSql, q.Parameters4DT);
             

@@ -65,6 +65,7 @@ namespace UI.Controllers
                     strCols = "p13Name,p13Code,p13Memo";
                     break;
                 case "p14":
+                    mq.explicit_orderby = "a.p14RowNum";
                     strCols = "p14RowNum,p14OperNum,p14OperCode,p14Name,p14OperParam,p14MaterialCode,p14MaterialName,p14UnitsCount,p14DurationPreOper,p14DurationOper,p14DurationPostOper";
                     break;
                 case "o23":
@@ -225,6 +226,9 @@ namespace UI.Controllers
                 rec = new BO.p85Tempbox() { p85GUID = guid, p85Prefix = prefix };
 
                 
+            }
+            if (fieldname.ToLower().Contains("freenumber")){
+                if (fieldvalue == "0" || fieldvalue == "") fieldvalue = null;
             }
 
             BO.Reflexe.SetPropertyValue(rec, fieldname, fieldvalue);

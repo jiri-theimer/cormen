@@ -8,7 +8,7 @@ namespace BL.DL
    public class basQuery
     {
         
-        public static DL.FinalSqlCommand ParseFinalSql(string strPrimarySql,BO.myQuery mq,string strOrderBySql=null, bool bolPrepareParam4DT = false)
+        public static DL.FinalSqlCommand ParseFinalSql(string strPrimarySql,BO.myQuery mq, bool bolPrepareParam4DT = false)
         {
             var lis = new List<DL.QueryRow>();
 
@@ -89,9 +89,9 @@ namespace BL.DL
             {
                 strPrimarySql += " WHERE " + ret.SqlWhere;
             }
-            if (!string.IsNullOrEmpty(strOrderBySql))
+            if (!string.IsNullOrEmpty(mq.explicit_orderby))
             {
-                strPrimarySql += " ORDER BY " + strOrderBySql;
+                strPrimarySql += " ORDER BY " + mq.explicit_orderby;
             }
 
             ret.FinalSql = strPrimarySql;

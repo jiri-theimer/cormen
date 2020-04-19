@@ -72,12 +72,12 @@ namespace BL
             p.Add("p85FreeBoolean03", rec.p85FreeBoolean03);
             p.Add("p85FreeBoolean04", rec.p85FreeBoolean04);
 
-            p.Add("p85FreeNumber01", rec.p85FreeNumber01, System.Data.DbType.Double);
-            p.Add("p85FreeNumber02", rec.p85FreeNumber02, System.Data.DbType.Double);
-            p.Add("p85FreeNumber03", rec.p85FreeNumber03, System.Data.DbType.Double);
-            p.Add("p85FreeNumber04", rec.p85FreeNumber04, System.Data.DbType.Double);
-            p.Add("p85FreeNumber05", rec.p85FreeNumber05, System.Data.DbType.Double);
-            p.Add("p85FreeNumber06", rec.p85FreeNumber06, System.Data.DbType.Double);
+            p.Add("p85FreeNumber01", BO.BAS.TestDouleAsDbKey(rec.p85FreeNumber01), System.Data.DbType.Double);
+            p.Add("p85FreeNumber02", BO.BAS.TestDouleAsDbKey(rec.p85FreeNumber02), System.Data.DbType.Double);
+            p.Add("p85FreeNumber03", BO.BAS.TestDouleAsDbKey(rec.p85FreeNumber03), System.Data.DbType.Double);
+            p.Add("p85FreeNumber04", BO.BAS.TestDouleAsDbKey(rec.p85FreeNumber04), System.Data.DbType.Double);
+            p.Add("p85FreeNumber05", BO.BAS.TestDouleAsDbKey(rec.p85FreeNumber05), System.Data.DbType.Double);
+            p.Add("p85FreeNumber06", BO.BAS.TestDouleAsDbKey(rec.p85FreeNumber06), System.Data.DbType.Double);
 
             p.Add("p85FreeDate01", rec.p85FreeDate01, System.Data.DbType.DateTime);
             p.Add("p85FreeDate02", rec.p85FreeDate02, System.Data.DbType.DateTime);

@@ -85,7 +85,9 @@ namespace UI.Controllers
         {
             var mq = new BO.myQuery("p14");
             mq.p13id = intP13ID;
+            mq.explicit_orderby = "a.p14RowNum";
             var lis = Factory.p14MasterOperBL.GetList(mq);
+            int x = 1000;
             foreach (var c in lis)
             {
                 var rec = new BO.p85Tempbox() { p85GUID = guid, p85Prefix = "p14" };
@@ -105,7 +107,9 @@ namespace UI.Controllers
                 rec.p85FreeNumber05 = c.p14DurationOper;
                 rec.p85FreeNumber06 = c.p14DurationPostOper;
 
+                rec.p85OtherKey5 = x;
                 Factory.p85TempboxBL.Save(rec);
+                x += 1000;
             }
             
         }
@@ -130,8 +134,11 @@ namespace UI.Controllers
         }
         public BO.p85Tempbox MoveTempRow(string guid,int p85id,string direction)
         {
-            var lis = Factory.p85TempboxBL.GetList(guid).OrderBy(p => p.p85OtherKey5);
+            System.IO.File.AppendAllText("c:\\temp\\hovado1.txt", "pid: " + p85id.ToString() + ", guid: " + guid +", direction: "+direction+ System.Environment.NewLine);
+            var lis = Factory.p85TempboxBL.GetList(guid,false).OrderBy(p => p.p85OtherKey5);
+            
             var c = lis.First(p => p.pid == p85id);
+            //var c = Factory.p85TempboxBL.Load(p85id);
 
             if (direction == "up")
             {
@@ -189,10 +196,10 @@ namespace UI.Controllers
                 s.Append(string.Format("<td data-type='number' contenteditable='true' data-field='p85FreeNumber02'>{0}</td>", c.p85FreeNumber02)); //p14OperParam
                 s.Append(string.Format("<td contenteditable='true' data-field='p85FreeText04'>{0}</td>", c.p85FreeText04)); //p14MaterialCode
                 s.Append(string.Format("<td contenteditable='true' data-field='p85FreeText05'>{0}</td>", c.p85FreeText05)); //p14MaterialName
-                s.Append(string.Format("<td data-type='number' contenteditable='true' data-field='p85FreeNumber03'>{0}</td>", c.p85FreeNumber03)); //p14UnitsCount
-                s.Append(string.Format("<td data-type='number' contenteditable='true' data-field='p85FreeNumber04'>{0}</td>", c.p85FreeNumber04)); //p14DurationPreOper
-                s.Append(string.Format("<td data-type='number' contenteditable='true' data-field='p85FreeNumber05'>{0}</td>", c.p85FreeNumber05)); //p14DurationOper
-                s.Append(string.Format("<td data-type='number' contenteditable='true' data-field='p85FreeNumber06'>{0}</td>", c.p85FreeNumber06)); //p14DurationPostOper
+                s.Append(string.Format("<td data-type='number' contenteditable='true' data-field='p85FreeNumber03'>{0}</td>", BO.BAS.TestDouleAsDbKey(c.p85FreeNumber03))); //p14UnitsCount
+                s.Append(string.Format("<td data-type='number' contenteditable='true' data-field='p85FreeNumber04'>{0}</td>", BO.BAS.TestDouleAsDbKey(c.p85FreeNumber04))); //p14DurationPreOper
+                s.Append(string.Format("<td data-type='number' contenteditable='true' data-field='p85FreeNumber05'>{0}</td>", BO.BAS.TestDouleAsDbKey(c.p85FreeNumber05))); //p14DurationOper
+                s.Append(string.Format("<td data-type='number' contenteditable='true' data-field='p85FreeNumber06'>{0}</td>", BO.BAS.TestDouleAsDbKey(c.p85FreeNumber06))); //p14DurationPostOper
 
                 s.Append(string.Format("<td><button type='button' title='Odstranit řádek' onclick='delete_row({0})'><i class='fas fa-trash-alt'></i></button></td>", c.pid));
                 s.Append("<td>");

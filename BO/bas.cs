@@ -65,6 +65,17 @@ namespace BO
                 return intPID;
             }
         }
+        public static double? TestDouleAsDbKey(double dbl)
+        {
+            if (dbl == 0)
+            {
+                return null;
+            }
+            else
+            {
+                return dbl;
+            }
+        }
 
         public static string ObjectDate2String(object d,string format="dd.MM.yyyy")
         {

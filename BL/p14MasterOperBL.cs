@@ -27,6 +27,7 @@ namespace BL
         }
         public IEnumerable<BO.p14MasterOper> GetList(BO.myQuery mq)
         {
+            mq.explicit_orderby = "a.p14RowNum";
             DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq);
             return DL.DbHandler.GetList<BO.p14MasterOper>(fq.FinalSql, fq.Parameters);
 

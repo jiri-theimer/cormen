@@ -57,6 +57,12 @@ namespace BO
             {
                 if (objNewValue == null) { objNewValue = 0; } else { objNewValue = Convert.ToDecimal(objNewValue); }
             };
+            //if (pInfo.PropertyType.Name == "Nullable`1")
+            //{
+            //    if (objNewValue == null) { objNewValue = null; } else { objNewValue = Convert.ToDecimal(objNewValue); }
+            //};
+
+            
             pInfo.SetValue(obj, objNewValue, null);
 
         }

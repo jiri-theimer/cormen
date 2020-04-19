@@ -21,6 +21,8 @@ namespace BO
         public string query_by_entity_prefix;
 
         public string SearchString;
+
+        public string explicit_orderby { get; set; }
        
         public myQuery(string strEntity)
         {
