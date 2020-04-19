@@ -7,37 +7,73 @@
 
 @Html.HiddenFor(m => m.Rec.pid)
 
-    <div class="modal_record_container">
-        <div class="btn-group">
-            <a asp-action="Index" asp-controller="TheGrid" class="btn btn-light" asp-route-pid="@Model.Rec.pid" asp-route-entity="p13">Grid</a>
-        </div>
-        <div class="btn-group">
-            <a asp-action="Record" class="btn btn-light" asp-route-pid="@Model.Rec.pid" asp-route-entity="p13">Upravit</a>
-        </div>
-        <div class="form-row">
-            <label class="col-sm-1 col-md-2 col-form-label">TPV:</label>
-            <div class="col-sm-9 col-md-8">
-                <input class="form-control" asp-for="Rec.p13Name" readonly="readonly" />
-
-            </div>
-            <div class="col-sm-2 col-md-2">
-                <input class="form-control" asp-for="Rec.p13Code" readonly="readonly" />
-
-            </div>
-        </div>
-
-        @if (Model.Rec.p13Memo != null)
-        {
-            <hr />
-
-            <pre>@Html.DisplayFor(m => m.Rec.p13Memo, new { @class = "form-control" });</pre>
-
-
-        }
-
+<div class="modal_record_container">
+    <div class="btn-group">
+        <a asp-action="Index" asp-controller="TheGrid" class="btn btn-light" asp-route-pid="@Model.Rec.pid" asp-route-entity="p13">Grid</a>
     </div>
+    <div class="btn-group">
+        <a asp-action="Record" class="btn btn-light" asp-route-pid="@Model.Rec.pid" asp-route-entity="p13">Upravit</a>
+    </div>
+    <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">TPV:</label>
+        <div class="col-sm-9 col-md-8">
+            <input class="form-control" asp-for="Rec.p13Name" readonly="readonly" />
+
+        </div>
+        <div class="col-sm-2 col-md-2">
+            <input class="form-control" asp-for="Rec.p13Code" readonly="readonly" />
+
+        </div>
+    </div>
+
+    @if (Model.Rec.p13Memo != null)
+    {
+        <hr />
+
+        <pre>@Html.DisplayFor(m => m.Rec.p13Memo, new { @class = "form-control" });</pre>
+
+
+    }
+
+</div>
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
 
+<table id="tab1" class="table table-sm table-hover table-bordered">
+    <thead id="thead1" style="background-color:lightgray;">
+        <tr>
+            <th>RowNum</th>
+            <th>OperNum</th>
+            <th>OperCode</th>
+            <th>Name</th>
+            <th>OperPar</th>
+            <th>MaterialCode</th>
+            <th>MaterialName</th>
+            <th>UnitsCount</th>
+            <th>DurationPreOper</th>
+            <th>DurationOper</th>
+            <th>DurationPostOper</th>
 
+        </tr>
+    </thead>
+
+    <tbody id="tbody1">
+    </tbody>
+</table>
+
+
+
+<script type="text/javascript">
+
+$(document).ready(function () {
+        var url = "@Url.Action("GetBodyOfTale", "Common")";
+
+        $.post(url, { entity: "p14", tableid: "tabp14", queryfield: "p13id", queryvalue:@Model.Rec.pid }, function (data) {
+
+            $("#tbody1").html(data);
+        });
+
+
+        });
+</script>
 <h1>Prostor pro 1:N přehledy z plánování, výroby apod.</h1>
