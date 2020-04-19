@@ -64,6 +64,8 @@ namespace UI.Controllers
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
 
+                if (string.IsNullOrEmpty(v.Guid)) { v.Guid = BO.BAS.GetGuid(); };
+
                 v.Rec.pid = Factory.p13MasterTpvBL.Save(c,v.Guid);
                 if (v.Rec.pid > 0)
                 {
