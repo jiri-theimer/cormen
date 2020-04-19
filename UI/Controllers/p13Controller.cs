@@ -12,7 +12,7 @@ namespace UI.Controllers
         public IActionResult Index(int pid)
         {
             var v = new Models.p13PreviewViewModel();
-            v.Rec = Factory.p13MasterTpvBL.Load(pid);
+            v.Rec = Factory.p13MasterTpvBL.Load(pid);            
             if (v.Rec == null)
             {
                 return RecNotFound(v);
@@ -26,6 +26,7 @@ namespace UI.Controllers
         public IActionResult Record(int pid, bool isclone)
         {
             var v = new Models.p13RecordViewModel();
+            v.Guid = BO.BAS.GetGuid();
             if (pid > 0)
             {
                 v.Rec = Factory.p13MasterTpvBL.Load(pid);
@@ -40,6 +41,8 @@ namespace UI.Controllers
                 v.Rec = new BO.p13MasterTpv();
                 v.Rec.entity = "p13";
             }
+
+            v.lisTemp = new List<BO.p85Tempbox>();
 
             v.Toolbar = new MyToolbarViewModel(v.Rec);            
             if (isclone) { v.Toolbar.MakeClone(); }
@@ -76,6 +79,138 @@ namespace UI.Controllers
             v.Toolbar = new MyToolbarViewModel(v.Rec);
 
             return View(v);
+        }
+
+
+        private void PrepareTempTable(int intP13ID,string guid)
+        {
+            var mq = new BO.myQuery("p14");
+            mq.p13id = intP13ID;
+            var lis = Factory.p14MasterOperBL.GetList(mq);
+            foreach (var c in lis)
+            {
+                var rec = new BO.p85Tempbox() { p85GUID = guid, p85Prefix = "p14" };
+                rec.p85RecordPid = c.pid;
+                rec.p85OtherKey1 = c.p13ID;
+                rec.p85FreeText01 = c.p14Name;
+                rec.p85FreeText02 = c.p14MaterialCode;
+                rec.p85FreeText03 = c.p14MaterialName;
+                rec.p85FreeText04 = c.p14OperCode;
+                rec.p85FreeText05 = c.p14OperNum;
+                rec.p85FreeNumber01 = c.p14UnitsCount;
+                rec.p85FreeNumber02 = c.p14DurationPostOper;
+                rec.p85FreeNumber03 = c.p14DurationOper;
+                rec.p85FreeNumber04 = c.p14DurationPreOper;
+                Factory.p85TempboxBL.Save(rec);
+            }
+            
+        }
+
+        public BO.p85Tempbox InsertTempRow(string guid)
+        {
+            var lis = Factory.p85TempboxBL.GetList(guid).OrderBy(p => p.p85OtherKey5);
+            var intPoradi = 1000;
+            if (lis.Count() > 0)
+            {
+                intPoradi = 1000+lis.Last(p => p.pid > 0).p85OtherKey5;
+            }
+            var rec = new BO.p85Tempbox() { p85GUID = guid, p85Prefix = "p14", p85OtherKey5 = intPoradi };
+            var x=Factory.p85TempboxBL.Save(rec);
+            return Factory.p85TempboxBL.Load(x);
+        }
+        public BO.p85Tempbox DeleteTempRow(string guid, int p85id)
+        {
+            return Factory.p85TempboxBL.VirtualDelete(p85id);
+            
+
+        }
+        public BO.p85Tempbox MoveTempRow(string guid,int p85id,string direction)
+        {
+            var lis = Factory.p85TempboxBL.GetList(guid).OrderBy(p => p.p85OtherKey5);
+            var c = lis.First(p => p.pid == p85id);
+
+            if (direction == "up")
+            {
+                var cc = lis.Last(p => p.p85OtherKey5 < c.p85OtherKey5);
+                c.p85OtherKey5 = cc.p85OtherKey5 - 100;
+            }
+            if (direction == "down")
+            {
+                var cc = lis.First(p => p.p85OtherKey5 > c.p85OtherKey5);
+                c.p85OtherKey5 = cc.p85OtherKey5 + 100;
+            }           
+            Factory.p85TempboxBL.Save(c);
+            lis = Factory.p85TempboxBL.GetList(guid).OrderBy(p => p.p85OtherKey5);
+            int x = 1000;
+            
+            foreach(var cc in lis)
+            {                
+                cc.p85OtherKey5 = x;
+                Factory.p85TempboxBL.Save(cc);
+                x += 1000;                
+            }
+
+
+
+            return c;
+
+
+        }
+        public string getHtmlTempBody(string guid, int p13id)
+        {
+            var lis = Factory.p85TempboxBL.GetList(guid,true);
+            if (lis.Count() == 0)
+            {
+                PrepareTempTable(p13id, guid);
+                lis = Factory.p85TempboxBL.GetList(guid);
+            }
+            lis = lis.Where(p=>p.p85IsDeleted==false).OrderBy(p => p.p85OtherKey5);
+            int x = 1;
+            foreach(var c in lis)
+            {
+                c.p85FreeNumber01 = x;
+                x += 1;
+            }
+           
+            var s = new System.Text.StringBuilder();            
+            int xx = 0;
+            foreach (var c in lis)
+            {
+                s.Append(string.Format("<tr data-p14id='{0}' data-p85id='{1}'>",c.p85RecordPid,c.pid));
+
+                s.Append(string.Format("<td>{0}</td>", c.p85FreeNumber01)); //p14RowNum
+                s.Append(string.Format("<td contenteditable='true' data-field='p85FreeText01'>{0}</td>", c.p85FreeText01)); //p14OperNum
+                s.Append(string.Format("<td contenteditable='true' data-field='p85FreeText02'>{0}</td>", c.p85FreeText02)); //p14OperCode
+                s.Append(string.Format("<td contenteditable='true' data-field='p85FreeText03'>{0}</td>", c.p85FreeText03)); //p14Name
+                s.Append(string.Format("<td contenteditable='true' data-field='p85FreeText04'>{0}</td>", c.p85FreeText04)); //p14OperParam
+                s.Append(string.Format("<td contenteditable='true' data-field='p85FreeText05'>{0}</td>", c.p85FreeText05)); //p14MaterialCode
+                s.Append(string.Format("<td contenteditable='true' data-field='p85FreeText06'>{0}</td>", c.p85FreeText06)); //p14MaterialName
+                s.Append(string.Format("<td data-type='number' contenteditable='true' data-field='p85FreeNumber02'>{0}</td>", c.p85FreeNumber02)); //p14UnitsCount
+                s.Append(string.Format("<td data-type='number' contenteditable='true' data-field='p85FreeNumber03'>{0}</td>", c.p85FreeNumber03)); //p14DurationPreOper
+                s.Append(string.Format("<td data-type='number' contenteditable='true' data-field='p85FreeNumber04'>{0}</td>", c.p85FreeNumber04)); //p14DurationOper
+                s.Append(string.Format("<td data-type='number' contenteditable='true' data-field='p85FreeNumber05'>{0}</td>", c.p85FreeNumber05)); //p14DurationPostOper
+
+                s.Append(string.Format("<td><button type='button' title='Odstranit řádek' onclick='delete_row({0})'><i class='fas fa-trash-alt'></i></button></td>", c.pid));
+                s.Append("<td>");
+                if (xx > 0)
+                {
+                    s.Append(string.Format("<button type='button' title='Posunout nahoru' onclick='move_row({0},0)'><i class='fas fa-arrow-up'></i></button>", c.pid));
+                }
+                s.Append("</td><td>");
+                if (xx < lis.Count()-1)
+                {
+                    s.Append(string.Format("<button type='button' title='Posunout dolů' onclick='move_row({0},1)'><i class='fas fa-arrow-down'></i></button>", c.pid));
+                };
+                s.Append("</td>");
+
+
+
+                s.Append("</tr>");
+                xx += 1;
+            }
+            
+
+            return s.ToString();
         }
     }
 }

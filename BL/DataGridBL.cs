@@ -55,6 +55,9 @@ namespace BL
                 case "p13":
                     s = string.Format("SELECT {0},a.* from p13MasterTpv a", GetSQL_SELECT_Ocas("p13"));
                     break;
+                case "p14":
+                    s = string.Format("SELECT {0},a.* from p14MasterOper a", GetSQL_SELECT_Ocas("p14"));
+                    break;
                 case "o23":
                     s = string.Format("SELECT {0},a.*,o12.o12Name,b02.b02Name,dbo.getEntityAlias(a.o23Entity) as EntityAlias,dbo.getRecordAlias(a.o23Entity,a.o23RecordPid) as RecordUrlName,a.o23Entity+'/?pid='+convert(varchar(10),a.o23RecordPid) as RecordUrl", GetSQL_SELECT_Ocas("o23"));
                     s+= " FROM o23Doc a LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID";

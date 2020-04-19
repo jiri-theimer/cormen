@@ -32,8 +32,10 @@ namespace BO
 
         public static void SetPropertyValue(object obj, string PropName, object objNewValue)
         {
-            Type objType = obj.GetType();            
+            Type objType = obj.GetType();
             System.Reflection.PropertyInfo pInfo = objType.GetProperty(PropName, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.IgnoreCase);
+
+
 
             if (pInfo.PropertyType.Name == "Int32")
             {
@@ -45,12 +47,21 @@ namespace BO
                 {
                     objNewValue = Convert.ToInt32(objNewValue);
                 }
-                
-            }
 
-           
+            }
+            if (pInfo.PropertyType.Name == "Double")
+            {
+                if (objNewValue == null) { objNewValue = 0; } else { objNewValue = Convert.ToDouble(objNewValue); }
+            };
+            if (pInfo.PropertyType.Name == "Decimal")
+            {
+                if (objNewValue == null) { objNewValue = 0; } else { objNewValue = Convert.ToDecimal(objNewValue); }
+            };
             pInfo.SetValue(obj, objNewValue, null);
+
         }
+
+       
 
         
     }

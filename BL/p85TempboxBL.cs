@@ -8,8 +8,9 @@ namespace BL
     {
         public BO.p85Tempbox Load(int pid);
         public BO.p85Tempbox LoadByGuid(string strGUID);
-        IEnumerable<BO.p85Tempbox> GetList(string guid);
+        public IEnumerable<BO.p85Tempbox> GetList(string strGUID, bool bolIncludeDeleted = false);
         public int Save(BO.p85Tempbox rec);
+        public BO.p85Tempbox VirtualDelete(int intPID);
     }
     class p85TempboxBL : Ip85TempboxBL
     {
@@ -30,11 +31,17 @@ namespace BL
         {
             return DL.DbHandler.Load<BO.p85Tempbox>(string.Format("{0} WHERE a.p85GUID = @guid", GetSQL1()), new { guid = strGUID });
         }
-        public IEnumerable<BO.p85Tempbox> GetList(string guid)
+        public IEnumerable<BO.p85Tempbox> GetList(string strGUID,bool bolIncludeDeleted=false)
         {
+            var s = string.Format("{0} WHERE a.p85GUID=@guid", GetSQL1());
+            if (bolIncludeDeleted==false) { s += " AND a.p85IsDeleted=0"; };
+            return DL.DbHandler.GetList<BO.p85Tempbox>(s, new { guid = strGUID });
 
-            return DL.DbHandler.GetList<BO.p85Tempbox>(string.Format("{0} WHERE a.p85GUID={1}", GetSQL1(), guid));
 
+        }
+        public BO.p85Tempbox VirtualDelete(int intPID)
+        {
+            return DL.DbHandler.Load<BO.p85Tempbox>("UPDATE p85Tempbox set p85Isdeleted=1 WHERE p85ID=@pid; "+string.Format("{0} WHERE a.p85ID=@pid", GetSQL1()),new { pid = intPID });
         }
 
         public int Save(BO.p85Tempbox rec)
@@ -58,6 +65,7 @@ namespace BL
             p.Add("p85FreeText03", rec.p85FreeText03);
             p.Add("p85FreeText04", rec.p85FreeText04);
             p.Add("p85FreeText05", rec.p85FreeText05);
+            p.Add("p85FreeText06", rec.p85FreeText06);
 
             p.Add("p85FreeBoolean01", rec.p85FreeBoolean01);
             p.Add("p85FreeBoolean02", rec.p85FreeBoolean02);
@@ -69,6 +77,7 @@ namespace BL
             p.Add("p85FreeNumber03", rec.p85FreeNumber03, System.Data.DbType.Double);
             p.Add("p85FreeNumber04", rec.p85FreeNumber04, System.Data.DbType.Double);
             p.Add("p85FreeNumber05", rec.p85FreeNumber05, System.Data.DbType.Double);
+            p.Add("p85FreeNumber06", rec.p85FreeNumber06, System.Data.DbType.Double);
 
             p.Add("p85FreeDate01", rec.p85FreeDate01, System.Data.DbType.DateTime);
             p.Add("p85FreeDate02", rec.p85FreeDate02, System.Data.DbType.DateTime);

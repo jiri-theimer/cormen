@@ -142,7 +142,7 @@ namespace BL
                 return _p10;
             }
         }
-        public Ip85TempboxBL ip85TempboxBL
+        public Ip85TempboxBL p85TempboxBL
         {
             get
             {

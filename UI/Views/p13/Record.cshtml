@@ -4,6 +4,8 @@
     ViewData["Title"] = "TPV";
     Layout = "~/Views/Shared/_Layout.cshtml";
     if (Model.Rec == null) return;
+
+
 }
 
 
@@ -13,6 +15,7 @@
     <h4>TPV</h4>
     @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
     @Html.HiddenFor(m => m.Rec.pid)
+
 
     <div class="modal_record_container">
 
@@ -27,7 +30,7 @@
                 <span asp-validation-for="Rec.p13Code" class="text-danger"></span>
             </div>
         </div>
-        
+
 
         <div class="form-row">
             <textarea asp-for="Rec.p13Memo" class="form-control" placeholder="Podrobný popis"></textarea>
@@ -36,9 +39,177 @@
 
 
 
-
+        <input type="hidden" id="hidGUID" value="@Model.Guid" />
     </div>
 }
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
+
+
+<button type="button" id="cmdPrepareTempData" class="btn btn-primary py-0">Editovat tabulku operací</button>
+<div>
+    <button type="button" id="cmdNew" class="btn btn-primary py-0" style="display:none;">Přidat operaci</button>
+</div>
+<table id="tab1" class="table table-sm table-hover table-bordered">
+    <thead style="background-color:lightgray;">
+        <tr>
+            <th>RowNum</th>
+            <th>OpenNum</th>
+            <th>OpenCode</th>
+            <th>Name</th>
+            <th>OpenPar</th>
+            <th>MaterialCode</th>
+            <th>MaterialName</th>
+            <th>UnitsCount</th>
+            <th>DurationPreOper</th>
+            <th>DurationOper</th>
+            <th>DurationPostOper</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody id="tbody1">
+    </tbody>
+</table>
+
+
+
+<script type="text/javascript">
+    var _guid = "@Model.Guid";
+    var _changed_cell;
+
+    $(document).ready(function () {
+
+        render_p14_body();
+        init_table_behaviour();
+
+    });
+
+
+
+    function init_table_behaviour() {
+        $("#tbody1 td").on("blur", function (e) {
+            var val = $(this).text();
+            if (this == _changed_cell) {
+                save2temp(this);
+            }
+            _changed_cell = null;
+        });
+
+
+        $("#tbody1 td").on("input", function (e) {
+            _changed_cell = this;
+            var val = $(this).text();
+
+
+        });
+
+        $("#tbody1 td").on("focus", function (e) {
+
+            $("#tbody1 .inedit").removeClass("inedit");
+
+            $(this).addClass("inedit");
+
+
+
+        });
+
+
+        $("#tbody1 td").on("keypress", function (e) {
+            //$("#log1").val(e.keyCode);
+            if ($(this).attr("data-type") == "number") {
+
+                if ((e.keyCode >= 48 && e.keyCode <= 57) || e.keyCode === 13 || e.keyCode == 44 || e.keyCode == 46 || e.keyCode == 45) {
+                    return true;
+                } else {
+                    return false;
+                }
+
+            }
+
+
+        });
+    }
+
+
+
+
+    function save2temp(cell) {
+        var val = $(cell).text();
+        var row = $(cell).closest("tr");
+        var recpid = $(row).attr("data-p14id");
+        var p85id = $(row).attr("data-p85id");
+            var field = $(cell).attr("data-field");
+            var prefix = "p14";
+            var url = "@Url.Action("Save2Temp", "Common")";
+            //alert("field: " + field + ", value: " + val + ", p85id: " + p85id);
+            $.post(url, { p85id: p85id, guid: _guid, prefix: prefix,recpid:recpid, fieldname: field, fieldvalue: val }, function (data) {
+                //alert(data.pid);
+                if (data != null) {
+                    $(row).attr("data-p85id", data.pid);
+                }
+
+
+            });
+        }
+
+
+    $("#cmdNew").on("click", function () {
+        var url = "@Url.Action("InsertTempRow", "p13")";
+        $.post(url, { guid: _guid }, function (data) {
+
+            render_temp_body();
+
+        });
+
+
+    });
+
+    $("#cmdPrepareTempData").on("click", function () {
+        $("#cmdPrepareTempData").css("display", "none");
+        $("#cmdNew").css("display", "block");
+        render_temp_body();
+    });
+
+    function render_temp_body() {
+        var url = "@Url.Action("getHtmlTempBody","p13")";
+        $.post(url, { guid: _guid, p13id:@Model.Rec.pid }, function (data) {
+
+            $("#tbody1").html(data);
+
+            init_table_behaviour();
+        });
+    }
+    function render_p14_body() {
+        var url = "@Url.Action("GetBodyOfTale", "Common")";
+
+        $.post(url, { entity: "p14", queryfield: "p13id", queryvalue:@Model.Rec.pid }, function (data) {            
+            $("#tbody1").html(data);
+        });
+    }
+
+    function move_row(pid, dir) {
+
+        var url = "@Url.Action("MoveTempRow", "p13")";
+        var direction = "up";
+        if (dir == 1) direction = "down";
+        $.post(url, { guid: _guid, p85id: pid, direction: direction }, function (data) {
+
+            render_temp_body();
+
+        });
+    }
+    function delete_row(pid) {
+        var url = "@Url.Action("DeleteTempRow", "p13")";
+        $.post(url, { p85id: pid }, function (data) {
+            render_temp_body();
+        });
+    }
+
+
+
+
+</script>
 

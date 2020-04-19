@@ -31,6 +31,7 @@ namespace BL
             return DL.DbHandler.GetList<BO.p14MasterOper>(fq.FinalSql, fq.Parameters);
 
         }
+        
 
         public int Save(BO.p14MasterOper rec)
         {

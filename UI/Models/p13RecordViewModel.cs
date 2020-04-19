@@ -10,5 +10,8 @@ namespace UI.Models
         public BO.p13MasterTpv Rec { get; set; }
 
         public MyToolbarViewModel Toolbar { get; set; }
+
+        public string Guid { get; set; }
+        public List<BO.p85Tempbox> lisTemp { get; set; }
     }
 }

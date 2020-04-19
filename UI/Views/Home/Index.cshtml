@@ -11,7 +11,8 @@
 </div>
 
 
-        
+<button type="button" id="cmdNew" class="btn btn-primary py-0">Přidat řádek</button>
+
 <table id="tab1" class="table table-hover" style="width:900px;">
     <thead>
         <tr>
@@ -21,28 +22,28 @@
             <th>Combo</th>
         </tr>
     </thead>
-    <tbody>
-        <tr>
-            <td contenteditable="true" data-type="number">
+    <tbody id="tbody1">
+        <tr data-p14id="3">
+            <td contenteditable="true" data-type="number" data-field="p85FreeNumber01">
                 1
             </td>
-            <td contenteditable="true">
+            <td contenteditable="true" data-field="p85FreeText01">
             </td>
-            <td contenteditable="true">
+            <td contenteditable="true" data-field="p85FreeText02">
                 3
             </td>
-            <td contenteditable="false">
+            <td contenteditable="false" data-field="p85FreeText03">
                 zde by mělo být combo
             </td>
         </tr>
         <tr>
-            <td contenteditable="true" data-type="number">
+            <td contenteditable="true" data-type="number" data-field="p85FreeNumber01">
                 8888
             </td>
-            <td contenteditable="true">
+            <td contenteditable="true" data-field="p85FreeText01">
                 B
             </td>
-            <td contenteditable="true">
+            <td contenteditable="true" data-field="p85FreeText02">
                 C
             </td>
             <td>
@@ -54,13 +55,13 @@
             </td>
         </tr>
         <tr>
-            <td contenteditable="true" data-type="number">
+            <td contenteditable="true" data-type="number" data-field="p85FreeNumber01">
                 86,3
             </td>
-            <td contenteditable="true">
+            <td contenteditable="true" data-field="p85FreeText01">
                 nic
             </td>
-            <td contenteditable="true">
+            <td contenteditable="true" data-field="p85FreeText02">
             </td>
             <td contenteditable="false">
             </td>
@@ -108,56 +109,49 @@
 <script type="text/javascript">
     var _changed_cell;
 
-    $(document).ready(function () {        
-       
 
-        $("#tab1 td").on("blur", function (e) {
-            var val = $(this).text();
-            if (this == _changed_cell) {
-                $("#log1").val("change: " + val + ", data-type: " + $(this).attr("data-type"));
-            }
-            _changed_cell = null;
-            //$("#log1").val(val);
-        });
+    $(document).ready(function () {
 
-        $("#tab1 td").on("input", function (e) {
-            _changed_cell = this;
-            var val = $(this).text();
-            //$("#log1").val(val);
-            
-        });
-
-        $("#tab1 td").on("focus", function (e) {
-            
-            
-
-            $("#tab1 .inedit").removeClass("inedit");
-
-            $(this).addClass("inedit");
-           
-           
-            
-        });
-
-
-        $("#tab1 td").on("keypress", function (e) {
-            //$("#log1").val(e.keyCode);
-            if ($(this).attr("data-type") == "number") {
-
-                if ((e.keyCode >= 48 && e.keyCode <= 57) || e.keyCode === 13 || e.keyCode == 44 || e.keyCode == 46) {
-                    return true;
-                } else {
-                    return false;
-                }
-
-            }
-            
-
-        });
-
-      
+        init_table_behaviour();
 
     });
+
+    $("#cmdNew").on("click", function () {
+        var tb = document.getElementById("tbody1");
+        var rowindex = tb.rows.length;
+        var row = tb.rows[rowindex - 1];
+
+        var newrow = $(row).clone();
+        $(newrow).attr("data-p85id", null);
+
+        newrow.appendTo(tb);
+
+
+        //$("#tbody1", newrow).empty();
+
+
+        init_table_behaviour();
+    });
+
+    function save2temp(cell) {
+        var val = $(cell).text();
+        var row = $(cell).closest("tr");
+        var recpid = $(row).attr("data-p14id");
+        var p85id = $(row).attr("data-p85id");
+            var field = $(cell).attr("data-field");
+            var guid = "hovado1";
+            var prefix = "p14";
+            var url = "@Url.Action("Save2Temp", "Common")";
+            alert("field: " + field + ", value: " + val + ", p85id: " + p85id);
+            $.post(url, { p85id: p85id, guid: guid, prefix: prefix,recpid:recpid, fieldname: field, fieldvalue: val }, function (data) {
+                alert(data.pid);
+                if (data != null) {
+                    $(row).attr("data-p85id", data.pid);
+                }
+
+
+            });
+        }
 
     function testNumeric(event) {
         if ((event.keyCode >= 48 && event.keyCode <= 57) || event.keyCode === 13) {
@@ -169,5 +163,51 @@
     }
 
 
+
+    function init_table_behaviour() {
+        $("#tab1 td").on("blur", function (e) {
+            var val = $(this).text();
+            if (this == _changed_cell) {
+                $("#log1").val("change: " + val + ", data-type: " + $(this).attr("data-type"));
+                save2temp(this);
+            }
+            _changed_cell = null;
+            //$("#log1").val(val);
+        });
+
+
+        $("#tab1 td").on("input", function (e) {
+            _changed_cell = this;
+            var val = $(this).text();
+            //$("#log1").val(val);
+
+        });
+
+        $("#tab1 td").on("focus", function (e) {
+
+            $("#tab1 .inedit").removeClass("inedit");
+
+            $(this).addClass("inedit");
+
+
+
+        });
+
+
+        $("#tab1 td").on("keypress", function (e) {
+            //$("#log1").val(e.keyCode);
+            if ($(this).attr("data-type") == "number") {
+
+                if ((e.keyCode >= 48 && e.keyCode <= 57) || e.keyCode === 13 || e.keyCode == 44 || e.keyCode == 46 || e.keyCode == 45) {
+                    return true;
+                } else {
+                    return false;
+                }
+
+            }
+
+
+        });
+    }
 
 </script>

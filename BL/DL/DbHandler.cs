@@ -99,6 +99,7 @@ namespace BL.DL
                 }catch(Exception e)
                 {
                     System.IO.File.WriteAllText(_log, e.Message);
+                    System.IO.File.WriteAllText(_log, strSQL);
                     return null;
                 }
                 
@@ -109,7 +110,15 @@ namespace BL.DL
         {
             using (SqlConnection con = new SqlConnection(BL.RunningApp.Instance().ConnectString))
             {
-                return con.Query<T>(strSQL, param);
+                try
+                {
+                    return con.Query<T>(strSQL, param);
+                }catch(Exception e)
+                {
+                    System.IO.File.WriteAllText(_log, e.Message);
+                    System.IO.File.WriteAllText(_log,strSQL);
+                    return null;
+                }
 
             }
         }
@@ -142,7 +151,16 @@ namespace BL.DL
                 }
                 
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                adapter.Fill(dt);
+                try
+                {
+                    adapter.Fill(dt);
+                }
+                catch(Exception e)
+                {
+                    System.IO.File.WriteAllText(_log, e.Message);
+                    System.IO.File.WriteAllText(_log, strSQL);
+                }
+                
 
                 return dt;
 
