@@ -11,8 +11,60 @@ namespace BO
         public string Login { get; set; }
         [Display(Name ="Heslo")]
         public string Password { get; set; }
-        public int CookieExpiresInHours { get; set; } = 1;
+        public int CookieExpiresInHours { get; set; } = 1;      
 
         public string Message { get; set; }
+
+        public Result ValidatePassword(string strPwd)
+        {            
+            if (string.IsNullOrEmpty(strPwd) || strPwd.Length<6)
+            {
+                return new Result(true,"Délka hesla musí být minimálně 6 znaků!");
+            }
+            return new Result(false);
+        }
+        public Result VerifyHash(string strPwd,string strLogin,j02Person cSavedJ02)
+        {
+            var hasher = new BO.COM.PasswordHasher();            
+            var overeni = hasher.VerifyHashedPassword(cSavedJ02.j02PasswordHash, getSul(strLogin,strPwd,cSavedJ02.pid));
+            if (overeni == BO.COM.PasswordVerificationResult.Failed)
+            {
+
+                return new Result(true, "Ověření uživatele se nezdařilo - pravděpodobně chybné heslo nebo jméno!");
+            }
+            else
+            {
+                return new Result(false);
+            }
+        }
+        public Result ValidateChangePassword(string strNewPwd,string strCurPwd,string strVerify, j02Person cSavedJ02)
+        {
+            var ret= ValidatePassword(strNewPwd);
+            if (ret.Flag == BO.ResultEnum.Failed) { ret.PreMessage = "Nové heslo"; return ret; }
+            
+            ret = ValidatePassword(strCurPwd);
+            if (ret.Flag == BO.ResultEnum.Failed) { ret.PreMessage = "Současné heslo";return ret; }
+
+            if (strNewPwd != strVerify) { return new Result(true, "Nové heslo nesouhlasí s ověřením."); }
+
+            ret = VerifyHash(strCurPwd, cSavedJ02.j02Login, cSavedJ02);
+            if (ret.Flag == BO.ResultEnum.Failed) { ret.Message="Současné heslo se nepodařilo ověřit"; return ret; }
+
+            if (strNewPwd == strCurPwd) { return new Result(true, "Nové heslo se musí lišit od současného!"); }
+           
+            return new Result(false);
+
+        }
+
+        public string Pwd2Hash(string strPwd,BO.j02Person cJ02)
+        {
+            var hasher = new BO.COM.PasswordHasher();
+           return hasher.HashPassword(getSul(cJ02.j02Login,  strPwd , cJ02.pid));
+        }
+
+        private string getSul(string strLogin,string strPwd, int intPid)
+        {
+            return strLogin.ToUpper() + "+kurkuma+" + strPwd + "+" + intPid.ToString();
+        }
     }
 }

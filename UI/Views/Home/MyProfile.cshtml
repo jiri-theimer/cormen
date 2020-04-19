@@ -1,0 +1,14 @@
+﻿@model MyProfileViewModel
+
+@{
+    ViewData["Title"] = "MyProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>@Model.CurrentUser.FullName</h2>
+
+<a class="btn btn-primary" asp-controller="Home" asp-action="ChangePassword">Změnit si přístupové heslo</a>
+
+
+

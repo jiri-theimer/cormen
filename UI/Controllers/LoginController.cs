@@ -48,15 +48,13 @@ namespace UI.Controllers
                 return View(lu);
             }
             BO.j02Person cJ02 = f.j02PersonBL.LoadByLogin(lu.Login);
-            var hasher = new BO.COM.PasswordHasher();
-            var sul = lu.Login.ToUpper() + "+kurkuma+" + lu.Password+"+"+cJ02.pid.ToString() ;
-            var overeni = hasher.VerifyHashedPassword(cJ02.j02PasswordHash, sul);
-            if (overeni == BO.COM.PasswordVerificationResult.Failed)
+            var ret = lu.VerifyHash(lu.Password, lu.Login, cJ02);
+            if (ret.Flag == BO.ResultEnum.Failed)
             {
-                lu.Message = "Ověření uživatele se nezdařilo - pravděpodobně chybné heslo nebo jméno!";                
+                lu.Message = "Ověření uživatele se nezdařilo - pravděpodobně chybné heslo nebo jméno!";
                 return View(lu);
             }
-
+            
             //ověřený
             var userClaims = new List<Claim>()
                 {

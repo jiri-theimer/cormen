@@ -66,6 +66,7 @@ namespace UI.Controllers
                     c.j04ID = 0;
                     c.j02Login = null;
                     c.j02PasswordHash = null;
+                    v.ResetPassword = "";
                 }                
                 c.p28ID = BO.BAS.InInt(v.ComboP28ID.SelectedValue);
                 c.j02TitleBeforeName = v.TitleBeforeName.SelectedText;
@@ -87,8 +88,9 @@ namespace UI.Controllers
                         if (!string.IsNullOrEmpty(v.ResetPassword))
                         {
                             c = Factory.j02PersonBL.Load(v.Rec.pid);
-                            var hasher = new BO.COM.PasswordHasher();
-                            c.j02PasswordHash = hasher.HashPassword(c.j02Login.ToUpper() + "+kurkuma+" + v.ResetPassword + "+" + v.Rec.pid.ToString());
+                            var lu = new BO.LoggingUser();
+                            c.j02PasswordHash = lu.Pwd2Hash(v.ResetPassword, c);
+                           
                             Factory.j02PersonBL.Save(c);
                         }
 
@@ -118,11 +120,14 @@ namespace UI.Controllers
             {
                 if (!string.IsNullOrEmpty(v.ResetPassword))
                 {
-                    if (v.ResetPassword.Length < 6)
+                    var lu = new BO.LoggingUser();
+                    var res = lu.ValidatePassword(v.ResetPassword);
+                    if (res.Flag == BO.ResultEnum.Failed)
                     {
-                        v.Notify("Délka hesla musí být minimálně 6 znaků.");
+                        v.Notify(res.Message);
                         return false;
                     }
+                    
                 }
 
                 if (string.IsNullOrEmpty(c.j02Login) || c.j04ID==0)
