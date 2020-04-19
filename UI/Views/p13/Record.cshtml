@@ -39,25 +39,25 @@
 
 
 
-        <input type="hidden" id="hidGUID" value="@Model.Guid" />
+        <input type="hidden" asp-for="@Model.Guid" />
     </div>
 }
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
 
 
-<button type="button" id="cmdPrepareTempData" class="btn btn-primary py-0">Editovat tabulku operací</button>
+<button type="button" id="cmdPrepareTempData" class="btn btn-primary py-0">Editovat technologický rozpis operací</button>
 <div>
     <button type="button" id="cmdNew" class="btn btn-primary py-0" style="display:none;">Přidat operaci</button>
 </div>
 <table id="tab1" class="table table-sm table-hover table-bordered">
-    <thead style="background-color:lightgray;">
+    <thead id="thead1" style="background-color:lightgray;">
         <tr>
             <th>RowNum</th>
-            <th>OpenNum</th>
-            <th>OpenCode</th>
+            <th>OperNum</th>
+            <th>OperCode</th>
             <th>Name</th>
-            <th>OpenPar</th>
+            <th>OperPar</th>
             <th>MaterialCode</th>
             <th>MaterialName</th>
             <th>UnitsCount</th>
@@ -82,9 +82,14 @@
 
     $(document).ready(function () {
 
-        render_p14_body();
-        init_table_behaviour();
-
+        if (_guid == "") {
+            render_p14_body();
+        } else {
+            render_temp_body();
+            init_table_behaviour();
+        }
+        refresh_state();
+        
     });
 
 
@@ -149,6 +154,7 @@
                 //alert(data.pid);
                 if (data != null) {
                     $(row).attr("data-p85id", data.pid);
+                    _toolbar_warn2save_changes();
                 }
 
 
@@ -161,15 +167,16 @@
         $.post(url, { guid: _guid }, function (data) {
 
             render_temp_body();
-
+            _toolbar_warn2save_changes();
         });
 
 
     });
 
     $("#cmdPrepareTempData").on("click", function () {
-        $("#cmdPrepareTempData").css("display", "none");
-        $("#cmdNew").css("display", "block");
+        _guid = _generate_guid();
+        $("#Guid").val(_guid);       
+        refresh_state();
         render_temp_body();
     });
 
@@ -198,6 +205,7 @@
         $.post(url, { guid: _guid, p85id: pid, direction: direction }, function (data) {
 
             render_temp_body();
+            _toolbar_warn2save_changes();
 
         });
     }
@@ -205,11 +213,23 @@
         var url = "@Url.Action("DeleteTempRow", "p13")";
         $.post(url, { p85id: pid }, function (data) {
             render_temp_body();
+            _toolbar_warn2save_changes();
         });
     }
 
 
-
+    function refresh_state() {
+        if (_guid == "") {
+            $("#cmdPrepareTempData").css("display", "block");
+            $("#cmdNew").css("display", "none");
+        } else {
+            $("#cmdPrepareTempData").css("display", "none");
+            $("#cmdNew").css("display", "block");
+            $("#thead1").css("background-color", "aliceblue");
+        }
+        
+        
+    }
 
 </script>
 

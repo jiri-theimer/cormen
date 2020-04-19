@@ -8,7 +8,7 @@ namespace BL
     {
         public BO.p13MasterTpv Load(int pid);
         public IEnumerable<BO.p13MasterTpv> GetList(BO.myQuery mq);
-        public int Save(BO.p13MasterTpv rec);
+        public int Save(BO.p13MasterTpv rec, string strGUID);
     }
     class p13MasterTpvBL : Ip13MasterTpvBL
     {
@@ -32,16 +32,39 @@ namespace BL
 
         }
 
-        public int Save(BO.p13MasterTpv rec)
+        public int Save(BO.p13MasterTpv rec,string strGUID)
         {
+            //var p = new Dapper.DynamicParameters();
+            //p.Add("pid", rec.p13ID);
+            //p.Add("p13Name", rec.p13Name);
+            //p.Add("p13Code", rec.p13Code);
+            //p.Add("p13Memo", rec.p13Memo);
+
+
+            //return DL.DbHandler.SaveRecord(_cUser,"p13MasterTpv", p, rec);
+
+            BO.p85Tempbox cP85;
+            var tempBL = new BL.p85TempboxBL(_cUser);
+            cP85 = new BO.p85Tempbox() { p85RecordPid = rec.pid, p85GUID = strGUID, p85Prefix = "p13", p85FreeText01 = rec.p13Name, p85FreeText02 = rec.p13Code, p85Message = rec.p13Memo, p85FreeDate01 = rec.ValidFrom, p85FreeDate02 = rec.ValidUntil };
+            tempBL.Save(cP85);           
+
             var p = new Dapper.DynamicParameters();
-            p.Add("pid", rec.p13ID);
-            p.Add("p13Name", rec.p13Name);
-            p.Add("p13Code", rec.p13Code);
-            p.Add("p13Memo", rec.p13Memo);
+            p.Add("userid", _cUser.pid);
+            p.Add("guid", strGUID);
+            p.Add("pid_ret", rec.pid, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            p.Add("err_ret", "", System.Data.DbType.String, System.Data.ParameterDirection.Output);
 
+            string s1 = DL.DbHandler.RunSp("p13_save", ref p);
+            if (s1 == "1")
+            {
+                return p.Get<int>("pid_ret");
+            }
+            else
+            {
+                _cUser.ErrorMessage = s1;
+                return 0;
+            }
 
-            return DL.DbHandler.SaveRecord(_cUser,"p13MasterTpv", p, rec);
         }
     }
 }
