@@ -9,6 +9,7 @@ namespace BL
         public BO.p21License Load(int pid);
         public IEnumerable<BO.p21License> GetList(BO.myQuery mq);
         public int Save(BO.p21License rec, List<int> p10ids = null);
+        BO.Result CreateClientProducts(int intP21ID);
     }
     class p21LicenseBL:Ip21LicenseBL
     {
@@ -70,7 +71,28 @@ namespace BL
             
         }
 
-       
+        public BO.Result CreateClientProducts(int intP21ID)
+        {
+            var p = new Dapper.DynamicParameters();
+            p.Add("userid", _cUser.pid);            
+            p.Add("p21id", intP21ID, System.Data.DbType.Int32);
+            p.Add("err_ret", "", System.Data.DbType.String, System.Data.ParameterDirection.Output);
+
+            string s1 = DL.DbHandler.RunSp("p21_create_clientproducts", ref p);
+            if (s1 == "1")
+            {
+                return new BO.Result(false,"Operace proběhla");
+            }
+            else
+            {
+                return new BO.Result(true, s1);
+               
+            }
+
+        }
+
+
+
     }
 }
 

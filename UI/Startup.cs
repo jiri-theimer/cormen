@@ -45,7 +45,11 @@ namespace UI
             services.AddAuthentication("CookieAuthentication")
                  .AddCookie("CookieAuthentication", config =>
                  {
-                     config.ExpireTimeSpan = TimeSpan.FromHours(2);
+                     config.Cookie.HttpOnly = true;
+                     config.Cookie.SecurePolicy= CookieSecurePolicy.SameAsRequest;
+                     config.Cookie.SameSite = SameSiteMode.None;
+                     config.SlidingExpiration = true;
+                     config.ExpireTimeSpan = TimeSpan.FromHours(24);
                      config.Cookie.Name = "CormenCloudCore";
                      config.ReturnUrlParameter = "returnurl";
                      config.LoginPath = "/Login/UserLogin";

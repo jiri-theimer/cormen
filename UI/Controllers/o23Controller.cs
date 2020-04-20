@@ -187,8 +187,8 @@ namespace UI.Controllers
                 return FileDownloadNotFound(c);
             }
 
-
         }
+        //}
         [HttpGet]
         public ActionResult FileDownload(string guid)
         {
@@ -219,13 +219,15 @@ namespace UI.Controllers
 
         }
 
-        public ActionResult FileDownloadTempFile(string tempfilename,string guid)
+        public FileResult FileDownloadTempFile(string tempfilename,string guid)
         {                        
 
             string fullPath = BL.RunningApp.Instance().TempFolder + "\\" + tempfilename;
 
-            
-            return File(System.IO.File.ReadAllBytes(fullPath), "application/octet-stream", tempfilename.Replace(guid + "_",""));
+            byte[] fileBytes = System.IO.File.ReadAllBytes(fullPath);
+            return File(fileBytes, "application/octet-stream", tempfilename.Replace(guid + "_", ""));
+
+            //return File(System.IO.File.ReadAllBytes(fullPath), "application/octet-stream", tempfilename.Replace(guid + "_",""));
         }
 
 

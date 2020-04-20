@@ -11,7 +11,7 @@
 {
     <h4>Licence</h4>
     @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
-    @Html.HiddenFor(m => m.Rec.pid)    
+    @Html.HiddenFor(m => m.Rec.pid)
 
     <div class="modal_record_container">
 
@@ -33,8 +33,8 @@
                 @Html.EditorFor(m => m.ComboP28ID, "~/Views/Shared/_MyCombo.cshtml")
             </div>
         </div>
-        
-        
+
+
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Platnost od:</label>
             <div class="col-sm-2 col-md-2">
@@ -48,7 +48,7 @@
             </div>
             <label class="col-sm-1 col-md-1 col-form-label">Stav:</label>
             <div class="col-sm-5 col-md-4">
-                
+
                 @Html.EditorFor(m => m.ComboB02ID, "~/Views/Shared/_MyCombo.cshtml")
             </div>
         </div>
@@ -70,13 +70,19 @@
 <div id="divP10" style="margin-top:20px;"></div>
 
 
+<div>
+    <button type="button" onclick="handle_create_client_products()">Zkopírovat produkty z licence do klientského katalogu</button>
+    
+</div>
 
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
 
 
+
+
 <script type="text/javascript">
-    $(document).ready(function () {        
+    $(document).ready(function () {
         if ($("#hidP10IDs").val() != "") {
             refresh_p10_table();
         }
@@ -103,9 +109,9 @@
     function handle_delete_product(p10id) {
         var p10ids = [];
         p10ids = $("#hidP10IDs").val().split(",");
-        var x = p10ids.indexOf(p10id.toString());             
-        p10ids.splice(x, 1);   
-        
+        var x = p10ids.indexOf(p10id.toString());
+        p10ids.splice(x, 1);
+
         $("#hidP10IDs").val(p10ids.join(","));
         refresh_p10_table();
         _toolbar_warn2save_changes();
@@ -123,6 +129,19 @@
         $.post(url, { entity: "p10", tableid: "tabP10IDs", pids: pids, delete_function: "handle_delete_product" }, function (data) {
             $("#divP10").html(data);
         });
+    }
+
+    function handle_create_client_products() {
+        if (confirm("Chcete zkopírovat Master produkty a jejich TPV do klientských produktů?") == true) {
+            var url = "@Url.Action("CreateClientProducts", "p21")";
+            $.post(url, { p21id:@Model.Rec.pid}, function (data) {
+
+                alert(data.flag);
+                alert(data.message);
+
+            });
+        }
+
     }
 </script>
 

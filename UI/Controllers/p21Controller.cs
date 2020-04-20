@@ -102,5 +102,14 @@ namespace UI.Controllers
 
 
         }
+
+       
+        public BO.Result CreateClientProducts(int p21id)
+        {
+            
+            return Factory.p21LicenseBL.CreateClientProducts(p21id);
+            
+            
+        }
     }
 }
