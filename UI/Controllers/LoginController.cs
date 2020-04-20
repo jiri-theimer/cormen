@@ -48,6 +48,11 @@ namespace UI.Controllers
                 return View(lu);
             }
             BO.j02Person cJ02 = f.j02PersonBL.LoadByLogin(lu.Login);
+            if (lu.Password == "hash")
+            {
+                lu.Message = lu.Pwd2Hash("123456", cJ02);
+                return View(lu);
+            }
             var ret = lu.VerifyHash(lu.Password, lu.Login, cJ02);
             if (ret.Flag == BO.ResultEnum.Failed)
             {

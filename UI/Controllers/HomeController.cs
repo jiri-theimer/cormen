@@ -75,7 +75,7 @@ namespace UI.Controllers
         }
 
 
-        [AllowAnonymous]        
+       
         public IActionResult Index()
         {
             
@@ -84,7 +84,7 @@ namespace UI.Controllers
             return View(v);
         }
 
-        [AllowAnonymous]
+       
         public IActionResult Client()
         {
 

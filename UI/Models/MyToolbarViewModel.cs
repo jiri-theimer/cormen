@@ -99,7 +99,7 @@ namespace UI.Models
         {
             if (rec.pid == 0)
             {
-                return DateTime.Now;
+                return DateTime.Now.AddSeconds(-10);
             }
             else
             {

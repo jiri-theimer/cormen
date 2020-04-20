@@ -22,6 +22,7 @@ namespace UI.Controllers
             if (Factory == null)
             {
                 Factory = new BL.Factory(context.HttpContext.User.Identity.Name);
+                
                 if (Factory.CurrentUser.isclosed)
                 {
                     context.Result = new RedirectResult("~/Login/UserLogin");

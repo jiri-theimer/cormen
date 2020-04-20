@@ -44,7 +44,11 @@ namespace UI.Controllers
             v.lisTemp = new List<BO.p85Tempbox>();
 
             v.Toolbar = new MyToolbarViewModel(v.Rec);            
-            if (isclone) { v.Toolbar.MakeClone(); }
+            if (isclone) {
+                v.Toolbar.MakeClone();
+                v.Guid = BO.BAS.GetGuid();
+                PrepareTempTable(pid,v.Guid,true);
+            }
 
             return View(v);
         }
@@ -83,8 +87,9 @@ namespace UI.Controllers
         }
 
 
-        private void PrepareTempTable(int intP13ID,string guid)
+        private void PrepareTempTable(int intP13ID,string guid,bool isclone)
         {
+            if (intP13ID == 0) return;
             var mq = new BO.myQuery("p14");
             mq.p13id = intP13ID;
             mq.explicit_orderby = "a.p14RowNum";
@@ -93,8 +98,12 @@ namespace UI.Controllers
             foreach (var c in lis)
             {
                 var rec = new BO.p85Tempbox() { p85GUID = guid, p85Prefix = "p14" };
-                rec.p85RecordPid = c.pid;
-                rec.p85OtherKey1 = c.p13ID;
+                if (isclone == false)
+                {
+                    rec.p85RecordPid = c.pid;
+                    rec.p85OtherKey1 = c.p13ID;
+                }
+                
                 rec.p85FreeNumber01 = c.p14RowNum;
                 rec.p85FreeText01 = c.p14OperNum;
                 rec.p85FreeText02 = c.p14OperCode;
@@ -118,7 +127,7 @@ namespace UI.Controllers
 
         public BO.p85Tempbox InsertTempRow(string guid)
         {
-            var lis = Factory.p85TempboxBL.GetList(guid).OrderBy(p => p.p85OtherKey5);
+            var lis = Factory.p85TempboxBL.GetList(guid,false,"p14").OrderBy(p => p.p85OtherKey5);
             var intPoradi = 1000;
             if (lis.Count() > 0)
             {
@@ -135,9 +144,8 @@ namespace UI.Controllers
 
         }
         public BO.p85Tempbox MoveTempRow(string guid,int p85id,string direction)
-        {
-            System.IO.File.AppendAllText("c:\\temp\\hovado1.txt", "pid: " + p85id.ToString() + ", guid: " + guid +", direction: "+direction+ System.Environment.NewLine);
-            var lis = Factory.p85TempboxBL.GetList(guid,false).OrderBy(p => p.p85OtherKey5);
+        {            
+            var lis = Factory.p85TempboxBL.GetList(guid,false,"p14").OrderBy(p => p.p85OtherKey5);
             
             var c = lis.First(p => p.pid == p85id);
             //var c = Factory.p85TempboxBL.Load(p85id);
@@ -153,7 +161,7 @@ namespace UI.Controllers
                 c.p85OtherKey5 = cc.p85OtherKey5 + 100;
             }           
             Factory.p85TempboxBL.Save(c);
-            lis = Factory.p85TempboxBL.GetList(guid).OrderBy(p => p.p85OtherKey5);
+            lis = Factory.p85TempboxBL.GetList(guid,false,"p14").OrderBy(p => p.p85OtherKey5);
             int x = 1000;
             
             foreach(var cc in lis)
@@ -171,11 +179,11 @@ namespace UI.Controllers
         }
         public string getHtmlTempBody(string guid, int p13id)
         {
-            var lis = Factory.p85TempboxBL.GetList(guid,true);
+            var lis = Factory.p85TempboxBL.GetList(guid,true,"p14");
             if (lis.Count() == 0)
             {
-                PrepareTempTable(p13id, guid);
-                lis = Factory.p85TempboxBL.GetList(guid);
+                PrepareTempTable(p13id, guid,false);
+                lis = Factory.p85TempboxBL.GetList(guid,false,"p14");
             }
             lis = lis.Where(p=>p.p85IsDeleted==false).OrderBy(p => p.p85OtherKey5);
             int x = 1;

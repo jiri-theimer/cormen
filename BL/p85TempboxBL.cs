@@ -8,7 +8,7 @@ namespace BL
     {
         public BO.p85Tempbox Load(int pid);
         public BO.p85Tempbox LoadByGuid(string strGUID);
-        public IEnumerable<BO.p85Tempbox> GetList(string strGUID, bool bolIncludeDeleted = false);
+        public IEnumerable<BO.p85Tempbox> GetList(string strGUID, bool bolIncludeDeleted = false, string strPrefix = null);
         public int Save(BO.p85Tempbox rec);
         public BO.p85Tempbox VirtualDelete(int intPID);
     }
@@ -31,13 +31,18 @@ namespace BL
         {
             return DL.DbHandler.Load<BO.p85Tempbox>(string.Format("{0} WHERE a.p85GUID = @guid", GetSQL1()), new { guid = strGUID });
         }
-        public IEnumerable<BO.p85Tempbox> GetList(string strGUID,bool bolIncludeDeleted=false)
+        public IEnumerable<BO.p85Tempbox> GetList(string strGUID,bool bolIncludeDeleted=false,string strPrefix=null)
         {
+            var p = new Dapper.DynamicParameters();
+            p.Add("guid", strGUID);
             var s = string.Format("{0} WHERE a.p85GUID=@guid", GetSQL1());
             if (bolIncludeDeleted==false) { s += " AND a.p85IsDeleted=0"; };
-            return DL.DbHandler.GetList<BO.p85Tempbox>(s, new { guid = strGUID });
-
-
+            if (strPrefix != null)
+            {
+                s += " AND a.p85Prefix=@prefix";
+                p.Add("prefix", strPrefix);
+            }
+            return DL.DbHandler.GetList<BO.p85Tempbox>(s,p);
         }
         public BO.p85Tempbox VirtualDelete(int intPID)
         {

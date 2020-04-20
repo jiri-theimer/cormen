@@ -50,7 +50,7 @@
 <div>
     <button type="button" id="cmdNew" class="btn btn-primary py-0" style="display:none;">Přidat operaci</button>
 </div>
-<table id="tab1" class="table table-sm table-hover table-bordered">
+<table id="tab1" class="table table-sm table-hover table-bordered" style="min-width:900px;">
     <thead id="thead1" style="background-color:lightgray;">
         <tr>
             <th>RowNum</th>
@@ -78,6 +78,7 @@
 
 <script type="text/javascript">
     var _guid = "@Model.Guid";
+    var _p13id = "@Model.Rec.pid";
     var _changed_cell;
 
     $(document).ready(function () {
@@ -190,9 +191,10 @@
         });
     }
     function render_p14_body() {
+        if (_p13id == "0") return;
         var url = "@Url.Action("GetBodyOfTale", "Common")";
 
-        $.post(url, { entity: "p14", queryfield: "p13id", queryvalue:@Model.Rec.pid }, function (data) {            
+        $.post(url, { entity: "p14", queryfield: "p13id", queryvalue:_p13id }, function (data) {            
             $("#tbody1").html(data);
         });
     }
