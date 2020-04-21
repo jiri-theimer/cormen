@@ -20,6 +20,7 @@ namespace UI.Controllers
         //Test probíhá před spuštěním každé Akce!
         public override void OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext context)
         {
+            //předání přihlášeného uživatele do Factory
             BO.RunningUser ru = (BO.RunningUser)HttpContext.RequestServices.GetService(typeof(BO.RunningUser));
             if (string.IsNullOrEmpty(ru.j02Login))
             {

@@ -28,20 +28,17 @@ namespace BL
 
 
 
-        public Factory(BO.RunningUser c, ILogger<Factory> logger)
+        public Factory(BO.RunningUser c,BL.RunningApp2 ra)
         {
             _db = new DL.DbHandler();
-            if (c.pid == 0 && c.j02Login !=null)
+            if (c.pid == 0 && string.IsNullOrEmpty(c.j02Login)==false)
             {
                 InhaleUserByLogin(c.j02Login);
-                //c = _db.Load<BO.RunningUser>("SELECT a.j02ID as pid,a.j02Login,a.j02FirstName+' '+a.j02LastName as FullName,a.j02IsMustChangePassword,b.j04PermissionValue,null as ErrorMessage,CASE WHEN GETDATE() BETWEEN a.ValidFrom AND a.ValidUntil THEN 0 ELSE 1 end as isclosed FROM j02Person a INNER JOIN j04UserRole b ON a.j04ID=b.j04ID WHERE a.j02Login LIKE @login", new { login = c.j02Login });
+                
             }
-            //_db.CurrentUser = c;
             
-            //CurrentUser = DL.DbHandler.Load<BO.RunningUser>("SELECT a.j02ID as pid,a.j02Login,a.j02FirstName+' '+a.j02LastName as FullName,a.j02IsMustChangePassword,b.j04PermissionValue,null as ErrorMessage,CASE WHEN GETDATE() BETWEEN a.ValidFrom AND a.ValidUntil THEN 0 ELSE 1 end as isclosed FROM j02Person a INNER JOIN j04UserRole b ON a.j04ID=b.j04ID WHERE a.j02Login LIKE @login", new { login = strLogin });
-
-            //_logger = logger;
-
+            System.IO.File.WriteAllText("c:\\temp\\hovado.txt", ra.ConnectString);
+            //logger.LogInformation("ra.ConnectString: "+ra.ConnectString);
         }
 
         public void InhaleUserByLogin(string strLogin)

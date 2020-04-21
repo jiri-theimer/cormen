@@ -74,11 +74,14 @@ namespace UI
 
             services.AddControllersWithViews();
 
+            var conf = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
             
-            services.AddScoped<BO.RunningUser, BO.RunningUser>();
-            services.AddScoped<BL.DL.DbHandler2, BL.DL.DbHandler2>();
+
+            services.AddSingleton<BL.RunningApp2>(x => new BL.RunningApp2(conf.GetSection("ConnectionStrings")["AppConnection"]));
+            services.AddScoped<BO.RunningUser, BO.RunningUser>();            
             services.AddScoped<BL.Factory,BL.Factory>();
             
+
             
 
 
@@ -141,7 +144,7 @@ namespace UI
             loggerFactory.AddFile("Logs/error-{Date}.log", LogLevel.Error);
             
 
-
+            
             var conf = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
             BL.RunningApp.SetConnectString(conf.GetSection("ConnectionStrings")["AppConnection"]);
             var strLogFolder = conf.GetSection("Folders")["Log"];
