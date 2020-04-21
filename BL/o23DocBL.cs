@@ -14,44 +14,45 @@ namespace BL
     }
     class o23DocBL:Io23DocBL
     {
-        private BO.RunningUser _cUser;
-        public o23DocBL(BO.RunningUser cUser)
+        private DL.DbHandler _db;
+        public o23DocBL(DL.DbHandler db)
         {
-            _cUser = cUser;
+            _db = db;
         }
+        
         private string GetSQL1()
         {
-            return "SELECT a.*," + DL.DbHandler.GetSQL1_Ocas("o23") + ",o12.o12Name as _o12Name,b02.b02Name as _b02Name,dbo.getRecordAlias(a.o23Entity,a.o23RecordPid) as RecordUrlAlias FROM o23Doc a LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID";
+            return "SELECT a.*," + _db.GetSQL1_Ocas("o23") + ",o12.o12Name as _o12Name,b02.b02Name as _b02Name,dbo.getRecordAlias(a.o23Entity,a.o23RecordPid) as RecordUrlAlias FROM o23Doc a LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID";
         }
         public BO.o23Doc Load(int pid)
         {
-            return DL.DbHandler.Load<BO.o23Doc>(string.Format("{0} WHERE a.o23ID={1}", GetSQL1(), pid));
+            return _db.Load<BO.o23Doc>(string.Format("{0} WHERE a.o23ID={1}", GetSQL1(), pid));
         }
         public IEnumerable<BO.o23Doc> GetList(BO.myQuery mq)
         {
             DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq);
-            return DL.DbHandler.GetList<BO.o23Doc>(fq.FinalSql, fq.Parameters);
+            return _db.GetList<BO.o23Doc>(fq.FinalSql, fq.Parameters);
 
         }
         public BO.o27Attachment LoadO27ByGuid(string strGUID)
         {
-            return DL.DbHandler.Load<BO.o27Attachment>("SELECT a.*," + DL.DbHandler.GetSQL1_Ocas("o27") + " FROM o27Attachment a WHERE a.o27GUID=@guid", new { guid = strGUID });
+            return _db.Load<BO.o27Attachment>("SELECT a.*," + _db.GetSQL1_Ocas("o27") + " FROM o27Attachment a WHERE a.o27GUID=@guid", new { guid = strGUID });
         }
         public IEnumerable<BO.o27Attachment> GetListO27(int intO23ID)
         {
-            return DL.DbHandler.GetList<BO.o27Attachment>("SELECT a.*,"+DL.DbHandler.GetSQL1_Ocas("o27")+" FROM o27Attachment a WHERE a.o23ID=@pid", new { pid = intO23ID });
+            return _db.GetList<BO.o27Attachment>("SELECT a.*,"+_db.GetSQL1_Ocas("o27")+" FROM o27Attachment a WHERE a.o23ID=@pid", new { pid = intO23ID });
         }
 
         public int Save(BO.o23Doc rec,List<BO.o27Attachment> lisO27_Append, List<int> o27IDs_Remove = null)
         {
             if (rec.o23RecordPid == 0)
             {
-                _cUser.ErrorMessage = "Chybí vyplnit svázaný záznam k dokumentu!";
+                _db.CurrentUser.AddMessage( "Chybí vyplnit svázaný záznam k dokumentu!");
                 return 0;
             }
             var p = new Dapper.DynamicParameters();
             p.Add("pid", rec.o23ID);
-            if (rec.j02ID_Owner == 0) rec.j02ID_Owner = _cUser.pid;
+            if (rec.j02ID_Owner == 0) rec.j02ID_Owner = _db.CurrentUser.pid;
             p.Add("j02ID_Owner", BO.BAS.TestIntAsDbKey(rec.j02ID_Owner));
             p.Add("o23RecordPid", BO.BAS.TestIntAsDbKey(rec.o23RecordPid));
             p.Add("o23Entity", rec.o23Entity);
@@ -64,7 +65,7 @@ namespace BL
             p.Add("o23Memo", rec.o23Memo);
 
 
-            int intO23ID= DL.DbHandler.SaveRecord(_cUser, "o23Doc", p, rec);
+            int intO23ID= _db.SaveRecord(_db.CurrentUser, "o23Doc", p, rec);
             if (intO23ID > 0 && lisO27_Append != null && lisO27_Append.Count>0)
             {
                 foreach(var c in lisO27_Append)
@@ -78,14 +79,14 @@ namespace BL
                     p.Add("o27FileSize", c.o27FileSize);
                     p.Add("o27ContentType", c.o27ContentType);
                     p.Add("o27GUID", c.o27GUID);
-                    DL.DbHandler.SaveRecord(_cUser, "o27Attachment", p, c);
+                    _db.SaveRecord(_db.CurrentUser, "o27Attachment", p, c);
                 }
             }
             if (intO23ID>0 && o27IDs_Remove !=null && o27IDs_Remove.Count > 0)
             {
                 foreach(var intO27ID in o27IDs_Remove)
                 {
-                    DL.DbHandler.RunSql("DELETE FROM o27Attachment WHERE o27ID=@o27id", new { o27id = intO27ID });
+                    _db.RunSql("DELETE FROM o27Attachment WHERE o27ID=@o27id", new { o27id = intO27ID });
                 }
             }
 

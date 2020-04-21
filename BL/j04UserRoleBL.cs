@@ -12,18 +12,19 @@ namespace BL
     }
     class j04UserRoleBL: Ij04UserRoleBL
     {
-        private BO.RunningUser _cUser;
-        public j04UserRoleBL(BO.RunningUser cUser)
+        private DL.DbHandler _db;
+        public j04UserRoleBL(DL.DbHandler db)
         {
-            _cUser = cUser;
+            _db = db;
         }
+      
         public BO.j04UserRole Load(int pid)
         {            
-            return DL.DbHandler.Load<BO.j04UserRole>(string.Format("SELECT a.*,{0} FROM j04UserRole a WHERE a.j04ID={1}", DL.DbHandler.GetSQL1_Ocas("j04"), pid.ToString()));
+            return _db.Load<BO.j04UserRole>(string.Format("SELECT a.*,{0} FROM j04UserRole a WHERE a.j04ID={1}", _db.GetSQL1_Ocas("j04"), pid.ToString()));
         }
         public IEnumerable<BO.j04UserRole> GetList(BO.myQuery mq)
         {
-            return DL.DbHandler.GetList<BO.j04UserRole>(string.Format("SELECT a.*,{0} FROM j04UserRole a", DL.DbHandler.GetSQL1_Ocas("j04")));
+            return _db.GetList<BO.j04UserRole>(string.Format("SELECT a.*,{0} FROM j04UserRole a", _db.GetSQL1_Ocas("j04")));
         }
 
 

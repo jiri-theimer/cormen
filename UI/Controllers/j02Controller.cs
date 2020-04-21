@@ -98,10 +98,7 @@ namespace UI.Controllers
 
                         return RedirectToAction("Index", "TheGrid", new { pid = v.Rec.pid, entity = "j02" });
                     }
-                    else
-                    {
-                        v.Notify(Factory.CurrentUser.ErrorMessage);
-                    }
+                    
                 }                
                
             }
@@ -110,7 +107,7 @@ namespace UI.Controllers
             v.ComboP28ID = new MyComboViewModel("p28", v.ComboP28ID.SelectedValue, v.ComboP28ID.SelectedText, "cbx2");
             v.TitleBeforeName = new MyAutoCompleteViewModel(1, v.TitleBeforeName.SelectedText, "Titul", "pop1");
             v.TitleAfterName = new MyAutoCompleteViewModel(2, v.TitleAfterName.SelectedText, "", "pop2");
-            v.Notify("Záznam zatím nebyl uložen.", "warning");
+            this.Notify_RecNotSaved();
             return View(v);
 
 
@@ -126,7 +123,7 @@ namespace UI.Controllers
                     var res = lu.ValidatePassword(v.ResetPassword);
                     if (res.Flag == BO.ResultEnum.Failed)
                     {
-                        v.Notify(res.Message);
+                        Factory.CurrentUser.AddMessage(res.Message);
                         return false;
                     }
                     
@@ -134,11 +131,11 @@ namespace UI.Controllers
 
                 if (string.IsNullOrEmpty(c.j02Login) || c.j04ID==0)
                 {
-                    v.Notify("Uživatel musí mít vyplněný uživatelský účet.");return false;
+                    Factory.CurrentUser.AddMessage("Uživatel musí mít vyplněný uživatelský účet.");return false;
                 }
                 if ((c.pid == 0 && string.IsNullOrEmpty(v.ResetPassword)) || (c.pid>0 && string.IsNullOrEmpty(c.j02PasswordHash) && string.IsNullOrEmpty(v.ResetPassword)))
                 {
-                    v.Notify("Pro nového uživatele musíte definovat výchozí heslo.");return false;
+                    Factory.CurrentUser.AddMessage("Pro nového uživatele musíte definovat výchozí heslo.");return false;
                     
                 }
             }

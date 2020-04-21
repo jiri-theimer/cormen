@@ -16,24 +16,53 @@ namespace UI.Controllers
         
         public BL.Factory Factory;
         
+
         //Test probíhá před spuštěním každé Akce!
         public override void OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext context)
         {
-            if (Factory == null)
+            BO.RunningUser ru = (BO.RunningUser)HttpContext.RequestServices.GetService(typeof(BO.RunningUser));
+            if (string.IsNullOrEmpty(ru.j02Login))
             {
-                Factory = new BL.Factory(context.HttpContext.User.Identity.Name);
-                
-                if (Factory.CurrentUser.isclosed)
-                {
-                    context.Result = new RedirectResult("~/Login/UserLogin");
-                }
-                if (Factory.CurrentUser.j02IsMustChangePassword && context.RouteData.Values["action"].ToString() !="ChangePassword")
-                {
-                    
-                    context.Result = new RedirectResult("~/Home/ChangePassword");
-                    // RedirectToAction("ChangePassword", "Home");
-                }
+                ru.j02Login = context.HttpContext.User.Identity.Name;
             }
+            this.Factory= (BL.Factory)HttpContext.RequestServices.GetService(typeof(BL.Factory));
+
+            if (Factory.CurrentUser.isclosed)
+            {
+                context.Result = new RedirectResult("~/Login/UserLogin");
+            }
+            if (Factory.CurrentUser.j02IsMustChangePassword && context.RouteData.Values["action"].ToString() != "ChangePassword")
+            {
+
+                context.Result = new RedirectResult("~/Home/ChangePassword");
+                // RedirectToAction("ChangePassword", "Home");
+            }
+
+            //BL.Factory2 f = (BL.Factory2)HttpContext.RequestServices.GetService(typeof(BL.Factory2));
+            //if (f.CurrentUser == null)
+            //{
+            //    f.SetCurrentUser(context.HttpContext.User.Identity.Name);
+            //}
+
+
+            //helper.WriteMessage("Nazdar, jsem v OnActionExecuting", context.HttpContext.User.Identity.Name);
+
+            //if (Factory == null)
+            //{
+            //    Factory = new BL.Factory(context.HttpContext.User.Identity.Name);
+
+            //    if (Factory.CurrentUser.isclosed)
+            //    {
+            //        context.Result = new RedirectResult("~/Login/UserLogin");
+            //    }
+            //    if (Factory.CurrentUser.j02IsMustChangePassword && context.RouteData.Values["action"].ToString() !="ChangePassword")
+            //    {
+
+            //        context.Result = new RedirectResult("~/Home/ChangePassword");
+            //        // RedirectToAction("ChangePassword", "Home");
+            //    }
+
+            //}
 
             //Příklad přesměrování stránky jinam:
             //context.Result = new RedirectResult("~/Home/Index");
@@ -70,9 +99,14 @@ namespace UI.Controllers
 
         
         public ViewResult RecNotFound(UI.Models.BaseViewModel v)
-        {            
-            v.Notify("Hledaný záznam neexistuje!");
+        {
+            Factory.CurrentUser.AddMessage("Hledaný záznam neexistuje!","error");            
             return View(v);
+        }
+
+        public void Notify_RecNotSaved()
+        {
+            Factory.CurrentUser.AddMessage("Záznam zatím nebyl uložen.", "warning");
         }
         
     }

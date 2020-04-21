@@ -56,14 +56,11 @@ namespace UI.Controllers
                 {
                     return RedirectToActionPermanent("Index", "TheGrid", new { pid = v.Rec.pid, entity = "b02" });
                 }
-                else
-                {
-                    v.Notify(Factory.CurrentUser.ErrorMessage);
-                }
+             
                
             }
             v.Toolbar = new MyToolbarViewModel(v.Rec);
-            v.Notify("Záznam zatím nebyl uložen.", "warning");
+            this.Notify_RecNotSaved();
             return View(v);
         }
 

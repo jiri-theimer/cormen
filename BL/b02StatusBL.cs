@@ -12,23 +12,23 @@ namespace BL
     }
     class b02StatusBL : Ib02StatusBL
     {
-        private BO.RunningUser _cUser;
-        public b02StatusBL(BO.RunningUser cUser)
+        private DL.DbHandler _db;
+        public b02StatusBL(DL.DbHandler db)
         {
-            _cUser = cUser;
+            _db = db;
         }
         private string GetSQL1()
         {
-            return "SELECT a.*," + DL.DbHandler.GetSQL1_Ocas("b02") + " FROM b02Status a";
+            return "SELECT a.*," + _db.GetSQL1_Ocas("b02") + " FROM b02Status a";
         }
         public BO.b02Status Load(int pid)
         {
-            return DL.DbHandler.Load<BO.b02Status>(string.Format("{0} WHERE a.b02ID={1}", GetSQL1(), pid));
+            return _db.Load<BO.b02Status>(string.Format("{0} WHERE a.b02ID={1}", GetSQL1(), pid));
         }
         public IEnumerable<BO.b02Status> GetList(BO.myQuery mq)
         {
             DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq);
-            return DL.DbHandler.GetList<BO.b02Status>(fq.FinalSql, fq.Parameters);
+            return _db.GetList<BO.b02Status>(fq.FinalSql, fq.Parameters);
 
         }
 
@@ -41,7 +41,7 @@ namespace BL
             p.Add("b02Entity", rec.b02Entity);
 
 
-            return DL.DbHandler.SaveRecord(_cUser,"b02Status", p, rec);
+            return _db.SaveRecord(_db.CurrentUser,"b02Status", p, rec);
         }
     }
 }

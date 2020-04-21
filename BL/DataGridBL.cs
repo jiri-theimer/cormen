@@ -14,11 +14,12 @@ namespace BL
     }
     class DataGridBL:IDataGridBL
     {
-        private BO.RunningUser _cUser;
-        public DataGridBL(BO.RunningUser cUser)
+        private DL.DbHandler _db;
+        public DataGridBL(DL.DbHandler db)
         {
-            _cUser = cUser;
+            _db = db;
         }
+        
         private string GetSQL_SELECT_Ocas(string strPrefix)
         {
             return string.Format("a.{0}ID as pid,CASE WHEN GETDATE() BETWEEN a.ValidFrom AND a.ValidUntil THEN 0 ELSE 1 end as isclosed,'{0}' as entity,'{0}/?pid='+convert(varchar(10),a.{0}ID) as {0}", strPrefix);
@@ -69,13 +70,13 @@ namespace BL
 
             if (mq == null)
             {
-                return DL.DbHandler.GetDataTable(s);
+                return _db.GetDataTable(s);
             }
             //parametrický dotaz s WHERE klauzulí
             if (mq.Entity == "") mq.Entity = strEntity;
             DL.FinalSqlCommand q = DL.basQuery.ParseFinalSql(s,mq,true);
             
-            return DL.DbHandler.GetDataTable(q.FinalSql, q.Parameters4DT);
+            return _db.GetDataTable(q.FinalSql, q.Parameters4DT);
             
         }
 

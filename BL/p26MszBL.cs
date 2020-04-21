@@ -12,22 +12,23 @@ namespace BL
     }
     class p26MszBL:Ip26MszBL
     {
-        private BO.RunningUser _cUser;
-        public p26MszBL(BO.RunningUser cUser)
+        private DL.DbHandler _db;
+        public p26MszBL(DL.DbHandler db)
         {
-            _cUser = cUser;
+            _db = db;
         }
+        
         private string GetSQL1()
         {
-            return "SELECT a.*," + DL.DbHandler.GetSQL1_Ocas("p26") + ",b02.b02Name as _b02name,p28.p28Name as _p28Name FROM p26Msz a LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID";
+            return "SELECT a.*," + _db.GetSQL1_Ocas("p26") + ",b02.b02Name as _b02name,p28.p28Name as _p28Name FROM p26Msz a LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID";
         }
         public BO.p26Msz Load(int pid)
         {
-            return DL.DbHandler.Load<BO.p26Msz>(string.Format("{0} WHERE a.p26ID={1}", GetSQL1(), pid));
+            return _db.Load<BO.p26Msz>(string.Format("{0} WHERE a.p26ID={1}", GetSQL1(), pid));
         }
         public IEnumerable<BO.p26Msz> GetList(BO.myQuery mq)
         {
-            return DL.DbHandler.GetList<BO.p26Msz>(GetSQL1());
+            return _db.GetList<BO.p26Msz>(GetSQL1());
         }
 
         public int Save(BO.p26Msz rec)
@@ -41,7 +42,7 @@ namespace BL
             p.Add("p26Memo", rec.p26Memo);
             
 
-            return DL.DbHandler.SaveRecord(_cUser,"p26Msz", p, rec);
+            return _db.SaveRecord(_db.CurrentUser,"p26Msz", p, rec);
         }
     }
 }

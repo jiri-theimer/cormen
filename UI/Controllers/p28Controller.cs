@@ -86,10 +86,7 @@ namespace UI.Controllers
                 {
                     return RedirectToAction("Index", "TheGrid", new { pid = v.Rec.pid, entity = "p28" });
                 }
-                else
-                {
-                    v.Notify(Factory.CurrentUser.ErrorMessage);
-                }
+                
                
             }
             v.Toolbar = new MyToolbarViewModel(v.Rec);
@@ -97,7 +94,7 @@ namespace UI.Controllers
             v.Country1.DropDownWidth = "300px";
             v.Country2 = new MyAutoCompleteViewModel(328, v.Country1.SelectedText, "Stát", "pop2");
             v.Country2.DropDownWidth = "300px";
-            v.Notify("Záznam zatím nebyl uložen.", "warning");
+            this.Notify_RecNotSaved();
             return View(v);
 
 

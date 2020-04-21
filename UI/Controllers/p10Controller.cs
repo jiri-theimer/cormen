@@ -74,10 +74,7 @@ namespace UI.Controllers
                     return RedirectToActionPermanent("Index","TheGrid", new { pid = v.Rec.pid, entity = "p10" });
                     
                 }
-                else
-                {
-                    v.Notify(Factory.CurrentUser.ErrorMessage);                    
-                }
+                
             }
           
             v.Toolbar = new MyToolbarViewModel(v.Rec);
@@ -86,7 +83,7 @@ namespace UI.Controllers
             v.ComboB02ID.Param1 = "p10";
             v.ComboO12ID = new MyComboViewModel("o12", v.ComboB02ID.SelectedValue, v.ComboB02ID.SelectedText, "cbx3");
             v.ComboO12ID.Param1 = "p10";
-            v.Notify("Záznam zatím nebyl uložen.","warning");
+            this.Notify_RecNotSaved();
             return View(v);
 
 

@@ -12,6 +12,11 @@ namespace UI.Controllers
 {
     public class LoginController : Controller
     {
+        private BL.Factory _f;
+        public LoginController(BL.Factory f)
+        {
+            _f = f;
+        }
         [HttpGet]
         public ActionResult UserLogin()
         {
@@ -36,18 +41,19 @@ namespace UI.Controllers
         [HttpPost]
         public ActionResult UserLogin([Bind] BO.LoggingUser lu, string returnurl)
         {
-            var f = new BL.Factory(lu.Login);
-            if (f.CurrentUser == null)
+            //var f = new BL.Factory(lu.Login);
+            _f.InhaleUserByLogin(lu.Login);
+            if (_f.CurrentUser == null)
             {
                 lu.Message = "Přihlášení se nezdařilo - pravděpodobně chybné heslo nebo jméno!";
                 return View(lu);
             }
-            if (f.CurrentUser.isclosed)
+            if (_f.CurrentUser.isclosed)
             {
                 lu.Message = "Uživatelský účet je uzavřený pro přihlašování!";
                 return View(lu);
             }
-            BO.j02Person cJ02 = f.j02PersonBL.LoadByLogin(lu.Login);
+            BO.j02Person cJ02 = _f.j02PersonBL.LoadByLogin(lu.Login);
             if (lu.Password == "hash")
             {
                 lu.Message = lu.Pwd2Hash("123456", cJ02);

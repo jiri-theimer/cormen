@@ -85,10 +85,7 @@ namespace UI.Controllers
                 {
                     return RedirectToAction("Index", "TheGrid", new { pid = v.Rec.pid, entity = "p21" });
                 }
-                else
-                {
-                    v.Notify(Factory.CurrentUser.ErrorMessage);
-                }               
+                          
             }
             v.Toolbar = new MyToolbarViewModel(v.Rec);
             v.ComboP28ID = new MyComboViewModel("p28", v.ComboP28ID.SelectedValue, v.ComboP28ID.SelectedText, "cbx1");
@@ -97,7 +94,7 @@ namespace UI.Controllers
             v.ComboB02ID.Param1 = "p21";
             v.ComboSelectP10ID = new MyComboViewModel("p10", "", "Přidat Master produkt", "cbx3");
             v.ComboSelectP10ID.OnChange_Event = "handle_append_product";
-            v.Notify("Záznam zatím nebyl uložen.", "warning");
+            this.Notify_RecNotSaved();
             return View(v);
 
 
@@ -111,5 +108,8 @@ namespace UI.Controllers
             
             
         }
+        
+        
+        
     }
 }

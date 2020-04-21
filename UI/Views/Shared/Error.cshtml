@@ -1,17 +1,44 @@
 ﻿@model ErrorViewModel
 @{
     ViewData["Title"] = "Error";
+
+   
 }
 
 <h1 class="text-danger">Error.</h1>
 <h2 class="text-danger">An error occurred while processing your request.</h2>
+<h1>Nazdar</h1>
 
 @if (Model.ShowRequestId)
 {
     <p>
         <strong>Request ID:</strong> <code>@Model.RequestId</code>
+        
     </p>
 }
+
+<p>
+    <strong>User:</strong>
+    <code>@User.Identity.Name</code>
+</p>
+<p>
+    <strong>Status Code:</strong>
+    <code>@Model.StatusCode</code>
+</p>
+<p>
+    <strong>Source path:</strong>
+    <code>@Model.OrigFullPath</code>
+</p>
+<p>
+    <strong>Error message:</strong>
+    <code>@Model.Error.Message</code>
+    
+</p>
+<p>
+    <strong>Stack trace:</strong>
+    <code>@Model.Error.StackTrace</code>
+
+</p>
 
 <h3>Development Mode</h3>
 <p>

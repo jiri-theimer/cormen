@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Extensions.Logging;
 
 namespace BL
 {
@@ -11,14 +12,17 @@ namespace BL
         private static string _ConString;
         private static string _UploadFolder;
         private static string _TempFolder;
+        private static string _LogFolder;
         public static void SetConnectString(string strConString)
         {
             _ConString = strConString;
         }
-        public static void SetFolders(string strUpload,string strTemp)
+        public static void SetFolders(string strUpload,string strTemp,string strLog)
         {
             _UploadFolder = strUpload;
             _TempFolder = strTemp;
+            _LogFolder = strLog;
+            
         }
 
         public DateTime InstanceTimestamp = DateTime.Now;
@@ -32,6 +36,7 @@ namespace BL
         }
         public string UploadFolder { get { return _UploadFolder; } }
         public string TempFolder { get { return _TempFolder; } }
+        public string LogFolder { get { return _LogFolder; } }
 
         private RunningApp()
         {

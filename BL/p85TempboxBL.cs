@@ -14,22 +14,23 @@ namespace BL
     }
     class p85TempboxBL : Ip85TempboxBL
     {
-        private BO.RunningUser _cUser;
-        public p85TempboxBL(BO.RunningUser cUser)
+        private DL.DbHandler _db;
+        public p85TempboxBL(DL.DbHandler db)
         {
-            _cUser = cUser;
+            _db = db;
         }
+        
         private string GetSQL1()
         {
-            return "SELECT a.*," + DL.DbHandler.GetSQL1_Ocas("p85") + " FROM p85Tempbox a";
+            return "SELECT a.*," + _db.GetSQL1_Ocas("p85") + " FROM p85Tempbox a";
         }
         public BO.p85Tempbox Load(int pid)
         {
-            return DL.DbHandler.Load<BO.p85Tempbox>(string.Format("{0} WHERE a.p85ID={1}", GetSQL1(), pid));
+            return _db.Load<BO.p85Tempbox>(string.Format("{0} WHERE a.p85ID={1}", GetSQL1(), pid));
         }
         public BO.p85Tempbox LoadByGuid(string strGUID)
         {
-            return DL.DbHandler.Load<BO.p85Tempbox>(string.Format("{0} WHERE a.p85GUID = @guid", GetSQL1()), new { guid = strGUID });
+            return _db.Load<BO.p85Tempbox>(string.Format("{0} WHERE a.p85GUID = @guid", GetSQL1()), new { guid = strGUID });
         }
         public IEnumerable<BO.p85Tempbox> GetList(string strGUID,bool bolIncludeDeleted=false,string strPrefix=null)
         {
@@ -42,11 +43,11 @@ namespace BL
                 s += " AND a.p85Prefix=@prefix";
                 p.Add("prefix", strPrefix);
             }
-            return DL.DbHandler.GetList<BO.p85Tempbox>(s,p);
+            return _db.GetList<BO.p85Tempbox>(s,p);
         }
         public BO.p85Tempbox VirtualDelete(int intPID)
         {
-            return DL.DbHandler.Load<BO.p85Tempbox>("UPDATE p85Tempbox set p85Isdeleted=1 WHERE p85ID=@pid; "+string.Format("{0} WHERE a.p85ID=@pid", GetSQL1()),new { pid = intPID });
+            return _db.Load<BO.p85Tempbox>("UPDATE p85Tempbox set p85Isdeleted=1 WHERE p85ID=@pid; "+string.Format("{0} WHERE a.p85ID=@pid", GetSQL1()),new { pid = intPID });
         }
 
         public int Save(BO.p85Tempbox rec)
@@ -89,7 +90,7 @@ namespace BL
             p.Add("p85FreeDate03", rec.p85FreeDate03, System.Data.DbType.DateTime);
             p.Add("p85FreeDate04", rec.p85FreeDate04, System.Data.DbType.DateTime);
 
-            return DL.DbHandler.SaveRecord(_cUser, "p85Tempbox", p, rec);
+            return _db.SaveRecord(_db.CurrentUser, "p85Tempbox", p, rec);
         }
     }
 }

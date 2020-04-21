@@ -41,6 +41,7 @@ namespace UI
             //services.AddSingleton<UI.Models.GlobalHelper>();
             //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            
 
             services.AddAuthentication("CookieAuthentication")
                  .AddCookie("CookieAuthentication", config =>
@@ -73,6 +74,12 @@ namespace UI
 
             services.AddControllersWithViews();
 
+            
+            services.AddScoped<BO.RunningUser, BO.RunningUser>();
+            services.AddScoped<BL.DL.DbHandler2, BL.DL.DbHandler2>();
+            services.AddScoped<BL.Factory,BL.Factory>();
+            
+            
 
 
         }
@@ -80,8 +87,9 @@ namespace UI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+
             app.UseDeveloperExceptionPage();
-            app.UseDatabaseErrorPage();
+            //app.UseDatabaseErrorPage();
             //toto dát zpìt:
             //if (env.IsDevelopment())
             //{
@@ -94,6 +102,12 @@ namespace UI
             //    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             //    app.UseHsts();
             //}
+
+            //app.UseExceptionHandler("/Home/Error");
+
+            app.UseHsts();
+            app.UseStatusCodePages("text/plain", "Cormen Cloud, status code page, status code: {0}");
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -103,10 +117,9 @@ namespace UI
             
             app.UseAuthorization();
 
-            
           
-            
 
+          
 
             app.UseRequestLocalization();
             System.Globalization.CultureInfo.DefaultThreadCurrentCulture = new System.Globalization.CultureInfo("cs-CZ");
@@ -122,16 +135,23 @@ namespace UI
                 endpoints.MapRazorPages();
             });
 
+            //loggerFactory.AddFile(Configuration.GetSection("Logging"));
             loggerFactory.AddFile("Logs/info-{Date}.log", LogLevel.Information);
             loggerFactory.AddFile("Logs/debug-{Date}.log", LogLevel.Debug);
             loggerFactory.AddFile("Logs/error-{Date}.log", LogLevel.Error);
+            
 
 
             var conf = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
             BL.RunningApp.SetConnectString(conf.GetSection("ConnectionStrings")["AppConnection"]);
-            BL.RunningApp.SetFolders(conf.GetSection("Folders")["Upload"], conf.GetSection("Folders")["Temp"]);
-
-
+            var strLogFolder = conf.GetSection("Folders")["Log"];
+            if (string.IsNullOrEmpty(strLogFolder))
+            {
+                strLogFolder = System.IO.Directory.GetCurrentDirectory() + "\\Logs";
+            }
+            BL.RunningApp.SetFolders(conf.GetSection("Folders")["Upload"], conf.GetSection("Folders")["Temp"], strLogFolder);
+            
+            
         }
     }
 }

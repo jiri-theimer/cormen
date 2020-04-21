@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,10 +10,21 @@ namespace UI.Controllers
 {
     public class p13Controller : BaseController
     {
+        //private readonly BL.Factory _f;
+        //public p13Controller(BL.Factory f)
+        //{
+        //    _f = f;
+
+
+        //}
+
         public IActionResult Index(int pid)
         {
             var v = new Models.p13PreviewViewModel();
-            v.Rec = Factory.p13MasterTpvBL.Load(pid);            
+           
+
+            v.Rec = Factory.p13MasterTpvBL.Load(pid);     
+           
             if (v.Rec == null)
             {
                 return RecNotFound(v);
@@ -25,7 +37,8 @@ namespace UI.Controllers
         }
         public IActionResult Record(int pid, bool isclone)
         {
-            var v = new Models.p13RecordViewModel();           
+            var v = new Models.p13RecordViewModel();
+           
             if (pid > 0)
             {
                 v.Rec = Factory.p13MasterTpvBL.Load(pid);
@@ -75,14 +88,14 @@ namespace UI.Controllers
                 {
                     return RedirectToAction("Index", "TheGrid", new { pid = v.Rec.pid, entity = "p13" });
                 }
-                else
-                {
-                    v.Notify(Factory.CurrentUser.ErrorMessage);
-                }
+                //else
+                //{
+                //    v.Notify(Factory.CurrentUser.Messages4Notify);
+                //}
                 
             }
             v.Toolbar = new MyToolbarViewModel(v.Rec);
-
+            this.Notify_RecNotSaved();
             return View(v);
         }
 

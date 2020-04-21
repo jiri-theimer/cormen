@@ -12,24 +12,25 @@ namespace BL
     }
     class p14MasterOperBL : Ip14MasterOperBL
     {
-        private BO.RunningUser _cUser;
-        public p14MasterOperBL(BO.RunningUser cUser)
+        private DL.DbHandler _db;
+        public p14MasterOperBL(DL.DbHandler db)
         {
-            _cUser = cUser;
+            _db = db;
         }
+        
         private string GetSQL1()
         {
-            return "SELECT a.*," + DL.DbHandler.GetSQL1_Ocas("p14") + " FROM p14MasterOper a";
+            return "SELECT a.*," + _db.GetSQL1_Ocas("p14") + " FROM p14MasterOper a";
         }
         public BO.p14MasterOper Load(int pid)
         {
-            return DL.DbHandler.Load<BO.p14MasterOper>(string.Format("{0} WHERE a.p14ID={1}", GetSQL1(), pid));
+            return _db.Load<BO.p14MasterOper>(string.Format("{0} WHERE a.p14ID={1}", GetSQL1(), pid));
         }
         public IEnumerable<BO.p14MasterOper> GetList(BO.myQuery mq)
         {
             mq.explicit_orderby = "a.p14RowNum";
             DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq);
-            return DL.DbHandler.GetList<BO.p14MasterOper>(fq.FinalSql, fq.Parameters);
+            return _db.GetList<BO.p14MasterOper>(fq.FinalSql, fq.Parameters);
 
         }
         
@@ -52,7 +53,7 @@ namespace BL
             p.Add("p14DurationOper", rec.p14DurationOper);
 
 
-            return DL.DbHandler.SaveRecord(_cUser, "p14MasterOper", p, rec);
+            return _db.SaveRecord(_db.CurrentUser, "p14MasterOper", p, rec);
         }
     }
 }

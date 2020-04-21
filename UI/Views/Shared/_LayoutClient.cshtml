@@ -1,4 +1,5 @@
 ﻿@model BaseViewModel
+@inject BL.Factory _f
 
 <!DOCTYPE html>
 <html lang="cs">
@@ -144,18 +145,19 @@
 
     @RenderSection("Scripts", required: false)
 
-    <script type="text/javascript">
+<script type="text/javascript">
         //zabránit submit formuláře po stisknutí ENTER na jakémkoliv non-submit input elementu
 
 
     $(document).ready(function () {
-           @if (Model.NotifyMessages != null) {
-           @foreach (var c in Model.NotifyMessages) {  // <----  placed on the same line, WORKING !!!
+           @if (_f.CurrentUser.Messages4Notify != null) {
+           @foreach (var c in _f.CurrentUser.Messages4Notify) {  // <----  placed on the same line, WORKING !!!
             <text>
             _notify_message("@c.Value","@c.Key");
             </text>
             }
             }
+
             if ($("#toolbar_changeinfo").length) {
                 //události na editačních formulářích
                 $("form").submit(function () {
@@ -181,6 +183,6 @@
         });
 
 
-    </script>
+</script>
 </body>
 </html>

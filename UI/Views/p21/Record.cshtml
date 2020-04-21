@@ -5,6 +5,7 @@
     ViewData["Title"] = "Licence";
     Layout = "~/Views/Shared/_Layout.cshtml";
     if (Model.Rec == null) return;
+    
 }
 
 @using (Html.BeginForm())
@@ -60,8 +61,11 @@
         </div>
 
 
+
     </div>
     <input type="hidden" id="hidP10IDs" asp-for="@Model.p10IDs" />
+
+
 
     @Html.EditorFor(m => m.ComboSelectP10ID, "~/Views/Shared/_MyCombo.cshtml")
 
@@ -69,11 +73,11 @@
 
 <div id="divP10" style="margin-top:20px;"></div>
 
-
 <div>
-    <button type="button" onclick="handle_create_client_products()">Zkopírovat produkty z licence do klientského katalogu</button>
-    
+    <button type="button" id="cmdCreateClientProducts" class="btn btn-primary py-0" style="display:none;" onclick="handle_create_client_products()">Zkopírovat produkty z licence do klientského katalogu</button>
+
 </div>
+<a asp-action="Pokus">pokus</a>
 
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
@@ -84,6 +88,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         if ($("#hidP10IDs").val() != "") {
+            $("#cmdCreateClientProducts").css("display", "block");
             refresh_p10_table();
         }
 
@@ -128,16 +133,18 @@
         }
         $.post(url, { entity: "p10", tableid: "tabP10IDs", pids: pids, delete_function: "handle_delete_product" }, function (data) {
             $("#divP10").html(data);
+
         });
     }
 
     function handle_create_client_products() {
+        
+
         if (confirm("Chcete zkopírovat Master produkty a jejich TPV do klientských produktů?") == true) {
             var url = "@Url.Action("CreateClientProducts", "p21")";
             $.post(url, { p21id:@Model.Rec.pid}, function (data) {
-
-                alert(data.flag);
                 alert(data.message);
+
 
             });
         }

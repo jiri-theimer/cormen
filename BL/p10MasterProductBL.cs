@@ -12,32 +12,29 @@ namespace BL
     }
     class p10MasterProductBL : Ip10MasterProductBL
     {
-        private BO.RunningUser _cUser;
-        
-        public p10MasterProductBL(BO.RunningUser cUser)
+        private DL.DbHandler _db;
+        public p10MasterProductBL(DL.DbHandler db)
         {
-            //_matka = matka;
-            _cUser = cUser;
-
-
-
+            _db = db;
         }
+
+        
         private string GetSQL1()
         {
-            return "SELECT a.*," + DL.DbHandler.GetSQL1_Ocas("p10") + ",b02.b02Name as _b02name,p13.p13Name as _p13Name,o12.o12Name as _o12Name FROM p10MasterProduct a LEFT OUTER JOIN p13MasterTpv p13 ON a.p13ID=p13.p13ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID";
+            return "SELECT a.*," + _db.GetSQL1_Ocas("p10") + ",b02.b02Name as _b02name,p13.p13Name as _p13Name,o12.o12Name as _o12Name FROM p10MasterProduct a LEFT OUTER JOIN p13MasterTpv p13 ON a.p13ID=p13.p13ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID";
         }
         public BO.p10MasterProduct Load(int pid)
         {
-            return DL.DbHandler.Load<BO.p10MasterProduct>(string.Format("{0} WHERE a.p10ID={1}", GetSQL1(), pid));
+            return _db.Load<BO.p10MasterProduct>(string.Format("{0} WHERE a.p10ID={1}", GetSQL1(), pid));
         }
         public BO.p10MasterProduct LoadByCode(string strCode,int intExcludePID)
         {
-            return DL.DbHandler.Load<BO.p10MasterProduct>(string.Format("{0} WHERE a.p10Code LIKE @code AND a.p10ID<>@exclude", GetSQL1()),new { code = strCode, exclude = intExcludePID });
+            return _db.Load<BO.p10MasterProduct>(string.Format("{0} WHERE a.p10Code LIKE @code AND a.p10ID<>@exclude", GetSQL1()),new { code = strCode, exclude = intExcludePID });
         }
         public IEnumerable<BO.p10MasterProduct> GetList(BO.myQuery mq)
         {
             DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq);
-            return DL.DbHandler.GetList<BO.p10MasterProduct>(fq.FinalSql, fq.Parameters);
+            return _db.GetList<BO.p10MasterProduct>(fq.FinalSql, fq.Parameters);
             
         }
 
@@ -57,14 +54,14 @@ namespace BL
             p.Add("p10Memo", rec.p10Memo);
 
 
-            return DL.DbHandler.SaveRecord(_cUser,"p10MasterProduct", p, rec);
+            return _db.SaveRecord(_db.CurrentUser,"p10MasterProduct", p, rec);
         }
 
         private bool ValidateBeforeSave(BO.p10MasterProduct rec)
         {
             if (LoadByCode(rec.p10Code,rec.pid) != null)
             {
-                _cUser.ErrorMessage = string.Format("Zadaný kód nemůže být duplicitní s jiným záznamem [{0}].", LoadByCode(rec.p10Code, rec.pid).p10Name);
+                _db.CurrentUser.AddMessage(string.Format("Zadaný kód nemůže být duplicitní s jiným záznamem [{0}].", LoadByCode(rec.p10Code, rec.pid).p10Name));
                 return false;
             }
 

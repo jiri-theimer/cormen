@@ -14,27 +14,28 @@ namespace BL
     }
     class j02PersonBL : Ij02PersonBL
     {
-        private BO.RunningUser _cUser;
-        public j02PersonBL(BO.RunningUser cUser)
+        private DL.DbHandler _db;
+        public j02PersonBL(DL.DbHandler db)
         {
-            _cUser = cUser;
+            _db = db;
         }
+       
         private string GetSQL1()
         {
-            return "SELECT a.*,"+DL.DbHandler.GetSQL1_Ocas("j02")+",j04.j04Name as _j04Name,p28.p28Name as _p28Name FROM j02Person a LEFT OUTER JOIN j04UserRole j04 ON a.j04ID=j04.j04ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID";
+            return "SELECT a.*,"+_db.GetSQL1_Ocas("j02")+",j04.j04Name as _j04Name,p28.p28Name as _p28Name FROM j02Person a LEFT OUTER JOIN j04UserRole j04 ON a.j04ID=j04.j04ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID";
         }
         public BO.j02Person Load(int intPID)
         {
-            return DL.DbHandler.Load<BO.j02Person>(GetSQL1()+" WHERE a.j02ID=@pid",new { pid = intPID });
+            return _db.Load<BO.j02Person>(GetSQL1()+" WHERE a.j02ID=@pid",new { pid = intPID });
         }
         public BO.j02Person LoadByLogin(string strLogin)
         {           
-            return DL.DbHandler.Load<BO.j02Person>(GetSQL1()+" WHERE a.j02Login LIKE @login", new { login = strLogin });
+            return _db.Load<BO.j02Person>(GetSQL1()+" WHERE a.j02Login LIKE @login", new { login = strLogin });
         }
         public IEnumerable<BO.j02Person>GetList(BO.myQuery mq)
         {
             DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq);
-            return DL.DbHandler.GetList<BO.j02Person>(fq.FinalSql,fq.Parameters);
+            return _db.GetList<BO.j02Person>(fq.FinalSql,fq.Parameters);
         }
 
         public int Save(BO.j02Person rec)
@@ -60,7 +61,7 @@ namespace BL
             }
             
 
-            return DL.DbHandler.SaveRecord(_cUser,"j02Person", p,rec);
+            return _db.SaveRecord(_db.CurrentUser,"j02Person", p,rec);
         }
 
         

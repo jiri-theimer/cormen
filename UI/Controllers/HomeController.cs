@@ -7,8 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using UI.Models;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Authorization;
+//using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace UI.Controllers
 {
@@ -19,19 +21,22 @@ namespace UI.Controllers
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-          
+            _logger.LogDebug("Začíná HomeController ");
+            _logger.LogInformation("Začíná HomeController. ");
         }
 
         public async Task<IActionResult> Logout()
         {
             //await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignOutAsync("CookieAuthentication");
-
+            
             return View();
 
         }
         public IActionResult MyProfile()
         {
+            _logger.LogDebug("Jsem v MyProfile. ");
+            _logger.LogInformation("Jsem v MyProfile. ");
             var v = new MyProfileViewModel();
             v.Rec = Factory.j02PersonBL.Load(Factory.CurrentUser.pid);
             v.CurrentUser = Factory.CurrentUser;
@@ -42,7 +47,7 @@ namespace UI.Controllers
             var v = new ChangePasswordViewModel();
             if (Factory.CurrentUser.j02IsMustChangePassword)
             {
-                v.Notify("Administrátor nastavil, že si musíte změnit přihlašovací heslo.", "info");
+                Factory.CurrentUser.AddMessage("Administrátor nastavil, že si musíte změnit přihlašovací heslo.", "info");
             }
             return View(v);
         }
@@ -58,17 +63,14 @@ namespace UI.Controllers
                 cJ02.j02IsMustChangePassword = false;
                 if (Factory.j02PersonBL.Save(cJ02) > 0)
                 {
-                    v.Notify("Heslo bylo změněno.", "info");
+                    Factory.CurrentUser.AddMessage("Heslo bylo změněno.", "info");
                     return RedirectToAction("Index");
                 }
-                else
-                {
-                    v.Notify(Factory.CurrentUser.ErrorMessage);
-                }                
+                             
             }
             else
             {
-                v.Notify(ret.Message);                
+                Factory.CurrentUser.AddMessage(ret.Message);            
             }
             return View(v);
 
@@ -94,12 +96,43 @@ namespace UI.Controllers
         }
         
 
+    
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Error(int? statusCode = null)
         {
-             
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var v = new ErrorViewModel() { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier };
+
+            var errFeature = HttpContext.Features.Get<IExceptionHandlerFeature>();
+            if (errFeature != null)
+            {
+                v.Error = errFeature.Error;
+            }
+            
+            
+            
+            var path = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+            if (path != null)
+            {
+                v.OrigFullPath = path.Path;
+            }
+            
+            
+
+            var statusFeature = HttpContext.Features.Get<IStatusCodeReExecuteFeature>();
+            if (statusFeature != null)
+            {
+                v.OrigFullPath = statusFeature.OriginalPath;
+                
+            }
+
+            v.OrigFullPath += HttpContext.Request.QueryString;
+            _logger.LogError(v.Error,"Stala se chyba, byl jsem tu");
+            
+            _logger.LogCritical("Stala se kritická chyba, byl jsem tu");
+
+
+            return View(v);
         }
     }
 }

@@ -12,23 +12,24 @@ namespace BL
     }
     class p28CompanyBL : Ip28CompanyBL
     {
-        private BO.RunningUser _cUser;
-        public p28CompanyBL(BO.RunningUser cUser)
+        private DL.DbHandler _db;
+        public p28CompanyBL(DL.DbHandler db)
         {
-            _cUser = cUser;
+            _db = db;
         }
+        
         private string GetSQL1()
         {
-            return "SELECT a.*," + DL.DbHandler.GetSQL1_Ocas("p28") + " FROM p28Company a";
+            return "SELECT a.*," + _db.GetSQL1_Ocas("p28") + " FROM p28Company a";
         }
         public BO.p28Company Load(int pid)
         {
-            return DL.DbHandler.Load<BO.p28Company>(string.Format("{0} WHERE a.p28ID={1}", GetSQL1(), pid));
+            return _db.Load<BO.p28Company>(string.Format("{0} WHERE a.p28ID=@pid", GetSQL1()),new { pid = pid });
         }
         public IEnumerable<BO.p28Company> GetList(BO.myQuery mq)
         {
             DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq);
-            return DL.DbHandler.GetList<BO.p28Company>(fq.FinalSql,fq.Parameters);
+            return _db.GetList<BO.p28Company>(fq.FinalSql,fq.Parameters);
         }
 
         public int Save(BO.p28Company rec)
@@ -49,7 +50,7 @@ namespace BL
             p.Add("p28PostCode2", rec.p28PostCode2);
             p.Add("p28Country2", rec.p28Country2);
 
-            return DL.DbHandler.SaveRecord(_cUser,"p28Company", p,rec);
+            return _db.SaveRecord(_db.CurrentUser,"p28Company", p,rec);
         }
 
     }

@@ -14,7 +14,7 @@ namespace UI.Controllers
     public class o23Controller : BaseController
 {
         public IActionResult Index(int pid)
-        {
+        {            
             var v = new Models.o23PreviewViewModel();
             v.Rec = Factory.o23DocBL.Load(pid);
             if (v.Rec == null) return RecNotFound(v);
@@ -109,10 +109,7 @@ namespace UI.Controllers
                     
                     return RedirectToActionPermanent("Index", "TheGrid", new { pid = v.Rec.pid, entity = "o23" });
                 }
-                else
-                {
-                    v.Notify(Factory.CurrentUser.ErrorMessage);
-                }
+                
             }
             if (v.Rec.pid>0) v.lisO27 = Factory.o23DocBL.GetListO27(v.Rec.pid);
 
@@ -123,7 +120,8 @@ namespace UI.Controllers
             v.ComboRecordPid = new MyComboViewModel(v.Rec.o23Entity ,v.ComboRecordPid.SelectedValue, v.ComboRecordPid.SelectedText, "cbxPID");
             v.ComboRecordPid.Param1 = "o23";
             v.Toolbar = new MyToolbarViewModel(v.Rec);
-            v.Notify("Záznam zatím nebyl uložen.", "warning");
+            this.Notify_RecNotSaved();
+            
             return View(v);
         }
 
