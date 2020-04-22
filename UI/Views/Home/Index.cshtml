@@ -1,8 +1,12 @@
 ﻿@model HomeViewModel
+@inject BL.Factory _f
 
 @{
     ViewData["Title"] = "Home Page";
+
+
 }
+@addTagHelper *, UI
 
 
 <div class="jumbotron py-4">
@@ -43,7 +47,7 @@
     </div>
 </div>
 
-
+<vc:pokus-control pokus-control-type="@_f.CurrentUser" pokus-control-cislo="3"></vc:pokus-control>
 
 
 
