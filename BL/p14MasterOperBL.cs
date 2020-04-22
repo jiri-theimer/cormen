@@ -10,13 +10,13 @@ namespace BL
         public IEnumerable<BO.p14MasterOper> GetList(BO.myQuery mq);
         public int Save(BO.p14MasterOper rec);
     }
-    class p14MasterOperBL : Ip14MasterOperBL
-    {
-        private DL.DbHandler _db;
-        public p14MasterOperBL(DL.DbHandler db)
+    class p14MasterOperBL : BaseBL,Ip14MasterOperBL
+    {       
+        public p14MasterOperBL(BL.Factory mother):base(mother)
         {
-            _db = db;
+            
         }
+        
         
         private string GetSQL1()
         {
@@ -53,7 +53,7 @@ namespace BL
             p.Add("p14DurationOper", rec.p14DurationOper);
 
 
-            return _db.SaveRecord(_db.CurrentUser, "p14MasterOper", p, rec);
+            return _db.SaveRecord( "p14MasterOper", p, rec);
         }
     }
 }

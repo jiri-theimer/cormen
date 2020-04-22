@@ -12,12 +12,12 @@ namespace BL
 
         
     }
-    class DataGridBL:IDataGridBL
+    class DataGridBL:BaseBL,IDataGridBL
     {
-        private DL.DbHandler _db;
-        public DataGridBL(DL.DbHandler db)
-        {
-            _db = db;
+      
+        public DataGridBL(BL.Factory mother):base(mother)
+        {            
+           
         }
         
         private string GetSQL_SELECT_Ocas(string strPrefix)
@@ -27,7 +27,7 @@ namespace BL
         public DataTable GetList(string strEntity,BO.myQuery mq=null)
         {
             string s = "";
-              
+            
             switch (strEntity)
             {
                 case "j02":

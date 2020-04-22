@@ -8,18 +8,28 @@ namespace BL.DL
 {
     public class DbHandler
     {
-
         public BO.RunningUser CurrentUser { get; set; }
+        private string _conString;
+        private string _logDir;
+        public DbHandler(string connectstring,BO.RunningUser ru,string strLogDir)
+        {
+            _conString = connectstring;
+            this.CurrentUser = ru;
+            _logDir = strLogDir;
+        }
+
+        
 
         public  string RunSp(string strProcName,ref Dapper.DynamicParameters pars)
         {            
-            using (SqlConnection con = new SqlConnection(BL.RunningApp.Instance().ConnectString))
+            using (SqlConnection con = new SqlConnection(_conString))
             {
                 try
                 {
                     con.Query(strProcName,pars,null,true,null,System.Data.CommandType.StoredProcedure);
                     if (pars.Get<string>("err_ret") != "")
                     {
+                        this.CurrentUser.AddMessage(pars.Get<string>("err_ret"));
                         return  pars.Get<string>("err_ret");
 
                     }
@@ -42,7 +52,7 @@ namespace BL.DL
 
         public  T Load<T>(string strSQL)
         {
-            using (SqlConnection con = new SqlConnection(BL.RunningApp.Instance().ConnectString))
+            using (SqlConnection con = new SqlConnection(_conString))
             {
                 try
                 {
@@ -57,7 +67,7 @@ namespace BL.DL
         }
         public  T Load<T>(string strSQL, object param)
         {
-            using (SqlConnection con = new SqlConnection(BL.RunningApp.Instance().ConnectString))
+            using (SqlConnection con = new SqlConnection(_conString))
             {
                 
                 try
@@ -74,7 +84,7 @@ namespace BL.DL
         }
         public  T Load<T>(string strSQL, Dapper.DynamicParameters pars)
         {
-            using (SqlConnection con = new SqlConnection(BL.RunningApp.Instance().ConnectString))
+            using (SqlConnection con = new SqlConnection(_conString))
             {
                 try
                 {
@@ -90,7 +100,7 @@ namespace BL.DL
         }
         public  IEnumerable<T> GetList<T>(string strSQL)
         {
-            using (SqlConnection con = new SqlConnection(BL.RunningApp.Instance().ConnectString))
+            using (SqlConnection con = new SqlConnection(_conString))
             {
                 try
                 {
@@ -106,7 +116,7 @@ namespace BL.DL
         }
         public  IEnumerable<T> GetList<T>(string strSQL, object param)
         {
-            using (SqlConnection con = new SqlConnection(BL.RunningApp.Instance().ConnectString))
+            using (SqlConnection con = new SqlConnection(_conString))
             {
                 try
                 {
@@ -121,7 +131,7 @@ namespace BL.DL
         }
         public  IEnumerable<T> GetList<T>(string strSQL, Dapper.DynamicParameters pars)
         {
-            using (SqlConnection con = new SqlConnection(BL.RunningApp.Instance().ConnectString))
+            using (SqlConnection con = new SqlConnection(_conString))
             {
                 try
                 {
@@ -139,7 +149,7 @@ namespace BL.DL
         {
             System.Data.DataTable dt = new System.Data.DataTable();
 
-            using (SqlConnection con = new SqlConnection(BL.RunningApp.Instance().ConnectString))
+            using (SqlConnection con = new SqlConnection(_conString))
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = strSQL;
@@ -170,7 +180,7 @@ namespace BL.DL
             }
         }
 
-        public  int SaveRecord(BO.RunningUser u, string strTable,DynamicParameters pars,BO.BaseBO rec)
+        public  int SaveRecord(string strTable,DynamicParameters pars,BO.BaseBO rec)
         {
             var strPidField = strTable.Substring(0, 3) + "ID";
             var s = new System.Text.StringBuilder();
@@ -181,14 +191,14 @@ namespace BL.DL
             {
                 s.Append(string.Format("INSERT INTO {0} (", strTable));
                 pars.Add("DateInsert", DateTime.Now, System.Data.DbType.DateTime);
-                pars.Add("UserInsert", u.j02Login, System.Data.DbType.String);
+                pars.Add("UserInsert", this.CurrentUser.j02Login, System.Data.DbType.String);
             }
             else
             {
                 s.Append(string.Format("UPDATE {0} SET ", strTable));
             }
             pars.Add("DateUpdate", DateTime.Now, System.Data.DbType.DateTime);
-            pars.Add("UserUpdate", u.j02Login, System.Data.DbType.String);
+            pars.Add("UserUpdate", this.CurrentUser.j02Login, System.Data.DbType.String);
             if (rec.ValidFrom == null) rec.ValidFrom = System.DateTime.Now;
             pars.Add("ValidFrom", rec.ValidFrom, System.Data.DbType.DateTime);
             if (rec.ValidUntil == null) rec.ValidUntil = new DateTime(3000, 1, 1);
@@ -221,7 +231,7 @@ namespace BL.DL
             }
 
 
-            using (SqlConnection con = new SqlConnection(BL.RunningApp.Instance().ConnectString))
+            using (SqlConnection con = new SqlConnection(_conString))
             {
                 try
                 {
@@ -253,7 +263,7 @@ namespace BL.DL
 
         public  bool RunSql(string strSQL, object param=null)
         {
-            using (SqlConnection con = new SqlConnection(BL.RunningApp.Instance().ConnectString))
+            using (SqlConnection con = new SqlConnection(_conString))
             {
                 try
                 {
@@ -281,7 +291,7 @@ namespace BL.DL
         private  void log_error(Exception e, string strSQL, DynamicParameters pars)
         {
             CurrentUser.AddMessage(e.Message);
-            var strPath = string.Format("{0}\\sql-error-{1}.log", BL.RunningApp.Instance().LogFolder, DateTime.Now.ToString("yyyy.MM.dd"));
+            var strPath = string.Format("{0}\\sql-error-{1}.log", _logDir, DateTime.Now.ToString("yyyy.MM.dd"));
 
             System.IO.File.AppendAllLines(strPath, new List<string>() { "", "", "------------------------------", DateTime.Now.ToString(), "CURRENT USER-login: " + CurrentUser.j02Login, "CURRENT USER-name:" + CurrentUser.FullName, "SQL:", strSQL });
 
@@ -306,7 +316,7 @@ namespace BL.DL
         private  void log_error(Exception e,string strSQL,object param=null)
         {
             CurrentUser.AddMessage(e.Message);
-            var strPath = string.Format("{0}\\sql-error-{1}.log", BL.RunningApp.Instance().LogFolder, DateTime.Now.ToString("yyyy.MM.dd"));
+            var strPath = string.Format("{0}\\sql-error-{1}.log", _logDir, DateTime.Now.ToString("yyyy.MM.dd"));
                         
             var strParams = "";
             if (param != null)

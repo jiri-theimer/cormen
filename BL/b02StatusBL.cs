@@ -10,13 +10,13 @@ namespace BL
         public IEnumerable<BO.b02Status> GetList(BO.myQuery mq);
         public int Save(BO.b02Status rec);
     }
-    class b02StatusBL : Ib02StatusBL
-    {
-        private DL.DbHandler _db;
-        public b02StatusBL(DL.DbHandler db)
+    class b02StatusBL : BaseBL,Ib02StatusBL
+    {        
+        public b02StatusBL(BL.Factory mother) : base(mother)
         {
-            _db = db;
+       
         }
+        
         private string GetSQL1()
         {
             return "SELECT a.*," + _db.GetSQL1_Ocas("b02") + " FROM b02Status a";
@@ -41,7 +41,7 @@ namespace BL
             p.Add("b02Entity", rec.b02Entity);
 
 
-            return _db.SaveRecord(_db.CurrentUser,"b02Status", p, rec);
+            return _db.SaveRecord("b02Status", p, rec);
         }
     }
 }

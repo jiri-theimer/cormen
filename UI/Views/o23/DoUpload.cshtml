@@ -1,10 +1,9 @@
-﻿
+﻿@inject BL.RunningApp _app
 @{
     Layout = null;
-    string strDir = BL.RunningApp.Instance().TempFolder;   
     var _files = new List<string>();
 
-    foreach (string file in System.IO.Directory.EnumerateFiles(strDir,ViewBag.guid+"_*",System.IO.SearchOption.AllDirectories))
+    foreach (string file in System.IO.Directory.EnumerateFiles(_app.TempFolder, ViewBag.guid+"_*",System.IO.SearchOption.AllDirectories))
     {
         if (!file.EndsWith(".infox"))
         {

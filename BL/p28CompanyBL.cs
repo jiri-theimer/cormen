@@ -10,14 +10,14 @@ namespace BL
         public IEnumerable<BO.p28Company> GetList(BO.myQuery mq);
         public int Save(BO.p28Company rec);
     }
-    class p28CompanyBL : Ip28CompanyBL
-    {
-        private DL.DbHandler _db;
-        public p28CompanyBL(DL.DbHandler db)
+    class p28CompanyBL : BaseBL,Ip28CompanyBL
+    {        
+        public p28CompanyBL(BL.Factory mother) : base(mother)
         {
-            _db = db;
+
         }
-        
+
+
         private string GetSQL1()
         {
             return "SELECT a.*," + _db.GetSQL1_Ocas("p28") + " FROM p28Company a";
@@ -50,7 +50,7 @@ namespace BL
             p.Add("p28PostCode2", rec.p28PostCode2);
             p.Add("p28Country2", rec.p28Country2);
 
-            return _db.SaveRecord(_db.CurrentUser,"p28Company", p,rec);
+            return _db.SaveRecord("p28Company", p,rec);
         }
 
     }

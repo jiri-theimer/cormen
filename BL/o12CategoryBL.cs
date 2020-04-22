@@ -10,13 +10,14 @@ namespace BL
         public IEnumerable<BO.o12Category> GetList(BO.myQuery mq);
         public int Save(BO.o12Category rec);
     }
-    class o12CategoryBL : Io12CategoryBL
+    class o12CategoryBL :BaseBL, Io12CategoryBL
     {
-        private DL.DbHandler _db;
-        public o12CategoryBL(DL.DbHandler db)
+     
+        public o12CategoryBL(BL.Factory mother):base(mother)
         {
-            _db = db;
+            
         }
+      
        
         private string GetSQL1()
         {
@@ -42,7 +43,7 @@ namespace BL
             p.Add("o12Entity", rec.o12Entity);
 
 
-            return _db.SaveRecord(_db.CurrentUser,"o12Category", p, rec);
+            return _db.SaveRecord("o12Category", p, rec);
         }
     }
 }

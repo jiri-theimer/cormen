@@ -75,9 +75,19 @@ namespace UI
             services.AddControllersWithViews();
 
             var conf = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-            
+            var strLogFolder = conf.GetSection("Folders")["Log"];
+            if (string.IsNullOrEmpty(strLogFolder))
+            {
+                strLogFolder = System.IO.Directory.GetCurrentDirectory() + "\\Logs";
+            }
 
-            services.AddSingleton<BL.RunningApp2>(x => new BL.RunningApp2(conf.GetSection("ConnectionStrings")["AppConnection"]));
+            services.AddSingleton<BL.RunningApp>(x => new BL.RunningApp() {
+                ConnectString= conf.GetSection("ConnectionStrings")["AppConnection"]
+                ,UploadFolder = conf.GetSection("Folders")["Upload"]
+                ,TempFolder = conf.GetSection("Folders")["Temp"]                
+                ,LogFolder = strLogFolder
+            });
+
             services.AddScoped<BO.RunningUser, BO.RunningUser>();            
             services.AddScoped<BL.Factory,BL.Factory>();
             
@@ -145,14 +155,6 @@ namespace UI
             
 
             
-            var conf = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-            BL.RunningApp.SetConnectString(conf.GetSection("ConnectionStrings")["AppConnection"]);
-            var strLogFolder = conf.GetSection("Folders")["Log"];
-            if (string.IsNullOrEmpty(strLogFolder))
-            {
-                strLogFolder = System.IO.Directory.GetCurrentDirectory() + "\\Logs";
-            }
-            BL.RunningApp.SetFolders(conf.GetSection("Folders")["Upload"], conf.GetSection("Folders")["Temp"], strLogFolder);
             
             
         }

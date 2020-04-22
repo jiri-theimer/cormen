@@ -6,10 +6,11 @@ using Microsoft.Extensions.Logging;
 namespace BL
 {
     public class Factory
-    {
-        private DL.DbHandler _db;
-        public BO.RunningUser CurrentUser { get { return _db.CurrentUser; } }
-        
+    {        
+        //public BO.RunningUser CurrentUser { get { return _fd.CurrentUser; } }
+        public BO.RunningUser CurrentUser { get; set; }
+        public BL.RunningApp App { get; set; }
+
         private Ij02PersonBL _j02;
         private Ip10MasterProductBL _p10;
         private Ip13MasterTpvBL _p13;
@@ -28,22 +29,25 @@ namespace BL
 
 
 
-        public Factory(BO.RunningUser c,BL.RunningApp2 ra)
+        public Factory(BO.RunningUser c,BL.RunningApp runningapp)
         {
-            _db = new DL.DbHandler();
+                        
+            this.CurrentUser = c;
+            this.App = runningapp;
+
             if (c.pid == 0 && string.IsNullOrEmpty(c.j02Login)==false)
             {
                 InhaleUserByLogin(c.j02Login);
                 
             }
             
-            System.IO.File.WriteAllText("c:\\temp\\hovado.txt", ra.ConnectString);
-            //logger.LogInformation("ra.ConnectString: "+ra.ConnectString);
         }
 
         public void InhaleUserByLogin(string strLogin)
         {
-            _db.CurrentUser= _db.Load<BO.RunningUser>("SELECT a.j02ID as pid,a.j02Login,a.j02FirstName+' '+a.j02LastName as FullName,a.j02IsMustChangePassword,b.j04PermissionValue,null as ErrorMessage,CASE WHEN GETDATE() BETWEEN a.ValidFrom AND a.ValidUntil THEN 0 ELSE 1 end as isclosed FROM j02Person a INNER JOIN j04UserRole b ON a.j04ID=b.j04ID WHERE a.j02Login LIKE @login", new { login = strLogin });
+            DL.DbHandler db = new DL.DbHandler(this.App.ConnectString, this.CurrentUser,this.App.LogFolder);
+            this.CurrentUser= db.Load<BO.RunningUser>("SELECT a.j02ID as pid,a.j02Login,a.j02FirstName+' '+a.j02LastName as FullName,a.j02IsMustChangePassword,b.j04PermissionValue,null as ErrorMessage,CASE WHEN GETDATE() BETWEEN a.ValidFrom AND a.ValidUntil THEN 0 ELSE 1 end as isclosed FROM j02Person a INNER JOIN j04UserRole b ON a.j04ID=b.j04ID WHERE a.j02Login LIKE @login", new { login = strLogin });
+            
         }
 
 
@@ -52,7 +56,7 @@ namespace BL
         {
             get
             {
-                if (_grid == null) _grid = new DataGridBL(_db);
+                if (_grid == null) _grid = new DataGridBL(this);
                 return _grid;
             }
         }
@@ -60,7 +64,7 @@ namespace BL
         {
             get
             {
-                if (_cbl == null) _cbl = new CBL(_db);
+                if (_cbl == null) _cbl = new CBL(this);
                 return _cbl;
             }
         }
@@ -68,7 +72,7 @@ namespace BL
         {
             get
             {
-                if (_fbl == null) _fbl = new FBL(_db);
+                if (_fbl == null) _fbl = new FBL(this);
                 return _fbl;
             }
         }
@@ -77,7 +81,7 @@ namespace BL
         {
             get
             {
-                if (_j02 == null) _j02 = new j02PersonBL(_db);
+                if (_j02 == null) _j02 = new j02PersonBL(this);
                 return _j02;
             }
         }
@@ -85,7 +89,7 @@ namespace BL
         {
             get
             {
-                if (_j04 == null) _j04= new j04UserRoleBL(_db);
+                if (_j04 == null) _j04= new j04UserRoleBL(this);
                 return _j04;
             }
         }
@@ -93,7 +97,7 @@ namespace BL
         {
             get
             {
-                if (_p28 == null) _p28 = new p28CompanyBL(_db);
+                if (_p28 == null) _p28 = new p28CompanyBL(this);
                 return _p28;
             }
         }
@@ -101,7 +105,7 @@ namespace BL
         {
             get
             {
-                if (_p26 == null) _p26 = new p26MszBL(_db);
+                if (_p26 == null) _p26 = new p26MszBL(this);
                 return _p26;
             }
         }
@@ -109,7 +113,7 @@ namespace BL
         {
             get
             {
-                if (_p21 == null) _p21 = new p21LicenseBL(_db);
+                if (_p21 == null) _p21 = new p21LicenseBL(this);
                 return _p21;
             }
         }
@@ -117,7 +121,7 @@ namespace BL
         {
             get
             {
-                if (_b02 == null) _b02 = new b02StatusBL(_db);
+                if (_b02 == null) _b02 = new b02StatusBL(this);
                 return _b02;
             }
         }
@@ -125,7 +129,7 @@ namespace BL
         {
             get
             {
-                if (_o12 == null) _o12 = new o12CategoryBL(_db);
+                if (_o12 == null) _o12 = new o12CategoryBL(this);
                 return _o12;
             }
         }
@@ -133,7 +137,7 @@ namespace BL
         {
             get
             {
-                if (_o23 == null) _o23 = new o23DocBL(_db);
+                if (_o23 == null) _o23 = new o23DocBL(this);
                 return _o23;
             }
         }
@@ -141,7 +145,7 @@ namespace BL
         {
             get
             {
-                if (_p13 == null) _p13 = new p13MasterTpvBL(_db);
+                if (_p13 == null) _p13 = new p13MasterTpvBL(this);
                 return _p13;
             }
         }
@@ -149,7 +153,7 @@ namespace BL
         {
             get
             {
-                if (_p14 == null) _p14 = new p14MasterOperBL(_db);
+                if (_p14 == null) _p14 = new p14MasterOperBL(this);
                 return _p14;
             }
         }
@@ -157,7 +161,7 @@ namespace BL
         {
             get
             {
-                if (_p10 == null) _p10 = new p10MasterProductBL(_db);
+                if (_p10 == null) _p10 = new p10MasterProductBL(this);
                 return _p10;
             }
         }
@@ -165,7 +169,7 @@ namespace BL
         {
             get
             {
-                if (_p85 == null) _p85 = new p85TempboxBL(_db);
+                if (_p85 == null) _p85 = new p85TempboxBL(this);
                 return _p85;
             }
         }

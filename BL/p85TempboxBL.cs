@@ -12,13 +12,13 @@ namespace BL
         public int Save(BO.p85Tempbox rec);
         public BO.p85Tempbox VirtualDelete(int intPID);
     }
-    class p85TempboxBL : Ip85TempboxBL
-    {
-        private DL.DbHandler _db;
-        public p85TempboxBL(DL.DbHandler db)
+    class p85TempboxBL : BaseBL,Ip85TempboxBL
+    {      
+        public p85TempboxBL(BL.Factory mother):base(mother)
         {
-            _db = db;
+         
         }
+        
         
         private string GetSQL1()
         {
@@ -90,7 +90,7 @@ namespace BL
             p.Add("p85FreeDate03", rec.p85FreeDate03, System.Data.DbType.DateTime);
             p.Add("p85FreeDate04", rec.p85FreeDate04, System.Data.DbType.DateTime);
 
-            return _db.SaveRecord(_db.CurrentUser, "p85Tempbox", p, rec);
+            return _db.SaveRecord( "p85Tempbox", p, rec);
         }
     }
 }

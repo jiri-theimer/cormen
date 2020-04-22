@@ -12,13 +12,13 @@ namespace BL
         public int Save(BO.j02Person rec);
        
     }
-    class j02PersonBL : Ij02PersonBL
+    class j02PersonBL : BaseBL,Ij02PersonBL
     {
-        private DL.DbHandler _db;
-        public j02PersonBL(DL.DbHandler db)
+        public j02PersonBL(BL.Factory mother):base(mother)
         {
-            _db = db;
+           
         }
+        
        
         private string GetSQL1()
         {
@@ -61,7 +61,7 @@ namespace BL
             }
             
 
-            return _db.SaveRecord(_db.CurrentUser,"j02Person", p,rec);
+            return _db.SaveRecord("j02Person", p,rec);
         }
 
         

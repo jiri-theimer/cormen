@@ -12,13 +12,13 @@ namespace BL
         public IEnumerable<BO.o27Attachment> GetListO27(int intO23ID);
         public BO.o27Attachment LoadO27ByGuid(string strGUID);
     }
-    class o23DocBL:Io23DocBL
+    class o23DocBL:BaseBL,Io23DocBL
     {
-        private DL.DbHandler _db;
-        public o23DocBL(DL.DbHandler db)
+        public o23DocBL(BL.Factory mother):base(mother)
         {
-            _db = db;
+            
         }
+       
         
         private string GetSQL1()
         {
@@ -65,7 +65,7 @@ namespace BL
             p.Add("o23Memo", rec.o23Memo);
 
 
-            int intO23ID= _db.SaveRecord(_db.CurrentUser, "o23Doc", p, rec);
+            int intO23ID= _db.SaveRecord( "o23Doc", p, rec);
             if (intO23ID > 0 && lisO27_Append != null && lisO27_Append.Count>0)
             {
                 foreach(var c in lisO27_Append)
@@ -79,7 +79,7 @@ namespace BL
                     p.Add("o27FileSize", c.o27FileSize);
                     p.Add("o27ContentType", c.o27ContentType);
                     p.Add("o27GUID", c.o27GUID);
-                    _db.SaveRecord(_db.CurrentUser, "o27Attachment", p, c);
+                    _db.SaveRecord( "o27Attachment", p, c);
                 }
             }
             if (intO23ID>0 && o27IDs_Remove !=null && o27IDs_Remove.Count > 0)

@@ -10,13 +10,14 @@ namespace BL
         public IEnumerable<BO.j04UserRole> GetList(BO.myQuery mq);
 
     }
-    class j04UserRoleBL: Ij04UserRoleBL
+    class j04UserRoleBL: BaseBL,Ij04UserRoleBL
     {
-        private DL.DbHandler _db;
-        public j04UserRoleBL(DL.DbHandler db)
+
+        public j04UserRoleBL(BL.Factory mother):base(mother)
         {
-            _db = db;
+            
         }
+       
       
         public BO.j04UserRole Load(int pid)
         {            

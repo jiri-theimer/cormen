@@ -10,13 +10,13 @@ namespace BL
         public IEnumerable<BO.p26Msz> GetList(BO.myQuery mq);
         public int Save(BO.p26Msz rec);
     }
-    class p26MszBL:Ip26MszBL
-    {
-        private DL.DbHandler _db;
-        public p26MszBL(DL.DbHandler db)
+    class p26MszBL:BaseBL,Ip26MszBL
+    {      
+        public p26MszBL(BL.Factory mother):base(mother)
         {
-            _db = db;
+           
         }
+        
         
         private string GetSQL1()
         {
@@ -42,7 +42,7 @@ namespace BL
             p.Add("p26Memo", rec.p26Memo);
             
 
-            return _db.SaveRecord(_db.CurrentUser,"p26Msz", p, rec);
+            return _db.SaveRecord("p26Msz", p, rec);
         }
     }
 }

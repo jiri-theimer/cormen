@@ -11,13 +11,14 @@ namespace BL
         public string LoadUserParam(string strKey);
         public bool SetUserParam(string strKey, string strValue);
     }
-    class CBL : ICBL
+    class CBL :BaseBL, ICBL
     {
-        private DL.DbHandler _db;
-        public CBL(DL.DbHandler db)
+
+        public CBL(BL.Factory mother):base(mother)
         {
-            _db = db;
+           
         }
+      
         private IEnumerable<BO.COM.StringPairValue> _userparams = null;
         public string DeleteRecord(string entity,int pid)
         {

@@ -11,8 +11,14 @@ using UI.Models;
 
 namespace UI.Controllers
 {
+    
     public class o23Controller : BaseController
-{
+        {
+        private BL.RunningApp _app;
+        public o23Controller(BL.RunningApp app)
+        {
+            _app = app;
+        }
         public IActionResult Index(int pid)
         {            
             var v = new Models.o23PreviewViewModel();
@@ -84,8 +90,8 @@ namespace UI.Controllers
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
 
-                string strTempDir = BL.RunningApp.Instance().TempFolder;
-                string strUploadDir = BL.RunningApp.Instance().UploadFolder;
+                string strTempDir = _app.TempFolder;
+                string strUploadDir = _app.UploadFolder;
                 
                 var lisO27 = new List<BO.o27Attachment>();
                 foreach (string file in System.IO.Directory.EnumerateFiles(strTempDir, v.Guid + "_*.infox", System.IO.SearchOption.AllDirectories))
@@ -139,7 +145,7 @@ namespace UI.Controllers
             long size = files.Sum(f => f.Length);
 
             var tempfiles = new List<string>();
-            var tempDir = BL.RunningApp.Instance().TempFolder + "\\";
+            var tempDir = _app.TempFolder + "\\";
             
             foreach (var formFile in files)
             {
@@ -170,7 +176,7 @@ namespace UI.Controllers
         public ActionResult FileDownloadInline(string guid)
         {
             var c = Factory.o23DocBL.LoadO27ByGuid(guid);
-            string strUploadDir = BL.RunningApp.Instance().UploadFolder;
+            string strUploadDir = _app.UploadFolder;
 
             string fullPath = strUploadDir + "\\" + c.o27ArchiveFolder + "\\" + c.o27ArchiveFileName;
             if (System.IO.File.Exists(fullPath))
@@ -191,7 +197,7 @@ namespace UI.Controllers
         public ActionResult FileDownload(string guid)
         {
             var c = Factory.o23DocBL.LoadO27ByGuid(guid);
-            string strUploadDir = BL.RunningApp.Instance().UploadFolder;
+            string strUploadDir = _app.UploadFolder;
             Response.Headers["Content-Type"] = c.o27ContentType;
             Response.Headers["Content-Length"] = c.o27FileSize.ToString();
 
@@ -209,7 +215,7 @@ namespace UI.Controllers
 
         public ActionResult FileDownloadNotFound(BO.o27Attachment c)
         {            
-            var fullPath = BL.RunningApp.Instance().TempFolder + "\\notfound.txt";
+            var fullPath = _app.TempFolder + "\\notfound.txt";
             System.IO.File.WriteAllText(fullPath, string.Format("Soubor [{0}] na serveru [??????\\{1}] neexistuje!", c.o27Name, c.o27ArchiveFolder));
             Response.Headers["Content-Disposition"] = string.Format("inline; filename={0}", "notfound.txt");
             var fileContentResult = new FileContentResult(System.IO.File.ReadAllBytes(fullPath), "text/plain");
@@ -220,7 +226,7 @@ namespace UI.Controllers
         public FileResult FileDownloadTempFile(string tempfilename,string guid)
         {                        
 
-            string fullPath = BL.RunningApp.Instance().TempFolder + "\\" + tempfilename;
+            string fullPath = _app.TempFolder + "\\" + tempfilename;
 
             byte[] fileBytes = System.IO.File.ReadAllBytes(fullPath);
             return File(fileBytes, "application/octet-stream", tempfilename.Replace(guid + "_", ""));

@@ -11,13 +11,13 @@ namespace BL
         public int Save(BO.p21License rec, List<int> p10ids = null);
         BO.Result CreateClientProducts(int intP21ID);
     }
-    class p21LicenseBL:Ip21LicenseBL
+    class p21LicenseBL:BaseBL,Ip21LicenseBL
     {
-        private DL.DbHandler _db;
-        public p21LicenseBL(DL.DbHandler db)
+        public p21LicenseBL(BL.Factory mother):base(mother)
         {
-            _db = db;
+           
         }
+      
        
         private string GetSQL1()
         {
@@ -43,14 +43,14 @@ namespace BL
         {           
             var strGUID = BO.BAS.GetGuid();
             BO.p85Tempbox cP85;
-            var tempBL = new BL.p85TempboxBL(_db);
+            
             cP85 = new BO.p85Tempbox() {p85RecordPid=rec.pid, p85GUID = strGUID, p85Prefix = "p21", p85FreeText01 = rec.p21Name, p85FreeText02 = rec.p21Code, p85Message = rec.p21Memo, p85OtherKey1 = rec.p28ID, p85OtherKey2 = rec.b02ID, p85FreeDate01 = rec.ValidFrom, p85FreeDate02 = rec.ValidUntil };
-            tempBL.Save(cP85);
+            _mother.p85TempboxBL.Save(cP85);
 
             foreach (var p10id in p10ids)
             {
                 cP85= new BO.p85Tempbox() { p85GUID = strGUID, p85Prefix = "p22", p85OtherKey1 = p10id };                
-                tempBL.Save(cP85);
+                _mother.p85TempboxBL.Save(cP85);
             }
            
             var p = new Dapper.DynamicParameters();
@@ -65,8 +65,7 @@ namespace BL
                 return p.Get<int>("pid_ret");
             }
             else
-            {                
-                _db.CurrentUser.AddMessage( s1);
+            {                                
                 return 0;
             }           
             

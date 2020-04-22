@@ -10,15 +10,14 @@ namespace BL
         public IEnumerable<BO.p10MasterProduct> GetList(BO.myQuery mq);
         public int Save(BO.p10MasterProduct rec);
     }
-    class p10MasterProductBL : Ip10MasterProductBL
+    class p10MasterProductBL : BaseBL,Ip10MasterProductBL
     {
-        private DL.DbHandler _db;
-        public p10MasterProductBL(DL.DbHandler db)
-        {
-            _db = db;
-        }
 
-        
+        public p10MasterProductBL(BL.Factory mother):base(mother)
+        {
+           
+        }
+       
         private string GetSQL1()
         {
             return "SELECT a.*," + _db.GetSQL1_Ocas("p10") + ",b02.b02Name as _b02name,p13.p13Name as _p13Name,o12.o12Name as _o12Name FROM p10MasterProduct a LEFT OUTER JOIN p13MasterTpv p13 ON a.p13ID=p13.p13ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID";
@@ -54,7 +53,7 @@ namespace BL
             p.Add("p10Memo", rec.p10Memo);
 
 
-            return _db.SaveRecord(_db.CurrentUser,"p10MasterProduct", p, rec);
+            return _db.SaveRecord("p10MasterProduct", p, rec);
         }
 
         private bool ValidateBeforeSave(BO.p10MasterProduct rec)
