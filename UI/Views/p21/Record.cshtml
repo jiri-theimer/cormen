@@ -5,7 +5,7 @@
     ViewData["Title"] = "Licence";
     Layout = "~/Views/Shared/_Layout.cshtml";
     if (Model.Rec == null) return;
-    
+
 }
 
 @using (Html.BeginForm())
@@ -37,18 +37,25 @@
 
 
         <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Platnost od:</label>
-            <div class="col-sm-2 col-md-2">
-                <input asp-for="Rec.ValidFrom" type="date" class="form-control" />
+            <label class="col-sm-1 col-md-2 col-form-label">Rozsah platnosti:</label>
+            <div class="col-sm-3 col-md-3">
+                @(Html.Kendo().DatePickerFor(m=>m.Rec.ValidFrom)
+                    .Format("dd.MM.yyyy")
+
+
+                 )
+
+
             </div>
-            <div class="col-sm-1 col-md-1">
-                do:
-            </div>
-            <div class="col-sm-2 col-md-2">
-                <input asp-for="Rec.ValidUntil" type="date" class="form-control" />
+
+            <div class="col-sm-3 col-md-3">
+                @(Html.Kendo().DatePickerFor(m=>m.Rec.ValidUntil)
+                    .Format("dd.MM.yyyy")
+
+                 )
             </div>
             <label class="col-sm-1 col-md-1 col-form-label">Stav:</label>
-            <div class="col-sm-5 col-md-4">
+            <div class="col-sm-4 col-md-3">
 
                 @Html.EditorFor(m => m.ComboB02ID, "~/Views/Shared/_MyCombo.cshtml")
             </div>
@@ -77,7 +84,36 @@
     <button type="button" id="cmdCreateClientProducts" class="btn btn-primary py-0" style="display:none;" onclick="handle_create_client_products()">Zkopírovat produkty z licence do klientského katalogu</button>
 
 </div>
-<a asp-action="Pokus">pokus</a>
+
+@(Html.Kendo().MultiColumnComboBox()
+          .Name("products")
+          .Placeholder("Klient...")
+          .DataTextField("p28Name")
+          .DataValueField("pid")
+          .Columns(columns =>
+          {
+              columns.Add().Field("p28Name").Title("Název");
+              columns.Add().Field("p28RegID").Title("IČ");
+              columns.Add().Field("p28Street1").Title("Ulice");
+              columns.Add().Field("p28City1").Title("Město");
+              
+          })
+          .HtmlAttributes(new { style = "width:100%;" })
+          .Filter(FilterType.Contains)          
+          .AutoBind(false)
+          .MinLength(1)
+
+          .DataSource(source =>
+          {
+              source.Read(read =>
+              {
+
+                  read.Action("GetData", "Common");
+              })
+              
+              .ServerFiltering(true);
+          })
+    )
 
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
@@ -92,6 +128,14 @@
             refresh_p10_table();
         }
 
+        $("#Rec_ValidFrom").on("focus", function () {
+            $(this).data("kendoDatePicker").open();
+
+        });
+        $("#Rec_ValidUntil").on("focus", function () {
+            $(this).data("kendoDatePicker").open();
+
+        });
 
 
     });
@@ -138,7 +182,7 @@
     }
 
     function handle_create_client_products() {
-        
+
 
         if (confirm("Chcete zkopírovat Master produkty a jejich TPV do klientských produktů?") == true) {
             var url = "@Url.Action("CreateClientProducts", "p21")";

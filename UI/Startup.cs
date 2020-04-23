@@ -41,7 +41,10 @@ namespace UI
             //services.AddSingleton<UI.Models.GlobalHelper>();
             //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            services.AddKendo();
+
             
+
 
             services.AddAuthentication("CookieAuthentication")
                  .AddCookie("CookieAuthentication", config =>

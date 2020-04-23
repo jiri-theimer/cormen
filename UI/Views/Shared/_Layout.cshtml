@@ -12,8 +12,10 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css">
 
-    
+    <link href="~/lib/kendo/styles/kendo.common-bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/lib/kendo/styles/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
 
+    
 
     <link rel="stylesheet" href="~/css/site.css" />
 
@@ -30,6 +32,15 @@
 
     <script src="~/lib/modal_bootstrap/bootstrap-show-modal.js"></script>
     <script src="https://kit.fontawesome.com/688258440d.js" crossorigin="anonymous"></script>
+
+
+
+
+    <!--KENDO all-->
+    <script src="~/lib/kendo/js/kendo.all.min.js"></script>
+    <script src="~/lib/kendo/js/kendo.aspnetmvc.min.js"></script>
+    <script src="~/lib/kendo/js/cultures/kendo.culture.cs-CZ.min.js"></script>
+
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/controls.js" asp-append-version="true"></script>
@@ -170,7 +181,12 @@
             </div>
         </nav>
     </header>
-  
+
+    <script type="text/javascript">
+        //set culture of the Kendo UI
+        kendo.culture("cs-CZ");
+    </script>
+
     <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -181,7 +197,7 @@
 
     @RenderSection("Scripts", required: false)
 
-<script type="text/javascript">
+    <script type="text/javascript">
         //zabránit submit formuláře po stisknutí ENTER na jakémkoliv non-submit input elementu
 
 
@@ -244,6 +260,6 @@
     }
 
 
-</script>
+    </script>
 </body>
 </html>

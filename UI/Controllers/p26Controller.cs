@@ -46,6 +46,8 @@ namespace UI.Controllers
             v.ComboB02ID = new MyComboViewModel("b02", v.Rec.b02ID.ToString(), v.Rec.b02Name, "cbx2");
             v.ComboB02ID.Param1 = "p26";
 
+            v.ComboPokus = new MyComboViewModel("p28", "", "nic", "cbx007");
+
             v.Toolbar = new MyToolbarViewModel(v.Rec);
             if (isclone) { v.Toolbar.MakeClone(); }
 
@@ -78,10 +80,14 @@ namespace UI.Controllers
                
                 
             }
+            
             v.Toolbar = new MyToolbarViewModel(v.Rec);
             v.ComboP28ID = new MyComboViewModel("p28", v.ComboP28ID.SelectedValue, v.ComboP28ID.SelectedText, "cbx1");
             v.ComboB02ID = new MyComboViewModel("b02", v.ComboB02ID.SelectedValue, v.ComboB02ID.SelectedText, "cbx2");
             v.ComboB02ID.Param1 = "p26";
+
+            v.ComboPokus = new MyComboViewModel("p28", v.ComboPokus.SelectedValue, v.ComboPokus.SelectedText, "cbx007");
+
             this.Notify_RecNotSaved();
             return View(v);
 

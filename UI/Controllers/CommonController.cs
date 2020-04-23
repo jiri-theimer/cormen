@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace UI.Controllers
 {
@@ -31,6 +33,25 @@ namespace UI.Controllers
             return this.Factory.CBL.DeleteRecord(entity, pid);
         }
 
+
+        public string DataTableToJSONWithJSONNet(System.Data.DataTable dt)
+        {
+            return JsonConvert.SerializeObject(dt, Formatting.None, new JsonSerializerSettings(){NullValueHandling = NullValueHandling.Include});
+
+            
+        }
+
+        public ActionResult GetData(string text)
+        {            
+            var mq = new BO.myQuery("p28");
+            mq.SearchString = text;
+           
+            var s = "";
+            var dt = CompleteDT(ref s, "p28", null, null, null, null);
+           
+            return new ContentResult() { Content = DataTableToJSONWithJSONNet(dt), ContentType = "application/json" };
+
+        }
         private System.Data.DataTable CompleteDT(ref string strCols,string entity,  string param1, string pids, string queryfield, string queryvalue)
         {
             var mq = new BO.myQuery(entity);

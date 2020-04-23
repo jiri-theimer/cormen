@@ -49,7 +49,7 @@ namespace BL.DL
             {
                 AQ(ref lis, "a.o12Entity=@prefix", "prefix", mq.query_by_entity_prefix);    //filtr seznamu kategorií podle druhu entity
             }
-            if (mq.SearchString !=null && mq.SearchString.Length>1)
+            if (String.IsNullOrEmpty(mq.SearchString)==false && mq.SearchString.Length>1)
             {
                 if (mq.Entity == "p28")
                 {

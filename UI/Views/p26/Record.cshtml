@@ -1,12 +1,13 @@
 ﻿@model p26RecordViewModel
 
+
 @{
     ViewData["Title"] = "Stroj | MSZ";
     Layout = "~/Views/Shared/_Layout.cshtml";
     if (Model.Rec == null) return;
 }
 
-
+@addTagHelper *, UI
 
 
 
@@ -35,7 +36,7 @@
             @Html.EditorFor(m => m.ComboP28ID, "~/Views/Shared/_MyCombo.cshtml")
         </div>
     </div>
-   
+
     <div class="form-row" style="margin-top:10px;">
         <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
         <div class="col-sm-11 col-md-10">
@@ -49,7 +50,18 @@
         <span asp-validation-for="Rec.p26Memo" class="text-danger"></span>
     </div>
 
+    <hr />
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Pokus:</label>
+        <div class="col-sm-11 col-md-10">
+            
+            <vc:the-combo the-combo-input="@Model.ComboPokus"></vc:the-combo>
+        </div>
+    </div>
 
+    <strong>Taghelper:</strong>
+    <pokus name="Rec.p26Name" designation="Rec.p26Memo"></pokus>
+   
 </div>
 }
 
