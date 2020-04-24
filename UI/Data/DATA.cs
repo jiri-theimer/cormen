@@ -11,7 +11,9 @@ namespace UI
     {
         public static string DataTableToJSONWithJSONNet(System.Data.DataTable dt)
         {
-            return JsonConvert.SerializeObject(dt, Formatting.None, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Include });
+            string s= JsonConvert.SerializeObject(dt, Formatting.None, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Include }).Replace(":null"," ");
+            
+            return s;
 
 
         }

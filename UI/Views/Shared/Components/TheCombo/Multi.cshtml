@@ -59,7 +59,7 @@
                     .Filter(FilterType.Contains)
                     .AutoBind(false)
                     .MinLength(1)
-                    .HighlightFirst(true)
+                    .HighlightFirst(true)                    
                     //.Value(Model.SelectedValue)
                     //.Text(Model.SelectedText)
                     .Events(e=>
@@ -106,7 +106,7 @@
     function onChange_@(@Model.ControlID)(e) {
         if (this.value() == this.text()) {
 
-                $("#@Model.CallerIDValue").val("");
+                $("#@Model.CallerIDValue").val("0");
                 $("#@Model.CallerIDText").val("");
         }
 

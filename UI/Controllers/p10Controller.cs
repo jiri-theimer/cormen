@@ -36,14 +36,8 @@ namespace UI.Controllers
                 v.Rec = new BO.p10MasterProduct();
                 v.Rec.entity = "p10";
             }
-
-            v.ComboP13ID = new MyComboViewModel("p13", v.Rec.p13ID.ToString(), v.Rec.p13Name, "cbx1");
-            v.ComboB02ID = new MyComboViewModel("b02", v.Rec.b02ID.ToString(), v.Rec.b02Name, "cbx2");
-            v.ComboB02ID.Param1 = "p10";
-            v.ComboO12ID = new MyComboViewModel("o12", v.Rec.o12ID.ToString(), v.Rec.o12Name, "cbx3");
-            v.ComboO12ID.Param1 = "p10";
-
-            v.Toolbar = new MyToolbarViewModel(v.Rec);
+            InitToolbar_and_Combos(v);
+           
             if (isclone) { v.Toolbar.MakeClone(); }
 
 
@@ -61,9 +55,9 @@ namespace UI.Controllers
                 c.p10Code = v.Rec.p10Code;
                 c.p10Name = v.Rec.p10Name;
                 c.p10Memo = v.Rec.p10Memo;
-                c.b02ID = BO.BAS.InInt(v.ComboB02ID.SelectedValue);
-                c.p13ID = BO.BAS.InInt(v.ComboP13ID.SelectedValue);
-                c.o12ID = BO.BAS.InInt(v.ComboO12ID.SelectedValue);
+                c.b02ID = v.Rec.b02ID;
+                c.p13ID = v.Rec.p13ID;
+                c.o12ID = v.Rec.o12ID;
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
@@ -76,17 +70,21 @@ namespace UI.Controllers
                 }
                 
             }
-          
-            v.Toolbar = new MyToolbarViewModel(v.Rec);
-            v.ComboP13ID = new MyComboViewModel("p13", v.ComboP13ID.SelectedValue, v.ComboP13ID.SelectedText, "cbx1");
-            v.ComboB02ID = new MyComboViewModel("b02", v.ComboB02ID.SelectedValue, v.ComboB02ID.SelectedText, "cbx2");
-            v.ComboB02ID.Param1 = "p10";
-            v.ComboO12ID = new MyComboViewModel("o12", v.ComboB02ID.SelectedValue, v.ComboB02ID.SelectedText, "cbx3");
-            v.ComboO12ID.Param1 = "p10";
+
+            InitToolbar_and_Combos(v);
             this.Notify_RecNotSaved();
             return View(v);
 
 
+        }
+
+        private void InitToolbar_and_Combos(p10RecordViewModel v)
+        {            
+            v.ComboP13ID = new TheComboViewModel() { Entity = "p13MasterTpv", CallerIDValue = "Rec_p13ID", CallerIDText = "Rec_p13Name", SelectedValue = v.Rec.p13ID.ToString(), SelectedText = v.Rec.p13Name };
+            v.ComboB02ID = new TheComboViewModel() { Entity = "b02Status", CallerIDValue = "Rec_b02ID", CallerIDText = "Rec_b02Name", SelectedValue = v.Rec.b02ID.ToString(), SelectedText = v.Rec.b02Name, Param1 = "p10" };
+            v.ComboO12ID = new TheComboViewModel() { Entity = "o12Category", CallerIDValue = "Rec_o12ID", CallerIDText = "Rec_o12Name", SelectedValue = v.Rec.o12ID.ToString(), SelectedText = v.Rec.o12Name, Param1 = "p10" };
+
+            v.Toolbar = new MyToolbarViewModel(v.Rec);
         }
     }
 }

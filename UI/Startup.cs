@@ -73,6 +73,10 @@ namespace UI
             //    options.User.RequireUniqueEmail = true;                
             //});
 
+            services.Configure<Microsoft.Extensions.WebEncoders.WebEncoderOptions>(options =>
+            {
+                options.TextEncoderSettings = new System.Text.Encodings.Web.TextEncoderSettings(System.Text.Unicode.UnicodeRanges.All);
+            });
 
             services.AddControllersWithViews();
 

@@ -11,8 +11,8 @@ namespace UI.Models
 
         public MyToolbarViewModel Toolbar { get; set; }
 
-        public MyComboViewModel ComboP13ID { get; set; }
-        public MyComboViewModel ComboB02ID { get; set; }
-        public MyComboViewModel ComboO12ID { get; set; }
+        public TheComboViewModel ComboP13ID { get; set; }
+        public TheComboViewModel ComboB02ID { get; set; }
+        public TheComboViewModel ComboO12ID { get; set; }
     }
 }

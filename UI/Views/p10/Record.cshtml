@@ -6,55 +6,62 @@
     if (Model.Rec == null) return;
 }
 
+@addTagHelper *, UI
 
-    <h4>Master produkt</h4>
+<h4>Master produkt</h4>
 @using (Html.BeginForm())
 {
-    
+
     @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
     @Html.HiddenFor(m => m.Rec.pid)
 
-<div class="modal_record_container">
+    <div class="modal_record_container">
 
-    <div class="form-row">
-        <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
-        <div class="col-sm-9 col-md-8">
-            <input class="form-control" asp-for="Rec.p10Name" />
-            <span asp-validation-for="Rec.p10Name" class="text-danger"></span>
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
+            <div class="col-sm-9 col-md-8">
+                <input class="form-control" asp-for="Rec.p10Name" />
+                <span asp-validation-for="Rec.p10Name" class="text-danger"></span>
+            </div>
+            <div class="col-sm-2 col-md-2">
+                <input class="form-control" asp-for="Rec.p10Code" placeholder="Kód" />
+                <span asp-validation-for="Rec.p10Code" class="text-danger"></span>
+            </div>
         </div>
-        <div class="col-sm-2 col-md-2">
-            <input class="form-control" asp-for="Rec.p10Code" placeholder="Kód" />
-            <span asp-validation-for="Rec.p10Code" class="text-danger"></span>
+
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
+            <div class="col-sm-11 col-md-10">
+                <input type="text" asp-for="Rec.b02ID" />
+                <input type="text" asp-for="Rec.b02Name" />
+                <vc:the-combo input="Model.ComboB02ID"></vc:the-combo>
+            </div>
         </div>
-    </div>
-    
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
-        <div class="col-sm-11 col-md-10">
-            @Html.EditorFor(m => m.ComboB02ID, "~/Views/Shared/_MyCombo.cshtml")
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">TPV:</label>
+            <div class="col-sm-11 col-md-10">
+                <input type="hidden" asp-for="Rec.p13ID" />
+                <input type="hidden" asp-for="Rec.p13Name" />
+                <vc:the-combo input="Model.ComboP13ID"></vc:the-combo>
+            </div>
         </div>
-    </div>
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">TPV:</label>
-        <div class="col-sm-11 col-md-10">
-            @Html.EditorFor(m => m.ComboP13ID, "~/Views/Shared/_MyCombo.cshtml")
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Kategorie/Skupina:</label>
+            <div class="col-sm-11 col-md-10">
+                <input type="hidden" asp-for="Rec.o12ID" />
+                <input type="hidden" asp-for="Rec.o12Name" />
+                <vc:the-combo input="Model.ComboO12ID"></vc:the-combo>
+            </div>
         </div>
-    </div>
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Kategorie/Skupina:</label>
-        <div class="col-sm-11 col-md-10">
-            @Html.EditorFor(m => m.ComboO12ID, "~/Views/Shared/_MyCombo.cshtml")
-        </div>
-    </div>
 
 
-    <div class="form-row">
-        <textarea asp-for="Rec.p10Memo" class="form-control" placeholder="Podrobný popis"></textarea>
-        <span asp-validation-for="Rec.p10Memo" class="text-danger"></span>
+        <div class="form-row">
+            <textarea asp-for="Rec.p10Memo" class="form-control" placeholder="Podrobný popis"></textarea>
+            <span asp-validation-for="Rec.p10Memo" class="text-danger"></span>
+        </div>
+
+
     </div>
-
-
-</div>
 }
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")

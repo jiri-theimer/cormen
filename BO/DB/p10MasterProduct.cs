@@ -9,6 +9,8 @@ namespace BO
     {
         [Key]
         public int p10ID { get; set; }
+
+
         public int p13ID { get; set; }
         public int o12ID { get; set; }
         public int b02ID { get; set; }

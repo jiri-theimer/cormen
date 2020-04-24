@@ -21,8 +21,10 @@ namespace UI.Controllers
             mq.SearchString = text;//fulltext hledání
             var dt = Factory.gridBL.GetList( mq);
 
+            System.Data.DataRow newBlankRow = dt.NewRow();
+            dt.Rows.InsertAt(newBlankRow, 0);
 
-            
+
             return new ContentResult() { Content = UI.DATA.DataTableToJSONWithJSONNet(dt), ContentType = "application/json" };
             
         }

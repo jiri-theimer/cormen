@@ -5,21 +5,22 @@
 }
 
 @(Html.Kendo().ComboBox()
-                  .Name(Model.ControlID)
-                  .Placeholder(Model.PlaceHolder)
-                  .DataTextField(Model.getNameField())
-                  .DataValueField("pid")
-                  .HtmlAttributes(new { style = "width:100%;" })
-                  .Filter(FilterType.Contains)
-                  .AutoBind(false)
-                  .AutoWidth(true)
-                  .MinLength(0)
-                  .Value(Model.SelectedValue)
-                  .Text(Model.SelectedText)
+                      .Name(Model.ControlID)
+                      .Placeholder(Model.PlaceHolder)
+                      .DataTextField(Model.getNameField())
+                      .DataValueField("pid")
+                      .HtmlAttributes(new { style = "width:100%;" })
+                      .Filter(FilterType.Contains)
+                      .AutoBind(true)
+                      .AutoWidth(true)
+                      .MinLength(0)                      
+                      .HighlightFirst(true)
+                  //.Value(Model.SelectedValue)
+                  //.Text(Model.SelectedText)
                   .Events(e =>
-                  {
-                      e.Select("onSelect_" + Model.ControlID).Change("onChange_" + Model.ControlID);
-                  })
+                   {
+                       e.Select("onSelect_" + Model.ControlID).Change("onChange_" + Model.ControlID);
+                   })
                   .DataSource(source =>
                   {
                       source.Read(read =>
@@ -32,27 +33,31 @@
 
     <script type="text/javascript">
         @if (Model.SelectedValue != "")
-        {<text>
-            $("#@Model.ControlID").kendoMultiColumnComboBox({
+        {<text>        
+        $("#@Model.ControlID").kendoComboBox({
             value: "@Model.SelectedValue",
             text: "@Model.SelectedText"
             });
+
         </text>
         }
 
     function onSelect_@(@Model.ControlID)(e) {
         if (e.item) {
             var dataItem = this.dataItem(e.item.index());
-
+            if (dataItem.pid == "" || dataItem.pid == null) {
+                dataItem.pid = "0";
+            }
                 $("#@Model.CallerIDValue").val(dataItem.pid);
                 $("#@Model.CallerIDText").val(dataItem.@Model.getNameField());
 
         }
     }
 
-    function onChange_@(@Model.ControlID)(e) {
+        function onChange_@(@Model.ControlID)(e) {
+           
         if (this.value() == this.text()) {
-                $("#@Model.CallerIDValue").val("");
+                $("#@Model.CallerIDValue").val("0");
                 $("#@Model.CallerIDText").val("");
         }
 
