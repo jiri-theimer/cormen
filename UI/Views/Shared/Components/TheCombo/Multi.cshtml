@@ -1,11 +1,9 @@
 ﻿@model UI.Models.TheComboViewModel
 
 
-@{
-    //string strPrefix = Model.Entity.Substring(0, 3);
-    string _DataTextField = Model.getTextField();    
-    List<string> _names;
-    var _fields = new List<string>;
+@{       
+    var _fields = new List<string>();
+    var _names = new List<string>();
     switch (Model.getPrefix()){
         case "p28":
             _fields=new List<string>{ "p28Name","p28Street1","p28City1"};
@@ -28,48 +26,53 @@
             _fields = new List<string> { "FullName", "j02Email", "p28Name" };
             _names = new List<string> { "Jméno", "E-mail", "Klient" };
             break;
+        case "p13":
+            _fields = new List<string> { "p13Name", "p13Code" };
+            _names = new List<string> { "Název", "Kód" };
+            break;
+        case "o23":
+            _fields = new List<string> { "o23Name","RecordUrlName", "EntityAlias","o12Name","b02Name" };
+            _names = new List<string> { "Název", "Vazba","","Kategorie","Stav" };
+            break;
+        default:
+            _fields = new List<string> { Model.getNameField() };
+            _names = new List<string> { "" };
+            break;
     }
 
-    var _cols = new List<BO.COM.StringPairValue>();
-    _cols.Add (new BO.COM.StringPairValue() { Key = "p28Name", Value = "Název" });
-    _cols.Add(new BO.COM.StringPairValue() { Key = "p28City1", Value = "Město" });
 
-
-        }
+    
+}
 
 @(Html.Kendo().MultiColumnComboBox()
     .Name(Model.ControlID)
     .Placeholder(Model.PlaceHolder)
-              .DataTextField(_DataTextField)
+              .DataTextField(Model.getNameField())
               .DataValueField("pid")
     .Columns(columns =>
     {
-            foreach(var field in _fields)
-            {
-                columns.Add().Field(field).Title(c.Value);
-            }
-
-
-        })
-    .HtmlAttributes(new { style = "width:100%;" })
-              .Filter(FilterType.Contains)
-              .AutoBind(false)
-              .MinLength(1)
-              .HighlightFirst(true)
-          .Value(Model.SelectedValue)
-          .Text(Model.SelectedText)
-          
-          .Events(e =>
-          {
-        e.Select("onSelect").Change("onChange");
+        for (int i= 0; i <_fields.Count;i++) {
+            columns.Add().Field(_fields[i]).Title(_names[i]);
+        }
     })
+                    .HtmlAttributes(new { style="width:100%;" })
+                    .Filter(FilterType.Contains)
+                    .AutoBind(false)
+                    .MinLength(1)
+                    .HighlightFirst(true)
+                    //.Value(Model.SelectedValue)
+                    //.Text(Model.SelectedText)
+                    .Events(e=>
+                    {
+                        e.Select("onSelect_"+Model.ControlID).Change("onChange_"+Model.ControlID);
+                    })
 
-          .DataSource(source =>
-          {
+    .DataSource(source =>
+    {
         source.Read(read =>
         {
 
-            read.Action("GetData", "Common");
+            read.Action("GetJson4TheCombo", "TheGrid",new {entity=Model.Entity, fields = String.Join(",", _fields) });
         })
 
         .ServerFiltering(false);
@@ -79,20 +82,30 @@
 
 
 
-<script type="text/javascript">
+    <script type="text/javascript">
+        @if (Model.SelectedValue != "")
+        {<text>
+            $("#@Model.ControlID").kendoMultiColumnComboBox({
+            value: "@Model.SelectedValue",
+            text: "@Model.SelectedText"
+            });
+        </text>
+        }
+        
 
-    function onSelect(e) {
+    function onSelect_@(@Model.ControlID)(e) {
         if (e.item) {
             var dataItem = this.dataItem(e.item.index());
 
                 $("#@Model.CallerIDValue").val(dataItem.pid);
-                $("#@Model.CallerIDText").val(dataItem.@_DataTextField);
+                $("#@Model.CallerIDText").val(dataItem.@Model.getNameField());
 
         }
     }
 
-    function onChange(e) {
+    function onChange_@(@Model.ControlID)(e) {
         if (this.value() == this.text()) {
+
                 $("#@Model.CallerIDValue").val("");
                 $("#@Model.CallerIDText").val("");
         }
@@ -100,4 +113,4 @@
     }
 
 
-</script>
+    </script>

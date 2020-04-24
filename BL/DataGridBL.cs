@@ -8,7 +8,7 @@ namespace BL
 {
     public interface IDataGridBL
     {
-        public DataTable GetList(string strEntity, BO.myQuery mq=null);
+        public DataTable GetList(BO.myQuery mq);
 
         
     }
@@ -25,14 +25,14 @@ namespace BL
             //return string.Format("a.{0}ID as pid,CASE WHEN GETDATE() BETWEEN a.ValidFrom AND a.ValidUntil THEN 0 ELSE 1 end as isclosed,'{0}' as entity,'{0}/?pid='+convert(varchar(10),a.{0}ID) as {0}", strPrefix);
             return string.Format("a.{0}ID as pid,CASE WHEN GETDATE() BETWEEN a.ValidFrom AND a.ValidUntil THEN 0 ELSE 1 end as isclosed", strPrefix);
         }
-        public DataTable GetList(string strEntity,BO.myQuery mq=null)
+        public DataTable GetList(BO.myQuery mq)
         {
             string s = "";
             if (String.IsNullOrEmpty(mq.explicit_selectfields) == false)
             {
                 s = mq.explicit_selectfields;
             }
-            switch (strEntity)
+            switch (mq.Prefix)
             {
                 case "j02":                    
                     if (s=="")
@@ -50,7 +50,7 @@ namespace BL
                 case "p28":
                     if (s == "")
                     {
-                        s = ",a.*";
+                        s = "a.*";
                     }
                     s = string.Format("SELECT {0},{1} from p28Company a", GetSQL_SELECT_Ocas("p28"),s);
                     break;
@@ -60,9 +60,9 @@ namespace BL
                     s = string.Format("SELECT {0},{1} FROM p26Msz a LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID", GetSQL_SELECT_Ocas("p28"), s);
                     break;
                 case "p21":
-                    if (s == "") { s = ",a.*,b02.b02Name,p28.p28Name,'p28/?pid=' + convert(varchar(10), a.p28ID) as p28"; }
+                    if (s == "") { s = "a.*,b02.b02Name,p28.p28Name,'p28/?pid=' + convert(varchar(10), a.p28ID) as p28"; }
                     
-                    s = string.Format("SELECT {0},{1} FROM p21License a LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID", GetSQL_SELECT_Ocas("p21"),s);
+                    s = String.Format("SELECT {0},{1} FROM p21License a LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID", GetSQL_SELECT_Ocas("p21"),s);
                     break;
                 case "o12":
                     s = string.Format("SELECT {0},a.*,dbo.getEntityAlias(a.o12Entity) as EntityAlias from o12Category a", GetSQL_SELECT_Ocas("o12"));
@@ -89,12 +89,9 @@ namespace BL
                     break;
             }
 
-            if (mq == null)
-            {
-                return _db.GetDataTable(s);
-            }
+          
             //parametrický dotaz s WHERE klauzulí
-            if (mq.Entity == "") mq.Entity = strEntity;
+            
             DL.FinalSqlCommand q = DL.basQuery.ParseFinalSql(s,mq,true);
             
             return _db.GetDataTable(q.FinalSql, q.Parameters4DT);

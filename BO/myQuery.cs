@@ -8,21 +8,23 @@ namespace BO
     {
         private string _prefix;
         private string _pkfield;
+        private string _Entity;
         public myQuery(string strEntity)
         {
-            this.Entity = strEntity;
+            if (String.IsNullOrEmpty(strEntity)) { strEntity = "??????"; };
+            _Entity = strEntity;
+            this.Refresh();
         }
 
         public string Entity {
             get
             {
-                return Entity;
+                return _Entity;
             }
             set
             {
-                Entity = value;
-                _prefix= value.Substring(0, 3);
-                _pkfield="a." + value.Substring(0, 3) + "ID";
+                _Entity = value;
+                this.Refresh();
             }
         }
         public string Prefix
@@ -65,6 +67,11 @@ namespace BO
 
         }
         
+        private void Refresh()
+        {
+            _prefix = _Entity.Substring(0, 3);
+            _pkfield = "a." + _Entity.Substring(0, 3) + "ID";
+        }
 
       
     }

@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection;
-using Newtonsoft.Json;
-using System.Text;
 
 namespace UI.Controllers
 {
@@ -34,83 +31,14 @@ namespace UI.Controllers
         }
 
 
-        public string DataTableToJSONWithJSONNet(System.Data.DataTable dt)
-        {
-            return JsonConvert.SerializeObject(dt, Formatting.None, new JsonSerializerSettings(){NullValueHandling = NullValueHandling.Include});
-
-            
-        }
-
-        public ActionResult GetJsonDataList(string entity,string text)
-        {            
-            var mq = new BO.myQuery(entity);
-            mq.SearchString = text;
-           
-            var s = "";
-            var dt = CompleteDT(ref s, mq, null, null, null, null);
-           
-            return new ContentResult() { Content = DataTableToJSONWithJSONNet(dt), ContentType = "application/json" };
-
-        }
-        private System.Data.DataTable CompleteDT(ref string strCols,BO.myQuery mq,  string param1, string pids, string queryfield, string queryvalue)
-        {
-            
-            if (pids != null) mq.pids = BO.BAS.ConvertString2ListInt(pids);
-            if (queryfield != null && queryvalue !=null)
-            {                        
-               BO.Reflexe.SetPropertyValue(mq, queryfield, queryvalue);    //reflexe
-            }
-            
-            
-            strCols = string.Format("{0}Name", entity);
-
-            switch (entity)
-            {
-                case "j02":
-                    strCols = "fullname_desc,j04Name,j02Email,p28Name";
-                    break;
-                case "p10":
-                    strCols = "p10Name,p10Code,b02Name,p13Code,o12Name";
-                    break;
-                case "p21":
-                    strCols = "p21Name,p21Code,p28Name,b02Name";
-                    break;
-                case "p28":
-                    strCols = "p28Name,p28RegID,p28City1,p28Country1";
-                    break;
-                case "p26":
-                    strCols = "p26Name,p26Code,p28Name,b02Name";
-                    break;
-                case "p13":
-                    strCols = "p13Name,p13Code,p13Memo";
-                    break;
-                case "p14":
-                    mq.explicit_orderby = "a.p14RowNum";
-                    strCols = "p14RowNum,p14OperNum,p14OperCode,p14Name,p14OperParam,p14MaterialCode,p14MaterialName,p14UnitsCount,p14DurationPreOper,p14DurationOper,p14DurationPostOper";
-                    break;
-                case "o23":
-                    strCols = "o23Name,RecordUrlName,o12Name";
-                    break;
-
-                case "b02":
-                    strCols = "b02Name,b02Code";
-                    mq.query_by_entity_prefix = param1;
-                    break;
-                case "o12":
-                    strCols = "o12Name,o12Code";
-                    mq.query_by_entity_prefix = param1;
-                    break;
-                default:
-                    break;
-            }
-
-            return Factory.gridBL.GetList(entity, mq);
-        }
+        
+        
 
         public string GetBodyOfTale(string entity, string queryfield, string queryvalue)
         {
             string strCols = "";
-            var dt = CompleteDT(ref strCols, entity,null, null, queryfield, queryvalue);
+            var mq = new BO.myQuery(entity);
+            var dt = Factory.gridBL.GetList(mq);
             var intRows = dt.Rows.Count;
 
             var s = new System.Text.StringBuilder();
@@ -129,8 +57,10 @@ namespace UI.Controllers
         }
         public string GetWorkTable(string entity, string tableid, string param1, string pids,string delete_function,string queryfield,string queryvalue)
         {
+            return "";
             string strCols = "";
-            var dt = CompleteDT(ref strCols, entity, param1, pids,queryfield,queryvalue);
+            var mq = new BO.myQuery(entity);
+            var dt = Factory.gridBL.GetList(mq);
             var intRows = dt.Rows.Count;
 
             var s = new System.Text.StringBuilder();
@@ -157,7 +87,8 @@ namespace UI.Controllers
         public string GetComboHtmlItems(string entity, string curvalue, string tableid,string param1,string pids) //Vrací HTML zdroj tabulky pro MyCombo
         {
             string strCols = "";
-            var dt = CompleteDT(ref strCols,entity,param1, pids,null,null);
+            var mq = new BO.myQuery(entity);
+            var dt = Factory.gridBL.GetList(mq);
             var intRows = dt.Rows.Count;
 
             var s = new System.Text.StringBuilder();
@@ -200,13 +131,13 @@ namespace UI.Controllers
             {
                 return "<tr><td>Je třeba zadat minimálně 2 znaky.</td></tr>";
             }
-            var mq = new BO.myQuery("p28");
+            var mq = new BO.myQuery("p28Company");
             mq.SearchString = expr;
 
             var s = new System.Text.StringBuilder();
             s.Append("<div style='background-color:silver;'><button type='button' onclick='searchbox1_destroy()' class='btn btn-secondary py-0'>Zavřít</button></div>");
             s.Append("<table class='table table-sm table-hover' onclick='searchbox1_destroy()'>");
-            var dt = Factory.gridBL.GetList("p28", mq);
+            var dt = Factory.gridBL.GetList(mq);
             var intRows = dt.Rows.Count;
             if (intRows > 20) intRows = 20;
 
@@ -214,8 +145,8 @@ namespace UI.Controllers
                 s.Append(string.Format("<tr class='table-primary'><td><a href='/p28/?pid={0}'>{1}</a></td><td>{2}</td><td>Klient</td></tr>",dt.Rows[i]["pid"],dt.Rows[i]["p28Name"], dt.Rows[i]["p28Code"]));
             }
 
-            mq.Entity = "p10";
-            dt = Factory.gridBL.GetList("p10", mq);
+            mq.Entity = "p10MasterProduct";
+            dt = Factory.gridBL.GetList(mq);
             intRows = dt.Rows.Count;
             if (intRows > 20) intRows = 20;
             for (int i = 0; i <= intRows - 1; i++)
@@ -223,8 +154,8 @@ namespace UI.Controllers
                 s.Append(string.Format("<tr class='table-success'><td><a href='/p10/?pid={0}'>{1}</a></td><td>{2}</td><td>Master produkt</td></tr>", dt.Rows[i]["pid"], dt.Rows[i]["p10Name"], dt.Rows[i]["p10Code"]));
             }
 
-            mq.Entity = "o23";
-            dt = Factory.gridBL.GetList("o23", mq);
+            mq.Entity = "o23Document";
+            dt = Factory.gridBL.GetList(mq);
             intRows = dt.Rows.Count;
             if (intRows > 20) intRows = 20;
             for (int i = 0; i <= intRows - 1; i++)

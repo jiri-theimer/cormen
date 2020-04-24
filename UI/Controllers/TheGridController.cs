@@ -3,12 +3,45 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
+using Newtonsoft.Json;
+using System.Text;
+
 using UI.Models;
 
 namespace UI.Controllers
 {
     public class TheGridController : BaseController
     {
+        
+        public ActionResult GetJson4TheCombo(string entity,string fields, string text)
+        {
+            var mq = new BO.myQuery(entity);
+            mq.explicit_selectfields = fields;
+            mq.SearchString = text;//fulltext hledání
+            var dt = Factory.gridBL.GetList( mq);
+
+
+            
+            return new ContentResult() { Content = UI.DATA.DataTableToJSONWithJSONNet(dt), ContentType = "application/json" };
+            
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public IActionResult Index(string entity)
         {
             var v = new TheGridViewMode();
@@ -16,10 +49,10 @@ namespace UI.Controllers
             if (v.Entity == null) v.Entity = "p10";
             var mq = new BO.myQuery(v.Entity);
 
-            
-            
-            v.grid1 = new MyGridViewModel(v.Entity,"pid","grid1_"+ v.Entity);
-            
+
+
+            v.grid1 = new MyGridViewModel(v.Entity, "pid", "grid1_" + v.Entity);
+
             switch (v.Entity)
             {
                 case "p10":
@@ -50,7 +83,7 @@ namespace UI.Controllers
                     v.grid1.AddLinkCol("Název", "p21");
                     v.grid1.AddStringCol("Kód", "p21Code");
                     v.grid1.AddStringCol("Stav", "b02Name");
-                    v.grid1.AddLinkCol("Klient", "p28");                    
+                    v.grid1.AddLinkCol("Klient", "p28");
                     v.grid1.AddDateCol("Platnost od", "ValidFrom");
                     v.grid1.AddDateCol("Platnost do", "ValidUntil");
                     v.grid1.AddDateTimeCol("Založeno", "DateInsert");
@@ -59,11 +92,11 @@ namespace UI.Controllers
                     v.grid1.AddLinkCol("Název", "p26");
                     v.grid1.AddStringCol("Kód", "p26Code");
                     v.grid1.AddLinkCol("Klient", "p28");
-                    v.grid1.AddStringCol("Stav", "b02Name");                            
+                    v.grid1.AddStringCol("Stav", "b02Name");
                     v.grid1.AddDateTimeCol("Založeno", "DateInsert");
                     break;
                 case "p28":
-                    v.grid1.AddLinkCol("Název", "p28");                    
+                    v.grid1.AddLinkCol("Název", "p28");
                     v.grid1.AddStringCol("Město", "p28City1");
                     v.grid1.AddStringCol("Ulice", "p28Street1");
                     v.grid1.AddStringCol("Kód", "p28Code");
@@ -89,17 +122,18 @@ namespace UI.Controllers
 
                     v.grid1.AddStringCol("Kategorie", "o12Name");
                     v.grid1.AddStringCol("Stav", "b02Name");
-                    
-                    
+
+
                     v.grid1.AddDateTimeCol("Založeno", "DateInsert");
                     break;
             }
 
 
-            
-            v.grid1.DT = Factory.gridBL.GetList(v.Entity, mq);
+
+            v.grid1.DT = Factory.gridBL.GetList( mq);
 
             return View(v);
         }
+
     }
 }

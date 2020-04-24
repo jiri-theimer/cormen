@@ -1,28 +1,62 @@
 ﻿@model UI.Models.TheComboViewModel
 
 @{
-    string strPrefix = Model.Entity.Substring(0, 3);
-    string _DataTextField = strPrefix + "Name";
+
 }
 
 @(Html.Kendo().ComboBox()
-          .Name(Model.ControlID)
-          .Placeholder(Model.PlaceHolder)
-          .DataTextField(_DataTextField)
-          .DataValueField("pid")
-          .HtmlAttributes(new { style = "width:100%;" })
-          .Filter(FilterType.Contains)
-          .AutoBind(false)
-          .AutoWidth(true)
-          .MinLength(0)
-          .Value(Model.SelectedValue)
-          .Text(Model.SelectedText)
-          .DataSource(source =>
-          {
-              source.Read(read =>
-              {
-                  read.Action("GetData", "Common");
-              })
+                  .Name(Model.ControlID)
+                  .Placeholder(Model.PlaceHolder)
+                  .DataTextField(Model.getNameField())
+                  .DataValueField("pid")
+                  .HtmlAttributes(new { style = "width:100%;" })
+                  .Filter(FilterType.Contains)
+                  .AutoBind(false)
+                  .AutoWidth(true)
+                  .MinLength(0)
+                  .Value(Model.SelectedValue)
+                  .Text(Model.SelectedText)
+                  .Events(e =>
+                  {
+                      e.Select("onSelect_" + Model.ControlID).Change("onChange_" + Model.ControlID);
+                  })
+                  .DataSource(source =>
+                  {
+                      source.Read(read =>
+                      {
+                          read.Action("GetJson4TheCombo", "TheGrid", new {entity=Model.Entity, fields = Model.getNameField() });
+                      })
               .ServerFiltering(false);
-          })
+                  })
     )
+
+    <script type="text/javascript">
+        @if (Model.SelectedValue != "")
+        {<text>
+            $("#@Model.ControlID").kendoMultiColumnComboBox({
+            value: "@Model.SelectedValue",
+            text: "@Model.SelectedText"
+            });
+        </text>
+        }
+
+    function onSelect_@(@Model.ControlID)(e) {
+        if (e.item) {
+            var dataItem = this.dataItem(e.item.index());
+
+                $("#@Model.CallerIDValue").val(dataItem.pid);
+                $("#@Model.CallerIDText").val(dataItem.@Model.getNameField());
+
+        }
+    }
+
+    function onChange_@(@Model.ControlID)(e) {
+        if (this.value() == this.text()) {
+                $("#@Model.CallerIDValue").val("");
+                $("#@Model.CallerIDText").val("");
+        }
+
+    }
+
+
+    </script>

@@ -14,12 +14,13 @@ namespace UI.Models
         public string CallerIDValue { get; set; }
         public string CallerIDText { get; set; }
         public string PlaceHolder { get; set; }
+        public string Param1 { get; set; }
 
         public string getPrefix()
         {
             return this.Entity.Substring(0, 3);
         }
-        public string getTextField()
+        public string getNameField()
         {
             return this.Entity.Substring(0, 3) + "Name";
         }

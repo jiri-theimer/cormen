@@ -15,14 +15,7 @@ namespace UI.Views.Shared.Components.TheCombo
             _user = ru;
         }
 
-        //public IViewComponentResult
-        //    Invoke(string TheComboEntity,string TheComboValue, string TheComboText)
-        //{
-        //    var c = new Models.MyComboViewModel(TheComboEntity, TheComboValue, TheComboText, "cbx"+ TheComboEntity);
-
-        //    return View("Default", c);
-        //}
-
+      
         public IViewComponentResult
             Invoke(Models.TheComboViewModel input)
         {
@@ -30,8 +23,10 @@ namespace UI.Views.Shared.Components.TheCombo
             {
                 input.ControlID = input.Entity + "cbx1";
             }
+            if (input.SelectedValue == "0") { input.SelectedValue = ""; };
+
             var s = input.getPrefix();
-            if (s == "p28" || s=="j02" || s=="p21")
+            if (s == "p28" || s=="j02" || s=="p21" || s=="o23" || s=="p10" || s=="p13" || s=="p26")
             {
                 return View("Multi", input);
             }

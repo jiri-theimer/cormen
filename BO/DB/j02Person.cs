@@ -13,10 +13,10 @@ namespace BO
         public bool j02IsUser { get; set; }
         public bool j02IsMustChangePassword { get; set; }
         public int j04ID { get; set; }
-        private string _j04Name;
-        public string j04Name { get { return _j04Name; } }
-        private string _p28Name;
-        public string p28Name { get { return _p28Name; } }
+        
+        public string j04Name { get; set; }
+        
+        public string p28Name { get; set; }
 
         [Required(ErrorMessage = "Chybí vyplnit e-mail adresa!")]
         public string j02Email { get; set; }

@@ -27,10 +27,9 @@ namespace BO
         public string o23Code { get; set; }
         public DateTime? o23Date { get; set; }
 
-        private string _o12Name;
-        public string o12Name { get { return _o12Name; } }
-        private string _b02Name;
-        public string b02Name { get { return _b02Name; } }
+        public string o12Name { get; set; }
+        
+        public string b02Name { get; set; }
 
         public string RecordUrlAlias;
 

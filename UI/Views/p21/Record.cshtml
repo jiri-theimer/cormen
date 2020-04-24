@@ -34,8 +34,8 @@
             <label class="col-sm-1 col-md-2 col-form-label">Klient:</label>
             <div class="col-sm-11 col-md-10">
                 <input type="text" asp-for="Rec.p28ID" />
-                <input type="text" asp-for="@Model.Rec.p28Name" />
-                <vc:the-combo input="Model.TheComboP28ID"></vc:the-combo>
+                <input type="text" asp-for="Rec.p28Name" />
+                <vc:the-combo input="Model.ComboP28ID"></vc:the-combo>
             </div>
         </div>
 
@@ -60,10 +60,16 @@
             </div>
             <label class="col-sm-1 col-md-1 col-form-label">Stav:</label>
             <div class="col-sm-4 col-md-3">
-
                 <input type="text" asp-for="Rec.b02ID" />
-                <input type="text" asp-for="@Model.Rec.b02Name" />
-                <vc:the-combo input="Model.TheComboB02"></vc:the-combo>
+                <input type="text" asp-for="Rec.b02Name" />
+                <vc:the-combo input="Model.ComboB02ID"></vc:the-combo>
+            </div>
+        </div>
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Cena:</label>
+            <div class="col-sm-11 col-md-10">
+                @(Html.Kendo().NumericTextBoxFor<decimal>(m=>m.Rec.p21Price)                                               
+                )
             </div>
         </div>
 
@@ -116,44 +122,10 @@
 )
 
 <hr />
-@(Html.Kendo().NumericTextBox<double>()
-            .Name("numeric")
-            .Value(17)
-            .Placeholder("Enter numeric value")
-            .HtmlAttributes(new { style = "width: 100%", title = "numeric" })
-      )
+
 
 <button type="button" id="undo">Click here to open the window.</button>
 
-@(Html.Kendo().MultiColumnComboBox()
-          .Name("products")
-          .Placeholder("Klient...")
-          .DataTextField("p28Name")
-          .DataValueField("pid")
-          .Columns(columns =>
-          {
-              columns.Add().Field("p28Name").Title("Název");
-              columns.Add().Field("p28RegID").Title("IČ");
-              columns.Add().Field("p28Street1").Title("Ulice");
-              columns.Add().Field("p28City1").Title("Město");
-
-          })
-          .HtmlAttributes(new { style = "width:100%;" })
-          .Filter(FilterType.Contains)
-          .AutoBind(false)
-          .MinLength(1)
-
-          .DataSource(source =>
-          {
-              source.Read(read =>
-              {
-
-                  read.Action("GetData", "Common");
-              })
-
-              .ServerFiltering(true);
-          })
-    )
 
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")

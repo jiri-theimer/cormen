@@ -39,31 +39,7 @@ namespace UI.Controllers
                 // RedirectToAction("ChangePassword", "Home");
             }
 
-            //BL.Factory2 f = (BL.Factory2)HttpContext.RequestServices.GetService(typeof(BL.Factory2));
-            //if (f.CurrentUser == null)
-            //{
-            //    f.SetCurrentUser(context.HttpContext.User.Identity.Name);
-            //}
-
-
-            //helper.WriteMessage("Nazdar, jsem v OnActionExecuting", context.HttpContext.User.Identity.Name);
-
-            //if (Factory == null)
-            //{
-            //    Factory = new BL.Factory(context.HttpContext.User.Identity.Name);
-
-            //    if (Factory.CurrentUser.isclosed)
-            //    {
-            //        context.Result = new RedirectResult("~/Login/UserLogin");
-            //    }
-            //    if (Factory.CurrentUser.j02IsMustChangePassword && context.RouteData.Values["action"].ToString() !="ChangePassword")
-            //    {
-
-            //        context.Result = new RedirectResult("~/Home/ChangePassword");
-            //        // RedirectToAction("ChangePassword", "Home");
-            //    }
-
-            //}
+         
 
             //Příklad přesměrování stránky jinam:
             //context.Result = new RedirectResult("~/Home/Index");

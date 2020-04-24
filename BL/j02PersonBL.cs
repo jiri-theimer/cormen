@@ -22,7 +22,7 @@ namespace BL
        
         private string GetSQL1()
         {
-            return "SELECT a.*,"+_db.GetSQL1_Ocas("j02")+",j04.j04Name as _j04Name,p28.p28Name as _p28Name FROM j02Person a LEFT OUTER JOIN j04UserRole j04 ON a.j04ID=j04.j04ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID";
+            return "SELECT a.*,"+_db.GetSQL1_Ocas("j02")+",j04.j04Name,p28.p28Name FROM j02Person a LEFT OUTER JOIN j04UserRole j04 ON a.j04ID=j04.j04ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID";
         }
         public BO.j02Person Load(int intPID)
         {
