@@ -20,13 +20,10 @@ namespace BO
         [Required(ErrorMessage = "Chybí vyplnit kód!")]
         public string p21Code { get; set; }
         public Decimal p21Price { get; set; }
-
-        private string _p28Name;
-        public string p28Name { get { return _p28Name; } }
         
+        public string p28Name { get; set; }
         
-
-        private string _b02Name;
-        public string b02Name { get { return _b02Name; } }
+       
+        public string b02Name { get; set; }
     }
 }

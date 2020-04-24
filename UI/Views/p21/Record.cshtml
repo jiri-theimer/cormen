@@ -8,6 +8,8 @@
 
 }
 
+@addTagHelper *, UI
+
 @using (Html.BeginForm())
 {
     <h4>Licence</h4>
@@ -31,7 +33,9 @@
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Klient:</label>
             <div class="col-sm-11 col-md-10">
-                @Html.EditorFor(m => m.ComboP28ID, "~/Views/Shared/_MyCombo.cshtml")
+                <input type="text" asp-for="Rec.p28ID" />
+                <input type="text" asp-for="@Model.Rec.p28Name" />
+                <vc:the-combo input="Model.TheComboP28ID"></vc:the-combo>
             </div>
         </div>
 
@@ -57,7 +61,9 @@
             <label class="col-sm-1 col-md-1 col-form-label">Stav:</label>
             <div class="col-sm-4 col-md-3">
 
-                @Html.EditorFor(m => m.ComboB02ID, "~/Views/Shared/_MyCombo.cshtml")
+                <input type="text" asp-for="Rec.b02ID" />
+                <input type="text" asp-for="@Model.Rec.b02Name" />
+                <vc:the-combo input="Model.TheComboB02"></vc:the-combo>
             </div>
         </div>
 
@@ -70,6 +76,9 @@
 
 
     </div>
+
+    
+
     <input type="hidden" id="hidP10IDs" asp-for="@Model.p10IDs" />
 
 
@@ -78,12 +87,35 @@
 
 }
 
-<div id="divP10" style="margin-top:20px;"></div>
 
+<div id="divP10" style="margin-top:20px;"></div>
+<h1 id="products">nazdar</h1>
 <div>
     <button type="button" id="cmdCreateClientProducts" class="btn btn-primary py-0" style="display:none;" onclick="handle_create_client_products()">Zkopírovat produkty z licence do klientského katalogu</button>
 
 </div>
+
+
+<hr />
+
+@(Html.Kendo().Window()
+    .Name("window")
+    .Title("Hovado jsem")
+    .Content("loading user info...")
+    .LoadContentFrom("Record", "p28")
+    .Draggable()
+    .Events(ev => ev.Close("onClose"))
+    .Resizable()
+    .Modal(false)
+    .Visible(false)
+    .Iframe(true)
+    .Width(900)
+    .Height(600)
+
+
+)
+
+<button type="button" id="undo">Click here to open the window.</button>
 
 @(Html.Kendo().MultiColumnComboBox()
           .Name("products")
@@ -96,10 +128,10 @@
               columns.Add().Field("p28RegID").Title("IČ");
               columns.Add().Field("p28Street1").Title("Ulice");
               columns.Add().Field("p28City1").Title("Město");
-              
+
           })
           .HtmlAttributes(new { style = "width:100%;" })
-          .Filter(FilterType.Contains)          
+          .Filter(FilterType.Contains)
           .AutoBind(false)
           .MinLength(1)
 
@@ -110,7 +142,7 @@
 
                   read.Action("GetData", "Common");
               })
-              
+
               .ServerFiltering(true);
           })
     )
@@ -122,7 +154,26 @@
 
 
 <script type="text/javascript">
+    function onClose() {
+        $("#undo").show();
+    }
+
     $(document).ready(function () {
+        $("#undo").click("click", function () {
+            //$("#window").data("kendoWindow").loadcontentfrom("Record", "j02");
+
+            $("#window").kendoWindow({
+                content: {
+                    url: "/j02/Record",
+                    iframe:true
+                }
+            });
+            $("#window").data("kendoWindow").open();
+            $("#window").data("kendoWindow").center();
+
+        });
+
+
         if ($("#hidP10IDs").val() != "") {
             $("#cmdCreateClientProducts").css("display", "block");
             refresh_p10_table();

@@ -1,0 +1,28 @@
+﻿@model UI.Models.TheComboViewModel
+
+@{
+    string strPrefix = Model.Entity.Substring(0, 3);
+    string _DataTextField = strPrefix + "Name";
+}
+
+@(Html.Kendo().ComboBox()
+          .Name(Model.ControlID)
+          .Placeholder(Model.PlaceHolder)
+          .DataTextField(_DataTextField)
+          .DataValueField("pid")
+          .HtmlAttributes(new { style = "width:100%;" })
+          .Filter(FilterType.Contains)
+          .AutoBind(false)
+          .AutoWidth(true)
+          .MinLength(0)
+          .Value(Model.SelectedValue)
+          .Text(Model.SelectedText)
+          .DataSource(source =>
+          {
+              source.Read(read =>
+              {
+                  read.Action("GetData", "Common");
+              })
+              .ServerFiltering(false);
+          })
+    )

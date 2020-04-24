@@ -1,0 +1,70 @@
+﻿@model UI.Models.TheComboViewModel
+
+@{
+    //string strPrefix = Model.Entity.Substring(0, 3);
+    string _DataTextField = Model.getTextField();
+}
+
+@(Html.Kendo().MultiColumnComboBox()
+    .Name(Model.ControlID)
+    .Placeholder(Model.PlaceHolder)
+              .DataTextField(_DataTextField)
+              .DataValueField("pid")
+    .Columns(columns =>
+    {
+                  columns.Add().Field("p28Name").Title("Název");
+                  columns.Add().Field("p28RegID").Title("IČ");
+                  columns.Add().Field("p28Street1").Title("Ulice");
+                  columns.Add().Field("p28City1").Title("Město");
+
+              })
+    .HtmlAttributes(new { style = "width:100%;" })
+              .Filter(FilterType.Contains)
+              .AutoBind(false)
+              .MinLength(1)
+              .HighlightFirst(true)
+          .Value(Model.SelectedValue)
+          .Text(Model.SelectedText)
+          .Events(e =>
+          {
+              e.Select("onSelect").Change("onChange");
+          })
+
+          .DataSource(source =>
+          {
+              source.Read(read =>
+              {
+
+                  read.Action("GetData", "Common");
+              })
+
+              .ServerFiltering(false);
+          })
+    )
+
+
+
+
+<script type="text/javascript">
+
+    function onSelect(e) {
+        if (e.item) {
+
+            var dataItem = this.dataItem(e.item.index());
+
+                $("#@Model.CallerIDValue").val(dataItem.pid);
+                $("#@Model.CallerIDText").val(dataItem.@_DataTextField);
+
+            }
+        }
+
+        function onChange(e) {
+            if (this.value() == this.text()) {
+                $("#@Model.CallerIDValue").val("");
+                $("#@Model.CallerIDText").val("");
+            }
+
+        }
+
+
+</script>

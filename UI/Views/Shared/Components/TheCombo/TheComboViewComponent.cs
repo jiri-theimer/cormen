@@ -24,11 +24,23 @@ namespace UI.Views.Shared.Components.TheCombo
         //}
 
         public IViewComponentResult
-            Invoke(Models.MyComboViewModel TheComboInput)
+            Invoke(Models.TheComboViewModel input)
         {
-            //var c = new Models.MyComboViewModel(TheComboEntity, TheComboValue, TheComboText, "cbx" + TheComboEntity);
+            if (string.IsNullOrEmpty(input.ControlID))
+            {
+                input.ControlID = input.Entity + "cbx1";
+            }
+            var s = input.getPrefix();
+            if (s == "p28" || s=="j02" || s=="p21")
+            {
+                return View("Multi", input);
+            }
+            else
+            {
+                return View("Single", input);
+            }
             
-            return View("Default", TheComboInput);
+            
         }
 
 

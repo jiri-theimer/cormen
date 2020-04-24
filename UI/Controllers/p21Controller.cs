@@ -44,8 +44,10 @@ namespace UI.Controllers
                 v.Rec.entity = "p21";
             }
 
-            v.ComboP28ID = new MyComboViewModel("p28", v.Rec.p28ID.ToString(), v.Rec.p28Name, "cbx1");
-            
+            v.TheComboP28ID = new TheComboViewModel() { Entity = "p28Company",CallerIDValue= "Rec_p28ID", CallerIDText="Rec_p28Name",SelectedValue= v.Rec.p28ID.ToString(),SelectedText= v.Rec.p28Name };
+            v.TheComboB02 = new TheComboViewModel() { Entity = "b02Status", CallerIDValue = "Rec_b02ID", CallerIDText = "Rec_b02Name", SelectedValue = v.Rec.b02ID.ToString(), SelectedText = v.Rec.b02Name };
+
+
             v.ComboB02ID = new MyComboViewModel("b02", v.Rec.b02ID.ToString(), v.Rec.b02Name, "cbx2");
             v.ComboB02ID.Param1 = "p21";
             v.ComboSelectP10ID = new MyComboViewModel("p10","", "Přidat do licence master produkt...", "cbxProduct");
@@ -72,8 +74,8 @@ namespace UI.Controllers
                 c.p21Code = v.Rec.p21Code;
                 c.p21Name = v.Rec.p21Name;
                 c.p21Memo = v.Rec.p21Memo;
-                c.b02ID = BO.BAS.InInt(v.ComboB02ID.SelectedValue);
-                c.p28ID = BO.BAS.InInt(v.ComboP28ID.SelectedValue);
+                c.b02ID = v.Rec.b02ID;
+                c.p28ID = v.Rec.p28ID;
                
                 c.ValidFrom = v.Rec.ValidFrom;
                 var d = new DateTime(3000,1,1);
@@ -88,8 +90,10 @@ namespace UI.Controllers
                           
             }
             v.Toolbar = new MyToolbarViewModel(v.Rec);
-            v.ComboP28ID = new MyComboViewModel("p28", v.ComboP28ID.SelectedValue, v.ComboP28ID.SelectedText, "cbx1");
-            
+           
+            v.TheComboP28ID = new TheComboViewModel() { Entity = "p28Company", CallerIDValue = "Rec_p28ID", CallerIDText = "Rec_p28Name",SelectedText=v.Rec.p28Name,SelectedValue=v.Rec.p28ID.ToString() };
+            v.TheComboB02 = new TheComboViewModel() { Entity = "b02Status", CallerIDValue = "Rec_b02ID", CallerIDText = "Rec_b02Name", SelectedText = v.Rec.b02Name, SelectedValue = v.Rec.b02ID.ToString() };
+
             v.ComboB02ID = new MyComboViewModel("b02", v.ComboB02ID.SelectedValue, v.ComboB02ID.SelectedText, "cbx2");
             v.ComboB02ID.Param1 = "p21";
             v.ComboSelectP10ID = new MyComboViewModel("p10", "", "Přidat Master produkt", "cbx3");
