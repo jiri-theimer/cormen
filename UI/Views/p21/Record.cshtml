@@ -77,7 +77,7 @@
 
     </div>
 
-    
+
 
     <input type="hidden" id="hidP10IDs" asp-for="@Model.p10IDs" />
 
@@ -114,6 +114,14 @@
 
 
 )
+
+<hr />
+@(Html.Kendo().NumericTextBox<double>()
+            .Name("numeric")
+            .Value(17)
+            .Placeholder("Enter numeric value")
+            .HtmlAttributes(new { style = "width: 100%", title = "numeric" })
+      )
 
 <button type="button" id="undo">Click here to open the window.</button>
 

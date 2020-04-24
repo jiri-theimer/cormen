@@ -1,9 +1,41 @@
 ﻿@model UI.Models.TheComboViewModel
 
+
 @{
     //string strPrefix = Model.Entity.Substring(0, 3);
-    string _DataTextField = Model.getTextField();
-}
+    string _DataTextField = Model.getTextField();    
+    List<string> _names;
+    var _fields = new List<string>;
+    switch (Model.getPrefix()){
+        case "p28":
+            _fields=new List<string>{ "p28Name","p28Street1","p28City1"};
+            _names = new List<string> { "Název","Ulice", "Město" };
+            break;
+
+        case "p10":
+            _fields = new List<string> { "p10Name", "p10Code","p13Code" };
+            _names = new List<string> { "Název", "Kód", "TPV" };
+            break;
+        case "p21":
+            _fields = new List<string> { "p21Name", "p28Name" };
+            _names = new List<string> { "Název", "Klient"};
+            break;
+        case "p26":
+            _fields = new List<string> { "p26Name", "p26Code", "Klient" };
+            _names = new List<string> { "Název", "Kód", "p28Name" };
+            break;
+        case "j02":
+            _fields = new List<string> { "FullName", "j02Email", "p28Name" };
+            _names = new List<string> { "Jméno", "E-mail", "Klient" };
+            break;
+    }
+
+    var _cols = new List<BO.COM.StringPairValue>();
+    _cols.Add (new BO.COM.StringPairValue() { Key = "p28Name", Value = "Název" });
+    _cols.Add(new BO.COM.StringPairValue() { Key = "p28City1", Value = "Město" });
+
+
+        }
 
 @(Html.Kendo().MultiColumnComboBox()
     .Name(Model.ControlID)
@@ -12,12 +44,13 @@
               .DataValueField("pid")
     .Columns(columns =>
     {
-                  columns.Add().Field("p28Name").Title("Název");
-                  columns.Add().Field("p28RegID").Title("IČ");
-                  columns.Add().Field("p28Street1").Title("Ulice");
-                  columns.Add().Field("p28City1").Title("Město");
+            foreach(var field in _fields)
+            {
+                columns.Add().Field(field).Title(c.Value);
+            }
 
-              })
+
+        })
     .HtmlAttributes(new { style = "width:100%;" })
               .Filter(FilterType.Contains)
               .AutoBind(false)
@@ -25,21 +58,22 @@
               .HighlightFirst(true)
           .Value(Model.SelectedValue)
           .Text(Model.SelectedText)
+          
           .Events(e =>
           {
-              e.Select("onSelect").Change("onChange");
-          })
+        e.Select("onSelect").Change("onChange");
+    })
 
           .DataSource(source =>
           {
-              source.Read(read =>
-              {
+        source.Read(read =>
+        {
 
-                  read.Action("GetData", "Common");
-              })
+            read.Action("GetData", "Common");
+        })
 
-              .ServerFiltering(false);
-          })
+        .ServerFiltering(false);
+    })
     )
 
 
@@ -49,22 +83,21 @@
 
     function onSelect(e) {
         if (e.item) {
-
             var dataItem = this.dataItem(e.item.index());
 
                 $("#@Model.CallerIDValue").val(dataItem.pid);
                 $("#@Model.CallerIDText").val(dataItem.@_DataTextField);
 
-            }
         }
+    }
 
-        function onChange(e) {
-            if (this.value() == this.text()) {
+    function onChange(e) {
+        if (this.value() == this.text()) {
                 $("#@Model.CallerIDValue").val("");
                 $("#@Model.CallerIDText").val("");
-            }
-
         }
+
+    }
 
 
 </script>

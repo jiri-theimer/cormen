@@ -14,7 +14,7 @@ namespace BL.DL
 
             if (mq.pids !=null && mq.pids.Any())
             {
-                AQ(ref lis, mq.Entity + "ID IN (" + String.Join(",", mq.pids) + ")", "", null);
+                AQ(ref lis, mq.PkField + "ID IN (" + String.Join(",", mq.pids) + ")", "", null);
             }
             if (mq.b02id > 0)
             {
@@ -26,44 +26,44 @@ namespace BL.DL
             }
             if (mq.p21id >0)
             {
-                if (mq.Entity == "p10") AQ(ref lis, "a.p10ID IN (select p10ID FROM p22LicenseBinding WHERE p21ID=@p21id)", "p21id", mq.p21id);
+                if (mq.Prefix == "p10") AQ(ref lis, "a.p10ID IN (select p10ID FROM p22LicenseBinding WHERE p21ID=@p21id)", "p21id", mq.p21id);
             }
             if (mq.p10id > 0)
             {
-                if (mq.Entity == "p21") AQ(ref lis, "a.p21ID IN (select p21ID FROM p22LicenseBinding WHERE p10ID=@p10id)", "p10id", mq.p10id);
+                if (mq.Prefix == "p21") AQ(ref lis, "a.p21ID IN (select p21ID FROM p22LicenseBinding WHERE p10ID=@p10id)", "p10id", mq.p10id);
             }
             if (mq.p13id > 0)
             {
-                if (mq.Entity == "p14") AQ(ref lis, "a.p13ID=@p13id", "p13id", mq.p13id);
+                if (mq.Prefix == "p14") AQ(ref lis, "a.p13ID=@p13id", "p13id", mq.p13id);
             }
 
             if (mq.p28id > 0)
             {
-                if (mq.Entity == "j02" || mq.Entity == "p26") AQ(ref lis, "a.p28ID=@p28id", "p28id", mq.p28id);
+                if (mq.Prefix == "j02" || mq.Prefix == "p26") AQ(ref lis, "a.p28ID=@p28id", "p28id", mq.p28id);
             }
-            if (mq.Entity == "b02" && !string.IsNullOrEmpty(mq.query_by_entity_prefix))
+            if (mq.Prefix == "b02" && !string.IsNullOrEmpty(mq.query_by_entity_prefix))
             {
                 AQ(ref lis, "a.b02Entity=@prefix", "prefix", mq.query_by_entity_prefix);    //filtr seznamu stavů podle druhu entity
             }
-            if (mq.Entity == "o12" && !string.IsNullOrEmpty(mq.query_by_entity_prefix))
+            if (mq.Prefix == "o12" && !string.IsNullOrEmpty(mq.query_by_entity_prefix))
             {
                 AQ(ref lis, "a.o12Entity=@prefix", "prefix", mq.query_by_entity_prefix);    //filtr seznamu kategorií podle druhu entity
             }
             if (String.IsNullOrEmpty(mq.SearchString)==false && mq.SearchString.Length>1)
             {
-                if (mq.Entity == "p28")
+                if (mq.Prefix == "p28")
                 {
                     AQ(ref lis, "(a.p28Name LIKE '%'+@expr+'%' OR a.p28RegID LIKE '%'+@expr+'%' OR a.p28VatID LIKE '%'+@expr+'%' OR a.p28Code LIKE '%'+@expr+'%')", "expr", mq.SearchString);
                 }
-                if (mq.Entity == "p26")
+                if (mq.Prefix == "p26")
                 {
                     AQ(ref lis, "(a.p26Name LIKE '%'+@expr+'%' OR a.p26Code LIKE '%'+@expr+'%')", "expr", mq.SearchString);
                 }
-                if (mq.Entity == "p10")
+                if (mq.Prefix == "p10")
                 {
                     AQ(ref lis, "(a.p10Name LIKE '%'+@expr+'%' OR a.p10Code LIKE '%'+@expr+'%')", "expr", mq.SearchString);
                 }
-                if (mq.Entity == "o23")
+                if (mq.Prefix == "o23")
                 {
                     AQ(ref lis, "(a.o23Name LIKE '%'+@expr+'%' OR a.o23Code LIKE '%'+@expr+'%' OR a.o23Memo LIKE '%'+@expr+'%')", "expr", mq.SearchString);
                 }

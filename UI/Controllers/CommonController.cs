@@ -41,27 +41,26 @@ namespace UI.Controllers
             
         }
 
-        public ActionResult GetData(string text)
+        public ActionResult GetJsonDataList(string entity,string text)
         {            
-            var mq = new BO.myQuery("p28");
+            var mq = new BO.myQuery(entity);
             mq.SearchString = text;
            
             var s = "";
-            var dt = CompleteDT(ref s, "p28", null, null, null, null);
+            var dt = CompleteDT(ref s, mq, null, null, null, null);
            
             return new ContentResult() { Content = DataTableToJSONWithJSONNet(dt), ContentType = "application/json" };
 
         }
-        private System.Data.DataTable CompleteDT(ref string strCols,string entity,  string param1, string pids, string queryfield, string queryvalue)
+        private System.Data.DataTable CompleteDT(ref string strCols,BO.myQuery mq,  string param1, string pids, string queryfield, string queryvalue)
         {
-            var mq = new BO.myQuery(entity);
+            
             if (pids != null) mq.pids = BO.BAS.ConvertString2ListInt(pids);
             if (queryfield != null && queryvalue !=null)
             {                        
                BO.Reflexe.SetPropertyValue(mq, queryfield, queryvalue);    //reflexe
             }
             
-
             
             strCols = string.Format("{0}Name", entity);
 

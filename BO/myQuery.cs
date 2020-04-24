@@ -6,9 +6,43 @@ namespace BO
 {
     public class myQuery
     {
-        public string Entity;
-        public List<int> pids;
+        private string _prefix;
+        private string _pkfield;
+        public myQuery(string strEntity)
+        {
+            this.Entity = strEntity;
+        }
 
+        public string Entity {
+            get
+            {
+                return Entity;
+            }
+            set
+            {
+                Entity = value;
+                _prefix= value.Substring(0, 3);
+                _pkfield="a." + value.Substring(0, 3) + "ID";
+            }
+        }
+        public string Prefix
+        {
+            get
+            {
+                return _prefix;
+            }
+        }
+        public string PkField
+        {
+            get
+            {
+                return _pkfield;
+            }
+        }
+
+        public List<int> pids;
+        public string explicit_selectfields { get; set; }
+        public string explicit_orderby { get; set; }
 
         public bool? IsRecordValid;
 
@@ -22,17 +56,16 @@ namespace BO
 
         public string SearchString;
 
-        public string explicit_orderby { get; set; }
+        
        
-        public myQuery(string strEntity)
-        {
-            this.Entity = strEntity;
-        }
-
+        
         public void SetPids(string strPids)
         {
             this.pids = BO.BAS.ConvertString2ListInt(strPids);
 
         }
+        
+
+      
     }
 }
