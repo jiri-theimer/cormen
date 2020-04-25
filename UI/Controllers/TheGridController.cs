@@ -24,6 +24,23 @@ namespace UI.Controllers
             System.Data.DataRow newBlankRow = dt.NewRow();
             dt.Rows.InsertAt(newBlankRow, 0);
 
+            foreach (System.Data.DataRow row in dt.Rows)
+            {
+                foreach (System.Data.DataColumn col in dt.Columns)
+                {
+                    if (col.DataType.Name == "String")
+                    {
+                        if (row[col.ColumnName] == DBNull.Value)
+                        {
+                            row[col.ColumnName] = "";
+                        }
+                    }
+
+                }               
+            }
+
+            
+            
 
             return new ContentResult() { Content = UI.DATA.DataTableToJSONWithJSONNet(dt), ContentType = "application/json" };
             

@@ -42,8 +42,7 @@ namespace UI
 
             services.AddKendo();
 
-            
-
+          
 
             services.AddAuthentication("CookieAuthentication")
                  .AddCookie("CookieAuthentication", config =>

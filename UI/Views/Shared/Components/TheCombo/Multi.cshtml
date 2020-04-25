@@ -68,13 +68,13 @@
                     })
 
     .DataSource(source =>
-    {
+    {        
         source.Read(read =>
         {
 
             read.Action("GetJson4TheCombo", "TheGrid",new {entity=Model.Entity, fields = String.Join(",", _fields) });
         })
-
+        
         .ServerFiltering(false);
     })
     )
