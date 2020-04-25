@@ -16,6 +16,10 @@ namespace UI.Models
         public string CallerIDText { get; set; }
         public string PlaceHolder { get; set; }
         public string Param1 { get; set; }
+        
+        
+        
+        public string Event_After_ChangeValue { get; set; }
 
         public string getPrefix()
         {

@@ -2,47 +2,9 @@
 
 
 @{
-    var _fields = new List<string>();
-    var _names = new List<string>();
-    switch (Model.getPrefix())
-    {
-        case "p28":
-            _fields = new List<string> { "p28Name", "p28Street1", "p28City1" };
-            _names = new List<string> { "Název", "Ulice", "Město" };
-            break;
-
-        case "p10":
-            _fields = new List<string> { "p10Name", "p10Code", "p13Code" };
-            _names = new List<string> { "Název", "Kód", "TPV" };
-            break;
-        case "p21":
-            _fields = new List<string> { "p21Name", "p28Name" };
-            _names = new List<string> { "Název", "Klient" };
-            break;
-        case "p26":
-            _fields = new List<string> { "p26Name", "p26Code", "Klient" };
-            _names = new List<string> { "Název", "Kód", "p28Name" };
-            break;
-        case "j02":
-            _fields = new List<string> { "FullName", "j02Email", "p28Name" };
-            _names = new List<string> { "Jméno", "E-mail", "Klient" };
-            break;
-        case "p13":
-            _fields = new List<string> { "p13Name", "p13Code" };
-            _names = new List<string> { "Název", "Kód" };
-            break;
-        case "o23":
-            _fields = new List<string> { "o23Name", "RecordUrlName", "EntityAlias", "o12Name", "b02Name" };
-            _names = new List<string> { "Název", "Vazba", "", "Kategorie", "Stav" };
-            break;
-        default:
-            _fields = new List<string> { Model.getNameField() };
-            _names = new List<string> { "" };
-            break;
-    }
-
-
-
+    
+    var _cols = new BL.TheGridColumns(new BO.myQuery(Model.Entity)).getDefaultPallete();
+   
 }
 
 @(Html.Kendo().MultiColumnComboBox()
@@ -52,30 +14,45 @@
               .DataValueField("pid")
     .Columns(columns =>
     {
-        for (int i= 0; i <_fields.Count;i++) {
-            columns.Add().Field(_fields[i]).Title(_names[i]);
+        for (int i= 0; i <_cols.Count;i++) {
+            columns.Add().Field(_cols[i].Field).Title(_cols[i].Header);
         }
     })
+
+
+    .Events(e =>
+    {
+        if (String.IsNullOrEmpty(Model.CallerIDValue) == false)
+        {
+            e.Select("onSelect_" + Model.ControlID).Change("onChange_" + Model.ControlID);
+        }
+        if (String.IsNullOrEmpty(Model.Event_After_ChangeValue) == false)
+        {
+            e.Cascade(Model.Event_After_ChangeValue);
+        }
+
+
+
+    })
+
                     .HtmlAttributes(new { style="width:100%;" })
                     .Filter(FilterType.Contains)
     .Suggest(true)
                     .AutoBind(false)
                     .MinLength(1)
                     .HighlightFirst(true)
-                    .Events(e=>
-                    {
-                        e.Select("onSelect_"+Model.ControlID).Change("onChange_"+Model.ControlID);
-                    })
+
+
 
     .DataSource(source =>
     {
         source.Read(read =>
         {
 
-            read.Action("GetJson4TheCombo", "TheGrid",new {entity=Model.Entity, fields = String.Join(",", _fields) });
+            read.Action("GetJson4TheCombo", "TheGrid",new {entity=Model.Entity, addblankrow = false });
         })
 
-        .ServerFiltering(false);
+        .ServerFiltering(true);
     })
     )
 
@@ -84,17 +61,19 @@
 
     <script type="text/javascript">
  $(document).ready(function () {
-            var widget@(Model.ControlID) = $("#@Model.ControlID").getKendoMultiColumnComboBox();
+     var widget@(Model.ControlID) = $("#@Model.ControlID").getKendoMultiColumnComboBox();
+     widget@(Model.ControlID).value("@Model.SelectedValue");
+     widget@(Model.ControlID).text("@Model.SelectedText");
 
-            widget@(Model.ControlID).input.on("click", function () {
+     widget@(Model.ControlID).input.on("click", function () {
+         $(this).select();
+
             if (widget@(Model.ControlID).value() == null || widget@(Model.ControlID).value() == "" || widget@(Model.ControlID).value() == "0") {
 
                 widget@(Model.ControlID).open();
             }
-            });
+     });
 
-            widget@(Model.ControlID).value("@Model.SelectedValue");
-            widget@(Model.ControlID).text("@Model.SelectedText");
 
 
 
@@ -103,19 +82,23 @@
 
 
 
-
+@if(Model.CallerIDValue != null)
+{
+    <text>
     function onSelect_@(@Model.ControlID)(e) {
         if (e.item) {
-            var dataItem = this.dataItem(e.item.index());
+            _notify_message("onSelect_");
 
-                $("#@Model.CallerIDValue").val(dataItem.pid);
-                $("#@Model.CallerIDText").val(dataItem.@Model.getNameField());
+            var dataItem = this.dataItem(e.item.index());
+            $("#@Model.CallerIDValue").val(dataItem.pid);
+            $("#@Model.CallerIDText").val(dataItem.@Model.getNameField());
 
         }
     }
 
         function onChange_@(@Model.ControlID)(e) {
-            
+
+            _notify_message("onChange_: "+this.value());
         if (this.value() == this.text()) {
             this.value("");
             this.text("");
@@ -124,6 +107,9 @@
         }
 
         }
+    </text>
+}
+
 
 
 

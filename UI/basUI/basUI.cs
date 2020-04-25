@@ -7,9 +7,9 @@ using Newtonsoft.Json;
 
 namespace UI
 {
-    public class DATA
+    public class basUI
     {
-        public static string DataTableToJSONWithJSONNet(System.Data.DataTable dt)
+        public static string xxxDataTableToJSONWithJSONNet(System.Data.DataTable dt)
         {
             
             return JsonConvert.SerializeObject(dt, Formatting.None, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Include});
@@ -18,5 +18,10 @@ namespace UI
 
 
         }
+
+       
+       
     }
+
+    
 }

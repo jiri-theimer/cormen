@@ -56,8 +56,7 @@ namespace UI.Controllers
             return s.ToString();
         }
         public string GetWorkTable(string entity, string tableid, string param1, string pids,string delete_function,string queryfield,string queryvalue)
-        {
-            return "";
+        {    
             string strCols = "";
             var mq = new BO.myQuery(entity);
             var dt = Factory.gridBL.GetList(mq);

@@ -43,7 +43,7 @@ namespace BO
         }
 
         public List<int> pids;
-        public string explicit_selectfields { get; set; }
+        public List<BO.TheGridColumn> explicit_columns { get; set; }
         public string explicit_orderby { get; set; }
 
         public bool? IsRecordValid;

@@ -36,7 +36,7 @@ namespace UI.Controllers
                 v.Rec = new BO.p10MasterProduct();
                 v.Rec.entity = "p10";
             }
-            InitToolbar_and_Combos(v);
+            RefreshState(v);
            
             if (isclone) { v.Toolbar.MakeClone(); }
 
@@ -71,20 +71,20 @@ namespace UI.Controllers
                 
             }
 
-            InitToolbar_and_Combos(v);
+            RefreshState(v);
             this.Notify_RecNotSaved();
             return View(v);
 
 
         }
 
-        private void InitToolbar_and_Combos(p10RecordViewModel v)
-        {            
-            v.ComboP13ID = new TheComboViewModel() { Entity = "p13MasterTpv", CallerIDValue = "Rec_p13ID", CallerIDText = "Rec_p13Name", SelectedValue = v.Rec.p13ID.ToString(), SelectedText = v.Rec.p13Name };
-            v.ComboB02ID = new TheComboViewModel() { Entity = "b02Status", CallerIDValue = "Rec_b02ID", CallerIDText = "Rec_b02Name", SelectedValue = v.Rec.b02ID.ToString(), SelectedText = v.Rec.b02Name, Param1 = "p10" };
-            v.ComboO12ID = new TheComboViewModel() { Entity = "o12Category", CallerIDValue = "Rec_o12ID", CallerIDText = "Rec_o12Name", SelectedValue = v.Rec.o12ID.ToString(), SelectedText = v.Rec.o12Name, Param1 = "p10" };
-
+       
+        private void RefreshState(p10RecordViewModel v)
+        {
             v.Toolbar = new MyToolbarViewModel(v.Rec);
+            v.ComboP13ID = new TheComboViewModel() { Entity = "p13MasterTpv", CallerIDValue = "Rec_p13ID", CallerIDText = "Rec_p13Name", SelectedText = v.Rec.p13Name, SelectedValue = v.Rec.p13ID.ToString() };
+            v.ComboB02ID = new TheComboViewModel() { Entity = "b02Status", CallerIDValue = "Rec_b02ID", CallerIDText = "Rec_b02Name", SelectedText = v.Rec.b02Name, SelectedValue = v.Rec.b02ID.ToString(), Param1 = "p10" };
+            v.ComboO12ID = new TheComboViewModel() { Entity = "o12Category", CallerIDValue = "Rec_o12ID", CallerIDText = "Rec_o12Name", SelectedText = v.Rec.o12Name, SelectedValue = v.Rec.o12ID.ToString(), Param1="p10" };
         }
     }
 }

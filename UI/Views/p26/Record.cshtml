@@ -33,8 +33,8 @@
     <div class="form-row" style="margin-top:10px;">
         <label class="col-sm-1 col-md-2 col-form-label">Klient/Vlastník:</label>
         <div class="col-sm-11 col-md-10">
-            <input type="text" asp-for="Rec.p28ID" />
-            <input type="text" asp-for="Rec.p28Name" />
+            <input type="hidden" asp-for="Rec.p28ID" />
+            <input type="hidden" asp-for="Rec.p28Name" />
             <vc:the-combo input="Model.ComboP28ID"></vc:the-combo>
         </div>
     </div>
@@ -42,8 +42,8 @@
     <div class="form-row" style="margin-top:10px;">
         <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
         <div class="col-sm-11 col-md-10">
-            <input type="text" asp-for="Rec.b02ID" />
-            <input type="text" asp-for="Rec.b02Name" />
+            <input type="hidden" asp-for="Rec.b02ID" />
+            <input type="hidden" asp-for="Rec.b02Name" />
             <vc:the-combo input="Model.ComboB02ID"></vc:the-combo>
         </div>
     </div>

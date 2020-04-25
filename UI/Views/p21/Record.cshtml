@@ -68,7 +68,7 @@
         <div class="form-row">
             <label class="col-sm-1 col-md-2 col-form-label">Cena:</label>
             <div class="col-sm-11 col-md-10">
-                @(Html.Kendo().NumericTextBoxFor<decimal>(m=>m.Rec.p21Price)                                               
+                @(Html.Kendo().NumericTextBoxFor<decimal>(m=>m.Rec.p21Price)
                 )
             </div>
         </div>
@@ -85,11 +85,27 @@
 
 
 
+    <div class="card">
+        <div class="card-header">
+            Master produkty v licenci
+        </div>
+        <div class="card-body">
+            <div class="form-row">
+                <div class="col-7">
+                    <vc:the-combo input="Model.ComboSelectP10ID"></vc:the-combo>
+                </div>
+                <div class="col-2">
+                    <button type="button" class="btn btn-primary py-1" onclick="handle_append_product()">Vložit</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <input type="hidden" id="hidP10IDs" asp-for="@Model.p10IDs" />
+    
+
+    
 
 
-
-    @Html.EditorFor(m => m.ComboSelectP10ID, "~/Views/Shared/_MyCombo.cshtml")
 
 }
 
@@ -170,7 +186,17 @@
 
 
     });
-    function handle_append_product(p10id) {
+
+    function handle_select_product(e) {
+        _notify_message("handle_select_product");
+    }
+    function handle_append_product() {
+        var combo = $("#p10MasterProductcbx1").getKendoMultiColumnComboBox();       
+        var p10id = combo.value();
+        if (p10id == "") {
+            _notify_message("Musíte vybrat produkt.");
+            return;
+        }
         var p10ids = [];
         if ($("#hidP10IDs").val() != "") p10ids = $("#hidP10IDs").val().split(",");
         if (p10ids.includes(p10id)) {

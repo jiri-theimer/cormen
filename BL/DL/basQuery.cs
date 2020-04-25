@@ -63,6 +63,10 @@ namespace BL.DL
                 {
                     AQ(ref lis, "(a.p10Name LIKE '%'+@expr+'%' OR a.p10Code LIKE '%'+@expr+'%')", "expr", mq.SearchString);
                 }
+                if (mq.Prefix == "p13")
+                {
+                    AQ(ref lis, "(a.p13Name LIKE '%'+@expr+'%' OR a.p13Code LIKE '%'+@expr+'%')", "expr", mq.SearchString);
+                }
                 if (mq.Prefix == "o23")
                 {
                     AQ(ref lis, "(a.o23Name LIKE '%'+@expr+'%' OR a.o23Code LIKE '%'+@expr+'%' OR a.o23Memo LIKE '%'+@expr+'%')", "expr", mq.SearchString);

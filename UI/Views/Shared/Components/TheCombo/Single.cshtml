@@ -1,8 +1,5 @@
 ﻿@model UI.Models.TheComboViewModel
 
-@{
-
-}
 
 @(Html.Kendo().ComboBox()
                           .Name(Model.ControlID)                                 
@@ -27,7 +24,7 @@
                   {
                       source.Read(read =>
                       {
-                          read.Action("GetJson4TheCombo", "TheGrid", new {entity=Model.Entity, fields = Model.getNameField() });
+                          read.Action("GetJson4TheCombo", "TheGrid", new {entity=Model.Entity, addblankrow=true });
                       })
               .ServerFiltering(false);
                   })
@@ -37,7 +34,8 @@
  $(document).ready(function () {
      var widget@(Model.ControlID) = $("#@Model.ControlID").getKendoComboBox();
 
-            widget@(Model.ControlID).input.on("click", function () {
+     widget@(Model.ControlID).input.on("click", function () {
+         $(this).select();
             if (widget@(Model.ControlID).value() == null || widget@(Model.ControlID).value() == "" || widget@(Model.ControlID).value() == "0") {
 
                 widget@(Model.ControlID).open();

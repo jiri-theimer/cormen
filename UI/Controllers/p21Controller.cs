@@ -44,16 +44,10 @@ namespace UI.Controllers
                 v.Rec.entity = "p21";
             }
 
-            v.ComboP28ID = new TheComboViewModel() { Entity = "p28Company",CallerIDValue= "Rec_p28ID", CallerIDText="Rec_p28Name",SelectedValue= v.Rec.p28ID.ToString(),SelectedText= v.Rec.p28Name };
-            v.ComboB02ID = new TheComboViewModel() { Entity = "b02Status", CallerIDValue = "Rec_b02ID", CallerIDText = "Rec_b02Name", SelectedValue = v.Rec.b02ID.ToString(), SelectedText = v.Rec.b02Name,Param1="p21" };            
-            
-            v.ComboSelectP10ID = new MyComboViewModel("p10","", "Přidat do licence master produkt...", "cbxProduct");
-            v.ComboSelectP10ID.OnChange_Event = "handle_append_product";
-            
-            
-            
+            RefreshState(v);
 
-            v.Toolbar = new MyToolbarViewModel(v.Rec);
+            
+                        
             if (isclone) { v.Toolbar.MakeClone(); }
 
 
@@ -86,13 +80,10 @@ namespace UI.Controllers
                 }
                           
             }
-            v.Toolbar = new MyToolbarViewModel(v.Rec);
-           
-            v.ComboP28ID = new TheComboViewModel() { Entity = "p28Company", CallerIDValue = "Rec_p28ID", CallerIDText = "Rec_p28Name",SelectedText=v.Rec.p28Name,SelectedValue=v.Rec.p28ID.ToString() };
-            v.ComboB02ID = new TheComboViewModel() { Entity = "b02Status", CallerIDValue = "Rec_b02ID", CallerIDText = "Rec_b02Name", SelectedText = v.Rec.b02Name, SelectedValue = v.Rec.b02ID.ToString(), Param1="p21" };            
             
-            v.ComboSelectP10ID = new MyComboViewModel("p10", "", "Přidat Master produkt", "cbx3");
-            v.ComboSelectP10ID.OnChange_Event = "handle_append_product";
+
+            RefreshState(v);
+            
             this.Notify_RecNotSaved();
             return View(v);
 
@@ -107,8 +98,19 @@ namespace UI.Controllers
             
             
         }
-        
-        
-        
+
+        private void RefreshState(p21RecordViewModel v)
+        {
+            v.Toolbar = new MyToolbarViewModel(v.Rec);
+            v.ComboP28ID = new TheComboViewModel() { Entity = "p28Company", CallerIDValue = "Rec_p28ID", CallerIDText = "Rec_p28Name", SelectedText = v.Rec.p28Name, SelectedValue = v.Rec.p28ID.ToString() };
+            v.ComboB02ID = new TheComboViewModel() { Entity = "b02Status", CallerIDValue = "Rec_b02ID", CallerIDText = "Rec_b02Name", SelectedText = v.Rec.b02Name, SelectedValue = v.Rec.b02ID.ToString(), Param1 = "p21" };
+
+            v.ComboSelectP10ID = new TheComboViewModel() { Entity = "p10MasterProduct", PlaceHolder = "Přidat do licence Master produkt...",Event_After_ChangeValue= "handle_select_product" };
+            //v.ComboSelectP10ID.OnChange_Event = "handle_append_product";
+
+        }
+
+
+
     }
 }

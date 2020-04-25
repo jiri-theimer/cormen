@@ -14,15 +14,20 @@ namespace UI.Controllers
     public class TheGridController : BaseController
     {
         
-        public ActionResult GetJson4TheCombo(string entity,string fields, string text)
+        public ActionResult GetJson4TheCombo(string entity,string text,bool addblankrow)
         {
             var mq = new BO.myQuery(entity);
-            mq.explicit_selectfields = fields;
+            
+            mq.explicit_columns = new BL.TheGridColumns(mq).getDefaultPallete();
             mq.SearchString = text;//fulltext hledání
             var dt = Factory.gridBL.GetList( mq);
 
-            System.Data.DataRow newBlankRow = dt.NewRow();
-            dt.Rows.InsertAt(newBlankRow, 0);
+            if (addblankrow==true)
+            {
+                System.Data.DataRow newBlankRow = dt.NewRow();
+                dt.Rows.InsertAt(newBlankRow, 0);
+            }
+            
 
             foreach (System.Data.DataRow row in dt.Rows)
             {
@@ -42,14 +47,22 @@ namespace UI.Controllers
             
             
 
-            return new ContentResult() { Content = UI.DATA.DataTableToJSONWithJSONNet(dt), ContentType = "application/json" };
+            return new ContentResult() { Content =DataTableToJSONWithJSONNet(dt), ContentType = "application/json" };
             
         }
 
 
 
 
+        private string DataTableToJSONWithJSONNet(System.Data.DataTable dt)
+        {
 
+            return JsonConvert.SerializeObject(dt, Formatting.None, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Include });
+
+
+
+
+        }
 
 
 

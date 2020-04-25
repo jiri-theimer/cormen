@@ -28,9 +28,21 @@ namespace BL
         public DataTable GetList(BO.myQuery mq)
         {
             string s = "";
-            if (String.IsNullOrEmpty(mq.explicit_selectfields) == false)
+            if (mq.explicit_columns !=null)
             {
-                s = mq.explicit_selectfields;
+                var sels = new List<string>();
+                foreach(var col in mq.explicit_columns)
+                {
+                    if (col.SqlSyntax == null)
+                    {
+                        sels.Add(col.Field);
+                    }
+                    else
+                    {
+                        sels.Add(col.SqlSyntax+" AS "+col.Field);
+                    }                    
+                }
+                s = String.Join(",", sels);
             }
             switch (mq.Prefix)
             {
