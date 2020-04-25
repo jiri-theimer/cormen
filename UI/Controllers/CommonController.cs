@@ -56,22 +56,24 @@ namespace UI.Controllers
             return s.ToString();
         }
         public string GetWorkTable(string entity, string tableid, string param1, string pids,string delete_function,string queryfield,string queryvalue)
-        {    
-            string strCols = "";
+        {                
             var mq = new BO.myQuery(entity);
+            mq.SetPids(pids);
+            var cols = new BL.TheGridColumns(mq).getDefaultPallete();
+
             var dt = Factory.gridBL.GetList(mq);
             var intRows = dt.Rows.Count;
 
             var s = new System.Text.StringBuilder();
-            var cols = BO.BAS.ConvertString2List(strCols);
+           
             s.Append(string.Format("<table id='{0}' class='table table-sm table-hover'>", tableid));
 
             for (int i = 0; i < intRows; i++)
             {
                 s.Append(string.Format("<tr data-v='{0}'>", dt.Rows[i]["pid"]));
-                foreach (var strCol in cols)
+                foreach (var col in cols)
                 {
-                    s.Append(string.Format("<td>{0}</td>", dt.Rows[i][strCol]));
+                    s.Append(string.Format("<td>{0}</td>", dt.Rows[i][col.Field]));
                 }
                 if (delete_function != null)
                 {

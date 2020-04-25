@@ -90,7 +90,7 @@
             Master produkty v licenci
         </div>
         <div class="card-body">
-            <div class="form-row">
+            <div class="row">
                 <div class="col-7">
                     <vc:the-combo input="Model.ComboSelectP10ID"></vc:the-combo>
                 </div>
@@ -98,10 +98,12 @@
                     <button type="button" class="btn btn-primary py-1" onclick="handle_append_product()">Vložit</button>
                 </div>
             </div>
+            <div id="divP10" style="margin-top:20px;"></div>
+            
         </div>
     </div>
-    <input type="hidden" id="hidP10IDs" asp-for="@Model.p10IDs" />
     
+    <input type="hidden" id="hidP10IDs" asp-for="@Model.p10IDs" />
 
     
 
@@ -110,7 +112,7 @@
 }
 
 
-<div id="divP10" style="margin-top:20px;"></div>
+
 <h1 id="products">nazdar</h1>
 <div>
     <button type="button" id="cmdCreateClientProducts" class="btn btn-primary py-0" style="display:none;" onclick="handle_create_client_products()">Zkopírovat produkty z licence do klientského katalogu</button>
@@ -227,7 +229,7 @@
     function refresh_p10_table() {
         var url = "@Url.Action("GetWorkTable", "Common")";
         var pids = $("#hidP10IDs").val();
-
+        
         if (pids == "") {
             $("#divP10").html("");
             return;

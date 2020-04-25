@@ -9,15 +9,7 @@ namespace UI
 {
     public class basUI
     {
-        public static string xxxDataTableToJSONWithJSONNet(System.Data.DataTable dt)
-        {
-            
-            return JsonConvert.SerializeObject(dt, Formatting.None, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Include});
-
-
-
-
-        }
+        private int nic = 1;
 
        
        

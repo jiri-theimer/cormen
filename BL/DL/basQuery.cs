@@ -14,7 +14,7 @@ namespace BL.DL
 
             if (mq.pids !=null && mq.pids.Any())
             {
-                AQ(ref lis, mq.PkField + "ID IN (" + String.Join(",", mq.pids) + ")", "", null);
+                AQ(ref lis, mq.PkField + " IN (" + String.Join(",", mq.pids) + ")", "", null);
             }
             if (mq.b02id > 0)
             {
