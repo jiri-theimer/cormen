@@ -5,22 +5,24 @@
 }
 
 @(Html.Kendo().ComboBox()
-                      .Name(Model.ControlID)
-                      .Placeholder(Model.PlaceHolder)
-                      .DataTextField(Model.getNameField())
-                      .DataValueField("pid")
-                      .HtmlAttributes(new { style = "width:100%;" })
-                      .Filter(FilterType.Contains)
-                      .AutoBind(false)
-                      .AutoWidth(true)
-                      .MinLength(1)                      
-                      .HighlightFirst(true)
+                          .Name(Model.ControlID)                                 
+                          .Placeholder(Model.PlaceHolder)
+                          .DataTextField(Model.getNameField())
+                          .DataValueField("pid")                          
+                          .HtmlAttributes(new { style = "width:100%;" })
+                          .Filter(FilterType.Contains)
+                          .AutoBind(false)
+                          .Suggest(true)
+                          .AutoWidth(true)
+                          .ClearButton(true)
+                      .MinLength(1)
+                      .HighlightFirst(true)                      
                   //.Value(Model.SelectedValue)
                   //.Text(Model.SelectedText)
                   .Events(e =>
-                   {
-                       e.Select("onSelect_" + Model.ControlID).Change("onChange_" + Model.ControlID);
-                   })
+                  {
+                      e.Select("onSelect_" + Model.ControlID).Change("onChange_" + Model.ControlID);
+                  })
                   .DataSource(source =>
                   {
                       source.Read(read =>
@@ -32,21 +34,33 @@
     )
 
     <script type="text/javascript">
-        @if (Model.SelectedValue != "")
-        {<text>        
-        $("#@Model.ControlID").kendoComboBox({
-            value: "@Model.SelectedValue",
-            text: "@Model.SelectedText"
+ $(document).ready(function () {
+     var widget@(Model.ControlID) = $("#@Model.ControlID").getKendoComboBox();
+
+            widget@(Model.ControlID).input.on("click", function () {
+            if (widget@(Model.ControlID).value() == null || widget@(Model.ControlID).value() == "" || widget@(Model.ControlID).value() == "0") {
+
+                widget@(Model.ControlID).open();
+            }
             });
 
-        </text>
-        }
+            widget@(Model.ControlID).value("@Model.SelectedValue");
+            widget@(Model.ControlID).text("@Model.SelectedText");
 
-    function onSelect_@(@Model.ControlID)(e) {
+
+
+ });
+
+        
+
+
+        function onSelect_@(@Model.ControlID)(e) {
         if (e.item) {
             var dataItem = this.dataItem(e.item.index());
             if (dataItem.pid == "" || dataItem.pid == null) {
                 dataItem.pid = "0";
+
+
             }
                 $("#@Model.CallerIDValue").val(dataItem.pid);
                 $("#@Model.CallerIDText").val(dataItem.@Model.getNameField());
@@ -55,13 +69,16 @@
     }
 
         function onChange_@(@Model.ControlID)(e) {
-           
-        if (this.value() == this.text()) {
-                $("#@Model.CallerIDValue").val("0");
-                $("#@Model.CallerIDText").val("");
+            if (this.value() == this.text()) {
+
+            this.text("");
+            this.value("");
+            $("#@Model.CallerIDValue").val("0");
+            $("#@Model.CallerIDText").val("");
         }
 
-    }
+        }
+
 
 
     </script>

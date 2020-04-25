@@ -33,14 +33,18 @@
     <div class="form-row" style="margin-top:10px;">
         <label class="col-sm-1 col-md-2 col-form-label">Klient/Vlastník:</label>
         <div class="col-sm-11 col-md-10">
-            @Html.EditorFor(m => m.ComboP28ID, "~/Views/Shared/_MyCombo.cshtml")
+            <input type="text" asp-for="Rec.p28ID" />
+            <input type="text" asp-for="Rec.p28Name" />
+            <vc:the-combo input="Model.ComboP28ID"></vc:the-combo>
         </div>
     </div>
 
     <div class="form-row" style="margin-top:10px;">
         <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
         <div class="col-sm-11 col-md-10">
-            @Html.EditorFor(m => m.ComboB02ID, "~/Views/Shared/_MyCombo.cshtml")
+            <input type="text" asp-for="Rec.b02ID" />
+            <input type="text" asp-for="Rec.b02Name" />
+            <vc:the-combo input="Model.ComboB02ID"></vc:the-combo>
         </div>
     </div>
 
@@ -50,20 +54,13 @@
         <span asp-validation-for="Rec.p26Memo" class="text-danger"></span>
     </div>
 
-    <hr />
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Pokus:</label>
-        <div class="col-sm-11 col-md-10">
-            
-            <vc:the-combo the-combo-input="@Model.ComboPokus"></vc:the-combo>
-        </div>
-    </div>
+  
 
-    <strong>Taghelper:</strong>
-    <pokus name="Rec.p26Name" designation="Rec.p26Memo"></pokus>
    
 </div>
 }
+
+
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
 

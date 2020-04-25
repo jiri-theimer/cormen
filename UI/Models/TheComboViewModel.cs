@@ -7,6 +7,7 @@ namespace UI.Models
 {
     public class TheComboViewModel
     {
+       
         public string Entity { get; set; }
         public string ControlID { get; set; }
         public string SelectedValue { get; set; }

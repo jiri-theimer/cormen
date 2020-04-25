@@ -1,22 +1,23 @@
 ﻿@model UI.Models.TheComboViewModel
 
 
-@{       
+@{
     var _fields = new List<string>();
     var _names = new List<string>();
-    switch (Model.getPrefix()){
+    switch (Model.getPrefix())
+    {
         case "p28":
-            _fields=new List<string>{ "p28Name","p28Street1","p28City1"};
-            _names = new List<string> { "Název","Ulice", "Město" };
+            _fields = new List<string> { "p28Name", "p28Street1", "p28City1" };
+            _names = new List<string> { "Název", "Ulice", "Město" };
             break;
 
         case "p10":
-            _fields = new List<string> { "p10Name", "p10Code","p13Code" };
+            _fields = new List<string> { "p10Name", "p10Code", "p13Code" };
             _names = new List<string> { "Název", "Kód", "TPV" };
             break;
         case "p21":
             _fields = new List<string> { "p21Name", "p28Name" };
-            _names = new List<string> { "Název", "Klient"};
+            _names = new List<string> { "Název", "Klient" };
             break;
         case "p26":
             _fields = new List<string> { "p26Name", "p26Code", "Klient" };
@@ -31,8 +32,8 @@
             _names = new List<string> { "Název", "Kód" };
             break;
         case "o23":
-            _fields = new List<string> { "o23Name","RecordUrlName", "EntityAlias","o12Name","b02Name" };
-            _names = new List<string> { "Název", "Vazba","","Kategorie","Stav" };
+            _fields = new List<string> { "o23Name", "RecordUrlName", "EntityAlias", "o12Name", "b02Name" };
+            _names = new List<string> { "Název", "Vazba", "", "Kategorie", "Stav" };
             break;
         default:
             _fields = new List<string> { Model.getNameField() };
@@ -41,7 +42,7 @@
     }
 
 
-    
+
 }
 
 @(Html.Kendo().MultiColumnComboBox()
@@ -57,24 +58,23 @@
     })
                     .HtmlAttributes(new { style="width:100%;" })
                     .Filter(FilterType.Contains)
+    .Suggest(true)
                     .AutoBind(false)
                     .MinLength(1)
-                    .HighlightFirst(true)                    
-                    //.Value(Model.SelectedValue)
-                    //.Text(Model.SelectedText)
+                    .HighlightFirst(true)
                     .Events(e=>
                     {
                         e.Select("onSelect_"+Model.ControlID).Change("onChange_"+Model.ControlID);
                     })
 
     .DataSource(source =>
-    {        
+    {
         source.Read(read =>
         {
 
             read.Action("GetJson4TheCombo", "TheGrid",new {entity=Model.Entity, fields = String.Join(",", _fields) });
         })
-        
+
         .ServerFiltering(false);
     })
     )
@@ -83,15 +83,26 @@
 
 
     <script type="text/javascript">
-        @if (Model.SelectedValue != "")
-        {<text>
-            $("#@Model.ControlID").kendoMultiColumnComboBox({
-            value: "@Model.SelectedValue",
-            text: "@Model.SelectedText"
+ $(document).ready(function () {
+            var widget@(Model.ControlID) = $("#@Model.ControlID").getKendoMultiColumnComboBox();
+
+            widget@(Model.ControlID).input.on("click", function () {
+            if (widget@(Model.ControlID).value() == null || widget@(Model.ControlID).value() == "" || widget@(Model.ControlID).value() == "0") {
+
+                widget@(Model.ControlID).open();
+            }
             });
-        </text>
-        }
-        
+
+            widget@(Model.ControlID).value("@Model.SelectedValue");
+            widget@(Model.ControlID).text("@Model.SelectedText");
+
+
+
+ });
+
+
+
+
 
     function onSelect_@(@Model.ControlID)(e) {
         if (e.item) {
@@ -103,14 +114,20 @@
         }
     }
 
-    function onChange_@(@Model.ControlID)(e) {
+        function onChange_@(@Model.ControlID)(e) {
+            
         if (this.value() == this.text()) {
-
+            this.value("");
+            this.text("");
                 $("#@Model.CallerIDValue").val("0");
                 $("#@Model.CallerIDText").val("");
         }
 
-    }
+        }
+
+
+
+
 
 
     </script>

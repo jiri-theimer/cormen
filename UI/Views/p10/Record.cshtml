@@ -24,7 +24,7 @@
                 <span asp-validation-for="Rec.p10Name" class="text-danger"></span>
             </div>
             <div class="col-sm-2 col-md-2">
-                <input class="form-control" asp-for="Rec.p10Code" placeholder="Kód" />
+                <input class="form-control form-control-sm" asp-for="Rec.p10Code" placeholder="Kód" />
                 <span asp-validation-for="Rec.p10Code" class="text-danger"></span>
             </div>
         </div>
@@ -32,8 +32,8 @@
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
             <div class="col-sm-11 col-md-10">
-                <input type="text" asp-for="Rec.b02ID" />
-                <input type="text" asp-for="Rec.b02Name" />
+                <input type="hidden" asp-for="Rec.b02ID" />
+                <input type="hidden" asp-for="Rec.b02Name" />
                 <vc:the-combo input="Model.ComboB02ID"></vc:the-combo>
             </div>
         </div>
