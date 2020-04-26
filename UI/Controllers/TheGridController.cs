@@ -32,7 +32,7 @@ namespace UI.Controllers
             {
                 s.Append(string.Format("<th>{0}</th>", col.Header));
             }
-            s.Append(string.Format("</tr></thead><tbody id='{0}_tbody'>",tableid));
+            s.Append(string.Format("</tr></thead><tbody id='{0}_tbody'>", tableid));
             for (int i = 0; i < intRows; i++)
             {
                 s.Append(string.Format("<tr class='txz' data-v='{0}'>", dt.Rows[i]["pid"]));

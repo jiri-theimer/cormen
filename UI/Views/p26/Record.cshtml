@@ -52,16 +52,44 @@
 
 
     <div class="form-row">
-        <textarea asp-for="Rec.p26Memo" class="form-control" style="height:200px;"></textarea>
+        <textarea asp-for="Rec.p26Memo" class="form-control" style="height:150px;"></textarea>
         <span asp-validation-for="Rec.p26Memo" class="text-danger"></span>
     </div>
 
 
-
-
-
+    <hr />
     
-   
+    <div id="divDropdownContainer" class="dropdown input-group" style="border:solid 1px #C8C8C8;border-radius:3px;width:100%;">
+        <div class="input-group-prepend">
+            <input id="searchbox" name="searchbox" autocomplete="off" type="text" class="form-control" placeholder="Najít" style="border:none;width:150px;">
+        </div>
+
+
+        <button type="button" class="btn close" disabled aria-label="Close" tabindex="-1" style="width:30px;border:none;">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <button type="button" id="cmdCombo" class="btn btn-outline-secondary dropdown-toggle form-control" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" tabindex="-1" style="text-align:left;border:none;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">dropdown</button>
+
+
+        
+
+        <div id="divDropdown" class="dropdown-menu" aria-labelledby="cmdCombo" style="width:100%;margin-left:-180px;" tabindex="-1">
+
+            
+            <div id="divData" style="height:220px;overflow:auto;background-color:#E6F0FF;z-index:500;width:100%;">
+
+
+            </div>
+
+        </div>
+
+    </div>
+        <div class="form-group">
+            <input type="text" class="form-control" />
+            <input type="text" class="form-control" />
+        </div>
+        
+    
 </div>
 }
 
@@ -71,4 +99,240 @@
 
 
 
+<script type="text/javascript">
+    
+
+    var _current_syntetic_event = "";
+    var _lastFocusWasSearchbox = false;
+    var _tabid = "tab1";
+    var _combo_currentFocus = -1;
+    var _tabbody = null;
+    var _lookup = $("#searchbox").val();
+
+    $("#divDropdownContainer").on("show.bs.dropdown", function () {
+        // do something...
+        
+
+
+        if ($("#divDropdownContainer").prop("filled") == true) return;    //data už byla dříve načtena
+        var url = "@Url.Action("GetHtml4TheCombo", "TheGrid")";
+        var entity = "p10MasterProduct";        
+        $.post(url, { entity: entity, o15flag: "", tableid: _tabid, param1:"" }, function (data) {
+            $("#divData").html(data);
+            _notify_message("request for data");
+            $("#divDropdownContainer").prop("filled", true);
+            _tabbody = $("#" + _tabid + "_tbody");
+
+            $("#" + _tabid + " .txz").on("click", function () {
+                row_was_selected(this);
+                //$("#" + c.controlid + "_txt1").val(s);
+                
+                _toolbar_warn2save_changes();
+            });
+         
+
+        });
+    })
+
+    function row_was_selected(row) {
+        var v = $(row).attr("data-v");
+        var t = $(row).attr("data-t");
+        if (t == "" || t == null) t = $(row).find("td:first").text();
+        _notify_message("value: " + v + ", text: " + t);
+    }
+
+    $("#cmdCombo").on("focus", function (e) {
+        _lastFocusWasSearchbox = false;
+        if (e.relatedTarget != null) {
+            if (e.relatedTarget.id == "searchbox") {
+                _lastFocusWasSearchbox = true;
+                _notify_message("cmdComo-focus-last_element_was_searchbox");
+            }
+        }
+
+    })
+
+    $("#cmdCombo").on("click", function (e) {
+        if (_lastFocusWasSearchbox == true) return;
+
+        if (_current_syntetic_event == "click_from_focus") {
+            _current_syntetic_event = "";
+            return;
+        }
+
+        if (_current_syntetic_event == "") {
+            //normální ruční klik
+
+
+            _current_syntetic_event = "focus_from_click";
+            setTimeout(function () {
+                //focus až po 300ms
+                $("#searchbox").focus();
+                $("#searchbox").select();
+
+            }, 300);
+
+
+
+        } else {
+            _current_syntetic_event = "";
+
+        }
+
+
+
+
+    });
+    $("#searchbox").on("focus", function (e) {
+        if (_current_syntetic_event != "") {
+            _current_syntetic_event = "";
+            return;
+        }
+
+        var s = $("#divDropdown").css("display");
+        if (s == "none") {
+            _current_syntetic_event = "click_from_focus";
+            $("#cmdCombo").click();
+            e.stopPropagation();
+            $(this).focus();
+            $(this).select();
+        }
+    })
+
+    $("#searchbox").on("click", function () {
+
+        var s = $("#divDropdown").css("display");
+        if (s == "none") {
+            $("#divDropdown").dropdown("show");
+
+        }
+    })
+    $("#searchbox").on("input", function (e) {
+        
+        var s = $("#divDropdown").css("display");
+        if (s == "none") {
+            $("#divDropdown").dropdown("show");
+        }
+
+    })
+    
+    
+
+    $("#searchbox, #cmdCombo").on("keydown", function (e) {
+        handle_keydown(e);
+    });
+
+    function handle_keydown(e) {
+        if (e.keyCode == 27 && e.target.id == "searchbox") {  //ESC
+            $("#divDropdown").dropdown("hide");
+        }
+        var rows_count = $(_tabbody).find("tr").length;
+
+        if (e.keyCode == 13) {//ENTER
+            _notify_message("entry");
+        }
+        if (e.keyCode == 40) {  //down
+            //handle_update_state()
+
+            if (rows_count - 1 <= _combo_currentFocus) {
+                _combo_currentFocus = 0
+
+            } else {
+                _combo_currentFocus++;
+
+            }
+            var destrowindex = get_first_visible_rowindex(_combo_currentFocus, "down");
+            if (destrowindex == -1) destrowindex = get_first_visible_rowindex(0, "down");
+            _combo_currentFocus = destrowindex;
+            if (destrowindex == -1) return;
+
+            update_selected_row();
+
+        }
+        if (e.keyCode == 38) {  //up
+            //handle_update_state();
+            _combo_currentFocus--;
+            var destrowindex = get_first_visible_rowindex(_combo_currentFocus, "up");
+            if (destrowindex == -1) destrowindex = get_first_visible_rowindex(0, "down");
+            _combo_currentFocus = destrowindex;
+            if (destrowindex == -1) _combo_currentFocus = 0;
+
+
+            update_selected_row();
+        }
+    }
+
+    $("#searchbox").on("keyup", function () {
+        var value = $(this).val().toLowerCase();
+        var x = 0;
+        var rows_count = $("#" + _tabid + "_tbody").find("tr").length;
+        
+        if ($("#searchbox").val() != _lookup) {
+            
+            $("#" + _tabid + "_tbody tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                x++;
+                if (x == rows_count) {
+                    recovery_selected();
+
+                    
+                }
+
+            });
+        }
+        _lookup = $("#searchbox").val();
+    });
+
+
+
+    function get_first_visible_rowindex(fromindex, direction) {
+        var rows_count = $(_tabbody).find("tr").length;
+
+        if (direction == "down") {
+            for (i = fromindex; i < rows_count; i++) {
+                var row = _tabbody.find("tr").eq(i);
+                if ($(row).css("display") != "none") {
+                    return i;
+                }
+            }
+        }
+        if (direction == "up") {
+            for (i = fromindex; i >= 0; i--) {
+                var row = _tabbody.find("tr").eq(i);
+                if ($(row).css("display") != "none") {
+                    return i;
+                }
+            }
+        }
+
+        return -1;
+    }
+
+
+    function update_selected_row() {
+
+        $(_tabbody).find("tr").removeClass("selrow");
+        if (_combo_currentFocus > -1) {
+            var row = _tabbody.find("tr").eq(_combo_currentFocus);
+
+            $(row).addClass("selrow");
+
+
+            var element = row[0];
+            element.scrollIntoView({ block: "end", inline: "nearest" });
+            
+           
+
+        }
+
+
+    }
+
+
+    function recovery_selected() {
+        //handle_update_state();
+        _combo_currentFocus = get_first_visible_rowindex(0, "down");        
+        update_selected_row();
+    }
+</script>
 
