@@ -72,7 +72,7 @@ namespace BL
             }
             if (_lis.Count == 0)
             {
-                AF(_mq.Entity,_mq.Prefix + "Name", "Název");
+                AF(_mq.Entity,_mq.Prefix + "Name", "Název",true);
             }
 
             

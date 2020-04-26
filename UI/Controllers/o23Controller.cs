@@ -72,6 +72,10 @@ namespace UI.Controllers
                 
                 v.Rec.o23RecordPid = 0;
                 v.RecordPidAlias = "";
+                v.ComboRecordPid.Entity = v.Rec.o23Entity;
+                v.ComboRecordPid.SelectedText = "";
+                v.ComboRecordPid.SelectedValue = 0;
+                
                 RefreshState(v);
 
                 return View(v);
@@ -88,8 +92,8 @@ namespace UI.Controllers
                 
                 c.o23Memo = v.Rec.o23Memo;
                 c.o23Date = v.Rec.o23Date;
-                c.b02ID = BO.BAS.InInt(v.ComboB02ID.SelectedValue);
-                c.o12ID = BO.BAS.InInt(v.ComboO12ID.SelectedValue);                
+                c.b02ID = v.ComboB02ID.SelectedValue;
+                c.o12ID = v.ComboO12ID.SelectedValue;              
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
@@ -119,12 +123,19 @@ namespace UI.Controllers
                     
                     return RedirectToActionPermanent("Index", "TheGrid", new { pid = v.Rec.pid, entity = "o23" });
                 }
-                
+
             }
+            else
+            {
+                v.ComboRecordPid.Entity = v.Rec.o23Entity;
+            }
+            
             
             
             RefreshState(v);
             this.Notify_RecNotSaved();
+
+            
             
             return View(v);
         }
@@ -134,10 +145,17 @@ namespace UI.Controllers
             if (v.Rec.pid > 0) v.lisO27 = Factory.o23DocBL.GetListO27(v.Rec.pid);
 
             v.Toolbar = new MyToolbarViewModel(v.Rec);
-            v.ComboRecordPid = new TheComboViewModel() {ControlID="cbxO23RecordPid", Entity = v.Rec.o23Entity, CallerIDValue = "Rec_o23RecordPid", CallerIDText = "RecordPidAlias", SelectedText = v.RecordPidAlias, SelectedValue = v.Rec.o23RecordPid.ToString(), Param1 = "o23" };
             
-            v.ComboB02ID = new TheComboViewModel() { Entity = "b02Status", CallerIDValue = "Rec_b02ID", CallerIDText = "Rec_b02Name", SelectedText = v.Rec.b02Name, SelectedValue = v.Rec.b02ID.ToString(), Param1 = "o23" };
-            v.ComboO12ID = new TheComboViewModel() { Entity = "o12Category", CallerIDValue = "Rec_o12ID", CallerIDText = "Rec_o12Name", SelectedText = v.Rec.o12Name, SelectedValue = v.Rec.o12ID.ToString(), Param1 = "o23" };
+            if (Request.Method == "GET")    //myCombo má vstupní parametry modelu v hidden polích a proto se v POST vše dostane na server
+            {
+                v.ComboB02ID = new MyComboViewModel() { Entity = "b02Status", SelectedText = v.Rec.b02Name, SelectedValue = v.Rec.b02ID, Param1 = "o23" };
+                v.ComboO12ID = new MyComboViewModel() { Entity = "o12Category", SelectedText = v.Rec.o12Name, SelectedValue = v.Rec.o12ID, Param1 = "o23" };
+                v.ComboRecordPid = new MyComboViewModel() { Entity = v.Rec.o23Entity, SelectedText = v.RecordPidAlias, SelectedValue = v.Rec.o23RecordPid, Param1 = "o23" };
+                
+            }
+          
+            
+            
 
         }
 

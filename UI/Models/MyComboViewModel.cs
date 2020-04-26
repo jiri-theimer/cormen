@@ -7,36 +7,26 @@ namespace UI.Models
 {
     public class MyComboViewModel
     {
-        public string SelectedValue { get; set; }
-        public string SelectedText { get; set; }
         public string Entity { get; set; }
-        public string ControlID { get; set; } = "cbx1";
-        public string TableWidth { get; set; } = "100%;";
+        public string ControlID { get; set; }
+        
+        public int SelectedValue { get; set; }
+        public string SelectedText { get; set; }
+        
+        public string PlaceHolder { get; set; }
         public string Param1 { get; set; }
-        public string OnChange_Event { get; set; }
 
-        public string ControlID_Table { get; set; }
-        
-        public string ControlID_Dropdown { get; set; }
-        
-        
-        
-        public MyComboViewModel(string strEntity,string strSelectedValue,string strSelectedText,string strControlID)
+        public int ViewFlag { get; set; } = 0;
+
+        public string Event_After_ChangeValue { get; set; }
+
+        public string getPrefix()
         {
-            this.Entity = strEntity;
-            this.SelectedValue = strSelectedValue;            
-            this.SelectedText = strSelectedText;
-            this.ControlID = strControlID;
-
-            ControlID_Table = ControlID + "_table";            
-            ControlID_Dropdown = ControlID + "_dropdown";
-            
-            
+            return this.Entity.Substring(0, 3);
         }
-        public MyComboViewModel()
+        public string getNameField()
         {
-           
+            return this.Entity.Substring(0, 3) + "Name";
         }
-
     }
 }

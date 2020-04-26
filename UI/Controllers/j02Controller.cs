@@ -36,11 +36,10 @@ namespace UI.Controllers
                 v.Rec.entity = "j02";
             }
             
-            v.ComboJ04ID = new MyComboViewModel("j04", v.Rec.j04ID.ToString(), v.Rec.j04Name,"cbx1");
-            v.ComboP28ID = new MyComboViewModel("p28", v.Rec.p28ID.ToString(), v.Rec.p28Name, "cbx2");
+            
             v.TitleBeforeName = new MyAutoCompleteViewModel(1, v.Rec.j02TitleBeforeName,"Titul","pop1");
             v.TitleAfterName = new MyAutoCompleteViewModel(2, v.Rec.j02TitleAfterName,"","pop2");
-            v.Toolbar = new MyToolbarViewModel(v.Rec);
+            RefreshState(v);
             if (isclone) { v.Toolbar.MakeClone(); }
             
 
@@ -58,7 +57,7 @@ namespace UI.Controllers
                 c.j02IsUser = v.Rec.j02IsUser;
                 if (c.j02IsUser)
                 {
-                    c.j04ID = BO.BAS.InInt(v.ComboJ04ID.SelectedValue);
+                    c.j04ID = v.ComboJ04ID.SelectedValue;
                     c.j02Login = v.Rec.j02Login;
                 }
                 else
@@ -68,7 +67,7 @@ namespace UI.Controllers
                     c.j02PasswordHash = null;
                     v.ResetPassword = "";
                 }                
-                c.p28ID = BO.BAS.InInt(v.ComboP28ID.SelectedValue);
+                c.p28ID = v.ComboP28ID.SelectedValue;
                 c.j02TitleBeforeName = v.TitleBeforeName.SelectedText;
                 c.j02TitleAfterName = v.TitleAfterName.SelectedText;
                 c.j02FirstName = v.Rec.j02FirstName;
@@ -102,13 +101,26 @@ namespace UI.Controllers
                 }                
                
             }
-            v.Toolbar = new MyToolbarViewModel(v.Rec);
-            v.ComboJ04ID = new MyComboViewModel("j04", v.ComboJ04ID.SelectedValue, v.ComboJ04ID.SelectedText, "cbx1");
-            v.ComboP28ID = new MyComboViewModel("p28", v.ComboP28ID.SelectedValue, v.ComboP28ID.SelectedText, "cbx2");
+            
             v.TitleBeforeName = new MyAutoCompleteViewModel(1, v.TitleBeforeName.SelectedText, "Titul", "pop1");
             v.TitleAfterName = new MyAutoCompleteViewModel(2, v.TitleAfterName.SelectedText, "", "pop2");
+
+            RefreshState(v);
             this.Notify_RecNotSaved();
             return View(v);
+
+
+        }
+
+        private void RefreshState(j02RecordViewModel v)
+        {
+            v.Toolbar = new MyToolbarViewModel(v.Rec);
+            if (Request.Method == "GET")    //myCombo má vstupní parametry modelu v hidden polích a proto se v POST vše dostane na server
+            {
+                v.ComboJ04ID = new MyComboViewModel() { Entity = "j04UserRole", SelectedText = v.Rec.j04Name, SelectedValue = v.Rec.j04ID };
+                v.ComboP28ID = new MyComboViewModel() { Entity = "p28Company", SelectedText = v.Rec.p28Name, SelectedValue = v.Rec.p28ID };                
+            }
+
 
 
         }

@@ -12,14 +12,12 @@ namespace UI.Models
         public MyToolbarViewModel Toolbar { get; set; }
 
 
-        public TheComboViewModel ComboB02ID { get; set; }
+        public MyComboViewModel ComboB02ID { get; set; }
 
-        public TheComboViewModel ComboP28ID { get; set; }
+        public MyComboViewModel ComboP28ID { get; set; }
 
         
-        public UI.Views.Shared.TagHelpers.PokusTagHelpder Pokus1 {get;set;}
-
-        public MyComboViewModel Znovu1 { get; set; }
+      
 
     }
 }

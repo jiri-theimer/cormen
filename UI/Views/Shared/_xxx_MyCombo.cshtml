@@ -1,0 +1,56 @@
+﻿@model UI.Models.xxx_MyComboViewModel
+
+<!--MyCombo @Model.ControlID začátek-->
+    <div id="@Model.ControlID_Dropdown" class="dropdown mycombo" style="border:solid 1px silver;border-radius:3px;width:100%;">
+
+        <div>
+            <input type="text" id="@(@Model.ControlID+"_search")" class="form-control" placeholder="Najít..." autocomplete="off" style="width:200px;border:none;" />
+
+            <button class="btn btn-light dropdown-toggle" tabindex="-1" type="button" id="@(@Model.ControlID+"_cmdCombo")" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-align:left;">
+                @Model.SelectedText
+            </button>
+
+            <div class="dropdown-menu btn-group" aria-labelledby="@(@Model.ControlID+"_cmdCombo")" style="width:100%;">
+
+                <div class="form-row">
+                    <div class="col-10">
+
+                    </div>
+                    <div class="col-2">
+                        <button type="button" id="@(@Model.ControlID+"_clear")" class="btn btn-light">Vyčistit</button>
+                    </div>
+                </div>
+
+                <div id="@(@Model.ControlID+"_divtab")" style="height: 200px;overflow: auto;left: -200px;position: fixed;background-color:#E6F0FF;z-index:500;width:100%;">
+
+
+                </div>
+            </div>
+
+
+
+
+            <input type="hidden" asp-for="@Model.SelectedValue" />
+            <input type="hidden" asp-for="@Model.SelectedText" />
+            <input type="hidden" id="@(@Model.ControlID+"_entity")" asp-for="@Model.Entity" />
+        </div>
+        
+
+    </div>
+
+
+        <script type="text/javascript">
+        var _mycombo@(@Model.ControlID)={
+            controlid: "@Model.ControlID",
+            dropdownid: "@Model.ControlID_Dropdown",
+            tableid: "@Model.ControlID_Table",
+            posturl: "@Url.Action("GetHtml4TheCombo", "TheGrid")",
+            param1: "@Model.Param1",
+            onchange: "@Model.OnChange_Event"
+        };
+
+        _mycombo_init(_mycombo@(@Model.ControlID));
+
+
+        </script>
+        <!--MyCombo @Model.ControlID konec-->

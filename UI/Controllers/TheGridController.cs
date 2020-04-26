@@ -18,6 +18,7 @@ namespace UI.Controllers
         {
             var mq = new BO.myQuery(entity);
             mq.SetPids(pids);
+            mq.query_by_entity_prefix = param1;
             var cols = new BL.TheGridColumns(mq).getDefaultPallete();
 
             var dt = Factory.gridBL.GetList(mq);

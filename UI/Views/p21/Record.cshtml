@@ -33,9 +33,7 @@
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Klient:</label>
             <div class="col-sm-11 col-md-10">
-                <input type="hidden" asp-for="Rec.p28ID" />
-                <input type="hidden" asp-for="Rec.p28Name" />
-                <vc:the-combo input="Model.ComboP28ID"></vc:the-combo>
+                @Html.EditorFor(m => m.ComboP28ID, "~/Views/Shared/_MyCombo.cshtml")
             </div>
         </div>
 
@@ -60,9 +58,7 @@
             </div>
             <label class="col-sm-1 col-md-1 col-form-label">Stav:</label>
             <div class="col-sm-4 col-md-3">
-                <input type="hidden" asp-for="Rec.b02ID" />
-                <input type="hidden" asp-for="Rec.b02Name" />
-                <vc:the-combo input="Model.ComboB02ID"></vc:the-combo>
+                @Html.EditorFor(m => m.ComboB02ID, "~/Views/Shared/_MyCombo.cshtml")
             </div>
         </div>
         <div class="form-row">
@@ -91,12 +87,7 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-7">
-                    <vc:the-combo input="Model.ComboSelectP10ID"></vc:the-combo>
-                </div>
-                <div class="col-2">
-                    <button type="button" class="btn btn-primary py-1" onclick="handle_append_product()">Vložit</button>
-                </div>
+                @Html.EditorFor(m => m.ComboSelectP10ID, "~/Views/Shared/_MyCombo.cshtml")
             </div>
             <div id="divP10" style="margin-top:20px;"></div>
             
@@ -192,9 +183,7 @@
     function handle_select_product(e) {
         _notify_message("handle_select_product");
     }
-    function handle_append_product() {
-        var combo = $("#p10MasterProductcbx1").getKendoMultiColumnComboBox();       
-        var p10id = combo.value();
+    function handle_append_product(p10id) {        
         if (p10id == "") {
             _notify_message("Musíte vybrat produkt.");
             return;

@@ -55,9 +55,9 @@ namespace UI.Controllers
                 c.p10Code = v.Rec.p10Code;
                 c.p10Name = v.Rec.p10Name;
                 c.p10Memo = v.Rec.p10Memo;
-                c.b02ID = v.Rec.b02ID;
-                c.p13ID = v.Rec.p13ID;
-                c.o12ID = v.Rec.o12ID;
+                c.b02ID = v.ComboB02ID.SelectedValue;
+                c.p13ID = v.ComboP13ID.SelectedValue;
+                c.o12ID = v.ComboO12ID.SelectedValue;
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
@@ -71,6 +71,7 @@ namespace UI.Controllers
                 
             }
 
+            
             RefreshState(v);
             this.Notify_RecNotSaved();
             return View(v);
@@ -82,9 +83,15 @@ namespace UI.Controllers
         private void RefreshState(p10RecordViewModel v)
         {
             v.Toolbar = new MyToolbarViewModel(v.Rec);
-            v.ComboP13ID = new TheComboViewModel() { Entity = "p13MasterTpv", CallerIDValue = "Rec_p13ID", CallerIDText = "Rec_p13Name", SelectedText = v.Rec.p13Name, SelectedValue = v.Rec.p13ID.ToString() };
-            v.ComboB02ID = new TheComboViewModel() { Entity = "b02Status", CallerIDValue = "Rec_b02ID", CallerIDText = "Rec_b02Name", SelectedText = v.Rec.b02Name, SelectedValue = v.Rec.b02ID.ToString(), Param1 = "p10" };
-            v.ComboO12ID = new TheComboViewModel() { Entity = "o12Category", CallerIDValue = "Rec_o12ID", CallerIDText = "Rec_o12Name", SelectedText = v.Rec.o12Name, SelectedValue = v.Rec.o12ID.ToString(), Param1="p10" };
+            if (Request.Method == "GET")    //myCombo má vstupní parametry modelu v hidden polích a proto se v POST vše dostane na server
+            {
+                v.ComboP13ID = new MyComboViewModel() { Entity = "p13MasterTpv", SelectedText = v.Rec.p13Name, SelectedValue = v.Rec.p13ID };
+                v.ComboO12ID = new MyComboViewModel() { Entity = "o12Category", SelectedText = v.Rec.o12Name, SelectedValue = v.Rec.o12ID, Param1 = "p10" };
+                v.ComboB02ID = new MyComboViewModel() { Entity = "b02Status", SelectedText = v.Rec.b02Name, SelectedValue = v.Rec.b02ID, Param1 = "p10" };
+            }
+            
+            
+            
         }
     }
 }
