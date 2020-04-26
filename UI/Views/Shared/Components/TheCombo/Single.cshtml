@@ -8,7 +8,7 @@
                           .DataValueField("pid")                          
                           .HtmlAttributes(new { style = "width:100%;" })
                           .Filter(FilterType.Contains)
-                          .AutoBind(false)
+                          .AutoBind(false)                          
                           .Suggest(true)
                           .AutoWidth(true)
                           .ClearButton(true)
@@ -31,25 +31,32 @@
     )
 
     <script type="text/javascript">
- $(document).ready(function () {
-     var widget@(Model.ControlID) = $("#@Model.ControlID").getKendoComboBox();
+        $(document).ready(function () {
 
-     widget@(Model.ControlID).input.on("click", function () {
+        var widget@(Model.ControlID) = $("#@Model.ControlID").getKendoComboBox();
+
+        widget@(Model.ControlID).input.on("click", function () {
          $(this).select();
             if (widget@(Model.ControlID).value() == null || widget@(Model.ControlID).value() == "" || widget@(Model.ControlID).value() == "0") {
 
                 widget@(Model.ControlID).open();
             }
             });
-
+        @if(String.IsNullOrEmpty(Model.SelectedValue)==false)
+        {
+            <text>
             widget@(Model.ControlID).value("@Model.SelectedValue");
-            widget@(Model.ControlID).text("@Model.SelectedText");
+            //widget@(Model.ControlID).text("@Model.SelectedText");
+            widget@(Model.ControlID).trigger("change");
+            </text>
+        }
+
 
 
 
  });
 
-        
+
 
 
         function onSelect_@(@Model.ControlID)(e) {

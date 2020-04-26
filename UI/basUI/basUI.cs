@@ -9,7 +9,7 @@ namespace UI
 {
     public class basUI
     {
-        private int nic = 1;
+        public int nic = 1;
 
        
        

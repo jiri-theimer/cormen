@@ -10,9 +10,10 @@ namespace UI.Models
         public BO.o23Doc Rec { get; set; }
         public string Guid { get; set; }
         public string o27IDs4Delete { get; set; }
-        public MyComboViewModel ComboRecordPid { get; set; }
-        public MyComboViewModel ComboO12ID { get; set; }
-        public MyComboViewModel ComboB02ID { get; set; }
+        public TheComboViewModel ComboRecordPid { get; set; }
+        public string RecordPidAlias { get; set; }
+        public TheComboViewModel ComboO12ID { get; set; }
+        public TheComboViewModel ComboB02ID { get; set; }
 
         public MyToolbarViewModel Toolbar { get; set; }
 

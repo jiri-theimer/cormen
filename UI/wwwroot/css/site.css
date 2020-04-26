@@ -121,3 +121,9 @@ input[type="checkbox"] {
     input[type="checkbox"] + label {
         cursor: pointer;
     }
+
+
+tr.selrow {
+    background-color: red;
+    color: white;
+}

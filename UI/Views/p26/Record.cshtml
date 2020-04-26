@@ -18,7 +18,9 @@
     @Html.HiddenFor(m => m.Rec.pid)
 
 <div class="modal_record_container">
-
+    <div class="form-row">
+        @Html.EditorFor(m => m.Znovu1, "~/Views/Shared/_MyCombo.cshtml")
+    </div>
     <div class="form-row">
         <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
         <div class="col-sm-8 col-md-7">
@@ -54,8 +56,11 @@
         <span asp-validation-for="Rec.p26Memo" class="text-danger"></span>
     </div>
 
-  
 
+
+
+
+    
    
 </div>
 }

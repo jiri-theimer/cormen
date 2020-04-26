@@ -45,15 +45,13 @@ namespace UI.Controllers
             {
                 v.Rec = new BO.o23Doc();
                 v.Rec.entity = "o23";
+                v.Rec.o23Entity = "p28Company";
             }
-            v.ComboB02ID = new MyComboViewModel("b02", v.Rec.b02ID.ToString(), v.Rec.b02Name, "cbxB02");
-            v.ComboB02ID.Param1 = "o23";
-            v.ComboO12ID = new MyComboViewModel("o12", v.Rec.o12ID.ToString(), v.Rec.o12Name, "cbxO12");
-            v.ComboO12ID.Param1 = "o23";
+          
             
-            v.ComboRecordPid = new MyComboViewModel(v.Rec.o23Entity, v.Rec.o23RecordPid.ToString(), v.Rec.RecordUrlAlias, "cbxPID");
-            v.ComboRecordPid.Param1 = "o23";
-            v.Toolbar = new MyToolbarViewModel(v.Rec);
+            
+            RefreshState(v);
+
             if (isclone) {
                 v.Toolbar.MakeClone();
             }
@@ -63,15 +61,21 @@ namespace UI.Controllers
             return View(v);
         }
 
-        
 
         
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Record(Models.o23RecordViewModel v)
+        public IActionResult Record(Models.o23RecordViewModel v,bool change_entity_only)
         {
+            if (change_entity_only)
+            {
+                
+                v.Rec.o23RecordPid = 0;
+                v.RecordPidAlias = "";
+                RefreshState(v);
+
+                return View(v);
+            }
             if (ModelState.IsValid)
             {
                 BO.o23Doc c = new BO.o23Doc();
@@ -80,7 +84,7 @@ namespace UI.Controllers
                 c.o23Code = v.Rec.o23Code;
                 c.o23Name = v.Rec.o23Name;
                 c.o23Entity = v.Rec.o23Entity;
-                c.o23RecordPid = BO.BAS.InInt(v.ComboRecordPid.SelectedValue);
+                c.o23RecordPid = v.Rec.o23RecordPid;
                 
                 c.o23Memo = v.Rec.o23Memo;
                 c.o23Date = v.Rec.o23Date;
@@ -117,18 +121,24 @@ namespace UI.Controllers
                 }
                 
             }
-            if (v.Rec.pid>0) v.lisO27 = Factory.o23DocBL.GetListO27(v.Rec.pid);
-
-            v.ComboB02ID = new MyComboViewModel("b02", v.ComboB02ID.SelectedValue, v.ComboB02ID.SelectedText, "cbxB02");
-            v.ComboB02ID.Param1 = "o23";
-            v.ComboO12ID = new MyComboViewModel("o12", v.ComboB02ID.SelectedValue, v.ComboB02ID.SelectedText, "cbxO12");
-            v.ComboO12ID.Param1 = "o23";
-            v.ComboRecordPid = new MyComboViewModel(v.Rec.o23Entity ,v.ComboRecordPid.SelectedValue, v.ComboRecordPid.SelectedText, "cbxPID");
-            v.ComboRecordPid.Param1 = "o23";
-            v.Toolbar = new MyToolbarViewModel(v.Rec);
+            
+            
+            RefreshState(v);
             this.Notify_RecNotSaved();
             
             return View(v);
+        }
+
+        private void RefreshState(o23RecordViewModel v)
+        {
+            if (v.Rec.pid > 0) v.lisO27 = Factory.o23DocBL.GetListO27(v.Rec.pid);
+
+            v.Toolbar = new MyToolbarViewModel(v.Rec);
+            v.ComboRecordPid = new TheComboViewModel() {ControlID="cbxO23RecordPid", Entity = v.Rec.o23Entity, CallerIDValue = "Rec_o23RecordPid", CallerIDText = "RecordPidAlias", SelectedText = v.RecordPidAlias, SelectedValue = v.Rec.o23RecordPid.ToString(), Param1 = "o23" };
+            
+            v.ComboB02ID = new TheComboViewModel() { Entity = "b02Status", CallerIDValue = "Rec_b02ID", CallerIDText = "Rec_b02Name", SelectedText = v.Rec.b02Name, SelectedValue = v.Rec.b02ID.ToString(), Param1 = "o23" };
+            v.ComboO12ID = new TheComboViewModel() { Entity = "o12Category", CallerIDValue = "Rec_o12ID", CallerIDText = "Rec_o12Name", SelectedText = v.Rec.o12Name, SelectedValue = v.Rec.o12ID.ToString(), Param1 = "o23" };
+
         }
 
 

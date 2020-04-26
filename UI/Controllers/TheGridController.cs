@@ -13,11 +13,45 @@ namespace UI.Controllers
 {
     public class TheGridController : BaseController
     {
-        
-        public ActionResult GetJson4TheCombo(string entity,string text,bool addblankrow)
+
+        public string GetHtml4TheCombo(string entity, string curvalue, string tableid, string param1, string pids) //Vrací HTML zdroj tabulky pro MyCombo
         {
             var mq = new BO.myQuery(entity);
-            
+            mq.SetPids(pids);
+            var cols = new BL.TheGridColumns(mq).getDefaultPallete();
+
+            var dt = Factory.gridBL.GetList(mq);
+            var intRows = dt.Rows.Count;
+
+            var s = new System.Text.StringBuilder();
+
+
+            s.Append(string.Format("<table id='{0}' class='table table-sm table-hover' style='font-size:90%;'>", tableid));
+            s.Append("<thead><tr>");
+            foreach (var col in cols)
+            {
+                s.Append(string.Format("<th>{0}</th>", col.Header));
+            }
+            s.Append(string.Format("</tr></thead><tbody id='{0}_tbody'>",tableid));
+            for (int i = 0; i < intRows; i++)
+            {
+                s.Append(string.Format("<tr class='txz' data-v='{0}'>", dt.Rows[i]["pid"]));
+                foreach (var col in cols)
+                {
+                    s.Append(string.Format("<td>{0}</td>", dt.Rows[i][col.Field]));
+                }
+                s.Append("</tr>");
+            }
+            s.Append("</tbody></table>");
+
+            return s.ToString();
+        }
+
+
+        public ActionResult GetJson4TheCombo(string entity,string text,bool addblankrow)
+        {
+            System.IO.File.AppendAllText("c:\\temp\\hovado.txt", "entity: " + entity+", čas: "+DateTime.Now.ToString());
+            var mq = new BO.myQuery(entity);          
             mq.explicit_columns = new BL.TheGridColumns(mq).getDefaultPallete();
             mq.SearchString = text;//fulltext hledání
             var dt = Factory.gridBL.GetList( mq);

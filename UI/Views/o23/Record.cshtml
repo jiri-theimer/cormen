@@ -12,162 +12,170 @@
 
 
 }
+@addTagHelper *, UI
 
-@using (Html.BeginForm())
-{
-    <h4>Dokument</h4>
-    @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
-    @Html.HiddenFor(m => m.Rec.pid)
-
-
-<div class="modal_record_container">
-    <div class="form-row">
-        <label class="col-sm-1 col-md-2 col-form-label">Název dokumentu:</label>
-        <div class="col-sm-11 col-md-10">
-            <input class="form-control" asp-for="Rec.o23Name" />
-            <span asp-validation-for="Rec.o23Name" class="text-danger"></span>
-        </div>
-    </div>
-
-    <div class="form-row">
-        <label class="col-sm-1 col-md-2 col-form-label">Vazba:</label>
-        <div class="col-sm-11 col-md-10">
-
-            <select asp-for="Rec.o23Entity" class="form-control" style="background-color:khaki;">
-                <option value=""></option>
-                <option value="p28">Klient | Subjekt</option>
-                <option value="p26">Stroj | MSZ</option>
-                <option value="p10">Master produkt</option>
-                <option value="p13">Master TPV</option>
-                <option value="p21">Licence</option>
-                <option value="j02">Osoba | Uživatel</option>
-                <option value="p41">Zakázka</option>
-            </select>
-            <span asp-validation-for="Rec.o23Entity" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-row">
-        <label class="col-sm-1 col-md-2 col-form-label">Svázaný záznam:</label>
-        <div class="col-sm-11 col-md-10">
-            @Html.EditorFor(m => m.ComboRecordPid, "~/Views/Shared/_MyCombo.cshtml")
-
-        </div>
-    </div>
+    <form id="form1" asp-controller="o23" asp-action="Record" method="post">
+        <h4>Dokument</h4>
+        @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
+        @Html.HiddenFor(m => m.Rec.pid)
 
 
-
-
-    <button id="cmdMore" type="button" class="btn btn-light" style="width:100px;">
-        <i class="fas fa-caret-down"></i>
-        Více
-    </button>
-    <div id="divMore" style="display:@_displayMore">
-        <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Kategorie:</label>
-            <div class="col-sm-11 col-md-10">
-                @Html.EditorFor(m => m.ComboO12ID, "~/Views/Shared/_MyCombo.cshtml")
+        <div class="modal_record_container">
+            <div class="form-row">
+                <label class="col-sm-1 col-md-2 col-form-label">Název dokumentu:</label>
+                <div class="col-sm-11 col-md-10">
+                    <input class="form-control" asp-for="Rec.o23Name" />
+                    <span asp-validation-for="Rec.o23Name" class="text-danger"></span>
+                </div>
             </div>
-        </div>
-        <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Datum:</label>
-            <div class="col-sm-11 col-md-10">
-                <input asp-for="Rec.o23Date" type="date" class="form-control" />
+
+            <div class="form-row">
+                <label class="col-sm-1 col-md-2 col-form-label">Vazba:</label>
+                <div class="col-sm-11 col-md-10">
+
+                    <select asp-for="Rec.o23Entity" class="form-control" style="background-color:khaki;">
+                        <option value="p28Contact">Klient | Subjekt</option>
+                        <option value="p26Msz">Stroj | MSZ</option>
+                        <option value="p10MasterProduct">Master produkt</option>
+                        <option value="p13MasterTpv">Master TPV</option>
+                        <option value="p21License">Licence</option>
+                        <option value="j02Person">Osoba | Uživatel</option>
+                        <option value="p41Task">Zakázka</option>
+                    </select>
+                    <span asp-validation-for="Rec.o23Entity" class="text-danger"></span>                    
+                </div>
             </div>
-        </div>
-        <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
-            <div class="col-sm-11 col-md-10">
-                @Html.EditorFor(m => m.ComboB02ID, "~/Views/Shared/_MyCombo.cshtml")
+            <div class="form-row">
+                <label class="col-sm-1 col-md-2 col-form-label">Svázaný záznam:</label>
+                <div class="col-sm-11 col-md-10">
+                    <input type="hidden" asp-for="Rec.o23RecordPid" />
+                    <input type="hidden" asp-for="@Model.RecordPidAlias" />
+                    <vc:the-combo input="Model.ComboRecordPid"></vc:the-combo>
+
+                </div>
             </div>
-        </div>
-        <div class="form-row">
-            <label class="col-sm-1 col-md-2 col-form-label">Kód:</label>
-            <div class="col-sm-11 col-md-10">
-                <input class="form-control" asp-for="Rec.o23Code" />
-                <span asp-validation-for="Rec.o23Code" class="text-danger"></span>
+
+
+
+
+            <button id="cmdMore" type="button" class="btn btn-light" style="width:100px;">
+                <i class="fas fa-caret-down"></i>
+                Více
+            </button>
+            <div id="divMore" style="display:@_displayMore;">
+                <div class="form-row" style="margin-top:10px;">
+                    <label class="col-sm-1 col-md-2 col-form-label">Kategorie:</label>
+                    <div class="col-sm-11 col-md-10">
+                        <input type="hidden" asp-for="Rec.o12ID" />
+                        <input type="hidden" asp-for="Rec.o12Name" />
+                        <vc:the-combo input="Model.ComboO12ID"></vc:the-combo>
+                    </div>
+                </div>
+                <div class="form-row" style="margin-top:10px;">
+                    <label class="col-sm-1 col-md-2 col-form-label">Datum:</label>
+                    <div class="col-sm-11 col-md-10">
+                        <input asp-for="Rec.o23Date" type="date" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-row" style="margin-top:10px;">
+                    <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
+                    <div class="col-sm-11 col-md-10">
+                        <input type="hidden" asp-for="Rec.b02ID" />
+                        <input type="hidden" asp-for="Rec.b02Name" />
+                        <vc:the-combo input="Model.ComboB02ID"></vc:the-combo>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label class="col-sm-1 col-md-2 col-form-label">Kód:</label>
+                    <div class="col-sm-11 col-md-10">
+                        <input class="form-control" asp-for="Rec.o23Code" />
+                        <span asp-validation-for="Rec.o23Code" class="text-danger"></span>
+                    </div>
+                </div>
+
+
+                <div class="form-row">
+                    <textarea asp-for="Rec.o23Memo" class="form-control" placeholder="Podrobný popis"></textarea>
+                    <span asp-validation-for="Rec.o23Memo" class="text-danger"></span>
+                </div>
             </div>
+            @if (Model.lisO27 != null)
+            {
+                <div class="card" style="margin-top:10px;">
+                    <div class="card-header">
+                        Přílohy/soubory k dokumentu
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-sm table-hover">
+
+                            @foreach (var c in Model.lisO27)
+                            {
+                                <text>
+                                    <tr id="@("tr"+@c.pid)">
+                                        <td style="width:30px;">
+                                            <a title="Stáhnout" asp-action="FileDownload" asp-route-guid="@c.o27GUID"><i class="fas fa-download"></i></a>
+                                        </td>
+                                        <td style="width:60px;">
+                                            <small>@BO.BAS.FormatFileSize(c.o27FileSize)</small>
+                                        </td>
+                                        <td>
+                                            <a title="Stáhnout a otevřít v přidružené aplikaci" asp-action="FileDownloadInline" target="_blank" asp-route-guid="@c.o27GUID">@c.o27Name</a>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-sm" onclick="remove(@c.pid)" title="Odstranit soubor z dokumentu"><i class="fas fa-trash-alt"></i></button>
+                                        </td>
+                                    </tr>
+                                </text>
+
+                            }
+
+                        </table>
+                    </div>
+                </div>
+            }
+
+
+
         </div>
 
+        <input type="hidden" asp-for="Guid" />
+        <input type="hidden" asp-for="o27IDs4Delete" />
+    </form>
 
-        <div class="form-row">
-            <textarea asp-for="Rec.o23Memo" class="form-control" placeholder="Podrobný popis"></textarea>
-            <span asp-validation-for="Rec.o23Memo" class="text-danger"></span>
-        </div>
-    </div>
-    @if (Model.lisO27 != null)
-    {
-        <div class="card" style="margin-top:10px;">
-            <div class="card-header">
-                Přílohy/soubory k dokumentu
-            </div>
-            <div class="card-body">
-                <table class="table table-sm table-hover">
+       
 
-                    @foreach (var c in Model.lisO27)
-                    {
-                        <text>
-                            <tr id="@("tr"+@c.pid)">
-                                <td style="width:30px;">
-                                    <a title="Stáhnout" asp-action="FileDownload" asp-route-guid="@c.o27GUID"><i class="fas fa-download"></i></a>
-                                </td>
-                                <td style="width:60px;">
-                                    <small>@BO.BAS.FormatFileSize(c.o27FileSize)</small>
-                                </td>
-                                <td>
-                                    <a title="Stáhnout a otevřít v přidružené aplikaci" asp-action="FileDownloadInline" target="_blank" asp-route-guid="@c.o27GUID">@c.o27Name</a>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-sm" onclick="remove(@c.pid)" title="Odstranit soubor z dokumentu"><i class="fas fa-trash-alt"></i></button>
-                                </td>
-                            </tr>
-                        </text>
-
-                    }
-
-                </table>
-            </div>
-        </div>
-    }
+        <hr />
+        <iframe id="fraUpload" src="/o23/DoUpload?guid=@Model.Guid" frameborder="0" height="200"></iframe>
 
 
-
-</div>
-
-    <input type="hidden" asp-for="Guid" />
-    <input type="hidden" asp-for="o27IDs4Delete" />
-
-}
-
-<hr />
-<iframe id="fraUpload" src="/o23/DoUpload?guid=@Model.Guid" frameborder="0" height="200"></iframe>
+        @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
 
 
-@Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
+        <script type="text/javascript">
+            $("#Rec_o23Entity").on("change", function () {
+                form1.url = "@Url.Action("Record", "o23", new { change_entity_only=true})";
+                
+                form1.submit();
 
+            });
 
-<script type="text/javascript">
-    $("#Rec_o23Entity").on("change", function () {
-        $("#cbxPID_entity").val(this.value);
-        $("#cbxPID_clear").click();        
-    });
+            $("#fraUpload").width(window.innerWidth - 50);
+            $("#cmdMore").click(function () {
+                $("#divMore").slideToggle();
+            });
 
-    $("#fraUpload").width(window.innerWidth - 50);
-    $("#cmdMore").click(function () {
-        $("#divMore").slideToggle();
-    });
+            function start_upload() {
+                $("#frmUpload").submit();
 
-    function start_upload() {
-        $("#frmUpload").submit();
+            }
+            function remove(o27id) {
+                if ($("#o27IDs4Delete").val() != "") {
+                    $("#o27IDs4Delete").val($("#o27IDs4Delete").val() + "," + o27id);
+                } else {
+                    $("#o27IDs4Delete").val(o27id);
+                }
+                $("#tr" + o27id).css("display", "none");
+                _toolbar_warn2save_changes();
 
-    }
-    function remove(o27id) {
-        if ($("#o27IDs4Delete").val() != "") {
-            $("#o27IDs4Delete").val($("#o27IDs4Delete").val() + "," + o27id);
-        } else {
-            $("#o27IDs4Delete").val(o27id);
-        }
-        $("#tr" + o27id).css("display", "none");
-        _toolbar_warn2save_changes();
-        
-    }
-</script>
+            }
+        </script>

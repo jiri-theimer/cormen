@@ -19,5 +19,7 @@ namespace UI.Models
         
         public UI.Views.Shared.TagHelpers.PokusTagHelpder Pokus1 {get;set;}
 
+        public MyComboViewModel Znovu1 { get; set; }
+
     }
 }

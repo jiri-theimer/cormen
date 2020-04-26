@@ -9,14 +9,18 @@
 
 @(Html.Kendo().MultiColumnComboBox()
     .Name(Model.ControlID)
+    
+    .AutoBind(false)
     .Placeholder(Model.PlaceHolder)
               .DataTextField(Model.getNameField())
               .DataValueField("pid")
     .Columns(columns =>
     {
-        for (int i= 0; i <_cols.Count;i++) {
-            columns.Add().Field(_cols[i].Field).Title(_cols[i].Header);
+        foreach(var col in _cols)
+        {
+            columns.Add().Field(col.Field).Title(col.Header);
         }
+        
     })
 
 
@@ -38,19 +42,20 @@
                     .HtmlAttributes(new { style="width:100%;" })
                     .Filter(FilterType.Contains)
     .Suggest(true)
-                    .AutoBind(false)
+                    
                     .MinLength(1)
                     .HighlightFirst(true)
 
 
 
     .DataSource(source =>
-    {
+    {        
         source.Read(read =>
         {
 
             read.Action("GetJson4TheCombo", "TheGrid",new {entity=Model.Entity, addblankrow = false });
         })
+        
 
         .ServerFiltering(true);
     })
@@ -62,8 +67,15 @@
     <script type="text/javascript">
  $(document).ready(function () {
      var widget@(Model.ControlID) = $("#@Model.ControlID").getKendoMultiColumnComboBox();
-     widget@(Model.ControlID).value("@Model.SelectedValue");
-     widget@(Model.ControlID).text("@Model.SelectedText");
+     @if (String.IsNullOrEmpty(Model.SelectedValue) == false)
+     {
+         <text>
+        widget@(Model.ControlID).value("@Model.SelectedValue");
+        widget@(Model.ControlID).text("@Model.SelectedText");
+        widget@(Model.ControlID).trigger("change");
+        </text>
+     }
+
 
      widget@(Model.ControlID).input.on("click", function () {
          $(this).select();

@@ -92,6 +92,7 @@ namespace UI.Controllers
             v.ComboP28ID = new TheComboViewModel() { Entity = "p28Company", CallerIDValue = "Rec_p28ID", CallerIDText = "Rec_p28Name", SelectedText = v.Rec.p28Name, SelectedValue = v.Rec.p28ID.ToString() };
             v.ComboB02ID = new TheComboViewModel() { Entity = "b02Status", CallerIDValue = "Rec_b02ID", CallerIDText = "Rec_b02Name", SelectedText = v.Rec.b02Name, SelectedValue = v.Rec.b02ID.ToString(), Param1 = "p26" };
 
+            v.Znovu1 = new MyComboViewModel() { Entity = "p28Company",ControlID="xx1",ControlID_Dropdown="dropdown1",ControlID_Table="tabulka1"};
         }
     }
 }

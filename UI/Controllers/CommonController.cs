@@ -85,30 +85,7 @@ namespace UI.Controllers
 
             return s.ToString();
         }
-        public string GetComboHtmlItems(string entity, string curvalue, string tableid,string param1,string pids) //Vrací HTML zdroj tabulky pro MyCombo
-        {
-            string strCols = "";
-            var mq = new BO.myQuery(entity);
-            var dt = Factory.gridBL.GetList(mq);
-            var intRows = dt.Rows.Count;
-
-            var s = new System.Text.StringBuilder();
-            var cols = BO.BAS.ConvertString2List(strCols);
-
-            s.Append(string.Format("<table id='{0}' class='table table-sm table-hover' style='font-size:90%;'>", tableid));
-            for (int i = 0; i < intRows; i++)
-            {
-                s.Append(string.Format("<tr class='txz' data-v='{0}'>", dt.Rows[i]["pid"]));
-                foreach (var strCol in cols)
-                {
-                    s.Append(string.Format("<td>{0}</td>", dt.Rows[i][strCol]));
-                }
-                s.Append("</tr>");
-            }
-            s.Append("</table>");
-          
-            return s.ToString();
-        }
+        
         public string GetAutoCompleteHtmlItems(int o15flag, string tableid) //Vrací HTML zdroj tabulky pro MyAutoComplete
         {
             var lis = Factory.FBL.GetListAutoComplete(o15flag);
