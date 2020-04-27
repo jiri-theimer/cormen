@@ -6,7 +6,7 @@ namespace BO
 {
     public class TheGridColumn
     {
-       
+        private string _CssClass;
 
         public string Entity { get; set; }
         public string Field { get; set; }
@@ -23,16 +23,23 @@ namespace BO
         {
             get
             {
-                if (FieldType == "num0" || FieldType == "num") return "tdn";
-                if (FieldType == "bool") return "tdb";
-                return "";
+                if (_CssClass == null)
+                {
+                    if (FieldType == "num0" || FieldType == "num") _CssClass = "tdn";
+                    if (FieldType == "bool") _CssClass = "tdb";
+                }                
+                return _CssClass;
+            }
+            set
+            {
+                _CssClass = value;
             }
         }
         public string UniqueName
         {
             get
             {
-                return Entity + "|" + Field;
+                return Entity + "__" + Field;
             }
         }
         public string FinalSqlSyntax

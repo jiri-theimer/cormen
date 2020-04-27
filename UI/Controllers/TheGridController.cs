@@ -16,12 +16,14 @@ namespace UI.Controllers
         private System.Text.StringBuilder _s;
         private UI.Models.TheGridViewModel _grid;
 
-        public string GetHtml4TheGrid(int j72id) //Vrací HTML zdroj tabulky pro TheGrid v rámci j72TheGridState
+        public TheGridOutput GetHtml4TheGrid(int j72id) //Vrací HTML zdroj tabulky pro TheGrid v rámci j72TheGridState
         {
+            var ret = new TheGridOutput();
             var cJ72 = this.Factory.gridBL.LoadTheGridState(j72id);
             if (cJ72 == null)
             {
-                return string.Format("<code>Nelze načíst grid state s id!</code>", j72id.ToString());
+                ret.message= string.Format("Nelze načíst grid state s id!", j72id.ToString());
+                return ret;
             }
             _grid = new TheGridViewModel() { Entity = cJ72.j72Entity };
             _grid.GridState = cJ72;
@@ -37,18 +39,20 @@ namespace UI.Controllers
             _s = new System.Text.StringBuilder();
 
             Render_DATAROWS(dt);
+            ret.body = _s.ToString();
+            _s = new System.Text.StringBuilder();
 
-            
             Render_TOTALS(dtFooter);
-
-            return _s.ToString();
+            ret.foot = _s.ToString();
+            return ret;
+            
         }
 
         private void Render_DATAROWS(System.Data.DataTable dt)
         {
             var intRows = dt.Rows.Count;
             
-            for (int i = 0; i < intRows; i++)
+            for (int i = 0; i < intRows-600; i++)
             {
                 System.Data.DataRow dbRow = dt.Rows[i];
                 var strRowClass = "";
@@ -60,7 +64,7 @@ namespace UI.Controllers
                 _s.Append(string.Format("<tr id='r{0}' {1}>", dbRow["pid"],strRowClass));
 
                 
-                if (_grid.GridState.j72SelectableFlag == 1)
+                if (_grid.GridState.j72SelectableFlag>0)
                 {
                     _s.Append(string.Format("<td class='td0' style='width:20px;'><input type='checkbox' id='chk{0}'/></td>", dbRow["pid"]));
                 }
@@ -82,9 +86,9 @@ namespace UI.Controllers
                         _s.Append(string.Format(" class='{0}'", col.CssClass));                        
                     }
                     
-                    if (col.FixedWidth > 0)
+                    if (i==0)   //první řádek musí mít explicitně šířky, aby to z něj zdědili další řádky
                     {
-                        _s.Append(string.Format(" style='width:{0}'", col.FixedWidth));
+                        _s.Append(string.Format(" style='width:{0}'", col.ColumnWidthPixels));
                     }
                     _s.Append(string.Format(">{0}</td>", ParseCellValueFromDb(dbRow, col)));
                     
@@ -100,16 +104,21 @@ namespace UI.Controllers
             _s.Append(string.Format("<th class='th0' title='Celkový počet záznamů' colspan=3 style='width:60px;'>{0}</th>", string.Format("{0:#,0}", dt.Rows[0]["RowsCount"])));
             //_s.Append("<th style='width:20px;'></th>");
             //_s.Append("<th class='th0' style='width:20px;'></th>");
+            string strVal = "";
             foreach (var col in _grid.Columns)
             {
-                _s.Append("<td");
+                _s.Append("<th");
                 if (col.CssClass != null)
                 {
                     _s.Append(string.Format(" class='{0}'", col.CssClass));
                 }
 
-                
-                _s.Append(string.Format(" style='width:{0}'>{1}</td>",col.ColumnWidthPixels, ParseCellValueFromDb(dt.Rows[0], col)));
+                strVal = "&nbsp;";
+                if (dt.Rows[0][col.Field] != System.DBNull.Value)
+                {
+                    strVal = ParseCellValueFromDb(dt.Rows[0], col);
+                }
+                _s.Append(string.Format(" style='width:{0}'>{1}</th>",col.ColumnWidthPixels, strVal));
 
 
             }

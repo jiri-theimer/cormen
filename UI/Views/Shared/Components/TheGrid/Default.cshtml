@@ -1,14 +1,18 @@
 ﻿@model UI.Models.TheGridViewModel
 @{
 
-   var _cols = Model.Columns;
+    var _cols = Model.Columns;
 }
 <div id="container_grid">
     <table id="tabgrid0" class="tabgrid_auto">
         <thead id="tabgrid1_thead">
             <tr id="tr_header_headline">
                 <th class="th0" style="width:20px;">
-                    <input type="checkbox" id="tg_chkAll" onchange="tg_select_all(this)" style="cursor: pointer;" />
+                    @if (Model.GridState.j72SelectableFlag > 0)
+                    {
+                        <input type="checkbox" id="tg_chkAll" onchange="tg_select_all(this)" style="cursor: pointer;" />
+                    }
+
                 </th>
                 <th class="th0" style="width:20px;">
 
@@ -52,34 +56,88 @@
                 }
 
             </tr>
-          
+            <tr id="tr_header_query">
+                <th></th>
+                <th></th>
+                <th></th>
+                @foreach (var c in Model.Columns)
+                {
+
+                    strStyle = "";
+                    var strValue = "";
+                    <th>
+                        <div class="input-group">
+
+                            @if (c.FieldType == "string")
+                            {
+                                <text>
+
+
+
+
+                                    <input type="text" id="txtqry_@c.UniqueName" class="form-control form-control-sm query_textbox" value="@strValue" style="@strStyle" />
+
+
+
+
+
+                                </text>
+                            }
+                            <span class="qryalias" id="qryalias_@c.UniqueName" @strStyle>@strValue</span>
+                            <button type='button' id="cmdqry_@c.UniqueName" tabindex="-1" class="btn btn-light btn-sm py-0 px-1 query_button"><i class="fas fa-filter" style="color:#838383;"></i></button>
+
+                        </div>
+                    </th>
+                }
+            </tr>
 
         </thead>
     </table>
-    <div id="container_vScroll">
-        <table id="tabrid1" class="tabgrid_auto">
+    <div id="container_vScroll" style="height:700px;">
+        <table id="tabgrid1" class="tabgrid_auto">
             <tbody id="tabrid1_tbody"></tbody>
 
-            
+
         </table>
     </div>
+    <table id="tabgrid2" class="tabgrid_auto">
+        <thead id="tabgrid1_tfoot">
+        </thead>
+    </table>
 </div>
 
 
 <script type="text/javascript">
     $(document).ready(function () {
+
+
         var _entity = "@Model.Entity";
         var _url = "@Url.Action("GetHtml4TheGrid", "TheGrid")";
         var _j72id = "@Model.GridState.j72ID";
+        var _tablerows = $("#tabgrid1_tbody").find("tr");
 
-        $.post(_url, { entity: _entity,j72id:_j72id }, function (data) {
-            
-            $("#tabrid1_tbody").html(data);
+        $.get(_url, { entity: _entity,j72id:_j72id }, function (data) {
 
-           
+            $("#tabrid1_tbody").html(data.body);
+            $("#tabgrid1_tfoot").html(data.foot);
+
+
+            $("#container_vScroll").width($("#container_grid").width() + $("#container_grid").scrollLeft());
+
+            var basewidth = $("#tabgrid0").width();
+            $("#tabgrid1").width(basewidth);
+            $("#tabgrid2").width(basewidth);
+
 
 
         });
+
+        $("#container_grid").scroll(function () {
+            $("#container_vScroll").width($("#container_grid").width() + $("#container_grid").scrollLeft());
+        });
+
+
+
 
     });
 </script>

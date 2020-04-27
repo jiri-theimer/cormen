@@ -31,10 +31,10 @@ namespace BL
                 AF("p28Contact","p28City1", "Město",true);
                 AF("p28Contact","p28RegID", "IČ",true);
                 
-                AF("p28Contact", "Pokus1", "", true, "convert(bit,1)", "bool");
-                AF("p28Contact", "Pokus2", "", true, "convert(float,a.p28ID*99.1234)", "num",true);
-                AF("p28Contact", "Pokus3", "", true,  "a.DateInsert", "datetime");
-                AF("p28Contact", "Pokus4", "", true, "convert(int,a.p28ID*100)", "num0",true);
+                AF("p28Contact", "Pokus1", "BOOL 1", true, "convert(bit,1)", "bool");
+                AF("p28Contact", "Pokus2", "NUM 1", true, "convert(float,a.p28ID*99.1234)", "num",true);
+                AF("p28Contact", "Pokus3", "Dat 2", true,  "a.DateInsert", "datetime");
+                AF("p28Contact", "Pokus4", "NUM 2", true, "convert(int,a.p28ID*100)", "num0",true);
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p10")
             {
@@ -100,17 +100,23 @@ namespace BL
 
             var sels = BO.BAS.ConvertString2List(strUniqueNames, ",");
             var ret = new List<BO.TheGridColumn>();
+            
 
-            foreach(var s in sels)
+            for(var i=0;i<sels.Count; i++)
             {
-                if (_lis.Where(p => p.UniqueName == s).Count() > 0)
-                {                    
-
-                    ret.Add(_lis.Where(p => p.UniqueName == s).FirstOrDefault());
+                if (_lis.Where(p => p.UniqueName == sels[i]).Count() > 0)
+                {
+                    var c = _lis.Where(p => p.UniqueName == sels[i]).FirstOrDefault();
+                    if ((i == sels.Count - 1) && (c.FieldType=="num" || c.FieldType=="num0"))
+                    {
+                        c.CssClass = "tdn_lastcol";
+                    }
+                    ret.Add(c);
                 }
 
                 
             }
+         
             return ret;
 
 
