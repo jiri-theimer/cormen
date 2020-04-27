@@ -12,8 +12,12 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http.Features;
 
+
 namespace UI.Controllers
 {
+
+    
+
     public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
@@ -33,6 +37,16 @@ namespace UI.Controllers
             return View();
 
         }
+
+        public IActionResult TestujGrid()
+        {
+            
+            return View();
+        }
+
+
+
+
         public IActionResult MyProfile()
         {
             _logger.LogDebug("Jsem v MyProfile. ");

@@ -8,31 +8,31 @@
     }
 
 }
-<div id="divDropdownContainer@_controlID" class="dropdown input-group" style="border:solid 1px #C8C8C8;border-radius:3px;width:100%;">
-    <div class="input-group-prepend" id="divSearch@_controlID">
-        <input id="searchbox@_controlID" autocomplete="off" type="text" class="form-control" placeholder="..." title="Najít" style="border:none;width:150px;">
-    </div>
+    <div id="divDropdownContainer@_controlID" class="dropdown input-group" style="border:solid 1px #C8C8C8;border-radius:3px;width:100%;">
+        <div class="input-group-prepend" id="divSearch@_controlID">
+            <input id="searchbox@_controlID" autocomplete="off" type="text" class="form-control" placeholder="..." title="Najít" style="border:none;width:150px;">
+        </div>
 
 
 
 
-    <button type="button" id="cmdClear@_controlID" class="btn close" aria-label="Close" tabindex="-1" title="Vyčistit" style="width:30px;border:none;visibility:hidden;">
-        <span aria-hidden="true">&times;</span>
-    </button>
-    <button type="button" id="cmdCombo@_controlID" class="btn btn-outline-light dropdown-toggle form-control" title="Vybrat z nabídky" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" tabindex="-1" style="text-align:left;border:none;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;color:black;">@Model.PlaceHolder</button>
+
+        <button type="button" id="cmdCombo@_controlID" class="btn btn-outline-light dropdown-toggle form-control" title="Vybrat z nabídky" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" tabindex="-1" style="text-align:left;border:none;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;color:black;">@Model.PlaceHolder</button>
+        <button type="button" id="cmdClear@_controlID" class="btn btn-secondary close" aria-label="Close" tabindex="-1" title="Vyčistit" style="width:30px;border:none;visibility:hidden;">
+            <span aria-hidden="true">&times;</span>
+        </button>
+
+        <div id="divDropdown@_controlID" class="dropdown-menu" aria-labelledby="cmdCombo" style="width:100%;margin-left:-150px;" tabindex="-1">
 
 
-    <div id="divDropdown@_controlID" class="dropdown-menu" aria-labelledby="cmdCombo" style="width:100%;margin-left:-180px;" tabindex="-1">
+            <div id="divData@_controlID" style="height:220px;overflow:auto;background-color:#E6F0FF;z-index:500;width:100%;">
 
 
-        <div id="divData@_controlID" style="height:220px;overflow:auto;background-color:#E6F0FF;z-index:500;width:100%;">
-
+            </div>
 
         </div>
 
     </div>
-
-</div>
 <input type="hidden" data-id="text_@_controlID" asp-for="@Model.SelectedText" />
 <input type="hidden" data-id="value_@_controlID" asp-for="@Model.SelectedValue" />
 <input type="hidden" asp-for="@Model.Entity" />

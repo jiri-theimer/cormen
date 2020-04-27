@@ -1,0 +1,78 @@
+﻿@model UI.Models.TheGridViewModel
+@{
+
+   var _cols = Model.Columns;
+}
+<div id="container_grid">
+    <table id="tabgrid0" class="tabgrid_auto">
+        <thead id="tabgrid1_thead">
+            <tr>
+                <th class="th0" style="width:20px;">
+                    <input type="checkbox" id="tg_chkAll" onchange="tg_select_all(this)" style="cursor: pointer;" />
+                </th>
+                <th class="th0" style="width:20px;">
+
+                </th>
+                <th class="th0" style="width:20px;">
+
+                </th>
+                @{
+                    string strClass = "";
+                    string strStyle = "";
+
+                }
+                @foreach (var c in Model.Columns)
+                {
+                    if (c.IsSortable)
+                    {
+                        strClass = "sortcolumn";
+                    }
+                    else
+                    {
+                        strClass = "";
+                    }
+                    if (c.FixedWidth > 0)
+                    {
+                        strStyle = "style='width:" + c.FixedWidth.ToString() + "px'";
+                    }
+                    else
+                    {
+                        strStyle = "";
+                    }
+
+                    <th class="@strClass" id="th_@c.Field" title="@c.Header" columntypename="@c.FieldType" @strStyle>@c.Header</th>
+                }
+
+            </tr>
+            <tr>
+
+            </tr>
+
+        </thead>
+    </table>
+    <div id="container_vScroll">
+        <table id="tabrid1" class="tabgrid_auto">
+            <tbody id="tabrid1_tbody"></tbody>
+
+            
+        </table>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var _entity = "@Model.Entity";
+        var _url = "@Url.Action("GetHtml4TheGrid", "TheGrid")";
+
+        $.post(_url, { entity: _entity }, function (data) {
+            
+            $("#tabrid1_tbody").html(data);
+
+           
+
+
+        });
+
+    });
+</script>

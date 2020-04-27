@@ -13,6 +13,137 @@ namespace UI.Controllers
 {
     public class TheGridController : BaseController
     {
+        private System.Text.StringBuilder _s;
+        private UI.Models.TheGridViewModel _grid;
+
+        public string GetHtml4TheGrid(int j72id) //Vrací HTML zdroj tabulky pro TheGrid v rámci j72TheGridState
+        {
+            var cJ72 = this.Factory.gridBL.LoadTheGridState(j72id);
+            if (cJ72 == null)
+            {
+                return string.Format("<code>Nelze načíst grid state s id!</code>", j72id.ToString());
+            }
+            _grid = new TheGridViewModel() { Entity = cJ72.j72Entity };
+            _grid.GridState = cJ72;
+           
+            
+            var mq = new BO.myQuery(cJ72.j72Entity);
+            _grid.Columns = new BL.TheGridColumns(mq).getSelectedPallete(cJ72.j72Columns);
+            
+            mq.explicit_columns = _grid.Columns;
+            var dt = Factory.gridBL.GetList(mq);
+            
+
+            _s = new System.Text.StringBuilder();
+
+            Render_DATAROWS(dt);
+
+            if (_grid.Columns.Where(p => p.IsShowTotals == true).Count() > 0)
+            {
+                Render_TOTALS(dt);
+            }
+
+            return _s.ToString();
+        }
+
+        private void Render_DATAROWS(System.Data.DataTable dt)
+        {
+            var intRows = dt.Rows.Count;
+            
+            for (int i = 0; i < intRows; i++)
+            {
+                System.Data.DataRow dbRow = dt.Rows[i];
+                var strRowClass = "";
+                if (Convert.ToBoolean(dbRow["isclosed"])==true)
+                {
+                    strRowClass = "class='trbin'";
+                }
+
+                _s.Append(string.Format("<tr id='r{0}' {1}>", dbRow["pid"],strRowClass));
+
+                
+                if (_grid.GridState.j72SelectableFlag == 1)
+                {
+                    _s.Append(string.Format("<td class='td0' style='width:20px;'><input type='checkbox' id='chk{0}'/></td>", dbRow["pid"]));
+                }
+                else
+                {
+                    _s.Append("<td class='td0' style='width:20px;'></td>");
+                }
+                
+
+                _s.Append("<td class='td1' style='width:20px;'>");
+                _s.Append("<td class='td2' style='width:20px;'>");
+
+
+                foreach (var col in _grid.Columns)
+                {
+
+                    _s.Append(string.Format("<td class='{0}'>{1}", col.CssClass, ParseCellValueFromDb(dbRow, col)));
+                    if (col.FixedWidth > 0)
+                    {
+                        _s.Append(string.Format(" style='width:{0}'", col.FixedWidth));
+                    }
+                    _s.Append("</td>");
+
+                }
+                _s.Append("</tr>");
+            }
+        }
+
+        private void Render_TOTALS(System.Data.DataTable dt)
+        {
+            
+        }
+
+
+
+        string ParseCellValueFromDb(System.Data.DataRow dbRow, BO.TheGridColumn c)
+        {
+            if (dbRow[c.Field] == System.DBNull.Value)
+            {
+                return "";
+            }
+            switch (c.FieldType)
+            {
+                case "bool":
+                    if (Convert.ToBoolean(dbRow[c.Field]) == true)
+                    {
+                        return "&#10004;";
+                    }
+                    else
+                    {
+                        return "";
+                    }
+                case "num0":
+                    return string.Format("{0:#,0}", dbRow[c.Field]);
+
+                case "num":
+                    return string.Format("{0:#,0.00}", dbRow[c.Field]);
+                  
+
+                case "date":
+                    return Convert.ToDateTime(dbRow[c.Field]).ToString("dd.MM.yyyy");
+
+
+                case "datetime":
+                    
+                    return Convert.ToDateTime(dbRow[c.Field]).ToString("dd.MM.yyyy HH:mm");
+                default:                    
+                    return dbRow[c.Field].ToString();
+            }
+
+
+        }
+
+
+
+
+
+
+
+
+
 
         public string GetHtml4TheCombo(string entity, string curvalue, string tableid, string param1, string pids) //Vrací HTML zdroj tabulky pro MyCombo
         {
@@ -21,13 +152,14 @@ namespace UI.Controllers
             mq.query_by_entity_prefix = param1;
             var cols = new BL.TheGridColumns(mq).getDefaultPallete();
 
+
             var dt = Factory.gridBL.GetList(mq);
             var intRows = dt.Rows.Count;
 
             var s = new System.Text.StringBuilder();
 
 
-            s.Append(string.Format("<table id='{0}' class='table table-sm table-hover' style='font-size:90%;'>", tableid));
+            s.Append(string.Format("<table id='{0}' class='table table-hover'>", tableid));
             s.Append("<thead><tr>");
             foreach (var col in cols)
             {
@@ -49,20 +181,20 @@ namespace UI.Controllers
         }
 
 
-        public ActionResult GetJson4TheCombo(string entity,string text,bool addblankrow)
+        public ActionResult GetJson4TheCombo(string entity, string text, bool addblankrow)
         {
-            System.IO.File.AppendAllText("c:\\temp\\hovado.txt", "entity: " + entity+", čas: "+DateTime.Now.ToString());
-            var mq = new BO.myQuery(entity);          
+            System.IO.File.AppendAllText("c:\\temp\\hovado.txt", "entity: " + entity + ", čas: " + DateTime.Now.ToString());
+            var mq = new BO.myQuery(entity);
             mq.explicit_columns = new BL.TheGridColumns(mq).getDefaultPallete();
             mq.SearchString = text;//fulltext hledání
-            var dt = Factory.gridBL.GetList( mq);
+            var dt = Factory.gridBL.GetList(mq);
 
-            if (addblankrow==true)
+            if (addblankrow == true)
             {
                 System.Data.DataRow newBlankRow = dt.NewRow();
                 dt.Rows.InsertAt(newBlankRow, 0);
             }
-            
+
 
             foreach (System.Data.DataRow row in dt.Rows)
             {
@@ -76,14 +208,14 @@ namespace UI.Controllers
                         }
                     }
 
-                }               
+                }
             }
 
-            
-            
 
-            return new ContentResult() { Content =DataTableToJSONWithJSONNet(dt), ContentType = "application/json" };
-            
+
+
+            return new ContentResult() { Content = DataTableToJSONWithJSONNet(dt), ContentType = "application/json" };
+
         }
 
 
@@ -101,106 +233,6 @@ namespace UI.Controllers
 
 
 
-
-
-
-
-
-
-
-
-        public IActionResult Index(string entity)
-        {
-            var v = new TheGridViewMode();
-            v.Entity = entity;
-            if (v.Entity == null) v.Entity = "p10";
-            var mq = new BO.myQuery(v.Entity);
-
-
-
-            v.grid1 = new MyGridViewModel(v.Entity, "pid", "grid1_" + v.Entity);
-
-            switch (v.Entity)
-            {
-                case "p10":
-                    v.grid1.AddLinkCol("Název produktu", "p10");
-                    v.grid1.AddStringCol("Kód", "p10Code");
-                    v.grid1.AddStringCol("Stav", "b02Name");
-                    v.grid1.AddStringCol("TPV", "p13Code");
-                    v.grid1.AddStringCol("Kategorie", "o12Name");
-                    v.grid1.AddDateTimeCol("Založeno", "DateInsert");
-                    break;
-                case "p13":
-                    v.grid1.AddLinkCol("Název", "p13");
-                    v.grid1.AddStringCol("Číslo postupu", "p13Code");
-                    v.grid1.AddStringCol("Popis", "p13Memo");
-                    v.grid1.AddDateTimeCol("Založeno", "DateInsert");
-                    break;
-                case "j02":
-                    v.grid1.AddStringCol("", "j02TitleBeforeName");
-                    v.grid1.AddStringCol("Jméno", "j02FirstName");
-                    v.grid1.AddStringCol("Příjmení", "j02LastName");
-                    v.grid1.AddStringCol("E-mail", "j02Email");
-                    v.grid1.AddStringCol("Role", "j04Name");
-                    v.grid1.AddLinkCol("Firma", "p28");
-                    v.grid1.AddStringCol("Mobil", "j02Tel1");
-                    v.grid1.AddDateTimeCol("Založeno", "DateInsert");
-                    break;
-                case "p21":
-                    v.grid1.AddLinkCol("Název", "p21");
-                    v.grid1.AddStringCol("Kód", "p21Code");
-                    v.grid1.AddStringCol("Stav", "b02Name");
-                    v.grid1.AddLinkCol("Klient", "p28");
-                    v.grid1.AddDateCol("Platnost od", "ValidFrom");
-                    v.grid1.AddDateCol("Platnost do", "ValidUntil");
-                    v.grid1.AddDateTimeCol("Založeno", "DateInsert");
-                    break;
-                case "p26":
-                    v.grid1.AddLinkCol("Název", "p26");
-                    v.grid1.AddStringCol("Kód", "p26Code");
-                    v.grid1.AddLinkCol("Klient", "p28");
-                    v.grid1.AddStringCol("Stav", "b02Name");
-                    v.grid1.AddDateTimeCol("Založeno", "DateInsert");
-                    break;
-                case "p28":
-                    v.grid1.AddLinkCol("Název", "p28");
-                    v.grid1.AddStringCol("Město", "p28City1");
-                    v.grid1.AddStringCol("Ulice", "p28Street1");
-                    v.grid1.AddStringCol("Kód", "p28Code");
-                    v.grid1.AddStringCol("IČ", "p28RegID");
-                    v.grid1.AddDateTimeCol("Založeno", "DateInsert");
-                    break;
-                case "b02":
-                    v.grid1.AddStringCol("Název", "b02Name");
-                    v.grid1.AddStringCol("Kód", "b02Code");
-                    v.grid1.AddStringCol("Vazba", "EntityAlias");
-                    v.grid1.AddDateTimeCol("Založeno", "DateInsert");
-                    break;
-                case "o12":
-                    v.grid1.AddStringCol("Název", "o12Name");
-                    v.grid1.AddStringCol("Kód", "o12Name");
-                    v.grid1.AddStringCol("Vazba", "EntityAlias");
-                    v.grid1.AddDateTimeCol("Založeno", "DateInsert");
-                    break;
-                case "o23":
-                    v.grid1.AddLinkCol("Název", "o23");
-                    v.grid1.AddLinkCol("Vazba", "RecordUrl");
-                    v.grid1.AddStringCol("", "EntityAlias");
-
-                    v.grid1.AddStringCol("Kategorie", "o12Name");
-                    v.grid1.AddStringCol("Stav", "b02Name");
-
-
-                    v.grid1.AddDateTimeCol("Založeno", "DateInsert");
-                    break;
-            }
-
-
-
-            v.grid1.DT = Factory.gridBL.GetList( mq);
-
-            return View(v);
-        }
 
     }
 }

@@ -88,7 +88,7 @@ namespace UI.Controllers
                 c.o23Code = v.Rec.o23Code;
                 c.o23Name = v.Rec.o23Name;
                 c.o23Entity = v.Rec.o23Entity;
-                c.o23RecordPid = v.Rec.o23RecordPid;
+                c.o23RecordPid = v.ComboRecordPid.SelectedValue;
                 
                 c.o23Memo = v.Rec.o23Memo;
                 c.o23Date = v.Rec.o23Date;

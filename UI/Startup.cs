@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
+
 namespace UI
 {
     public class Startup
@@ -40,6 +41,7 @@ namespace UI
             //services.AddSingleton<UI.Models.GlobalHelper>();
             //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            
             services.AddKendo();
 
           

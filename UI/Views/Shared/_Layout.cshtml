@@ -37,7 +37,10 @@
 
 
     <!--KENDO all-->
+
+
     <script src="~/lib/kendo/js/kendo.custom.min_plus_grid.js"></script>
+    
 
     <script src="~/lib/kendo/js/cultures/kendo.culture.cs-CZ.min.js"></script>
 
@@ -47,14 +50,14 @@
     <script src="~/js/controls.js" asp-append-version="true"></script>
 
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color: #CCE5FF;">
+        <nav class="navbar navbar-expand navbar-toggleable navbar-light border-bottom box-shadow mb-3" style="background-color: #CCE5FF;">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="color:blue;" title="Cormen Cloud">CC</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <div class="navbar-collapse collapse d-inline-flex flex-row-reverse">
 
                     <partial name="_LoginPartial" />
                     <div class="dropdown">
@@ -188,7 +191,8 @@
         kendo.culture("cs-CZ");
     </script>
 
-    <div class="container-fluid">
+    <div class="container-fluid" style="padding:0px;">
+        
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

@@ -300,6 +300,7 @@
 
         $("[data-id=value_" + _controlid + "]").val(v);
         $("[data-id=text_" + _controlid + "]").val(t);
+        $(_searchbox).val("");
               
         handle_update_state();
 

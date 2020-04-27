@@ -9,8 +9,10 @@ namespace BL
     public interface IDataGridBL
     {
         public DataTable GetList(BO.myQuery mq);
+        public BO.j72TheGridState LoadTheGridState(int intJ72ID);
+        public BO.j72TheGridState LoadTheGridState(string strEntity,int intJ02ID);
+        public int SaveTheGridState(BO.j72TheGridState rec);
 
-        
     }
     class DataGridBL:BaseBL,IDataGridBL
     {
@@ -19,7 +21,17 @@ namespace BL
         {            
            
         }
-        
+
+        public BO.j72TheGridState LoadTheGridState(int intJ72ID)
+        {
+            return _db.Load<BO.j72TheGridState>(string.Format("SELECT a.*,{0} FROM j72TheGridState a WHERE a.j72ID=@j72id", _db.GetSQL1_Ocas("j72"), new { j72id = intJ72ID }));
+        }
+        public BO.j72TheGridState LoadTheGridState(string strEntity, int intJ02ID)
+        {
+            return _db.Load<BO.j72TheGridState>(string.Format("SELECT a.*,{0} FROM j72TheGridState a WHERE a.j72Entity=@entity AND a.j02ID=@j02id", _db.GetSQL1_Ocas("j72"), new { entity = strEntity,j02id=intJ02ID }));
+        }
+
+
         private string GetSQL_SELECT_Ocas(string strPrefix)
         {
             //return string.Format("a.{0}ID as pid,CASE WHEN GETDATE() BETWEEN a.ValidFrom AND a.ValidUntil THEN 0 ELSE 1 end as isclosed,'{0}' as entity,'{0}/?pid='+convert(varchar(10),a.{0}ID) as {0}", strPrefix);
@@ -110,6 +122,30 @@ namespace BL
             
         }
 
-        
+
+        public int SaveTheGridState(BO.j72TheGridState rec)
+        {
+            var p = new Dapper.DynamicParameters();
+            p.Add("pid", rec.j72ID);
+            p.Add("j70ID", BO.BAS.TestIntAsDbKey(rec.j70ID));
+            p.Add("j02ID", BO.BAS.TestIntAsDbKey(rec.j02ID));
+            
+            p.Add("j72Entity", rec.j72Entity);
+            p.Add("j72Columns", rec.j72Columns);
+            p.Add("j72SplitterFlag", rec.j72SplitterFlag);
+            p.Add("j72HeightPanel1", rec.j72HeightPanel1);
+
+            p.Add("j72PageSize", rec.j72PageSize);
+            p.Add("j72PageNum", rec.j72PageNum);
+
+            p.Add("j72SortDataField", rec.j72SortDataField);            
+            p.Add("j72SortOrder", rec.j72SortOrder);
+            p.Add("j72Filter", rec.j72Filter);
+
+            p.Add("j72IsNoWrap", rec.j72IsNoWrap);
+            p.Add("j72SelectableFlag", rec.j72SelectableFlag);
+
+            return _db.SaveRecord("p26Msz", p, rec);
+        }
     }
 }
