@@ -6,7 +6,7 @@
 <div id="container_grid">
     <table id="tabgrid0" class="tabgrid_auto">
         <thead id="tabgrid1_thead">
-            <tr>
+            <tr id="tr_header_headline">
                 <th class="th0" style="width:20px;">
                     <input type="checkbox" id="tg_chkAll" onchange="tg_select_all(this)" style="cursor: pointer;" />
                 </th>
@@ -23,30 +23,36 @@
                 }
                 @foreach (var c in Model.Columns)
                 {
+                    strStyle = "width:" + c.ColumnWidthPixels;
+                    if (Model.GridState.j72SortDataField == c.UniqueName)
+                    {
+                        strStyle += ";background-color:silver;";
+                        if (Model.GridState.j72SortOrder == "desc")
+                        {
+                            c.Header += "&#8595";
+                        }
+                        else
+                        {
+                            c.Header += "&#8593;";
+                        }
+
+
+                    }
                     if (c.IsSortable)
                     {
-                        strClass = "sortcolumn";
+                        strClass = "class='sortcolumn'";
                     }
                     else
                     {
-                        strClass = "";
-                    }
-                    if (c.FixedWidth > 0)
-                    {
-                        strStyle = "style='width:" + c.FixedWidth.ToString() + "px'";
-                    }
-                    else
-                    {
-                        strStyle = "";
+                        strClass = "nonsortable";
                     }
 
-                    <th class="@strClass" id="th_@c.Field" title="@c.Header" columntypename="@c.FieldType" @strStyle>@c.Header</th>
+
+                    <th class="@strClass" id="th_@c.Field" title="@c.Header" columntypename="@c.FieldType" style="@strStyle">@c.Header</th>
                 }
 
             </tr>
-            <tr>
-
-            </tr>
+          
 
         </thead>
     </table>
@@ -64,8 +70,9 @@
     $(document).ready(function () {
         var _entity = "@Model.Entity";
         var _url = "@Url.Action("GetHtml4TheGrid", "TheGrid")";
+        var _j72id = "@Model.GridState.j72ID";
 
-        $.post(_url, { entity: _entity }, function (data) {
+        $.post(_url, { entity: _entity,j72id:_j72id }, function (data) {
             
             $("#tabrid1_tbody").html(data);
 

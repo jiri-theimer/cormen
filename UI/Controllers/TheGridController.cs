@@ -32,16 +32,14 @@ namespace UI.Controllers
             
             mq.explicit_columns = _grid.Columns;
             var dt = Factory.gridBL.GetList(mq);
-            
+            var dtFooter = Factory.gridBL.GetList(mq,true);
 
             _s = new System.Text.StringBuilder();
 
             Render_DATAROWS(dt);
 
-            if (_grid.Columns.Where(p => p.IsShowTotals == true).Count() > 0)
-            {
-                Render_TOTALS(dt);
-            }
+            
+            Render_TOTALS(dtFooter);
 
             return _s.ToString();
         }
@@ -78,13 +76,18 @@ namespace UI.Controllers
 
                 foreach (var col in _grid.Columns)
                 {
-
-                    _s.Append(string.Format("<td class='{0}'>{1}", col.CssClass, ParseCellValueFromDb(dbRow, col)));
+                    _s.Append("<td");
+                    if (col.CssClass != null)
+                    {
+                        _s.Append(string.Format(" class='{0}'", col.CssClass));                        
+                    }
+                    
                     if (col.FixedWidth > 0)
                     {
                         _s.Append(string.Format(" style='width:{0}'", col.FixedWidth));
                     }
-                    _s.Append("</td>");
+                    _s.Append(string.Format(">{0}</td>", ParseCellValueFromDb(dbRow, col)));
+                    
 
                 }
                 _s.Append("</tr>");
@@ -93,7 +96,24 @@ namespace UI.Controllers
 
         private void Render_TOTALS(System.Data.DataTable dt)
         {
-            
+            _s.Append("<tr id='tabgrid1_tr_totals'>");
+            _s.Append(string.Format("<th class='th0' title='Celkový počet záznamů' colspan=3 style='width:60px;'>{0}</th>", string.Format("{0:#,0}", dt.Rows[0]["RowsCount"])));
+            //_s.Append("<th style='width:20px;'></th>");
+            //_s.Append("<th class='th0' style='width:20px;'></th>");
+            foreach (var col in _grid.Columns)
+            {
+                _s.Append("<td");
+                if (col.CssClass != null)
+                {
+                    _s.Append(string.Format(" class='{0}'", col.CssClass));
+                }
+
+                
+                _s.Append(string.Format(" style='width:{0}'>{1}</td>",col.ColumnWidthPixels, ParseCellValueFromDb(dt.Rows[0], col)));
+
+
+            }
+            _s.Append("</tr>");
         }
 
 

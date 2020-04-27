@@ -35,6 +35,50 @@ namespace BO
                 return Entity + "|" + Field;
             }
         }
+        public string FinalSqlSyntax
+        {
+            get
+            {
+                if (SqlSyntax == null)
+                {
+                    return "a." + Field;
+                }
+                else
+                {
+                    return SqlSyntax + " AS " + Field;
+                }
+            }
+        }
+        public string FinalSqlSyntaxSum
+        {
+            get
+            {
+                if (IsShowTotals == false) return "NULL as "+ Field;
+                if (SqlSyntax == null)
+                {
+                    return "SUM(a." + Field+") as "+Field;
+                }
+                else
+                {
+                    return "SUM("+SqlSyntax + ") AS " + Field;
+                }
+            }
+        }
+
+        public string ColumnWidthPixels
+        {
+            get
+            {
+                if (this.FixedWidth == 0)
+                {
+                    return "auto";
+                }
+                else
+                {
+                    return this.FixedWidth.ToString() + "px";
+                }
+            }
+        }
 
     }
 }
