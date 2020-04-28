@@ -307,9 +307,10 @@ a.link_in_grid { /*v TD buňce je link na cokoliv - kvůli odlišení od kliku n
 }
 
 
-.row_selected {
+.selrow {
     background-color: #a6c9e2 !important;
 }
+/* Potlačení možnosti označovat v gridu text - hodí se kvůli selection */
 #tabgrid1 td {
     -webkit-user-select: none; /* Safari */
     -ms-user-select: none; /* IE 10+ and Edge */
