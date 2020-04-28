@@ -7,19 +7,28 @@
     <table id="tabgrid0" class="tabgrid_auto">
         <thead id="tabgrid1_thead">
             <tr id="tr_header_headline">
-                <th class="th0" style="width:20px;">
+                <th class="th0" colspan="3" style="width:60px;">
                     @if (Model.GridState.j72SelectableFlag > 0)
                     {
-                        <input type="checkbox" id="tg_chkAll" onchange="tg_select_all(this)" style="cursor: pointer;" />
+                        
+                        <div class="dropdown" style="padding:0px;">
+                            <button class="btn btn-sm btn-light dropdown-toggle py-1 px-1" title="Označit najednou více záznamů" type="button" id="cmdTheGridBatchSelect" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                &#9745;&#9745;
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="cmdTheGridBatchSelect" style="width:350px;">
+                                <a class="nav-link" href="javascript:tg_select(20)">Vybrat prvních 20</a>
+                                <a class="nav-link" href="javascript:tg_select(50)">Vybrat prvních 50</a>
+                                <a class="nav-link" href="javascript:tg_select(100)">Vybrat prvních 100</a>
+                                <a class="nav-link" href="javascript:tg_select(1000)">Vybrat všechny záznamy na stránce</a>
+                                <hr />
+                                <i>Hromadně vybrat více záznamů lze myší, funguje klávesa CTRL nebo ruční zaškrtnutí checkboxu na záznamu.</i>
+                            </div>
+                            
+                        </div>
                     }
 
                 </th>
-                <th class="th0" style="width:20px;">
-
-                </th>
-                <th class="th0" style="width:20px;">
-
-                </th>
+                
                 @{
                     string strClass = "";
                     string strStyle = "";
@@ -91,7 +100,7 @@
     </table>
     <div id="container_vScroll" style="height:700px;">
         <table id="tabgrid1" class="tabgrid_auto">
-            <tbody id="tabrid1_tbody"></tbody>
+            <tbody id="tabgrid1_tbody"></tbody>
 
 
         </table>

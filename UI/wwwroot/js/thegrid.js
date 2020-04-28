@@ -4,7 +4,7 @@ function tg_post_data(entity, url, j72id) {
 
     $.get(url, { entity: entity,url, j72id: j72id }, function (data) {
 
-        $("#tabrid1_tbody").html(data.body);
+        $("#tabgrid1_tbody").html(data.body);
         $("#tabgrid1_tfoot").html(data.foot);
 
         tg_adjust_parts_width();
@@ -125,4 +125,19 @@ function tg_setup_checkbox_handler() {
 
 
     });
+}
+
+
+function tg_select(records_count) {    
+    var arr = [];
+    _ds.clearSelection();
+    var rows = $("#tabgrid1_tbody tr");
+    for (var i = 0; i < records_count; i++) {
+        var pid = rows[i].id.replace("r", "");
+        arr.push(pid);
+        _ds.addSelection(rows[i]);
+    }
+    
+
+    $("#tg_selected_pids").val(arr.join(","));
 }
