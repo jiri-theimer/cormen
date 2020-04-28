@@ -53,10 +53,10 @@ function tg_refresh_sorter(sortfield,sortdir) {
     });
     var ths = $("#th_" + sortfield);
     if (sortdir === "asc") {
-        $(ths).html($(ths).html() + "&nbsp; &#9650;");
+        $(ths).html($(ths).html() + "&nbsp; &#128314;");
     }
     if (sortdir === "desc") {
-        $(ths).html($(ths).html() + "&nbsp; &#9660;");
+        $(ths).html($(ths).html() + "&nbsp; &#128315;");
     }
 }
 
