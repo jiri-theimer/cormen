@@ -55,10 +55,10 @@ namespace UI.Controllers
             for (int i = 0; i < intRows-600; i++)
             {
                 System.Data.DataRow dbRow = dt.Rows[i];
-                var strRowClass = "";
+                var strRowClass = "class='selectable'";
                 if (Convert.ToBoolean(dbRow["isclosed"])==true)
                 {
-                    strRowClass = "class='trbin'";
+                    strRowClass+= "class='trbin'";
                 }
 
                 _s.Append(string.Format("<tr id='r{0}' {1}>", dbRow["pid"],strRowClass));

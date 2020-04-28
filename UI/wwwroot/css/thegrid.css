@@ -216,6 +216,7 @@ td.td_nowrap {
 
 
 
+
 #tabgrid1 a.grid_context_menu {
     cursor: pointer;
 }
@@ -303,4 +304,14 @@ a.link_in_grid { /*v TD buňce je link na cokoliv - kvůli odlišení od kliku n
     font-weight: bold;
     text-align: center;
     min-width: 40px;
+}
+
+
+.row_selected {
+    background-color: #a6c9e2 !important;
+}
+#tabgrid1 td {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10+ and Edge */
+    user-select: none; /* Standard syntax */
 }

@@ -15,11 +15,13 @@
     <link href="~/lib/kendo/styles/kendo.common-bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/lib/kendo/styles/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
 
-
+    <link rel="stylesheet" href="~/lib/jquery-ui/jquery-ui.min_selectable.css" />
+    
+    
 
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/thegrid.css" />
-    
+
 
 </head>
 
@@ -42,14 +44,21 @@
 
 
     <script src="~/lib/kendo/js/kendo.custom.min_plus_grid.js"></script>
-    
+
 
     <script src="~/lib/kendo/js/cultures/kendo.culture.cs-CZ.min.js"></script>
 
+    <script src="~/lib/jquery-ui/jquery-ui.min_selectable.js"></script>
+
+    <script src="~/lib/selection/ds.min.js"></script>
+
+    
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/mycombo.js" asp-append-version="true"></script>
     <script src="~/js/controls.js" asp-append-version="true"></script>
+
+
 
     <header>
         <nav class="navbar navbar-expand navbar-toggleable navbar-light border-bottom box-shadow mb-3" style="background-color: #CCE5FF;">
@@ -194,7 +203,7 @@
     </script>
 
     <div class="container-fluid" style="padding:0px;">
-        
+
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
