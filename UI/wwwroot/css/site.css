@@ -24,6 +24,10 @@ body{
     }
 }
 
+select {
+    cursor: pointer;
+}
+
 .skryto {
     display: none;
 }
@@ -67,3 +71,4 @@ tr.selrow {
     background-color: #1B6EC2;
     color: white;
 }
+

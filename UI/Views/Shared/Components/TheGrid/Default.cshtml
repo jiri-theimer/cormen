@@ -3,150 +3,151 @@
 
     var _cols = Model.Columns;
 }
-<div id="container_grid">
-    <table id="tabgrid0" class="tabgrid_auto">
-        <thead id="tabgrid1_thead">
-            <tr id="tr_header_headline">
-                <th class="th0" colspan="3" style="width:60px;">
-                    @if (Model.GridState.j72SelectableFlag > 0)
-                    {
-                        
-                        <div class="dropdown" style="padding:0px;">
-                            <button class="btn btn-sm btn-light dropdown-toggle py-1 px-1" title="Označit najednou více záznamů" type="button" id="cmdTheGridBatchSelect" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                &#9745;
-                                &#9776;
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="cmdTheGridBatchSelect" style="width:350px;">
-                                <a class="nav-link" href="javascript:tg_select(20)">Vybrat prvních 20</a>
-                                <a class="nav-link" href="javascript:tg_select(50)">Vybrat prvních 50</a>
-                                <a class="nav-link" href="javascript:tg_select(100)">Vybrat prvních 100</a>
-                                <a class="nav-link" href="javascript:tg_select(1000)">Vybrat všechny záznamy na stránce</a>
-                                <hr />
-                                <i>Hromadně vybrat více záznamů lze myší, funguje klávesa CTRL nebo ruční zaškrtnutí checkboxu na záznamu.</i>
-                            </div>
-                            
-                        </div>
-                    }
-
-                </th>
-                
-                @{
-                    string strClass = "";
-                    string strStyle = "";
-
-                }
-                @foreach (var c in Model.Columns)
-                {
-                    strStyle = "width:" + c.ColumnWidthPixels;
-                    if (Model.GridState.j72SortDataField == c.UniqueName)
-                    {
-                        strStyle += ";background-color:silver;";
-                        if (Model.GridState.j72SortOrder == "desc")
+    <div id="container_grid">
+        <table id="tabgrid0" class="tabgrid_auto">
+            <thead id="tabgrid1_thead">
+                <tr id="tr_header_headline">
+                    <th class="th0" colspan="3" style="width:60px;">
+                        @if (Model.GridState.j72SelectableFlag > 0)
                         {
-                            c.Header += "&#8595";
-                        }
-                        else
-                        {
-                            c.Header += "&#8593;";
-                        }
 
-
-                    }
-                    if (c.IsSortable)
-                    {
-                        strClass = "class='sortcolumn'";
-                    }
-                    else
-                    {
-                        strClass = "nonsortable";
-                    }
-
-
-                    <th class="@strClass" id="th_@c.Field" title="@c.Header" columntypename="@c.FieldType" style="@strStyle">@c.Header</th>
-                }
-
-            </tr>
-            <tr id="tr_header_query">
-                <th></th>
-                <th></th>
-                <th></th>
-                @foreach (var c in Model.Columns)
-                {
-
-                    strStyle = "";
-                    var strValue = "";
-                    <th>
-                        @if (c.FieldType == "string")
-                        {
-                            <text>
-                                <div class="input-group">
-                                    <input type="text" id="txtqry_@c.UniqueName" class="form-control form-control-sm query_textbox" value="@strValue" style="@strStyle" />
-
-                                    <button type='button' id="cmdqry_@c.UniqueName" tabindex="-1" class="btn btn-light btn-sm py-0 px-1 query_button"><i class="fas fa-filter" style="color:#838383;"></i></button>
-
+                            <div class="dropdown" style="padding:0px;">
+                                <button class="btn btn-sm btn-light dropdown-toggle py-1 px-1" title="Další GRID funkce" type="button" id="cmdTheGridBatchSelect" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    &#9745;
+                                    &#9776;
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="cmdTheGridBatchSelect" style="width:350px;">
+                                    <a class="nav-link" href="javascript:tg_select(20)">Vybrat prvních 20</a>
+                                    <a class="nav-link" href="javascript:tg_select(50)">Vybrat prvních 50</a>
+                                    <a class="nav-link" href="javascript:tg_select(100)">Vybrat prvních 100</a>
+                                    <a class="nav-link" href="javascript:tg_select(1000)">Vybrat všechny záznamy na stránce</a>
+                                    <hr />
+                                    <i>Hromadně vybrat více záznamů lze myší, funguje klávesa CTRL nebo ruční zaškrtnutí checkboxu na záznamu.</i>
                                 </div>
-                            </text>
-                        }
-                        else
-                        {
-                            <span class="qryalias" id="qryalias_@c.UniqueName" @strStyle>@strValue</span>
-                            <button type='button' id="cmdqry_@c.UniqueName" tabindex="-1" class="btn btn-light btn-sm py-0 px-1 query_button"><i class="fas fa-filter" style="color:#838383;"></i></button>
+
+                            </div>
                         }
 
                     </th>
-                }
-            </tr>
 
-        </thead>
-    </table>
-    <div id="container_vScroll" style="height:700px;">
-        <table id="tabgrid1" class="tabgrid_auto">
-            <tbody id="tabgrid1_tbody"></tbody>
+                    @{
+                        string strClass = "";
+                        string strStyle = "";
+
+                    }
+                    @foreach (var c in Model.Columns)
+                    {
+                        strStyle = "width:" + c.ColumnWidthPixels;
+                        if (Model.GridState.j72SortDataField == c.UniqueName)
+                        {
+                            strStyle += ";background-color:silver;";
+                            if (Model.GridState.j72SortOrder == "desc")
+                            {
+                                c.Header += "&#8595";
+                            }
+                            else
+                            {
+                                c.Header += "&#8593;";
+                            }
 
 
+                        }
+                        if (c.IsSortable)
+                        {
+                            strClass = "class='sortcolumn'";
+                        }
+                        else
+                        {
+                            strClass = "nonsortable";
+                        }
+
+
+                        <th class="@strClass" id="th_@c.Field" title="@c.Header" columntypename="@c.FieldType" style="@strStyle">@c.Header</th>
+                    }
+
+                </tr>
+                <tr id="tr_header_query">
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    @foreach (var c in Model.Columns)
+                    {
+
+                        strStyle = "";
+                        var strValue = "";
+                        <th>
+                            @if (c.FieldType == "string")
+                            {
+                                <text>
+                                    <div class="input-group">
+                                        <input type="text" id="txtqry_@c.UniqueName" class="form-control form-control-sm query_textbox" value="@strValue" style="@strStyle" />
+
+                                        <button type='button' id="cmdqry_@c.UniqueName" tabindex="-1" class="btn btn-light btn-sm py-0 px-1 query_button"><i class="fas fa-filter" style="color:#838383;"></i></button>
+
+                                    </div>
+                                </text>
+                            }
+                            else
+                            {
+                                <span class="qryalias" id="qryalias_@c.UniqueName" @strStyle>@strValue</span>
+                                <button type='button' id="cmdqry_@c.UniqueName" tabindex="-1" class="btn btn-light btn-sm py-0 px-1 query_button"><i class="fas fa-filter" style="color:#838383;"></i></button>
+                            }
+
+                        </th>
+                    }
+                </tr>
+
+            </thead>
         </table>
+        <div id="container_vScroll" style="height:700px;">
+            <table id="tabgrid1" class="tabgrid_auto">
+                <tbody id="tabgrid1_tbody"></tbody>
+
+
+            </table>
+        </div>
+        <table id="tabgrid2" class="tabgrid_auto">
+            <thead id="tabgrid1_tfoot">
+            </thead>
+        </table>
+        <div id="divPagerContainer">
+            <div id="divPager" class="btn-group" role="group" aria-label="Pager">
+            </div>
+        </div>
+        
+        <code id="thegrid_message"></code>
     </div>
-    <table id="tabgrid2" class="tabgrid_auto">
-        <thead id="tabgrid1_tfoot">
-        </thead>
-    </table>
-</div>
-<input type="text" id="tg_selected_pid" />
-<input type="text" id="tg_selected_pids" />
-<input type="text" id="tg_selected_pids_pre" />
+<input type="hidden" id="tg_selected_pid" />
+<input type="hidden" id="tg_selected_pids" />
+<input type="hidden" id="tg_selected_pids_pre" />
 
 
 <script type="text/javascript">
     $(document).ready(function () {
+        var _thegrid={
+            entity: "@Model.Entity",
+            dataurl: "@Url.Action("GetHtml4TheGrid", "TheGrid")",
+            handlerurl: "@Url.Action("HandleTheGridOper", "TheGrid")",
+            j72id:"@Model.GridState.j72ID"
+        };
+
+        tg_init(_thegrid);
 
 
-        var _entity = "@Model.Entity";
-        var _url = "@Url.Action("GetHtml4TheGrid", "TheGrid")";
-        var _j72id = "@Model.GridState.j72ID";
 
 
-        tg_post_data(_entity, _url, _j72id);
-
-        
-
-        
-
-        $("#container_grid").scroll(function () {
-            $("#container_vScroll").width($("#container_grid").width() + $("#container_grid").scrollLeft());
-        });
 
 
-        tg_setup_checkbox_handler();
 
-       
+
 
     });
 
-    
 
-    
 
-    
 
-    
+
+
+
+
 </script>

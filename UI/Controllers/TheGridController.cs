@@ -7,6 +7,7 @@ using System.Reflection;
 using Newtonsoft.Json;
 using System.Text;
 
+
 using UI.Models;
 
 namespace UI.Controllers
@@ -16,25 +17,70 @@ namespace UI.Controllers
         private System.Text.StringBuilder _s;
         private UI.Models.TheGridViewModel _grid;
 
+        public TheGridOutput HandleTheGridOper(int j72id,string oper,string key,string value)
+        {
+            var cJ72 = this.Factory.gridBL.LoadTheGridState(j72id);
+            switch (key)
+            {
+                case "pagerindex":
+                    cJ72.j72CurrentPagerIndex = BO.BAS.InInt(value);
+                    break;
+                case "pagesize":
+                    cJ72.j72PageSize = BO.BAS.InInt(value);
+                    break;
+                case "sorter":
+                    break;
+                case "filter":
+                    break;
+            }
+
+            if (this.Factory.gridBL.SaveTheGridState(cJ72)> 0)
+            {
+                return render_thegrid_html(cJ72);
+            }
+            else
+            {
+                return render_thegrid_error("Nepodařilo se uložit GRIDSTATE");
+            }
+
+            
+        }
+        
+
         public TheGridOutput GetHtml4TheGrid(int j72id) //Vrací HTML zdroj tabulky pro TheGrid v rámci j72TheGridState
         {
-            var ret = new TheGridOutput();
+            
             var cJ72 = this.Factory.gridBL.LoadTheGridState(j72id);
             if (cJ72 == null)
             {
-                ret.message= string.Format("Nelze načíst grid state s id!", j72id.ToString());
-                return ret;
+                return render_thegrid_error(string.Format("Nelze načíst grid state s id!", j72id.ToString()));
+                
             }
+            return render_thegrid_html(cJ72);
+        }
+        private TheGridOutput render_thegrid_error(string strError)
+        {
+            var ret = new TheGridOutput();
+            ret.message = strError;
+            if (this.Factory.CurrentUser.Messages4Notify.Count > 0)
+            {
+                ret.message += " | " + string.Join(",", this.Factory.CurrentUser.Messages4Notify.Select(p => p.Value));
+            }
+            return ret;
+        }
+        private TheGridOutput render_thegrid_html(BO.j72TheGridState cJ72)
+        {
+            var ret = new TheGridOutput();
             _grid = new TheGridViewModel() { Entity = cJ72.j72Entity };
             _grid.GridState = cJ72;
-           
-            
+
+
             var mq = new BO.myQuery(cJ72.j72Entity);
             _grid.Columns = new BL.TheGridColumns(mq).getSelectedPallete(cJ72.j72Columns);
-            
+
             mq.explicit_columns = _grid.Columns;
             var dt = Factory.gridBL.GetList(mq);
-            var dtFooter = Factory.gridBL.GetList(mq,true);
+            var dtFooter = Factory.gridBL.GetList(mq, true);
 
             _s = new System.Text.StringBuilder();
 
@@ -44,15 +90,21 @@ namespace UI.Controllers
 
             Render_TOTALS(dtFooter);
             ret.foot = _s.ToString();
+            _s = new System.Text.StringBuilder();
+
+            RENDER_PAGER(Convert.ToInt32(dtFooter.Rows[0]["RowsCount"]));
+            ret.pager = _s.ToString();
             return ret;
-            
         }
 
         private void Render_DATAROWS(System.Data.DataTable dt)
         {
-            var intRows = dt.Rows.Count;
-            
-            for (int i = 0; i < intRows-600; i++)
+            int intRows = dt.Rows.Count;
+            int intStartIndex = _grid.GridState.j72CurrentPagerIndex;
+            int intEndIndex = intStartIndex + _grid.GridState.j72PageSize-1;
+            if (intEndIndex+1 > intRows) intEndIndex = intRows-1;
+
+            for (int i = intStartIndex; i <= intEndIndex; i++)
             {
                 System.Data.DataRow dbRow = dt.Rows[i];
                 var strRowClass = "class='selectable'";
@@ -86,7 +138,7 @@ namespace UI.Controllers
                         _s.Append(string.Format(" class='{0}'", col.CssClass));                        
                     }
                     
-                    if (i==0)   //první řádek musí mít explicitně šířky, aby to z něj zdědili další řádky
+                    if (i==intStartIndex)   //první řádek musí mít explicitně šířky, aby to z něj zdědili další řádky
                     {
                         _s.Append(string.Format(" style='width:{0}'", col.ColumnWidthPixels));
                     }
@@ -166,9 +218,93 @@ namespace UI.Controllers
         }
 
 
+        private void render_select_option(string strValue,string strText,string strSelValue)
+        {
+            if (strSelValue == strValue)
+            {
+                _s.Append(string.Format("<option selected value='{0}'>{1}</option>", strValue, strText));
+            }
+            else
+            {
+                _s.Append(string.Format("<option value='{0}'>{1}</option>", strValue, strText));
+            }
+            
+        }
+
+        private void RENDER_PAGER(int intRowsCount) //pager má maximálně 10 čísel, j72PageNum začíná od 0
+        {
+            int intPageSize = _grid.GridState.j72PageSize;
+
+            _s.Append("<select title='Stránkování záznamů' onchange='tg_pagesize(this)'>");            
+            render_select_option("50", "50", intPageSize.ToString());
+            render_select_option("100", "100", intPageSize.ToString());
+            render_select_option("200", "200", intPageSize.ToString());
+            render_select_option("500", "500", intPageSize.ToString());
+            render_select_option("1000", "1000", intPageSize.ToString());            
+            _s.Append("</select>");
+            if (intRowsCount < 0) return;
+            
+            if (intRowsCount <= intPageSize) return;
+
+            _s.Append("<button title='První' class='btn btn-light tgp' style='margin-left:6px;' onclick='tg_pager(\n0\n)'>&#11207;|</button>");
+
+            int intCurIndex = _grid.GridState.j72CurrentPagerIndex;
+            int intPrevIndex = intCurIndex - intPageSize;
+            if (intPrevIndex < 0) intPrevIndex = 0;
+            _s.Append(string.Format("<button title='Předchozí' class='btn btn-light tgp' style='margin-right:10px;' onclick='tg_pager(\n{0}\n)'>&#11207;</button>", intPrevIndex));
+
+            if (intCurIndex >= intPageSize * 10)
+            {
+                intPrevIndex = intCurIndex - 10 * intPageSize;
+                _s.Append(string.Format("<button class='btn btn-light tgp' onclick='tg_pager(\n{0}\n)'>...</button>", intPrevIndex));
+            }
+            
+
+            int intStartIndex = 0;
+            for (int i = 0; i <= intRowsCount; i += intPageSize*10)
+            {
+                if (intCurIndex>=i && intCurIndex<i+intPageSize*10)
+                {
+                    intStartIndex = i;
+                    break;
+                }
+            }
+                           
+            int intEndIndex = intStartIndex+(9 * intPageSize);
+            if (intEndIndex+1 > intRowsCount) intEndIndex = intRowsCount-1;
+
+            
+            int intPageNum = intStartIndex/intPageSize; string strClass;
+            for (var i = intStartIndex; i <= intEndIndex; i+=intPageSize)
+            {
+                intPageNum += 1;
+                if (intCurIndex>=i && intCurIndex < i+ intPageSize)
+                {
+                    strClass = "btn btn-secondary tgp";
+                }
+                else
+                {
+                    strClass = "btn btn-light tgp";
+                }
+                _s.Append(string.Format("<button class='{0}' onclick='tg_pager(\n{1}\n)'>{2}</button>",strClass, i,intPageNum));
+               
+            }
+            if (intEndIndex+1 < intRowsCount)
+            {
+                intEndIndex += intPageSize;
+                if (intEndIndex + 1 > intRowsCount) intEndIndex = intRowsCount - intPageSize;
+                _s.Append(string.Format("<button class='btn btn-light tgp' onclick='tg_pager(\n{0}\n)'>...</button>", intEndIndex));
+            }
+
+            int intNextIndex = intCurIndex + intPageSize;
+            if (intNextIndex + 1>intRowsCount) intNextIndex = intRowsCount-intPageSize;
+            _s.Append(string.Format("<button title='Další' class='btn btn-light tgp' style='margin-left:10px;' onclick='tg_pager(\n{0}\n)'>&#11208;</button>", intNextIndex));
+
+            int intLastIndex = intRowsCount - (intRowsCount % intPageSize);  //% je zbytek po celočíselném dělení
+            _s.Append(string.Format("<button title='Poslední' class='btn btn-light tgp' onclick='tg_pager(\n{0}\n)'>|&#11208;</button>", intLastIndex));
 
 
-
+        }
 
 
 

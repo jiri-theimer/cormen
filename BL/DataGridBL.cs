@@ -158,7 +158,8 @@ namespace BL
             p.Add("j72HeightPanel1", rec.j72HeightPanel1);
 
             p.Add("j72PageSize", rec.j72PageSize);
-            p.Add("j72PageNum", rec.j72PageNum);
+            p.Add("j72CurrentPagerIndex", rec.j72CurrentPagerIndex);
+            p.Add("j72CurrentRecordPid", rec.j72CurrentRecordPid);
 
             p.Add("j72SortDataField", rec.j72SortDataField);            
             p.Add("j72SortOrder", rec.j72SortOrder);

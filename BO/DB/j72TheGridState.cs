@@ -16,7 +16,8 @@ namespace BO
         public string j72SortDataField { get; set; }
         public string j72SortOrder { get; set; }
         public int j72PageSize { get; set; }
-        public int j72PageNum { get; set; }
+        public int j72CurrentPagerIndex { get; set; }
+        public int j72CurrentRecordPid { get; set; }
         public bool j72IsNoWrap { get; set; }
         public string j72Filter { get; set; }
         public string j72ColumnsGridWidth { get; set; }

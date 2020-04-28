@@ -1,22 +1,61 @@
 ﻿var _ds;
+var _j72id;
+var _tg_url_data;
+var _tg_url_handler;
+var _tg_entity;
 
-function tg_post_data(entity, url, j72id) {
+function tg_init(c) {
+    _tg_entity = c.entity;
+    _j72id = c.j72id;
+    _tg_url_data = c.dataurl;
+    _tg_url_handler = c.handlerurl;
 
-    $.get(url, { entity: entity,url, j72id: j72id }, function (data) {
+    tg_post_data();
+
+    $("#container_grid").scroll(function () {
+        $("#container_vScroll").width($("#container_grid").width() + $("#container_grid").scrollLeft());
+    });
+
+
+    tg_setup_checkbox_handler();
+}
+
+function tg_post_data() {
+
+    $.post(_tg_url_data, { entity: _tg_entity, j72id: _j72id }, function (data) {
 
         $("#tabgrid1_tbody").html(data.body);
-        $("#tabgrid1_tfoot").html(data.foot);
+        $("#tabgrid1_tfoot").html(data.foot);        
+        $("#divPager").html(data.pager);
 
         tg_adjust_parts_width();
         
         var basewidth = $("#tabgrid0").width();
         $("#tabgrid1").width(basewidth);
         $("#tabgrid2").width(basewidth);
+        
+        tg_setup_selectable();        
+    });
+
+}
+
+function tg_post_handler(strOper,strKey,strValue) {
+    //_notify_message("odesílá se: oper: " + strOper + ", key: " + strKey + ", value: " + strValue);
+    $.post(_tg_url_handler, { j72id: _j72id,oper:strOper,key:strKey,value:strValue }, function (data) {
+        //_notify_message("vrátilo se: oper: " + strOper + ", key: " + strKey + ", value: " + strValue);
+        $("#thegrid_message").text(data.message);
+        $("#tabgrid1_tbody").html(data.body);
+        $("#tabgrid1_tfoot").html(data.foot);
+        $("#divPager").html(data.pager);
+
+        tg_adjust_parts_width();
+
+        var basewidth = $("#tabgrid0").width();
+        $("#tabgrid1").width(basewidth);
+        $("#tabgrid2").width(basewidth);
 
 
         tg_setup_selectable();
-
-        
     });
 
 }
@@ -140,4 +179,12 @@ function tg_select(records_count) {
     
 
     $("#tg_selected_pids").val(arr.join(","));
+}
+
+function tg_pager(pageindex) {  //změna stránky
+    tg_post_handler("pager", "pagerindex", pageindex);
+   
+}
+function tg_pagesize(ctl) {//změna velikosti stránky
+    tg_post_handler("pager", "pagesize", ctl.value);
 }
