@@ -30,39 +30,25 @@
 
                     </th>
 
-                    @{
-                        string strClass = "";
+                    @{                        
                         string strStyle = "";
 
                     }
                     @foreach (var c in Model.Columns)
                     {
                         strStyle = "width:" + c.ColumnWidthPixels;
-                        if (Model.GridState.j72SortDataField == c.UniqueName)
-                        {
-                            strStyle += ";background-color:silver;";
-                            if (Model.GridState.j72SortOrder == "desc")
-                            {
-                                c.Header += "&#8595";
-                            }
-                            else
-                            {
-                                c.Header += "&#8593;";
-                            }
-
-
-                        }
+                        
                         if (c.IsSortable)
                         {
-                            strClass = "class='sortcolumn'";
+                            c.CssClass = "sortcolumn";
                         }
                         else
                         {
-                            strClass = "nonsortable";
+                            c.CssClass = "nonsortable";
                         }
 
 
-                        <th class="@strClass" id="th_@c.Field" title="@c.Header" columntypename="@c.FieldType" style="@strStyle">@c.Header</th>
+                        <th class="@c.CssClass" id="th_@c.UniqueName" title="@c.Header" columntypename="@c.FieldType" style="@strStyle">@c.Header</th>
                     }
 
                 </tr>

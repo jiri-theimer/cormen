@@ -16,6 +16,11 @@ function tg_init(c) {
         $("#container_vScroll").width($("#container_grid").width() + $("#container_grid").scrollLeft());
     });
 
+    $("#tabgrid0 .sortcolumn").on("click", function () {
+        var field = this.id.replace("th_", "");
+        tg_post_handler("sorter", "sortfield", field);
+    });
+
 
     tg_setup_checkbox_handler();
 }
@@ -26,17 +31,33 @@ function tg_post_data() {
 
         $("#tabgrid1_tbody").html(data.body);
         $("#tabgrid1_tfoot").html(data.foot);        
-        $("#divPager").html(data.pager);
+        $("#divPager").html(data.pager);        
+        tg_refresh_sorter(data.sortfield, data.sortdir);
 
         tg_adjust_parts_width();
         
         var basewidth = $("#tabgrid0").width();
         $("#tabgrid1").width(basewidth);
         $("#tabgrid2").width(basewidth);
+
+        
         
         tg_setup_selectable();        
     });
 
+}
+
+function tg_refresh_sorter(sortfield,sortdir) {
+    $("#tabgrid0 .sortcolumn").each(function () {
+        $(this).text(this.title);
+    });
+    var ths = $("#th_" + sortfield);
+    if (sortdir === "asc") {
+        $(ths).html($(ths).html() + "&nbsp; &#9650;");
+    }
+    if (sortdir === "desc") {
+        $(ths).html($(ths).html() + "&nbsp; &#9660;");
+    }
 }
 
 function tg_post_handler(strOper,strKey,strValue) {
@@ -47,6 +68,13 @@ function tg_post_handler(strOper,strKey,strValue) {
         $("#tabgrid1_tbody").html(data.body);
         $("#tabgrid1_tfoot").html(data.foot);
         $("#divPager").html(data.pager);
+
+        if (strOper === "sorter") {
+            tg_refresh_sorter(data.sortfield, data.sortdir);
+        }
+        
+        
+
 
         tg_adjust_parts_width();
 
@@ -188,3 +216,4 @@ function tg_pager(pageindex) {  //změna stránky
 function tg_pagesize(ctl) {//změna velikosti stránky
     tg_post_handler("pager", "pagesize", ctl.value);
 }
+

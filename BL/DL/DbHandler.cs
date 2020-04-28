@@ -203,9 +203,10 @@ namespace BL.DL
             pars.Add("ValidFrom", rec.ValidFrom, System.Data.DbType.DateTime);
             if (rec.ValidUntil == null) rec.ValidUntil = new DateTime(3000, 1, 1);
             pars.Add("ValidUntil", rec.ValidUntil, System.Data.DbType.DateTime);
-
+           
 
             string strF = "", strV = "";
+            
             foreach(var strP in pars.ParameterNames.Where(p=>p != "pid"))
             {
                 if (bolInsert)
@@ -217,6 +218,8 @@ namespace BL.DL
                 {
                     strV += ","+ strP + " = @" + strP;
                 }
+               
+
             }            
             strV = strV.Substring(1, strV.Length - 1);
             if (bolInsert)

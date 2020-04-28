@@ -257,6 +257,7 @@ a.grid_context_menu:hover {
     cursor: pointer;
 }
 
+
 #tg_div_filter {
     position: absolute;
     z-index: 1000;

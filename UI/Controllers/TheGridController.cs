@@ -28,7 +28,29 @@ namespace UI.Controllers
                 case "pagesize":
                     cJ72.j72PageSize = BO.BAS.InInt(value);
                     break;
-                case "sorter":
+                case "sortfield":
+                    if (cJ72.j72SortDataField != value)
+                    {
+                        cJ72.j72SortOrder = "asc";
+                        cJ72.j72SortDataField = value;
+                    }
+                    else
+                    {
+                        if (cJ72.j72SortOrder == "desc")
+                        {
+                            cJ72.j72SortDataField = "";//vyčisitt třídění, třetí stav
+                            cJ72.j72SortOrder = "";
+                        }
+                        else
+                        {
+                            if (cJ72.j72SortOrder == "asc")
+                            {                                
+                                cJ72.j72SortOrder = "desc";
+                            }
+                        }
+                    }
+                    
+                    
                     break;
                 case "filter":
                     break;
@@ -58,28 +80,29 @@ namespace UI.Controllers
             }
             return render_thegrid_html(cJ72);
         }
-        private TheGridOutput render_thegrid_error(string strError)
-        {
-            var ret = new TheGridOutput();
-            ret.message = strError;
-            if (this.Factory.CurrentUser.Messages4Notify.Count > 0)
-            {
-                ret.message += " | " + string.Join(",", this.Factory.CurrentUser.Messages4Notify.Select(p => p.Value));
-            }
-            return ret;
-        }
+        
+        
         private TheGridOutput render_thegrid_html(BO.j72TheGridState cJ72)
         {
             var ret = new TheGridOutput();
             _grid = new TheGridViewModel() { Entity = cJ72.j72Entity };
             _grid.GridState = cJ72;
 
-
+            ret.sortfield = cJ72.j72SortDataField;
+            ret.sortdir = cJ72.j72SortOrder;
+            
             var mq = new BO.myQuery(cJ72.j72Entity);
             _grid.Columns = new BL.TheGridColumns(mq).getSelectedPallete(cJ72.j72Columns);
 
             mq.explicit_columns = _grid.Columns;
+            if (cJ72.j72SortDataField != "" && _grid.Columns.Where(p=>p.UniqueName==cJ72.j72SortDataField).Count()>0)
+            {
+                var c = _grid.Columns.Where(p => p.UniqueName == cJ72.j72SortDataField).First();
+                mq.explicit_orderby = c.FinalSqlSyntaxOrderBy + " " + cJ72.j72SortOrder;
+
+            }
             var dt = Factory.gridBL.GetList(mq);
+            mq.explicit_orderby = "";
             var dtFooter = Factory.gridBL.GetList(mq, true);
 
             _s = new System.Text.StringBuilder();
@@ -385,6 +408,16 @@ namespace UI.Controllers
 
 
 
+        private TheGridOutput render_thegrid_error(string strError)
+        {
+            var ret = new TheGridOutput();
+            ret.message = strError;
+            if (this.Factory.CurrentUser.Messages4Notify.Count > 0)
+            {
+                ret.message += " | " + string.Join(",", this.Factory.CurrentUser.Messages4Notify.Select(p => p.Value));
+            }
+            return ret;
+        }
 
         private string DataTableToJSONWithJSONNet(System.Data.DataTable dt)
         {

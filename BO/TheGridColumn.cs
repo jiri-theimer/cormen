@@ -56,6 +56,20 @@ namespace BO
                 }
             }
         }
+        public string FinalSqlSyntaxOrderBy
+        {
+            get
+            {
+                if (SqlSyntax == null)
+                {
+                    return "a." + Field;
+                }
+                else
+                {
+                    return SqlSyntax;
+                }
+            }
+        }
         public string FinalSqlSyntaxSum
         {
             get
