@@ -1,8 +1,11 @@
 ﻿@model UI.Models.j02RecordViewModel
 @{
-    ViewData["Title"] = "Osoba";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    if (Model.Rec == null) return;
+        ViewData["Title"] = "Osoba";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+        if (Model.Rec == null) return;
+
+   
+
 }
 
 
@@ -41,9 +44,9 @@
 
 
         <div class="card-header">
-            <input asp-for="Rec.j02IsUser" />
-            <label for="Rec_j02IsUser">Má uživatelský účet?</label>
-            @if (Model.Rec.pid > 0)
+            <input asp-for="@Model.IsUserProfile" />
+            <label for="IsUserProfile">Má uživatelský účet?</label>
+            @if (Model.Rec.j03ID > 0)
             {
                 <div style="float:right;">
                     <a id="cmdResetPwd" style="float:right;" href="javascript:reset_password()">Resetovat přihlašovací heslo</a>
@@ -57,7 +60,7 @@
             <div id="divNewPwd" class="form-row" style="display:none;">
                 <label class="col-sm-2 col-md-3 col-form-label">Nové heslo:</label>
                 <div class="col-sm-10 col-md-9">
-                    <input class="form-control bg-warning" asp-for="@Model.ResetPassword" placeholder="Pokud zůstane prázdné, nedojde k resetu hesla!" />
+                    <input class="form-control bg-warning" autocomplete="off" asp-for="@Model.ResetPassword" placeholder="Pokud zůstane prázdné, nedojde k resetu hesla!" />
                     <span asp-validation-for="@Model.ResetPassword" class="text-danger"></span>
                 </div>
             </div>
@@ -65,8 +68,8 @@
             <div class="form-row">
                 <label class="col-sm-2 col-md-3 col-form-label">Uživatelský účet (Login):</label>
                 <div class="col-sm-10 col-md-9">
-                    <input class="form-control" asp-for="Rec.j02Login" />
-                    <span asp-validation-for="Rec.j02Login" class="text-danger"></span>
+                    <input class="form-control" asp-for="UserProfile.j03Login" />
+                    <span asp-validation-for="UserProfile.j03Login" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-row">
@@ -77,8 +80,8 @@
             </div>
 
             <div class="form-row">
-                <input asp-for="Rec.j02IsMustChangePassword" />
-                <label for="Rec_j02IsMustChangePassword">Vynutit si od uživatele změnu hesla</label>
+                <input asp-for="UserProfile.j03IsMustChangePassword" />
+                <label for="UserProfile_j03IsMustChangePassword">Vynutit si od uživatele změnu hesla</label>
             </div>
         </div>
 
@@ -136,14 +139,23 @@
     }
 
 
-    $("#Rec_j02IsUser").on("click", function () {
+    $("#IsUserProfile").on("click", function () {
         handle_ucet_state();
     });
 
 
     function handle_ucet_state() {
-        if ($("#Rec_j02IsUser").prop("checked") == true) {
+        if ($("#IsUserProfile").prop("checked") == true) {
             $("#ucet").css("display", "block");
+
+            @if (Model.UserProfile.pid == 0)
+            {
+             <text>
+            
+            $("#divNewPwd").css("display", "block");
+            $("#ResetPassword").attr("placeholder", "Zadejte výchozí přihlašovací heslo uživatele");
+              </text>  
+            }
         } else {
             $("#ucet").css("display", "none");
         }

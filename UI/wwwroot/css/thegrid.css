@@ -85,7 +85,7 @@ td.td_nowrap {
     background-color: #F5F5F5;
     font-weight: normal;
     border-left: solid 1px #CCCCCC;
-    font-size: 90%;
+    
     padding: 3px;
     height: 27px;
 }
@@ -94,7 +94,7 @@ td.td_nowrap {
     background-color: #F5F5F5;
     font-weight: normal;
     border-left: solid 1px none;
-    font-size: 90%;
+    
     padding: 3px;
     height: 27px;
 }
@@ -102,7 +102,7 @@ td.td_nowrap {
 .tabgrid_manual th {
     font-weight: normal;
     border-left: dashed 1px gray;
-    font-size: 90%;
+    
     padding: 3px;
     height: 27px;
 }
@@ -232,7 +232,7 @@ a.grid_context_menu:hover {
     left: 100px;
     top: 300px;
     z-index: 100;
-    font-size: 100%;
+    
     background-color: #F5F5F5;
     color: silver;
     border: solid 1px #F5F5F5;

@@ -34,7 +34,7 @@ namespace UI.Views.Shared.TagHelpers
             sb.Append("<input type='text' class='form-control' value='" + this.Name.Model + "'/>");
             sb.AppendFormat("<span>jméno: {0}</span> <br/>", this.Name.Model);
             sb.AppendFormat("<span>kód: {0}</span>", this.Designation.Model);
-            sb.Append("<br>Zpracoval: " + _ru.j02Login);
+            sb.Append("<br>Zpracoval: " + _ru.j03Login);
             sb.Append("<hr>");
             output.Content.AppendHtml(sb.ToString());
            // output.PreContent.SetHtmlContent(sb.ToString());

@@ -63,7 +63,7 @@ namespace UI.Controllers
         public IActionResult ChangePassword()
         {
             var v = new ChangePasswordViewModel();
-            if (Factory.CurrentUser.j02IsMustChangePassword)
+            if (Factory.CurrentUser.j03IsMustChangePassword)
             {
                 Factory.CurrentUser.AddMessage("Administrátor nastavil, že si musíte změnit přihlašovací heslo.", "info");
             }
@@ -72,14 +72,14 @@ namespace UI.Controllers
         [HttpPost]
         public IActionResult ChangePassword(Models.ChangePasswordViewModel v)
         {
-            var cJ02 = Factory.j02PersonBL.Load(Factory.CurrentUser.pid);
+            var cJ03 = Factory.j03UserBL.Load(Factory.CurrentUser.pid);
             var lu = new BO.LoggingUser();
-            var ret = lu.ValidateChangePassword(v.NewPassword, v.CurrentPassword, v.VerifyPassword,cJ02);
+            var ret = lu.ValidateChangePassword(v.NewPassword, v.CurrentPassword, v.VerifyPassword,cJ03);
             if (ret.Flag == BO.ResultEnum.Success)
-            {                                
-                cJ02.j02PasswordHash = lu.Pwd2Hash(v.NewPassword, cJ02);
-                cJ02.j02IsMustChangePassword = false;
-                if (Factory.j02PersonBL.Save(cJ02) > 0)
+            {
+                cJ03.j03PasswordHash = lu.Pwd2Hash(v.NewPassword, cJ03);
+                cJ03.j03IsMustChangePassword = false;
+                if (Factory.j03UserBL.Save(cJ03) > 0)
                 {
                     Factory.CurrentUser.AddMessage("Heslo bylo změněno.", "info");
                     return RedirectToAction("Index");

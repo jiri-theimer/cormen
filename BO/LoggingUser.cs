@@ -23,10 +23,10 @@ namespace BO
             }
             return new Result(false);
         }
-        public Result VerifyHash(string strPwd,string strLogin,j02Person cSavedJ02)
+        public Result VerifyHash(string strPwd,string strLogin,BO.j03User cSavedJ03)
         {
             var hasher = new BO.COM.PasswordHasher();            
-            var overeni = hasher.VerifyHashedPassword(cSavedJ02.j02PasswordHash, getSul(strLogin,strPwd,cSavedJ02.pid));
+            var overeni = hasher.VerifyHashedPassword(cSavedJ03.j03PasswordHash, getSul(strLogin,strPwd, cSavedJ03.pid));
             if (overeni == BO.COM.PasswordVerificationResult.Failed)
             {
 
@@ -37,7 +37,7 @@ namespace BO
                 return new Result(false);
             }
         }
-        public Result ValidateChangePassword(string strNewPwd,string strCurPwd,string strVerify, j02Person cSavedJ02)
+        public Result ValidateChangePassword(string strNewPwd,string strCurPwd,string strVerify, j03User cSavedJ03)
         {
             var ret= ValidatePassword(strNewPwd);
             if (ret.Flag == BO.ResultEnum.Failed) { ret.PreMessage = "Nové heslo"; return ret; }
@@ -47,8 +47,8 @@ namespace BO
 
             if (strNewPwd != strVerify) { return new Result(true, "Nové heslo nesouhlasí s ověřením."); }
 
-            ret = VerifyHash(strCurPwd, cSavedJ02.j02Login, cSavedJ02);
-            if (ret.Flag == BO.ResultEnum.Failed) { ret.Message="Současné heslo se nepodařilo ověřit"; return ret; }
+            ret = VerifyHash(strCurPwd, cSavedJ03.j03Login, cSavedJ03);
+            if (ret.Flag == BO.ResultEnum.Failed) { return new Result(true, "Stávající heslo se nepodařilo ověřit."); }
 
             if (strNewPwd == strCurPwd) { return new Result(true, "Nové heslo se musí lišit od současného!"); }
            
@@ -56,10 +56,10 @@ namespace BO
 
         }
 
-        public string Pwd2Hash(string strPwd,BO.j02Person cJ02)
+        public string Pwd2Hash(string strPwd,BO.j03User cJ03)
         {
             var hasher = new BO.COM.PasswordHasher();
-           return hasher.HashPassword(getSul(cJ02.j02Login,  strPwd , cJ02.pid));
+           return hasher.HashPassword(getSul(cJ03.j03Login,  strPwd , cJ03.pid));
         }
 
         private string getSul(string strLogin,string strPwd, int intPid)

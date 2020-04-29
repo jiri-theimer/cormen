@@ -22,9 +22,9 @@ namespace UI.Controllers
         {
             //předání přihlášeného uživatele do Factory
             BO.RunningUser ru = (BO.RunningUser)HttpContext.RequestServices.GetService(typeof(BO.RunningUser));
-            if (string.IsNullOrEmpty(ru.j02Login))
+            if (string.IsNullOrEmpty(ru.j03Login))
             {
-                ru.j02Login = context.HttpContext.User.Identity.Name;
+                ru.j03Login = context.HttpContext.User.Identity.Name;
             }
             this.Factory= (BL.Factory)HttpContext.RequestServices.GetService(typeof(BL.Factory));
 
@@ -32,7 +32,7 @@ namespace UI.Controllers
             {
                 context.Result = new RedirectResult("~/Login/UserLogin");
             }
-            if (Factory.CurrentUser.j02IsMustChangePassword && context.RouteData.Values["action"].ToString() != "ChangePassword")
+            if (Factory.CurrentUser.j03IsMustChangePassword && context.RouteData.Values["action"].ToString() != "ChangePassword")
             {
 
                 context.Result = new RedirectResult("~/Home/ChangePassword");

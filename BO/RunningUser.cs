@@ -7,11 +7,13 @@ namespace BO
     public class RunningUser
     {
         public int pid { get; set; }
+        public int j02ID { get; set; }
         public bool isclosed { get; set; }
-        public string j02Login { get; set; }
+        public string j03Login { get; set; }
+        
         public string FullName { get; set; }
         public int j04PermissionValue { get;set;}
-        public bool j02IsMustChangePassword { get; set; }
+        public bool j03IsMustChangePassword { get; set; }
 
       
         public List<BO.COM.StringPairValue> Messages4Notify { get; set; }

@@ -10,20 +10,12 @@ namespace BO
         [Key]
         public int j02ID { get; set; }
         public int p28ID { get; set; }
-        public bool j02IsUser { get; set; }
-        public bool j02IsMustChangePassword { get; set; }
-        public int j04ID { get; set; }
-        
-        public string j04Name { get; set; }
-        
+                        
         public string p28Name { get; set; }
 
         [Required(ErrorMessage = "Chybí vyplnit e-mail adresa!")]
-        public string j02Email { get; set; }
-
-        
-        public string j02Login { get; set; }
-
+        public string j02Email { get; set; }        
+       
         [Required(ErrorMessage = "Chybí vyplnit jméno!")]
         public string j02FirstName { get; set; }   
         [Required(ErrorMessage ="Chybí vyplnit příjmení!")]
@@ -34,8 +26,12 @@ namespace BO
         public string j02Tel1 { get; set; }
         public string j02Tel2 { get; set; }
 
-        public string j02PasswordHash { get; set; }
-        public int j02AccessFailedCount { get; set; }
+
+        ///readonly účely:
+        public int j03ID;
+        public string j03Login;
+        public string j04Name;
+
 
     }
 }

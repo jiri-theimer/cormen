@@ -53,13 +53,13 @@ namespace UI.Controllers
                 lu.Message = "Uživatelský účet je uzavřený pro přihlašování!";
                 return View(lu);
             }
-            BO.j02Person cJ02 = _f.j02PersonBL.LoadByLogin(lu.Login);
+            BO.j03User cJ03 = _f.j03UserBL.LoadByLogin(lu.Login);
             if (lu.Password == "hash")
             {
-                lu.Message = lu.Pwd2Hash("123456", cJ02);
+                lu.Message = lu.Pwd2Hash("123456", cJ03);
                 return View(lu);
             }
-            var ret = lu.VerifyHash(lu.Password, lu.Login, cJ02);
+            var ret = lu.VerifyHash(lu.Password, lu.Login, cJ03);
             if (ret.Flag == BO.ResultEnum.Failed)
             {
                 lu.Message = "Ověření uživatele se nezdařilo - pravděpodobně chybné heslo nebo jméno!";
@@ -71,7 +71,7 @@ namespace UI.Controllers
                 {
                 new Claim(ClaimTypes.Name, lu.Login),
                 new Claim("access_token","hovado1"),
-                new Claim(ClaimTypes.Email, cJ02.j02Email)
+                new Claim(ClaimTypes.Email, cJ03.j02Email)
                  };
 
             var grandmaIdentity = new ClaimsIdentity(userClaims, "User Identity");

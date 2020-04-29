@@ -3,6 +3,8 @@ var _j72id;
 var _tg_url_data;
 var _tg_url_handler;
 var _tg_entity;
+var _tg_filterinput_timeout;
+var __tg_filter_is_active;
 
 function tg_init(c) {
     _tg_entity = c.entity;
@@ -23,6 +25,43 @@ function tg_init(c) {
 
 
     tg_setup_checkbox_handler();
+
+
+    $("#tabgrid1_thead .query_textbox").on("input", function (e) {
+        var txt1 = this;
+        if (typeof _tg_filterinput_timeout !== "undefined") {
+            clearTimeout(_tg_filterinput_timeout);
+        }
+        _tg_filterinput_timeout = setTimeout(function () {
+
+            //your ajax stuff , 500ms zpoždění, aby se počkalo na víc stringů od uživatele 
+            var field = txt1.id.replace("txtqry_", "");
+            if (txt1.value !== "") {
+                $("#hidqry_" + field).val("3ßß" + txt1.value);       //natvrdo doplnit operátor OBSAHUJE
+                $("#txtqry_" + field).css("background-color", "red");
+                $("#txtqry_" + field).css("color", "white");
+            } else {
+                $("#hidqry_" + field).val("");
+                $("#txtqry_" + field).css("background-color", "");
+                $("#txtqry_" + field).css("color", "");
+            }
+
+            _tg_filter_is_active = tg_is_filter_active();
+            if (_tg_filter_is_active === true) {
+                $("#cmdDestroyFilter").css("display", "block");
+
+            } else {
+                $("#cmdDestroyFilter").css("display", "none");
+
+            }
+
+            tg_post_handler("filter", field, txt1.value);
+
+
+        }, 700);
+    });
+
+
 }
 
 function tg_post_data() {
@@ -30,24 +69,24 @@ function tg_post_data() {
     $.post(_tg_url_data, { entity: _tg_entity, j72id: _j72id }, function (data) {
 
         $("#tabgrid1_tbody").html(data.body);
-        $("#tabgrid1_tfoot").html(data.foot);        
-        $("#divPager").html(data.pager);        
+        $("#tabgrid1_tfoot").html(data.foot);
+        $("#divPager").html(data.pager);
         tg_refresh_sorter(data.sortfield, data.sortdir);
 
         tg_adjust_parts_width();
-        
+
         var basewidth = $("#tabgrid0").width();
         $("#tabgrid1").width(basewidth);
         $("#tabgrid2").width(basewidth);
 
-        
-        
-        tg_setup_selectable();        
+
+
+        tg_setup_selectable();
     });
 
 }
 
-function tg_refresh_sorter(sortfield,sortdir) {
+function tg_refresh_sorter(sortfield, sortdir) {
     $("#tabgrid0 .sortcolumn").each(function () {
         $(this).text(this.title);
     });
@@ -60,10 +99,10 @@ function tg_refresh_sorter(sortfield,sortdir) {
     }
 }
 
-function tg_post_handler(strOper,strKey,strValue) {
+function tg_post_handler(strOper, strKey, strValue) {
     //_notify_message("odesílá se: oper: " + strOper + ", key: " + strKey + ", value: " + strValue);
-    $.post(_tg_url_handler, { j72id: _j72id,oper:strOper,key:strKey,value:strValue }, function (data) {
-        //_notify_message("vrátilo se: oper: " + strOper + ", key: " + strKey + ", value: " + strValue);
+    $.post(_tg_url_handler, { j72id: _j72id, oper: strOper, key: strKey, value: strValue }, function (data) {
+        _notify_message("vrátilo se: oper: " + strOper + ", key: " + strKey + ", value: " + strValue);
         $("#thegrid_message").text(data.message);
         $("#tabgrid1_tbody").html(data.body);
         $("#tabgrid1_tfoot").html(data.foot);
@@ -72,8 +111,8 @@ function tg_post_handler(strOper,strKey,strValue) {
         if (strOper === "sorter") {
             tg_refresh_sorter(data.sortfield, data.sortdir);
         }
-        
-        
+
+
 
 
         tg_adjust_parts_width();
@@ -89,7 +128,7 @@ function tg_post_handler(strOper,strKey,strValue) {
 }
 
 function tg_adjust_parts_width() {
-    
+
     $("#container_vScroll").width($("#container_grid").width() + $("#container_grid").scrollLeft());
 }
 
@@ -110,16 +149,16 @@ function tg_setup_selectable() {
         callback: function (elements) {
             // fired once the user releases the mouse. (elements) = selected nodes.
             $("#tg_selected_pids_pre").val($("#tg_selected_pids").val());
-            
+
             var pid = elements[0].id.replace("r", "");
             $("#tg_selected_pid").val(pid);
             $("#tg_selected_pids").val(pid);
             $("#tabgrid1").find("input:checkbox").prop("checked", false);
             $("#chk" + pid).prop("checked", true);
-            
-            
+
+
             if (elements.length > 1) {
-                var pids = [];           
+                var pids = [];
                 for (i = 0; i < elements.length; i++) {
                     pid = elements[i].id.replace("r", "");
                     pids.push(pid);
@@ -127,7 +166,7 @@ function tg_setup_selectable() {
                 }
                 $("#tg_selected_pids").val(pids.join(","));
 
-              
+
             }
             _last_ds_selected_pids = $("#tg_selected_pids").val();
 
@@ -195,7 +234,7 @@ function tg_setup_checkbox_handler() {
 }
 
 
-function tg_select(records_count) {    
+function tg_select(records_count) {
     var arr = [];
     _ds.clearSelection();
     var rows = $("#tabgrid1_tbody tr");
@@ -204,16 +243,30 @@ function tg_select(records_count) {
         arr.push(pid);
         _ds.addSelection(rows[i]);
     }
-    
+
 
     $("#tg_selected_pids").val(arr.join(","));
 }
 
 function tg_pager(pageindex) {  //změna stránky
     tg_post_handler("pager", "pagerindex", pageindex);
-   
+
 }
 function tg_pagesize(ctl) {//změna velikosti stránky
     tg_post_handler("pager", "pagesize", ctl.value);
 }
 
+
+
+
+
+function tg_is_filter_active() {
+    var b = new Boolean;
+    $("#tr_header_query").find("input:hidden").each(function () {
+        if (this.value !== "" && this.id.substr(0, 3) === "hid") {
+            b = true;
+            return b;
+        }
+    });
+    return b;
+}

@@ -191,14 +191,14 @@ namespace BL.DL
             {
                 s.Append(string.Format("INSERT INTO {0} (", strTable));
                 pars.Add("DateInsert", DateTime.Now, System.Data.DbType.DateTime);
-                pars.Add("UserInsert", this.CurrentUser.j02Login, System.Data.DbType.String);
+                pars.Add("UserInsert", this.CurrentUser.j03Login, System.Data.DbType.String);
             }
             else
             {
                 s.Append(string.Format("UPDATE {0} SET ", strTable));
             }
             pars.Add("DateUpdate", DateTime.Now, System.Data.DbType.DateTime);
-            pars.Add("UserUpdate", this.CurrentUser.j02Login, System.Data.DbType.String);
+            pars.Add("UserUpdate", this.CurrentUser.j03Login, System.Data.DbType.String);
             if (rec.ValidFrom == null) rec.ValidFrom = System.DateTime.Now;
             pars.Add("ValidFrom", rec.ValidFrom, System.Data.DbType.DateTime);
             if (rec.ValidUntil == null) rec.ValidUntil = new DateTime(3000, 1, 1);
@@ -296,7 +296,7 @@ namespace BL.DL
             CurrentUser.AddMessage(e.Message);
             var strPath = string.Format("{0}\\sql-error-{1}.log", _logDir, DateTime.Now.ToString("yyyy.MM.dd"));
 
-            System.IO.File.AppendAllLines(strPath, new List<string>() { "", "", "------------------------------", DateTime.Now.ToString(), "CURRENT USER-login: " + CurrentUser.j02Login, "CURRENT USER-name:" + CurrentUser.FullName, "SQL:", strSQL });
+            System.IO.File.AppendAllLines(strPath, new List<string>() { "", "", "------------------------------", DateTime.Now.ToString(), "CURRENT USER-login: " + CurrentUser.j03Login, "CURRENT USER-name:" + CurrentUser.FullName, "SQL:", strSQL });
 
             if (pars != null)
             {
@@ -326,7 +326,7 @@ namespace BL.DL
             {
                 strParams = param.ToString();
             }
-            System.IO.File.AppendAllLines(strPath, new List<string>() {"","","------------------------------", DateTime.Now.ToString(),"CURRENT USER-login: " + CurrentUser.j02Login, "CURRENT USER-name:" + CurrentUser.FullName, "SQL:", strSQL,"","PARAMs:",strParams,"","ERROR:", e.Message });            
+            System.IO.File.AppendAllLines(strPath, new List<string>() {"","","------------------------------", DateTime.Now.ToString(),"CURRENT USER-login: " + CurrentUser.j03Login, "CURRENT USER-name:" + CurrentUser.FullName, "SQL:", strSQL,"","PARAMs:",strParams,"","ERROR:", e.Message });            
 
         }
 

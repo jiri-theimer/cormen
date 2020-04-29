@@ -15,6 +15,7 @@
                                 <button class="btn btn-sm btn-light dropdown-toggle py-1 px-1" title="Další GRID funkce" type="button" id="cmdTheGridBatchSelect" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     &#9745;
                                     &#9776;
+                                    
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="cmdTheGridBatchSelect" style="width:350px;">
                                     <a class="nav-link" href="javascript:tg_select(20)">Vybrat prvních 20</a>
@@ -61,25 +62,25 @@
 
                         strStyle = "";
                         var strValue = "";
-                        <th>
-                            @if (c.FieldType == "string")
-                            {
-                                <text>
-                                    <div class="input-group">
-                                        <input type="text" id="txtqry_@c.UniqueName" class="form-control form-control-sm query_textbox" value="@strValue" style="@strStyle" />
+                <th>
+                    @if (c.FieldType == "string")
+                    {
+                        <text>
+                            <div class="input-group">
+                                <input type="text" id="txtqry_@c.UniqueName" class="form-control form-control-sm query_textbox" value="@strValue" style="@strStyle" />
 
-                                        <button type='button' id="cmdqry_@c.UniqueName" tabindex="-1" class="btn btn-light btn-sm py-0 px-1 query_button"><i class="fas fa-filter" style="color:#838383;"></i></button>
+                                <button type='button' id="cmdqry_@c.UniqueName" tabindex="-1" class="btn btn-light btn-sm py-0 px-1 query_button"><strong style="font-size:14px;">&#65509;</strong></button>
 
-                                    </div>
-                                </text>
-                            }
-                            else
-                            {
-                                <span class="qryalias" id="qryalias_@c.UniqueName" @strStyle>@strValue</span>
-                                <button type='button' id="cmdqry_@c.UniqueName" tabindex="-1" class="btn btn-light btn-sm py-0 px-1 query_button"><i class="fas fa-filter" style="color:#838383;"></i></button>
-                            }
-
-                        </th>
+                            </div>
+                        </text>
+                    }
+                    else
+                    {
+                        <span class="qryalias" id="qryalias_@c.UniqueName" @strStyle>@strValue</span>
+                        <button type='button' id="cmdqry_@c.UniqueName" tabindex="-1" class="btn btn-light btn-sm py-0 px-1 query_button"><i class="fas fa-filter" style="color:#838383;"></i></button>
+                    }
+                    <input type="hidden" id="hidqry_@c.UniqueName" />
+                </th>
                     }
                 </tr>
 

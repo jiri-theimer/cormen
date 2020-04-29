@@ -7,7 +7,7 @@ namespace BL
     public interface Ij02PersonBL
     {
         public BO.j02Person Load(int pid);
-        public BO.j02Person LoadByLogin(string strLogin);
+        
         public IEnumerable<BO.j02Person> GetList(BO.myQuery mq);
         public int Save(BO.j02Person rec);
        
@@ -22,7 +22,7 @@ namespace BL
        
         private string GetSQL1()
         {
-            return "SELECT a.*,"+_db.GetSQL1_Ocas("j02")+",j04.j04Name,p28.p28Name FROM j02Person a LEFT OUTER JOIN j04UserRole j04 ON a.j04ID=j04.j04ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID";
+            return "SELECT a.*,"+_db.GetSQL1_Ocas("j02")+",j04.j04Name,p28.p28Name,j03.j03Login,j03.j03ID FROM j02Person a LEFT OUTER JOIN j03User j03 ON a.j02ID=j03.j02ID LEFT OUTER JOIN j04UserRole j04 ON j03.j04ID=j04.j04ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID";
         }
         public BO.j02Person Load(int intPID)
         {
@@ -42,25 +42,20 @@ namespace BL
         {
             var p = new Dapper.DynamicParameters();
             p.Add("pid", rec.j02ID);
-            p.Add("j02IsUser", rec.j02IsUser, System.Data.DbType.Boolean);
-            p.Add("j02IsMustChangePassword", rec.j02IsMustChangePassword, System.Data.DbType.Boolean);
-            p.Add("j04ID", BO.BAS.TestIntAsDbKey(rec.j04ID));
+           
+
+          
             p.Add("p28ID", BO.BAS.TestIntAsDbKey(rec.p28ID));
             p.Add("j02FirstName", rec.j02FirstName);
             p.Add("j02LastName", rec.j02LastName);
             p.Add("j02TitleBeforeName", rec.j02TitleBeforeName);
             p.Add("j02TitleAfterName", rec.j02TitleAfterName);
             p.Add("j02Email", rec.j02Email);
-            p.Add("j02Login", rec.j02Login);
+      
             p.Add("j02Tel1", rec.j02Tel1);
             p.Add("j02Tel2", rec.j02Tel2);
-            p.Add("j02AccessFailedCount", rec.j02AccessFailedCount);
-            if (!String.IsNullOrEmpty(rec.j02PasswordHash))
-            {
-                p.Add("j02PasswordHash", rec.j02PasswordHash);
-            }
             
-
+            
             return _db.SaveRecord("j02Person", p,rec);
         }
 

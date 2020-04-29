@@ -12,6 +12,7 @@ namespace BL
         public BL.RunningApp App { get; set; }
 
         private Ij02PersonBL _j02;
+        private Ij03UserBL _j03;
         private Ip10MasterProductBL _p10;
         private Ip13MasterTpvBL _p13;
         private Ip28CompanyBL _p28;
@@ -35,9 +36,9 @@ namespace BL
             this.CurrentUser = c;
             this.App = runningapp;
 
-            if (c.pid == 0 && string.IsNullOrEmpty(c.j02Login)==false)
+            if (c.pid == 0 && string.IsNullOrEmpty(c.j03Login)==false)
             {
-                InhaleUserByLogin(c.j02Login);
+                InhaleUserByLogin(c.j03Login);
                 
             }
             
@@ -46,7 +47,7 @@ namespace BL
         public void InhaleUserByLogin(string strLogin)
         {
             DL.DbHandler db = new DL.DbHandler(this.App.ConnectString, this.CurrentUser,this.App.LogFolder);
-            this.CurrentUser= db.Load<BO.RunningUser>("SELECT a.j02ID as pid,a.j02Login,a.j02FirstName+' '+a.j02LastName as FullName,a.j02IsMustChangePassword,b.j04PermissionValue,null as ErrorMessage,CASE WHEN GETDATE() BETWEEN a.ValidFrom AND a.ValidUntil THEN 0 ELSE 1 end as isclosed FROM j02Person a INNER JOIN j04UserRole b ON a.j04ID=b.j04ID WHERE a.j02Login LIKE @login", new { login = strLogin });
+            this.CurrentUser= db.Load<BO.RunningUser>("SELECT a.j03ID as pid,a.j02ID,a.j03Login,j02.j02FirstName+' '+j02.j02LastName as FullName,a.j03IsMustChangePassword,j04.j04PermissionValue,null as ErrorMessage,CASE WHEN GETDATE() BETWEEN a.ValidFrom AND a.ValidUntil THEN 0 ELSE 1 end as isclosed FROM j03User a INNER JOIN j02Person j02 ON a.j02ID=j02.j02ID INNER JOIN j04UserRole j04 ON a.j04ID=j04.j04ID WHERE a.j03Login LIKE @login", new { login = strLogin });
             
         }
 
@@ -76,7 +77,14 @@ namespace BL
                 return _fbl;
             }
         }
-
+        public Ij03UserBL j03UserBL
+        {
+            get
+            {
+                if (_j03 == null) _j03 = new j03UserBL(this);
+                return _j03;
+            }
+        }
         public Ij02PersonBL j02PersonBL
         {
             get

@@ -83,9 +83,16 @@ namespace BL
                 case "j02":                    
                     if (s=="")
                     {
-                        s = "a.*,j04.j04Name,'p28/?pid='+convert(varchar(10),a.p28ID) as p28,p28.p28Name,a.j02LastName+' '+a.j02FirstName+ISNULL(' '+a.j02TitleBeforeName,' ') as fullname_desc";
+                        s = "a.*,'p28/?pid='+convert(varchar(10),a.p28ID) as p28,p28.p28Name,a.j02LastName+' '+a.j02FirstName+ISNULL(' '+a.j02TitleBeforeName,' ') as fullname_desc,j03.j03Login,j03.j03ID,j04.j04Name";
                     }                    
-                    s = string.Format("SELECT {0},{1} from j02Person a LEFT OUTER JOIN j04UserRole j04 ON a.j04ID=j04.j04ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID", s, GetSQL_SELECT_Ocas("j02", bolGetTotalsRow));
+                    s = string.Format("SELECT {0},{1} from j02Person a LEFT OUTER JOIN j03User j03 ON a.j02ID=j03.j02ID LEFT OUTER JOIN j04UserRole j04 ON j03.j04ID=j04.j04ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID", s, GetSQL_SELECT_Ocas("j02", bolGetTotalsRow));
+                    break;
+                case "j03":
+                    if (s == "")
+                    {
+                        s = "a.*,p28.p28Name,j02.j02LastName+' '+j02.j02FirstName+ISNULL(' '+j02.j02TitleBeforeName,' ') as fullname_desc,j04.j04Name,j02.j02Email";
+                    }
+                    s = string.Format("SELECT {0},{1} from j03User a INNER JOIN j02Person j02 ON a.j02ID=j02.j02ID INNER JOIN j04UserRole j04 ON a.j04ID=j04.j04ID LEFT OUTER JOIN p28Company p28 ON j02.p28ID=p28.p28ID", s, GetSQL_SELECT_Ocas("j03", bolGetTotalsRow));
                     break;
                 case "j04":                    
                     s = string.Format("SELECT {0},a.* from j04UserRole a", GetSQL_SELECT_Ocas("j04", bolGetTotalsRow));
