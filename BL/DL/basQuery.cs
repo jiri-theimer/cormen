@@ -74,7 +74,7 @@ namespace BL.DL
             }
             if (String.IsNullOrEmpty(mq.j72Filter)==false)
             {
-                ParseSqlFromTheGridFilter(mq);  //složit filtrovací podmínku ze sloupcového filtru gridu
+                ParseSqlFromTheGridFilter(mq,ref lis);  //složit filtrovací podmínku ze sloupcového filtru gridu
             }
 
             var ret = new DL.FinalSqlCommand();
@@ -90,7 +90,8 @@ namespace BL.DL
                 }
 
 
-                ret.SqlWhere = String.Join(" AND ", lis.Select(p => p.StringWhere)).Trim();
+                ret.SqlWhere = String.Join(" ", lis.Select(p =>p.AndOrZleva+" "+ p.StringWhere)).Trim();    //složit závěrčnou podmínku
+                
             }
 
             if (!string.IsNullOrEmpty(ret.SqlWhere))
@@ -107,9 +108,13 @@ namespace BL.DL
 
         }
 
-        private static void AQ(ref List<DL.QueryRow> lis, string strWhere, string strParName, object ParValue)
+        private static void AQ(ref List<DL.QueryRow> lis, string strWhere, string strParName, object ParValue,string strAndOrZleva="AND")
         {
-            lis.Add(new DL.QueryRow() { StringWhere = strWhere, ParName = strParName, ParValue = ParValue });
+            if (lis.Count == 0)
+            {
+                strAndOrZleva = ""; //první podmínka zleva
+            }
+            lis.Add(new DL.QueryRow() { StringWhere = strWhere, ParName = strParName, ParValue = ParValue,AndOrZleva= strAndOrZleva });
         }
         private static object get_param_value(string colType,string colValue)
         {
@@ -152,7 +157,14 @@ namespace BL.DL
                 x += 1;
                 string parName = "par" + x.ToString();
                
-
+                int endIndex = 0;
+                string[] arr = new string[] { filterrow.value };
+                if (filterrow.value.IndexOf(";") > -1)  //v podmnínce sloupcového filtru může být středníkem odděleno více hodnot!
+                {
+                    arr = filterrow.value.Split(";");
+                    endIndex = arr.Count()-1;
+                }
+                
                 switch (filterrow.oper)
                 {
                     case "1":   //IS NULL
@@ -173,31 +185,80 @@ namespace BL.DL
                     case "9":   //NE
                         AQ(ref lisAQ, strF + " = 0", "", null);
                         break;
-                    case "3":   //obsahuje                        
-                        AQ(ref lisAQ, strF + " LIKE '%'+@{0}+'%'", parName,filterrow.value);
+                    case "3":   //obsahuje                
+                        for (var i = 0; i <= endIndex; i++)
+                        {
+                            if (arr[i].Trim() != "")
+                            {
+                                AQ(ref lisAQ, leva_zavorka(i, endIndex) + string.Format(strF + " LIKE '%'+@{0}+'%'", parName + "i" + i.ToString()) + prava_zavorka(i, endIndex), parName + "i" + i.ToString(), arr[i], i == 0 ? "AND" : "OR"); ;
+                            }
+                            
+                        }
+                        
                         break;
-                    case "5":   //začíná na                        
-                        AQ(ref lisAQ, strF + " LIKE @{0}+'%'", parName, filterrow.value);
+                    case "5":   //začíná na 
+                        for (var i = 0; i <= endIndex; i++)
+                        {
+                            if (arr[i].Trim() != "")
+                            {
+                                AQ(ref lisAQ, leva_zavorka(i, endIndex) + string.Format(strF + " LIKE @{0}+'%'", parName + "i" + i.ToString()) + prava_zavorka(i, endIndex), parName + "i" + i.ToString(), arr[i], i == 0 ? "AND" : "OR");
+                            }
+                                
+                        }
+                            
                         break;
                     case "6":   //je rovno
-                        AQ(ref lisAQ, strF + " = @{0}", parName, get_param_value(col.NormalizedTypeName,filterrow.value));
+                        for (var i = 0; i <= endIndex; i++)
+                        {
+                            if (arr[i].Trim() != "")
+                            {
+                                AQ(ref lisAQ, leva_zavorka(i, endIndex) + string.Format(strF + " = @{0}", parName + "i" + i.ToString()) + prava_zavorka(i, endIndex), parName + "i" + i.ToString(), get_param_value(col.NormalizedTypeName, arr[i]), i == 0 ? "AND" : "OR");
+                            }
+                                
+                        }
+                        
+                        break;
+                    case "4":   //interval
+                        AQ(ref lisAQ, string.Format(strF + " >= @{0}", parName+"c1"), parName+"c1", get_param_value(col.NormalizedTypeName, filterrow.c1value));
+                        AQ(ref lisAQ, string.Format(strF + " <= @{0}", parName+"c2"), parName+"c2", get_param_value(col.NormalizedTypeName, filterrow.c2value));
                         break;
                     case "7":   //není rovno
-                        AQ(ref lisAQ, strF + " <> @{0}", parName, get_param_value(col.NormalizedTypeName, filterrow.value));
+                        for (var i = 0; i <= endIndex; i++)
+                        {
+                            if (arr[i].Trim() != "")
+                            {
+                                AQ(ref lisAQ, leva_zavorka(i, endIndex) + string.Format(strF + " <> @{0}", parName + "i" + i.ToString()) + prava_zavorka(i, endIndex), parName + "i" + i.ToString(), get_param_value(col.NormalizedTypeName, arr[i]), i == 0 ? "AND" : "OR");
+                            }
+                        }
+                        
                         break;
                 }
-                switch (filterrow.BoundColumn.NormalizedTypeName)
-                {
-                    case "num":
-                        break;
-                    case "date":
-                        break;
-                    case "bool":
-                        break;
-                }
+              
             }
 
            
+            string leva_zavorka(int i,int intEndIndex)
+            {
+                if (intEndIndex > 0 && i == 0)
+                {
+                    return "(";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            string prava_zavorka(int i, int intEndIndex)
+            {
+                if (intEndIndex > 0 && i == intEndIndex)
+                {
+                    return ")";
+                }
+                else
+                {
+                    return "";
+                }
+            }
 
         }
 

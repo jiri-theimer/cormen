@@ -26,6 +26,8 @@ namespace UI.Controllers
                 lis.Add(c.field + "###" + c.oper + "###" + c.value);
                 
             }
+            cJ72.j72CurrentPagerIndex = 0; //po změně filtrovací podmínky je nutné vyčistit paměť stránky
+            cJ72.j72CurrentRecordPid = 0;
             cJ72.j72Filter = string.Join("$$$", lis);
             
             if (this.Factory.gridBL.SaveTheGridState(cJ72) > 0)
@@ -122,7 +124,7 @@ namespace UI.Controllers
 
             }
             mq.j72Filter = cJ72.j72Filter;
-
+            
             var dt = Factory.gridBL.GetList(mq);
             mq.explicit_orderby = "";
             var dtFooter = Factory.gridBL.GetList(mq, true);

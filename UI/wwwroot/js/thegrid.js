@@ -28,6 +28,9 @@ function tg_init(c) {
 
     tg_setup_checkbox_handler();
 
+    $("#tabgrid1_thead .query_textbox").on("focus", function (e) {
+        $(this).select();
+    });
 
     $("#tabgrid1_thead .query_textbox").on("input", function (e) {
         var txt1 = this;
@@ -390,10 +393,10 @@ function tg_filter_ok() {
     }
     if (coltypename === "string") {
         if (av === "" && operator !== "0") av = c1.value;
-        if (operator === "5") av = "*= " + av;
-        if (operator === "6") av = "= " + av;
-        if (operator === "7") av = "&lt;&gt; " + av;
-
+        if (operator === "5") av = "[*=] " + av;
+        if (operator === "6") av = "[=] " + av;
+        if (operator === "7") av = "[<>] " + av;
+        
         $("#txtqry_" + field).css("display", "block");
         if (operator === "3" || operator === "0") {
             $("#qryalias_" + field).css("visibility", "hidden");
@@ -409,9 +412,9 @@ function tg_filter_ok() {
             $("#txtqry_" + field).css("background-color", "");
             $("#txtqry_" + field).css("color", "");
         }
-
+        
     }
-
+    
     if (operator === "0") {
         $("#hidqry_" + field).val("");
     } else {
@@ -419,6 +422,8 @@ function tg_filter_ok() {
     }
 
     $("#qryalias_" + field).html(av);
+    
+    
     $("#hidoper_" + field).val(operator);
 
     _tg_filter_is_active = tg_is_filter_active();
@@ -611,10 +616,9 @@ function tg_filter_send2server() {
             var fieldname = this.id.replace("hidqry_", "");
             var coltypename = normalize_coltype_name($("#th_" + fieldname).attr("columntypename"));
             var oper = $("#hidoper_" + fieldname).val();
-            var val = this.value;
-
-            if (coltypename === "string") {
-                val = $("#txtqry_" + fieldname).val();
+            var val = $(this).val();
+            
+            if (coltypename === "string") {                
                 if (val !== "" && oper === "") oper = "3";
             }
 
@@ -625,7 +629,7 @@ function tg_filter_send2server() {
                     value: val,
                     oper: oper
                 }
-                //alert("val: " + rec.value + ", oper: " + rec.oper + ", field: " + rec.field);
+                //alert("val: "+val+", rec.value: " + rec.value + ", oper: " + rec.oper + ", field: " + rec.field);
 
                 ret.push(rec);
             }

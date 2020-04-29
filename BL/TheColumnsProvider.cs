@@ -185,19 +185,19 @@ namespace BL
                     case "5":  // začíná na
                         {
                             
-                            col.value_alias = "*= " + col.c1value;
+                            col.value_alias = "[*=] " + col.c1value;
                             break;
                         }
 
                     case "6":  // je rovno
                         {                            
-                            col.value_alias = "= " + col.c1value;
+                            col.value_alias = "[=] " + col.c1value;
                             break;
                         }
 
                     case "7":  // není rovno
                         {                            
-                            col.value_alias = "není rovno " + col.c1value;
+                            col.value_alias = "[<>] " + col.c1value;
                             break;
                         }
 
