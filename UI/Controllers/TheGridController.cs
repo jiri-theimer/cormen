@@ -17,6 +17,26 @@ namespace UI.Controllers
         private System.Text.StringBuilder _s;
         private UI.Models.TheGridViewModel _grid;
 
+        public TheGridOutput HandleTheGridFilter(int j72id, List<BO.TheGridColumnFilter> filter)
+        {
+            var cJ72 = this.Factory.gridBL.LoadTheGridState(j72id);
+            var lis = new List<string>();
+            foreach (var c in filter)
+            {                
+                lis.Add(c.field + "###" + c.oper + "###" + c.value);
+                
+            }
+            cJ72.j72Filter = string.Join("$$$", lis);
+            
+            if (this.Factory.gridBL.SaveTheGridState(cJ72) > 0)
+            {
+                return render_thegrid_html(cJ72);
+            }
+            else
+            {
+                return render_thegrid_error("Nepodařilo se zpracovat filtrovací podmínku.");
+            }
+        }
         public TheGridOutput HandleTheGridOper(int j72id,string oper,string key,string value)
         {
             var cJ72 = this.Factory.gridBL.LoadTheGridState(j72id);
@@ -91,8 +111,8 @@ namespace UI.Controllers
             ret.sortfield = cJ72.j72SortDataField;
             ret.sortdir = cJ72.j72SortOrder;
             
-            var mq = new BO.myQuery(cJ72.j72Entity);
-            _grid.Columns = new BL.TheGridColumns(mq).getSelectedPallete(cJ72.j72Columns);
+            var mq = new BO.myQuery(cJ72.j72Entity);            
+            _grid.Columns = new BL.TheColumnsProvider(mq).getSelectedPallete(cJ72.j72Columns);            
 
             mq.explicit_columns = _grid.Columns;
             if (cJ72.j72SortDataField != "" && _grid.Columns.Where(p=>p.UniqueName==cJ72.j72SortDataField).Count()>0)
@@ -101,6 +121,8 @@ namespace UI.Controllers
                 mq.explicit_orderby = c.FinalSqlSyntaxOrderBy + " " + cJ72.j72SortOrder;
 
             }
+            mq.j72Filter = cJ72.j72Filter;
+
             var dt = Factory.gridBL.GetList(mq);
             mq.explicit_orderby = "";
             var dtFooter = Factory.gridBL.GetList(mq, true);
@@ -338,7 +360,7 @@ namespace UI.Controllers
             var mq = new BO.myQuery(entity);
             mq.SetPids(pids);
             mq.query_by_entity_prefix = param1;
-            var cols = new BL.TheGridColumns(mq).getDefaultPallete();
+            var cols = new BL.TheColumnsProvider(mq).getDefaultPallete();
 
 
             var dt = Factory.gridBL.GetList(mq);
@@ -373,7 +395,7 @@ namespace UI.Controllers
         {
             System.IO.File.AppendAllText("c:\\temp\\hovado.txt", "entity: " + entity + ", čas: " + DateTime.Now.ToString());
             var mq = new BO.myQuery(entity);
-            mq.explicit_columns = new BL.TheGridColumns(mq).getDefaultPallete();
+            mq.explicit_columns = new BL.TheColumnsProvider(mq).getDefaultPallete();
             mq.SearchString = text;//fulltext hledání
             var dt = Factory.gridBL.GetList(mq);
 

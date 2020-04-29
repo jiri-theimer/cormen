@@ -72,6 +72,10 @@ namespace BL.DL
                     AQ(ref lis, "(a.o23Name LIKE '%'+@expr+'%' OR a.o23Code LIKE '%'+@expr+'%' OR a.o23Memo LIKE '%'+@expr+'%')", "expr", mq.SearchString);
                 }
             }
+            if (String.IsNullOrEmpty(mq.j72Filter)==false)
+            {
+                ParseSqlFromTheGridFilter(mq);  //složit filtrovací podmínku ze sloupcového filtru gridu
+            }
 
             var ret = new DL.FinalSqlCommand();
             
@@ -106,6 +110,95 @@ namespace BL.DL
         private static void AQ(ref List<DL.QueryRow> lis, string strWhere, string strParName, object ParValue)
         {
             lis.Add(new DL.QueryRow() { StringWhere = strWhere, ParName = strParName, ParValue = ParValue });
+        }
+        private static object get_param_value(string colType,string colValue)
+        {
+            if (String.IsNullOrEmpty(colValue)==true){
+                return null;
+            }
+            if (colType == "num")
+            {
+                return  BO.BAS.InDouble(colValue);
+            }
+            if (colType == "date")
+            {
+                return Convert.ToDateTime(colValue);
+            }
+            if (colType == "bool")
+            {
+                if (colValue == "1")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+
+            return colValue;
+        }
+        private static void ParseSqlFromTheGridFilter(BO.myQuery mq,ref List<DL.QueryRow> lisAQ)
+        {
+            var colsProvider = new BL.TheColumnsProvider(mq);
+            var rows = colsProvider.ParseAdhocFilterFromString(mq.j72Filter);
+            int x = 0;
+            foreach (var filterrow in rows)
+            {
+                var col = filterrow.BoundColumn;
+                var strF = "a."+col.Field;
+                if (col.SqlSyntax != null) strF = col.SqlSyntax;
+                x += 1;
+                string parName = "par" + x.ToString();
+               
+
+                switch (filterrow.oper)
+                {
+                    case "1":   //IS NULL
+                        AQ(ref lisAQ,strF+ " IS NULL", "", null);
+                        break;
+                    case "2":   //IS NOT NULL
+                        AQ(ref lisAQ, strF + " IS NOT NULL", "", null);
+                        break;
+                    case "10":   //větší než nula
+                        AQ(ref lisAQ, strF + " > 0", "", null);
+                        break;
+                    case "11":   //je nula nebo prázdné
+                        AQ(ref lisAQ, "ISNULL("+strF+ ",0)=0", "", null);
+                        break;
+                    case "8":   //ANO
+                        AQ(ref lisAQ, strF+" = 1", "", null);
+                        break;
+                    case "9":   //NE
+                        AQ(ref lisAQ, strF + " = 0", "", null);
+                        break;
+                    case "3":   //obsahuje                        
+                        AQ(ref lisAQ, strF + " LIKE '%'+@{0}+'%'", parName,filterrow.value);
+                        break;
+                    case "5":   //začíná na                        
+                        AQ(ref lisAQ, strF + " LIKE @{0}+'%'", parName, filterrow.value);
+                        break;
+                    case "6":   //je rovno
+                        AQ(ref lisAQ, strF + " = @{0}", parName, get_param_value(col.NormalizedTypeName,filterrow.value));
+                        break;
+                    case "7":   //není rovno
+                        AQ(ref lisAQ, strF + " <> @{0}", parName, get_param_value(col.NormalizedTypeName, filterrow.value));
+                        break;
+                }
+                switch (filterrow.BoundColumn.NormalizedTypeName)
+                {
+                    case "num":
+                        break;
+                    case "date":
+                        break;
+                    case "bool":
+                        break;
+                }
+            }
+
+           
+
         }
 
     }

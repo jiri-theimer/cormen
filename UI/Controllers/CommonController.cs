@@ -59,7 +59,7 @@ namespace UI.Controllers
         {                
             var mq = new BO.myQuery(entity);
             mq.SetPids(pids);
-            var cols = new BL.TheGridColumns(mq).getDefaultPallete();
+            var cols = new BL.TheColumnsProvider(mq).getDefaultPallete();
 
             var dt = Factory.gridBL.GetList(mq);
             var intRows = dt.Rows.Count;

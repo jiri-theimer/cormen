@@ -5,12 +5,12 @@ using System.Linq;
 
 namespace BL
 {
-    public class TheGridColumns
+    public class TheColumnsProvider
     {
         private List<BO.TheGridColumn> _lis;
         private BO.myQuery _mq;
 
-        public TheGridColumns(BO.myQuery mq)
+        public TheColumnsProvider(BO.myQuery mq)
         {
             _lis = new List<BO.TheGridColumn>();
             _mq = mq;
@@ -123,6 +123,133 @@ namespace BL
 
         }
 
-        
+        public List<BO.TheGridColumnFilter> ParseAdhocFilterFromString(string strJ72Filter)
+        {
+            var ret = new List<BO.TheGridColumnFilter>();
+            if (String.IsNullOrEmpty(strJ72Filter) == true) return ret;
+            SetupPallete(true);
+            
+            
+            List<string> lis = BO.BAS.ConvertString2List(strJ72Filter, "$$$");
+            foreach (var s in lis)
+            {
+                List<string> arr= BO.BAS.ConvertString2List(s, "###");
+                if (_lis.Where(p => p.UniqueName == arr[0]).Count() > 0)
+                {
+                    var c = new BO.TheGridColumnFilter() { field = arr[0], oper = arr[1], value = arr[2] };
+                    c.BoundColumn = _lis.Where(p => p.UniqueName == arr[0]).First();
+                    ParseFilterValue(ref c);
+                    ret.Add(c);
+                }
+                
+                
+            }
+            return ret;
+        }
+
+        private void ParseFilterValue(ref BO.TheGridColumnFilter col)
+        {
+
+            {          
+                if (col.value.Contains("|"))
+                {
+                    var a = col.value.Split("|");
+                    col.c1value = a[0];
+                    col.c2value = a[1];
+                }
+                else
+                {
+                    col.c1value = col.value;
+                    col.c2value = "";
+                }
+                switch (col.oper)
+                {
+                    case "1":
+                        {
+                            col.value_alias = "Je prázdné";
+                            break;
+                        }
+
+                    case "2":
+                        {
+                            col.value_alias = "Není prázdné";
+                            break;
+                        }
+
+                    case "3":  // obsahuje
+                        {
+                            col.value_alias = col.c1value;
+                            break;
+                        }
+
+                    case "5":  // začíná na
+                        {
+                            
+                            col.value_alias = "*= " + col.c1value;
+                            break;
+                        }
+
+                    case "6":  // je rovno
+                        {                            
+                            col.value_alias = "= " + col.c1value;
+                            break;
+                        }
+
+                    case "7":  // není rovno
+                        {                            
+                            col.value_alias = "není rovno " + col.c1value;
+                            break;
+                        }
+
+                    case "8":
+                        {
+                            col.value_alias = "ANO";
+                            break;
+                        }
+
+                    case "9":
+                        {
+                            col.value_alias = "NE";
+                            break;
+                        }
+
+                    case "10": // je větší než nula
+                        {
+                            col.value_alias = "větší než 0";
+                            break;
+                        }
+
+                    case "11":
+                        {
+                            col.value_alias = "0 nebo prázdné";
+                            break;
+                        }
+
+                    case "4":  // interval
+                        {
+                            
+                            if (col.BoundColumn.FieldType == "date" | col.BoundColumn.FieldType == "datetime")
+                            {
+                                col.value_alias = col.c1value + " - " + col.c2value;   // datum
+                            }
+                            else
+                            {
+                                col.value_alias = col.c1value + " - " + col.c2value;
+                            }    // číslo
+
+                            break;
+                        }
+                }
+
+
+
+               
+               
+            }
+
+
+        }
+
+
     }
 }

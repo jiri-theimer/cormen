@@ -41,6 +41,7 @@ namespace BO
                 return _pkfield;
             }
         }
+        public string j72Filter { get; set; }
 
         public List<int> pids;
         public IEnumerable<BO.TheGridColumn> explicit_columns { get; set; }

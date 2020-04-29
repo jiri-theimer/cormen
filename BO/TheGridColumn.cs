@@ -101,5 +101,16 @@ namespace BO
             }
         }
 
+        public string NormalizedTypeName
+        {
+            get
+            {
+                if (FieldType == "num0" || FieldType == "num") return "num";
+                if (FieldType == "date" || FieldType == "datetime") return "date";
+                return this.FieldType;
+            }
+            
+        }
+
     }
 }

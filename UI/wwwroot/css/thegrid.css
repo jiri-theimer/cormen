@@ -148,6 +148,9 @@ td.td_nowrap {
 
 #tr_header_query button {
     float: right;
+    font-size:14px;
+
+    
 }
 
 #tabgrid1_pagenum {

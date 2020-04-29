@@ -32,9 +32,11 @@ namespace UI.Views.Shared.Components.TheGrid
             {
                 cJ72 = _f.gridBL.LoadTheGridState(j72id);
             }
+            var colsProvider = new BL.TheColumnsProvider(mq);
+
             if (cJ72 == null)
             {
-                var cols= new BL.TheGridColumns(mq).getDefaultPallete();    //výchozí paleta sloupců
+                var cols= colsProvider.getDefaultPallete();    //výchozí paleta sloupců
 
                 cJ72 = new BO.j72TheGridState() { j72Entity = entity, j02ID = _f.CurrentUser.pid,j72Columns=String.Join(",",cols.Select(p=>p.UniqueName)),j72PageSize=100 };
                 var intJ72ID = _f.gridBL.SaveTheGridState(cJ72);
@@ -42,10 +44,9 @@ namespace UI.Views.Shared.Components.TheGrid
             }
          
             ret.GridState = cJ72;
-            ret.Columns = new BL.TheGridColumns(mq).getSelectedPallete(cJ72.j72Columns);
-
-
-
+            ret.Columns = colsProvider.getSelectedPallete(cJ72.j72Columns);
+            ret.AdhocFilter = colsProvider.ParseAdhocFilterFromString(cJ72.j72Filter);
+           
 
 
             return View("Default", ret);

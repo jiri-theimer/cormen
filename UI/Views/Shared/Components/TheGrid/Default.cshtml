@@ -3,107 +3,188 @@
 
     var _cols = Model.Columns;
 }
-    <div id="container_grid">
-        <table id="tabgrid0" class="tabgrid_auto">
-            <thead id="tabgrid1_thead">
-                <tr id="tr_header_headline">
-                    <th class="th0" colspan="3" style="width:60px;">
-                        @if (Model.GridState.j72SelectableFlag > 0)
-                        {
-
-                            <div class="dropdown" style="padding:0px;">
-                                <button class="btn btn-sm btn-light dropdown-toggle py-1 px-1" title="Další GRID funkce" type="button" id="cmdTheGridBatchSelect" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    &#9745;
-                                    &#9776;
-                                    
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="cmdTheGridBatchSelect" style="width:350px;">
-                                    <a class="nav-link" href="javascript:tg_select(20)">Vybrat prvních 20</a>
-                                    <a class="nav-link" href="javascript:tg_select(50)">Vybrat prvních 50</a>
-                                    <a class="nav-link" href="javascript:tg_select(100)">Vybrat prvních 100</a>
-                                    <a class="nav-link" href="javascript:tg_select(1000)">Vybrat všechny záznamy na stránce</a>
-                                    <hr />
-                                    <i>Hromadně vybrat více záznamů lze myší, funguje klávesa CTRL nebo ruční zaškrtnutí checkboxu na záznamu.</i>
-                                </div>
-
-                            </div>
-                        }
-
-                    </th>
-
-                    @{                        
-                        string strStyle = "";
-
-                    }
-                    @foreach (var c in Model.Columns)
+<div id="container_grid">
+    <table id="tabgrid0" class="tabgrid_auto">
+        <thead id="tabgrid1_thead">
+            <tr id="tr_header_headline">
+                <th class="th0" colspan="3" style="width:60px;">
+                    @if (Model.GridState.j72SelectableFlag > 0)
                     {
-                        strStyle = "width:" + c.ColumnWidthPixels;
-                        
-                        if (c.IsSortable)
-                        {
-                            c.CssClass = "sortcolumn";
-                        }
-                        else
-                        {
-                            c.CssClass = "nonsortable";
-                        }
 
+                        <div class="dropdown" style="padding:0px;">
+                            <button class="btn btn-light dropdown-toggle py-0 px-3" title="Další GRID funkce" type="button" id="cmdTheGridBatchSelect" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                &#9752;
 
-                        <th class="@c.CssClass" id="th_@c.UniqueName" title="@c.Header" columntypename="@c.FieldType" style="@strStyle">@c.Header</th>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="cmdTheGridBatchSelect" style="width:350px;">
+                                <a class="nav-link" href="javascript:tg_select(20)">Vybrat prvních 20</a>
+                                <a class="nav-link" href="javascript:tg_select(50)">Vybrat prvních 50</a>
+                                <a class="nav-link" href="javascript:tg_select(100)">Vybrat prvních 100</a>
+                                <a class="nav-link" href="javascript:tg_select(1000)">Vybrat všechny záznamy na stránce</a>
+                                <hr />
+                                <i>Hromadně vybrat více záznamů lze myší, funguje klávesa CTRL nebo ruční zaškrtnutí checkboxu na záznamu.</i>
+                            </div>
+
+                        </div>
                     }
 
-                </tr>
-                <tr id="tr_header_query">
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    @foreach (var c in Model.Columns)
+                </th>
+
+                @{
+                    string strStyle = "";
+
+                }
+                @foreach (var c in Model.Columns)
+                {
+                    strStyle = "width:" + c.ColumnWidthPixels;
+
+                    if (c.IsSortable)
                     {
-
-                        strStyle = "";
-                        var strValue = "";
-                <th>
-                    @if (c.FieldType == "string")
-                    {
-                        <text>
-                            <div class="input-group">
-                                <input type="text" id="txtqry_@c.UniqueName" class="form-control form-control-sm query_textbox" value="@strValue" style="@strStyle" />
-
-                                <button type='button' id="cmdqry_@c.UniqueName" tabindex="-1" class="btn btn-light btn-sm py-0 px-1 query_button"><strong style="font-size:14px;">&#65509;</strong></button>
-
-                            </div>
-                        </text>
+                        c.CssClass = "sortcolumn";
                     }
                     else
                     {
-                        <span class="qryalias" id="qryalias_@c.UniqueName" @strStyle>@strValue</span>
-                        <button type='button' id="cmdqry_@c.UniqueName" tabindex="-1" class="btn btn-light btn-sm py-0 px-1 query_button"><i class="fas fa-filter" style="color:#838383;"></i></button>
+                        c.CssClass = "nonsortable";
                     }
-                    <input type="hidden" id="hidqry_@c.UniqueName" />
-                </th>
+
+
+                    <th class="@c.CssClass" id="th_@c.UniqueName" title="@c.Header" columntypename="@c.FieldType" style="@strStyle">@c.Header</th>
+                }
+
+            </tr>
+            <tr id="tr_header_query">
+                <th></th>
+                <th></th>
+                <th></th>
+                @foreach (var c in Model.Columns)
+                {
+
+                    strStyle = "";
+                    var strValue = "";
+                    var strValueAlias = "";
+                    var strOper = "";
+
+                    BO.TheGridColumnFilter qf = null;
+                    if (Model.AdhocFilter.Where(p => p.field == c.UniqueName).Count()>0)
+                    {
+                        qf = Model.AdhocFilter.Where(p => p.field == c.UniqueName).First();
+                        strValue = qf.value;
+                        strValueAlias = qf.value_alias;
+                        strOper = qf.oper;
+                        if (strValue !="" || strOper != "3")
+                        {
+                            strStyle = "background-color:red";
+                        }
                     }
-                </tr>
 
-            </thead>
+
+            <th>
+                @if (c.FieldType == "string")
+                {
+                    <text>
+                        <div class="input-group">
+                            <input type="text" id="txtqry_@c.UniqueName" class="form-control form-control-sm query_textbox" autocomplete="off" value="@strValue" style="@strStyle" />
+
+                            <button type='button' class="btn btn-light query_button py-0 px-1" id="cmdqry_@c.UniqueName" tabindex="-1">	&#9678;</button>
+
+                        </div>
+                    </text>
+                }
+                else
+                {
+                    <span class="qryalias" id="qryalias_@c.UniqueName" @strStyle>@strValueAlias</span>
+                    <button type='button' id="cmdqry_@c.UniqueName" tabindex="-1" class="btn btn-light btn-sm py-0 px-1 query_button">&#9678;</button>
+                }
+                <input type="hidden" id="hidqry_@c.UniqueName" value="@strValue" />
+                <input type="hidden" id="hidoper_@c.UniqueName" value="@strOper" />
+            </th>
+                }
+            </tr>
+
+        </thead>
+    </table>
+    <div id="container_vScroll" style="height:700px;">
+        <table id="tabgrid1" class="tabgrid_auto">
+            <tbody id="tabgrid1_tbody"></tbody>
+
+
         </table>
-        <div id="container_vScroll" style="height:700px;">
-            <table id="tabgrid1" class="tabgrid_auto">
-                <tbody id="tabgrid1_tbody"></tbody>
-
-
-            </table>
-        </div>
-        <table id="tabgrid2" class="tabgrid_auto">
-            <thead id="tabgrid1_tfoot">
-            </thead>
-        </table>
-        <div id="divPagerContainer">
-            <div id="divPager" class="btn-group" role="group" aria-label="Pager">
-            </div>
-        </div>
-        
-        <code id="thegrid_message"></code>
     </div>
+    <table id="tabgrid2" class="tabgrid_auto">
+        <thead id="tabgrid1_tfoot">
+        </thead>
+    </table>
+    <div id="divPagerContainer">
+        <div id="divPager" class="btn-group" role="group" aria-label="Pager">
+        </div>
+    </div>
+
+    <code id="thegrid_message"></code>
+</div>
+
+<div id="tg_div_filter" style="display: none; width: 300px;">
+    <div class="card" style="margin: 0px; padding: 0px; border-width: 2px;">
+        <div class="card-header">
+            &#9678;
+            <span id="tg_div_filter_header"></span>
+            <button class="btn btn-light px-1 py-0" style="float:right;" onclick="tg_filter_hide_popup()">&times;</button>
+        </div>
+        <div class="card-body">
+            <div id="tg_div_filter_inputs" class="input-group">
+                <label for="qryval1">Od: </label>
+                <input type="text" id="qryval1" autocomplete="off" class="form-control form-control-sm" onkeydown="return tg_qryval_keydown(event)" />
+                <label for="qryval2">do: </label>
+                <input type="text" id="qryval2" autocomplete="off" class="form-control form-control-sm" onkeydown="return tg_qryval_keydown(event)" />
+                <button type="button" class="btn btn-primary btn-sm" onclick="tg_filter_ok()">OK</button>
+            </div>
+            <div id="tg_div_filter_radios">
+                <div cstring="1" cnumber="1" cdate="1" cbool="1">
+                    <input type='radio' id="chkf0" value='0' name='chlfilter' onchange='tg_filter_radio_change(this)' /><label for='chkf0' style="font-weight: bold;">Nefiltrovat</label>
+                </div>
+                <div cstring="1">
+                    <input type='radio' id="chkf3" value='3' name='chlfilter' onchange='tg_filter_radio_change(this)' /><label for='chkf3'>Obsahuje</label>
+                </div>
+                <div cdate="1" cnumber="1">
+                    <input type='radio' id="chkf4" value='4' name='chlfilter' onchange='tg_filter_radio_change(this)' /><label for='chkf4'>Interval (od-do)</label>
+                </div>
+                <div cstring="1" cnumber="1" cdate="1">
+                    <input type='radio' id="chkf1" value='1' name='chlfilter' onchange='tg_filter_radio_change(this)' /><label for='chkf1'>Je prázdné</label>
+                </div>
+                <div cstring="1" cnumber="1" cdate="1">
+                    <input type='radio' id="chkf2" value='2' name='chlfilter' onchange='tg_filter_radio_change(this)' /><label for='chkf2'>Není prázdné</label>
+                </div>
+
+                <div cnumber="1">
+                    <input type='radio' id="chkf10" value='10' name='chlfilter' onchange='tg_filter_radio_change(this)' /><label for='chkf10'>Je větší než nula</label>
+                </div>
+                <div cnumber="1">
+                    <input type='radio' id="chkf11" value='11' name='chlfilter' onchange='tg_filter_radio_change(this)' /><label for='chkf11'>Je nula nebo prázdné</label>
+                </div>
+                <div cstring="1">
+                    <input type='radio' id="chkf5" value='5' name='chlfilter' onchange='tg_filter_radio_change(this)' /><label for='chkf5'>Začíná na</label>
+                </div>
+                <div cstring="1">
+                    <input type='radio' id="chkf6" value='6' name='chlfilter' onchange='tg_filter_radio_change(this)' /><label for='chkf6'>Je rovno</label>
+                </div>
+                <div cstring="1">
+                    <input type='radio' id="chkf7" value='7' name='chlfilter' onchange='tg_filter_radio_change(this)' /><label for='chkf7'>Není rovno</label>
+                </div>
+                <div cbool="1">
+                    <input type='radio' id="chkf8" value='8' name='chlfilter' onchange='tg_filter_radio_change(this)' /><label for='chkf8'>ANO (zaškrtnuto)</label>
+                </div>
+                <div cbool="1">
+                    <input type='radio' id="chkf9" value='9' name='chlfilter' onchange='tg_filter_radio_change(this)' /><label for='chkf9'>NE (nezaškrtnuto)</label>
+                </div>
+            </div>
+            <small><i>Pro operátor [Obsahuje] lze zadávat středník jak oddělovač hodnot (podmínka OR)</i></small>
+        </div>
+
+
+    </div>
+    <input type="hidden" id="tg_div_filter_field" />
+</div>
+
+
 <input type="hidden" id="tg_selected_pid" />
 <input type="hidden" id="tg_selected_pids" />
 <input type="hidden" id="tg_selected_pids_pre" />
@@ -115,6 +196,7 @@
             entity: "@Model.Entity",
             dataurl: "@Url.Action("GetHtml4TheGrid", "TheGrid")",
             handlerurl: "@Url.Action("HandleTheGridOper", "TheGrid")",
+            filterurl: "@Url.Action("HandleTheGridFilter", "TheGrid")",
             j72id:"@Model.GridState.j72ID"
         };
 
