@@ -26,6 +26,7 @@ namespace UI.Controllers
         public IActionResult Record(int pid, bool isclone)
         {
             var v = new Models.p21RecordViewModel();
+            
             if (pid > 0)
             {
                 v.Rec = Factory.p21LicenseBL.Load(pid);
@@ -41,6 +42,8 @@ namespace UI.Controllers
             else
             {
                 v.Rec = new BO.p21License();
+                v.Rec.ValidFrom = DateTime.Today;
+                v.Rec.ValidUntil = new DateTime(3000, 1, 1);
                 v.Rec.entity = "p21";
             }
 
@@ -67,11 +70,10 @@ namespace UI.Controllers
                 c.p21Memo = v.Rec.p21Memo;
                 c.b02ID = v.ComboB02ID.SelectedValue;
                 c.p28ID = v.ComboP28ID.SelectedValue;
-               
-                c.ValidFrom = v.Rec.ValidFrom;
-                var d = new DateTime(3000,1,1);
-                if (v.Rec.ValidUntil != null) d = Convert.ToDateTime((v.Rec.ValidUntil));
-                c.ValidUntil = d.AddDays(1).AddMinutes(-1);
+
+                c.ValidFrom = v.PlatnostOd.SelectedDate;
+                c.ValidUntil = v.PlatnostDo.SelectedDate;
+
 
                 v.Rec.pid = Factory.p21LicenseBL.Save(c,BO.BAS.ConvertString2ListInt(v.p10IDs));
                 if (v.Rec.pid > 0)
@@ -90,7 +92,9 @@ namespace UI.Controllers
 
         }
 
-       
+        
+
+
         public BO.Result CreateClientProducts(int p21id)
         {
             
@@ -102,12 +106,17 @@ namespace UI.Controllers
         private void RefreshState(p21RecordViewModel v)
         {
             v.Toolbar = new MyToolbarViewModel(v.Rec);
+            
             if (Request.Method == "GET")    //myCombo má vstupní parametry modelu v hidden polích a proto se v POST vše dostane na server
             {
                 v.ComboP28ID = new MyComboViewModel() { Entity = "p28Company", SelectedText = v.Rec.p28Name, SelectedValue = v.Rec.p28ID };
                 v.ComboB02ID = new MyComboViewModel() { Entity = "b02Status", SelectedText = v.Rec.b02Name, SelectedValue = v.Rec.b02ID, Param1 = "p21" };
 
                 v.ComboSelectP10ID = new MyComboViewModel() { Entity = "p10MasterProduct", PlaceHolder = "Přidat do licence Master produkt..." };
+
+               
+                v.PlatnostOd = new MyDateViewModel() {SelectedDate = v.Rec.ValidFrom };
+                v.PlatnostDo = new MyDateViewModel() { SelectedDate = v.Rec.ValidUntil };
             }
                 
             v.ComboSelectP10ID.Event_After_ChangeValue = "handle_append_product";

@@ -18,6 +18,8 @@
     <link href="~/lib/kendo/styles/kendo.common-bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/lib/kendo/styles/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
 
+    <link href="~/lib/datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+
 
 
     <link rel="stylesheet" href="~/css/site.css" />
@@ -50,7 +52,9 @@
 
 
     <script src="~/lib/selection/ds.min.js"></script>
-    <script src="/lib/splitter/jquery-resizable.js"></script>
+    <script src="~/lib/splitter/jquery-resizable.js"></script>
+    <script src="~/lib/datepicker/bootstrap-datepicker.min.js"></script>
+    <script src="~/lib/datepicker/bootstrap-datepicker.cs.min.js"></script>
 
 
 
@@ -239,7 +243,7 @@
             var iframe = document.getElementById("fraModalContent");
             var elmnt = iframe.contentWindow.document.getElementById("toolbar_changeinfo");
             if ($(elmnt).text() != "") {
-                if (confirm("Chcete pokračovat bez uložení změn?")) {
+                if (confirm("Chcete zavřít okno bez uložení změn?")) {
                     $(_modal).css("display", "none");
                 } else {
                     return;

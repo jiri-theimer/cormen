@@ -41,20 +41,14 @@
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Rozsah platnosti:</label>
             <div class="col-sm-3 col-md-3">
-                @(Html.Kendo().DatePickerFor(m=>m.Rec.ValidFrom)
-                    .Format("dd.MM.yyyy")
+                @Html.EditorFor(m => m.PlatnostOd, "~/Views/Shared/_MyDate.cshtml")
 
-
-                 )
 
 
             </div>
 
             <div class="col-sm-3 col-md-3">
-                @(Html.Kendo().DatePickerFor(m=>m.Rec.ValidUntil)
-                    .Format("dd.MM.yyyy")
-
-                 )
+                @Html.EditorFor(m => m.PlatnostDo, "~/Views/Shared/_MyDate.cshtml")
             </div>
             <label class="col-sm-1 col-md-1 col-form-label">Stav:</label>
             <div class="col-sm-4 col-md-3">
@@ -168,10 +162,6 @@
             refresh_p10_table();
         }
 
-        $("#Rec_ValidFrom").on("focus", function () {
-            $(this).data("kendoDatePicker").open();
-
-        });
         $("#Rec_ValidUntil").on("focus", function () {
             $(this).data("kendoDatePicker").open();
 

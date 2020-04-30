@@ -28,10 +28,7 @@ namespace BL
         {
             return _db.Load<BO.j02Person>(GetSQL1()+" WHERE a.j02ID=@pid",new { pid = intPID });
         }
-        public BO.j02Person LoadByLogin(string strLogin)
-        {           
-            return _db.Load<BO.j02Person>(GetSQL1()+" WHERE a.j02Login LIKE @login", new { login = strLogin });
-        }
+        
         public IEnumerable<BO.j02Person>GetList(BO.myQuery mq)
         {
             DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq);
