@@ -16,5 +16,8 @@ namespace BO
         [Required(ErrorMessage = "Chybí vyplnit druh entity!")]
         public string o12Entity { get; set; }
         public string o12Code { get; set; }
+
+        
+        public string o12Radio { get; set; }
     }
 }

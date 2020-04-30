@@ -46,11 +46,23 @@ namespace UI.Controllers
 
         }
         //Test probíhá po spuštění každé Akce:
-        //public override void OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext context)
-        //{
-
-        //    base.OnActionExecuted(context);
-        //}
+        public override void OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext context)
+        {
+            if (ModelState.IsValid == false)
+            {
+                var modelErrors = new List<string>();
+                foreach (var modelState in ModelState.Values)
+                {
+                    foreach (var modelError in modelState.Errors)
+                    {
+                        modelErrors.Add(modelError.ErrorMessage);
+                        Factory.CurrentUser.AddMessage("Kontrola chyb: "+modelError.ErrorMessage);
+                    }
+                }
+            }
+            
+            base.OnActionExecuted(context);
+        }
 
 
         //public MotherController(IHttpContextAccessor context)

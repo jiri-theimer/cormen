@@ -4,6 +4,7 @@
     ViewData["Title"] = "Kategorie";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@addTagHelper *, UI
 
 
 @using (Html.BeginForm())
@@ -43,11 +44,24 @@
 
 
 
-
+        <pokus asp-for="Rec.o12Radio" name="Rec.o12Name" designation="Rec.o12Code" radio="Rec.UserInsert"></pokus>
     </div>
 }
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
+
+
+<script type="text/javascript">
+    function pokus(ctl) {
+        var forid = $(ctl).attr("for-id");
+        $("#" + forid).val(ctl.value);
+      
+
+       
+
+        
+    }
+</script>
 
 
 

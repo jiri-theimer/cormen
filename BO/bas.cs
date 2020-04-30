@@ -76,6 +76,17 @@ namespace BO
                 return dbl;
             }
         }
+        public static decimal? TestDecimalAsDbKey(decimal dcl)
+        {
+            if (dcl == 0)
+            {
+                return null;
+            }
+            else
+            {
+                return dcl;
+            }
+        }
 
         public static string ObjectDate2String(object d,string format="dd.MM.yyyy")
         {

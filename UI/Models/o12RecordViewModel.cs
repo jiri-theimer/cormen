@@ -10,5 +10,7 @@ namespace UI.Models
         public BO.o12Category Rec { get; set; }
 
         public MyToolbarViewModel Toolbar { get; set; }
+
+        public string Zkouska { get; set; }
     }
 }

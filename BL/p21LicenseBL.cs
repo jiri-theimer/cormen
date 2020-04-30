@@ -44,7 +44,7 @@ namespace BL
             var strGUID = BO.BAS.GetGuid();
             BO.p85Tempbox cP85;
             
-            cP85 = new BO.p85Tempbox() {p85RecordPid=rec.pid, p85GUID = strGUID, p85Prefix = "p21", p85FreeText01 = rec.p21Name, p85FreeText02 = rec.p21Code, p85Message = rec.p21Memo, p85OtherKey1 = rec.p28ID, p85OtherKey2 = rec.b02ID, p85FreeDate01 = rec.ValidFrom, p85FreeDate02 = rec.ValidUntil };
+            cP85 = new BO.p85Tempbox() {p85RecordPid=rec.pid, p85GUID = strGUID, p85Prefix = "p21", p85FreeText01 = rec.p21Name, p85FreeText02 = rec.p21Code, p85Message = rec.p21Memo, p85OtherKey1 = rec.p28ID, p85OtherKey2 = rec.b02ID, p85FreeDate01 = rec.ValidFrom, p85FreeDate02 = rec.ValidUntil,p85FreeNumber01=rec.p21Price };
             _mother.p85TempboxBL.Save(cP85);
 
             foreach (var p10id in p10ids)

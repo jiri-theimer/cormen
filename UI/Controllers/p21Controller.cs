@@ -70,6 +70,7 @@ namespace UI.Controllers
                 c.p21Memo = v.Rec.p21Memo;
                 c.b02ID = v.ComboB02ID.SelectedValue;
                 c.p28ID = v.ComboP28ID.SelectedValue;
+                c.p21Price = v.Rec.p21Price;
 
                 c.ValidFrom = v.PlatnostOd.SelectedDate;
                 c.ValidUntil = v.PlatnostDo.SelectedDate;
@@ -80,10 +81,10 @@ namespace UI.Controllers
                 {
                     return RedirectToAction("Index", "TheGrid", new { pid = v.Rec.pid, entity = "p21" });
                 }
-                          
-            }
-            
 
+            }
+           
+            
             RefreshState(v);
             
             this.Notify_RecNotSaved();
@@ -91,6 +92,7 @@ namespace UI.Controllers
 
 
         }
+
 
         
 

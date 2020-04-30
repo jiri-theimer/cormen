@@ -26,6 +26,7 @@ namespace UI.Controllers
             {
                 v.Rec = new BO.o12Category();
                 v.Rec.entity = "o12";
+                v.Zkouska = "Hovado jsi";
             }
 
             v.Toolbar = new MyToolbarViewModel(v.Rec);            
@@ -56,6 +57,8 @@ namespace UI.Controllers
                 }
                             
             }
+            Factory.CurrentUser.AddMessage("Už to je snad janý, o12radio = "+v.Rec.o12Radio);
+            Factory.CurrentUser.AddMessage("Už to je snad janý, staré radio = " + v.Rec.UserInsert);
             v.Toolbar = new MyToolbarViewModel(v.Rec);
             this.Notify_RecNotSaved();
             return View(v);
