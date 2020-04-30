@@ -49,6 +49,7 @@ namespace BL
             p.Add("j03IsMustChangePassword", rec.j03IsMustChangePassword, System.Data.DbType.Boolean);            
             p.Add("j03Login", rec.j03Login);         
             p.Add("j03AccessFailedCount", rec.j03AccessFailedCount);
+            p.Add("j03ModalDialogFlag", rec.j03ModalDialogFlag);
             if (!String.IsNullOrEmpty(rec.j03PasswordHash))
             {
                 p.Add("j03PasswordHash", rec.j03PasswordHash);

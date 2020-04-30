@@ -1,4 +1,17 @@
-﻿
+﻿//na úvod detekce mobilního zařízení přes _device
+var _device = {
+    isMobile: false,
+    type: "Desktop",
+    availHeight: screen.availHeight,
+    availWidth: screen.availWidth,
+    innerWidth: window.innerWidth,
+    innerHeight: window.innerHeight
+}
+if (screen.availHeight > screen.availWidth || screen.width < 800 || screen.height < 600) {   //mobilní zařízení výšku vyšší než šířku
+    _device.isMobile = true;
+    _device.type = "Phone";
+
+}
 
 
 function _get_request_param(name) {
@@ -82,20 +95,7 @@ function _notify_message(strMessage, strTemplate = "error", milisecs="3000") {
 
 }
 
-//na úvod detekce mobilního zařízení přes _device
-var _device = {
-    isMobile: false,
-    type: "Desktop",
-    availHeight: screen.availHeight,
-    availWidth: screen.availWidth,
-    innerWidth: window.innerWidth,
-    innerHeight: window.innerHeight
-}
-if (screen.availHeight > screen.availWidth || screen.width < 800 || screen.height < 600) {   //mobilní zařízení výšku vyšší než šířku
-    _device.isMobile = true;
-    _device.type = "Phone";
 
-}
 
 function _handle_searchbox(searchstring,url,divid) {
     $.post(url, { expr: searchstring}, function (data) {
@@ -189,5 +189,53 @@ function _splitter_resize_after_init(splitterLayout, defaultPanel1Size) {   //sp
         if (panel1_size === 0) panel1_size = 300;
         $("#splitter_panel1").width(panel1_size);
 
+    }
+}
+
+
+////z elementu se stane draggable:
+function _make_element_draggable(elmnt,inner_elmnt_4hide) {
+    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;    
+    if (document.getElementById(elmnt.id + "header")) {
+        /* if present, the header is where you move the DIV from:*/
+        document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+    } else {
+        /* otherwise, move the DIV from anywhere inside the DIV:*/
+        elmnt.onmousedown = dragMouseDown;
+    }
+    
+    function dragMouseDown(e) {
+        
+        
+        e = e || window.event;
+        e.preventDefault();
+        // get the mouse cursor position at startup:
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        document.onmouseup = closeDragElement;
+        // call a function whenever the cursor moves:
+        document.onmousemove = elementDrag;
+    }
+
+    function elementDrag(e) {
+        inner_elmnt_4hide.style.display = "none";
+        e = e || window.event;
+        e.preventDefault();
+        // calculate the new cursor position:
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        // set the element's new position:
+        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    }
+
+    function closeDragElement() {
+    /* stop moving when mouse button is released:*/
+        inner_elmnt_4hide.style.display = "block";
+        $("#inner_elmnt_4hide").attr("disabled", "");
+        document.onmouseup = null;
+        document.onmousemove = null;
     }
 }

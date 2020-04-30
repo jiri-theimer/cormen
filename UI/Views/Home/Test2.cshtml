@@ -17,7 +17,8 @@
     </div>
 
     <div id="splitter_panel2" class="splitter-panel-bottom">
-        <button type="button" onclick="pokus()">Otevři okno</button>
+        <button type="button" onclick="pokus1()">Otevři okno</button>
+        <button type="button" onclick="pokus2()">Otevři okno2</button>
         <iframe id="fra_subgrid" name="fra_subgrid" frameborder="0" scrolling="no" width="100%" onload="$('#splitter_panel2').css('background','none');"></iframe>
     </div>
 </div>
@@ -45,8 +46,7 @@
 
 
 <script type="text/javascript">
-    var modal = document.getElementById("myModalContainer");
-
+    
     $(document.body).css("overflow", "hidden");
 
     $(document).ready(function () {
@@ -62,76 +62,25 @@
         tg_adjust_for_screen("splitter_panel1");
 
 
-        dragElement(document.getElementById("myModalContent"));
+        
 
-
-        $(document).on("click", function (e) {
-            if (e.target == modal) {
-                modal.style.display = "none";
-            }
-        });
-        $(document).on("keydown", function (e) {
-            if (e.keyCode == 27) {
-                modal.style.display = "none";
-            }
-        });
+        
 
 
     });
 
-    function pokus() {
+    function pokus1() {
 
-        x = ($(modal).width() - $("#myModalContent").width()) / 2;
-        
-        $("#myModalContent").css("left", x);
+        _window_open("/p10/record",1);
 
-        modal.style.display = "block";
+    }
+    function pokus2() {
 
-        //$("#okno1").modal("show");
-        //$("#okno1").css("margin-right", "1900px");
+        _window_open("/p28/record",2);
+
     }
 
 
-
-    function dragElement(elmnt) {
-        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-        if (document.getElementById(elmnt.id + "header")) {
-            /* if present, the header is where you move the DIV from:*/
-            document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
-        } else {
-            /* otherwise, move the DIV from anywhere inside the DIV:*/
-            elmnt.onmousedown = dragMouseDown;
-        }
-
-        function dragMouseDown(e) {
-            e = e || window.event;
-            e.preventDefault();
-            // get the mouse cursor position at startup:
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            document.onmouseup = closeDragElement;
-            // call a function whenever the cursor moves:
-            document.onmousemove = elementDrag;
-        }
-
-        function elementDrag(e) {
-            e = e || window.event;
-            e.preventDefault();
-            // calculate the new cursor position:
-            pos1 = pos3 - e.clientX;
-            pos2 = pos4 - e.clientY;
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            // set the element's new position:
-            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-        }
-
-        function closeDragElement() {
-            /* stop moving when mouse button is released:*/
-            document.onmouseup = null;
-            document.onmousemove = null;
-        }
-    }
+    
 </script>
 

@@ -18,6 +18,7 @@ namespace BO
         public int j04ID { get; set; }
         public string j03PasswordHash { get; set; }
         public int j03AccessFailedCount { get; set; }
+        public int j03ModalDialogFlag { get; set; }
 
 
         //readonly:

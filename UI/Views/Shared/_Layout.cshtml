@@ -1,7 +1,7 @@
 ﻿@model BaseViewModel
 @inject BL.Factory _f
 
-@{ 
+@{
     string _fontstyle = "font: 0.75rem/1.0 var(--font-family-sans-serif)";
 }
 <!DOCTYPE html>
@@ -18,7 +18,7 @@
     <link href="~/lib/kendo/styles/kendo.common-bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/lib/kendo/styles/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
 
-   
+
 
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/thegrid.css" />
@@ -61,16 +61,7 @@
     <script src="~/js/controls.js" asp-append-version="true"></script>
 
 
-    <div id="myModalContainer">
-        <!-- Modal content -->
-        <div id="myModalContent">
-            <span class="close">&times;</span>
-            <p>Some text in the Modal..</p>
-            <iframe id="fra1" name="fra1" frameborder="0" scrolling="no" width="100%" height="800px" src="/p10/record" onload="$('#splitter_panel2').css('background','none');"></iframe>
-        </div>
 
-
-    </div>
 
 
     <script type="text/javascript">
@@ -99,16 +90,36 @@
 
 
 
+    <div id="myModalContainer">
+        
+        <div id="myModalContent">
+            <div style="height:30px;background-color: lightsteelblue;padding:3px;" ondblclick="_window_toggle()">
+                <button class="btn btn-secondary btn-sm float-left" onclick="_window_close()" style="margin-left:3px;margin-right:3px;">&times;</button>
+                <span>Okno</span>
+                <button class="btn btn-secondary btn-sm float-right" onclick="_window_close()" style="margin-right:3px;">&times;</button>
+                <button class="btn btn-secondary btn-sm float-right" onclick="_window_toggle()" style="margin-right:3px;">&#9600;</button>
+            </div>
+            <div id="myModalFrame" style="padding:0px 10px 10px 10px;">
+                <iframe id="fraModalContent" name="fraModalContent" frameborder="0" scrolling="no"></iframe>
+            </div>
+            
+        </div>
 
+
+    </div>
 
 
     @RenderSection("Scripts", required: false)
 
     <script type="text/javascript">
+        var _modal = document.getElementById("myModalContainer");
+        
+
         //zabránit submit formuláře po stisknutí ENTER na jakémkoliv non-submit input elementu
 
 
-    $(document).ready(function () {
+        $(document).ready(function () {
+            
            @if (_f.CurrentUser.Messages4Notify != null) {
            @foreach (var c in _f.CurrentUser.Messages4Notify) {  // <----  placed on the same line, WORKING !!!
             <text>
@@ -154,9 +165,19 @@
 
         });
 
+        $(document).on("click", function (e) {
+            if (e.target == _modal) {   
+                _window_close();
+            }
+        });
+        $(document).on("keydown", function (e) {
+            if (e.keyCode == 27 && _modal.style.display == "block") {
+                _window_close();
+                
+            }
+        });
 
-
-
+            
 
     });
 
@@ -214,6 +235,75 @@
     }
 
 
+        function _window_close() {
+            var iframe = document.getElementById("fraModalContent");
+            var elmnt = iframe.contentWindow.document.getElementById("toolbar_changeinfo");
+            if ($(elmnt).text() != "") {
+                if (confirm("Chcete pokračovat bez uložení změn?")) {
+                    $(_modal).css("display", "none");
+                } else {
+                    return;
+                }
+            }
+            $(_modal).css("display", "none");
+
+            
+        }
+        function _window_toggle() {
+            var okno = $("#myModalContent");
+            
+            if (_device.innerWidth - $(okno).width() < 30) {
+                _window_open("", 1);
+            } else {
+                _window_open("", 2);
+            }
+            
+        }
+        function _window_open(url, flag, header) {  
+            if (typeof flag === "undefined") flag = 1;                                
+            
+            if (!$(_modal).attr("initialized") && flag !=2) {
+                _make_element_draggable(document.getElementById("myModalContent"), document.getElementById("myModalFrame")); //předávání nefunguje přes jquery
+                $(_modal).attr("initialized", true);              
+            }
+            
+            var okno = $("#myModalContent");
+            var fra = $("#fraModalContent");
+            
+            var w = 1000;
+            var h = 800;
+            var x = 0;
+            var y = 0;
+
+            if (flag == 1) {   //centralizovat, max rozměr 1000x800    
+                $("#myModalFrame").css("padding", "0px 10px 10px 10px;");
+                if (_device.innerWidth < w) w = _device.innerWidth;
+                if (_device.innerHeight < h) h = _device.innerHeight;
+                x = (_device.innerWidth - w) / 2;
+                y = (_device.innerHeight - h) / 2;
+            }
+            if (flag == 2) {   //okno na fullsreen 100%   
+                $("#myModalFrame").css("padding", "0");
+                w = _device.innerWidth;
+                h = _device.innerHeight;                
+                x = 0;
+                y = 0;
+            }
+
+            $(okno).css("width", w);
+            $(okno).css("height", h);
+            $(okno).css("left", x);
+            $(okno).css("top", y);
+            $(fra).css("width", w-10-10);       //10 je padding
+            $(fra).css("height", h - 30-10);    //10 padding dole, 30 div header
+
+            if (url != "") {                
+                $(fra).attr("src", url);
+            }
+            
+
+            $(_modal).css("display", "block");
+        }
     </script>
 </body>
 </html>
