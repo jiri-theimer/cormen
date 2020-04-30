@@ -48,7 +48,11 @@ namespace UI.Controllers
 
             return View();
         }
+        public IActionResult Test2()
+        {
 
+            return View();
+        }
 
 
         public IActionResult MyProfile()

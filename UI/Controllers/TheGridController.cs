@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System.Text;
 
 
+
 using UI.Models;
 
 namespace UI.Controllers
@@ -173,8 +174,8 @@ namespace UI.Controllers
                 }
                 
 
-                _s.Append("<td class='td1' style='width:20px;'>");
-                _s.Append("<td class='td2' style='width:20px;'>");
+                _s.Append("<td class='td1' style='width:20px;'></td>");
+                _s.Append(string.Format("<td class='td2' style='width:20px;'><a class='cm' onclick='tg_cm(event)'>&#9776;</a></td>"));
 
 
                 foreach (var col in _grid.Columns)

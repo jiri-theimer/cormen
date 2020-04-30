@@ -28,6 +28,14 @@ function tg_init(c) {
 
     tg_setup_checkbox_handler();
 
+    var parentElement = document.getElementById("container_grid").parentNode;
+    if (parentElement.id !== "splitter_panel1") {        
+        tg_adjust_for_screen(); //bude voláno až po inicializaci splitteru v mateřské stránce gridu
+    }
+    
+    
+    
+
     $("#tabgrid1_thead .query_textbox").on("focus", function (e) {
         $(this).select();
     });
@@ -57,7 +65,9 @@ function tg_init(c) {
             
 
 
-        }, 700);
+        }, 500);
+
+        
     });
 
     $("#tabgrid1_thead button.query_button").on("click", function (e) {
@@ -82,26 +92,28 @@ function tg_init(c) {
     });
 
 
+    _tg_filter_is_active = tg_is_filter_active();
 }
 
 function tg_post_data() {
 
-    $.post(_tg_url_data, { entity: _tg_entity, j72id: _j72id }, function (data) {
+    $.post(_tg_url_data, { entity: _tg_entity, j72id: _j72id }, function (data) {        
+        //$("#tabgrid1_tbody").html(data.body);
+        //$("#tabgrid1_tfoot").html(data.foot);
+        //$("#divPager").html(data.pager);
+        //tg_refresh_sorter(data.sortfield, data.sortdir);
 
-        $("#tabgrid1_tbody").html(data.body);
-        $("#tabgrid1_tfoot").html(data.foot);
-        $("#divPager").html(data.pager);
-        tg_refresh_sorter(data.sortfield, data.sortdir);
+        refresh_environment_after_post("first_data", data);
 
-        tg_adjust_parts_width();
+        //tg_adjust_parts_width();
 
-        var basewidth = $("#tabgrid0").width();
-        $("#tabgrid1").width(basewidth);
-        $("#tabgrid2").width(basewidth);
+        //var basewidth = $("#tabgrid0").width();
+        //$("#tabgrid1").width(basewidth);
+        //$("#tabgrid2").width(basewidth);
 
 
 
-        tg_setup_selectable();
+        //tg_setup_selectable();
     });
 
 }
@@ -136,7 +148,7 @@ function refresh_environment_after_post(strOper,data) {
     $("#tabgrid1_tfoot").html(data.foot);
     $("#divPager").html(data.pager);
 
-    if (strOper === "sorter") {
+    if (strOper === "sorter" || strOper ==="first_data") {
         tg_refresh_sorter(data.sortfield, data.sortdir);
     }
 
@@ -148,6 +160,8 @@ function refresh_environment_after_post(strOper,data) {
 
 
     tg_setup_selectable();
+
+    
 }
 
 function tg_adjust_parts_width() {
@@ -286,8 +300,18 @@ function tg_pagesize(ctl) {//změna velikosti stránky
 
 function tg_is_filter_active() {
     var b = new Boolean;
+    $("#cmdDestroyFilter").css("display", "none");
+    
     $("#tr_header_query").find("input:hidden").each(function () {
-        if (this.value !== "" && this.id.substr(0, 3) === "hid") {
+        if (this.id.indexOf("hidqry_") > -1 && this.value !== "") {
+            
+            $("#cmdDestroyFilter").css("display", "block");
+            b = true;
+            return b;
+        }
+        if (this.id.indexOf("hidoper_") > -1 && this.value !== "3" && this.value !== "" && this.value !== "0") {
+
+            $("#cmdDestroyFilter").css("display", "block");
             b = true;
             return b;
         }
@@ -309,9 +333,7 @@ function tg_qryval_keydown(e) {
 
 }
 
-function thegrid_clear_filters() {
-    tg_filter_clear();
-}
+
 function tg_filter_clear() {
     $("#tr_header_query").find("input:hidden").each(function () {
         if (this.id.substr(0, 3) === "hid") {
@@ -428,12 +450,12 @@ function tg_filter_ok() {
 
     _tg_filter_is_active = tg_is_filter_active();
     //if (filter_before !== _tg_filter_is_active && _tg_filter_is_active === true) {
-    //    $("#cmdDestroyFilter").css("display", "block");
+    
     //    //tg_raise_page_event("filter-change");   //odeslat událost do mateřské stránky
     //}
     if (_tg_filter_is_active === false && filter_before === true) {
         tg_filter_clear();
-        //$("#cmdDestroyFilter").css("display", "none");
+        
         //tg_raise_page_event("filter-clear");   //odeslat událost do mateřské stránky
     }
 
@@ -654,6 +676,66 @@ function tg_filter_send2server() {
         }
 
     });
+
+
+    
+}
+
+function tg_cm(e) {     //vyvolání kontextového menu k vybranému záznamu
+    var link = e.target;
+    var pid = link.parentNode.parentNode.id.replace("r","");
+    
+    _cm(e, _tg_entity, pid);
+}
+
+
+function tg_adjust_for_screen(strParentElementID) {
+    if (!document.getElementById("tabgrid0")) return;
+
+    
+            
+    var w0 = 0;
+    if (typeof strParentElementID !=="undefined") {
+        //výška gridu bude odvozená podle nadřízeného elementu strParentElementID
+        var parentElement = document.getElementById(strParentElementID);
+        var hh = $(parentElement).height() - $("#tabgrid0").height() - $("#tabgrid2").height() - $("#divPagerContainer").height() - 2;
+        if ($("#tabgrid1_tfoot").height() <= 2) {
+            hh = hh - 35;   //rezerva pro tfoot s TOTALS
+        }
+        w0 = $(parentElement).width();
+
+        if ($("#tabgrid0").width() > w0) {
+            hh = hh - 20;   //je vidět horizontální scrollbara, ubereme výšku, aby byla vidět, 20: odhad výšky scrollbary            
+        }
+        
+        $("#container_vScroll").css("height", hh + "px");
+
+
+
+    } else {
+        //režim 1 panelu, bez splitter
+        var div_horizontal = $("#container_grid");
+        var offset = $(div_horizontal).offset();
+        var h_vertical = _device.innerHeight - offset.top - $("#tabgrid0").height() - $("#tabgrid2").height() - $("#divPagerContainer").height();
+        
+        w0 = document.getElementById("container_grid").scrollWidth; //nefunguje přes jquery
+        var w1 = $(div_horizontal).width();        
+        if (w0 > w1) h_vertical = h_vertical - 20;   //je vidět horizontální scrollbara, ubereme výšku, aby byla vidět
+        if ($("#tabgrid1_tfoot").height() <= 2) {
+            h_vertical = h_vertical - 35;   //rezerva pro tfoot s TOTALS
+        }
+
+        h_vertical = parseInt(h_vertical);        
+        $("#container_vScroll").css("height", h_vertical + "px");
+        $(document.body).css("overflow-y", "hidden");
+        
+    }
+
+    $("#container_vScroll").width($("#container_grid").width() + $("#container_grid").scrollLeft());
+
+    //var basewidth = $("#tabgrid0").width();
+    //$("#tabgrid1").width(basewidth);
+    //$("#tabgrid2").width(basewidth);
 
 
     

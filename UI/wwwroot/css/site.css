@@ -1,10 +1,9 @@
 ﻿
-html {
-    font: 0.75rem/1.0 var(--font-family-sans-serif);
-}
+
 
 body{
     margin:0px;
+    
 }
 
 
@@ -75,3 +74,452 @@ tr.selrow {
     color: white;
 }
 
+
+/*link pro hamburger menu*/
+a.cm{
+    
+    cursor:pointer;
+}
+
+
+/* ----------------------- Kontextové MENU Zleva doprava ----------------------- */
+#cm_left2right {
+    padding: 6px;
+    margin: 0;
+    border:none;    
+    background-color:aliceblue;
+}
+
+    #cm_left2right ul, #cm_left2right li {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    #cm_left2right ul {
+        position: relative;
+        z-index: 597;
+        float: left;
+    }
+
+        #cm_left2right ul li {
+            float: left;
+            min-height: 1px;
+            line-height: 1.7em;
+            vertical-align: middle;
+        }
+
+            #cm_left2right ul li.hover, #cm_left2right ul li:hover {
+                position: relative;
+                z-index: 599;
+                cursor: default;
+            }
+
+        #cm_left2right ul ul {
+            visibility: hidden;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 598;
+            width: 100%;
+        }
+
+            #cm_left2right ul ul li {
+                float: none;
+            }
+
+            #cm_left2right ul ul, #cm_left2right ul ul ul {
+                top: -1px;
+                left: 99%;
+            }
+
+        #cm_left2right ul li:hover > ul {
+            visibility: visible;
+        }
+
+        #cm_left2right ul li {
+            float: none;
+        }
+
+    #cm_left2right a {
+        display: block;
+    }
+    /* Custom CSS Styles */
+
+
+    #cm_left2right:after, #cm_left2right ul:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+
+    #cm_left2right ul {
+        background-color: aliceblue;
+        border: 1px solid #AAAAAA;
+        padding: 4px;
+        width: 300px;
+    }
+
+        #cm_left2right ul li {
+            color: #000;
+            position: relative;
+        }
+
+            #cm_left2right ul li.hover, #cm_left2right ul li:hover {
+                background: #E5E5E5;
+                color: #FFF;
+            }
+
+                #cm_left2right ul li.hover > a, #cm_left2right ul li:hover > a {
+                    color: #2D89EF;
+                    background: #E5E5E5;
+                    border: 1px solid silver;
+                }
+
+        #cm_left2right ul ul {
+            width: 260px;
+        }
+
+    #cm_left2right a {
+        border: 1px solid transparent;
+        padding: 3px 10px;
+    }
+
+        #cm_left2right a:link, #cm_left2right a:visited {
+            color: #000;
+            text-decoration: none;
+        }
+
+        #cm_left2right a:hover {
+            background: #E5E5E5;
+            color: #2D89EF;
+        }
+
+        #cm_left2right a:active {
+            color: #ffa500;
+        }
+
+    #cm_left2right .has-sub:hover > a:after, #cm_left2right .has-sub.hover > a:after {
+        border-color: transparent transparent transparent #FFF;
+    }
+
+    #cm_left2right .has-sub > a:after {
+        content: '';
+        width: 0px;
+        height: 0px;
+        border-style: solid;
+        border-width: 4px 0 4px 4px;
+        border-color: transparent transparent transparent #808080;
+        position: absolute;
+        top: 50%;
+        right: 5%;
+        margin-top: -4px;
+        -webkit-transform: rotate(360deg);
+    }
+
+/*Kontextové MENU pro mobilní zařízení*/
+#cm_mobile {
+    position: absolute;
+    background-color: #F0F8FF;
+    display: none;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    max-width: 400px;
+    z-index: 999;
+    overflow: auto;
+}
+
+    #cm_mobile ul, #cm_mobile ul li {
+        padding-top: 5px;
+        padding-bottom: 10px;
+        list-style: none;
+    }
+
+
+/*Kontextové MENU zprava do leva*/
+#cm_right2left {
+    padding: 6px;
+    margin: 0;
+    border: none;
+    background-color: aliceblue;
+}
+
+    #cm_right2left ul,
+    #cm_right2left li {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    #cm_right2left ul {
+        position: relative;
+        z-index: 597;
+        float: right;
+    }
+
+        #cm_right2left ul li {
+            float: right;
+            min-height: 1px;
+            line-height: 1.5em;
+            vertical-align: middle;
+            text-align: right;
+        }
+
+            #cm_right2left ul li.hover,
+            #cm_right2left ul li:hover {
+                position: relative;
+                z-index: 599;
+                cursor: default;
+            }
+
+        #cm_right2left ul ul {
+            visibility: hidden;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            z-index: 598;
+            width: 100%;
+        }
+
+            #cm_right2left ul ul li {
+                float: none;
+            }
+
+            #cm_right2left ul ul,
+            #cm_right2left ul ul ul {
+                top: -1px;
+                right: 99%;
+            }
+
+        #cm_right2left ul li:hover > ul {
+            visibility: visible;
+        }
+
+        #cm_right2left ul li {
+            float: none;
+        }
+
+    #cm_right2left a {
+        display: block;
+    }
+
+
+    /* Custom CSS Styles */
+
+    #cm_right2left:after,
+    #cm_right2left ul:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+
+    #cm_right2left ul {
+        background-color: aliceblue;
+        border: 1px solid silver;
+        padding: 4px;
+        width: 300px;
+    }
+
+        #cm_right2left ul li {
+            color: #000;
+            position: relative;
+        }
+
+            #cm_right2left ul li.hover,
+            #cm_right2left ul li:hover {
+                background: #E5E5E5;
+                color: #FFF;
+            }
+
+                #cm_right2left ul li.hover > a,
+                #cm_right2left ul li:hover > a {
+                    color: #2D89EF;
+                    border: 1px solid silver;
+                }
+
+        #cm_right2left ul ul {
+            width: 260px;
+        }
+
+    #cm_right2left a {
+        border: 1px solid transparent;
+        padding: 3px 10px;
+    }
+
+        #cm_right2left a:link,
+        #cm_right2left a:visited {
+            color: #000;
+            text-decoration: none;
+        }
+
+        #cm_right2left a:hover {
+            background: #E5E5E5;
+            color: #2D89EF;
+        }
+
+        #cm_right2left a:active {
+            color: #ffa500;
+        }
+
+    #cm_right2left .has-sub:hover > a:after,
+    #cm_right2left .has-sub.hover > a:after {
+        border-color: transparent transparent transparent #FFF;
+    }
+
+    #cm_right2left .has-sub > a:after {
+        content: '';
+        width: 0px;
+        height: 0px;
+        border-style: solid;
+        border-width: 4px 4px 4px 0px;
+        border-color: transparent #808080 transparent transparent;
+        position: absolute;
+        top: 50%;
+        left: 5%;
+        margin-top: -4px;
+        -webkit-transform: rotate(360deg);
+    }
+
+/*SPLITTER*/
+/* splitter zleva doprava - horizontální*/
+
+.splitter-container-left2right {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid silver;
+    overflow: hidden;
+    /* avoid browser level touch actions */
+    touch-action: none;
+}
+
+.splitter-panel-left {
+    flex: 0 0 auto;
+    /* only manually resize */
+    padding: 0px;
+    width: 300px;
+    min-width: 200px;
+    overflow-y: auto;
+}
+
+.splitter-resizer-left2right {
+    flex: 0 0 auto;
+    width: 6px;
+    background: url(../Images/vsizegrip.png) center center no-repeat #F5F5F5;
+    min-height: 200px;
+    cursor: col-resize;
+}
+
+.splitter-panel-right {
+    flex: 1 1 auto;
+    /* resizable */
+    width: 100%;
+    min-height: 200px;
+    background: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100% 100%"><text fill="gray" x="70%" y="70%" font-family="\'Lucida Grande\', sans-serif" font-size="14" text-anchor="middle">Loading...</text></svg>') 0px 0px no-repeat;
+}
+
+
+/* vertical panel */
+
+.splitter-container-top2bottom {
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+    border: 1px solid silver;
+    overflow: hidden;
+}
+
+.splitter-panel-top {
+    flex: 0 0 auto;
+    /* only manually resize */
+    padding: 0px;
+    height: 400px;
+    width: 100%;
+    min-height: 100px;
+    overflow-y: auto;
+}
+
+.splitter-resizer-top2bottom {
+    flex: 0 0 auto;
+    height: 6px;
+    background: url(../Images/hsizegrip.png) center center no-repeat #E5E5E5;
+    cursor: row-resize;
+    z-index: 500;
+}
+
+.splitter-panel-bottom {
+    flex: 1 1 auto;
+    /* resizable */
+    padding: 0px;
+    min-height: 300px;
+    background: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100% 100%"><text fill="gray" x="70%" y="70%" font-family="\'Lucida Grande\', sans-serif" font-size="14" text-anchor="middle">Loading...</text></svg>') 0px 0px no-repeat;
+}
+
+
+/*2 panely pro rozložení layout stránky*/
+#layout_sidebar {
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #F5F5F5;
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+
+   
+
+    #layout_sidebar .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+    }
+
+
+#layout_main {
+    transition: margin-left .5s;
+    padding: 0px;
+    margin-left:200px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    #layout_sidebar {
+        padding-top: 5px;
+    }
+
+    
+}
+
+
+/*Modální okno - jeho DIV kontejner*/
+/* The Modal (background) */
+#myModalContainer {
+    display:none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */    
+}
+
+/* Modal Content */
+#myModalContent {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 1000px;
+    position: absolute;
+    top: 10px;
+    left: 20px;
+}
