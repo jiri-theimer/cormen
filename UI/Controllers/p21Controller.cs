@@ -72,8 +72,8 @@ namespace UI.Controllers
                 c.p28ID = v.ComboP28ID.SelectedValue;
                 c.p21Price = v.Rec.p21Price;
 
-                c.ValidFrom = v.PlatnostOd.SelectedDate;
-                c.ValidUntil = v.PlatnostDo.SelectedDate;
+                c.ValidFrom = v.Rec.ValidFrom;
+                c.ValidUntil = v.Rec.ValidUntil;
 
 
                 v.Rec.pid = Factory.p21LicenseBL.Save(c,BO.BAS.ConvertString2ListInt(v.p10IDs));
@@ -117,8 +117,8 @@ namespace UI.Controllers
                 v.ComboSelectP10ID = new MyComboViewModel() { Entity = "p10MasterProduct", PlaceHolder = "Přidat do licence Master produkt..." };
 
                
-                v.PlatnostOd = new MyDateViewModel() {SelectedDate = v.Rec.ValidFrom };
-                v.PlatnostDo = new MyDateViewModel() { SelectedDate = v.Rec.ValidUntil };
+                //v.PlatnostOd = new MyDateViewModel() {SelectedDate = v.Rec.ValidFrom };
+                //v.PlatnostDo = new MyDateViewModel() { SelectedDate = v.Rec.ValidUntil };
             }
                 
             v.ComboSelectP10ID.Event_After_ChangeValue = "handle_append_product";

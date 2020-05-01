@@ -57,8 +57,8 @@ namespace UI.Controllers
                 }
                             
             }
-            Factory.CurrentUser.AddMessage("Už to je snad janý, o12radio = "+v.Rec.o12Radio);
-            Factory.CurrentUser.AddMessage("Už to je snad janý, staré radio = " + v.Rec.UserInsert);
+            Factory.CurrentUser.AddMessage("vyplněné datum je: " + v.Rec.ValidUntil.ToString());
+            
             v.Toolbar = new MyToolbarViewModel(v.Rec);
             this.Notify_RecNotSaved();
             return View(v);

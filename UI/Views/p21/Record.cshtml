@@ -41,14 +41,14 @@
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Rozsah platnosti:</label>
             <div class="col-sm-3 col-md-3">
-                @Html.EditorFor(m => m.PlatnostOd, "~/Views/Shared/_MyDate.cshtml")
+                <mydate asp-for="Rec.ValidFrom"></mydate>
 
 
 
             </div>
 
             <div class="col-sm-3 col-md-3">
-                @Html.EditorFor(m => m.PlatnostDo, "~/Views/Shared/_MyDate.cshtml")
+                <mydate asp-for="Rec.ValidUntil"></mydate>
             </div>
             <label class="col-sm-1 col-md-1 col-form-label">Stav:</label>
             <div class="col-sm-4 col-md-3">
@@ -58,7 +58,7 @@
         <div class="form-row">
             <label class="col-sm-1 col-md-2 col-form-label">Cena:</label>
             <div class="col-sm-11 col-md-10">
-                <input type="number" class="form-control" asp-for="@Model.Rec.p21Price" />
+                <mynumber asp-for="Rec.p21Price" decimal-digits="2"></mynumber>
 
                 
             </div>
