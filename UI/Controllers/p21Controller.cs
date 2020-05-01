@@ -68,8 +68,8 @@ namespace UI.Controllers
                 c.p21Code = v.Rec.p21Code;
                 c.p21Name = v.Rec.p21Name;
                 c.p21Memo = v.Rec.p21Memo;
-                c.b02ID = v.ComboB02ID.SelectedValue;
-                c.p28ID = v.ComboP28ID.SelectedValue;
+                c.b02ID = v.Rec.b02ID;
+                c.p28ID = v.Rec.p28ID;
                 c.p21Price = v.Rec.p21Price;
 
                 c.ValidFrom = v.Rec.ValidFrom;
@@ -108,21 +108,9 @@ namespace UI.Controllers
         private void RefreshState(p21RecordViewModel v)
         {
             v.Toolbar = new MyToolbarViewModel(v.Rec);
-            
-            if (Request.Method == "GET")    //myCombo má vstupní parametry modelu v hidden polích a proto se v POST vše dostane na server
-            {
-                v.ComboP28ID = new MyComboViewModel() { Entity = "p28Company", SelectedText = v.Rec.p28Name, SelectedValue = v.Rec.p28ID };
-                v.ComboB02ID = new MyComboViewModel() { Entity = "b02Status", SelectedText = v.Rec.b02Name, SelectedValue = v.Rec.b02ID, Param1 = "p21" };
-
-                v.ComboSelectP10ID = new MyComboViewModel() { Entity = "p10MasterProduct", PlaceHolder = "Přidat do licence Master produkt..." };
-
-               
-                //v.PlatnostOd = new MyDateViewModel() {SelectedDate = v.Rec.ValidFrom };
-                //v.PlatnostDo = new MyDateViewModel() { SelectedDate = v.Rec.ValidUntil };
-            }
+           
                 
-            v.ComboSelectP10ID.Event_After_ChangeValue = "handle_append_product";
-            v.ComboB02ID.ViewFlag = 2;
+            
         }
 
 

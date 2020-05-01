@@ -31,7 +31,7 @@ namespace BO
         
         public string b02Name { get; set; }
 
-        public string RecordUrlAlias;
+        public string RecordPidAlias { get; set; }
 
         public string EntityAlias { get
             {

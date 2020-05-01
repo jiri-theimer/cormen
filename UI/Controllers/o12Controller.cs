@@ -57,7 +57,6 @@ namespace UI.Controllers
                 }
                             
             }
-            Factory.CurrentUser.AddMessage("vyplněné datum je: " + v.Rec.ValidUntil.ToString());
             
             v.Toolbar = new MyToolbarViewModel(v.Rec);
             this.Notify_RecNotSaved();

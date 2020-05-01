@@ -31,11 +31,11 @@ namespace BL
                 AF("p28Contact","p28City1", "Město",true);
                 AF("p28Contact","p28RegID", "IČ",true);
                 
-                AF("p28Contact", "Pokus1", "BOOL 1", true, "convert(bit,1)", "bool");
-                AF("p28Contact", "Pokus2", "NUM 1", true, "convert(float,a.p28ID*99.1234)", "num",true);
+                //AF("p28Contact", "Pokus1", "BOOL 1", true, "convert(bit,1)", "bool");
+                //AF("p28Contact", "Pokus2", "NUM 1", true, "convert(float,a.p28ID*99.1234)", "num",true);
                 
-                AF("p28Contact", "Pokus4", "NUM 2", true, "convert(int,a.p28ID*100)", "num0",true);
-                AF("p28Contact", "Pokus3", "Dat 2", true, "a.DateInsert", "datetime");
+                //AF("p28Contact", "Pokus4", "NUM 2", true, "convert(int,a.p28ID*100)", "num0",true);
+                //AF("p28Contact", "Pokus3", "Dat 2", true, "a.DateInsert", "datetime");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p10")
             {

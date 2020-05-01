@@ -17,7 +17,7 @@ namespace BO
         public string o12Entity { get; set; }
         public string o12Code { get; set; }
 
-        
+ 
        
     }
 }

@@ -11,14 +11,10 @@ namespace UI.Models
 
         public MyToolbarViewModel Toolbar { get; set; }
 
-        public MyDateViewModel PlatnostOd { get; set; }
-        public MyDateViewModel PlatnostDo { get; set; }
 
-
-        public MyComboViewModel ComboP28ID { get; set; }
-        public MyComboViewModel ComboB02ID { get; set; }
        
-        public MyComboViewModel ComboSelectP10ID { get; set; }
+        public int SelectedP10ID { get; set; }
+        public string SelectedP10Name { get; set; }
         public string p10IDs { get; set; }
         
     }

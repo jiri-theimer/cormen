@@ -55,9 +55,9 @@ namespace UI.Controllers
                 c.p10Code = v.Rec.p10Code;
                 c.p10Name = v.Rec.p10Name;
                 c.p10Memo = v.Rec.p10Memo;
-                c.b02ID = v.ComboB02ID.SelectedValue;
-                c.p13ID = v.ComboP13ID.SelectedValue;
-                c.o12ID = v.ComboO12ID.SelectedValue;
+                c.b02ID = v.Rec.b02ID;
+                c.p13ID = v.Rec.p13ID;
+                c.o12ID = v.Rec.o12ID;
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
@@ -83,13 +83,7 @@ namespace UI.Controllers
         private void RefreshState(p10RecordViewModel v)
         {
             v.Toolbar = new MyToolbarViewModel(v.Rec);
-            if (Request.Method == "GET")    //myCombo má vstupní parametry modelu v hidden polích a proto se v POST vše dostane na server
-            {
-                v.ComboP13ID = new MyComboViewModel() { Entity = "p13MasterTpv", SelectedText = v.Rec.p13Name, SelectedValue = v.Rec.p13ID };
-                v.ComboO12ID = new MyComboViewModel() { Entity = "o12Category", SelectedText = v.Rec.o12Name, SelectedValue = v.Rec.o12ID, Param1 = "p10" };
-                v.ComboB02ID = new MyComboViewModel() { Entity = "b02Status", SelectedText = v.Rec.b02Name, SelectedValue = v.Rec.b02ID, Param1 = "p10" };
-            }
-            
+           
             
             
         }

@@ -32,19 +32,19 @@
     <div class="form-row" style="margin-top:10px;">
         <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
         <div class="col-sm-11 col-md-10">
-            @Html.EditorFor(m => m.ComboB02ID, "~/Views/Shared/_MyCombo.cshtml")
+            <mycombo entity="b02Status" asp-for="Rec.b02ID" selectedtext="Rec.b02Name" param1="p10"></mycombo>
         </div>
     </div>
     <div class="form-row" style="margin-top:10px;">
         <label class="col-sm-1 col-md-2 col-form-label">TPV:</label>
         <div class="col-sm-11 col-md-10">
-            @Html.EditorFor(m => m.ComboP13ID, "~/Views/Shared/_MyCombo.cshtml")
+            <mycombo entity="p13MasterTpv" asp-for="Rec.p13ID" selectedtext="Rec.p13Name"></mycombo>
         </div>
     </div>
     <div class="form-row" style="margin-top:10px;">
         <label class="col-sm-1 col-md-2 col-form-label">Kategorie/Skupina:</label>
         <div class="col-sm-11 col-md-10">
-            @Html.EditorFor(m => m.ComboO12ID, "~/Views/Shared/_MyCombo.cshtml")
+            <mycombo entity="o12Category" asp-for="Rec.o12ID" selectedtext="Rec.o12Name" param1="p10"></mycombo>
         </div>
     </div>
 

@@ -33,7 +33,7 @@
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Klient:</label>
             <div class="col-sm-11 col-md-10">
-                @Html.EditorFor(m => m.ComboP28ID, "~/Views/Shared/_MyCombo.cshtml")
+                <mycombo entity="p28Company" asp-for="Rec.p28ID" selectedtext="Rec.p28Name"></mycombo>
             </div>
         </div>
 
@@ -52,7 +52,7 @@
             </div>
             <label class="col-sm-1 col-md-1 col-form-label">Stav:</label>
             <div class="col-sm-4 col-md-3">
-                @Html.EditorFor(m => m.ComboB02ID, "~/Views/Shared/_MyCombo.cshtml")
+                <mycombo entity="b02Status" asp-for="Rec.b02ID" selectedtext="Rec.b02Name" param1="p21" view-flag="2"></mycombo>
             </div>
         </div>
         <div class="form-row">
@@ -82,7 +82,8 @@
         </div>
         <div class="card-body">
             <div class="row">
-                @Html.EditorFor(m => m.ComboSelectP10ID, "~/Views/Shared/_MyCombo.cshtml")
+                <mycombo entity="p10MasterProduct" asp-for="@Model.SelectedP10ID" selectedtext="@Model.SelectedP10Name" event_after_changevalue="handle_append_product"></mycombo>
+                
             </div>
             <div id="divP10" style="margin-top:20px;"></div>
             

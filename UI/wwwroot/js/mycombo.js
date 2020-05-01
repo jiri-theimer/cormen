@@ -224,7 +224,7 @@
         
         $(_cmdcombo).text("");
 
-        $("[data-id=value_" + _controlid + "]").val("");
+        $("[data-id=value_" + _controlid + "]").val("0");
         $("[data-id=text_" + _controlid + "]").val("");
         handle_update_state();
     })
@@ -295,7 +295,8 @@
             t = $(row).find("td:first").text();
         }
 
-        $(_cmdcombo).css("color", "#E83E8C");
+        $(_cmdcombo).css("color", "navy");
+        $(_cmdcombo).css("font-weight", "bold");
         $(_cmdcombo).text(t);
 
         $("[data-id=value_" + _controlid + "]").val(v);

@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Razor.Runtime.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.AspNetCore.Mvc;
 
 namespace UI.Views.Shared.TagHelpers
 {
@@ -41,7 +40,7 @@ namespace UI.Views.Shared.TagHelpers
             sb.Append(string.Format("<input type='text' id='{0}' for-id='{1}' class='form-control' placeholder='dd.mm.yyyy' autocomplete='off' value='{2}' onchange='datepicker_change(this)'/>", strControlID+"helper", strControlID, _StringValue));
                        
             sb.Append("<div class='input-group-append'>");
-            sb.Append(string.Format("<button id='{0}cmd' type='button' class='btn btn-outline-secondary px-1 py-0' tabindex='-1' style='font-size:14px;' onclick='+datepicker_button_click({1})'>&#128197;</button>", strControlID,"\""+strControlID+"\""));
+            sb.Append(string.Format("<button id='{0}cmd' type='button' class='btn btn-outline-secondary px-1 py-0' tabindex='-1' style='font-size:14px;' onclick='datepicker_button_click({1})'>&#128197;</button>", strControlID,"\""+strControlID+"helper"+"\""));
             sb.Append("</div>");
             sb.AppendLine("</div>");
             sb.AppendLine(string.Format("<input type='hidden' value ='{0}' id='{1}' name='{2}'/>", _StringValue, strControlID, this.For.Name));

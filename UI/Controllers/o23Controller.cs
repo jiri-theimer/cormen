@@ -39,7 +39,8 @@ namespace UI.Controllers
                 {
                     return RecNotFound(v);
                 }
-
+                Factory.CurrentUser.AddMessage(v.Rec.RecordPidAlias);
+                Factory.CurrentUser.AddMessage(v.Rec.o23RecordPid.ToString());
             }
             else
             {
@@ -71,11 +72,8 @@ namespace UI.Controllers
             {
                 
                 v.Rec.o23RecordPid = 0;
-                v.RecordPidAlias = "";
-                v.ComboRecordPid.Entity = v.Rec.o23Entity;
-                v.ComboRecordPid.SelectedText = "";
-                v.ComboRecordPid.SelectedValue = 0;
-                
+                v.Rec.RecordPidAlias = "";
+               
                 RefreshState(v);
 
                 return View(v);
@@ -88,12 +86,12 @@ namespace UI.Controllers
                 c.o23Code = v.Rec.o23Code;
                 c.o23Name = v.Rec.o23Name;
                 c.o23Entity = v.Rec.o23Entity;
-                c.o23RecordPid = v.ComboRecordPid.SelectedValue;
+                c.o23RecordPid = v.Rec.o23RecordPid;
                 
                 c.o23Memo = v.Rec.o23Memo;
                 c.o23Date = v.Rec.o23Date;
-                c.b02ID = v.ComboB02ID.SelectedValue;
-                c.o12ID = v.ComboO12ID.SelectedValue;              
+                c.b02ID = v.Rec.b02ID;
+                c.o12ID = v.Rec.o12ID;              
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
@@ -125,10 +123,7 @@ namespace UI.Controllers
                 }
 
             }
-            else
-            {
-                v.ComboRecordPid.Entity = v.Rec.o23Entity;
-            }
+           
             
             
             
@@ -146,13 +141,13 @@ namespace UI.Controllers
 
             v.Toolbar = new MyToolbarViewModel(v.Rec);
             
-            if (Request.Method == "GET")    //myCombo má vstupní parametry modelu v hidden polích a proto se v POST vše dostane na server
-            {
-                v.ComboB02ID = new MyComboViewModel() { Entity = "b02Status", SelectedText = v.Rec.b02Name, SelectedValue = v.Rec.b02ID, Param1 = "o23" };
-                v.ComboO12ID = new MyComboViewModel() { Entity = "o12Category", SelectedText = v.Rec.o12Name, SelectedValue = v.Rec.o12ID, Param1 = "o23" };
-                v.ComboRecordPid = new MyComboViewModel() { Entity = v.Rec.o23Entity, SelectedText = v.RecordPidAlias, SelectedValue = v.Rec.o23RecordPid, Param1 = "o23" };
+            //if (Request.Method == "GET")    //myCombo má vstupní parametry modelu v hidden polích a proto se v POST vše dostane na server
+            //{
+            //    v.ComboB02ID = new MyComboViewModel() { Entity = "b02Status", SelectedText = v.Rec.b02Name, SelectedValue = v.Rec.b02ID, Param1 = "o23" };
+            //    v.ComboO12ID = new MyComboViewModel() { Entity = "o12Category", SelectedText = v.Rec.o12Name, SelectedValue = v.Rec.o12ID, Param1 = "o23" };
+            //    v.ComboRecordPid = new MyComboViewModel() { Entity = v.Rec.o23Entity, SelectedText = v.RecordPidAlias, SelectedValue = v.Rec.o23RecordPid, Param1 = "o23" };
                 
-            }
+            //}
           
             
             

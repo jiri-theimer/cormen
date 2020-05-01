@@ -34,7 +34,7 @@
                 <div class="col-sm-11 col-md-10">
 
                     <select asp-for="Rec.o23Entity" class="form-control" style="background-color:khaki;">
-                        <option value="p28Contact">Klient | Subjekt</option>
+                        <option value="p28Company">Klient | Subjekt</option>
                         <option value="p26Msz">Stroj | MSZ</option>
                         <option value="p10MasterProduct">Master produkt</option>
                         <option value="p13MasterTpv">Master TPV</option>
@@ -48,7 +48,7 @@
             <div class="form-row">
                 <label class="col-sm-1 col-md-2 col-form-label">Svázaný záznam:</label>
                 <div class="col-sm-11 col-md-10">
-                    @Html.EditorFor(m => m.ComboRecordPid, "~/Views/Shared/_MyCombo.cshtml")
+                    <mycombo entity="@Model.Rec.o23Entity" asp-for="Rec.o23RecordPid" selectedtext="Rec.RecordPidAlias"></mycombo>
 
                 </div>
             </div>
@@ -64,28 +64,24 @@
                 <div class="form-row" style="margin-top:10px;">
                     <label class="col-sm-1 col-md-2 col-form-label">Kategorie:</label>
                     <div class="col-sm-11 col-md-10">
-                        @Html.EditorFor(m => m.ComboO12ID, "~/Views/Shared/_MyCombo.cshtml")
+                        <mycombo entity="o12Category" asp-for="Rec.o12ID" selectedtext="Rec.o12Name" param1="o23"></mycombo>
                     </div>
                 </div>
                 <div class="form-row" style="margin-top:10px;">
                     <label class="col-sm-1 col-md-2 col-form-label">Datum:</label>
-                    <div class="col-sm-11 col-md-10">
-                        @(Html.Kendo().DatePickerFor(m=>m.Rec.o23Date)
-                        .Format("dd.MM.yyyy")
-
-                        )
-                       
+                    <div class="col-sm-4 col-md-4">
+                       <mydate asp-for="Rec.o23Date"></mydate>
                     </div>
                 </div>
                 <div class="form-row" style="margin-top:10px;">
                     <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
                     <div class="col-sm-11 col-md-10">
-                        @Html.EditorFor(m => m.ComboB02ID, "~/Views/Shared/_MyCombo.cshtml")
+                        <mycombo entity="b02Status" asp-for="Rec.b02ID" selectedtext="Rec.b02Name" param1="o23"></mycombo>
                     </div>
                 </div>
                 <div class="form-row">
                     <label class="col-sm-1 col-md-2 col-form-label">Kód:</label>
-                    <div class="col-sm-11 col-md-10">
+                    <div class="col-sm-4 col-md-4">
                         <input class="form-control" asp-for="Rec.o23Code" />
                         <span asp-validation-for="Rec.o23Code" class="text-danger"></span>
                     </div>

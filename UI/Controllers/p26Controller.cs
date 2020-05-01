@@ -62,8 +62,8 @@ namespace UI.Controllers
                 c.p26Code = v.Rec.p26Code;
                 c.p26Name = v.Rec.p26Name;
                 c.p26Memo = v.Rec.p26Memo;
-                c.b02ID = v.ComboB02ID.SelectedValue;
-                c.p28ID = v.ComboP28ID.SelectedValue;
+                c.b02ID = v.Rec.b02ID;
+                c.p28ID = v.Rec.p28ID;
 
                 
 
@@ -89,13 +89,7 @@ namespace UI.Controllers
         private void RefreshState(p26RecordViewModel v)
         {
             v.Toolbar = new MyToolbarViewModel(v.Rec);
-            if (Request.Method == "GET")    //myCombo má vstupní parametry modelu v hidden polích a proto se v POST vše dostane na server
-            {
-                v.ComboP28ID = new MyComboViewModel() { Entity = "p28Company",  SelectedText = v.Rec.p28Name, SelectedValue = v.Rec.p28ID };
-                v.ComboB02ID = new MyComboViewModel() { Entity = "b02Status",  SelectedText = v.Rec.b02Name, SelectedValue = v.Rec.b02ID, Param1 = "p26" };
-
-            }
-
+           
 
         }
     }

@@ -33,6 +33,7 @@ namespace UI.Views.Shared.TagHelpers
             
             string strStep = "0.01";
             string strPlaceHolder = "0,00";
+            string strFormatted = "0";
             switch (this.DecimalDigits)
             {
                 case 0:
@@ -59,7 +60,8 @@ namespace UI.Views.Shared.TagHelpers
             if ( this.For.Model != null)
             {
                 _StringValue = this.For.Model.ToString().Replace(".",",");
-                //StringFormatValue= String.Format("{0:##.##}", this.For.Model);
+                strFormatted = String.Format("{0:#,0.00}", this.For.Model);
+                
             }
             else
             {
@@ -67,7 +69,7 @@ namespace UI.Views.Shared.TagHelpers
                 
             }
 
-            sb.Append(string.Format("<input type='text' for-id='{0}' class='form-control' step='{1}' placeholder='{2}' onfocus='mynumber_focus(this)' onblur='mynumber_blur(this,{3})' value='{4}'/>", this.For.Name.Replace(".", "_"),strStep,strPlaceHolder,DecimalDigits, _StringValue));
+            sb.Append(string.Format("<input type='text' for-id='{0}' class='form-control' step='{1}' placeholder='{2}' onfocus='mynumber_focus(this)' onblur='mynumber_blur(this,{3})' value='{4}'/>", this.For.Name.Replace(".", "_"),strStep,strPlaceHolder,DecimalDigits, strFormatted));
             sb.Append(string.Format("<input type='hidden' value ='{0}' id ='{1}' name ='{2}'/>", _StringValue, this.For.Name.Replace(".", "_"), this.For.Name));
 
             output.Content.AppendHtml(sb.ToString());
