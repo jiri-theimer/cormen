@@ -15,11 +15,8 @@ namespace UI.Models
         
         public MyToolbarViewModel Toolbar { get; set; }
 
-        public MyComboViewModel ComboJ04ID { get; set; }
-        public MyComboViewModel ComboP28ID { get; set; }
-
-        public MyAutoCompleteViewModel TitleBeforeName { get; set; }
-        public MyAutoCompleteViewModel TitleAfterName { get; set; }
+        
+       
 
         public string ResetPassword { get; set; }
 

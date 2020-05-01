@@ -95,3 +95,47 @@ function datepicker_change(ctl) {
     $("#" + forid).val(ctl.value);    //pro uložení na server v rámci hostitelského view
 
 }
+
+
+
+/*_MyAutoComplete*/
+function myautocomplete_init(c) {
+    var _tableid = c.controlid + "tab1";
+    $("#" + c.controlid + "_search").on("focus", function () {
+        document.getElementById(c.controlid + "_search").select();
+    });
+
+    $("#" + c.controlid + "_search").on("keyup", function () {
+        var value = $(this).val().toLowerCase();
+        $("#" + _tableid + " tr").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+
+    $("#" + c.controlid +"_Dropdown").on("show.bs.dropdown", function () {
+        _focusAndCursor(document.getElementById(c.controlid + "_search"));
+
+        if ($("#" + c.dropdownid).prop("filled") === true) return;    //combo už bylo dříve otevřeno
+
+
+        $.post(c.posturl, { o15flag: c.o15flag, tableid: _tableid }, function (data) {
+            
+            $("#" + c.controlid + "_divtab").html(data);
+
+            $("#" + c.dropdownid).prop("filled", true);
+
+            $("#" + _tableid + " .txz").on("click", function () {
+                s = $(this).find("td:first").text();
+
+                $("#" + c.controlid).val(s);
+                $("#"+c.controlid).select();
+                _toolbar_warn2save_changes();
+            });
+
+        });
+
+
+    })
+
+}
+

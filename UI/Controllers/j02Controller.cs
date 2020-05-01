@@ -47,9 +47,6 @@ namespace UI.Controllers
                 v.UserProfile = new BO.j03User();
             }
             
-            
-            v.TitleBeforeName = new MyAutoCompleteViewModel(1, v.Rec.j02TitleBeforeName,"Titul","pop1");
-            v.TitleAfterName = new MyAutoCompleteViewModel(2, v.Rec.j02TitleAfterName,"","pop2");
             RefreshState(v);
             if (isclone) { v.Toolbar.MakeClone(); }
             
@@ -69,10 +66,10 @@ namespace UI.Controllers
                 {
                     c = Factory.j02PersonBL.Load(v.Rec.pid);                                       
                 }
-                 
-                c.p28ID = v.ComboP28ID.SelectedValue;
-                c.j02TitleBeforeName = v.TitleBeforeName.SelectedText;
-                c.j02TitleAfterName = v.TitleAfterName.SelectedText;
+
+                c.p28ID = v.Rec.p28ID;
+                c.j02TitleBeforeName = v.Rec.j02TitleBeforeName;
+                c.j02TitleAfterName = v.Rec.j02TitleAfterName;
                 c.j02FirstName = v.Rec.j02FirstName;
                 c.j02LastName = v.Rec.j02LastName;                
                 c.j02Email = v.Rec.j02Email;
@@ -98,7 +95,7 @@ namespace UI.Controllers
                         {
                             cU = Factory.j03UserBL.Load(v.Rec.pid);
                         }
-                        cU.j04ID = v.ComboJ04ID.SelectedValue;
+                        cU.j04ID = v.UserProfile.j04ID;
                         cU.j03Login = v.UserProfile.j03Login;
                         cU.j03IsMustChangePassword = v.UserProfile.j03IsMustChangePassword;
                         cU.ValidUntil = c.ValidUntil;
@@ -116,10 +113,7 @@ namespace UI.Controllers
                 }                
                
             }
-            
-            v.TitleBeforeName = new MyAutoCompleteViewModel(1, v.TitleBeforeName.SelectedText, "Titul", "pop1");
-            v.TitleAfterName = new MyAutoCompleteViewModel(2, v.TitleAfterName.SelectedText, "", "pop2");
-
+          
             RefreshState(v);
             this.Notify_RecNotSaved();
             return View(v);
@@ -130,11 +124,7 @@ namespace UI.Controllers
         private void RefreshState(j02RecordViewModel v)
         {
             v.Toolbar = new MyToolbarViewModel(v.Rec);
-            if (Request.Method == "GET")    //myCombo má vstupní parametry modelu v hidden polích a proto se v POST vše dostane na server
-            {
-                v.ComboJ04ID = new MyComboViewModel() { Entity = "j04UserRole", SelectedText = v.Rec.j04Name, SelectedValue = v.UserProfile.j04ID };
-                v.ComboP28ID = new MyComboViewModel() { Entity = "p28Company", SelectedText = v.Rec.p28Name, SelectedValue = v.Rec.p28ID };                
-            }
+            
 
 
 
@@ -156,7 +146,7 @@ namespace UI.Controllers
                     
                 }
 
-                if (string.IsNullOrEmpty(v.UserProfile.j03Login) || v.ComboJ04ID.SelectedValue==0)
+                if (string.IsNullOrEmpty(v.UserProfile.j03Login) || v.UserProfile.j04ID==0)
                 {
                     Factory.CurrentUser.AddMessage("Uživatel musí mít vyplněný uživatelský účet.");return false;
                 }

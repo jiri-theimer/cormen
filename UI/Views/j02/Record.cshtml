@@ -1,14 +1,14 @@
 ﻿@model UI.Models.j02RecordViewModel
 @{
-        ViewData["Title"] = "Osoba";
-        Layout = "~/Views/Shared/_Layout.cshtml";
-        if (Model.Rec == null) return;
+    ViewData["Title"] = "Osoba";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (Model.Rec == null) return;
 
-   
+
 
 }
 
-
+@addTagHelper *, UI
 
 
 @using (Html.BeginForm())
@@ -25,7 +25,8 @@
 
         <div class="form-row" style="margin-bottom:10px;">
             <div class="col-sm-2 col-md-2">
-                @Html.EditorFor(m => m.TitleBeforeName, "~/Views/Shared/_MyAutoComplete.cshtml")
+              <myautocomplete asp-for="Rec.j02TitleBeforeName" o15flag="1" placeholder="Titul"></myautocomplete>
+                
             </div>
             <div class="col-sm-3 col-md-3">
                 <input class="form-control" asp-for="Rec.j02FirstName" placeholder="Jméno" />
@@ -37,7 +38,7 @@
                 <span asp-validation-for="Rec.j02LastName" class="text-danger"></span>
             </div>
             <div class="col-sm-2 col-md-2">
-                @Html.EditorFor(m => m.TitleAfterName, "~/Views/Shared/_MyAutoComplete.cshtml")
+                <myautocomplete asp-for="Rec.j02TitleAfterName" o15flag="2"></myautocomplete>
             </div>
 
         </div>
@@ -54,7 +55,7 @@
                 </div>
 
             }
-          
+
         </div>
         <div id="ucet">
             <div id="divNewPwd" class="form-row" style="display:none;">
@@ -75,7 +76,7 @@
             <div class="form-row">
                 <label class="col-sm-2 col-md-3 col-form-label">Aplikační role:</label>
                 <div class="col-sm-10 col-md-9">
-                    @Html.EditorFor(m => m.ComboJ04ID, "~/Views/Shared/_MyCombo.cshtml")
+                    <mycombo entity="j04UserRole" asp-for="UserProfile.j04ID" selectedtext="UserProfile.j04Name"></mycombo>
                 </div>
             </div>
 
@@ -92,7 +93,7 @@
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-2 col-md-3 col-form-label">Firma:</label>
             <div class="col-sm-10 col-md-9">
-                @Html.EditorFor(m => m.ComboP28ID, "~/Views/Shared/_MyCombo.cshtml")
+                <mycombo entity="p28Company" asp-for="Rec.p28ID" selectedtext="Rec.p28Name"></mycombo>
             </div>
         </div>
         <div class="form-row">
@@ -151,10 +152,10 @@
             @if (Model.UserProfile.pid == 0)
             {
              <text>
-            
+
             $("#divNewPwd").css("display", "block");
             $("#ResetPassword").attr("placeholder", "Zadejte výchozí přihlašovací heslo uživatele");
-              </text>  
+              </text>
             }
         } else {
             $("#ucet").css("display", "none");
