@@ -152,8 +152,8 @@ namespace BL.DL
             foreach (var filterrow in rows)
             {
                 var col = filterrow.BoundColumn;
-                var strF = "a."+col.Field;
-                if (col.SqlSyntax != null) strF = col.SqlSyntax;
+                var strF = col.getFinalSqlSyntax_WHERE(mq.Prefix);
+               
                 x += 1;
                 string parName = "par" + x.ToString();
                

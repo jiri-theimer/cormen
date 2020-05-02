@@ -8,9 +8,10 @@ namespace BO
     {
         private string _CssClass;
         private string _Entity;
+        private string _Field;
         private string _Prefix;
+        public bool IsOcasField;
         
-        public string Field { get; set; }
         public string FieldType { get; set; }   //string, bool, int, num, date, datetime
         public string Header { get; set; }
         public string SqlSyntax { get; set; }
@@ -19,6 +20,7 @@ namespace BO
         public bool IsFilterable { get; set; } = true;
         public bool IsShowTotals { get; set; }
         public int FixedWidth { get; set; }
+        
         public string Entity
         {
             get
@@ -28,9 +30,23 @@ namespace BO
             set
             {
                 _Entity = value;
+
                 _Prefix = _Entity.Substring(0, 3);
             }
         }
+        public string Field
+        {
+            get
+            {
+                return _Field;
+            }
+            set
+            {
+                _Field = value;
+               
+            }
+        }
+       
 
         public string CssClass
         {
@@ -55,49 +71,8 @@ namespace BO
                 return Entity + "__" + Field;
             }
         }
-        public string FinalSqlSyntax
-        {
-            get
-            {
-                if (SqlSyntax == null)
-                {
-                    return "a." + Field;
-                }
-                else
-                {
-                    return SqlSyntax + " AS " + Field;
-                }
-            }
-        }
-        public string FinalSqlSyntaxOrderBy
-        {
-            get
-            {
-                if (SqlSyntax == null)
-                {
-                    return "a." + Field;
-                }
-                else
-                {
-                    return SqlSyntax;
-                }
-            }
-        }
-        public string FinalSqlSyntaxSum
-        {
-            get
-            {
-                if (IsShowTotals == false) return "NULL as "+ Field;
-                if (SqlSyntax == null)
-                {
-                    return "SUM(a." + Field+") as "+Field;
-                }
-                else
-                {
-                    return "SUM("+SqlSyntax + ") AS " + Field;
-                }
-            }
-        }
+        
+       
 
         public string ColumnWidthPixels
         {
@@ -139,5 +114,102 @@ namespace BO
             }
         }
 
+        public string getFinalSqlSyntax_SELECT(string strContextTablePrefix)
+        {            
+            
+            if (this.SqlSyntax == null)
+            {
+                if (_Prefix == strContextTablePrefix)
+                {
+                    return "a." + this.Field+" AS "+this.Field;    //pole z primární tabulky strPrimaryTablePrefix
+                }
+                else
+                {
+                    return _Prefix + "." + this.Field+" AS "+this.Field;
+                }
+            }
+            else
+            {
+                if (this.IsOcasField)
+                {
+                    if (_Prefix == strContextTablePrefix)
+                    {
+                        return "a." + this.SqlSyntax + " AS " + this.Field;
+                    }
+                    else
+                    {
+                        return _Prefix + "." + this.SqlSyntax + " AS " + this.Field;
+                    }
+                }
+                else
+                {
+                    return this.SqlSyntax + " AS " + this.Field;
+                }
+                
+            }
+            
+        }
+        public string getFinalSqlSyntax_WHERE(string strContextTablePrefix)
+        {
+            if (this.SqlSyntax == null)
+            {
+                if (_Prefix == strContextTablePrefix || _Prefix == "")
+                {
+                    return "a." + this.Field;    //pole z primární tabulky strPrimaryTablePrefix
+                }
+                else
+                {
+                    return _Prefix + "." + this.Field;
+                }
+            }
+            else
+            {
+                if (this.IsOcasField == true)
+                {
+                    if (_Prefix == strContextTablePrefix)
+                    {
+                        return "a." + this.SqlSyntax;
+                    }
+                    else
+                    {
+                        return _Prefix + "." + this.SqlSyntax;
+                    }
+                }
+                else
+                {
+                    return this.SqlSyntax;
+                }
+                
+            }
+
+        }
+        public string getFinalSqlSyntax_ORDERBY(string strContextTablePrefix)
+        {
+            return getFinalSqlSyntax_WHERE(strContextTablePrefix);  //SQL pro ORDERBY je stejná jako WHERE
+        }
+
+
+        public string getFinalSqlSyntax_SUM(string strContextTablePrefix)
+        {
+            if (this.IsShowTotals == false) return "NULL as " + Field;
+            if (this.SqlSyntax == null)
+            {
+                if (_Prefix == strContextTablePrefix)
+                {
+                    return "SUM(a." + this.Field + ") AS " + this.Field;    //pole z primární tabulky strPrimaryTablePrefix
+                }
+                else
+                {
+                    return "SUM("+_Prefix + "." + this.Field + ") AS " + this.Field;
+                }
+            }
+            else
+            {
+                return "SUM("+this.SqlSyntax + ") AS " + this.Field;
+            }
+
+        }
+
+       
     }
 }

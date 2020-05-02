@@ -8,6 +8,13 @@
     {
         return;
     }
+    var _entities = new List<string>() { Model.Rec.j72Entity };
+
+    foreach (string s in Model.ApplicableCollumns.Select(p => p.Entity).Distinct()) //cílem je, aby ve stromu byla primární entita na prvním místě
+    {
+       if (s !=Model.Rec.j72Entity) _entities.Add(s);
+    }
+
 }
 
 
@@ -29,6 +36,7 @@
         -ms-user-select: none; /* IE 10+ */
         user-select: none;
         color: navy;
+        font-size:130%;
         font-weight: bold;
     }
 
@@ -81,7 +89,7 @@
 </h4>
 
 <div class="bg-light" style="padding:10px;">
-    <button id="cmdSave" onclick="form1.submit();" class="btn btn-success">Uložit změny</button>
+    <button id="cmdSave" onclick="savechanges()" class="btn btn-success">Uložit změny</button>
 </div>
 <div class="modal_record_container">
     <form id="form1" asp-controller="TheGrid" asp-action="Designer" method="POST">
@@ -95,7 +103,7 @@
 
         <div class="col-6">
             <ul id="tree1">
-                @foreach (var strEntity in Model.ApplicableCollumns.Select(p => p.Entity).Distinct())
+                @foreach (var strEntity in _entities)
                 {
                     <li>
                         <span id="@("group"+strEntity)" class="caret">@BO.BAS.getEntityAlias(strEntity)</span>
@@ -284,6 +292,14 @@
         }
     }
 
+    function savechanges() {
+        var fields = $("#Rec_j72Columns").val();
+        if (fields == "") {
+            _notify_message("Grid musí obsahovat minimálně jeden sloupec.");
+            return;
+        }
+        form1.submit();
+    }
 
 </script>
 

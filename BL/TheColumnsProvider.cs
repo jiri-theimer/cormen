@@ -19,9 +19,21 @@ namespace BL
 
         private void AF(string strEntity, string strField, string strHeader,bool bolIsDefault=false, string strSqlSyntax = null,string strFieldType="string",bool bolIsShowTotals=false)
         {
-            _lis.Add(new BO.TheGridColumn() {Entity=strEntity, Field = strField, Header = strHeader,IsDefault= bolIsDefault, SqlSyntax = strSqlSyntax,FieldType= strFieldType,IsShowTotals=bolIsShowTotals });
+            _lis.Add(new BO.TheGridColumn() { Field = strField, Entity = strEntity, Header = strHeader,IsDefault= bolIsDefault, SqlSyntax = strSqlSyntax,FieldType= strFieldType,IsShowTotals=bolIsShowTotals });
             }
+        private void AF_OCAS(string strEntity, string strField, string strHeader, string strSqlSyntax,string strFieldType)
+        {
+            _lis.Add(new BO.TheGridColumn() {IsOcasField=true, Field = strField, Entity = strEntity, Header = strHeader, SqlSyntax = strSqlSyntax, FieldType = strFieldType });
+        }
 
+        private void AppendOcas(string strEntity)
+        {
+            AF_OCAS(strEntity, "DateInsert_"+ strEntity, "Založeno", "DateInsert", "datetime");
+            AF_OCAS(strEntity, "UserInsert_"+ strEntity, "Založil", "UserInsert", "string");
+            AF_OCAS(strEntity, "DateUpdate_"+ strEntity, "Aktualizace",  "DateUpdate", "datetime");
+            AF_OCAS(strEntity, "UserUpdate_"+ strEntity, "Aktualizoval",  "UserUpdate", "string");
+            AF_OCAS(strEntity, "ValidUntil_"+ strEntity, "Platnost záznamu",  "ValidUntil", "datetime");
+        }
         private void SetupPallete(bool bolIncludeOutsideEntity)
         {
             if (bolIncludeOutsideEntity || _mq.Prefix == "p28")
@@ -42,8 +54,8 @@ namespace BL
 
                 AF("p28Company", "p28RegID", "IČ",true);
                 AF("p28Company", "p28VatID", "DIČ");
-                
 
+                AppendOcas("p28Company");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p10")
             {
@@ -56,6 +68,7 @@ namespace BL
                 AF("p21License","p21Name", "Název",true);
                 AF("p21License", "p21Code", "Kód", true);
                 AF("p21License","p28Name", "Klient",true,"p28.p28Name");
+                AppendOcas("p21License");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p26")
             {
@@ -114,7 +127,7 @@ namespace BL
         {
             if (_lis.Count > 0) { _lis.Clear(); };
             SetupPallete(true);
-
+          
             switch (_mq.Prefix)
             {
                 case "p28":

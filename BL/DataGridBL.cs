@@ -53,11 +53,11 @@ namespace BL
             {
                 if (bolGetTotalsRow == false)
                 {
-                    s = string.Join(",", mq.explicit_columns.Select(p => p.FinalSqlSyntax));
+                    s = string.Join(",", mq.explicit_columns.Select(p => p.getFinalSqlSyntax_SELECT(mq.Prefix)));
                 }
                 else
                 {
-                    s = string.Join(",", mq.explicit_columns.Select(p => p.FinalSqlSyntaxSum));
+                    s = string.Join(",", mq.explicit_columns.Select(p => p.getFinalSqlSyntax_SUM(mq.Prefix)));
                 }
                 
                 

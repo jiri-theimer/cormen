@@ -134,7 +134,7 @@ function tg_refresh_sorter(sortfield, sortdir) {
 function tg_post_handler(strOper, strKey, strValue) {
     //_notify_message("odesílá se: oper: " + strOper + ", key: " + strKey + ", value: " + strValue);    
     $.post(_tg_url_handler, { j72id: _j72id, oper: strOper, key: strKey, value: strValue }, function (data) {
-        _notify_message("vrátilo se: oper: " + strOper + ", key: " + strKey + ", value: " + strValue);
+       // _notify_message("vrátilo se: oper: " + strOper + ", key: " + strKey + ", value: " + strValue);
 
         refresh_environment_after_post(strOper,data);
     });
@@ -531,8 +531,8 @@ function tg_filter_prepare_popup(field, coltypename) {
     var c2 = document.getElementById("qryval2");
     var curqryvalue = tg_get_qry_value(field, coltypename);
     
-    //$(c1).datepicker("destroy");
-    //$(c2).datepicker("destroy");
+    $(c1).datepicker("destroy");
+    $(c2).datepicker("destroy");
     c1.attributes["type"].value = "text"
     c2.attributes["type"].value = "text";
     $(c1).css("display", "block");
@@ -560,22 +560,22 @@ function tg_filter_prepare_popup(field, coltypename) {
             c2.value = curqryvalue.c2value;
         }
         
-        //$(c1).datepicker({
-        //    format: "dd.mm.yyyy",
-        //    todayBtn: "linked",
-        //    clearBtn: true,
-        //    language: "cs",
-        //    todayHighlight: true,
-        //    autoclose: true
-        //});
-        //$(c2).datepicker({
-        //    format: "dd.mm.yyyy",
-        //    todayBtn: "linked",
-        //    clearBtn: true,
-        //    language: "cs",
-        //    todayHighlight: true,
-        //    autoclose: true
-        //});
+        $(c1).datepicker({
+            format: "dd.mm.yyyy",
+            todayBtn: "linked",
+            clearBtn: true,
+            language: "cs",
+            todayHighlight: true,
+            autoclose: true
+        });
+        $(c2).datepicker({
+            format: "dd.mm.yyyy",
+            todayBtn: "linked",
+            clearBtn: true,
+            language: "cs",
+            todayHighlight: true,
+            autoclose: true
+        });
     }
 
     if (coltypename === "number") {

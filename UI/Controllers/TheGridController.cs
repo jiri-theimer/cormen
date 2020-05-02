@@ -181,7 +181,7 @@ namespace UI.Controllers
             if (cJ72.j72SortDataField != "" && _grid.Columns.Where(p=>p.UniqueName==cJ72.j72SortDataField).Count()>0)
             {
                 var c = _grid.Columns.Where(p => p.UniqueName == cJ72.j72SortDataField).First();
-                mq.explicit_orderby = c.FinalSqlSyntaxOrderBy + " " + cJ72.j72SortOrder;
+                mq.explicit_orderby = c.getFinalSqlSyntax_ORDERBY(cJ72.j72Entity.Substring(0,3)) + " " + cJ72.j72SortOrder;
 
             }
             mq.j72Filter = cJ72.j72Filter;
