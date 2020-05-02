@@ -13,6 +13,16 @@ if (screen.availHeight > screen.availWidth || screen.width < 800 || screen.heigh
 
 }
 
+function _edit(controller,pid) {
+    _window_open("/"+controller+"/record?pid=" + pid);
+}
+function _clone(controller,pid) {
+    _window_open("/" + controller + "/record?isclone=true&pid=" + pid);
+}
+function _preview(controller,pid) {
+    _window_open("/" + controller + "/index?pid=" + pid);
+}
+
 
 function _get_request_param(name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);    

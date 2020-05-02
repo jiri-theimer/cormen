@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewData["Title"] = "Grid";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string _entity = ViewBag.entity;
+    if (String.IsNullOrEmpty(_entity))
+    {
+        return;
+    }
+    string _prefix = _entity.Substring(0, 3);
+}
+
+
+@addTagHelper *,UI
+
+
+<vc:the-grid entity="@_entity" j72id="0"></vc:the-grid>
+
+<div id="divContextMenuStatic" style="display:none;">
+    <ul style="border:0px;">
+        <li>
+            <a href="javascript: _edit('@_prefix',#pid#)">Upravit/Odstranit/Archivovat</a>
+        </li>
+        <li>
+            <a href="javascript: _clone('@_prefix',#pid#)">Kopírovat</a>
+        </li>
+        <li>
+            <hr />
+        </li>
+        <li>
+            <a href="javascript: _preview('@_prefix',#pid#)">Náhled</a>
+        </li>
+    </ul>
+</div>
+
+<script type="text/javascript">
+    $(document.body).css("overflow", "hidden");
+
+</script>

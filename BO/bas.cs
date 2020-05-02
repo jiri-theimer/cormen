@@ -94,6 +94,23 @@ namespace BO
             return Convert.ToDateTime(d).ToString(format);
         }
 
+        public static string getEntityFromPrefix(string strEntity)
+        {
+            switch (strEntity)
+            {
+                case "p28": return "p28Company";
+                case "p26": return "p26Msz";
+                case "j02": return "j02Person";
+                case "j03": return "j03User";
+                case "p21": return "p21License";
+                case "p10": return "p10MasterProduct";
+                case "p13": return "p13MasterTpv";
+                case "o23": return "o23Doc";
+                case "p41": return "p41Task";
+                default:
+                    return "";
+            }
+        }
         public static string getEntityAlias(string strEntity,bool bolMnozne=false)
         {
             if (bolMnozne)

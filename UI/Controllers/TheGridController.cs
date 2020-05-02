@@ -18,6 +18,24 @@ namespace UI.Controllers
         private System.Text.StringBuilder _s;
         private UI.Models.TheGridViewModel _grid;
 
+        public IActionResult FlatView(string prefix)    //pouze grid bez subform
+        {
+            ViewBag.entity = BO.BAS.getEntityFromPrefix(prefix);
+            if (ViewBag.entity == "")
+            {
+                Factory.CurrentUser.AddMessage("Entity for Grid not found.");
+            }
+            return View();
+        }
+        public IActionResult MasterView(string prefix)    //grid horní + spodní panel
+        {
+            ViewBag.entity = BO.BAS.getEntityFromPrefix(prefix);
+            if (ViewBag.entity == "")
+            {
+                Factory.CurrentUser.AddMessage("Entity for Grid not found.");
+            }
+            return View();
+        }
         public IActionResult Designer(int j72id)
         {
             var v = new Models.TheGridDesignerViewModel();
@@ -261,7 +279,7 @@ namespace UI.Controllers
         private void Render_TOTALS(System.Data.DataTable dt)
         {
             _s.Append("<tr id='tabgrid1_tr_totals'>");
-            _s.Append(string.Format("<th class='th0' title='Celkový počet záznamů' colspan=3 style='width:60px;'>{0}</th>", string.Format("{0:#,0}", dt.Rows[0]["RowsCount"])));
+            _s.Append(string.Format("<th class='th0' title='Celkový počet záznamů' colspan=3 style='width:60px;'><span class='badge badge-primary'>{0}</span></th>", string.Format("{0:#,0}", dt.Rows[0]["RowsCount"])));
             //_s.Append("<th style='width:20px;'></th>");
             //_s.Append("<th class='th0' style='width:20px;'></th>");
             string strVal = "";
@@ -456,7 +474,7 @@ namespace UI.Controllers
 
         public ActionResult GetJson4TheCombo(string entity, string text, bool addblankrow)
         {
-            System.IO.File.AppendAllText("c:\\temp\\hovado.txt", "entity: " + entity + ", čas: " + DateTime.Now.ToString());
+            
             var mq = new BO.myQuery(entity);
             mq.explicit_columns = new BL.TheColumnsProvider(mq).getDefaultPallete();
             mq.SearchString = text;//fulltext hledání

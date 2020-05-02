@@ -185,7 +185,11 @@
         function _cm(e, entity, pid) { //otevře kontextové menu
             var ctl = e.target;
 
-            var data = "<u><li>hovado</li><li>debil</li><li>hovado</li><li>debil</li><li>hovado</li><li>debil</li><li>hovado</li><li>debil</li><li>hovado</li><li>debil</li><li>hovado</li><li>debil</li><li>hovado</li><li>debil</li><li>hovado</li><li>debil</li></ul>";
+            var data = "";
+            if (document.getElementById("divContextMenuStatic")) { 
+                data = $("#divContextMenuStatic").html();   //na stránce se nachází preferované UL statického menu v divu id=divContextMenuStatic -> není třeba ho volat ze serveru
+                data = data.replace(/#pid#/g, pid);  //místo #pid# replace pravé pid hodnoty
+            }
             var w = $(window).width();
             var pos_left = e.clientX + $(window).scrollLeft();
 

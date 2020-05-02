@@ -46,97 +46,61 @@ namespace BL
             
         }
         public DataTable GetList(BO.myQuery mq,bool bolGetTotalsRow=false)
-        {
-            string s = "";
-            
-            if (mq.explicit_columns !=null)
-            {
-                if (bolGetTotalsRow == false)
-                {
-                    s = string.Join(",", mq.explicit_columns.Select(p => p.getFinalSqlSyntax_SELECT(mq.Prefix)));
-                }
-                else
-                {
-                    s = string.Join(",", mq.explicit_columns.Select(p => p.getFinalSqlSyntax_SUM(mq.Prefix)));
-                }
-                
-                
-                //var sels = new List<string>();
-                //var sums = new List<string>;
-                //foreach(var col in mq.explicit_columns)
-                //{
+        {            
+            var sb = new System.Text.StringBuilder();
+            sb.Append("SELECT ");
 
-                //    if (col.SqlSyntax == null)
-                //    {
-                //        sels.Add(col.Field);
-                //        if (col.IsShowTotals) sums.Add(col.Field);
-                //    }
-                //    else
-                //    {
-                //        sels.Add(col.SqlSyntax+" AS "+col.Field);
-                //    }                    
-                //}
-                //s = String.Join(",", sels);
+            if (mq.explicit_columns == null)
+            {
+                mq.explicit_columns = new BL.TheColumnsProvider(mq).getDefaultPallete();    //na vstupu není přesný výčet sloupců -> pracovat s default sadou
             }
+            if (bolGetTotalsRow)
+            {
+                sb.Append(string.Join(",", mq.explicit_columns.Select(p => p.getFinalSqlSyntax_SUM(mq.Prefix))));   //součtová řádka gridu
+            }
+            else
+            {
+                sb.Append(string.Join(",", mq.explicit_columns.Select(p => p.getFinalSqlSyntax_SELECT(mq.Prefix))));    //grid sloupce               
+            }
+            sb.Append(","+GetSQL_SELECT_Ocas(mq.Prefix, bolGetTotalsRow));  //konstantní pole jako pid,isclosed
+
             switch (mq.Prefix)
             {
-                case "j02":                    
-                    if (s=="")
-                    {
-                        s = "a.*,'p28/?pid='+convert(varchar(10),a.p28ID) as p28,p28.p28Name,a.j02LastName+' '+a.j02FirstName+ISNULL(' '+a.j02TitleBeforeName,' ') as fullname_desc,j03.j03Login,j03.j03ID,j04.j04Name";
-                    }                    
-                    s = string.Format("SELECT {0},{1} from j02Person a LEFT OUTER JOIN j03User j03 ON a.j02ID=j03.j02ID LEFT OUTER JOIN j04UserRole j04 ON j03.j04ID=j04.j04ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID", s, GetSQL_SELECT_Ocas("j02", bolGetTotalsRow));
+                case "j02":                                        
+                    sb.Append(" FROM j02Person a LEFT OUTER JOIN j03User j03 ON a.j02ID=j03.j02ID LEFT OUTER JOIN j04UserRole j04 ON j03.j04ID=j04.j04ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID");
                     break;
                 case "j03":
-                    if (s == "")
-                    {
-                        s = "a.*,p28.p28Name,j02.j02LastName+' '+j02.j02FirstName+ISNULL(' '+j02.j02TitleBeforeName,' ') as fullname_desc,j04.j04Name,j02.j02Email";
-                    }
-                    s = string.Format("SELECT {0},{1} from j03User a INNER JOIN j02Person j02 ON a.j02ID=j02.j02ID INNER JOIN j04UserRole j04 ON a.j04ID=j04.j04ID LEFT OUTER JOIN p28Company p28 ON j02.p28ID=p28.p28ID", s, GetSQL_SELECT_Ocas("j03", bolGetTotalsRow));
+                    sb.Append(" FROM j03User a INNER JOIN j02Person j02 ON a.j02ID=j02.j02ID INNER JOIN j04UserRole j04 ON a.j04ID=j04.j04ID LEFT OUTER JOIN p28Company p28 ON j02.p28ID=p28.p28ID");
                     break;
-                case "j04":                    
-                    s = string.Format("SELECT {0},a.* from j04UserRole a", GetSQL_SELECT_Ocas("j04", bolGetTotalsRow));
+                case "j04":
+                    sb.Append(" FROM j04UserRole a");
                     break;
                 case "b02":
-                    s = string.Format("SELECT {0},a.*,dbo.getEntityAlias(a.b02Entity) as EntityAlias from b02Status a", GetSQL_SELECT_Ocas("b02", bolGetTotalsRow));                   
+                    sb.Append(" FROM b02Status a");               
                     break;
                 case "p28":
-                    if (s == "")
-                    {
-                        s = "a.*";
-                    }
-                    s = string.Format("SELECT {0},{1} from p28Company a", GetSQL_SELECT_Ocas("p28", bolGetTotalsRow),s);
+                    sb.Append(" FROM p28Company a");
                     break;
                 case "p26":
-                    if (s == "") { s = "a.*,b02.b02Name,p28.p28Name,'p28/?pid='+convert(varchar(10),a.p28ID) as p28"; }
-                   
-                    s = string.Format("SELECT {0},{1} FROM p26Msz a LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID", GetSQL_SELECT_Ocas("p28", bolGetTotalsRow), s);
+                    sb.Append(" FROM p26Msz a LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID");
                     break;
                 case "p21":
-                    if (s == "") { s = "a.*,b02.b02Name,p28.p28Name,'p28/?pid=' + convert(varchar(10), a.p28ID) as p28"; }
-                    
-                    s = String.Format("SELECT {0},{1} FROM p21License a LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID", GetSQL_SELECT_Ocas("p21", bolGetTotalsRow),s);
+                    sb.Append(" FROM p21License a LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID");
                     break;
                 case "o12":
-                    s = string.Format("SELECT {0},a.*,dbo.getEntityAlias(a.o12Entity) as EntityAlias from o12Category a", GetSQL_SELECT_Ocas("o12", bolGetTotalsRow));
+                    sb.Append(" FROM o12Category a");
                     break;
                 case "p10":
-                    if (s == "") { s = "a.*,o12.o12Name,b02.b02Name,p13.p13Code,p13.p13Name,'p13/?pid='+convert(varchar(10),a.p13ID) as p13"; }
-                 
-                    s = string.Format("SELECT {0},{1} FROM p10MasterProduct a LEFT OUTER JOIN p13MasterTpv p13 ON a.p13ID=p13.p13ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID", GetSQL_SELECT_Ocas("p10", bolGetTotalsRow), s);
+                    sb.Append(" FROM p10MasterProduct a LEFT OUTER JOIN p13MasterTpv p13 ON a.p13ID=p13.p13ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID");
                     break;
                 case "p13":
-                    s = string.Format("SELECT {0},a.* from p13MasterTpv a", GetSQL_SELECT_Ocas("p13", bolGetTotalsRow));
+                    sb.Append(" FROM p13MasterTpv a");
                     break;
                 case "p14":
-                    s = string.Format("SELECT {0},a.* from p14MasterOper a", GetSQL_SELECT_Ocas("p14", bolGetTotalsRow));                    
+                    sb.Append(" FROM p14MasterOper a");                 
                     break;
                 case "o23":
-                    if (s == "")
-                    {
-                        s = "a.*,o12.o12Name,b02.b02Name,dbo.getEntityAlias(a.o23Entity) as EntityAlias,dbo.getRecordAlias(a.o23Entity,a.o23RecordPid) as RecordPidAlias";
-                    }                    
-                    s = string.Format("SELECT {0},{1} FROM o23Doc a LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID", GetSQL_SELECT_Ocas("o23", bolGetTotalsRow), s);
+                    sb.Append(" FROM o23Doc a LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID");
                     break;
                 default:
                     break;
@@ -145,7 +109,7 @@ namespace BL
           
             //parametrický dotaz s WHERE klauzulí
             
-            DL.FinalSqlCommand q = DL.basQuery.ParseFinalSql(s,mq,true);
+            DL.FinalSqlCommand q = DL.basQuery.ParseFinalSql(sb.ToString(),mq,true);    //závěrečné vygenerování WHERE a ORDERBY klauzule
             
             return _db.GetDataTable(q.FinalSql, q.Parameters4DT);
             

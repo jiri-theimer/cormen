@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewData["Title"] = "Grid";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string _entity = ViewBag.entity;
+    if (String.IsNullOrEmpty(_entity))
+    {
+        return;
+    }
+    string _prefix = _entity.Substring(0, 3);
+}
+
+@addTagHelper *,UI
+
+
+
+
+
+<div id="splitter_container" class="splitter-container-top2bottom">
+
+    <div id="splitter_panel1" class="splitter-panel-top">
+        <vc:the-grid entity="@_entity" j72id="0"></vc:the-grid>
+    </div>
+
+    <div id="splitter_resizer" class="splitter-resizer-top2bottom">
+    </div>
+
+    <div id="splitter_panel2" class="splitter-panel-bottom">
+       
+        <iframe id="fra_subgrid" name="fra_subgrid" frameborder="0" scrolling="no" width="100%" onload="$('#splitter_panel2').css('background','none');"></iframe>
+    </div>
+</div>
+
+<div id="divContextMenuStatic" style="display:none;">
+    <ul style="border:0px;">
+        <li>
+            <a href="javascript: _edit('@_prefix',#pid#)">Upravit/Odstranit/Archivovat</a>
+        </li>
+        <li>
+            <a href="javascript: _clone('@_prefix',#pid#)">Kopírovat</a>
+        </li>
+        <li>
+            <hr />
+        </li>
+        <li>
+            <a href="javascript: _preview('@_prefix',#pid#)">Náhled</a>
+        </li>
+    </ul>
+</div>
+
+<script type="text/javascript">
+    $(document.body).css("overflow", "hidden");
+
+    $(document).ready(function () {
+        //$(modal).css("width", _device.availWidth - 200);
+
+        _splitter_init("1", "@_prefix");
+        var defHeight = "500";
+
+        _splitter_resize_after_init("1", defHeight);
+
+
+
+        tg_adjust_for_screen("splitter_panel1");
+
+
+
+
+
+
+
+    });
+</script>
+

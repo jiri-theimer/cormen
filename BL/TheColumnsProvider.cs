@@ -125,7 +125,17 @@ namespace BL
                 AppendTimestamp("o23Doc");
 
             }
-            
+            if (bolIncludeOutsideEntity || _mq.Prefix == "b02")
+            {
+                AF("b02Status", "b02Name", "Název", true);
+                AF("b02Status", "EntityAlias", "Vazba", true, "dbo.getEntityAlias(a.b02Entity)");
+            }
+            if (bolIncludeOutsideEntity || _mq.Prefix == "o12")
+            {
+                AF("o12Category", "o12Name", "Název", true);
+                AF("o12Category", "EntityAlias", "Vazba", true, "dbo.getEntityAlias(a.o12Entity)");
+            }
+
             if (_lis.Count == 0)
             {
                 AF(_mq.Entity,_mq.Prefix + "Name", "Název",true);
