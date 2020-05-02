@@ -34,7 +34,7 @@ namespace UI.Views.Shared.Components.TheGrid
             }
             var colsProvider = new BL.TheColumnsProvider(mq);
 
-            if (cJ72 == null)
+            if (cJ72 == null)   //pro uživatele zatím nebyl vygenerován záznam v j72 -> vygenerovat
             {
                 var cols= colsProvider.getDefaultPallete();    //výchozí paleta sloupců
 

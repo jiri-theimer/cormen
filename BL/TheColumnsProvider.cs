@@ -19,23 +19,31 @@ namespace BL
 
         private void AF(string strEntity, string strField, string strHeader,bool bolIsDefault=false, string strSqlSyntax = null,string strFieldType="string",bool bolIsShowTotals=false)
         {
-            _lis.Add(new BO.TheGridColumn() { Field = strField,Entity=strEntity, Header = strHeader,IsDefault= bolIsDefault, SqlSyntax = strSqlSyntax,FieldType= strFieldType,IsShowTotals=bolIsShowTotals });
+            _lis.Add(new BO.TheGridColumn() {Entity=strEntity, Field = strField, Header = strHeader,IsDefault= bolIsDefault, SqlSyntax = strSqlSyntax,FieldType= strFieldType,IsShowTotals=bolIsShowTotals });
             }
 
         private void SetupPallete(bool bolIncludeOutsideEntity)
         {
             if (bolIncludeOutsideEntity || _mq.Prefix == "p28")
             {                
-                AF("p28Contact", "p28Name", "Název", true);
-                AF("p28Contact","p28Street1", "Ulice",true);
-                AF("p28Contact","p28City1", "Město",true);
-                AF("p28Contact","p28RegID", "IČ",true);
+                AF("p28Company", "p28Name", "Název", true);
+                AF("p28Company", "p28Code", "Kód");
+                AF("p28Company", "p28ShortName", "Zkrácený název");
+
+                AF("p28Company", "p28Street1", "Ulice",true);
+                AF("p28Company", "p28City1", "Město",true);
+                AF("p28Company", "p28PostCode1", "PSČ");
+                AF("p28Company", "p28Country1", "Stát");
+
+                AF("p28Company", "p28Street2", "Ulice 2");
+                AF("p28Company", "p28City2", "Město 2");
+                AF("p28Company", "p28PostCode2", "PSČ 2");
+                AF("p28Company", "p28Country2", "Stát 2");
+
+                AF("p28Company", "p28RegID", "IČ",true);
+                AF("p28Company", "p28VatID", "DIČ");
                 
-                //AF("p28Contact", "Pokus1", "BOOL 1", true, "convert(bit,1)", "bool");
-                //AF("p28Contact", "Pokus2", "NUM 1", true, "convert(float,a.p28ID*99.1234)", "num",true);
-                
-                //AF("p28Contact", "Pokus4", "NUM 2", true, "convert(int,a.p28ID*100)", "num0",true);
-                //AF("p28Contact", "Pokus3", "Dat 2", true, "a.DateInsert", "datetime");
+
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p10")
             {
@@ -100,6 +108,31 @@ namespace BL
 
             return _lis;
 
+
+        }
+        public IEnumerable<BO.TheGridColumn> ApplicableColumns()    //Sloupce, které se nabízejí v návrháři jako možné k práci pro záznamy dané entity
+        {
+            if (_lis.Count > 0) { _lis.Clear(); };
+            SetupPallete(true);
+
+            switch (_mq.Prefix)
+            {
+                case "p28":
+                    return _lis.Where(p=>p.Entity==_mq.Entity);
+                case "p10":
+                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix=="p13" || p.Prefix== "b02" || p.Entity == "o12");
+                case "p26":
+                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p28" || p.Prefix == "b02");
+                case "p21":
+                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p28" || p.Prefix == "b02");
+                case "j02":
+                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "j04" || p.Prefix == "p28");
+                case "o23":
+                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "b02" || p.Prefix == "o12");
+                default:
+                    return AllColumns();
+            }
+            
 
         }
 

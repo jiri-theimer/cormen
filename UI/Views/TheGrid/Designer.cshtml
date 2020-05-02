@@ -4,7 +4,10 @@
     ViewData["Title"] = "GRID: Návrhář sloupců";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-
+    if (Model.Rec == null)
+    {
+        return;
+    }
 }
 
 
@@ -57,6 +60,7 @@
 
     .field_selected {
         border: solid 1px red;
+        background-color:khaki;
         border-radius: 3px;
     }
 
@@ -69,26 +73,34 @@
     }
 </style>
 
-<h4>GRID návrhář sloupců</h4>
+<h4>
+    GRID [
+    @(BO.BAS.getEntityAlias(Model.Rec.j72Entity,true))
+    ]
+    Návrhář sloupců
+</h4>
 
-
+<div class="bg-light" style="padding:10px;">
+    <button id="cmdSave" onclick="form1.submit();" class="btn btn-success">Uložit změny</button>
+</div>
 <div class="modal_record_container">
     <form id="form1" asp-controller="TheGrid" asp-action="Designer" method="POST">
-        <button id="cmdSave" type="submit" class="btn btn-success">Uložit změny</button>
+        
+        
 
-        <input type="text" asp-for="Rec.j72Columns" class="form-control" />
+        <input type="hidden" asp-for="Rec.j72Columns" class="form-control" />
         <input type="hidden" asp-for="Rec.pid" />
     </form>
     <div class="row">
 
         <div class="col-6">
             <ul id="tree1">
-                @foreach (var strEntity in Model.AllColumns.Select(p => p.Entity).Distinct())
+                @foreach (var strEntity in Model.ApplicableCollumns.Select(p => p.Entity).Distinct())
                 {
                     <li>
                         <span id="@("group"+strEntity)" class="caret">@BO.BAS.getEntityAlias(strEntity)</span>
                         <ul class="collapsed">
-                            @foreach (var col in Model.AllColumns.Where(p => p.Entity == strEntity))
+                            @foreach (var col in Model.ApplicableCollumns.Where(p => p.Entity == strEntity))
                             {
                                 <li class="tree_item">
                                     <span data-field="@col.UniqueName" class="field">@col.Header</span>

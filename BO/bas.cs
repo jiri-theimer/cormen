@@ -94,8 +94,24 @@ namespace BO
             return Convert.ToDateTime(d).ToString(format);
         }
 
-        public static string getEntityAlias(string strEntity)
+        public static string getEntityAlias(string strEntity,bool bolMnozne=false)
         {
+            if (bolMnozne)
+            {
+                switch (strEntity.Substring(0, 3))
+                {
+                    case "p28": return "Klienti";
+                    case "p26": return "Stroje";
+                    case "j02": return "Osoby/Uživatelé";
+                    case "p21": return "Licence";
+                    case "p10": return "Master produkty";
+                    case "p13": return "Master TPV";
+                    case "o23": return "Dokumenty";
+                    case "p41": return "Výrobní zakázky";
+                    default:
+                        return "";
+                }
+            }
             switch (strEntity.Substring(0,3))
             {
                 case "p28":return "Klient";

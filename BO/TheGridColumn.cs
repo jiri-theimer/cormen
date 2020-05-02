@@ -7,8 +7,9 @@ namespace BO
     public class TheGridColumn
     {
         private string _CssClass;
-
-        public string Entity { get; set; }
+        private string _Entity;
+        private string _Prefix;
+        
         public string Field { get; set; }
         public string FieldType { get; set; }   //string, bool, int, num, date, datetime
         public string Header { get; set; }
@@ -18,7 +19,19 @@ namespace BO
         public bool IsFilterable { get; set; } = true;
         public bool IsShowTotals { get; set; }
         public int FixedWidth { get; set; }
-        
+        public string Entity
+        {
+            get
+            {
+                return _Entity;
+            }
+            set
+            {
+                _Entity = value;
+                _Prefix = _Entity.Substring(0, 3);
+            }
+        }
+
         public string CssClass
         {
             get
@@ -116,6 +129,13 @@ namespace BO
             get
             {
                 return BO.BAS.getEntityAlias(this.Entity);
+            }
+        }
+        public string Prefix
+        {
+            get
+            {
+                return _Prefix;
             }
         }
 

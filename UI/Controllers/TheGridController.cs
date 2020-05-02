@@ -37,12 +37,12 @@ namespace UI.Controllers
         private void Designer_RefreshState(Models.TheGridDesignerViewModel v)
         {
             var mq = new BO.myQuery(v.Rec.j72Entity);
-            var c = new BL.TheColumnsProvider(mq);
-            v.AllColumns = c.AllColumns();   //.Where(p=>p.Entity==v.Rec.j72Entity);
-            v.SelectedColumns = c.getSelectedPallete(v.Rec.j72Columns);
+            var cProvider = new BL.TheColumnsProvider(mq);
+            v.ApplicableCollumns = cProvider.ApplicableColumns();
+            v.SelectedColumns = cProvider.getSelectedPallete(v.Rec.j72Columns);
         }
         [HttpPost]
-        public IActionResult Designer(Models.TheGridDesignerViewModel v)
+        public IActionResult Designer(Models.TheGridDesignerViewModel v)    //uložení grid sloupců
         {
             
             if (ModelState.IsValid)
@@ -51,6 +51,16 @@ namespace UI.Controllers
 
                 var c = Factory.gridBL.LoadTheGridState(v.Rec.pid);
                 c.j72Columns = v.Rec.j72Columns;
+                c.j72Filter = "";   //automaticky vyčistit aktuální sloupcový filtr
+                c.j72CurrentPagerIndex = 0;
+                c.j72CurrentRecordPid = 0;
+                if (c.j72SortDataField != null)
+                {
+                    if (c.j72Columns.IndexOf(c.j72SortDataField)== -1){ //vyčistit sort field, pokud se již nenachází ve vybraných sloupcích
+                        c.j72SortDataField = "";
+                        c.j72SortOrder = "";
+                    }
+                }
                 if (Factory.gridBL.SaveTheGridState(c) > 0)
                 {
                     Factory.CurrentUser.AddMessage("Změny uloženy.","info");
