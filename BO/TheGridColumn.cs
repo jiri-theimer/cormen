@@ -10,7 +10,7 @@ namespace BO
         private string _Entity;
         private string _Field;
         private string _Prefix;
-        public bool IsOcasField;
+        public bool IsTimestamp;
         
         public string FieldType { get; set; }   //string, bool, int, num, date, datetime
         public string Header { get; set; }
@@ -130,15 +130,15 @@ namespace BO
             }
             else
             {
-                if (this.IsOcasField)
+                if (this.IsTimestamp)
                 {
                     if (_Prefix == strContextTablePrefix)
                     {
-                        return "a." + this.SqlSyntax + " AS " + this.Field;
+                        return this.SqlSyntax + " AS " + this.Field;
                     }
                     else
                     {
-                        return _Prefix + "." + this.SqlSyntax + " AS " + this.Field;
+                        return this.SqlSyntax.Replace("a.",_Prefix+".") + " AS " + this.Field;
                     }
                 }
                 else
@@ -164,15 +164,15 @@ namespace BO
             }
             else
             {
-                if (this.IsOcasField == true)
+                if (this.IsTimestamp)
                 {
                     if (_Prefix == strContextTablePrefix)
                     {
-                        return "a." + this.SqlSyntax;
+                        return this.SqlSyntax;
                     }
                     else
                     {
-                        return _Prefix + "." + this.SqlSyntax;
+                        return this.SqlSyntax.Replace("a.", _Prefix + ".");
                     }
                 }
                 else
@@ -208,6 +208,25 @@ namespace BO
                 return "SUM("+this.SqlSyntax + ") AS " + this.Field;
             }
 
+        }
+
+        public string getSymbol()
+        {
+            switch (this.FieldType)
+            {
+                case "num":
+                    return "0.0";
+                case "num0":
+                    return "000";
+                case "date":
+                    return "&#128197;";
+                case "datetime":
+                    return "&#128197;";
+                case "bool":
+                    return "&#10004;";
+                default:
+                    return "ab";
+            }
         }
 
        

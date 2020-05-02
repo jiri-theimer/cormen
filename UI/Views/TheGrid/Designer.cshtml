@@ -65,6 +65,9 @@
         margin-right: 20px;
         padding: 2px;
     }
+    .timestamp{
+        color:palevioletred;
+    }
 
     .field_selected {
         border: solid 1px red;
@@ -73,11 +76,20 @@
     }
 
     li.tree_item:hover .button_field_append {
-        visibility: visible;
+        visibility: visible;        
     }
 
     .button_field_append {
         visibility: hidden;
+    }
+    span.symbol{
+        display:inline-block;
+        font-size:80%;
+        background-color:#F5F5F5;
+        border-right:solid 1px silver;
+        border-bottom:solid 1px silver;
+        text-align:center;
+        width:20px;
     }
 </style>
 
@@ -103,6 +115,10 @@
 
         <div class="col-6">
             <ul id="tree1">
+                @{ 
+                    string strClass = "";
+                    
+                }
                 @foreach (var strEntity in _entities)
                 {
                     <li>
@@ -110,14 +126,20 @@
                         <ul class="collapsed">
                             @foreach (var col in Model.ApplicableCollumns.Where(p => p.Entity == strEntity))
                             {
-                                <li class="tree_item">
-                                    <span data-field="@col.UniqueName" class="field">@col.Header</span>
-                                    <button data-entity="@col.Entity" data-field="@col.UniqueName" title="Přidat" style="font-weight:bold;" class="btn btn-primary py-0 px-3 button_field_append">
-                                        &#129094;
-                                    </button>
+                                strClass = "field";
+                                if (col.IsTimestamp) strClass += " timestamp";
+
+                            <li class="tree_item">
+                                <span class="symbol">@Html.Raw(col.getSymbol())</span>
+                                <span data-field="@col.UniqueName" class="@strClass">@col.Header</span>
+
+                                
+                                <button data-entity="@col.Entity" data-field="@col.UniqueName" title="Přidat" style="font-weight:bold;" class="btn btn-primary py-0 px-3 button_field_append">
+                                    &#129094;
+                                </button>
 
 
-                                </li>
+                            </li>
                             }
                         </ul>
                     </li>

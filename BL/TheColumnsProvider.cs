@@ -21,18 +21,19 @@ namespace BL
         {
             _lis.Add(new BO.TheGridColumn() { Field = strField, Entity = strEntity, Header = strHeader,IsDefault= bolIsDefault, SqlSyntax = strSqlSyntax,FieldType= strFieldType,IsShowTotals=bolIsShowTotals });
             }
-        private void AF_OCAS(string strEntity, string strField, string strHeader, string strSqlSyntax,string strFieldType)
+        private void AF_TIMESTAMP(string strEntity, string strField, string strHeader, string strSqlSyntax,string strFieldType)
         {
-            _lis.Add(new BO.TheGridColumn() {IsOcasField=true, Field = strField, Entity = strEntity, Header = strHeader, SqlSyntax = strSqlSyntax, FieldType = strFieldType });
+            _lis.Add(new BO.TheGridColumn() { IsTimestamp = true, Field = strField, Entity = strEntity, Header = strHeader, SqlSyntax = strSqlSyntax, FieldType = strFieldType });
         }
 
-        private void AppendOcas(string strEntity)
+        private void AppendTimestamp(string strEntity)
         {
-            AF_OCAS(strEntity, "DateInsert_"+ strEntity, "Založeno", "DateInsert", "datetime");
-            AF_OCAS(strEntity, "UserInsert_"+ strEntity, "Založil", "UserInsert", "string");
-            AF_OCAS(strEntity, "DateUpdate_"+ strEntity, "Aktualizace",  "DateUpdate", "datetime");
-            AF_OCAS(strEntity, "UserUpdate_"+ strEntity, "Aktualizoval",  "UserUpdate", "string");
-            AF_OCAS(strEntity, "ValidUntil_"+ strEntity, "Platnost záznamu",  "ValidUntil", "datetime");
+            AF_TIMESTAMP(strEntity, "DateInsert_"+ strEntity, "Založeno", "a.DateInsert", "datetime");
+            AF_TIMESTAMP(strEntity, "UserInsert_"+ strEntity, "Založil", "a.UserInsert", "string");
+            AF_TIMESTAMP(strEntity, "DateUpdate_"+ strEntity, "Aktualizace",  "a.DateUpdate", "datetime");
+            AF_TIMESTAMP(strEntity, "UserUpdate_"+ strEntity, "Aktualizoval",  "a.UserUpdate", "string");
+            AF_TIMESTAMP(strEntity, "ValidUntil_"+ strEntity, "Platnost záznamu",  "a.ValidUntil", "datetime");
+            AF_TIMESTAMP(strEntity, "IsValid_" + strEntity, "Platný", "convert(bit,case when GETDATE() between a.ValidFrom AND a.ValidUntil then 1 else 0 end)", "bool");
         }
         private void SetupPallete(bool bolIncludeOutsideEntity)
         {
@@ -55,38 +56,41 @@ namespace BL
                 AF("p28Company", "p28RegID", "IČ",true);
                 AF("p28Company", "p28VatID", "DIČ");
 
-                AppendOcas("p28Company");
+                AppendTimestamp("p28Company");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p10")
             {
                 AF("p10MasterProduct","p10Name", "Název",true);
                 AF("p10MasterProduct","p10Code", "Kód produktu",true);
                 AF("p10MasterProduct","p13Code", "TPV",true,"p13.p13Code");
+                AppendTimestamp("p10MasterProduct");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p21")
             {
                 AF("p21License","p21Name", "Název",true);
                 AF("p21License", "p21Code", "Kód", true);
-                AF("p21License","p28Name", "Klient",true,"p28.p28Name");
-                AppendOcas("p21License");
+                AF("p21License","p21Price", "Cena",false,null,"num",true);
+                AppendTimestamp("p21License");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p26")
             {
                 AF("p26Msz","p26Name", "Název",true);
                 AF("p26Msz","p26Code", "Kód",true);
                 AF("p26Msz","p28Name", "Klient",true,"p28.p28Name");
+                AppendTimestamp("p26Msz");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "j02")
             {
                 AF("j02Person", "fullname_desc", "Jméno",true);
                 AF("j02Person","j02Email", "E-mail",true);
                 AF("j02Person","p28Name", "Klient",true,"p28.p28Name");
+                AppendTimestamp("j02Person");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p13")
             {
                 AF("p13MasterTpv", "p13Name", "Název", true);
                 AF("p13MasterTpv", "p13Code", "Číslo postupu", true);
-                
+                AppendTimestamp("p13MasterTpv");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "o23")
             {
@@ -95,8 +99,10 @@ namespace BL
                 AF("o23Doc","EntityAlias", "",true);
                 AF("o23Doc","o12Name", "Kategorie",true,"o12.o12Name");
                 AF("o23Doc","b02Name", "Stav",true,"b02.b02Name");
+                AppendTimestamp("o23Doc");
 
             }
+            
             if (_lis.Count == 0)
             {
                 AF(_mq.Entity,_mq.Prefix + "Name", "Název",true);
