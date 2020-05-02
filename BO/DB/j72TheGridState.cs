@@ -12,6 +12,8 @@ namespace BO
         public int j02ID { get; set; }
         public int j70ID { get; set; }
         public string j72Entity { get; set; }
+
+        [Required(ErrorMessage ="Grid musí obsahovat minimálně jeden sloupec.")]
         public string j72Columns { get; set; }
         public string j72SortDataField { get; set; }
         public string j72SortOrder { get; set; }

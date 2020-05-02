@@ -45,10 +45,6 @@ namespace UI.Controllers
             }
 
             
-            v.Country1 = new MyAutoCompleteViewModel(328, v.Rec.p28Country1,"Stát");
-            v.Country1.DropDownWidth = "300px";
-            v.Country2 = new MyAutoCompleteViewModel(328, v.Rec.p28Country2, "Stát", "pop2");
-            v.Country2.DropDownWidth = "300px";
             v.Toolbar = new MyToolbarViewModel(v.Rec);            
             if (isclone) { v.Toolbar.MakeClone(); }
 
@@ -72,11 +68,11 @@ namespace UI.Controllers
                 c.p28Street1 = v.Rec.p28Street1;
                 c.p28City1 = v.Rec.p28City1;
                 c.p28PostCode1 = v.Rec.p28PostCode1;
-                c.p28Country1 = v.Country1.SelectedText;
+                c.p28Country1 = v.Rec.p28Country1;
                 c.p28Street2 = v.Rec.p28Street2;
                 c.p28City2 = v.Rec.p28City2;
                 c.p28PostCode2 = v.Rec.p28PostCode2;
-                c.p28Country2 = v.Country2.SelectedText;
+                c.p28Country2 = v.Rec.p28Country2;
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
@@ -90,10 +86,7 @@ namespace UI.Controllers
                
             }
             v.Toolbar = new MyToolbarViewModel(v.Rec);
-            v.Country1 = new MyAutoCompleteViewModel(328, v.Country1.SelectedText, "Stát");
-            v.Country1.DropDownWidth = "300px";
-            v.Country2 = new MyAutoCompleteViewModel(328, v.Country1.SelectedText, "Stát", "pop2");
-            v.Country2.DropDownWidth = "300px";
+          
             this.Notify_RecNotSaved();
             return View(v);
 

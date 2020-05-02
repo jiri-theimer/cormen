@@ -13,8 +13,7 @@ namespace UI.Models
         public MyToolbarViewModel Toolbar { get; set; }
 
         
-        public MyAutoCompleteViewModel Country1 { get; set; }
-        public MyAutoCompleteViewModel Country2 { get; set; }
+       
 
     }
 }

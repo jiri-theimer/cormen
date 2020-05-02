@@ -96,7 +96,7 @@ namespace BO
 
         public static string getEntityAlias(string strEntity)
         {
-            switch (strEntity)
+            switch (strEntity.Substring(0,3))
             {
                 case "p28":return "Klient";
                 case "p26":return "Stroj";

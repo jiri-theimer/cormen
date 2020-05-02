@@ -1,0 +1,279 @@
+﻿@model TheGridDesignerViewModel
+
+@{
+    ViewData["Title"] = "GRID: Návrhář sloupců";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+}
+
+
+<style type="text/css">
+    ul, #tree1 {
+        list-style-type: none;
+        padding-left: 25px;
+    }
+
+    #tree1 {
+        margin: 0;
+        padding: 0;
+    }
+
+    .caret {
+        cursor: pointer;
+        -webkit-user-select: none; /* Safari 3.1+ */
+        -moz-user-select: none; /* Firefox 2+ */
+        -ms-user-select: none; /* IE 10+ */
+        user-select: none;
+        color: navy;
+        font-weight: bold;
+    }
+
+        .caret::before {
+            content: "\25B6";
+            color: black;
+            display: inline-block;
+            margin-right: 6px;
+        }
+
+    .caret-down::before {
+        -ms-transform: rotate(90deg); /* IE 9 */
+        -webkit-transform: rotate(90deg); /* Safari */
+        transform: rotate(90deg);
+    }
+
+    .collapsed {
+        display: none;
+    }
+
+    .expanded {
+        display: block;
+    }
+
+    .field {
+        margin-right: 20px;
+        padding: 2px;
+    }
+
+    .field_selected {
+        border: solid 1px red;
+        border-radius: 3px;
+    }
+
+    li.tree_item:hover .button_field_append {
+        visibility: visible;
+    }
+
+    .button_field_append {
+        visibility: hidden;
+    }
+</style>
+
+<h4>GRID návrhář sloupců</h4>
+
+
+<div class="modal_record_container">
+    <form id="form1" asp-controller="TheGrid" asp-action="Designer" method="POST">
+        <button id="cmdSave" type="submit" class="btn btn-success">Uložit změny</button>
+
+        <input type="text" asp-for="Rec.j72Columns" class="form-control" />
+        <input type="hidden" asp-for="Rec.pid" />
+    </form>
+    <div class="row">
+
+        <div class="col-6">
+            <ul id="tree1">
+                @foreach (var strEntity in Model.AllColumns.Select(p => p.Entity).Distinct())
+                {
+                    <li>
+                        <span id="@("group"+strEntity)" class="caret">@BO.BAS.getEntityAlias(strEntity)</span>
+                        <ul class="collapsed">
+                            @foreach (var col in Model.AllColumns.Where(p => p.Entity == strEntity))
+                            {
+                                <li class="tree_item">
+                                    <span data-field="@col.UniqueName" class="field">@col.Header</span>
+                                    <button data-entity="@col.Entity" data-field="@col.UniqueName" title="Přidat" style="font-weight:bold;" class="btn btn-primary py-0 px-3 button_field_append">
+                                        &#129094;
+                                    </button>
+
+
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="col-1">
+            <button type="button" id="cmdRemove" class="btn btn-primary py-2" style="margin-top:100px;float:right;">
+                &#129092;
+            </button>
+        </div>
+        <div class="col-5">
+            <h5>
+                Vybrané sloupce</>
+                <select id="list1" class="form-control" multiple="multiple" style="height:200px;width:100%;">
+                </select>
+
+
+
+
+                <button type="button" id="cmdUp" class="btn btn-primary">
+                    &#129093;
+                </button>
+                <button type="button" id="cmdDown" class="btn btn-primary">
+                    &#129095;
+                </button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script type="text/javascript">
+    var _sels = [];
+
+    $(document).ready(function () {
+
+        tree_init();
+        recovery_state();
+        refresh_state();
+
+        //expand all
+        $(".caret").click();
+
+
+
+        $(".button_field_append").click(function (e) {
+            handle_append_field(this,true);
+        });
+    });
+
+    function handle_append_field(cmd,bolUpdateState) {
+        var field = $(cmd).attr("data-field");
+
+
+        var entity = $(cmd).attr("data-entity");
+        var entity_alias = $("#group" + entity).text();
+
+        var alias = $("span[data-field=" + field + "]").first().text() + " [" + entity_alias + "]";
+
+        if (_sels.includes(field)) {
+            _notify_message("Sloupec [" + field + "] již je ve výběru.", "info");
+            return;
+        }
+        
+        $(cmd).prop("disabled", true);
+        $("span[data-field=" + field + "]").addClass("field_selected");
+
+       
+        $("#list1").append("<option selected value='" + field + "'>" + alias + "</option>");
+        $("#list1").val(field);
+
+        if (bolUpdateState == true) {
+            refresh_state();
+        }
+        
+    }
+
+    $("#cmdUp").click(function () {
+        $("#list1 option:selected").each(function () {
+            var newPos = $('#list1 option').index(this) - 1;
+            if (newPos > -1) {
+                $("#list1 option").eq(newPos).before("<option value='" + $(this).val() + "' selected='selected'>" + $(this).text() + "</option>");
+                $(this).remove();
+            }
+        });
+        refresh_state();
+    });
+    $("#cmdDown").click(function () {
+        var countOptions = $('#list1 option').length;
+        $('#list1 option:selected').each(function () {
+            var newPos = $('#list1 option').index(this) + 1;
+            if (newPos < countOptions) {
+                $('#list1 option').eq(newPos).after("<option value='" + $(this).val() + "' selected='selected'>" + $(this).text() + "</option>");
+                $(this).remove();
+            }
+        });
+        refresh_state();
+    });
+
+    $("#list1").dblclick(function () {
+        $("#cmdRemove").click();
+    });
+    $("#cmdRemove").click(function () {
+        $("#list1 option:selected").each(function () {
+            var field = $(this).val();
+            $("span[data-field=" + field + "]").removeClass("field_selected");
+
+            $("button[data-field=" + field + "]").prop("disabled", false);
+
+          
+            $(this).remove();
+
+        });
+        if ($("#list1").length > 0) {
+            $("#list1").prop("selectedIndex", "0");
+        }
+        refresh_state();
+    });
+
+    
+    function refresh_state() {        
+        _sels = [];
+        $("#list1 option").each(function () {
+            _sels.push(this.value);
+        });
+        $("#Rec_j72Columns").val(_sels.join(","));
+
+        if (document.getElementById("list1").length > 0) {
+            $("#cmdRemove").prop("disabled", false);
+            $("#cmdUp").prop("disabled", false);
+            $("#cmdDown").prop("disabled", false);
+        } else {
+            $("#cmdRemove").prop("disabled", true);
+            $("#cmdUp").prop("disabled", true);
+            $("#cmdDown").prop("disabled", true);
+        }
+        
+        
+        
+    }
+
+    function recovery_state() {        
+        var fields = $("#Rec_j72Columns").val();
+        if (fields == "") return;
+        var arr = fields.split(",");
+        for (i = 0; i < arr.length; i++) {
+            var field = arr[i];
+
+            var cmd = $("button[data-field=" + field + "]").first();
+            handle_append_field(cmd,false);
+        }
+        if ($("#list1").length > 0) {
+            $("#list1").prop("selectedIndex", "0");
+        }
+
+    }
+    function tree_init() {
+        var toggler = document.getElementsByClassName("caret");
+        var i;
+
+        for (i = 0; i < toggler.length; i++) {
+            toggler[i].addEventListener("click", function () {
+                this.parentElement.querySelector(".collapsed").classList.toggle("expanded");
+
+                this.classList.toggle("caret-down");
+            });
+        }
+    }
+
+
+</script>
+
+
+

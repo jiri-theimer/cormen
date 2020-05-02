@@ -111,6 +111,13 @@ namespace BO
             }
             
         }
+        public string EntityAlias
+        {
+            get
+            {
+                return BO.BAS.getEntityAlias(this.Entity);
+            }
+        }
 
     }
 }

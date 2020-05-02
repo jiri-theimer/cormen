@@ -18,6 +18,56 @@ namespace UI.Controllers
         private System.Text.StringBuilder _s;
         private UI.Models.TheGridViewModel _grid;
 
+        public IActionResult Designer(int j72id)
+        {
+            var v = new Models.TheGridDesignerViewModel();
+            v.Rec = Factory.gridBL.LoadTheGridState(j72id);
+            if (v.Rec == null)
+            {
+                return RecNotFound(v);
+            }
+            else
+            {
+                Designer_RefreshState(v);
+
+                return View(v);
+            }
+
+        }
+        private void Designer_RefreshState(Models.TheGridDesignerViewModel v)
+        {
+            var mq = new BO.myQuery(v.Rec.j72Entity);
+            var c = new BL.TheColumnsProvider(mq);
+            v.AllColumns = c.AllColumns();   //.Where(p=>p.Entity==v.Rec.j72Entity);
+            v.SelectedColumns = c.getSelectedPallete(v.Rec.j72Columns);
+        }
+        [HttpPost]
+        public IActionResult Designer(Models.TheGridDesignerViewModel v)
+        {
+            
+            if (ModelState.IsValid)
+            {
+                
+
+                var c = Factory.gridBL.LoadTheGridState(v.Rec.pid);
+                c.j72Columns = v.Rec.j72Columns;
+                if (Factory.gridBL.SaveTheGridState(c) > 0)
+                {
+                    Factory.CurrentUser.AddMessage("Změny uloženy.","info");
+                }
+
+                return RedirectToActionPermanent("Designer", new { j72id = v.Rec.pid });
+            }
+
+            Designer_RefreshState(v);
+
+            return View(v);
+           
+        }
+
+
+
+
         public TheGridOutput HandleTheGridFilter(int j72id, List<BO.TheGridColumnFilter> filter)
         {
             var cJ72 = this.Factory.gridBL.LoadTheGridState(j72id);

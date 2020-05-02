@@ -93,6 +93,15 @@ namespace BL
 
             
         }
+        public IEnumerable<BO.TheGridColumn> AllColumns()
+        {
+            if (_lis.Count > 0) { _lis.Clear(); };
+            SetupPallete(false);
+
+            return _lis;
+
+
+        }
 
         public List<BO.TheGridColumn> getSelectedPallete(string strUniqueNames)
         {
