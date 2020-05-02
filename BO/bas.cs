@@ -102,7 +102,8 @@ namespace BO
                 {
                     case "p28": return "Klienti";
                     case "p26": return "Stroje";
-                    case "j02": return "Osoby/Uživatelé";
+                    case "j02": return "Lidé";
+                    case "j03":return "Uživatelské účty";
                     case "p21": return "Licence";
                     case "p10": return "Master produkty";
                     case "p13": return "Master TPV";
@@ -116,7 +117,8 @@ namespace BO
             {
                 case "p28":return "Klient";
                 case "p26":return "Stroj";
-                case "j02":return "Osoba/Uživatel";
+                case "j02":return "Jméno";
+                case "j03":return "Uživatel";
                 case "p21": return "Licence";
                 case "p10": return "Master produkt";
                 case "p13": return "Master TPV";

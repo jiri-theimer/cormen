@@ -33,7 +33,7 @@ namespace BL
             AF_TIMESTAMP(strEntity, "DateUpdate_"+ strEntity, "Aktualizace",  "a.DateUpdate", "datetime");
             AF_TIMESTAMP(strEntity, "UserUpdate_"+ strEntity, "Aktualizoval",  "a.UserUpdate", "string");
             AF_TIMESTAMP(strEntity, "ValidUntil_"+ strEntity, "Platnost záznamu",  "a.ValidUntil", "datetime");
-            AF_TIMESTAMP(strEntity, "IsValid_" + strEntity, "Platný", "convert(bit,case when GETDATE() between a.ValidFrom AND a.ValidUntil then 1 else 0 end)", "bool");
+            AF_TIMESTAMP(strEntity, "IsValid_" + strEntity, "Časově platné", "convert(bit,case when GETDATE() between a.ValidFrom AND a.ValidUntil then 1 else 0 end)", "bool");
         }
         private void SetupPallete(bool bolIncludeOutsideEntity)
         {
@@ -62,7 +62,9 @@ namespace BL
             {
                 AF("p10MasterProduct","p10Name", "Název",true);
                 AF("p10MasterProduct","p10Code", "Kód produktu",true);
-                AF("p10MasterProduct","p13Code", "TPV",true,"p13.p13Code");
+                AF("p10MasterProduct","b02Name", "Stav",false,"b02.b02Name");
+                AF("p10MasterProduct", "o12Name", "Kategorie", false, "o12.o12Name");
+                AF("p10MasterProduct", "p10Memo", "Podrobný popis");
                 AppendTimestamp("p10MasterProduct");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p21")
@@ -77,28 +79,49 @@ namespace BL
                 AF("p26Msz","p26Name", "Název",true);
                 AF("p26Msz","p26Code", "Kód",true);
                 AF("p26Msz","p28Name", "Klient",true,"p28.p28Name");
+                AF("p26Msz", "b02Name", "Stav", false, "b02.b02Name");
+                AF("p26Msz", "p26Memo", "Podrobný popis");
                 AppendTimestamp("p26Msz");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "j02")
             {
-                AF("j02Person", "fullname_desc", "Jméno",true);
-                AF("j02Person","j02Email", "E-mail",true);
-                AF("j02Person","p28Name", "Klient",true,"p28.p28Name");
+                AF("j02Person", "fullname_desc", "Příjmení+Jméno",true,"a.j02LastName+' '+a.j02LastName");
+                AF("j02Person", "fullname_asc", "Jméno+Příjmení", false, "a.j02FirstName+' '+a.j02LastName");
+                AF("j02Person", "j02Email", "E-mail", true);
+                AF("j02Person", "j02FirstName", "Jméno");
+                AF("j02Person", "j02LastName", "Příjmení");
+                AF("j02Person", "j02TitleBeforeName", "Titul před");
+                AF("j02Person", "j02TitleAfterName", "Titul za");
+                AF("j02Person", "p28Name", "Klient", true, "p28.p28Name");
+                AF("j02Person", "j02Tel1", "TEL1");
+                AF("j02Person", "j02Tel2", "TEL2");
+               
+
                 AppendTimestamp("j02Person");
+            }
+            if (bolIncludeOutsideEntity || _mq.Prefix == "j03")
+            {
+                AF("j03User", "j03Login", "Login", true);
+                AF("j03User", "j04Name", "Aplikační role", true,"j04.j04Name");
+                
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p13")
             {
                 AF("p13MasterTpv", "p13Name", "Název", true);
                 AF("p13MasterTpv", "p13Code", "Číslo postupu", true);
+                AF("p13MasterTpv", "p13Memo", "Podrobný popis");
                 AppendTimestamp("p13MasterTpv");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "o23")
             {
                 AF("o23Doc","o23Name", "Název",true);
-                AF("o23Doc","RecordUrlName", "Vazba",true);
-                AF("o23Doc","EntityAlias", "",true);
-                AF("o23Doc","o12Name", "Kategorie",true,"o12.o12Name");
-                AF("o23Doc","b02Name", "Stav",true,"b02.b02Name");
+                AF("o23Doc", "RecordPidAlias", "Vazba",true, "dbo.getRecordAlias(a.o23Entity,a.o23RecordPid)");
+                AF("o23Doc","EntityAlias", "Druh vazby",true, "dbo.getEntityAlias(a.o23Entity)");
+                AF("o23Doc","o12Name", "Kategorie",false,"o12.o12Name");
+                AF("o23Doc","b02Name", "Stav",false,"b02.b02Name");
+                AF("o23Doc", "o12Name", "Kategorie", false, "o12.o12Name");
+                AF("o23Doc", "o23Memo", "Podrobný popis");
+                AF("o23Doc", "o23Date", "Datum dokumentu", false,null,"date");
                 AppendTimestamp("o23Doc");
 
             }
@@ -145,7 +168,7 @@ namespace BL
                 case "p21":
                     return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p28" || p.Prefix == "b02");
                 case "j02":
-                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "j04" || p.Prefix == "p28");
+                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "j03" || p.Prefix == "p28");
                 case "o23":
                     return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "b02" || p.Prefix == "o12");
                 default:
