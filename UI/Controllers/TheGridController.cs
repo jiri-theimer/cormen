@@ -82,7 +82,9 @@ namespace UI.Controllers
                 }
                 if (Factory.gridBL.SaveTheGridState(c) > 0)
                 {
-                    Factory.CurrentUser.AddMessage("Změny uloženy.","info");
+                    //Factory.CurrentUser.AddMessage("Změny uloženy.","info");
+                    v.SetJavascript_CallOnLoad(v.Rec.pid);
+                    return View(v);
                 }
 
                 return RedirectToActionPermanent("Designer", new { j72id = v.Rec.pid });

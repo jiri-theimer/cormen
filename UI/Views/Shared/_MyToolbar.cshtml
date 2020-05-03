@@ -1,4 +1,10 @@
 ﻿@model UI.Models.MyToolbarViewModel
+@{ 
+    if (Model.Record == null)
+    {
+        return;
+    }
+}
 
 
     <nav class="navbar navbar-expand navbar-toggleable navbar-light border-bottom box-shadow mb-3 @Model.BG" id="nav1" style="margin-bottom:10px;">

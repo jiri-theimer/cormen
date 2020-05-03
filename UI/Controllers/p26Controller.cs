@@ -73,7 +73,8 @@ namespace UI.Controllers
                 v.Rec.pid = Factory.p26MszBL.Save(c);
                 if (v.Rec.pid > 0)
                 {
-                    return RedirectToAction("Index", "TheGrid", new { pid = v.Rec.pid, entity = "p26" });
+                    v.SetJavascript_CallOnLoad(v.Rec.pid);
+                    return View(v);
                 }
                
                 

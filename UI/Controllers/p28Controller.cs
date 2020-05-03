@@ -80,7 +80,8 @@ namespace UI.Controllers
                 v.Rec.pid = Factory.p28CompanyBL.Save(c);
                 if (v.Rec.pid > 0)
                 {
-                    return RedirectToAction("Index", "TheGrid", new { pid = v.Rec.pid, entity = "p28" });
+                    v.SetJavascript_CallOnLoad(v.Rec.pid);
+                    return View(v);                    
                 }
                 
                

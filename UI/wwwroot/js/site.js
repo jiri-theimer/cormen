@@ -323,3 +323,12 @@ function _cm(e, entity, pid) { //otevře kontextové menu
 
 }
 
+function _reload_layout_and_close(pid, flag) {    
+    if (window !== top) {
+
+        window.parent.hardrefresh(pid, flag);
+        window.parent._window_close();
+    } else {
+        hardrefresh(pid, flag);
+    }
+}

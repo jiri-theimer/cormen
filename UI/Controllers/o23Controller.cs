@@ -117,8 +117,9 @@ namespace UI.Controllers
                 v.Rec.pid = Factory.o23DocBL.Save(c,lisO27,BO.BAS.ConvertString2ListInt(v.o27IDs4Delete));
                 if (v.Rec.pid > 0)
                 {
-                    
-                    return RedirectToActionPermanent("Index", "TheGrid", new { pid = v.Rec.pid, entity = "o23" });
+
+                    v.SetJavascript_CallOnLoad(v.Rec.pid);
+                    return View(v);
                 }
 
             }

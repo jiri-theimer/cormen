@@ -65,8 +65,9 @@ namespace UI.Controllers
                 v.Rec.pid = Factory.p10MasterProductBL.Save(c);
                 if (v.Rec.pid > 0)
                 {
-                    return RedirectToActionPermanent("Index","TheGrid", new { pid = v.Rec.pid, entity = "p10" });
-                    
+                    v.SetJavascript_CallOnLoad(v.Rec.pid);
+                    return View(v);
+
                 }
                 
             }

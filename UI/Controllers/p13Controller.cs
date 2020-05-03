@@ -86,12 +86,10 @@ namespace UI.Controllers
                 v.Rec.pid = Factory.p13MasterTpvBL.Save(c,v.Guid);
                 if (v.Rec.pid > 0)
                 {
-                    return RedirectToAction("Index", "TheGrid", new { pid = v.Rec.pid, entity = "p13" });
+                    v.SetJavascript_CallOnLoad(v.Rec.pid);
+                    return View(v);
                 }
-                //else
-                //{
-                //    v.Notify(Factory.CurrentUser.Messages4Notify);
-                //}
+                
                 
             }
             v.Toolbar = new MyToolbarViewModel(v.Rec);

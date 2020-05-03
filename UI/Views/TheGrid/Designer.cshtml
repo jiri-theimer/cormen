@@ -4,7 +4,7 @@
     ViewData["Title"] = "GRID: Návrhář sloupců";
     Layout = "~/Views/Shared/_LayoutModal.cshtml";
 
-    if (Model.Rec == null)
+    if (Model.Rec == null || Model.ApplicableCollumns==null)
     {
         return;
     }
@@ -103,6 +103,7 @@
 
 <div class="bg-light" style="padding:10px;">
     <button id="cmdSave" onclick="savechanges()" class="btn btn-success">Uložit změny</button>
+    
 </div>
 <div class="modal_record_container">
     <form id="form1" asp-controller="TheGrid" asp-action="Designer" method="POST">

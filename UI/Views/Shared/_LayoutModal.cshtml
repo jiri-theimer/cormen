@@ -23,6 +23,7 @@
 <body>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/modal_bootstrap/bootstrap-show-modal.js"></script>
 
     <script src="~/lib/selection/ds.min.js"></script>
     <script src="~/lib/datepicker/bootstrap-datepicker.min.js"></script>
@@ -34,6 +35,14 @@
     <script src="~/js/contextmenu.js" asp-append-version="true"></script>
     <script src="~/js/mycontrols.js" asp-append-version="true"></script>
 
+    <script type="text/javascript">
+        @if(Model.Javascript_CallOnLoad != null)
+    {
+        @Html.Raw(Model.Javascript_CallOnLoad);
+
+
+    }
+    </script>
 
 
     <div>
@@ -43,38 +52,41 @@
 
 
     <script type="text/javascript">
+
+
     $(document).ready(function ()
     {
 
 
-       @if (_f.CurrentUser.Messages4Notify != null) {
-           @foreach (var c in _f.CurrentUser.Messages4Notify) {  // <----  placed on the same line, WORKING !!!
+        @if (_f.CurrentUser.Messages4Notify != null) {
+            @foreach (var c in _f.CurrentUser.Messages4Notify) {  // <----  placed on the same line, WORKING !!!
             <text>
             _notify_message("@c.Value","@c.Key");
             </text>
-            }
-       }
-            if ($("#toolbar_changeinfo").length) {
+             }
+        }
+        if ($("#toolbar_changeinfo").length) {
                 //události na editačních formulářích
                 $("form").submit(function () {
-                    if ($(document.activeElement).attr("type") == "submit")
+                if ($(document.activeElement).attr("type") == "submit")
                         return true;
                     else return false;
-                });
+            });
 
                 $("textarea").each(function () {
-                    this.style.height = "auto";
-                    this.style.height = (this.scrollHeight) + "px";
+                this.style.height = "auto";
+                this.style.height = (this.scrollHeight) + "px";
 
                     $(this).on("input", function () {
-                        this.style.height = "auto";
-                        this.style.height = (this.scrollHeight) + "px";
-                    });
+                    this.style.height = "auto";
+                    this.style.height = (this.scrollHeight) + "px";
                 });
-            }
+            });
+        }
 
 
     });
+
 
 
         function _window_close() {

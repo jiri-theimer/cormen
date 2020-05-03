@@ -105,9 +105,12 @@ namespace UI.Controllers
                             var lu = new BO.LoggingUser();
                             cU.j03PasswordHash = lu.Pwd2Hash(v.ResetPassword, cU);                                                       
                         }
-                        Factory.j03UserBL.Save(cU);
-
-                        return RedirectToAction("Index", "TheGrid", new { pid = c.pid, entity = "j02" });
+                        if (Factory.j03UserBL.Save(cU) > 0)
+                        {
+                            v.SetJavascript_CallOnLoad(v.Rec.pid);
+                            return View(v);
+                        }
+                        
                     }
                     
                 }                

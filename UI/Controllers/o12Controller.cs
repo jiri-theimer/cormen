@@ -53,7 +53,8 @@ namespace UI.Controllers
                 v.Rec.pid = Factory.o12CategoryBL.Save(c);
                 if (v.Rec.pid > 0)
                 {
-                    return RedirectToActionPermanent("Index", "TheGrid", new { pid = v.Rec.pid, entity = "o12" });
+                    v.SetJavascript_CallOnLoad(v.Rec.pid);
+                    return View(v);
                 }
                             
             }
