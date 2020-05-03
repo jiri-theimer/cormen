@@ -18,23 +18,24 @@ namespace UI.Controllers
         private System.Text.StringBuilder _s;
         private UI.Models.TheGridViewModel _grid;
 
-        public IActionResult FlatView(string prefix)    //pouze grid bez subform
+        public IActionResult FlatView(string prefix,int go2pid)    //pouze grid bez subform
         {
-            ViewBag.entity = BO.BAS.getEntityFromPrefix(prefix);
-            if (ViewBag.entity == "")
-            {
-                Factory.CurrentUser.AddMessage("Entity for Grid not found.");
-            }
-            return View();
+            return View(inhaleGridViewInstance(prefix, go2pid));
         }
-        public IActionResult MasterView(string prefix)    //grid horní + spodní panel
+        public IActionResult MasterView(string prefix,int go2pid)    //grid horní + spodní panel
+        {            
+            return View(inhaleGridViewInstance(prefix,go2pid));
+        }
+        private TheGridInstanceViewModel inhaleGridViewInstance(string prefix,int go2pid)
         {
-            ViewBag.entity = BO.BAS.getEntityFromPrefix(prefix);
+            var v = new TheGridInstanceViewModel() { prefix = prefix, go2pid = go2pid };
+            v.entity = BO.BAS.getEntityFromPrefix(prefix);
             if (ViewBag.entity == "")
             {
                 Factory.CurrentUser.AddMessage("Entity for Grid not found.");
             }
-            return View();
+            return v;
+
         }
         public IActionResult Designer(int j72id)
         {

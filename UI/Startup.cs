@@ -42,7 +42,7 @@ namespace UI
             //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             
-            services.AddKendo();
+            //services.AddKendo();
 
           
 

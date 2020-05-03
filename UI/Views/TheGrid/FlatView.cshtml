@@ -1,40 +1,53 @@
-﻿
+﻿@model TheGridInstanceViewModel
+
 @{
     ViewData["Title"] = "Grid";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    string _entity = ViewBag.entity;
-    if (String.IsNullOrEmpty(_entity))
+    if (Model.entity == null)
     {
         return;
     }
-    string _prefix = _entity.Substring(0, 3);
 }
 
 
 @addTagHelper *,UI
 
-
-<vc:the-grid entity="@_entity" j72id="0"></vc:the-grid>
+    
+<vc:the-grid entity="@Model.entity" j72id="0" go2pid="@Model.go2pid"></vc:the-grid>
 
 <div id="divContextMenuStatic" style="display:none;">
     <ul style="border:0px;">
         <li>
-            <a href="javascript: _edit('@_prefix',#pid#)">Upravit/Odstranit/Archivovat</a>
+            <a href="javascript: _edit('@Model.prefix',#pid#)">Upravit/Odstranit/Archivovat</a>
         </li>
         <li>
-            <a href="javascript: _clone('@_prefix',#pid#)">Kopírovat</a>
+            <a href="javascript: _clone('@Model.prefix',#pid#)">Kopírovat</a>
         </li>
         <li>
             <hr />
         </li>
         <li>
-            <a href="javascript: _preview('@_prefix',#pid#)">Náhled</a>
+            <a href="javascript: _preview('@Model.prefix',#pid#)">Náhled</a>
         </li>
     </ul>
 </div>
 
-<script type="text/javascript">
+
+
+@section Scripts{ 
+
+    <script type="text/javascript">
     $(document.body).css("overflow", "hidden");
 
-</script>
+    $(document).ready(function () {
+
+        _mainmenu_select("@Model.prefix","grid1");
+        
+
+    });
+
+    </script>
+
+}
+

@@ -16,7 +16,7 @@ namespace UI.Views.Shared.Components.TheGrid
         }
 
         public IViewComponentResult
-            Invoke(string entity,int j72id=0)
+            Invoke(string entity,int j72id=0,int go2pid=0)
         {
             var ret = new TheGridViewModel();
             ret.Entity = entity;

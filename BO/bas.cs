@@ -107,6 +107,8 @@ namespace BO
                 case "p13": return "p13MasterTpv";
                 case "o23": return "o23Doc";
                 case "p41": return "p41Task";
+                case "b02":return "b02Status";
+                case "o12":return "o12Category";
                 default:
                     return "";
             }
@@ -126,6 +128,8 @@ namespace BO
                     case "p13": return "Master TPV";
                     case "o23": return "Dokumenty";
                     case "p41": return "Výrobní zakázky";
+                    case "b02":return "Workflow stavy";
+                    case "o12":return "Kategorie";
                     default:
                         return "";
                 }
@@ -141,6 +145,8 @@ namespace BO
                 case "p13": return "Master TPV";
                 case "o23": return "Dokument";
                 case "p41": return "Výrobní zakázka";
+                case "b02": return "Workflow stav";
+                case "o12": return "Kategorie";
                 default:
                     return "";
             }

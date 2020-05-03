@@ -2,21 +2,17 @@
 @inject BL.Factory _f
 
 @{
-    string _fontstyle = "font: 0.75rem/1.0 var(--font-family-sans-serif)";
+
+
 }
 <!DOCTYPE html>
 
-<html lang="cs" style="@_fontstyle">
+<html lang="cs" style="@_f.CurrentUser.getFontStyle()">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - [CC] Cormen Cloud</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css">
-
-    <link href="~/lib/kendo/styles/kendo.common-bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="~/lib/kendo/styles/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
 
     <link href="~/lib/datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
 
@@ -30,25 +26,10 @@
 <body>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
-
-    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/plug-ins/1.10.20/api/row().show().js"></script>
 
     <script src="~/lib/modal_bootstrap/bootstrap-show-modal.js"></script>
-    <script src="https://kit.fontawesome.com/688258440d.js" crossorigin="anonymous"></script>
 
 
-
-
-    <!--KENDO all-->
-
-
-    <script src="~/lib/kendo/js/kendo.custom.min_plus_grid.js"></script>
-
-
-    <script src="~/lib/kendo/js/cultures/kendo.culture.cs-CZ.min.js"></script>
 
 
     <script src="~/lib/selection/ds.min.js"></script>
@@ -66,21 +47,155 @@
 
 
 
-
-
-    <script type="text/javascript">
-        //set culture of the Kendo UI
-        kendo.culture("cs-CZ");
-    </script>
     <div id="searchbox_result" style="position:absolute;display:none;left:0px;top:30px;z-index:1000;overflow:auto;height:80%;width:500px;"></div>
     <div id="layout_sidebar">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" style="display:none;">×</a>
+        <div class="input-group">
+            <div class="dropdown" style="padding:0px;">
+                <button class="btn btn-light dropdown-toggle py-0" title="Velikost písma" type="button" id="cmdFontStyleFlag" onclick="render_fontstyle_menu()" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    A
+                </button>
+                <div class="dropdown-menu dropdown_menu_container" id="divFontStyleMenu" aria-labelledby="cmdFontStyleFlag" style="width:200px;background-color:aliceblue;">
+                </div>
+
+            </div>
+            <div class="dropdown" style="padding:0px;">
+                <button class="btn btn-light dropdown-toggle py-0" type="button" id="cmdCurrentUser" data-toggle="dropdown" onclick="render_currentuser_menu()" aria-haspopup="true" aria-expanded="false" style="max-width:140px;overflow:hidden;text-overflow:ellipsis;">
+                    @_f.CurrentUser.j03Login
+                </button>
+                <div class="dropdown-menu dropdown_menu_container" id="divCurrentUserMenu" aria-labelledby="cmdCurrentUser" style="width:200px;background-color:aliceblue;">
+
+                </div>
+
+            </div>
+        </div>
+        <hr />
+        <div class="dropdown" style="padding:0px;">
+            <button class="btn btn-light dropdown-toggle" type="button" id="cmdMainNew" data-toggle="dropdown" onclick="render_new_menu()" aria-haspopup="true" aria-expanded="false" style="width:100%;">
+                NOVÝ
+            </button>
+            <div class="dropdown-menu dropdown_menu_container" id="divMainNew" aria-labelledby="cmdMainNew">
+                
+            </div>
+
+        </div>
+        <hr />
+        <ul id="mainmenu1">
+            <li>
+                <span id="mainmenu_caret_p10" class="nav-link caret">MASTER PRODUKTY</span>
+                <ul class="collapsed">
+
+                    <li>
+                        <a data-menu="grid1" class="nav-link" href="/TheGrid/FlatView?prefix=p10">Grid 1</a>
+                    </li>
+                    <li>
+                        <a data-menu="grid11" class="nav-link" href="/TheGrid/MasterView?prefix=p10">Grid 1+1</a>
+                    </li>
+                   
+                </ul>
+            </li>
+            <li>
+                <span id="mainmenu_caret_p13" class="nav-link caret">TPV</span>
+                <ul class="collapsed">
+
+                    <li>
+                        <a data-menu="grid1" class="nav-link" href="/TheGrid/FlatView?prefix=p13">Grid 1</a>
+                    </li>
+                    <li>
+                        <a data-menu="grid11" class="nav-link" href="/TheGrid/MasterView?prefix=p13">Grid 1+1</a>
+                    </li>
+                   
+                </ul>
+            </li>
+            <li>
+                <span id="mainmenu_caret_p21" class="nav-link caret">LICENCE</span>
+                <ul class="collapsed">
+
+                    <li>
+                        <a data-menu="grid1" class="nav-link" href="/TheGrid/FlatView?prefix=p21">Grid 1</a>
+                    </li>
+                    <li>
+                        <a data-menu="grid11" class="nav-link" href="/TheGrid/MasterView?prefix=p21">Grid 1+1</a>
+                    </li>
+                    
+                </ul>
+            </li>
+            <li>
+                <span id="mainmenu_caret_p26" class="nav-link caret">STROJE</span>
+                <ul class="collapsed">
+
+                    <li>
+                        <a data-menu="grid1" class="nav-link" href="/TheGrid/FlatView?prefix=p26">Grid 1</a>
+                    </li>
+                    <li>
+                        <a data-menu="grid11" class="nav-link" href="/TheGrid/MasterView?prefix=p26">Grid 1+1</a>
+                    </li>
+                    
+                </ul>
+            </li>
+            <li>
+                <span id="mainmenu_caret_p28" class="nav-link caret">KLIENTI</span>
+                <ul class="collapsed">
+
+                    <li>
+                        <a data-menu="grid1" class="nav-link" href="/TheGrid/FlatView?prefix=p28">Grid 1</a>
+                    </li>
+                    <li>
+                        <a data-menu="grid11" class="nav-link" href="/TheGrid/MasterView?prefix=p28">Grid 1+1</a>
+                    </li>
+                    
+                </ul>
+            </li>
+            <li>
+                <span id="mainmenu_caret_o23" class="nav-link caret">DOKUMENTY</span>
+                <ul class="collapsed">
+
+                    <li>
+                        <a data-menu="grid1" class="nav-link" href="/TheGrid/FlatView?prefix=o23">Grid 1</a>
+                    </li>
+                    <li>
+                        <a data-menu="grid11" class="nav-link" href="/TheGrid/MasterView?prefix=o23">Grid 1+1</a>
+                    </li>
+                   
+                </ul>
+            </li>
+            <li>
+                <span id="mainmenu_caret_j02" class="nav-link caret">LIDÉ</span>
+                <ul class="collapsed">
+
+                    <li>
+                        <a data-menu="grid1" class="nav-link" href="/TheGrid/FlatView?prefix=j02">Grid 1</a>
+                    </li>
+                    <li>
+                        <a data-menu="grid11" class="nav-link" href="/TheGrid/MasterView?prefix=j02">Grid 1+1</a>
+                    </li>
+                    
+                </ul>
+            </li>
+            <li>
+                <span id="mainmenu_caret_other" class="nav-link caret">OSTATNÍ</span>
+                <ul class="collapsed">
+
+                    <li>
+                        <a data-menu="b02" class="nav-link" href="/TheGrid/FlatView?prefix=b02">Číselník stavů</a>
+                    </li>
+                    <li>
+                        <a data-menu="o12" class="nav-link" href="/TheGrid/FlatView?prefix=o12">Číselník kategorií</a>
+                    </li>
+                   
+                </ul>
+            </li>
+
+
+        </ul>
+
+
+
 
         <div style="display:none;">
             <input type="text" id="searchbox1" placeholder="&#9906;" class="form-control" />
 
         </div>
-       
+
     </div>
 
     <div id="layout_main" role="main">
@@ -92,7 +207,7 @@
 
 
     <div id="myModalContainer">
-        
+
         <div id="myModalContent">
             <div style="height:30px;background-color: lightsteelblue;padding:3px;" ondblclick="_window_toggle()">
                 <button class="btn btn-secondary btn-sm float-left" onclick="_window_close()" style="margin-left:3px;margin-right:3px;">&times;</button>
@@ -103,24 +218,26 @@
             <div id="myModalFrame" style="padding:0px 10px 10px 10px;">
                 <iframe id="fraModalContent" name="fraModalContent" frameborder="0" scrolling="no"></iframe>
             </div>
-            
+
         </div>
 
 
     </div>
 
 
-    @RenderSection("Scripts", required: false)
+
 
     <script type="text/javascript">
         var _modal = document.getElementById("myModalContainer");
-        
+
 
         //zabránit submit formuláře po stisknutí ENTER na jakémkoliv non-submit input elementu
 
 
-        $(document).ready(function () {
-            
+        $(document).ready(function ()
+        {
+            _mainmenu_init();
+
            @if (_f.CurrentUser.Messages4Notify != null) {
            @foreach (var c in _f.CurrentUser.Messages4Notify) {  // <----  placed on the same line, WORKING !!!
             <text>
@@ -145,7 +262,9 @@
                         this.style.height = (this.scrollHeight) + "px";
                     });
                 });
-        }
+            }
+
+
 
         $("#searchbox1").on("input", function (e) {
 
@@ -167,26 +286,29 @@
         });
 
         $(document).on("click", function (e) {
-            if (e.target == _modal) {   
+            if (e.target == _modal) {
                 _window_close();
             }
         });
         $(document).on("keydown", function (e) {
             if (e.keyCode == 27 && _modal.style.display == "block") {
                 _window_close();
-                
+
             }
         });
 
-            
+
 
     });
 
-        function _cm(e, entity, pid) { //otevře kontextové menu
+
+
+        function _cm(e, entity, pid)
+        { //otevře kontextové menu
             var ctl = e.target;
 
             var data = "";
-            if (document.getElementById("divContextMenuStatic")) { 
+            if (document.getElementById("divContextMenuStatic")) {
                 data = $("#divContextMenuStatic").html();   //na stránce se nachází preferované UL statického menu v divu id=divContextMenuStatic -> není třeba ho volat ze serveru
                 data = data.replace(/#pid#/g, pid);  //místo #pid# replace pravé pid hodnoty
             }
@@ -223,24 +345,28 @@
         }
 
 
-        function openNav() {
+        function openNav()
+        {
             document.getElementById("layout_sidebar").style.width = "200px";
             document.getElementById("layout_main").style.marginLeft = "200px";
         }
 
-        function closeNav() {
+        function closeNav()
+        {
             document.getElementById("layout_sidebar").style.width = "0";
             document.getElementById("layout_main").style.marginLeft = "0";
         }
 
 
-    function searchbox1_destroy() {
+    function searchbox1_destroy()
+        {
         $("#searchbox_result").html("");
         $("#searchbox_result").css("display","none");
     }
 
 
-        function _window_close() {
+        function _window_close()
+        {
             var iframe = document.getElementById("fraModalContent");
             var elmnt = iframe.contentWindow.document.getElementById("toolbar_changeinfo");
             if ($(elmnt).text() != "") {
@@ -252,45 +378,47 @@
             }
             $(_modal).css("display", "none");
 
-            
+
         }
-        function _window_toggle() {
+        function _window_toggle()
+        {
             var okno = $("#myModalContent");
-            
+
             if (_device.innerWidth - $(okno).width() < 30) {
                 _window_open("", 1);
             } else {
                 _window_open("", 2);
             }
-            
+
         }
-        function _window_open(url, flag, header) {  
-            if (typeof flag === "undefined") flag = 1;                                
-            
+        function _window_open(url, flag, header)
+        {
+            if (typeof flag === "undefined") flag = 1;
+
             if (!$(_modal).attr("initialized") && flag !=2) {
                 _make_element_draggable(document.getElementById("myModalContent"), document.getElementById("myModalFrame")); //předávání nefunguje přes jquery
-                $(_modal).attr("initialized", true);              
+                $(_modal).attr("initialized", true);
             }
-            
+
             var okno = $("#myModalContent");
             var fra = $("#fraModalContent");
-            
+
             var w = 1000;
             var h = 800;
             var x = 0;
             var y = 0;
 
-            if (flag == 1) {   //centralizovat, max rozměr 1000x800    
+            if (flag == 1) {   //centralizovat, max rozměr 1000x800
                 $("#myModalFrame").css("padding", "0px 10px 10px 10px;");
                 if (_device.innerWidth < w) w = _device.innerWidth;
                 if (_device.innerHeight < h) h = _device.innerHeight;
                 x = (_device.innerWidth - w) / 2;
                 y = (_device.innerHeight - h) / 2;
             }
-            if (flag == 2) {   //okno na fullsreen 100%   
+            if (flag == 2) {   //okno na fullsreen 100%
                 $("#myModalFrame").css("padding", "0");
                 w = _device.innerWidth;
-                h = _device.innerHeight;                
+                h = _device.innerHeight;
                 x = 0;
                 y = 0;
             }
@@ -302,13 +430,50 @@
             $(fra).css("width", w-10-10);       //10 je padding
             $(fra).css("height", h - 30-10);    //10 padding dole, 30 div header
 
-            if (url != "") {                
+            if (url != "") {
                 $(fra).attr("src", url);
             }
-            
+
 
             $(_modal).css("display", "block");
         }
+
+
+
+        function render_fontstyle_menu()
+        {
+
+            $.post("/Home/getHTML_FontStyleMenu", function (data) {
+                $("#divFontStyleMenu").html(data);
+            });
+
+        }
+        function save_fontstyle_menu(intFontStyleFlag2Save)
+        {
+            $.post("/Home/SaveCurrentUserFontStyle", { fontstyleflag: intFontStyleFlag2Save }, function (data) {
+                location.replace(window.location.href);
+            });
+
+        }
+        function render_currentuser_menu() {
+
+            $.post("/Home/getHTML_CurrentUserMenu", function (data) {
+                $("#divCurrentUserMenu").html(data);
+            });
+
+        }
+        function render_new_menu() {
+            $.post("/Home/getHTML_MainMenu_New", function (data) {
+                $("#divMainNew").html(data);
+            });
+        }
+
+
+
+
     </script>
+
+
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

@@ -54,11 +54,59 @@ namespace UI.Controllers
             return View();
         }
 
+        public string getHTML_FontStyleMenu()
+        {
+            var sb = new System.Text.StringBuilder();
+            for (int i = 1; i <= 4; i++)
+            {
+                string s = "Malé písmo";
+                if (i == 2) s = "Výchozí velikost písma";
+                if (i == 3) s = "Větší";
+                if (i == 4) s = "Velké";
+                if (Factory.CurrentUser.j03FontStyleFlag == i) s += "&#10004;";
+                sb.AppendLine(string.Format("<div ><a class='nav-link' href='javascript: save_fontstyle_menu({0})'>{1}</a></div>", i,s));
+            }                        
+            return sb.ToString();
+        }
+        
+        public BO.Result SaveCurrentUserFontStyle(int fontstyleflag)
+        {
+            var c = Factory.j03UserBL.Load(Factory.CurrentUser.pid);
+            c.j03FontStyleFlag = fontstyleflag;
+            Factory.j03UserBL.Save(c);
+            return new BO.Result(false);
 
+        }
+        public string getHTML_CurrentUserMenu()
+        {
+            var sb = new System.Text.StringBuilder();
+            sb.Append("<a class='nav-link' href='/Home/MyProfile'>Můj profil</a>");
+            sb.Append("<a class='nav-link' href='/Home/ChangePassword'>Změnit přístupové heslo</a>");
+            sb.Append("<hr/><a class='nav-link' href='/Home/logout'>Odhlásit se</a>");
+
+            return sb.ToString();
+        }
+        public string getHTML_MainMenu_New()
+        {
+            var sb = new System.Text.StringBuilder();
+            sb.Append("<a class='nav-link' href=\"javascript:_window_open('/j02/record');\">Dokument</a>");
+            sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p28/record');\">Klient</a>");
+            sb.Append("<a class='nav-link' href=\"javascript:_window_open('/j02/record');\">Osoba/Uživatel</a>");
+            sb.Append("<hr/>");
+            sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p10/record');\">Master produkt</a>");
+            sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p13/record');\">TPV</a>");
+            sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p21/record');\">Licence</a>");
+            sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p26/record');\">Stroj</a>");
+            
+            sb.Append("<hr/>");
+            sb.Append("<a class='nav-link' href=\"javascript:_window_open('/b02/record');\">Workflow stav</a>");
+            sb.Append("<a class='nav-link' href=\"javascript:_window_open('/o12/record');\">Kategorie</a>");
+
+            return sb.ToString();
+        }
         public IActionResult MyProfile()
         {
-            _logger.LogDebug("Jsem v MyProfile. ");
-            _logger.LogInformation("Jsem v MyProfile. ");
+            
             var v = new MyProfileViewModel();
             v.Rec = Factory.j02PersonBL.Load(Factory.CurrentUser.pid);
             v.CurrentUser = Factory.CurrentUser;

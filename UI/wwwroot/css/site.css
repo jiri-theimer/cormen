@@ -1,9 +1,8 @@
 ﻿
 
 
-body{
-    margin:0px;
-    
+body {
+    margin: 0px;
 }
 
 
@@ -26,6 +25,7 @@ body{
 select {
     cursor: pointer;
 }
+
 input[type="radio"] {
     cursor: pointer;
 }
@@ -52,15 +52,14 @@ textarea {
 }
 
 
-.inedit{
-    background-color:yellow;
-    border-color:blue;
-   
+.inedit {
+    background-color: yellow;
+    border-color: blue;
 }
 
 input[type="checkbox"] {
     margin-right: 3px;
-    margin-left:3px;
+    margin-left: 3px;
     cursor: pointer;
 }
 
@@ -76,18 +75,77 @@ tr.selrow {
 
 
 /*link pro hamburger menu*/
-a.cm{
-    
-    cursor:pointer;
+a.cm {
+    cursor: pointer;
 }
+
+
+/*---------------HLAVNÍ MENU v postranní SIDEBAR--------------------------*/
+
+#mainmenu1 {
+    list-style-type: none;
+    padding-left: 5px;
+    margin: 0;
+    padding: 0;
+}
+
+    #mainmenu1 ul {
+        list-style-type: none;
+        padding-left: 15px;
+    }
+
+    #mainmenu1 .caret {
+        cursor: pointer;
+        -webkit-user-select: none; /* Safari 3.1+ */
+        -moz-user-select: none; /* Firefox 2+ */
+        -ms-user-select: none; /* IE 10+ */
+        user-select: none;
+        color: navy;
+    }
+
+        #mainmenu1 .caret::before {
+            content: "\25B6";
+            color: black;
+            display: inline-block;
+            margin-right: 6px;
+        }
+
+    #mainmenu1 .caret-down::before {
+        -ms-transform: rotate(90deg); /* IE 9 */
+        -webkit-transform: rotate(90deg); /* Safari */
+        transform: rotate(90deg);
+    }
+
+    #mainmenu1 .collapsed {
+        display: none;
+    }
+
+    #mainmenu1 .expanded {
+        display: block;
+    }
+
+    #mainmenu1 .caret:hover {
+        background-color: aliceblue;
+    }
+
+    #mainmenu1 .selected_menu_item {
+        background-color:lightblue;
+        color: black;
+        border-radius: 3px;
+    }
+    div.dropdown_menu_container{
+        background-color:aliceblue;
+        padding:6px;
+        min-width:200px;
+    }
 
 
 /* ----------------------- Kontextové MENU Zleva doprava ----------------------- */
 #cm_left2right {
     padding: 6px;
     margin: 0;
-    border:none;    
-    background-color:aliceblue;
+    border: none;
+    background-color: aliceblue;
 }
 
     #cm_left2right ul, #cm_left2right li {
@@ -464,26 +522,21 @@ a.cm{
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #F5F5F5;
+    background-color: #fcfcfc;
+    border-right: solid 1px #F5F5F5;
     overflow-x: hidden;
     transition: 0.5s;
 }
 
-   
 
-    #layout_sidebar .closebtn {
-        position: absolute;
-        top: 0;
-        right: 25px;
-        font-size: 36px;
-        margin-left: 50px;
-    }
+
+
 
 
 #layout_main {
     transition: margin-left .5s;
     padding: 0px;
-    margin-left:200px;
+    margin-left: 200px;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
@@ -491,15 +544,13 @@ a.cm{
     #layout_sidebar {
         padding-top: 5px;
     }
-
-    
 }
 
 
 /*Modální okno - jeho DIV kontejner*/
 /* The Modal (background) */
 #myModalContainer {
-    display:none; /* Hidden by default */
+    display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1000; /* Sit on top */
     padding-top: 0; /* Location of the box */
@@ -509,7 +560,7 @@ a.cm{
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */    
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
 /* Modal Content */
@@ -517,12 +568,12 @@ a.cm{
     background-color: #fefefe;
     margin: 0;
     padding: 0;
-    border: 1px solid #888;    
+    border: 1px solid #888;
     width: 1000px;
     position: absolute;
     top: 0px;
     left: 0px;
-    cursor:move;
+    cursor: move;
 }
 
 
@@ -535,3 +586,6 @@ iframe {
     background: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100% 100%"><text fill="silver" x="50%" y="50%" font-family="\'Lucida Grande\', sans-serif" font-size="24" text-anchor="middle">LOADING...</text></svg>') 0px 0px no-repeat;
 }
 
+a.nav-link:hover {
+    background-color: #F5F5F5;
+}

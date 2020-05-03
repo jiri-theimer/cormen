@@ -47,7 +47,7 @@ namespace BL
         public void InhaleUserByLogin(string strLogin)
         {
             DL.DbHandler db = new DL.DbHandler(this.App.ConnectString, this.CurrentUser,this.App.LogFolder);
-            this.CurrentUser= db.Load<BO.RunningUser>("SELECT a.j03ID as pid,a.j02ID,a.j03Login,j02.j02FirstName+' '+j02.j02LastName as FullName,a.j03IsMustChangePassword,j04.j04PermissionValue,null as ErrorMessage,CASE WHEN GETDATE() BETWEEN a.ValidFrom AND a.ValidUntil THEN 0 ELSE 1 end as isclosed FROM j03User a INNER JOIN j02Person j02 ON a.j02ID=j02.j02ID INNER JOIN j04UserRole j04 ON a.j04ID=j04.j04ID WHERE a.j03Login LIKE @login", new { login = strLogin });
+            this.CurrentUser= db.Load<BO.RunningUser>("SELECT a.j03ID as pid,a.j02ID,a.j03Login,j02.j02FirstName+' '+j02.j02LastName as FullName,a.j03FontStyleFlag,a.j03IsMustChangePassword,j04.j04PermissionValue,null as ErrorMessage,CASE WHEN GETDATE() BETWEEN a.ValidFrom AND a.ValidUntil THEN 0 ELSE 1 end as isclosed FROM j03User a INNER JOIN j02Person j02 ON a.j02ID=j02.j02ID INNER JOIN j04UserRole j04 ON a.j04ID=j04.j04ID WHERE a.j03Login LIKE @login", new { login = strLogin });
             
         }
 
