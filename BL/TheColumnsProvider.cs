@@ -162,6 +162,17 @@ namespace BL
 
 
         }
+        public BO.TheGridColumn FindOneColumn(string strUniqueName)
+        {
+            if (_lis.Where(p=>p.UniqueName== strUniqueName).Count() > 0)
+            {
+               return _lis.Where(p => p.UniqueName == strUniqueName).First();
+            }
+            else
+            {
+                return null;
+            }
+        }
         public IEnumerable<BO.TheGridColumn> ApplicableColumns()    //Sloupce, které se nabízejí v návrháři jako možné k práci pro záznamy dané entity
         {
             if (_lis.Count > 0) { _lis.Clear(); };

@@ -172,7 +172,7 @@ namespace UI.Controllers
             
         }
         
-
+        
         public TheGridOutput GetHtml4TheGrid(int j72id,int go2pid) //Vrací HTML zdroj tabulky pro TheGrid v rámci j72TheGridState
         {
             
@@ -189,7 +189,20 @@ namespace UI.Controllers
             return render_thegrid_html(cJ72);
         }
         
-        
+        private System.Data.DataTable prepare_datatable(ref BO.myQuery mq, BO.j72TheGridState cJ72)
+        {
+            
+            var colProvider = new BL.TheColumnsProvider(mq);
+            mq.explicit_columns = colProvider.getSelectedPallete(cJ72.j72Columns);
+            if (string.IsNullOrEmpty(cJ72.j72SortDataField)==false)
+            {
+                
+                mq.explicit_orderby = colProvider.FindOneColumn(cJ72.j72SortDataField).getFinalSqlSyntax_ORDERBY(mq.Prefix) + " " + cJ72.j72SortOrder;
+            }                           
+            mq.j72Filter = cJ72.j72Filter;
+
+            return Factory.gridBL.GetList(mq);
+        }
         private TheGridOutput render_thegrid_html(BO.j72TheGridState cJ72)
         {
             var ret = new TheGridOutput();
@@ -550,6 +563,60 @@ namespace UI.Controllers
 
 
         //}
+
+        public FileResult GridExport(string format,int j72id)
+        {
+            BO.j72TheGridState cJ72 = this.Factory.gridBL.LoadTheGridState(j72id);
+            var mq = new BO.myQuery(cJ72.j72Entity);
+            System.Data.DataTable dt = prepare_datatable(ref mq,cJ72);
+            string filepath = Factory.App.TempFolder+"\\"+BO.BAS.GetGuid()+"."+ format;
+
+            ToCSV(dt, filepath,mq);
+
+            string s = "application/CSV";
+            if (format == "xlsx") s = "application/vnd.ms-excel";
+
+            return File(System.IO.File.ReadAllBytes(filepath), s,"gridexport."+ format);
+
+        }
+
+        private void ToCSV(System.Data.DataTable dt, string strFilePath,BO.myQuery mq)
+        {
+            System.IO.StreamWriter sw = new System.IO.StreamWriter(strFilePath,false,System.Text.Encoding.UTF8);
+            //headers  
+            foreach (var col in mq.explicit_columns)
+            {
+                sw.Write("\""+col.Header+"\"");
+                sw.Write(";");
+            }
+            
+            sw.Write(sw.NewLine);
+            foreach (System.Data.DataRow dr in dt.Rows)
+            {
+                foreach (var col in mq.explicit_columns)
+                {
+                    string value = "";
+
+                    if (!Convert.IsDBNull(dr[col.Field]))
+                    {
+                        value = dr[col.Field].ToString();
+                        if (col.FieldType == "string")
+                        {
+                            value = "\"" + value + "\"";
+                        }
+                    }
+                    sw.Write(value);
+
+                    sw.Write(";");
+
+
+                }
+
+                sw.Write(sw.NewLine);
+
+            }
+            sw.Close();
+        }
 
 
 

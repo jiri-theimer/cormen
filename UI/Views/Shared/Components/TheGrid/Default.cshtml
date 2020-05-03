@@ -15,12 +15,12 @@
                             <button class="btn btn-light dropdown-toggle py-0" title="GRID funkce" type="button" id="cmdTheGridBatchSelect" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:100%;">
                                 &#9752;
                                 &#9776;
-                            </button>
+                            </button>   
                             <div class="dropdown-menu" aria-labelledby="cmdTheGridBatchSelect" style="width:350px;">
                                 <a class="nav-link" href="javascript:_window_open('/TheGrid/Designer?j72id=@Model.GridState.pid');">Návrhář sloupců</a>
                                 <hr />
-                                <a class="nav-link" href="#">MS-EXCEL Export</a>
-                                <a class="nav-link" href="#">PDF Export</a>
+                                <a class="nav-link" href="/TheGrid/GridExport?format=csv&j72id=@Model.GridState.pid">CSV Export</a>
+                                <a style="display:none;" class="nav-link" href="/TheGrid/GridExport?format=xlsx&j72id=@Model.GridState.pid">MS-EXCEL Export</a>
                                 <hr />
                                 <a class="nav-link" href="javascript:tg_select(20)">Vybrat prvních 20</a>
                                 <a class="nav-link" href="javascript:tg_select(50)">Vybrat prvních 50</a>
