@@ -39,8 +39,7 @@ namespace UI.Controllers
                 {
                     return RecNotFound(v);
                 }
-                Factory.CurrentUser.AddMessage(v.Rec.RecordPidAlias);
-                Factory.CurrentUser.AddMessage(v.Rec.o23RecordPid.ToString());
+     
             }
             else
             {

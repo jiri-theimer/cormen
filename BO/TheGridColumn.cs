@@ -130,22 +130,34 @@ namespace BO
             }
             else
             {
-                if (this.IsTimestamp)
-                {
-                    if (_Prefix == strContextTablePrefix)
-                    {
-                        return this.SqlSyntax + " AS " + this.Field;
-                    }
-                    else
-                    {
-                        return this.SqlSyntax.Replace("a.",_Prefix+".") + " AS " + this.Field;
-                    }
-                }
-                else
+                if (_Prefix == strContextTablePrefix)
                 {
                     return this.SqlSyntax + " AS " + this.Field;
                 }
-                
+                else
+                {
+                    if (this.SqlSyntax.IndexOf("a.") > -1)
+                    {
+                        return this.SqlSyntax.Replace("a.", _Prefix + ".") + " AS " + this.Field;
+                    }
+                    return this.SqlSyntax + " AS " + this.Field;
+                }
+                //if (this.IsTimestamp)
+                //{
+                //    if (_Prefix == strContextTablePrefix)
+                //    {
+                //        return this.SqlSyntax + " AS " + this.Field;
+                //    }
+                //    else
+                //    {
+                //        return this.SqlSyntax.Replace("a.",_Prefix+".") + " AS " + this.Field;
+                //    }
+                //}
+                //else
+                //{
+                //    return this.SqlSyntax + " AS " + this.Field;
+                //}
+
             }
             
         }
