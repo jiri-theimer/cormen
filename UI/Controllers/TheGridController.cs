@@ -223,7 +223,7 @@ namespace UI.Controllers
                 if (recs.Count() > 0)
                 {
                     var intIndex = dt.Rows.IndexOf(recs[0]);
-                    _grid.GridState.j72CurrentPagerIndex = intIndex;
+                    _grid.GridState.j72CurrentPagerIndex = intIndex-(intIndex % _grid.GridState.j72PageSize);
                 }
             }
 

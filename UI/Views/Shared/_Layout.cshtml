@@ -296,8 +296,18 @@
 
 
 
-        function hardrefresh(pid, flag) {            
-            location.replace(window.location.href);
+        function hardrefresh(pid, flag) {    
+            var url = window.location.href;
+            if (pid !== null && pid !== 0) {
+                url = _removeUrlParam("go2pid", url);
+                if (url.indexOf("?") > 0) {
+                    url = url + "&go2pid=" + pid;
+                } else {
+                    url = url + "?go2pid=" + pid;
+                }
+                
+            }            
+            location.replace(url);
             
         }
 

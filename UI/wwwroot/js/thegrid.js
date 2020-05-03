@@ -107,6 +107,11 @@ function tg_post_data() {
 
         refresh_environment_after_post("first_data", data);
 
+        if (_tg_go2pid !== null && _tg_go2pid !== 0) {
+            tg_go2pid(_tg_go2pid);
+        }
+        
+
         //tg_adjust_parts_width();
 
         //var basewidth = $("#tabgrid0").width();
@@ -274,8 +279,20 @@ function tg_setup_checkbox_handler() {
     });
 }
 
+function tg_go2pid(pid) {       //již musí být ze serveru odstránkováno!
+    if (document.getElementById("r" + pid)) {
+        var row = document.getElementById("r" + pid);
+        _ds.addSelection(row);
+        $("#tg_selected_pids").val(pid);
+        row.scrollIntoView(true);
 
-function tg_select(records_count) {
+        //var rowpos = $(row).position();
+        //$("#container_vScroll").scrollTop(rowpos.top);
+    }
+    
+}
+
+function tg_select(records_count) {     //označí prvních X (records_count) záznamů
     var arr = [];
     _ds.clearSelection();
     var rows = $("#tabgrid1_tbody tr");
