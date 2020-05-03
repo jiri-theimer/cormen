@@ -6,6 +6,7 @@ var _tg_url_filter;
 var _tg_entity;
 var _tg_filterinput_timeout;
 var _tg_filter_is_active;
+var _tg_go2pid;
 
 function tg_init(c) {
     _tg_entity = c.entity;
@@ -13,6 +14,7 @@ function tg_init(c) {
     _tg_url_data = c.dataurl;
     _tg_url_handler = c.handlerurl;
     _tg_url_filter = c.filterurl;
+    _tg_go2pid = c.go2pid;
 
     tg_post_data();
 
@@ -97,7 +99,7 @@ function tg_init(c) {
 
 function tg_post_data() {
 
-    $.post(_tg_url_data, { entity: _tg_entity, j72id: _j72id }, function (data) {        
+    $.post(_tg_url_data, { entity: _tg_entity, j72id: _j72id, go2pid:_tg_go2pid }, function (data) {        
         //$("#tabgrid1_tbody").html(data.body);
         //$("#tabgrid1_tfoot").html(data.foot);
         //$("#divPager").html(data.pager);
@@ -186,7 +188,9 @@ function tg_setup_selectable() {
         callback: function (elements) {
             // fired once the user releases the mouse. (elements) = selected nodes.
             $("#tg_selected_pids_pre").val($("#tg_selected_pids").val());
-
+            if (elements.length===0) {
+                return
+            }
             var pid = elements[0].id.replace("r", "");
             $("#tg_selected_pid").val(pid);
             $("#tg_selected_pids").val(pid);

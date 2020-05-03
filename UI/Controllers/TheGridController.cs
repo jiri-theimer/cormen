@@ -173,7 +173,7 @@ namespace UI.Controllers
         }
         
 
-        public TheGridOutput GetHtml4TheGrid(int j72id) //Vrací HTML zdroj tabulky pro TheGrid v rámci j72TheGridState
+        public TheGridOutput GetHtml4TheGrid(int j72id,int go2pid) //Vrací HTML zdroj tabulky pro TheGrid v rámci j72TheGridState
         {
             
             var cJ72 = this.Factory.gridBL.LoadTheGridState(j72id);
@@ -182,6 +182,10 @@ namespace UI.Controllers
                 return render_thegrid_error(string.Format("Nelze načíst grid state s id!", j72id.ToString()));
                 
             }
+            cJ72.j72CurrentRecordPid = go2pid;
+
+            
+
             return render_thegrid_html(cJ72);
         }
         
@@ -210,6 +214,18 @@ namespace UI.Controllers
             var dt = Factory.gridBL.GetList(mq);
             mq.explicit_orderby = "";
             var dtFooter = Factory.gridBL.GetList(mq, true);
+            int intVirtualRowsCount = Convert.ToInt32(dtFooter.Rows[0]["RowsCount"]);
+
+            if (_grid.GridState.j72CurrentRecordPid > 0 && intVirtualRowsCount > cJ72.j72PageSize)
+            {
+                //aby se mohlo skočit na cílový záznam, je třeba najít stránku, na které se záznam nachází
+                System.Data.DataRow[] recs = dt.Select("pid=" + _grid.GridState.j72CurrentRecordPid.ToString());
+                if (recs.Count() > 0)
+                {
+                    var intIndex = dt.Rows.IndexOf(recs[0]);
+                    _grid.GridState.j72CurrentPagerIndex = intIndex;
+                }
+            }
 
             _s = new System.Text.StringBuilder();
 
@@ -221,7 +237,7 @@ namespace UI.Controllers
             ret.foot = _s.ToString();
             _s = new System.Text.StringBuilder();
 
-            RENDER_PAGER(Convert.ToInt32(dtFooter.Rows[0]["RowsCount"]));
+            RENDER_PAGER(intVirtualRowsCount);
             ret.pager = _s.ToString();
             return ret;
         }
@@ -475,42 +491,42 @@ namespace UI.Controllers
         }
 
 
-        public ActionResult GetJson4TheCombo(string entity, string text, bool addblankrow)
-        {
+        //public ActionResult GetJson4TheCombo(string entity, string text, bool addblankrow)
+        //{
             
-            var mq = new BO.myQuery(entity);
-            mq.explicit_columns = new BL.TheColumnsProvider(mq).getDefaultPallete();
-            mq.SearchString = text;//fulltext hledání
-            var dt = Factory.gridBL.GetList(mq);
+        //    var mq = new BO.myQuery(entity);
+        //    mq.explicit_columns = new BL.TheColumnsProvider(mq).getDefaultPallete();
+        //    mq.SearchString = text;//fulltext hledání
+        //    var dt = Factory.gridBL.GetList(mq);
 
-            if (addblankrow == true)
-            {
-                System.Data.DataRow newBlankRow = dt.NewRow();
-                dt.Rows.InsertAt(newBlankRow, 0);
-            }
-
-
-            foreach (System.Data.DataRow row in dt.Rows)
-            {
-                foreach (System.Data.DataColumn col in dt.Columns)
-                {
-                    if (col.DataType.Name == "String")
-                    {
-                        if (row[col.ColumnName] == DBNull.Value)
-                        {
-                            row[col.ColumnName] = "";
-                        }
-                    }
-
-                }
-            }
+        //    if (addblankrow == true)
+        //    {
+        //        System.Data.DataRow newBlankRow = dt.NewRow();
+        //        dt.Rows.InsertAt(newBlankRow, 0);
+        //    }
 
 
+        //    foreach (System.Data.DataRow row in dt.Rows)
+        //    {
+        //        foreach (System.Data.DataColumn col in dt.Columns)
+        //        {
+        //            if (col.DataType.Name == "String")
+        //            {
+        //                if (row[col.ColumnName] == DBNull.Value)
+        //                {
+        //                    row[col.ColumnName] = "";
+        //                }
+        //            }
+
+        //        }
+        //    }
 
 
-            return new ContentResult() { Content = DataTableToJSONWithJSONNet(dt), ContentType = "application/json" };
 
-        }
+
+        //    return new ContentResult() { Content = DataTableToJSONWithJSONNet(dt), ContentType = "application/json" };
+
+        //}
 
 
 
@@ -525,15 +541,15 @@ namespace UI.Controllers
             return ret;
         }
 
-        private string DataTableToJSONWithJSONNet(System.Data.DataTable dt)
-        {
+        //private string DataTableToJSONWithJSONNet(System.Data.DataTable dt)
+        //{
 
-            return JsonConvert.SerializeObject(dt, Formatting.None, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Include });
-
-
+        //    return JsonConvert.SerializeObject(dt, Formatting.None, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Include });
 
 
-        }
+
+
+        //}
 
 
 

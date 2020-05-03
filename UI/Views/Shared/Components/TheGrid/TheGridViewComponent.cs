@@ -42,7 +42,8 @@ namespace UI.Views.Shared.Components.TheGrid
                 var intJ72ID = _f.gridBL.SaveTheGridState(cJ72);
                 cJ72= _f.gridBL.LoadTheGridState(intJ72ID);
             }
-         
+
+            cJ72.j72CurrentRecordPid = go2pid;
             ret.GridState = cJ72;
             ret.Columns = colsProvider.getSelectedPallete(cJ72.j72Columns);
             ret.AdhocFilter = colsProvider.ParseAdhocFilterFromString(cJ72.j72Filter);
