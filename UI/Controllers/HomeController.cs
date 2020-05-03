@@ -89,7 +89,7 @@ namespace UI.Controllers
         public string getHTML_MainMenu_New()
         {
             var sb = new System.Text.StringBuilder();
-            sb.Append("<a class='nav-link' href=\"javascript:_window_open('/j02/record');\">Dokument</a>");
+            sb.Append("<a class='nav-link' href=\"javascript:_window_open('/o23/record');\">Dokument</a>");
             sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p28/record');\">Klient</a>");
             sb.Append("<a class='nav-link' href=\"javascript:_window_open('/j02/record');\">Osoba/Uživatel</a>");
             sb.Append("<hr/>");

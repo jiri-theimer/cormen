@@ -280,3 +280,46 @@ function _mainmenu_select(prefix_caret, data_menu) {
         
     }
 }
+
+
+//vyvolání kontextového menu
+function _cm(e, entity, pid) { //otevře kontextové menu
+    var ctl = e.target;
+
+    var data = "";
+    if (document.getElementById("divContextMenuStatic")) {
+        data = $("#divContextMenuStatic").html();   //na stránce se nachází preferované UL statického menu v divu id=divContextMenuStatic -> není třeba ho volat ze serveru
+        data = data.replace(/#pid#/g, pid);  //místo #pid# replace pravé pid hodnoty
+    }
+    var w = $(window).width();
+    var pos_left = e.clientX + $(window).scrollLeft();
+
+    var menuid = "cm_left2right";
+    if (pos_left + 300 >= w) menuid = "cm_right2left";
+
+    if (!document.getElementById(menuid)) {
+        //div na stránce neště existuje
+        var el = document.createElement("DIV");
+        el.id = menuid;
+        el.style.display = "none";
+        document.body.appendChild(el);
+    }
+
+    $("#" + menuid).html(data);
+
+    if (ctl.getAttribute("menu_je_inicializovano") === "1") {
+        return; // kontextové menu bylo již u tohoto elementu inicializováno - není třeba to dělat znovu.
+    }
+
+    $(ctl).contextMenu({
+        menuSelector: "#" + menuid,
+        menuClicker: ctl
+
+    });
+
+    ctl.setAttribute("menu_je_inicializovano", "1");
+
+
+
+}
+

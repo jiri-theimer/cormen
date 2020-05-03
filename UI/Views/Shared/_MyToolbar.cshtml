@@ -13,12 +13,7 @@
 
 
             <div>
-                @if (Model.IsGrid)
-                {
-                    <div class="btn-group">
-                        <a asp-action="Index" asp-controller="TheGrid" onclick="before_clicked(event)" class="btn btn-light" asp-route-pid="@Model.Record.pid" asp-route-entity="@Model.Record.entity">Grid</a>
-                    </div>
-                }
+
 
                 <div class="btn-group" style="margin-left: 7px;">
                     <button type="submit" action="@Model.ControllorName" class="btn btn-success">Uložit změny</button>
@@ -62,7 +57,12 @@
                         <a asp-controller="@Model.Record.entity" asp-action="Index" onclick="before_clicked(event)" class="btn btn-light" asp-route-pid="@Model.Record.pid">Stránka záznamu</a>
                     </div>
                 }
-
+                @if (Model.IsClose)
+                {
+                    <div class="btn-group">
+                        <button type="button" onclick="_window_close()" class="btn btn-light">Zavřít</button>
+                    </div>
+                }
 
                 <div class="btn-group">
                     <span id="toolbar_message" class="badge-info">@Model.Message</span>
@@ -128,4 +128,5 @@
             if (!confirm("Chcete pokračovat bez uložení změn?")) e.preventDefault();
         }
     }
+    
 </script>

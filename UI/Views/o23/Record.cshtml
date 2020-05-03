@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Dokument";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutModal.cshtml";
     if (Model.Rec == null) return;
     string _displayMore = "none";
     if (Model.Rec.o12ID > 0 || Model.Rec.o23Memo != null)

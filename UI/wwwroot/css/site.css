@@ -5,22 +5,28 @@ body {
     margin: 0px;
 }
 
+.modal_record_container {
+    max-width:1050px;
+}
 
 @media only screen and (max-width: 1199px) {
 
     .modal_record_container {
-        margin-left: 6px;
+        margin: 6px;
+        
     }
 }
 
 @media screen and (min-width: 1200px) {
 
-    .modal_record_container {
-        max-width: 1000px;
+    .modal_record_container {        
         margin-top: 20px;
         margin-left: 20px;
+        margin-right: 6px;
     }
 }
+
+
 
 select {
     cursor: pointer;
@@ -48,7 +54,7 @@ tr.isclosed {
 textarea {
     display: block;
     overflow: hidden;
-    resize: none;
+    resize: none;    
 }
 
 

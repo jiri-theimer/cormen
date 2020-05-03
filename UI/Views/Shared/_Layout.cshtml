@@ -29,25 +29,20 @@
 
     <script src="~/lib/modal_bootstrap/bootstrap-show-modal.js"></script>
 
-
-
-
     <script src="~/lib/selection/ds.min.js"></script>
     <script src="~/lib/splitter/jquery-resizable.js"></script>
     <script src="~/lib/datepicker/bootstrap-datepicker.min.js"></script>
     <script src="~/lib/datepicker/bootstrap-datepicker.cs.min.js"></script>
 
-
-
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/mycombo.js" asp-append-version="true"></script>
-    <script src="~/js/thegrid.js" asp-append-version="false"></script>
-    <script src="~/js/contextmenu.js" asp-append-version="false"></script>
+    <script src="~/js/thegrid.js" asp-append-version="true"></script>
+    <script src="~/js/contextmenu.js" asp-append-version="true"></script>
     <script src="~/js/mycontrols.js" asp-append-version="true"></script>
 
 
 
-    <div id="searchbox_result" style="position:absolute;display:none;left:0px;top:30px;z-index:1000;overflow:auto;height:80%;width:500px;"></div>
+
     <div id="layout_sidebar">
         <div class="input-group">
             <div class="dropdown" style="padding:0px;">
@@ -74,11 +69,11 @@
                 NOVÝ
             </button>
             <div class="dropdown-menu dropdown_menu_container" id="divMainNew" aria-labelledby="cmdMainNew">
-                
+
             </div>
 
         </div>
-        <hr />
+   
         <ul id="mainmenu1">
             <li>
                 <span id="mainmenu_caret_p10" class="nav-link caret">MASTER PRODUKTY</span>
@@ -90,7 +85,7 @@
                     <li>
                         <a data-menu="grid11" class="nav-link" href="/TheGrid/MasterView?prefix=p10">Grid 1+1</a>
                     </li>
-                   
+
                 </ul>
             </li>
             <li>
@@ -103,7 +98,7 @@
                     <li>
                         <a data-menu="grid11" class="nav-link" href="/TheGrid/MasterView?prefix=p13">Grid 1+1</a>
                     </li>
-                   
+
                 </ul>
             </li>
             <li>
@@ -116,7 +111,7 @@
                     <li>
                         <a data-menu="grid11" class="nav-link" href="/TheGrid/MasterView?prefix=p21">Grid 1+1</a>
                     </li>
-                    
+
                 </ul>
             </li>
             <li>
@@ -129,7 +124,7 @@
                     <li>
                         <a data-menu="grid11" class="nav-link" href="/TheGrid/MasterView?prefix=p26">Grid 1+1</a>
                     </li>
-                    
+
                 </ul>
             </li>
             <li>
@@ -142,7 +137,7 @@
                     <li>
                         <a data-menu="grid11" class="nav-link" href="/TheGrid/MasterView?prefix=p28">Grid 1+1</a>
                     </li>
-                    
+
                 </ul>
             </li>
             <li>
@@ -155,7 +150,7 @@
                     <li>
                         <a data-menu="grid11" class="nav-link" href="/TheGrid/MasterView?prefix=o23">Grid 1+1</a>
                     </li>
-                   
+
                 </ul>
             </li>
             <li>
@@ -168,7 +163,7 @@
                     <li>
                         <a data-menu="grid11" class="nav-link" href="/TheGrid/MasterView?prefix=j02">Grid 1+1</a>
                     </li>
-                    
+
                 </ul>
             </li>
             <li>
@@ -181,20 +176,13 @@
                     <li>
                         <a data-menu="o12" class="nav-link" href="/TheGrid/FlatView?prefix=o12">Číselník kategorií</a>
                     </li>
-                   
+
                 </ul>
             </li>
 
 
         </ul>
 
-
-
-
-        <div style="display:none;">
-            <input type="text" id="searchbox1" placeholder="&#9906;" class="form-control" />
-
-        </div>
 
     </div>
 
@@ -215,8 +203,8 @@
                 <button class="btn btn-secondary btn-sm float-right" onclick="_window_close()" style="margin-right:3px;">&times;</button>
                 <button class="btn btn-secondary btn-sm float-right" onclick="_window_toggle()" style="margin-right:3px;">&#9600;</button>
             </div>
-            <div id="myModalFrame" style="padding:0px 10px 10px 10px;">
-                <iframe id="fraModalContent" name="fraModalContent" frameborder="0" scrolling="no"></iframe>
+            <div id="myModalFrame" style="padding: 0px; margin:0px 0px 0px 10px; overflow: auto; -webkit-overflow-scrolling: touch;">
+                <iframe id="fraModalContent" name="fraModalContent" frameborder="0"></iframe>
             </div>
 
         </div>
@@ -266,25 +254,6 @@
 
 
 
-        $("#searchbox1").on("input", function (e) {
-
-            if (typeof _combo_ajax_input_timeout !== "undefined") {
-                clearTimeout(_combo_ajax_input_timeout);
-
-            }
-            //start new time, to perform ajax stuff in 500ms
-            _combo_ajax_input_timeout = setTimeout(function () {      //kvůli ochraně přetěžování serveru odchází dotaz na server až po půl sekundě, aby uživatel stihl napsat všechny znaky pro hledání
-                //your ajax stuff
-
-                var url = '@Url.Action("GetSearchBoxHtml", "Common")';
-                _handle_searchbox(e.target.value, url,"searchbox_result");
-
-            }, 500);
-
-            return;
-
-        });
-
         $(document).on("click", function (e) {
             if (e.target == _modal) {
                 _window_close();
@@ -303,46 +272,7 @@
 
 
 
-        function _cm(e, entity, pid)
-        { //otevře kontextové menu
-            var ctl = e.target;
 
-            var data = "";
-            if (document.getElementById("divContextMenuStatic")) {
-                data = $("#divContextMenuStatic").html();   //na stránce se nachází preferované UL statického menu v divu id=divContextMenuStatic -> není třeba ho volat ze serveru
-                data = data.replace(/#pid#/g, pid);  //místo #pid# replace pravé pid hodnoty
-            }
-            var w = $(window).width();
-            var pos_left = e.clientX + $(window).scrollLeft();
-
-            var menuid = "cm_left2right";
-            if (pos_left + 300 >= w) menuid = "cm_right2left";
-
-            if (!document.getElementById(menuid)) {
-                //div na stránce neště existuje
-                var el = document.createElement("DIV");
-                el.id = menuid;
-                el.style.display = "none";
-                document.body.appendChild(el);
-            }
-
-            $("#" + menuid).html(data);
-
-            if (ctl.getAttribute("menu_je_inicializovano") === "1") {
-                return; // kontextové menu bylo již u tohoto elementu inicializováno - není třeba to dělat znovu.
-            }
-
-            $(ctl).contextMenu({
-                menuSelector: "#" + menuid,
-                menuClicker: ctl
-
-            });
-
-            ctl.setAttribute("menu_je_inicializovano", "1");
-
-
-
-        }
 
 
         function openNav()
@@ -365,78 +295,6 @@
     }
 
 
-        function _window_close()
-        {
-            var iframe = document.getElementById("fraModalContent");
-            var elmnt = iframe.contentWindow.document.getElementById("toolbar_changeinfo");
-            if ($(elmnt).text() != "") {
-                if (confirm("Chcete zavřít okno bez uložení změn?")) {
-                    $(_modal).css("display", "none");
-                } else {
-                    return;
-                }
-            }
-            $(_modal).css("display", "none");
-
-
-        }
-        function _window_toggle()
-        {
-            var okno = $("#myModalContent");
-
-            if (_device.innerWidth - $(okno).width() < 30) {
-                _window_open("", 1);
-            } else {
-                _window_open("", 2);
-            }
-
-        }
-        function _window_open(url, flag, header)
-        {
-            if (typeof flag === "undefined") flag = 1;
-
-            if (!$(_modal).attr("initialized") && flag !=2) {
-                _make_element_draggable(document.getElementById("myModalContent"), document.getElementById("myModalFrame")); //předávání nefunguje přes jquery
-                $(_modal).attr("initialized", true);
-            }
-
-            var okno = $("#myModalContent");
-            var fra = $("#fraModalContent");
-
-            var w = 1000;
-            var h = 800;
-            var x = 0;
-            var y = 0;
-
-            if (flag == 1) {   //centralizovat, max rozměr 1000x800
-                $("#myModalFrame").css("padding", "0px 10px 10px 10px;");
-                if (_device.innerWidth < w) w = _device.innerWidth;
-                if (_device.innerHeight < h) h = _device.innerHeight;
-                x = (_device.innerWidth - w) / 2;
-                y = (_device.innerHeight - h) / 2;
-            }
-            if (flag == 2) {   //okno na fullsreen 100%
-                $("#myModalFrame").css("padding", "0");
-                w = _device.innerWidth;
-                h = _device.innerHeight;
-                x = 0;
-                y = 0;
-            }
-
-            $(okno).css("width", w);
-            $(okno).css("height", h);
-            $(okno).css("left", x);
-            $(okno).css("top", y);
-            $(fra).css("width", w-10-10);       //10 je padding
-            $(fra).css("height", h - 30-10);    //10 padding dole, 30 div header
-
-            if (url != "") {
-                $(fra).attr("src", url);
-            }
-
-
-            $(_modal).css("display", "block");
-        }
 
 
 
@@ -469,6 +327,76 @@
         }
 
 
+
+        //vyvolání popup okna - na stránce musí být přítomen DIV: ID=myModalContainer
+        function _window_close() {
+            var iframe = document.getElementById("fraModalContent");
+            var elmnt = iframe.contentWindow.document.getElementById("toolbar_changeinfo");
+            if ($(elmnt).text() !== "") {
+                if (confirm("Chcete zavřít okno bez uložení změn?")) {
+                    $(_modal).css("display", "none");
+                } else {
+                    return;
+                }
+            }
+            $(_modal).css("display", "none");
+
+        }
+        function _window_toggle() {
+            var okno = $("#myModalContent");
+
+            if (_device.innerWidth - $(okno).width() < 30) {
+                _window_open("", 1);
+            } else {
+                _window_open("", 2);
+            }
+
+        }
+        function _window_open(url, flag, header) {
+            if (typeof flag === "undefined") flag = 1;
+
+            if (!$(_modal).attr("initialized") && flag !== 2) {
+                _make_element_draggable(document.getElementById("myModalContent"), document.getElementById("myModalFrame")); //předávání nefunguje přes jquery
+                $(_modal).attr("initialized", true);
+            }
+
+            var okno = $("#myModalContent");
+            var fra = $("#fraModalContent");
+
+            var w = 1100;
+            var h = 800;
+            var x = 0;
+            var y = 0;
+
+            if (flag === 1) {   //centralizovat, max rozměr 1000x800
+                //$("#myModalFrame").css("padding", "0px 10px 10px 10px;");
+                if (_device.innerWidth < w) w = _device.innerWidth;
+                if (_device.innerHeight < h) h = _device.innerHeight;
+                x = (_device.innerWidth - w) / 2;
+                y = (_device.innerHeight - h) / 2;
+            }
+            if (flag === 2) {   //okno na fullsreen 100%
+                $("#myModalFrame").css("padding", "0");
+                w = _device.innerWidth;
+                h = _device.innerHeight;
+                x = 0;
+                y = 0;
+            }
+
+            $(okno).css("width", w);
+            $(okno).css("height", h);
+            $(okno).css("left", x);
+            $(okno).css("top", y);
+            $(fra).css("width", w-15);      
+            $(fra).css("height", h - 30 - 10);    //10 padding dole, 30 div header
+
+            if (url !== "") {
+                $(fra).attr("src", url);
+            }
+
+
+            $(_modal).css("display", "block");
+        }
 
 
     </script>

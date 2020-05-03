@@ -3,7 +3,7 @@
 
 @{
     ViewData["Title"] = "Licence";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutModal.cshtml";
     if (Model.Rec == null) return;
 
 }
@@ -81,7 +81,7 @@
             Master produkty v licenci
         </div>
         <div class="card-body">
-            <div class="row">
+            <div style="width:100%;">
                 <mycombo entity="p10MasterProduct" asp-for="@Model.SelectedP10ID" selectedtext="@Model.SelectedP10Name" event_after_changevalue="handle_append_product"></mycombo>
                 
             </div>
