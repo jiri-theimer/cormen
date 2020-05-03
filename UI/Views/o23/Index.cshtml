@@ -2,14 +2,12 @@
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutModal.cshtml";
     if (Model.Rec == null) return;
 }
-
+    <h4>Dokument</h4>
     <div class="modal_record_container">
-        <div class="btn-group">
-            <a asp-action="Index" asp-controller="TheGrid" class="btn btn-light" asp-route-pid="@Model.Rec.pid" asp-route-entity="o23">Grid</a>
-        </div>
+       
         <div class="btn-group">
             <a asp-action="Record" class="btn btn-light" asp-route-pid="@Model.Rec.pid" asp-route-entity="o23">Upravit</a>
         </div>

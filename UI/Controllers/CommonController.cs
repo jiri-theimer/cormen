@@ -77,7 +77,7 @@ namespace UI.Controllers
                 }
                 if (delete_function != null)
                 {
-                    s.Append(string.Format("<td><button type='button' title='Odstranit řádek' onclick='{0}({1})'><i class='fas fa-trash-alt'></i></button></td>", delete_function, dt.Rows[i]["pid"]));
+                    s.Append(string.Format("<td><button type='button' class='btn btn-sm btn-danger' title='Odstranit řádek' onclick='{0}({1})'>&times;</button></td>", delete_function, dt.Rows[i]["pid"]));
                 }
                 s.Append("</tr>");
             }

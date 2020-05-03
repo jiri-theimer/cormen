@@ -34,7 +34,7 @@ namespace BL.DL
             }
             if (mq.p13id > 0)
             {
-                if (mq.Prefix == "p14") AQ(ref lis, "a.p13ID=@p13id", "p13id", mq.p13id);
+                if (mq.Prefix == "p10") AQ(ref lis, "a.p13ID=@p13id", "p13id", mq.p13id);
             }
 
             if (mq.p28id > 0)

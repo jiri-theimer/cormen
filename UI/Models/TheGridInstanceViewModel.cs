@@ -11,6 +11,7 @@ namespace UI.Models
         public string prefix { get; set; }
         public int go2pid { get; set; }
         
-
+        public string master_entity { get; set; }
+        public int master_pid { get; set; }
     }
 }

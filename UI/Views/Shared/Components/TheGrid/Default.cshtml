@@ -218,6 +218,8 @@
     $(document).ready(function () {
         var _thegrid={
             entity: "@Model.Entity",
+            master_entity: "@Model.MasterEntity",
+            master_pid:"@Model.MasterPID",
             dataurl: "@Url.Action("GetHtml4TheGrid", "TheGrid")",
             handlerurl: "@Url.Action("HandleTheGridOper", "TheGrid")",
             filterurl: "@Url.Action("HandleTheGridFilter", "TheGrid")",

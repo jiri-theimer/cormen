@@ -12,6 +12,8 @@ namespace BO
         public int j02ID { get; set; }
         public int j70ID { get; set; }
         public string j72Entity { get; set; }
+        public string j72MasterEntity { get; set; }
+        public int j72MasterPID { get; set; }       //pouze pro průběžnou práci -> neukládá se do db, byť v sloupec existuje
 
         [Required(ErrorMessage ="Grid musí obsahovat minimálně jeden sloupec.")]
         public string j72Columns { get; set; }
@@ -27,5 +29,7 @@ namespace BO
         public int j72SplitterFlag { get; set; }
         public int j72HeightPanel1 { get; set; }
         public int j72SelectableFlag { get; set; } = 1;
+
+       
     }
 }

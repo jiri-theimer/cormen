@@ -26,11 +26,23 @@ namespace UI.Controllers
         {            
             return View(inhaleGridViewInstance(prefix,go2pid));
         }
+        public IActionResult SlaveView(string master_entity,int master_pid, string prefix, int go2pid)    //podřízený subform v rámci MasterView
+        {
+            TheGridInstanceViewModel v = inhaleGridViewInstance(prefix, go2pid);
+            v.master_entity = master_entity;
+            v.master_pid = master_pid;
+            if (String.IsNullOrEmpty(v.master_entity) || v.master_pid == 0)
+            {
+                Factory.CurrentUser.AddMessage("master_entity or master_pid missing.");
+            }
+            
+            return View(v);
+        }
         private TheGridInstanceViewModel inhaleGridViewInstance(string prefix,int go2pid)
         {
             var v = new TheGridInstanceViewModel() { prefix = prefix, go2pid = go2pid };
             v.entity = BO.BAS.getEntityFromPrefix(prefix);
-            if (ViewBag.entity == "")
+            if (v.entity == "")
             {
                 Factory.CurrentUser.AddMessage("Entity for Grid not found.");
             }
@@ -173,7 +185,7 @@ namespace UI.Controllers
         }
         
         
-        public TheGridOutput GetHtml4TheGrid(int j72id,int go2pid) //Vrací HTML zdroj tabulky pro TheGrid v rámci j72TheGridState
+        public TheGridOutput GetHtml4TheGrid(int j72id,int go2pid,int master_pid) //Vrací HTML zdroj tabulky pro TheGrid v rámci j72TheGridState
         {
             
             var cJ72 = this.Factory.gridBL.LoadTheGridState(j72id);
@@ -181,10 +193,10 @@ namespace UI.Controllers
             {
                 return render_thegrid_error(string.Format("Nelze načíst grid state s id!", j72id.ToString()));
                 
-            }
+            }            
             cJ72.j72CurrentRecordPid = go2pid;
+            cJ72.j72MasterPID = master_pid;
 
-            
 
             return render_thegrid_html(cJ72);
         }
@@ -223,6 +235,27 @@ namespace UI.Controllers
 
             }
             mq.j72Filter = cJ72.j72Filter;
+            switch (cJ72.j72MasterEntity)
+            {
+                case "p28Company":
+                    mq.p28id = cJ72.j72MasterPID;
+                    break;
+                case "p10MasterProduct":
+                    mq.p10id = cJ72.j72MasterPID;
+                    break;
+                case "p13MasterTpv":
+                    mq.p13id = cJ72.j72MasterPID;               
+                    break;
+                case "p21License":
+                    mq.p21id = cJ72.j72MasterPID;
+                    break;
+                case "p26Msz":
+                    mq.p26id = cJ72.j72MasterPID;
+                    break;
+                default:
+                    break;
+            }
+           
             
             var dt = Factory.gridBL.GetList(mq);
             mq.explicit_orderby = "";

@@ -1,25 +1,24 @@
 ﻿@model TheGridInstanceViewModel
 
 @{
-    ViewData["Title"] = "Grid";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    Layout = "~/Views/Shared/_LayoutSubform.cshtml";
 
     if (Model.entity == null)
     {
         return;
     }
-}
 
+}
 
 @addTagHelper *,UI
 
-    
-<vc:the-grid entity="@Model.entity" j72id="0" go2pid="@Model.go2pid" master_entity="" master_pid="0"></vc:the-grid>
+<vc:the-grid entity="@Model.entity" j72id="0" go2pid="@Model.go2pid" master_entity="@Model.master_entity" master_pid="@Model.master_pid"></vc:the-grid>
 
 <div id="divContextMenuStatic" style="display:none;">
     <ul style="border:0px;">
         <li>
-            <a href="javascript: _edit('@Model.prefix',#pid#)">Upravit/Odstranit/Archivovat</a>
+            <a href="javascript: _edit('@Model.prefix',#pid#)">Upravit/Archivovat/Odstranit</a>
         </li>
         <li>
             <a href="javascript: _clone('@Model.prefix',#pid#)">Kopírovat</a>
@@ -33,26 +32,25 @@
     </ul>
 </div>
 
-
-
-@section Scripts{ 
+@section Scripts{
 
     <script type="text/javascript">
-    $(document.body).css("overflow", "hidden");
-
+  
     $(document).ready(function () {
 
-        _mainmenu_select("@Model.prefix","grid1");
         
+
 
     });
 
 
-        
+
         /*automaticky volaná událost z thegrid controlu*/
         function thegrid_handle_event(event_name, pid) {
-
+            
         }
+
+
     </script>
 
 }

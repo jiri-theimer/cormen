@@ -16,7 +16,7 @@ namespace UI.Views.Shared.Components.TheGrid
         }
 
         public IViewComponentResult
-            Invoke(string entity,int j72id=0,int go2pid=0)
+            Invoke(string entity,int j72id,int go2pid,string master_entity,int master_pid)
         {
             var ret = new TheGridViewModel();
             ret.Entity = entity;
@@ -26,7 +26,7 @@ namespace UI.Views.Shared.Components.TheGrid
             BO.j72TheGridState cJ72 = null;
             if (j72id == 0)
             {
-                cJ72=_f.gridBL.LoadTheGridState(entity, _f.CurrentUser.pid);
+                cJ72=_f.gridBL.LoadTheGridState(entity, _f.CurrentUser.pid,master_entity);
             }
             else
             {
@@ -38,7 +38,7 @@ namespace UI.Views.Shared.Components.TheGrid
             {
                 var cols= colsProvider.getDefaultPallete();    //výchozí paleta sloupců
 
-                cJ72 = new BO.j72TheGridState() { j72Entity = entity, j02ID = _f.CurrentUser.pid,j72Columns=String.Join(",",cols.Select(p=>p.UniqueName)),j72PageSize=100 };
+                cJ72 = new BO.j72TheGridState() { j72Entity = entity, j02ID = _f.CurrentUser.pid,j72Columns=String.Join(",",cols.Select(p=>p.UniqueName)),j72PageSize=100,j72MasterEntity=master_entity };
                 var intJ72ID = _f.gridBL.SaveTheGridState(cJ72);
                 cJ72= _f.gridBL.LoadTheGridState(intJ72ID);
             }
@@ -47,7 +47,8 @@ namespace UI.Views.Shared.Components.TheGrid
             ret.GridState = cJ72;
             ret.Columns = colsProvider.getSelectedPallete(cJ72.j72Columns);
             ret.AdhocFilter = colsProvider.ParseAdhocFilterFromString(cJ72.j72Filter);
-           
+            ret.MasterEntity = master_entity;
+            ret.MasterPID = master_pid;
 
 
             return View("Default", ret);

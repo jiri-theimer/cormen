@@ -10,7 +10,7 @@ namespace BL
     {
         public DataTable GetList(BO.myQuery mq, bool bolGetTotalsRow = false);
         public BO.j72TheGridState LoadTheGridState(int intJ72ID);
-        public BO.j72TheGridState LoadTheGridState(string strEntity,int intJ02ID);
+        public BO.j72TheGridState LoadTheGridState(string strEntity,int intJ02ID,string strMasterEntity);
         public int SaveTheGridState(BO.j72TheGridState rec);
 
     }
@@ -26,9 +26,17 @@ namespace BL
         {
             return _db.Load<BO.j72TheGridState>(string.Format("SELECT a.*,{0} FROM j72TheGridState a WHERE a.j72ID=@j72id", _db.GetSQL1_Ocas("j72")), new { j72id = intJ72ID });
         }
-        public BO.j72TheGridState LoadTheGridState(string strEntity, int intJ02ID)
+        public BO.j72TheGridState LoadTheGridState(string strEntity, int intJ02ID, string strMasterEntity)
         {
-            return _db.Load<BO.j72TheGridState>(string.Format("SELECT a.*,{0} FROM j72TheGridState a WHERE a.j72Entity=@entity AND a.j02ID=@j02id", _db.GetSQL1_Ocas("j72")), new { entity = strEntity,j02id=intJ02ID });
+            if (String.IsNullOrEmpty(strMasterEntity))
+            {
+                return _db.Load<BO.j72TheGridState>(string.Format("SELECT a.*,{0} FROM j72TheGridState a WHERE a.j72Entity=@entity AND a.j02ID=@j02id AND a.j72MasterEntity IS NULL", _db.GetSQL1_Ocas("j72")), new { entity = strEntity, j02id = intJ02ID });
+            }
+            else
+            {
+                return _db.Load<BO.j72TheGridState>(string.Format("SELECT a.*,{0} FROM j72TheGridState a WHERE a.j72Entity=@entity AND a.j02ID=@j02id AND a.j72MasterEntity=@masterentity", _db.GetSQL1_Ocas("j72")), new { entity = strEntity, j02id = intJ02ID,masterentity=strMasterEntity });
+            }
+            
         }
 
 
@@ -124,6 +132,7 @@ namespace BL
             p.Add("j02ID", BO.BAS.TestIntAsDbKey(rec.j02ID));
             
             p.Add("j72Entity", rec.j72Entity);
+            p.Add("j72MasterEntity", rec.j72MasterEntity);
             p.Add("j72Columns", rec.j72Columns);
             p.Add("j72SplitterFlag", rec.j72SplitterFlag);
             p.Add("j72HeightPanel1", rec.j72HeightPanel1);

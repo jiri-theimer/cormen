@@ -1,14 +1,13 @@
 ﻿@model p10PreviewViewModel
 @{
     ViewData["Title"] = "Master produkt";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutModal.cshtml";
     if (Model.Rec == null) return;
 }
 
+    <h4>Master produkt</h4>
 <div class="modal_record_container">
-    <div class="btn-group">
-        <a asp-action="Index" asp-controller="TheGrid" class="btn btn-light" asp-route-pid="@Model.Rec.pid" asp-route-entity="p10">Grid</a>
-    </div>
+   
     <div class="btn-group">
         <a asp-action="Record" class="btn btn-light" asp-route-pid="@Model.Rec.pid" asp-route-entity="p10">Upravit</a>
     </div>
@@ -81,4 +80,3 @@
     });
 </script>
 
-<h1>Prostor pro 1:N přehledy z plánování, výroby apod.</h1>

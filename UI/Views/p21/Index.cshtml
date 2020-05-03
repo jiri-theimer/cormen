@@ -2,14 +2,13 @@
 
 @{
     ViewData["Title"] = "Licence";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutModal.cshtml";
 
 }
 
+    <h4>Licence</h4>
 <div class="modal_record_container">
-    <div class="btn-group">
-        <a asp-action="Index" asp-controller="TheGrid" class="btn btn-light" asp-route-pid="@Model.Rec.pid" asp-route-entity="p21">Grid</a>
-    </div>
+    
     <div class="btn-group">
         <a asp-action="Record" class="btn btn-light" asp-route-pid="@Model.Rec.pid" asp-route-entity="p21">Upravit</a>
     </div>
@@ -76,9 +75,6 @@
 
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
-
-<h1>Prostor pro 1:N přehledy z plánování, výroby apod.</h1>
-
 
 <script type="text/javascript">
     $(document).ready(function () {

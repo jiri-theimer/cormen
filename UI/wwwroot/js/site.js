@@ -14,13 +14,31 @@ if (screen.availHeight > screen.availWidth || screen.width < 800 || screen.heigh
 }
 
 function _edit(controller, pid) {
-    _window_open("/" + controller + "/record?pid=" + pid);
+    if (window !== top) {
+        //uvnitř iframe
+        window.parent._window_open("/" + controller + "/record?pid=" + pid);
+    } else {
+        _window_open("/" + controller + "/record?pid=" + pid);
+    }
+    
 }
 function _clone(controller, pid) {
-    _window_open("/" + controller + "/record?isclone=true&pid=" + pid);
+    if (window !== top) {
+        //uvnitř iframe
+        window.parent._window_open("/" + controller + "/record?isclone=true&pid=" + pid);
+    } else {
+        _window_open("/" + controller + "/record?isclone=true&pid=" + pid);
+    }
+    
 }
 function _preview(controller, pid) {
-    _window_open("/" + controller + "/index?pid=" + pid);
+    if (window !== top) {
+        //uvnitř iframe
+        window.parent._window_open("/" + controller + "/index?pid=" + pid);
+    } else {
+        _window_open("/" + controller + "/index?pid=" + pid);
+    }
+    
 }
 
 

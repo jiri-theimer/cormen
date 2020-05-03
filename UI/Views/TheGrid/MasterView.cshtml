@@ -20,7 +20,7 @@
 <div id="splitter_container" class="splitter-container-top2bottom">
 
     <div id="splitter_panel1" class="splitter-panel-top">
-        <vc:the-grid entity="@Model.entity" j72id="0" go2pid="@Model.go2pid"></vc:the-grid>
+        <vc:the-grid entity="@Model.entity" j72id="0" go2pid="@Model.go2pid" master_entity="" master_pid="0"></vc:the-grid>
     </div>
 
     <div id="splitter_resizer" class="splitter-resizer-top2bottom">
@@ -70,6 +70,17 @@
 
 
     });
+
+
+     /*automaticky volaná událost z thegrid controlu*/
+     function thegrid_handle_event(event_name, pid) {
+
+        if (event_name == "rowselect") {
+            document.getElementById("fra_subgrid").src = "/TheGrid/SlaveView?prefix=p10&master_entity=@Model.entity&master_pid=" + pid;
+        }
+     }
+
+
 
     </script>
 
