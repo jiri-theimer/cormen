@@ -58,11 +58,23 @@ namespace UI.Controllers
                     break;
 
             }
-            foreach(var tab in tabs)
+            string strDefTab = Factory.CBL.LoadUserParam("masterview-tab-" + prefix);
+            var deftab = tabs[0];
+            
+            foreach (var tab in tabs)
             {
                 tab.Url += "&master_entity=" + BO.BAS.getEntityFromPrefix(prefix) + "&master_pid=@pid";
+                if (strDefTab !="" && tab.Entity== strDefTab)
+                {
+                    deftab = tab;  //uživatelem naposledy vybraná záložka
+                }
             }
-            tabs[0].CssClass += " active";
+            deftab.CssClass += " active";
+            if (go2pid > 0)
+            {
+                v.go2pid_url_in_iframe = deftab.Url.Replace("@pid", go2pid.ToString());
+            }
+
             v.NavTabs = tabs;
             return View(v);
         }
@@ -491,12 +503,12 @@ namespace UI.Controllers
             
             if (intRowsCount <= intPageSize) return;
 
-            _s.Append("<button title='První' class='btn btn-light tgp' style='margin-left:6px;' onclick='tg_pager(\n0\n)'>&#11207;|</button>");
+            _s.Append("<button title='První' class='btn btn-light tgp' style='margin-left:6px;' onclick='tg_pager(\n0\n)'>&lt;&lt;</button>");
 
             int intCurIndex = _grid.GridState.j72CurrentPagerIndex;
             int intPrevIndex = intCurIndex - intPageSize;
             if (intPrevIndex < 0) intPrevIndex = 0;
-            _s.Append(string.Format("<button title='Předchozí' class='btn btn-light tgp' style='margin-right:10px;' onclick='tg_pager(\n{0}\n)'>&#11207;</button>", intPrevIndex));
+            _s.Append(string.Format("<button title='Předchozí' class='btn btn-light tgp' style='margin-right:10px;' onclick='tg_pager(\n{0}\n)'>&lt;</button>", intPrevIndex));
 
             if (intCurIndex >= intPageSize * 10)
             {
@@ -543,10 +555,10 @@ namespace UI.Controllers
 
             int intNextIndex = intCurIndex + intPageSize;
             if (intNextIndex + 1>intRowsCount) intNextIndex = intRowsCount-intPageSize;
-            _s.Append(string.Format("<button title='Další' class='btn btn-light tgp' style='margin-left:10px;' onclick='tg_pager(\n{0}\n)'>&#11208;</button>", intNextIndex));
+            _s.Append(string.Format("<button title='Další' class='btn btn-light tgp' style='margin-left:10px;' onclick='tg_pager(\n{0}\n)'>&gt;</button>", intNextIndex));
 
             int intLastIndex = intRowsCount - (intRowsCount % intPageSize);  //% je zbytek po celočíselném dělení
-            _s.Append(string.Format("<button title='Poslední' class='btn btn-light tgp' onclick='tg_pager(\n{0}\n)'>|&#11208;</button>", intLastIndex));
+            _s.Append(string.Format("<button title='Poslední' class='btn btn-light tgp' onclick='tg_pager(\n{0}\n)'>&gt;&gt;</button>", intLastIndex));
 
 
         }

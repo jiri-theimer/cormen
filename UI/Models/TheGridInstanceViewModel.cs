@@ -16,6 +16,8 @@ namespace UI.Models
         public int master_pid { get; set; }
 
         public List<NavTab> NavTabs;
+
+        public string go2pid_url_in_iframe { get; set; }
     }
 
 
@@ -26,5 +28,7 @@ namespace UI.Models
         public string Url { get; set; }
 
         public string CssClass { get; set; } = "nav-link text-dark";
+
+        
     }
 }

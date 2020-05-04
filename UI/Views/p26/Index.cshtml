@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Stroj";
     Layout = "~/Views/Shared/_LayoutModal.cshtml";
+    if (Model.Rec == null) return;
 }
     
     <div class="modal_record_container">

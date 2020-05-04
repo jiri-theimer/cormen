@@ -13,8 +13,12 @@ namespace UI.Controllers
         public IActionResult Index(int pid)
         {
             var v = new Models.j02PreviewViewModel();
-            v.Rec = Factory.j02PersonBL.Load(pid);
+            v.Rec = Factory.j02PersonBL.Load(pid);                       
             if (v.Rec == null) return RecNotFound(v);
+            if (v.Rec.j03ID > 0)
+            {
+                v.UserProfile = Factory.j03UserBL.Load(v.Rec.j03ID);
+            }
             return View(v);
 
         }

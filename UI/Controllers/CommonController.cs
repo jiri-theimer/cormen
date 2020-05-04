@@ -31,8 +31,23 @@ namespace UI.Controllers
         }
 
 
-        
-        
+        public BO.Result SetUserParam(string key, string value)
+        {
+            if (Factory.CBL.SetUserParam(key, value))
+            {
+                return new BO.Result(false);
+            }
+            else
+            {
+                return new BO.Result(true);
+            }
+                       
+        }
+        public string LoadUserParam(string key)
+        {
+            return Factory.CBL.LoadUserParam(key);
+        }
+
 
         public string GetBodyOfTale(string entity, string queryfield, string queryvalue)
         {           

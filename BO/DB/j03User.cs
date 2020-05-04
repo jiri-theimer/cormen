@@ -20,6 +20,7 @@ namespace BO
         public int j03AccessFailedCount { get; set; }
         public int j03ModalDialogFlag { get; set; }
         public int j03FontStyleFlag { get; set; }
+        public int j03SideBarFlag { get; set; }
 
 
         //readonly:

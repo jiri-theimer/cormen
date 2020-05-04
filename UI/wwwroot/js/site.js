@@ -266,6 +266,8 @@ function _mainmenu_init() {     //inicializace chování hlavního menu v postra
         });
     }
 
+   
+
 }
 
 function _mainmenu_select(prefix_caret, data_menu) {

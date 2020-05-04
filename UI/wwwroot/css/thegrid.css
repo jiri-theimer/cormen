@@ -326,16 +326,15 @@ a.link_in_grid { /*v TD buňce je link na cokoliv - kvůli odlišení od kliku n
     user-select: none; /* Standard syntax */
 }
 
-button.tgp {
-    font-size: 14px;
+button.tgp {    
     padding-bottom: 2px;
     padding-top: 2px;
     border-left:solid 1px silver;
 }
 #divPagerContainer {
     background-color: #E5E5E5;
-    padding-bottom: 5px;
+    padding-bottom: 0px;
     padding-left: 10px;
     width: 100%;
-    height:33px;
+    height:28px;
 }

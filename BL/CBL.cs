@@ -44,7 +44,7 @@ namespace BL
         {     
             if (_userparams == null)
             {
-                _userparams= _db.GetList<BO.COM.StringPairValue>("SELECT x36Key as [Key],x36Value as [Value] FROM x36UserParam WHERE j02ID=@j02id", new { j02id = _db.CurrentUser.pid });
+                _userparams= _db.GetList<BO.COM.StringPairValue>("SELECT x36Key as [Key],x36Value as [Value] FROM x36UserParam WHERE j03ID=@j03id", new { j03id = _db.CurrentUser.pid });
             }
 
             if (_userparams.Where(p => p.Key == strKey).Count() > 0)

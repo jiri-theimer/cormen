@@ -40,7 +40,7 @@
 
         <div id="splitter_panel2" class="splitter-panel-bottom">
 
-            <iframe id="fra_subgrid" name="fra_subgrid" frameborder="0" scrolling="no" width="100%" onload="$('#splitter_panel2').css('background','none');"></iframe>
+            <iframe id="fra_subgrid" name="fra_subgrid" frameborder="0" src="@Model.go2pid_url_in_iframe" scrolling="no" width="100%" onload="$('#splitter_panel2').css('background','none');"></iframe>
         </div>
     </div>
 
@@ -117,9 +117,14 @@
      }
 
 
-        function tabclick(tab) {
+        function tabclick(tab) {    //uložit aktuální záložku do profilu uživatele
             $("#navtabs .nav-link").removeClass("active");
             $(tab).addClass("active");
+            $.post("/Common/SetUserParam", { key: "masterview-tab-@(Model.prefix)",value:tab.id.replace("tab","")  }, function (data) {
+                
+
+            });
+
             
         }
 

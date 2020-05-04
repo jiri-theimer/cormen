@@ -51,6 +51,7 @@ namespace BL
             p.AddInt("j03AccessFailedCount", rec.j03AccessFailedCount);
             p.AddInt("j03ModalDialogFlag", rec.j03ModalDialogFlag);
             p.AddInt("j03FontStyleFlag", rec.j03FontStyleFlag);
+            p.AddInt("j03SideBarFlag", rec.j03SideBarFlag);
             if (!String.IsNullOrEmpty(rec.j03PasswordHash))
             {
                 p.Add("j03PasswordHash", rec.j03PasswordHash);

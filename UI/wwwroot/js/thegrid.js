@@ -189,6 +189,7 @@ function tg_setup_selectable() {
         callback: function (elements) {
             // fired once the user releases the mouse. (elements) = selected nodes.
             $("#tg_selected_pids_pre").val($("#tg_selected_pids").val());
+            var pid_pre = $("#tg_selected_pid").val();
             if (elements.length===0) {
                 return
             }
@@ -212,8 +213,10 @@ function tg_setup_selectable() {
             }
             _last_ds_selected_pids = $("#tg_selected_pids").val();
 
-
-            thegrid_handle_event("rowselect", pid); //povinná metoda na hostitelské stránce gridu!
+            if (pid !== pid_pre) {
+                thegrid_handle_event("rowselect", pid); //povinná metoda na hostitelské stránce gridu!
+            }
+            
         }
 
 
@@ -725,7 +728,7 @@ function tg_adjust_for_screen(strParentElementID) {
         if ($("#tabgrid0").width() > w0) {
             hh = hh - 20;   //je vidět horizontální scrollbara, ubereme výšku, aby byla vidět, 20: odhad výšky scrollbary            
         }
-        hh = hh - 100;        
+        hh = hh + 5;
         $("#container_vScroll").css("height", hh + "px");
 
 

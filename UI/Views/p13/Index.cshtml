@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "TPV";
     Layout = "~/Views/Shared/_LayoutModal.cshtml";
+    if (Model.Rec == null) return;
 }
 
 @Html.HiddenFor(m => m.Rec.pid)

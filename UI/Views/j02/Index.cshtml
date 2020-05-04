@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_LayoutModal.cshtml";
+    if (Model.Rec == null) return;
 
     var _fullname = Model.Rec.j02FirstName + " " + Model.Rec.j02LastName;
 }
@@ -11,12 +12,48 @@
 @Html.HiddenFor(m => m.Rec.pid)
     
     <div class="modal_record_container">
-     
-     
+
+
         <div class="form-row">
             <label class="col-sm-1 col-md-2 col-form-label">Jméno:</label>
             <div class="col-sm-11 col-md-10">
                 <input class="form-control" asp-for="@_fullname" readonly="readonly" />
+
+            </div>
+
+        </div>
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">E-mail:</label>
+            <div class="col-sm-11 col-md-10">
+                <input class="form-control" asp-for="@Model.UserProfile.j02Email" readonly="readonly" />
+
+            </div>
+
+        </div>
+        @if (Model.UserProfile != null)
+        {
+            <div class="form-row">
+                <label class="col-sm-1 col-md-2 col-form-label">Uživatel:</label>
+                <div class="col-sm-11 col-md-10">
+                    <input class="form-control" asp-for="@Model.UserProfile.j03Login" readonly="readonly" />
+
+                </div>
+
+            </div>
+            <div class="form-row">
+                <label class="col-sm-1 col-md-2 col-form-label">Aplikační role:</label>
+                <div class="col-sm-11 col-md-10">
+                    <input class="form-control" asp-for="@Model.UserProfile.j04Name" readonly="readonly" />
+
+                </div>
+
+            </div>
+        }
+
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Firma:</label>
+            <div class="col-sm-11 col-md-10">
+                <input class="form-control" asp-for="@Model.Rec.p28Name" readonly="readonly" />
 
             </div>
 
