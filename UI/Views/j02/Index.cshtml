@@ -9,12 +9,10 @@
 
 
 @Html.HiddenFor(m => m.Rec.pid)
-    <h4>Osobní profil</h4>
+    
     <div class="modal_record_container">
      
-        <div class="btn-group">
-            <a asp-action="Record" class="btn btn-light" asp-route-pid="@Model.Rec.pid" asp-route-entity="j02">Upravit</a>
-        </div>
+     
         <div class="form-row">
             <label class="col-sm-1 col-md-2 col-form-label">Jméno:</label>
             <div class="col-sm-11 col-md-10">

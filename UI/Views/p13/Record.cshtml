@@ -194,8 +194,8 @@
     function render_p14_body() {
         if (_p13id == "0") return;
         var url = "@Url.Action("GetBodyOfTale", "Common")";
-
-        $.post(url, { entity: "p14", queryfield: "p13id", queryvalue:_p13id }, function (data) {            
+        
+        $.post(url, { entity: "p14MasterOper", queryfield: "p13id", queryvalue:_p13id }, function (data) {            
             $("#tbody1").html(data);
         });
     }

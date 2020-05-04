@@ -125,8 +125,8 @@ namespace UI
 
             //app.UseExceptionHandler("/Home/Error");
 
-            app.UseHsts();
-            app.UseStatusCodePages("text/plain", "Cormen Cloud, status code page, status code: {0}");
+            //app.UseHsts();
+            //app.UseStatusCodePages("text/plain", "Cormen Cloud, status code page, status code: {0}");
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

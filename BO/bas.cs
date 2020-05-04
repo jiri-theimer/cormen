@@ -87,6 +87,7 @@ namespace BO
                 return dcl;
             }
         }
+        
 
         public static string ObjectDate2String(object d,string format="dd.MM.yyyy")
         {
@@ -105,6 +106,7 @@ namespace BO
                 case "p21": return "p21License";
                 case "p10": return "p10MasterProduct";
                 case "p13": return "p13MasterTpv";
+                case "p14": return "p14MasterOper";
                 case "o23": return "o23Doc";
                 case "p41": return "p41Task";
                 case "b02":return "b02Status";
@@ -126,6 +128,7 @@ namespace BO
                     case "p21": return "Licence";
                     case "p10": return "Master produkty";
                     case "p13": return "Master TPV";
+                    case "p14": return "Technologický rozpis operací";
                     case "o23": return "Dokumenty";
                     case "p41": return "Výrobní zakázky";
                     case "b02":return "Workflow stavy";
@@ -143,6 +146,7 @@ namespace BO
                 case "p21": return "Licence";
                 case "p10": return "Master produkt";
                 case "p13": return "Master TPV";
+                case "p14": return "Technologický rozpis operací";
                 case "o23": return "Dokument";
                 case "p41": return "Výrobní zakázka";
                 case "b02": return "Workflow stav";

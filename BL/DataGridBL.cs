@@ -26,15 +26,15 @@ namespace BL
         {
             return _db.Load<BO.j72TheGridState>(string.Format("SELECT a.*,{0} FROM j72TheGridState a WHERE a.j72ID=@j72id", _db.GetSQL1_Ocas("j72")), new { j72id = intJ72ID });
         }
-        public BO.j72TheGridState LoadTheGridState(string strEntity, int intJ02ID, string strMasterEntity)
+        public BO.j72TheGridState LoadTheGridState(string strEntity, int intJ03ID, string strMasterEntity)
         {
             if (String.IsNullOrEmpty(strMasterEntity))
             {
-                return _db.Load<BO.j72TheGridState>(string.Format("SELECT a.*,{0} FROM j72TheGridState a WHERE a.j72Entity=@entity AND a.j02ID=@j02id AND a.j72MasterEntity IS NULL", _db.GetSQL1_Ocas("j72")), new { entity = strEntity, j02id = intJ02ID });
+                return _db.Load<BO.j72TheGridState>(string.Format("SELECT a.*,{0} FROM j72TheGridState a WHERE a.j72Entity=@entity AND a.j03ID=@j03id AND a.j72MasterEntity IS NULL", _db.GetSQL1_Ocas("j72")), new { entity = strEntity, j03id = intJ03ID });
             }
             else
             {
-                return _db.Load<BO.j72TheGridState>(string.Format("SELECT a.*,{0} FROM j72TheGridState a WHERE a.j72Entity=@entity AND a.j02ID=@j02id AND a.j72MasterEntity=@masterentity", _db.GetSQL1_Ocas("j72")), new { entity = strEntity, j02id = intJ02ID,masterentity=strMasterEntity });
+                return _db.Load<BO.j72TheGridState>(string.Format("SELECT a.*,{0} FROM j72TheGridState a WHERE a.j72Entity=@entity AND a.j03ID=@j03id AND a.j72MasterEntity=@masterentity", _db.GetSQL1_Ocas("j72")), new { entity = strEntity, j03id = intJ03ID,masterentity=strMasterEntity });
             }
             
         }
@@ -105,7 +105,8 @@ namespace BL
                     sb.Append(" FROM p13MasterTpv a");
                     break;
                 case "p14":
-                    sb.Append(" FROM p14MasterOper a");                 
+                    sb.Append(" FROM p14MasterOper a");
+                    if (String.IsNullOrEmpty(mq.explicit_orderby) && bolGetTotalsRow==false) mq.explicit_orderby = "a.p14RowNum";
                     break;
                 case "o23":
                     sb.Append(" FROM o23Doc a LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID");
@@ -126,29 +127,29 @@ namespace BL
 
         public int SaveTheGridState(BO.j72TheGridState rec)
         {
-            var p = new Dapper.DynamicParameters();
-            p.Add("pid", rec.j72ID);
-            p.Add("j70ID", BO.BAS.TestIntAsDbKey(rec.j70ID));
-            p.Add("j02ID", BO.BAS.TestIntAsDbKey(rec.j02ID));
+            var p = new DL.Params4Dapper();
+            p.AddInt("pid", rec.j72ID);
+            p.AddInt("j70ID", rec.j70ID,true);
+            p.AddInt("j03ID", rec.j03ID,true);
             
-            p.Add("j72Entity", rec.j72Entity);
-            p.Add("j72MasterEntity", rec.j72MasterEntity);
-            p.Add("j72Columns", rec.j72Columns);
-            p.Add("j72SplitterFlag", rec.j72SplitterFlag);
-            p.Add("j72HeightPanel1", rec.j72HeightPanel1);
+            p.AddString("j72Entity", rec.j72Entity);
+            p.AddString("j72MasterEntity", rec.j72MasterEntity);
+            p.AddString("j72Columns", rec.j72Columns);
+            p.AddInt("j72SplitterFlag", rec.j72SplitterFlag);
+            p.AddInt("j72HeightPanel1", rec.j72HeightPanel1);
 
-            p.Add("j72PageSize", rec.j72PageSize);
-            p.Add("j72CurrentPagerIndex", rec.j72CurrentPagerIndex);
-            p.Add("j72CurrentRecordPid", rec.j72CurrentRecordPid);
+            p.AddInt("j72PageSize", rec.j72PageSize);
+            p.AddInt("j72CurrentPagerIndex", rec.j72CurrentPagerIndex);
+            p.AddInt("j72CurrentRecordPid", rec.j72CurrentRecordPid);
 
-            p.Add("j72SortDataField", rec.j72SortDataField);            
-            p.Add("j72SortOrder", rec.j72SortOrder);
-            p.Add("j72Filter", rec.j72Filter);
+            p.AddString("j72SortDataField", rec.j72SortDataField);            
+            p.AddString("j72SortOrder", rec.j72SortOrder);
+            p.AddString("j72Filter", rec.j72Filter);
 
-            p.Add("j72IsNoWrap", rec.j72IsNoWrap);
-            p.Add("j72SelectableFlag", rec.j72SelectableFlag);
+            p.AddBool("j72IsNoWrap", rec.j72IsNoWrap);
+            p.AddInt("j72SelectableFlag", rec.j72SelectableFlag);
 
-            return _db.SaveRecord("j72TheGridState", p, rec);
+            return _db.SaveRecord("j72TheGridState", p.getDynamicDapperPars(), rec);
         }
     }
 }

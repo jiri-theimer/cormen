@@ -10,8 +10,21 @@ namespace UI.Models
         public string entity { get; set; }
         public string prefix { get; set; }
         public int go2pid { get; set; }
+        public int contextmenuflag { get; set; }
         
         public string master_entity { get; set; }
         public int master_pid { get; set; }
+
+        public List<NavTab> NavTabs;
+    }
+
+
+    public class NavTab
+    {
+        public string Name { get; set; }
+        public string Entity { get; set; }
+        public string Url { get; set; }
+
+        public string CssClass { get; set; } = "nav-link text-dark";
     }
 }

@@ -42,7 +42,7 @@
 
 
 
-
+    <button type="button" class="btn btn-secondary" id="cmdToggleLayoutSidebar" onclick="toggle_layout_sidebar()">&#9776;</button>
     <div id="layout_sidebar">
         <div class="input-group">
             <div class="dropdown" style="padding:0px;">
@@ -411,6 +411,9 @@
             $(_modal).css("display", "block");
         }
 
+        function toggle_layout_sidebar() {
+            $("#layout_sidebar").toggle();
+        }
 
     </script>
 

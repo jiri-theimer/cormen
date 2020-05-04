@@ -42,22 +42,22 @@ namespace BL
 
         public int Save(BO.j03User rec)
         {
-            var p = new Dapper.DynamicParameters();
-            p.Add("pid", rec.j03ID);
-            p.Add("j02ID", BO.BAS.TestIntAsDbKey(rec.j02ID));
-            p.Add("j04ID", BO.BAS.TestIntAsDbKey(rec.j04ID));
-            p.Add("j03IsMustChangePassword", rec.j03IsMustChangePassword, System.Data.DbType.Boolean);            
-            p.Add("j03Login", rec.j03Login);         
-            p.Add("j03AccessFailedCount", rec.j03AccessFailedCount);
-            p.Add("j03ModalDialogFlag", rec.j03ModalDialogFlag);
-            p.Add("j03FontStyleFlag", rec.j03FontStyleFlag);
+            var p = new DL.Params4Dapper();
+            p.AddInt("pid", rec.j03ID);
+            p.AddInt("j02ID", rec.j02ID,true);
+            p.AddInt("j04ID", rec.j04ID,true);
+            p.AddBool("j03IsMustChangePassword", rec.j03IsMustChangePassword);            
+            p.AddString("j03Login", rec.j03Login);         
+            p.AddInt("j03AccessFailedCount", rec.j03AccessFailedCount);
+            p.AddInt("j03ModalDialogFlag", rec.j03ModalDialogFlag);
+            p.AddInt("j03FontStyleFlag", rec.j03FontStyleFlag);
             if (!String.IsNullOrEmpty(rec.j03PasswordHash))
             {
                 p.Add("j03PasswordHash", rec.j03PasswordHash);
             }
 
 
-            return _db.SaveRecord("j03User", p, rec);
+            return _db.SaveRecord("j03User", p.getDynamicDapperPars(), rec);
         }
     }
 }

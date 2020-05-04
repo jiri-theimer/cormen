@@ -36,14 +36,15 @@ namespace BL
 
         public int Save(BO.o12Category rec)
         {
-            var p = new Dapper.DynamicParameters();
-            p.Add("pid", rec.o12ID);
-            p.Add("o12Name", rec.o12Name);
-            p.Add("o12Code", rec.o12Code);
-            p.Add("o12Entity", rec.o12Entity);
+            var p = new DL.Params4Dapper();
+         
+            p.AddInt("pid", rec.o12ID);
+            p.AddString("o12Name", rec.o12Name);
+            p.AddString("o12Code", rec.o12Code);
+            p.AddString("o12Entity", rec.o12Entity);
 
 
-            return _db.SaveRecord("o12Category", p, rec);
+            return _db.SaveRecord("o12Category", p.getDynamicDapperPars(), rec);
         }
     }
 }

@@ -50,36 +50,36 @@ namespace BL
                 _db.CurrentUser.AddMessage( "Chybí vyplnit svázaný záznam k dokumentu!");
                 return 0;
             }
-            var p = new Dapper.DynamicParameters();
-            p.Add("pid", rec.o23ID);
+            var p = new DL.Params4Dapper();
+            p.AddInt("pid", rec.o23ID);
             if (rec.j02ID_Owner == 0) rec.j02ID_Owner = _db.CurrentUser.pid;
-            p.Add("j02ID_Owner", BO.BAS.TestIntAsDbKey(rec.j02ID_Owner));
-            p.Add("o23RecordPid", BO.BAS.TestIntAsDbKey(rec.o23RecordPid));
-            p.Add("o23Entity", rec.o23Entity);
-            p.Add("o12ID", BO.BAS.TestIntAsDbKey(rec.o12ID));
-            p.Add("b02ID", BO.BAS.TestIntAsDbKey(rec.b02ID));
-            p.Add("o23Date", rec.o23Date);
-            p.Add("o23Name", rec.o23Name);
-            p.Add("o23Code", rec.o23Code);
-            p.Add("o23Entity", rec.o23Entity);
-            p.Add("o23Memo", rec.o23Memo);
+            p.AddInt("j02ID_Owner", rec.j02ID_Owner,true);
+            p.AddInt("o23RecordPid", rec.o23RecordPid,true);
+            p.AddString("o23Entity", rec.o23Entity);
+            p.AddInt("o12ID", rec.o12ID);
+            p.AddInt("b02ID", rec.b02ID,true);
+            p.AddDateTime("o23Date", rec.o23Date);
+            p.AddString("o23Name", rec.o23Name);
+            p.AddString("o23Code", rec.o23Code);
+            p.AddString("o23Entity", rec.o23Entity);
+            p.AddString("o23Memo", rec.o23Memo);
 
 
-            int intO23ID= _db.SaveRecord( "o23Doc", p, rec);
+            int intO23ID= _db.SaveRecord( "o23Doc", p.getDynamicDapperPars(), rec);
             if (intO23ID > 0 && lisO27_Append != null && lisO27_Append.Count>0)
             {
                 foreach(var c in lisO27_Append)
                 {
-                    p= new Dapper.DynamicParameters();
-                    p.Add("pid", 0);
-                    p.Add("o23ID", intO23ID);
-                    p.Add("o27Name", c.o27Name);
-                    p.Add("o27ArchiveFileName", c.o27ArchiveFileName);
-                    p.Add("o27ArchiveFolder", c.o27ArchiveFolder);
-                    p.Add("o27FileSize", c.o27FileSize);
-                    p.Add("o27ContentType", c.o27ContentType);
-                    p.Add("o27GUID", c.o27GUID);
-                    _db.SaveRecord( "o27Attachment", p, c);
+                    p = new DL.Params4Dapper();
+                    p.AddInt("pid", 0);
+                    p.AddInt("o23ID", intO23ID,true);
+                    p.AddString("o27Name", c.o27Name);
+                    p.AddString("o27ArchiveFileName", c.o27ArchiveFileName);
+                    p.AddString("o27ArchiveFolder", c.o27ArchiveFolder);
+                    p.AddInt("o27FileSize", c.o27FileSize);
+                    p.AddString("o27ContentType", c.o27ContentType);
+                    p.AddString("o27GUID", c.o27GUID);
+                    _db.SaveRecord( "o27Attachment", p.getDynamicDapperPars(), c);
                 }
             }
             if (intO23ID>0 && o27IDs_Remove !=null && o27IDs_Remove.Count > 0)

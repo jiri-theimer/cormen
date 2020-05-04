@@ -35,23 +35,31 @@ namespace UI.Controllers
         
 
         public string GetBodyOfTale(string entity, string queryfield, string queryvalue)
-        {
-            string strCols = "";
+        {           
             var mq = new BO.myQuery(entity);
+            if (string.IsNullOrEmpty(queryfield) == false)
+            {
+                BO.Reflexe.SetPropertyValue(mq, queryfield, queryvalue);
+            }
+            mq.explicit_columns = new BL.TheColumnsProvider(mq).getDefaultPallete();
             var dt = Factory.gridBL.GetList(mq);
             var intRows = dt.Rows.Count;
-
+            
             var s = new System.Text.StringBuilder();
-            var cols = BO.BAS.ConvertString2List(strCols);
+            foreach(var col in mq.explicit_columns)
+            {
+
+            }
             for (int i = 0; i < intRows; i++)
             {
                 s.Append(string.Format("<tr data-v='{0}'>", dt.Rows[i]["pid"]));
-                foreach (var strCol in cols)
+                foreach (var col in mq.explicit_columns)
                 {
-                    s.Append(string.Format("<td>{0}</td>", dt.Rows[i][strCol]));
+                    s.Append(string.Format("<td>{0}</td>", dt.Rows[i][col.Field]));
                 }
-                
                 s.Append("</tr>");
+
+               
             }
             return s.ToString();
         }
@@ -59,7 +67,12 @@ namespace UI.Controllers
         {                
             var mq = new BO.myQuery(entity);
             mq.SetPids(pids);
-            var cols = new BL.TheColumnsProvider(mq).getDefaultPallete();
+            if (string.IsNullOrEmpty(queryfield) == false)
+            {
+                BO.Reflexe.SetPropertyValue(mq, queryfield, queryvalue);
+            }
+            
+            mq.explicit_columns = new BL.TheColumnsProvider(mq).getDefaultPallete();
 
             var dt = Factory.gridBL.GetList(mq);
             var intRows = dt.Rows.Count;
@@ -71,7 +84,7 @@ namespace UI.Controllers
             for (int i = 0; i < intRows; i++)
             {
                 s.Append(string.Format("<tr data-v='{0}'>", dt.Rows[i]["pid"]));
-                foreach (var col in cols)
+                foreach (var col in mq.explicit_columns)
                 {
                     s.Append(string.Format("<td>{0}</td>", dt.Rows[i][col.Field]));
                 }

@@ -37,23 +37,23 @@ namespace BL
 
         public int Save(BO.p14MasterOper rec)
         {
-            var p = new Dapper.DynamicParameters();
-            p.Add("pid", rec.p14ID);
-            p.Add("p13ID", BO.BAS.TestIntAsDbKey(rec.p13ID));
-            p.Add("p14Name", rec.p14Name);
-            p.Add("p14MaterialCode", rec.p14MaterialCode);
-            p.Add("p14MaterialName", rec.p14MaterialName);
-            p.Add("p14RowNum", rec.p14RowNum);
-            p.Add("p14OperCode", rec.p14OperCode);
-            p.Add("p14OperNum", rec.p14OperNum);
-            p.Add("p14OperParam", rec.p14OperParam);
-            p.Add("p14UnitsCount", rec.p14UnitsCount);
-            p.Add("p14DurationPreOper", rec.p14DurationPreOper);
-            p.Add("p14DurationPostOper", rec.p14DurationPostOper);
-            p.Add("p14DurationOper", rec.p14DurationOper);
+            var p = new DL.Params4Dapper();
+            p.AddInt("pid", rec.p14ID);
+            p.AddInt("p13ID", rec.p13ID,true);
+            p.AddString("p14Name", rec.p14Name);
+            p.AddString("p14MaterialCode", rec.p14MaterialCode);
+            p.AddString("p14MaterialName", rec.p14MaterialName);
+            p.AddInt("p14RowNum", rec.p14RowNum);
+            p.AddString("p14OperCode", rec.p14OperCode);
+            p.AddString("p14OperNum", rec.p14OperNum);
+            p.AddInt("p14OperParam", rec.p14OperParam);
+            p.AddDouble("p14UnitsCount", rec.p14UnitsCount);
+            p.AddDouble("p14DurationPreOper", rec.p14DurationPreOper);
+            p.AddDouble("p14DurationPostOper", rec.p14DurationPostOper);
+            p.AddDouble("p14DurationOper", rec.p14DurationOper);
 
 
-            return _db.SaveRecord( "p14MasterOper", p, rec);
+            return _db.SaveRecord( "p14MasterOper", p.getDynamicDapperPars(), rec);
         }
     }
 }

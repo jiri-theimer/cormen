@@ -72,7 +72,9 @@
     });
 
 
-
+        function _window_open(url, flag, header) {
+            window.parent._window_open(url, flag, header);
+        }
         
     </script>
 

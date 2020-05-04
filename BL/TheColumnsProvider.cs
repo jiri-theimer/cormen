@@ -135,6 +135,25 @@ namespace BL
                 AF("o12Category", "o12Name", "Název", true);
                 AF("o12Category", "EntityAlias", "Vazba", true, "dbo.getEntityAlias(a.o12Entity)");
             }
+            if (bolIncludeOutsideEntity || _mq.Prefix == "p14")
+            {
+                AF("p14MasterOper", "p14RowNum", "RowNum", true,null,"num0");
+                AF("p14MasterOper", "p14OperNum", "OperNum", true);
+                AF("p14MasterOper", "p14OperCode", "OperCode", true);
+
+                AF("p14MasterOper", "p14Name", "Name", true);
+                AF("p14MasterOper", "p14OperParam", "OperPar", true,null,"num0");
+
+                AF("p14MasterOper", "p14MaterialCode", "MaterialCode", true);
+                AF("p14MasterOper", "p14MaterialName", "MaterialName", true);
+                
+                AF("p14MasterOper", "p14UnitsCount", "UnitsCount", true,null,"num");
+                AF("p14MasterOper", "p14DurationPreOper", "DurationPreOper", true,null,"num");
+                AF("p14MasterOper", "p14DurationOper", "DurationOper", true,null,"num");                
+                AF("p14MasterOper", "p14DurationPostOper", "DurationPostOper", true,null,"num");
+
+                AppendTimestamp("p14MasterOper");
+            }
 
             if (_lis.Count == 0)
             {
@@ -182,6 +201,7 @@ namespace BL
             {
                 case "p28":
                     return _lis.Where(p=>p.Entity==_mq.Entity);
+               
                 case "p10":
                     return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix=="p13" || p.Prefix== "b02" || p.Entity == "o12");
                 case "p26":
@@ -193,7 +213,7 @@ namespace BL
                 case "o23":
                     return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "b02" || p.Prefix == "o12");
                 default:
-                    return AllColumns();
+                    return _lis.Where(p => p.Entity == _mq.Entity);
             }
             
 

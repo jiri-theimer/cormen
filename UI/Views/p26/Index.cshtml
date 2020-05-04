@@ -4,13 +4,10 @@
     ViewData["Title"] = "Stroj";
     Layout = "~/Views/Shared/_LayoutModal.cshtml";
 }
-    <h4>Stroj</h4>
+    
     <div class="modal_record_container">
         
       
-        <div class="btn-group">
-            <a asp-action="Record" class="btn btn-light" asp-route-pid="@Model.Rec.pid" asp-route-entity="p26">Upravit</a>
-        </div>
         <div class="form-row">
             <label class="col-sm-1 col-md-2 col-form-label">Stroj:</label>
             <div class="col-sm-6 col-md-6">
@@ -55,6 +52,6 @@
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
 
-<h1>Prostor pro 1:N přehledy z plánování, výroby apod.</h1>
+
 
 

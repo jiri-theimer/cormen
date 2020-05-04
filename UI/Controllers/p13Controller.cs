@@ -222,16 +222,16 @@ namespace UI.Controllers
                 s.Append(string.Format("<td data-type='number' contenteditable='true' data-field='p85FreeNumber05'>{0}</td>", BO.BAS.TestDouleAsDbKey(c.p85FreeNumber05))); //p14DurationOper
                 s.Append(string.Format("<td data-type='number' contenteditable='true' data-field='p85FreeNumber06'>{0}</td>", BO.BAS.TestDouleAsDbKey(c.p85FreeNumber06))); //p14DurationPostOper
 
-                s.Append(string.Format("<td><button type='button' title='Odstranit řádek' onclick='delete_row({0})'><i class='fas fa-trash-alt'></i></button></td>", c.pid));
+                s.Append(string.Format("<td><button type='button' class='btn btn-danger btn-sm' title='Odstranit řádek' onclick='delete_row({0})'>&times;</button></td>", c.pid));
                 s.Append("<td>");
                 if (xx > 0)
                 {
-                    s.Append(string.Format("<button type='button' title='Posunout nahoru' onclick='move_row({0},0)'><i class='fas fa-arrow-up'></i></button>", c.pid));
+                    s.Append(string.Format("<button type='button' class='btn btn-primary btn-sm' title='Posunout nahoru' onclick='move_row({0},0)'>🡅</button>", c.pid));
                 }
                 s.Append("</td><td>");
                 if (xx < lis.Count()-1)
                 {
-                    s.Append(string.Format("<button type='button' title='Posunout dolů' onclick='move_row({0},1)'><i class='fas fa-arrow-down'></i></button>", c.pid));
+                    s.Append(string.Format("<button type='button' class='btn btn-primary btn-sm' title='Posunout dolů' onclick='move_row({0},1)'>🡇</button>", c.pid));
                 };
                 s.Append("</td>");
 

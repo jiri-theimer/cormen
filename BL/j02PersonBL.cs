@@ -37,23 +37,21 @@ namespace BL
 
         public int Save(BO.j02Person rec)
         {
-            var p = new Dapper.DynamicParameters();
-            p.Add("pid", rec.j02ID);
+            var p = new DL.Params4Dapper();
+            p.AddInt("pid", rec.j02ID);
            
-
-          
-            p.Add("p28ID", BO.BAS.TestIntAsDbKey(rec.p28ID));
-            p.Add("j02FirstName", rec.j02FirstName);
-            p.Add("j02LastName", rec.j02LastName);
-            p.Add("j02TitleBeforeName", rec.j02TitleBeforeName);
-            p.Add("j02TitleAfterName", rec.j02TitleAfterName);
-            p.Add("j02Email", rec.j02Email);
+            p.AddInt("p28ID",rec.p28ID,true);
+            p.AddString("j02FirstName", rec.j02FirstName);
+            p.AddString("j02LastName", rec.j02LastName);
+            p.AddString("j02TitleBeforeName", rec.j02TitleBeforeName);
+            p.AddString("j02TitleAfterName", rec.j02TitleAfterName);
+            p.AddString("j02Email", rec.j02Email);
       
-            p.Add("j02Tel1", rec.j02Tel1);
-            p.Add("j02Tel2", rec.j02Tel2);
+            p.AddString("j02Tel1", rec.j02Tel1);
+            p.AddString("j02Tel2", rec.j02Tel2);
             
             
-            return _db.SaveRecord("j02Person", p,rec);
+            return _db.SaveRecord("j02Person", p.getDynamicDapperPars(),rec);
         }
 
         

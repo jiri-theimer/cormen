@@ -6,12 +6,10 @@
 
 }
 
-    <h4>Licence</h4>
+    
 <div class="modal_record_container">
     
-    <div class="btn-group">
-        <a asp-action="Record" class="btn btn-light" asp-route-pid="@Model.Rec.pid" asp-route-entity="p21">Upravit</a>
-    </div>
+    
     <div class="form-row">
         <label class="col-sm-1 col-md-2 col-form-label">Licence:</label>
         <div class="col-sm-6 col-md-6">
@@ -62,14 +60,7 @@
 
     }
 
-    <div class="card">
-        <div class="card-header">
-            Produkty v licenci
-        </div>
-        <div class="card-body" id="divP10">
-
-        </div>
-    </div>
+   
 
 </div>
 
@@ -78,11 +69,11 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        var url = "@Url.Action("GetWorkTable", "Common")";
+        @*var url = "@Url.Action("GetWorkTable", "Common")";
 
         $.post(url, { entity: "p10", tableid: "tabp10", queryfield:"p21id", queryvalue:@Model.Rec.pid }, function (data) {
                 $("#divP10").html(data);
-            });
+            });*@
 
 
     });

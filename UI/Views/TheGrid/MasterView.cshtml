@@ -8,7 +8,7 @@
     {
         return;
     }
-   
+
 }
 
 @addTagHelper *,UI
@@ -17,20 +17,32 @@
 
 
 
-<div id="splitter_container" class="splitter-container-top2bottom">
+    <div id="splitter_container" class="splitter-container-top2bottom">
 
-    <div id="splitter_panel1" class="splitter-panel-top">
-        <vc:the-grid entity="@Model.entity" j72id="0" go2pid="@Model.go2pid" master_entity="" master_pid="0"></vc:the-grid>
+        <div id="splitter_panel1" class="splitter-panel-top">
+            <vc:the-grid entity="@Model.entity" j72id="0" go2pid="@Model.go2pid" master_entity="" master_pid="0" contextmenuflag="@Model.contextmenuflag"></vc:the-grid>
+
+        </div>
+        <div style="padding-top:1px;margin-bottom:1px;height:30px;background-color:#ADD8E6;">
+            <ul id="navtabs" class="nav nav-tabs">
+                @foreach (var tab in Model.NavTabs)
+                {
+                    <li class="nav-item">
+                        <a class="@tab.CssClass" id="tab@(tab.Entity)" href="@tab.Url" target="fra_subgrid" onclick="tabclick(this)">@tab.Name</a>
+                    </li>
+
+                }
+            </ul>
+        </div>
+
+        <div id="splitter_resizer" class="splitter-resizer-top2bottom">
+        </div>
+
+        <div id="splitter_panel2" class="splitter-panel-bottom">
+
+            <iframe id="fra_subgrid" name="fra_subgrid" frameborder="0" scrolling="no" width="100%" onload="$('#splitter_panel2').css('background','none');"></iframe>
+        </div>
     </div>
-
-    <div id="splitter_resizer" class="splitter-resizer-top2bottom">
-    </div>
-
-    <div id="splitter_panel2" class="splitter-panel-bottom">
-
-        <iframe id="fra_subgrid" name="fra_subgrid" frameborder="0" scrolling="no" width="100%" onload="$('#splitter_panel2').css('background','none');"></iframe>
-    </div>
-</div>
 
 <div id="divContextMenuStatic" style="display:none;">
     <ul style="border:0px;">
@@ -48,6 +60,8 @@
         </li>
     </ul>
 </div>
+
+<input type="hidden" id="cur_pid" asp-for="@Model.go2pid" />
 
 @section Scripts{
 
@@ -73,14 +87,41 @@
 
 
      /*automaticky volaná událost z thegrid controlu*/
-     function thegrid_handle_event(event_name, pid) {
+        function thegrid_handle_event(event_name, pid) {
+            $("#cur_pid").val(pid);
+            var tabUrl = "";
 
-        if (event_name == "rowselect") {
-            document.getElementById("fra_subgrid").src = "/TheGrid/SlaveView?prefix=p10&master_entity=@Model.entity&master_pid=" + pid;
-        }
+         @foreach (var tab in Model.NavTabs)
+         {
+
+             <text>
+            tabUrl = $("#tab@(@tab.Entity)").attr("href");
+            tabUrl = _removeUrlParam("master_pid", tabUrl);
+            tabUrl = tabUrl + "&master_pid=" + pid;
+           
+            if (tabUrl.indexOf("/Index") > 0) {
+                tabUrl = _removeUrlParam("pid", tabUrl);
+                tabUrl = tabUrl + "&pid=" + pid;
+            }
+            
+            $("#tab@(@tab.Entity)").attr("href", tabUrl);
+            </text>
+         }
+            var selectedtab = $("#navtabs").find(".active");
+           
+            tabUrl = $(selectedtab).attr("href");
+            document.getElementById("fra_subgrid").src = tabUrl;
+
+            
+
      }
 
 
+        function tabclick(tab) {
+            $("#navtabs .nav-link").removeClass("active");
+            $(tab).addClass("active");
+            
+        }
 
     </script>
 

@@ -9,6 +9,7 @@ var _tg_filter_is_active;
 var _tg_go2pid;
 var _tg_master_entity;
 var _tg_master_pid;
+var _tg_contextmenuflag;
 
 function tg_init(c) {
     _tg_entity = c.entity;
@@ -18,7 +19,8 @@ function tg_init(c) {
     _tg_url_filter = c.filterurl;
     _tg_go2pid = c.go2pid;
     _tg_master_entity = c.master_entity;
-    _tg_master_pid = c.master_pid;
+    _tg_master_pid = c.master_pid;    
+    _tg_contextmenuflag = c.contextmenuflag;
 
     tg_post_data();
 
@@ -102,8 +104,8 @@ function tg_init(c) {
 }
 
 function tg_post_data() {
-
-    $.post(_tg_url_data, { entity: _tg_entity, j72id: _j72id, go2pid:_tg_go2pid,master_entity: _tg_master_entity, master_pid: _tg_master_pid }, function (data) {        
+    
+    $.post(_tg_url_data, { entity: _tg_entity, j72id: _j72id, go2pid: _tg_go2pid, master_entity: _tg_master_entity, master_pid: _tg_master_pid, contextmenuflag: _tg_contextmenuflag }, function (data) {        
         
         refresh_environment_after_post("first_data", data);
 
@@ -132,7 +134,8 @@ function tg_refresh_sorter(sortfield, sortdir) {
 
 function tg_post_handler(strOper, strKey, strValue) {
     //_notify_message("odesílá se: oper: " + strOper + ", key: " + strKey + ", value: " + strValue);    
-    $.post(_tg_url_handler, { j72id: _j72id, oper: strOper, key: strKey, value: strValue }, function (data) {
+    
+    $.post(_tg_url_handler, { j72id: _j72id, oper: strOper, key: strKey, value: strValue, master_entity: _tg_master_entity, master_pid: _tg_master_pid, contextmenuflag: _tg_contextmenuflag }, function (data) {
        // _notify_message("vrátilo se: oper: " + strOper + ", key: " + strKey + ", value: " + strValue);
 
         refresh_environment_after_post(strOper,data);
@@ -170,16 +173,17 @@ function tg_adjust_parts_width() {
 
 
 function tg_setup_selectable() {
+        
     _ds = new DragSelect({
         selectables: document.getElementsByClassName('selectable'), // node/nodes that can be selected. This is also optional, you could just add them later with .addSelectables.
         selectedClass: "selrow",
-        area: document.getElementById('container_vScroll'), // area in which you can drag. If not provided it will be the whole document.
+        area: document.getElementById("container_vScroll"), // area in which you can drag. If not provided it will be the whole document.
         customStyles: false,  // If set to true, no styles (except for position absolute) will be applied by default.
         multiSelectKeys: ['ctrlKey', 'shiftKey', 'metaKey'],  // special keys that allow multiselection.
         multiSelectMode: false,  // If set to true, the multiselection behavior will be turned on by default without the need of modifier keys. Default: false
         autoScrollSpeed: 20,  // Speed in which the area scrolls while selecting (if available). Unit is pixel per movement. Set to 0 to disable autoscrolling. Default = 1
-        onDragStart: function (element) { }, // fired when the user clicks in the area. This callback gets the event object. Executed after DragSelect function code ran, befor the setup of event listeners.
-        onDragMove: function (element) { }, // fired when the user drags. This callback gets the event object. Executed before DragSelect function code ran, after getting the current mouse position.
+        onDragStart: function (element) {}, // fired when the user clicks in the area. This callback gets the event object. Executed after DragSelect function code ran, befor the setup of event listeners.
+        onDragMove: function (element) {}, // fired when the user drags. This callback gets the event object. Executed before DragSelect function code ran, after getting the current mouse position.
         onElementSelect: function (element) { }, // fired every time an element is selected. (element) = just selected node
         onElementUnselect: function (element) { }, // fired every time an element is de-selected. (element) = just de-selected node.
         callback: function (elements) {
@@ -193,7 +197,7 @@ function tg_setup_selectable() {
             $("#tg_selected_pids").val(pid);
             $("#tabgrid1").find("input:checkbox").prop("checked", false);
             $("#chk" + pid).prop("checked", true);
-
+            
 
             if (elements.length > 1) {
                 var pids = [];
@@ -675,7 +679,7 @@ function tg_filter_send2server() {
     });
 
     
-    $.post(_tg_url_filter, {j72id:_j72id, filter: ret }, function (data) {
+    $.post(_tg_url_filter, { j72id: _j72id, filter: ret, master_entity: _tg_master_entity, master_pid: _tg_master_pid, contextmenuflag: _tg_contextmenuflag}, function (data) {
         
         refresh_environment_after_post("filter", data);
 
@@ -721,7 +725,7 @@ function tg_adjust_for_screen(strParentElementID) {
         if ($("#tabgrid0").width() > w0) {
             hh = hh - 20;   //je vidět horizontální scrollbara, ubereme výšku, aby byla vidět, 20: odhad výšky scrollbary            
         }
-        
+        hh = hh - 100;        
         $("#container_vScroll").css("height", hh + "px");
 
 
@@ -739,7 +743,8 @@ function tg_adjust_for_screen(strParentElementID) {
             h_vertical = h_vertical - 35;   //rezerva pro tfoot s TOTALS
         }
 
-        h_vertical = parseInt(h_vertical);        
+        h_vertical = parseInt(h_vertical);    
+        
         $("#container_vScroll").css("height", h_vertical + "px");
         $(document.body).css("overflow-y", "hidden");
         
@@ -750,7 +755,7 @@ function tg_adjust_for_screen(strParentElementID) {
     //var basewidth = $("#tabgrid0").width();
     //$("#tabgrid1").width(basewidth);
     //$("#tabgrid2").width(basewidth);
-
+    
 
     
 }

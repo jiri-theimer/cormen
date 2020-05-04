@@ -538,17 +538,34 @@ a.cm {
 
 
 
-
+#cmdToggleLayoutSidebar {
+    display: none;
+}
 #layout_main {
     transition: margin-left .5s;
     padding: 0px;
     margin-left: 200px;
+    display:block;
 }
 
-/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
-@media screen and (max-height: 450px) {
+
+@media screen and (max-width: 700px) {
+    #cmdToggleLayoutSidebar {
+        display: block;
+    }
     #layout_sidebar {
-        padding-top: 5px;
+        width: 100%;
+        height: auto;
+        position: relative;
+        display: none;
+    }
+
+    .sidebar a {
+        float: left;
+    }
+
+    #layout_main {
+        margin-left: 0;
     }
 }
 
@@ -595,3 +612,12 @@ iframe {
 a.nav-link:hover {
     background-color: #F5F5F5;
 }
+
+#navtabs .nav-link {
+    margin-right: 1px;
+}
+
+    #navtabs .nav-link.active {
+        background-color: white;
+        height: 100%;
+    }

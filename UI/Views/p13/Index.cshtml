@@ -7,12 +7,10 @@
 
 @Html.HiddenFor(m => m.Rec.pid)
 
-    <h4>TPV</h4>
+
 <div class="modal_record_container">
     
-    <div class="btn-group">
-        <a asp-action="Record" class="btn btn-light" asp-route-pid="@Model.Rec.pid" asp-route-entity="p13">Upravit</a>
-    </div>
+   
     <div class="form-row">
         <label class="col-sm-1 col-md-2 col-form-label">TPV:</label>
         <div class="col-sm-9 col-md-8">
@@ -65,10 +63,10 @@
 <script type="text/javascript">
 
 $(document).ready(function () {
-        var url = "@Url.Action("GetBodyOfTale", "Common")";
-
-        $.post(url, { entity: "p14", tableid: "tabp14", queryfield: "p13id", queryvalue:@Model.Rec.pid }, function (data) {
-
+    var url = "@Url.Action("GetBodyOfTale", "Common")";
+    
+    $.post(url, { entity: "p14MasterOper", tableid: "tabp14", queryfield: "p13id", queryvalue:@Model.Rec.pid }, function (data) {
+            
             $("#tbody1").html(data);
         });
 

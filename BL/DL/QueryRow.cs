@@ -15,9 +15,5 @@ namespace BL.DL
         public string AndOrZleva { get; set; } = "AND";
     }
 
-    public class Param4DT
-    {
-        public string ParName { get; set; }
-        public object ParValue { get; set; }
-    }
+   
 }

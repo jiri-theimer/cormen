@@ -52,45 +52,45 @@ namespace BL
 
         public int Save(BO.p85Tempbox rec)
         {
-            var p = new Dapper.DynamicParameters();
-            p.Add("pid", rec.p85ID);
-            p.Add("p85GUID", rec.p85GUID);
-            p.Add("p85Prefix", rec.p85Prefix);
-            p.Add("p85RecordPid", BO.BAS.TestIntAsDbKey(rec.p85RecordPid));
-            p.Add("p85ClonePid", BO.BAS.TestIntAsDbKey(rec.p85ClonePid));
-            p.Add("p85IsDeleted", rec.p85IsDeleted);
+            var p = new DL.Params4Dapper();
+            p.AddInt("pid", rec.p85ID);
+            p.AddString("p85GUID", rec.p85GUID);
+            p.AddString("p85Prefix", rec.p85Prefix);
+            p.AddInt("p85RecordPid", rec.p85RecordPid,true);
+            p.AddInt("p85ClonePid", rec.p85ClonePid);
+            p.AddBool("p85IsDeleted", rec.p85IsDeleted);
 
-            p.Add("p85OtherKey1", BO.BAS.TestIntAsDbKey(rec.p85OtherKey1));
-            p.Add("p85OtherKey2", BO.BAS.TestIntAsDbKey(rec.p85OtherKey2));
-            p.Add("p85OtherKey3", BO.BAS.TestIntAsDbKey(rec.p85OtherKey3));
-            p.Add("p85OtherKey4", BO.BAS.TestIntAsDbKey(rec.p85OtherKey4));
-            p.Add("p85OtherKey5", BO.BAS.TestIntAsDbKey(rec.p85OtherKey5));
+            p.AddInt("p85OtherKey1",rec.p85OtherKey1,true);
+            p.AddInt("p85OtherKey2",rec.p85OtherKey2,true);
+            p.AddInt("p85OtherKey3",rec.p85OtherKey3,true);
+            p.AddInt("p85OtherKey4", rec.p85OtherKey4,true);
+            p.AddInt("p85OtherKey5", rec.p85OtherKey5,true);
 
-            p.Add("p85FreeText01", rec.p85FreeText01);
-            p.Add("p85FreeText02", rec.p85FreeText02);
-            p.Add("p85FreeText03", rec.p85FreeText03);
-            p.Add("p85FreeText04", rec.p85FreeText04);
-            p.Add("p85FreeText05", rec.p85FreeText05);
-            p.Add("p85FreeText06", rec.p85FreeText06);
+            p.AddString("p85FreeText01", rec.p85FreeText01);
+            p.AddString("p85FreeText02", rec.p85FreeText02);
+            p.AddString("p85FreeText03", rec.p85FreeText03);
+            p.AddString("p85FreeText04", rec.p85FreeText04);
+            p.AddString("p85FreeText05", rec.p85FreeText05);
+            p.AddString("p85FreeText06", rec.p85FreeText06);
 
-            p.Add("p85FreeBoolean01", rec.p85FreeBoolean01);
-            p.Add("p85FreeBoolean02", rec.p85FreeBoolean02);
-            p.Add("p85FreeBoolean03", rec.p85FreeBoolean03);
-            p.Add("p85FreeBoolean04", rec.p85FreeBoolean04);
+            p.AddBool("p85FreeBoolean01", rec.p85FreeBoolean01);
+            p.AddBool("p85FreeBoolean02", rec.p85FreeBoolean02);
+            p.AddBool("p85FreeBoolean03", rec.p85FreeBoolean03);
+            p.AddBool("p85FreeBoolean04", rec.p85FreeBoolean04);
 
-            p.Add("p85FreeNumber01", BO.BAS.TestDouleAsDbKey(rec.p85FreeNumber01), System.Data.DbType.Double);
-            p.Add("p85FreeNumber02", BO.BAS.TestDouleAsDbKey(rec.p85FreeNumber02), System.Data.DbType.Double);
-            p.Add("p85FreeNumber03", BO.BAS.TestDouleAsDbKey(rec.p85FreeNumber03), System.Data.DbType.Double);
-            p.Add("p85FreeNumber04", BO.BAS.TestDouleAsDbKey(rec.p85FreeNumber04), System.Data.DbType.Double);
-            p.Add("p85FreeNumber05", BO.BAS.TestDouleAsDbKey(rec.p85FreeNumber05), System.Data.DbType.Double);
-            p.Add("p85FreeNumber06", BO.BAS.TestDouleAsDbKey(rec.p85FreeNumber06), System.Data.DbType.Double);
+            p.AddDouble("p85FreeNumber01", rec.p85FreeNumber01);
+            p.AddDouble("p85FreeNumber02",rec.p85FreeNumber02 );
+            p.AddDouble("p85FreeNumber03", rec.p85FreeNumber03 );
+            p.AddDouble("p85FreeNumber04", rec.p85FreeNumber04 );
+            p.AddDouble("p85FreeNumber05", rec.p85FreeNumber05 );
+            p.AddDouble("p85FreeNumber06", rec.p85FreeNumber06 );
 
-            p.Add("p85FreeDate01", rec.p85FreeDate01, System.Data.DbType.DateTime);
-            p.Add("p85FreeDate02", rec.p85FreeDate02, System.Data.DbType.DateTime);
-            p.Add("p85FreeDate03", rec.p85FreeDate03, System.Data.DbType.DateTime);
-            p.Add("p85FreeDate04", rec.p85FreeDate04, System.Data.DbType.DateTime);
+            p.AddDateTime("p85FreeDate01", rec.p85FreeDate01);
+            p.AddDateTime("p85FreeDate02", rec.p85FreeDate02);
+            p.AddDateTime("p85FreeDate03", rec.p85FreeDate03);
+            p.AddDateTime("p85FreeDate04", rec.p85FreeDate04);
 
-            return _db.SaveRecord( "p85Tempbox", p, rec);
+            return _db.SaveRecord( "p85Tempbox", p.getDynamicDapperPars(), rec);
         }
     }
 }

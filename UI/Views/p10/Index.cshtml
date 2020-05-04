@@ -5,14 +5,11 @@
     if (Model.Rec == null) return;
 }
 
-    <h4>Master produkt</h4>
+    
 <div class="modal_record_container">
    
-    <div class="btn-group">
-        <a asp-action="Record" class="btn btn-light" asp-route-pid="@Model.Rec.pid" asp-route-entity="p10">Upravit</a>
-    </div>
     <div class="form-row">
-        <label class="col-sm-1 col-md-2 col-form-label">Master produkt:</label>
+        <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
         <div class="col-sm-9 col-md-8">
             <input class="form-control" asp-for="Rec.p10Name" readonly="readonly" />
 
@@ -52,14 +49,7 @@
 
     }
 
-    <div class="card">
-        <div class="card-header">
-            Přehled licencí
-        </div>
-        <div class="card-body" id="divP21">
-
-        </div>
-    </div>
+    
 
 
 </div>
@@ -69,13 +59,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        var url = "@Url.Action("GetWorkTable", "Common")";
-       
-        $.post(url, { entity: "p21", tableid: "tabp10", queryfield: "p10id", queryvalue:@Model.Rec.pid }, function (data) {
-            
-                $("#divP21").html(data);
-            });
-
+        
 
     });
 </script>

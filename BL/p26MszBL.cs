@@ -33,16 +33,16 @@ namespace BL
 
         public int Save(BO.p26Msz rec)
         {
-            var p = new Dapper.DynamicParameters();
-            p.Add("pid", rec.p26ID);            
-            p.Add("b02ID",BO.BAS.TestIntAsDbKey(rec.b02ID));
-            p.Add("p28ID", BO.BAS.TestIntAsDbKey(rec.p28ID));
-            p.Add("p26Name", rec.p26Name);           
-            p.Add("p26Code", rec.p26Code);
-            p.Add("p26Memo", rec.p26Memo);
+            var p = new DL.Params4Dapper();
+            p.AddInt("pid", rec.p26ID);            
+            p.AddInt("b02ID",rec.b02ID,true);
+            p.AddInt("p28ID", rec.p28ID,true);
+            p.AddString("p26Name", rec.p26Name);           
+            p.AddString("p26Code", rec.p26Code);
+            p.AddString("p26Memo", rec.p26Memo);
             
 
-            return _db.SaveRecord("p26Msz", p, rec);
+            return _db.SaveRecord("p26Msz", p.getDynamicDapperPars(), rec);
         }
     }
 }

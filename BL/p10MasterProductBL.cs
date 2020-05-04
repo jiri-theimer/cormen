@@ -43,17 +43,17 @@ namespace BL
             {
                 return 0;
             }
-            var p = new Dapper.DynamicParameters();
-            p.Add("pid", rec.p10ID);
-            p.Add("p13ID", BO.BAS.TestIntAsDbKey(rec.p13ID));
-            p.Add("b02ID", BO.BAS.TestIntAsDbKey(rec.b02ID));
-            p.Add("o12ID", BO.BAS.TestIntAsDbKey(rec.o12ID));
-            p.Add("p10Name", rec.p10Name);
-            p.Add("p10Code", rec.p10Code);
-            p.Add("p10Memo", rec.p10Memo);
+            var p = new DL.Params4Dapper();
+            p.AddInt("pid", rec.p10ID);
+            p.AddInt("p13ID",rec.p13ID,true);
+            p.AddInt("b02ID", rec.b02ID,true);
+            p.AddInt("o12ID", rec.o12ID,true);
+            p.AddString("p10Name", rec.p10Name);
+            p.AddString("p10Code", rec.p10Code);
+            p.AddString("p10Memo", rec.p10Memo);
 
 
-            return _db.SaveRecord("p10MasterProduct", p, rec);
+            return _db.SaveRecord("p10MasterProduct", p.getDynamicDapperPars(), rec);
         }
 
         private bool ValidateBeforeSave(BO.p10MasterProduct rec)

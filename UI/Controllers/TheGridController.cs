@@ -23,8 +23,48 @@ namespace UI.Controllers
             return View(inhaleGridViewInstance(prefix, go2pid));
         }
         public IActionResult MasterView(string prefix,int go2pid)    //grid horní + spodní panel
-        {            
-            return View(inhaleGridViewInstance(prefix,go2pid));
+        {
+            TheGridInstanceViewModel v = inhaleGridViewInstance(prefix, go2pid);
+            var tabs = new List<NavTab>();
+            
+            switch (prefix)
+            {
+                case "p13":
+                    tabs.Add(new NavTab() { Name = "Detail", Url = "/p13/Index?pid=@pid" });
+                    tabs.Add(new NavTab() { Name="Master produkty",Entity = "p10MasterProduct", Url = "SlaveView?prefix=p10" });
+                    tabs.Add(new NavTab() { Name = "Technologický rozpis operací", Entity = "p14MasterOper", Url = "SlaveView?prefix=p14" });
+                    break;
+                case "p28":
+                    tabs.Add(new NavTab() { Name = "Detail", Url = "/p28/Index?pid=@pid" });
+                    tabs.Add(new NavTab() { Name = "Lidé", Entity = "j02Person", Url = "SlaveView?prefix=j02" });
+                    tabs.Add(new NavTab() { Name = "Stroje", Entity = "p26Msz", Url = "SlaveView?prefix=p26" });
+                    break;
+                case "p21":
+                    tabs.Add(new NavTab() { Name = "Detail", Url = "/p21/Index?pid=@pid" });
+                    tabs.Add(new NavTab() { Name = "Master produkty", Entity = "p10MasterProduct", Url = "SlaveView?prefix=p10" });
+                    break;
+                case "p10":                    
+                    tabs.Add(new NavTab() { Name = "Detail", Url = "/p10/Index?pid=@pid" });
+                    tabs.Add(new NavTab() { Name = "Licence", Entity = "p21License", Url = "SlaveView?prefix=p21" });
+                    break;
+                case "j02":
+                    tabs.Add(new NavTab() { Name = "Detail", Url = "/j02/Index?pid=@pid" });
+                    break;
+                case "p26":
+                    tabs.Add(new NavTab() { Name = "Detail", Url = "/p26/Index?pid=@pid" });
+                    break;
+                case "o23":
+                    tabs.Add(new NavTab() { Name = "Detail", Url = "/o23/Index?pid=@pid" });
+                    break;
+
+            }
+            foreach(var tab in tabs)
+            {
+                tab.Url += "&master_entity=" + BO.BAS.getEntityFromPrefix(prefix) + "&master_pid=@pid";
+            }
+            tabs[0].CssClass += " active";
+            v.NavTabs = tabs;
+            return View(v);
         }
         public IActionResult SlaveView(string master_entity,int master_pid, string prefix, int go2pid)    //podřízený subform v rámci MasterView
         {
@@ -40,12 +80,13 @@ namespace UI.Controllers
         }
         private TheGridInstanceViewModel inhaleGridViewInstance(string prefix,int go2pid)
         {
-            var v = new TheGridInstanceViewModel() { prefix = prefix, go2pid = go2pid };
+            var v = new TheGridInstanceViewModel() { prefix = prefix, go2pid = go2pid,contextmenuflag=1 };
             v.entity = BO.BAS.getEntityFromPrefix(prefix);
             if (v.entity == "")
             {
                 Factory.CurrentUser.AddMessage("Entity for Grid not found.");
             }
+            if (prefix == "p14") v.contextmenuflag = 0;  //nezobrazovat kontextové menu
             return v;
 
         }
@@ -111,7 +152,7 @@ namespace UI.Controllers
 
 
 
-        public TheGridOutput HandleTheGridFilter(int j72id, List<BO.TheGridColumnFilter> filter)
+        public TheGridOutput HandleTheGridFilter(int j72id, List<BO.TheGridColumnFilter> filter, int master_pid,int contextmenuflag)
         {
             var cJ72 = this.Factory.gridBL.LoadTheGridState(j72id);
             var lis = new List<string>();
@@ -122,6 +163,8 @@ namespace UI.Controllers
             }
             cJ72.j72CurrentPagerIndex = 0; //po změně filtrovací podmínky je nutné vyčistit paměť stránky
             cJ72.j72CurrentRecordPid = 0;
+            cJ72.j72MasterPID = master_pid;
+            cJ72.j72ContextMenuFlag = contextmenuflag;
             cJ72.j72Filter = string.Join("$$$", lis);
             
             if (this.Factory.gridBL.SaveTheGridState(cJ72) > 0)
@@ -133,9 +176,11 @@ namespace UI.Controllers
                 return render_thegrid_error("Nepodařilo se zpracovat filtrovací podmínku.");
             }
         }
-        public TheGridOutput HandleTheGridOper(int j72id,string oper,string key,string value)
+        public TheGridOutput HandleTheGridOper(int j72id,string oper,string key,string value, int master_pid,int contextmenuflag)
         {
             var cJ72 = this.Factory.gridBL.LoadTheGridState(j72id);
+            cJ72.j72MasterPID = master_pid;
+            cJ72.j72ContextMenuFlag = contextmenuflag;
             switch (key)
             {
                 case "pagerindex":
@@ -185,7 +230,7 @@ namespace UI.Controllers
         }
         
         
-        public TheGridOutput GetHtml4TheGrid(int j72id,int go2pid,int master_pid) //Vrací HTML zdroj tabulky pro TheGrid v rámci j72TheGridState
+        public TheGridOutput GetHtml4TheGrid(int j72id,int go2pid,int master_pid,int contextmenuflag) //Vrací HTML zdroj tabulky pro TheGrid v rámci j72TheGridState
         {
             
             var cJ72 = this.Factory.gridBL.LoadTheGridState(j72id);
@@ -196,6 +241,7 @@ namespace UI.Controllers
             }            
             cJ72.j72CurrentRecordPid = go2pid;
             cJ72.j72MasterPID = master_pid;
+            cJ72.j72ContextMenuFlag = contextmenuflag;
 
 
             return render_thegrid_html(cJ72);
@@ -318,7 +364,15 @@ namespace UI.Controllers
                 
 
                 _s.Append("<td class='td1' style='width:20px;'></td>");
-                _s.Append(string.Format("<td class='td2' style='width:20px;'><a class='cm' onclick='tg_cm(event)'>&#9776;</a></td>"));
+                if (_grid.GridState.j72ContextMenuFlag > 0)
+                {
+                    _s.Append(string.Format("<td class='td2' style='width:20px;'><a class='cm' onclick='tg_cm(event)'>&#9776;</a></td>"));      //hamburger menu
+                }
+                else
+                {
+                    _s.Append("<td class='td2' style='width:20px;'>");  //bez hamburger menu
+                }
+                
 
 
                 foreach (var col in _grid.Columns)
