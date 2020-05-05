@@ -44,6 +44,8 @@ namespace BL
             
         }
 
+        
+
         public void InhaleUserByLogin(string strLogin)
         {
             DL.DbHandler db = new DL.DbHandler(this.App.ConnectString, this.CurrentUser,this.App.LogFolder);

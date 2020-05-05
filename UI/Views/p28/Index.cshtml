@@ -10,7 +10,7 @@
     <div class="modal_record_container">
 
         @Html.HiddenFor(m => m.Rec.pid)
-    
+
         <div class="form-row">
             <label class="col-sm-2 col-md-3 col-form-label">Firma:</label>
             <div class="col-sm-7 col-md-6">
@@ -29,6 +29,7 @@
 
             </div>
         </div>
+
 
 
         <div class="form-row">
@@ -95,7 +96,14 @@
             </div>
         }
 
+        <div class="form-row">
+            <label class="col-sm-2 col-md-3 col-form-label">Vlastník záznamu:</label>
+            <div class="col-sm-7 col-md-6">
+                <input class="form-control" asp-for="Rec.RecordOwner" readonly="readonly" />
 
+            </div>
+
+        </div>
 
 
     </div>

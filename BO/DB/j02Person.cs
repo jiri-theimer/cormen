@@ -10,6 +10,7 @@ namespace BO
         [Key]
         public int j02ID { get; set; }
         public int p28ID { get; set; }
+        public int j02ID_Owner { get; set; }
                         
         public string p28Name { get; set; }
 
@@ -31,7 +32,7 @@ namespace BO
         public int j03ID;
         public string j03Login;
         public string j04Name;
-
+        public string RecordOwner;
 
     }
 }

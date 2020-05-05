@@ -55,7 +55,7 @@ namespace BL
 
                 AF("p28Company", "p28RegID", "IČ",true);
                 AF("p28Company", "p28VatID", "DIČ");
-
+                AF("p28Company", "RecordOwner", "Vlastník záznamu", false, "dbo.j02_show_as_owner(a.j02ID_Owner)");
                 AppendTimestamp("p28Company");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p10")
@@ -95,7 +95,7 @@ namespace BL
                 AF("j02Person", "p28Name", "Klient", true, "p28.p28Name");
                 AF("j02Person", "j02Tel1", "TEL1");
                 AF("j02Person", "j02Tel2", "TEL2");
-               
+                AF("j02Person", "RecordOwner", "Vlastník záznamu", false, "dbo.j02_show_as_owner(a.j02ID_Owner)");
 
                 AppendTimestamp("j02Person");
             }
@@ -122,6 +122,7 @@ namespace BL
                 AF("o23Doc", "o12Name", "Kategorie", false, "o12.o12Name");
                 AF("o23Doc", "o23Memo", "Podrobný popis");
                 AF("o23Doc", "o23Date", "Datum dokumentu", false,null,"date");
+                AF("o23Doc", "RecordOwner", "Vlastník záznamu", false, "dbo.j02_show_as_owner(a.j02ID_Owner)");
                 AppendTimestamp("o23Doc");
 
             }
@@ -134,6 +135,11 @@ namespace BL
             {
                 AF("o12Category", "o12Name", "Název", true);
                 AF("o12Category", "EntityAlias", "Vazba", true, "dbo.getEntityAlias(a.o12Entity)");
+            }
+            if (bolIncludeOutsideEntity || _mq.Prefix == "j04")
+            {
+                AF("j04UserRole", "j04Name", "Název role", true);
+                
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p14")
             {

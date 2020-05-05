@@ -37,5 +37,7 @@ namespace BO
             {
                 return BAS.getEntityAlias(this.o23Entity);
             } }
+
+        public string RecordOwner;
     }
 }

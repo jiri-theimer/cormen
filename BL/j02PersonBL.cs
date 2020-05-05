@@ -22,7 +22,7 @@ namespace BL
        
         private string GetSQL1()
         {
-            return "SELECT a.*,"+_db.GetSQL1_Ocas("j02")+",j04.j04Name,p28.p28Name,j03.j03Login,j03.j03ID FROM j02Person a LEFT OUTER JOIN j03User j03 ON a.j02ID=j03.j02ID LEFT OUTER JOIN j04UserRole j04 ON j03.j04ID=j04.j04ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID";
+            return "SELECT a.*,"+_db.GetSQL1_Ocas("j02")+ ",j04.j04Name,p28.p28Name,j03.j03Login,j03.j03ID,dbo.j02_show_as_owner(a.j02ID_Owner) as RecordOwner FROM j02Person a LEFT OUTER JOIN j03User j03 ON a.j02ID=j03.j02ID LEFT OUTER JOIN j04UserRole j04 ON j03.j04ID=j04.j04ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID";
         }
         public BO.j02Person Load(int intPID)
         {
@@ -41,6 +41,8 @@ namespace BL
             p.AddInt("pid", rec.j02ID);
            
             p.AddInt("p28ID",rec.p28ID,true);
+            if (rec.j02ID_Owner == 0) rec.j02ID_Owner = _db.CurrentUser.pid;
+            p.AddInt("j02ID_Owner", rec.j02ID_Owner, true);
             p.AddString("j02FirstName", rec.j02FirstName);
             p.AddString("j02LastName", rec.j02LastName);
             p.AddString("j02TitleBeforeName", rec.j02TitleBeforeName);

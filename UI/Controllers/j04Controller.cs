@@ -7,15 +7,15 @@ using UI.Models;
 
 namespace UI.Controllers
 {
-    public class o12Controller : BaseController
+    public class j04Controller : BaseController
     {
-        ///KATEGORIE
+        ///APLIKAČNÍ ROLE
         public IActionResult Record(int pid, bool isclone)
         {
-            var v = new Models.o12RecordViewModel();
+            var v = new Models.j04RecordViewModel();
             if (pid > 0)
             {
-                v.Rec = Factory.o12CategoryBL.Load(pid);
+                v.Rec = Factory.j04UserRoleBL.Load(pid);
                 if (v.Rec == null)
                 {
                     return RecNotFound(v);
@@ -24,41 +24,54 @@ namespace UI.Controllers
             }
             else
             {
-                v.Rec = new BO.o12Category();
-                v.Rec.entity = "o12";
+                v.Rec = new BO.j04UserRole();
+                v.Rec.entity = "j04";
                
             }
+            v.SelectedPermissions = new List<int>();
+            foreach (var item in v.PermCatalogue)
+            {
+                int x = (int)item.Value;
+                int y = v.Rec.j04PermissionValue & Convert.ToInt32(item.Value);
+                if (x == y)
+                {
+                    v.SelectedPermissions.Add(x);
+                }
+            }
+             
 
-            v.Toolbar = new MyToolbarViewModel(v.Rec);            
+            v.Toolbar = new MyToolbarViewModel(v.Rec);
             if (isclone) { v.Toolbar.MakeClone(); }
 
             return View(v);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Record(Models.o12RecordViewModel v)
+        public IActionResult Record(Models.j04RecordViewModel v)
         {
             if (ModelState.IsValid)
             {
-                BO.o12Category c = new BO.o12Category();
-                if (v.Rec.pid > 0) c = Factory.o12CategoryBL.Load(v.Rec.pid);
+                BO.j04UserRole c = new BO.j04UserRole();
+                if (v.Rec.pid > 0) c = Factory.j04UserRoleBL.Load(v.Rec.pid);
 
-                c.o12Code = v.Rec.o12Code;
-                c.o12Name = v.Rec.o12Name;
-                c.o12Entity = v.Rec.o12Entity;
-
+                
+                c.j04Name = v.Rec.j04Name;
+                c.j04PermissionValue = v.SelectedPermissions.Sum();
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
 
-                v.Rec.pid = Factory.o12CategoryBL.Save(c);
+                v.Rec.pid = Factory.j04UserRoleBL.Save(c);
                 if (v.Rec.pid > 0)
                 {
                     v.SetJavascript_CallOnLoad(v.Rec.pid);
                     return View(v);
                 }
-                            
+
             }
+          
+                
             
+
             v.Toolbar = new MyToolbarViewModel(v.Rec);
             this.Notify_RecNotSaved();
             return View(v);

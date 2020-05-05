@@ -20,7 +20,7 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*," + _db.GetSQL1_Ocas("p28") + " FROM p28Company a";
+            return "SELECT a.*,dbo.j02_show_as_owner(a.j02ID_Owner) as RecordOwner," + _db.GetSQL1_Ocas("p28") + " FROM p28Company a";
         }
         public BO.p28Company Load(int pid)
         {
@@ -35,7 +35,9 @@ namespace BL
         public int Save(BO.p28Company rec)
         {
             var p = new DL.Params4Dapper();
-            p.AddInt("pid", rec.p28ID);            
+            p.AddInt("pid", rec.p28ID);
+            if (rec.j02ID_Owner == 0) rec.j02ID_Owner = _db.CurrentUser.pid;
+            p.AddInt("j02ID_Owner", rec.j02ID_Owner, true);
             p.AddString("p28Name", rec.p28Name);
             p.AddString("p28ShortName", rec.p28ShortName);
             p.AddString("p28Code", rec.p28Code);

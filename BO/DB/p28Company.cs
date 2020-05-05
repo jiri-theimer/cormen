@@ -9,6 +9,7 @@ namespace BO
     {
         [Key]
         public int p28ID { get; set; }
+        public int j02ID_Owner { get; set; }
 
         [Required(ErrorMessage = "Chybí vyplnit název!")]
         public string p28Name { get; set; }
@@ -27,5 +28,7 @@ namespace BO
         public string p28City2 { get; set; }
         public string p28PostCode2 { get; set; }
         public string p28Country2 { get; set; }
+
+        public string RecordOwner;
     }
 }

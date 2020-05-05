@@ -4,7 +4,7 @@
 
     Layout = "~/Views/Shared/_LayoutSubform.cshtml";
 
-    if (Model.entity == null)
+    if (Model.entity == null || Model.master_pid==0)
     {
         return;
     }

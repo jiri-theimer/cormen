@@ -42,5 +42,22 @@ namespace BO
                     return "font: 0.75rem/1.0 var(--font-family-sans-serif)";
             }
         }
+
+        public bool TestPermission(BO.UserPermFlag oneperm)
+        {
+            int x = (int)oneperm;
+            int y = x & this.j04PermissionValue;
+
+            if (y == x)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
+           
+        }
     }
 }

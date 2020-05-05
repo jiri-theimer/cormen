@@ -111,6 +111,7 @@ namespace BO
                 case "p41": return "p41Task";
                 case "b02":return "b02Status";
                 case "o12":return "o12Category";
+                case "j04":return "j04UserRole";
                 default:
                     return "";
             }
@@ -133,6 +134,7 @@ namespace BO
                     case "p41": return "Výrobní zakázky";
                     case "b02":return "Workflow stavy";
                     case "o12":return "Kategorie";
+                    case "j04":return "Aplikační role";
                     default:
                         return "";
                 }
@@ -151,6 +153,7 @@ namespace BO
                 case "p41": return "Výrobní zakázka";
                 case "b02": return "Workflow stav";
                 case "o12": return "Kategorie";
+                case "j04": return "Aplikační role";
                 default:
                     return "";
             }
