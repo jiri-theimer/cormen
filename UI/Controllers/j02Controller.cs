@@ -64,8 +64,7 @@ namespace UI.Controllers
             if (ModelState.IsValid)
             {
                 BO.j02Person c = new BO.j02Person();
-                BO.j03User cU = new BO.j03User();
-
+                
                 if (v.Rec.pid > 0)
                 {
                     c = Factory.j02PersonBL.Load(v.Rec.pid);                                       
@@ -93,24 +92,34 @@ namespace UI.Controllers
                    
                     if (c.pid > 0 && v.IsUserProfile==true)
                     {
-                        cU = new BO.j03User();
+                        BO.j03User cU = new BO.j03User();
+
                         cU.j02ID = c.pid;
                         if (c.j03ID > 0)
                         {
-                            cU = Factory.j03UserBL.Load(v.Rec.pid);
+                            cU = Factory.j03UserBL.Load(c.j03ID);
                         }
                         cU.j04ID = v.UserProfile.j04ID;
                         cU.j03Login = v.UserProfile.j03Login;
                         cU.j03IsMustChangePassword = v.UserProfile.j03IsMustChangePassword;
                         cU.ValidUntil = c.ValidUntil;
+                        cU.j03EnvironmentFlag = 2;  //klientské rozhraní
 
                         if (!string.IsNullOrEmpty(v.ResetPassword))
                         {                            
                             var lu = new BO.LoggingUser();
                             cU.j03PasswordHash = lu.Pwd2Hash(v.ResetPassword, cU);                                                       
                         }
-                        if (Factory.j03UserBL.Save(cU) > 0)
+                        int intJ03ID = Factory.j03UserBL.Save(cU);
+                        if (intJ03ID> 0)
                         {
+                            if (cU.j03ID == 0)  //nahodit první heslo pro nového uživatele
+                            {                                
+                                cU = Factory.j03UserBL.Load(intJ03ID);
+                                var lu = new BO.LoggingUser();
+                                cU.j03PasswordHash = lu.Pwd2Hash(v.ResetPassword, cU);
+                                Factory.j03UserBL.Save(cU);
+                            }
                             v.SetJavascript_CallOnLoad(v.Rec.pid);
                             return View(v);
                         }
@@ -167,11 +176,17 @@ namespace UI.Controllers
                     Factory.CurrentUser.AddMessage("Osoba s uživatelským účtem musí mít vazbu na firmu/držitele licence. Vyplňte firmu, která je držitelem licence.");
                     return false;
                 }
+                if (Factory.j03UserBL.GetList(new BO.myQuery("j03User")).Where(p=>p.pid !=c.j03ID && p.j03Login.ToUpper()==v.UserProfile.j03Login.ToUpper()).Count()>0)
+                {
+                    Factory.CurrentUser.AddMessage("Uživatel s tímto loginem již existuje.");
+                    return false;
+                }
                 
             }
             
-            
-            
+
+
+
             return true;
         }
     }

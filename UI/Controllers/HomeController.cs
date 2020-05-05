@@ -25,8 +25,7 @@ namespace UI.Controllers
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _logger.LogDebug("Začíná HomeController ");
-            _logger.LogInformation("Začíná HomeController. ");
+
         }
 
         public async Task<IActionResult> Logout()
@@ -200,11 +199,7 @@ namespace UI.Controllers
             }
 
             v.OrigFullPath += HttpContext.Request.QueryString;
-            _logger.LogError(v.Error,"Stala se chyba, byl jsem tu");
-            
-            _logger.LogCritical("Stala se kritická chyba, byl jsem tu");
-
-
+         
             return View(v);
         }
     }

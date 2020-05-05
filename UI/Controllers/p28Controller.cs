@@ -46,7 +46,10 @@ namespace UI.Controllers
 
             
             v.Toolbar = new MyToolbarViewModel(v.Rec);            
-            if (isclone) { v.Toolbar.MakeClone(); }
+            if (isclone) {
+                v.Toolbar.MakeClone();
+                v.Rec.p28TypeFlag = 0;
+            }
 
 
             return View(v);
