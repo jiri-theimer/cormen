@@ -164,9 +164,12 @@ namespace UI.Controllers
 
 
 
-        public TheGridOutput HandleTheGridFilter(int j72id, List<BO.TheGridColumnFilter> filter, int master_pid,int contextmenuflag)
+        public TheGridOutput HandleTheGridFilter(TheGridUIContext tgi, List<BO.TheGridColumnFilter> filter)
         {
-            var cJ72 = this.Factory.gridBL.LoadTheGridState(j72id);
+            var cJ72 = this.Factory.gridBL.LoadTheGridState(tgi.j72id);
+            cJ72.j72MasterPID = tgi.master_pid;
+            cJ72.j72ContextMenuFlag = tgi.contextmenuflag;
+            cJ72.OnDblClick = tgi.ondblclick;
             var lis = new List<string>();
             foreach (var c in filter)
             {                
@@ -175,8 +178,7 @@ namespace UI.Controllers
             }
             cJ72.j72CurrentPagerIndex = 0; //po změně filtrovací podmínky je nutné vyčistit paměť stránky
             cJ72.j72CurrentRecordPid = 0;
-            cJ72.j72MasterPID = master_pid;
-            cJ72.j72ContextMenuFlag = contextmenuflag;
+            
             cJ72.j72Filter = string.Join("$$$", lis);
             
             if (this.Factory.gridBL.SaveTheGridState(cJ72) > 0)
@@ -188,24 +190,26 @@ namespace UI.Controllers
                 return render_thegrid_error("Nepodařilo se zpracovat filtrovací podmínku.");
             }
         }
-        public TheGridOutput HandleTheGridOper(int j72id,string oper,string key,string value, int master_pid,int contextmenuflag)
+        //public TheGridOutput HandleTheGridOper(int j72id,string oper,string key,string value, int master_pid,int contextmenuflag)
+        public TheGridOutput HandleTheGridOper(TheGridUIContext tgi)
         {
-            var cJ72 = this.Factory.gridBL.LoadTheGridState(j72id);
-            cJ72.j72MasterPID = master_pid;
-            cJ72.j72ContextMenuFlag = contextmenuflag;
-            switch (key)
+            var cJ72 = this.Factory.gridBL.LoadTheGridState(tgi.j72id);
+            cJ72.j72MasterPID = tgi.master_pid;
+            cJ72.j72ContextMenuFlag = tgi.contextmenuflag;
+            cJ72.OnDblClick = tgi.ondblclick;
+            switch (tgi.key)
             {
                 case "pagerindex":
-                    cJ72.j72CurrentPagerIndex = BO.BAS.InInt(value);
+                    cJ72.j72CurrentPagerIndex = BO.BAS.InInt(tgi.value);
                     break;
                 case "pagesize":
-                    cJ72.j72PageSize = BO.BAS.InInt(value);
+                    cJ72.j72PageSize = BO.BAS.InInt(tgi.value);
                     break;
                 case "sortfield":
-                    if (cJ72.j72SortDataField != value)
+                    if (cJ72.j72SortDataField != tgi.value)
                     {
                         cJ72.j72SortOrder = "asc";
-                        cJ72.j72SortDataField = value;
+                        cJ72.j72SortDataField = tgi.value;
                     }
                     else
                     {
@@ -242,18 +246,19 @@ namespace UI.Controllers
         }
         
         
-        public TheGridOutput GetHtml4TheGrid(int j72id,int go2pid,int master_pid,int contextmenuflag) //Vrací HTML zdroj tabulky pro TheGrid v rámci j72TheGridState
+        public TheGridOutput GetHtml4TheGrid(TheGridUIContext tgi) //Vrací HTML zdroj tabulky pro TheGrid v rámci j72TheGridState
         {
             
-            var cJ72 = this.Factory.gridBL.LoadTheGridState(j72id);
+            var cJ72 = this.Factory.gridBL.LoadTheGridState(tgi.j72id);
             if (cJ72 == null)
             {
-                return render_thegrid_error(string.Format("Nelze načíst grid state s id!", j72id.ToString()));
+                return render_thegrid_error(string.Format("Nelze načíst grid state s id!", tgi.j72id.ToString()));
                 
             }            
-            cJ72.j72CurrentRecordPid = go2pid;
-            cJ72.j72MasterPID = master_pid;
-            cJ72.j72ContextMenuFlag = contextmenuflag;
+            cJ72.j72CurrentRecordPid = tgi.go2pid;
+            cJ72.j72MasterPID = tgi.master_pid;
+            cJ72.j72ContextMenuFlag = tgi.contextmenuflag;
+            cJ72.OnDblClick = tgi.ondblclick;
 
 
             return render_thegrid_html(cJ72);
@@ -348,6 +353,7 @@ namespace UI.Controllers
 
         private void Render_DATAROWS(System.Data.DataTable dt)
         {
+            string strPrefix = _grid.Entity.Substring(0, 3);
             int intRows = dt.Rows.Count;
             int intStartIndex = _grid.GridState.j72CurrentPagerIndex;
             int intEndIndex = intStartIndex + _grid.GridState.j72PageSize-1;
@@ -361,8 +367,15 @@ namespace UI.Controllers
                 {
                     strRowClass+= "class='trbin'";
                 }
-
-                _s.Append(string.Format("<tr id='r{0}' {1}>", dbRow["pid"],strRowClass));
+                if (_grid.GridState.OnDblClick == null)
+                {
+                    _s.Append(string.Format("<tr id='r{0}' {1}>", dbRow["pid"], strRowClass));
+                }
+                else
+                {
+                    _s.Append(string.Format("<tr id='r{0}' {1} ondblclick='{2}(this)'>", dbRow["pid"], strRowClass, _grid.GridState.OnDblClick));
+                }
+                
 
                 
                 if (_grid.GridState.j72SelectableFlag>0)

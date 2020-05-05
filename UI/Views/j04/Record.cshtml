@@ -26,7 +26,15 @@
     <input type="hidden" id="hid1" name="xSelectedPermissions" value="1,4,3,1" />
     <input type="hidden" id="hid1" name="xSelectedPermissions" value="" />
 
-    <mycheckboxlist asp-for="@Model.SelectedPermissions" textfield="Name" valuefield="Value" datasource="@Model.PermCatalogue"></mycheckboxlist>
+    <div class="card">
+        <div class="card-header">
+            Oprávnění role
+        </div>
+        <div class="card-body">
+            <mycheckboxlist asp-for="@Model.SelectedPermissions" textfield="Name" valuefield="Value" datasource="@Model.PermCatalogue"></mycheckboxlist>
+        </div>
+    </div>
+    
 
 
 

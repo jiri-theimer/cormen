@@ -98,14 +98,12 @@
                     $.post(url, { entity:"@Model.Record.entity", pid: @Model.Record.pid }, function (data) {
 
                         if (data == "1") {
-                            var url = "@Url.ActionLink("Index", "TheGrid")";
-                            url = url + "?entity=@Model.Record.entity";
-                            location.replace(url);
+                            _reload_layout_and_close();
 
                         } else {
                             alert(data);
                         }
-
+                        
                     });
 
 

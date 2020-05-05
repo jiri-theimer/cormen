@@ -16,7 +16,7 @@ namespace UI.Views.Shared.Components.TheGrid
         }
 
         public IViewComponentResult
-            Invoke(string entity,int j72id,int go2pid,string master_entity,int master_pid,int contextmenuflag)
+            Invoke(string entity,int j72id,int go2pid,string master_entity,int master_pid,int contextmenuflag,string ondblclick)
         {
             var ret = new TheGridViewModel();
             ret.Entity = entity;
@@ -45,6 +45,7 @@ namespace UI.Views.Shared.Components.TheGrid
 
             cJ72.j72CurrentRecordPid = go2pid;
             cJ72.j72ContextMenuFlag = contextmenuflag;
+            ret.ondblclick = ondblclick;
             ret.GridState = cJ72;
             ret.Columns = colsProvider.getSelectedPallete(cJ72.j72Columns);
             ret.AdhocFilter = colsProvider.ParseAdhocFilterFromString(cJ72.j72Filter);

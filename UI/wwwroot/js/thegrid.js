@@ -10,6 +10,7 @@ var _tg_go2pid;
 var _tg_master_entity;
 var _tg_master_pid;
 var _tg_contextmenuflag;
+var _tg_dblclick;
 
 function tg_init(c) {
     _tg_entity = c.entity;
@@ -21,6 +22,7 @@ function tg_init(c) {
     _tg_master_entity = c.master_entity;
     _tg_master_pid = c.master_pid;    
     _tg_contextmenuflag = c.contextmenuflag;
+    _tg_ondblclick = c.ondblclick;    
 
     tg_post_data();
 
@@ -104,8 +106,17 @@ function tg_init(c) {
 }
 
 function tg_post_data() {
+    var params = {
+        entity: _tg_entity,
+        j72id: _j72id,
+        go2pid: _tg_go2pid,
+        master_entity: _tg_master_entity,
+        master_pid: _tg_master_pid,
+        contextmenuflag: _tg_contextmenuflag,
+        ondblclick: _tg_ondblclick
+    }    
     
-    $.post(_tg_url_data, { entity: _tg_entity, j72id: _j72id, go2pid: _tg_go2pid, master_entity: _tg_master_entity, master_pid: _tg_master_pid, contextmenuflag: _tg_contextmenuflag }, function (data) {        
+    $.post(_tg_url_data, {tgi:params}, function (data) {        
         
         refresh_environment_after_post("first_data", data);
 
@@ -134,8 +145,17 @@ function tg_refresh_sorter(sortfield, sortdir) {
 
 function tg_post_handler(strOper, strKey, strValue) {
     //_notify_message("odesílá se: oper: " + strOper + ", key: " + strKey + ", value: " + strValue);    
-    
-    $.post(_tg_url_handler, { j72id: _j72id, oper: strOper, key: strKey, value: strValue, master_entity: _tg_master_entity, master_pid: _tg_master_pid, contextmenuflag: _tg_contextmenuflag }, function (data) {
+    var params = {
+        j72id: _j72id,
+        oper: strOper,
+        key: strKey,
+        value: strValue,
+        master_entity: _tg_master_entity,
+        master_pid: _tg_master_pid,
+        contextmenuflag: _tg_contextmenuflag,
+        ondblclick: _tg_ondblclick
+    }    
+    $.post(_tg_url_handler, { tgi: params}, function (data) {
        // _notify_message("vrátilo se: oper: " + strOper + ", key: " + strKey + ", value: " + strValue);
 
         refresh_environment_after_post(strOper,data);
@@ -172,8 +192,7 @@ function tg_adjust_parts_width() {
 }
 
 
-function tg_setup_selectable() {
-        
+function tg_setup_selectable() {    
     _ds = new DragSelect({
         selectables: document.getElementsByClassName('selectable'), // node/nodes that can be selected. This is also optional, you could just add them later with .addSelectables.
         selectedClass: "selrow",
@@ -681,8 +700,16 @@ function tg_filter_send2server() {
         
     });
 
+    var params = {
+        j72id: _j72id,        
+        master_entity: _tg_master_entity,
+        master_pid: _tg_master_pid,
+        contextmenuflag: _tg_contextmenuflag,    
+        ondblclick: _tg_ondblclick,
+    }    
+
     
-    $.post(_tg_url_filter, { j72id: _j72id, filter: ret, master_entity: _tg_master_entity, master_pid: _tg_master_pid, contextmenuflag: _tg_contextmenuflag}, function (data) {
+    $.post(_tg_url_filter, {tgi:params, filter: ret}, function (data) {
         
         refresh_environment_after_post("filter", data);
 
@@ -763,3 +790,6 @@ function tg_adjust_for_screen(strParentElementID) {
     
 }
 
+function tg_dblclick(row) {
+    _edit(_tg_entity.substr(0, 3), row.id.replace("r", ""));
+}

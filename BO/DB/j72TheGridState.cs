@@ -15,6 +15,7 @@ namespace BO
         public string j72MasterEntity { get; set; }
         public int j72MasterPID { get; set; }       //pouze pro průběžnou práci -> neukládá se do db, byť v sloupec existuje
         public int j72ContextMenuFlag { get; set; }   //pouze pro průběžnou práci
+        public string OnDblClick { get; set; }  //pouze pro průběžnou práci
 
         [Required(ErrorMessage ="Grid musí obsahovat minimálně jeden sloupec.")]
         public string j72Columns { get; set; }
