@@ -6,8 +6,50 @@
 }
 
 
-<h2>@Model.CurrentUser.FullName</h2>
 
+
+    <div class="modal_record_container">
+        <h4>@Model.CurrentUser.FullName</h4>
+
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">E-mail:</label>
+            <div class="col-sm-11 col-md-10">
+                <input class="form-control" asp-for="@Model.Rec.j02Email" readonly="readonly" />
+
+            </div>
+
+        </div>
+        @if (Model.CurrentUser != null)
+        {
+            <div class="form-row">
+                <label class="col-sm-1 col-md-2 col-form-label">Uživatel:</label>
+                <div class="col-sm-11 col-md-10">
+                    <input class="form-control" asp-for="@Model.CurrentUser.j03Login" readonly="readonly" />
+
+                </div>
+
+            </div>
+            <div class="form-row">
+                <label class="col-sm-1 col-md-2 col-form-label">Aplikační role:</label>
+                <div class="col-sm-11 col-md-10">
+                    <input class="form-control" asp-for="@Model.Rec.j04Name" readonly="readonly" />
+
+                </div>
+
+            </div>
+        }
+
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Firma/Drživatel licence:</label>
+            <div class="col-sm-11 col-md-10">
+                <input class="form-control" asp-for="@Model.Rec.p28Name" readonly="readonly" />
+
+            </div>
+
+        </div>
+
+
+    </div>
 
 
 
