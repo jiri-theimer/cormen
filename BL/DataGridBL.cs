@@ -118,7 +118,7 @@ namespace BL
           
             //parametrický dotaz s WHERE klauzulí
             
-            DL.FinalSqlCommand q = DL.basQuery.ParseFinalSql(sb.ToString(),mq,true);    //závěrečné vygenerování WHERE a ORDERBY klauzule
+            DL.FinalSqlCommand q = DL.basQuery.ParseFinalSql(sb.ToString(),mq,_mother.CurrentUser, true);    //závěrečné vygenerování WHERE a ORDERBY klauzule
             
             return _db.GetDataTable(q.FinalSql, q.Parameters4DT);
             

@@ -8,6 +8,8 @@ namespace BO
     {
         public int pid { get; set; }
         public int j02ID { get; set; }
+        public int p28ID { get; set; }
+        public string p28Name { get; set; }
         public bool isclosed { get; set; }
         public string j03Login { get; set; }
         
@@ -15,7 +17,7 @@ namespace BO
         public int j04PermissionValue { get;set;}
         public bool j03IsMustChangePassword { get; set; }
         public int j03FontStyleFlag { get; set; }
-
+        public int j03EnvironmentFlag { get; set; }
 
 
         public List<BO.COM.StringPairValue> Messages4Notify { get; set; }

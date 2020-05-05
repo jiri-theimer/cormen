@@ -35,7 +35,7 @@ namespace BL
             p.AddInt("pid", rec.j04ID);
             p.AddString("j04Name", rec.j04Name);
             p.AddInt("j04PermissionValue", rec.j04PermissionValue);
-          
+            p.AddBool("j04IsClientRole", rec.j04IsClientRole);
 
             return _db.SaveRecord("j04UserRole", p.getDynamicDapperPars(), rec);
         }

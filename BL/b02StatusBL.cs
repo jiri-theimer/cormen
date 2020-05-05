@@ -27,7 +27,7 @@ namespace BL
         }
         public IEnumerable<BO.b02Status> GetList(BO.myQuery mq)
         {
-            DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq);
+            DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq, _mother.CurrentUser);
             return _db.GetList<BO.b02Status>(fq.FinalSql, fq.Parameters);
 
         }

@@ -13,5 +13,7 @@ namespace BO
         [Required(ErrorMessage ="Název role je povinné pole")]
         public string j04Name { get; set; }
         public int j04PermissionValue { get; set; }
+
+        public bool j04IsClientRole { get; set; }
     }
 }

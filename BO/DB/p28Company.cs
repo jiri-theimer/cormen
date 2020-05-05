@@ -10,6 +10,7 @@ namespace BO
         [Key]
         public int p28ID { get; set; }
         public int j02ID_Owner { get; set; }
+        public int p28TypeFlag { get; set; }    //1 - licenční firma pro svázání uživatelů k licenci
 
         [Required(ErrorMessage = "Chybí vyplnit název!")]
         public string p28Name { get; set; }

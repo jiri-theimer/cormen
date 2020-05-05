@@ -36,7 +36,7 @@ namespace BL
         }
         public IEnumerable<BO.j03User> GetList(BO.myQuery mq)
         {
-            DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq);
+            DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq, _mother.CurrentUser);
             return _db.GetList<BO.j03User>(fq.FinalSql, fq.Parameters);
         }
 
@@ -52,6 +52,7 @@ namespace BL
             p.AddInt("j03ModalDialogFlag", rec.j03ModalDialogFlag);
             p.AddInt("j03FontStyleFlag", rec.j03FontStyleFlag);
             p.AddInt("j03SideBarFlag", rec.j03SideBarFlag);
+            p.AddInt("j03EnvironmentFlag", rec.j03EnvironmentFlag);
             if (!String.IsNullOrEmpty(rec.j03PasswordHash))
             {
                 p.Add("j03PasswordHash", rec.j03PasswordHash);

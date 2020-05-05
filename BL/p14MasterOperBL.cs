@@ -29,7 +29,7 @@ namespace BL
         public IEnumerable<BO.p14MasterOper> GetList(BO.myQuery mq)
         {
             mq.explicit_orderby = "a.p14RowNum";
-            DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq);
+            DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq, _mother.CurrentUser);
             return _db.GetList<BO.p14MasterOper>(fq.FinalSql, fq.Parameters);
 
         }

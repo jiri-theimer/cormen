@@ -62,6 +62,7 @@ namespace BL
             pars.Add("userid", _db.CurrentUser.pid, System.Data.DbType.Int32);
             pars.Add("x36key", strKey, System.Data.DbType.String);
             pars.Add("x36value", strValue, System.Data.DbType.String);
+            pars.Add("err_ret", "", System.Data.DbType.String, System.Data.ParameterDirection.Output);
 
             if (_db.RunSp("x36userparam_save", ref pars) == "1")
             {

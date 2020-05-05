@@ -59,7 +59,11 @@ namespace UI.Controllers
             {
                 BO.p28Company c = new BO.p28Company();
                 if (v.Rec.pid > 0) c = Factory.p28CompanyBL.Load(v.Rec.pid);
-
+                if (Factory.CurrentUser.j03EnvironmentFlag == 1)
+                {
+                    c.p28TypeFlag = v.Rec.p28TypeFlag;  //master může určovat typ subjektu, zákazník nikoliv
+                }
+                
                 c.p28Code = v.Rec.p28Code;
                 c.p28Name = v.Rec.p28Name;
                 c.p28ShortName = v.Rec.p28ShortName;
@@ -73,7 +77,7 @@ namespace UI.Controllers
                 c.p28City2 = v.Rec.p28City2;
                 c.p28PostCode2 = v.Rec.p28PostCode2;
                 c.p28Country2 = v.Rec.p28Country2;
-
+               
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
 

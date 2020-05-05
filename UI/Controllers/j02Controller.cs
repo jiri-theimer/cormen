@@ -162,6 +162,12 @@ namespace UI.Controllers
                     Factory.CurrentUser.AddMessage("Pro nového uživatele musíte definovat výchozí heslo.");return false;
                     
                 }
+                if (c.p28ID == 0  || Factory.p28CompanyBL.Load(c.p28ID).p28TypeFlag == 0)
+                {
+                    Factory.CurrentUser.AddMessage("Osoba s uživatelským účtem musí mít vazbu na firmu/držitele licence. Vyplňte firmu, která je držitelem licence.");
+                    return false;
+                }
+                
             }
             
             

@@ -57,6 +57,7 @@ namespace UI.Controllers
                 
                 c.j04Name = v.Rec.j04Name;
                 c.j04PermissionValue = v.SelectedPermissions.Sum();
+                c.j04IsClientRole = v.Rec.j04IsClientRole;
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
 

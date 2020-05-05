@@ -28,7 +28,7 @@ namespace BL
         }
         public IEnumerable<BO.p28Company> GetList(BO.myQuery mq)
         {
-            DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq);
+            DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq, _mother.CurrentUser);
             return _db.GetList<BO.p28Company>(fq.FinalSql,fq.Parameters);
         }
 
@@ -37,7 +37,9 @@ namespace BL
             var p = new DL.Params4Dapper();
             p.AddInt("pid", rec.p28ID);
             if (rec.j02ID_Owner == 0) rec.j02ID_Owner = _db.CurrentUser.pid;
+            
             p.AddInt("j02ID_Owner", rec.j02ID_Owner, true);
+            p.AddInt("p28TypeFlag", rec.p28TypeFlag);
             p.AddString("p28Name", rec.p28Name);
             p.AddString("p28ShortName", rec.p28ShortName);
             p.AddString("p28Code", rec.p28Code);

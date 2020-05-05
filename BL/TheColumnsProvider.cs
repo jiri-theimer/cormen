@@ -42,6 +42,7 @@ namespace BL
                 AF("p28Company", "p28Name", "Název", true);
                 AF("p28Company", "p28Code", "Kód");
                 AF("p28Company", "p28ShortName", "Zkrácený název");
+                AF("p28Company", "p28TypeFlag", "Typ subjektu", false, "case when a.p28TypeFlag=1 then 'Držitel licence' else null end");
 
                 AF("p28Company", "p28Street1", "Ulice",true);
                 AF("p28Company", "p28City1", "Město",true);
@@ -139,7 +140,9 @@ namespace BL
             if (bolIncludeOutsideEntity || _mq.Prefix == "j04")
             {
                 AF("j04UserRole", "j04Name", "Název role", true);
-                
+                AF("j04UserRole", "j04IsClientRole", "Klientská role", true,null,"bool");
+
+
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p14")
             {

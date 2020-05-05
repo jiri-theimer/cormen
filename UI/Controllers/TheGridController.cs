@@ -56,7 +56,16 @@ namespace UI.Controllers
                 case "o23":
                     tabs.Add(new NavTab() { Name = "Detail", Url = "/o23/Index?pid=@pid" });
                     break;
-
+                //klientské prostředí
+                case "p12":
+                    tabs.Add(new NavTab() { Name = "Detail", Url = "/p12/Index?pid=@pid" });
+                    tabs.Add(new NavTab() { Name = "Produkty", Entity = "p11ClientProduct", Url = "SlaveView?prefix=p11" });
+                    tabs.Add(new NavTab() { Name = "Technologický rozpis operací", Entity = "p15ClientOper", Url = "SlaveView?prefix=p15" });
+                    break;
+                case "p11":
+                    tabs.Add(new NavTab() { Name = "Detail", Url = "/p11/Index?pid=@pid" });
+                    tabs.Add(new NavTab() { Name = "Licence", Entity = "p21License", Url = "SlaveView?prefix=p21" });
+                    break;
             }
             string strDefTab = Factory.CBL.LoadUserParam("masterview-tab-" + prefix);
             var deftab = tabs[0];
@@ -287,7 +296,8 @@ namespace UI.Controllers
             ret.sortfield = cJ72.j72SortDataField;
             ret.sortdir = cJ72.j72SortOrder;
             
-            var mq = new BO.myQuery(cJ72.j72Entity);            
+            var mq = new BO.myQuery(cJ72.j72Entity);
+           
             _grid.Columns = new BL.TheColumnsProvider(mq).getSelectedPallete(cJ72.j72Columns);            
 
             mq.explicit_columns = _grid.Columns;

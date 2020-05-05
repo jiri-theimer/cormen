@@ -8,7 +8,7 @@ namespace BL.DL
    public class basQuery
     {
         
-        public static DL.FinalSqlCommand ParseFinalSql(string strPrimarySql,BO.myQuery mq, bool bolPrepareParam4DT = false)
+        public static DL.FinalSqlCommand ParseFinalSql(string strPrimarySql,BO.myQuery mq,BO.RunningUser ru, bool bolPrepareParam4DT = false)
         {
             var lis = new List<DL.QueryRow>();
 
@@ -27,6 +27,7 @@ namespace BL.DL
             if (mq.p21id >0)
             {
                 if (mq.Prefix == "p10") AQ(ref lis, "a.p10ID IN (select p10ID FROM p22LicenseBinding WHERE p21ID=@p21id)", "p21id", mq.p21id);
+                if (mq.Prefix == "p11") AQ(ref lis, "a.p21ID=@p21id", "p21id", mq.p21id);
             }
             if (mq.p10id > 0)
             {
@@ -49,6 +50,30 @@ namespace BL.DL
             {
                 AQ(ref lis, "a.o12Entity=@prefix", "prefix", mq.query_by_entity_prefix);    //filtr seznamu kategorií podle druhu entity
             }
+
+            if (String.IsNullOrEmpty(mq.j72Filter) == false)
+            {
+                ParseSqlFromTheGridFilter(mq, ref lis);  //složit filtrovací podmínku ze sloupcového filtru gridu
+            }
+            if (ru.j03EnvironmentFlag == 2)    //odstínit data pouze pro držitele licence, tj. firmu p28Type=1
+            {
+                if (mq.Prefix == "j02" || mq.Prefix == "p28" || mq.Prefix == "o23" || mq.Prefix == "p11" || mq.Prefix == "p12" || mq.Prefix == "p41")
+                {
+
+                    AQ(ref lis, "a.j02ID_Owner IN (select j02ID FROM j02Person WHERE p28ID=@p28id)", "p28id", ru.p28ID);
+                }
+                if (mq.Prefix == "p26" || mq.Prefix=="p21")
+                {
+                    AQ(ref lis, "a.p28ID = @p28id", "p28id", ru.p28ID);    //pouze licence a stroje klienta
+                }
+                if (mq.Prefix == "j04")
+                {
+                    AQ(ref lis, "a.j04IsClientRole=1","",null); //pouze klientské role
+                }
+            }
+           
+
+
             if (String.IsNullOrEmpty(mq.SearchString)==false && mq.SearchString.Length>1)
             {
                 if (mq.Prefix == "p28")
@@ -72,10 +97,7 @@ namespace BL.DL
                     AQ(ref lis, "(a.o23Name LIKE '%'+@expr+'%' OR a.o23Code LIKE '%'+@expr+'%' OR a.o23Memo LIKE '%'+@expr+'%')", "expr", mq.SearchString);
                 }
             }
-            if (String.IsNullOrEmpty(mq.j72Filter)==false)
-            {
-                ParseSqlFromTheGridFilter(mq,ref lis);  //složit filtrovací podmínku ze sloupcového filtru gridu
-            }
+            
 
             var ret = new DL.FinalSqlCommand();
             
