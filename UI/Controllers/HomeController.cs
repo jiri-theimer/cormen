@@ -37,21 +37,7 @@ namespace UI.Controllers
 
         }
 
-        public IActionResult TestujGrid()
-        {
-            
-            return View();
-        }
-        public IActionResult Test1()
-        {
-
-            return View();
-        }
-        public IActionResult Test2()
-        {
-
-            return View();
-        }
+     
 
         public string getHTML_FontStyleMenu()
         {
@@ -106,6 +92,22 @@ namespace UI.Controllers
 
             return sb.ToString();
         }
+        public BO.Result ToggleEnvironment()
+        {
+            if (Factory.CurrentUser.TestPermission(BO.UserPermFlag.MasterReader) || Factory.CurrentUser.TestPermission(BO.UserPermFlag.MasterAdmin)){
+                var cU = Factory.j03UserBL.Load(Factory.CurrentUser.pid);
+                if (Factory.CurrentUser.j03EnvironmentFlag == 1)
+                {
+                    cU.j03EnvironmentFlag = 2;
+                }
+                else
+                {
+                    cU.j03EnvironmentFlag = 1;
+                }
+                Factory.j03UserBL.Save(cU);
+            }
+            return new BO.Result(false);
+        }
         public IActionResult MyProfile()
         {
             
@@ -159,14 +161,7 @@ namespace UI.Controllers
         }
 
        
-        public IActionResult Client()
-        {
-
-            var v = new HomeViewModel();
-           
-            return View(v);
-        }
-        
+       
 
     
 

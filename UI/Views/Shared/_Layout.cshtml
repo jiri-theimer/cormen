@@ -77,9 +77,24 @@
                 <span style="color:white;">[@_f.CurrentUser.p28Name]</span>
             </div>
         }
+        @if (_f.CurrentUser.TestPermission(BO.UserPermFlag.MasterReader) || _f.CurrentUser.TestPermission(BO.UserPermFlag.MasterAdmin))
+        {
+    <div style="text-align:center;">
+        @if (_f.CurrentUser.j03EnvironmentFlag == 1)
+        {
+            <a href="javascript:ToggleEnvironment()">Přepnout do rozhraní [CLIENT]</a>
+        }
+        else
+        {
+            <a href="javascript:ToggleEnvironment()">Přepnout do rozhraní [MASTER]</a>
+        }
+    </div>
+            
+            <hr />
+        }
 
 
-        
+
         @if (_f.CurrentUser.TestPermission(BO.UserPermFlag.MasterAdmin) || _f.CurrentUser.TestPermission(BO.UserPermFlag.ClientAdmin))
         {
             <div class="dropdown" style="padding:0px;">
@@ -339,6 +354,11 @@
         }
        
 
+        function ToggleEnvironment() {
+            $.post("/Home/ToggleEnvironment", function (data) {
+                location.replace(window.location.href);
+            });
+        }
     </script>
 
 
