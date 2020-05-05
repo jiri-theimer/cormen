@@ -86,7 +86,7 @@ namespace BL
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "j02")
             {
-                AF("j02Person", "fullname_desc", "Příjmení+Jméno",true,"a.j02LastName+' '+a.j02LastName");
+                AF("j02Person", "fullname_desc", "Příjmení+Jméno",true,"a.j02LastName+' '+a.j02FirstName");
                 AF("j02Person", "fullname_asc", "Jméno+Příjmení", false, "a.j02FirstName+' '+a.j02LastName");
                 AF("j02Person", "j02Email", "E-mail", true);
                 AF("j02Person", "j02FirstName", "Jméno");

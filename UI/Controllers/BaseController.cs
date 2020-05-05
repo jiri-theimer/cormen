@@ -28,9 +28,10 @@ namespace UI.Controllers
             }
             this.Factory= (BL.Factory)HttpContext.RequestServices.GetService(typeof(BL.Factory));
 
-            if (Factory.CurrentUser.isclosed)
+            if (Factory.CurrentUser==null || Factory.CurrentUser.isclosed)
             {
                 context.Result = new RedirectResult("~/Login/UserLogin");
+                return;
             }
             if (Factory.CurrentUser.j03IsMustChangePassword && context.RouteData.Values["action"].ToString() != "ChangePassword")
             {
