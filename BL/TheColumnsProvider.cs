@@ -36,9 +36,9 @@ namespace BL
             AF_TIMESTAMP(strEntity, "IsValid_" + strEntity, "Časově platné", "convert(bit,case when GETDATE() between a.ValidFrom AND a.ValidUntil then 1 else 0 end)", "bool");
         }
         private void SetupPallete(bool bolIncludeOutsideEntity)
-        {
+        {            
             if (bolIncludeOutsideEntity || _mq.Prefix == "p28")
-            {                
+            {                   
                 AF("p28Company", "p28Name", "Název", true);
                 AF("p28Company", "p28Code", "Kód");
                 AF("p28Company", "p28ShortName", "Zkrácený název");
@@ -124,6 +124,7 @@ namespace BL
                 AF("o23Doc", "o23Memo", "Podrobný popis");
                 AF("o23Doc", "o23Date", "Datum dokumentu", false,null,"date");
                 AF("o23Doc", "RecordOwner", "Vlastník záznamu", false, "dbo.j02_show_as_owner(a.j02ID_Owner)");
+                AF("o23Doc", "RecordOwner", "Vlastník záznamu", false, "dbo.j02_show_as_owner(a.j02ID_Owner)");
                 AppendTimestamp("o23Doc");
 
             }
@@ -163,7 +164,45 @@ namespace BL
 
                 AppendTimestamp("p14MasterOper");
             }
+            if (bolIncludeOutsideEntity || _mq.Prefix == "p11")
+            {
+                AF("p11ClientProduct", "p11Name", "Název", true);
+                AF("p11ClientProduct", "p11Code", "Kód produktu", true);
+                AF("p11ClientProduct", "b02Name", "Stav", false, "b02.b02Name");
+                AF("p11ClientProduct", "o12Name", "Kategorie", false, "o12.o12Name");
+                AF("p11ClientProduct", "p11Memo", "Podrobný popis");
+                AppendTimestamp("p11ClientProduct");
+            }
+            if (bolIncludeOutsideEntity || _mq.Prefix == "p12")
+            {
+                AF("p12ClientTpv", "p12Name", "Název", true);
+                AF("p12ClientTpv", "p12Code", "Číslo postupu", true);
+                AF("p12ClientTpv", "p12Memo", "Podrobný popis");
+                AppendTimestamp("p13MasterTpv");
+            }
+            if (bolIncludeOutsideEntity || _mq.Prefix == "p41")
+            {
+                AF("p41Task", "p41Name", "Název", true);
+                AF("p41Task", "p41Code", "Kód", true);
+                AF("p41Task", "p28Name", "Klient", true, "p28.p28Name");
+                AF("p41Task", "b02Name", "Stav", true, "b02.b02Name");
+                AF("p41Task", "p26Name", "Stroj", true, "p26.p26Name");
 
+                AF("p41Task", "p41PlanStart", "Plán zahájení", true,null, "datetime");
+                AF("p41Task", "p41PlanEnd", "Plán dokončení", true, null, "datetime");
+                AF("p41Task", "p41RealStart", "Reálné zahájení", false, null, "datetime");
+                AF("p41Task", "p41RealEnd", "Reálné dokončení", false, null, "datetime");
+
+                AF("p41Task", "p41StockCode", "Kód skladu", false);
+                AF("p41Task", "p41ActualRowNum", "Aktuální RowNum", false,null,"num0");
+                AF("p41Task", "p41PlanUnitsCount", "Plán množství", false,null, "num");
+                AF("p41Task", "p41RealUnitsCount", "Skutečné množství", false, null, "num");
+
+                AF("p41Task", "p41Memo", "Podrobný popis");
+                AF("p41Task", "RecordOwner", "Vlastník záznamu", false, "dbo.j02_show_as_owner(a.j02ID_Owner)");
+
+                AppendTimestamp("p41Task");
+            }
             if (_lis.Count == 0)
             {
                 AF(_mq.Entity,_mq.Prefix + "Name", "Název",true);
@@ -221,6 +260,12 @@ namespace BL
                     return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "j03" || p.Prefix == "p28");
                 case "o23":
                     return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "b02" || p.Prefix == "o12");
+                case "p11":
+                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p12" || p.Prefix=="p21" || p.Prefix == "b02");
+                case "p12":
+                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p21");
+                case "p41":
+                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix=="p11" || p.Prefix == "p28" || p.Prefix == "p26" || p.Prefix == "b02");
                 default:
                     return _lis.Where(p => p.Entity == _mq.Entity);
             }

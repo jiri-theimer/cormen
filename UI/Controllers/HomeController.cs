@@ -76,19 +76,28 @@ namespace UI.Controllers
         public string getHTML_MainMenu_New()
         {
             var sb = new System.Text.StringBuilder();
+            if (Factory.CurrentUser.j03EnvironmentFlag == 2)
+            {
+                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p41/record');\">Výrobní zakázka</a>");
+                sb.Append("<hr/>");
+            }
             sb.Append("<a class='nav-link' href=\"javascript:_window_open('/o23/record');\">Dokument</a>");
             sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p28/record');\">Klient</a>");
             sb.Append("<a class='nav-link' href=\"javascript:_window_open('/j02/record');\">Osoba/Uživatel</a>");
             sb.Append("<hr/>");
-            sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p10/record');\">Master produkt</a>");
-            sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p13/record');\">TPV</a>");
-            sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p21/record');\">Licence</a>");
-            sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p26/record');\">Stroj</a>");
+            if (Factory.CurrentUser.j03EnvironmentFlag == 1)
+            {
+                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p10/record');\">Master produkt</a>");
+                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p13/record');\">TPV</a>");
+                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p21/record');\">Licence</a>");
+                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p26/record');\">Stroj</a>");
+
+                sb.Append("<hr/>");
+                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/b02/record');\">Workflow stav</a>");
+                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/o12/record');\">Kategorie</a>");
+                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/j04/record');\">Aplikační role</a>");
+            }
             
-            sb.Append("<hr/>");
-            sb.Append("<a class='nav-link' href=\"javascript:_window_open('/b02/record');\">Workflow stav</a>");
-            sb.Append("<a class='nav-link' href=\"javascript:_window_open('/o12/record');\">Kategorie</a>");
-            sb.Append("<a class='nav-link' href=\"javascript:_window_open('/j04/record');\">Aplikační role</a>");
 
             return sb.ToString();
         }

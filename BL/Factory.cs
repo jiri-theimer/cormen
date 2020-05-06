@@ -13,7 +13,7 @@ namespace BL
 
         private Ij02PersonBL _j02;
         private Ij03UserBL _j03;
-        private Ip10MasterProductBL _p10;
+        private Ip10MasterProductBL _p10;        
         private Ip13MasterTpvBL _p13;
         private Ip28CompanyBL _p28;
         private Ip21LicenseBL _p21;
@@ -27,8 +27,9 @@ namespace BL
         private IFBL _fbl;
         private Ip85TempboxBL _p85;
         private Ip14MasterOperBL _p14;
-
-
+        private Ip11ClientProductBL _p11;
+        private Ip12ClientTpvBL _p12;
+        private Ip41TaskBL _p41;
 
         public Factory(BO.RunningUser c,BL.RunningApp runningapp)
         {
@@ -173,6 +174,30 @@ namespace BL
             {
                 if (_p10 == null) _p10 = new p10MasterProductBL(this);
                 return _p10;
+            }
+        }
+        public Ip11ClientProductBL p11ClientProductBL
+        {
+            get
+            {
+                if (_p11 == null) _p11 = new p11ClientProductBL(this);
+                return _p11;
+            }
+        }
+        public Ip12ClientTpvBL p12ClientTpvBL
+        {
+            get
+            {
+                if (_p12 == null) _p12 = new p12ClientTpvBL(this);
+                return _p12;
+            }
+        }
+        public Ip41TaskBL p41TaskBL
+        {
+            get
+            {
+                if (_p41 == null) _p41 = new p41TaskBL(this);
+                return _p41;
             }
         }
         public Ip85TempboxBL p85TempboxBL

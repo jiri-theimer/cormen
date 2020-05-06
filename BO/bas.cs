@@ -112,6 +112,8 @@ namespace BO
                 case "b02":return "b02Status";
                 case "o12":return "o12Category";
                 case "j04":return "j04UserRole";
+                case "p11":return "p11ClientProduct";
+                case "p12":return "p12ClientTpv";
                 default:
                     return "";
             }
@@ -135,6 +137,8 @@ namespace BO
                     case "b02":return "Workflow stavy";
                     case "o12":return "Kategorie";
                     case "j04":return "Aplikační role";
+                    case "p11":return "Klientské produkty";
+                    case "p12":return "Klientské TPV";
                     default:
                         return "";
                 }
@@ -154,6 +158,8 @@ namespace BO
                 case "b02": return "Workflow stav";
                 case "o12": return "Kategorie";
                 case "j04": return "Aplikační role";
+                case "p11": return "Klientský produkt";
+                case "p12": return "Klientské TPV";
                 default:
                     return "";
             }

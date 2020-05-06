@@ -66,6 +66,10 @@ namespace UI.Controllers
                     tabs.Add(new NavTab() { Name = "Detail", Url = "/p11/Index?pid=@pid" });
                     tabs.Add(new NavTab() { Name = "Licence", Entity = "p21License", Url = "SlaveView?prefix=p21" });
                     break;
+                case "p41":
+                    tabs.Add(new NavTab() { Name = "Detail", Url = "/p41/Index?pid=@pid" });
+                    
+                    break;
             }
             string strDefTab = Factory.CBL.LoadUserParam("masterview-tab-" + prefix);
             var deftab = tabs[0];

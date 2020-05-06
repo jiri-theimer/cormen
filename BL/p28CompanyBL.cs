@@ -36,8 +36,7 @@ namespace BL
         {
             var p = new DL.Params4Dapper();
             p.AddInt("pid", rec.p28ID);
-            if (rec.j02ID_Owner == 0) rec.j02ID_Owner = _db.CurrentUser.pid;
-            
+            if (rec.j02ID_Owner == 0) rec.j02ID_Owner = _db.CurrentUser.pid;            
             p.AddInt("j02ID_Owner", rec.j02ID_Owner, true);
             p.AddInt("p28TypeFlag", rec.p28TypeFlag);
             p.AddString("p28Name", rec.p28Name);
