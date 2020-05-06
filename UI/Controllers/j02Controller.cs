@@ -88,6 +88,11 @@ namespace UI.Controllers
                     if (v.Rec.pid > 0)
                     {
                         c = Factory.j02PersonBL.Load(v.Rec.pid);
+                        if (v.IsUserProfile == false)
+                        {
+                            v.SetJavascript_CallOnLoad(v.Rec.pid);
+                            return View(v);
+                        }
                     }
                    
                     if (c.pid > 0 && v.IsUserProfile==true)
