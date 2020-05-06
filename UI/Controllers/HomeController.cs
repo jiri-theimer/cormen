@@ -60,9 +60,27 @@ namespace UI.Controllers
             c.j03FontStyleFlag = fontstyleflag;
             Factory.j03UserBL.Save(c);
             return new BO.Result(false);
-
         }
-        
+        public BO.Result StartStopLiveChat(int flag)
+        {
+            var c = Factory.j03UserBL.Load(Factory.CurrentUser.pid);
+            if (flag == 1)
+            {
+                c.j03LiveChatTimestamp = DateTime.Now;   //zapnout smartsupp
+            }
+            else
+            {
+                c.j03LiveChatTimestamp = null;   //vypnout smartsupp
+            }
+            Factory.j03UserBL.Save(c);
+            return new BO.Result(false);
+        }
+        public IActionResult LiveChat()
+        {
+            
+            return View();
+        }
+
 
         public string getHTML_CurrentUserMenu()
         {

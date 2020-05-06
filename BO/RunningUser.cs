@@ -12,12 +12,14 @@ namespace BO
         public string p28Name { get; set; }
         public bool isclosed { get; set; }
         public string j03Login { get; set; }
+        public string j02Email { get; set; }
         
         public string FullName { get; set; }
         public int j04PermissionValue { get;set;}
         public bool j03IsMustChangePassword { get; set; }
         public int j03FontStyleFlag { get; set; }
         public int j03EnvironmentFlag { get; set; }
+        public DateTime? j03LiveChatTimestamp { get; set; }
 
 
         public List<BO.COM.StringPairValue> Messages4Notify { get; set; }

@@ -20,6 +20,22 @@
 
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/thegrid.css" />
+    @if (_f.CurrentUser.j03LiveChatTimestamp != null)
+    {
+        <!-- Smartsupp Live Chat script -->
+        <script type="text/javascript">
+            var _smartsupp = _smartsupp || {};
+            _smartsupp.key = 'f47180c069be93b0e812459452fea73be7887dde';
+            window.smartsupp || (function (d) {
+                var s, c, o = smartsupp = function () { o._.push(arguments) }; o._ = [];
+                s = d.getElementsByTagName('script')[0]; c = d.createElement('script');
+                c.type = 'text/javascript'; c.charset = 'utf-8'; c.async = true;
+                c.src = 'https://www.smartsuppchat.com/loader.js?'; s.parentNode.insertBefore(c, s);
+            })(document);
+            smartsupp('name', '@_f.CurrentUser.FullName');
+            smartsupp('email', '@_f.CurrentUser.j02Email');
+        </script>
+    }
 
 </head>
 
@@ -79,17 +95,17 @@
         }
         @if (_f.CurrentUser.TestPermission(BO.UserPermFlag.MasterReader) || _f.CurrentUser.TestPermission(BO.UserPermFlag.MasterAdmin))
         {
-    <div style="text-align:center;">
-        @if (_f.CurrentUser.j03EnvironmentFlag == 1)
-        {
-            <a href="javascript:ToggleEnvironment()">Přepnout do rozhraní [CLIENT]</a>
-        }
-        else
-        {
-            <a href="javascript:ToggleEnvironment()">Přepnout do rozhraní [MASTER]</a>
-        }
-    </div>
-            
+            <div style="text-align:center;">
+                @if (_f.CurrentUser.j03EnvironmentFlag == 1)
+                {
+                    <a href="javascript:ToggleEnvironment()">Přepnout do rozhraní [CLIENT]</a>
+                }
+                else
+                {
+                    <a href="javascript:ToggleEnvironment()">Přepnout do rozhraní [MASTER]</a>
+                }
+            </div>
+
             <hr />
         }
 
@@ -120,6 +136,16 @@
                 @Html.Display("mainmenu", "~/Views/Shared/_MainMenu_Client.cshtml");    //prostředí klienta
             }
         </ul>
+        <hr />
+
+        @if (_f.CurrentUser.j03LiveChatTimestamp == null)
+        {
+            <button class="btn btn-sm btn-secondary py-0 py-0" title="Zapnout LIVE CHAT-BOX" style="margin-left:10px;font-size:125%;" onclick="handle_smartsupp(1)">☊</button>
+        }
+        else
+        {
+            <button class="btn btn-sm btn-danger py-0 py-0" title="Vypnout LIVE CHAT-BOX" style="margin-left:10px;font-size:125%;" onclick="handle_smartsupp(2)">☊</button>
+        }
 
 
     </div>
@@ -358,6 +384,15 @@
             $.post("/Home/ToggleEnvironment", function (data) {
                 location.replace(window.location.href);
             });
+        }
+        function handle_smartsupp(flag) {
+            $.post("/Home/StartStopLiveChat?flag="+flag, function (data) {
+                if (data.flag == 1) {
+                    location.replace("/Home/LiveChat");
+                }
+
+            });
+            
         }
     </script>
 
