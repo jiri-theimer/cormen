@@ -10,13 +10,7 @@ namespace UI.Controllers
 {
     public class p13Controller : BaseController
     {
-        //private readonly BL.Factory _f;
-        //public p13Controller(BL.Factory f)
-        //{
-        //    _f = f;
-
-
-        //}
+        
 
         public IActionResult Index(int pid)
         {

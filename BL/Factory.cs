@@ -29,6 +29,7 @@ namespace BL
         private Ip14MasterOperBL _p14;
         private Ip11ClientProductBL _p11;
         private Ip12ClientTpvBL _p12;
+        private Ip15ClientOperBL _p15;
         private Ip41TaskBL _p41;
 
         public Factory(BO.RunningUser c,BL.RunningApp runningapp)
@@ -190,6 +191,14 @@ namespace BL
             {
                 if (_p12 == null) _p12 = new p12ClientTpvBL(this);
                 return _p12;
+            }
+        }
+        public Ip15ClientOperBL p15ClientOperBL
+        {
+            get
+            {
+                if (_p15 == null) _p15 = new p15ClientOperBL(this);
+                return _p15;
             }
         }
         public Ip41TaskBL p41TaskBL

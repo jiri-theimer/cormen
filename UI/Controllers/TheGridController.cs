@@ -131,7 +131,11 @@ namespace UI.Controllers
             {
                 Factory.CurrentUser.AddMessage("Entity for Grid not found.");
             }
-            if (prefix == "p14") v.contextmenuflag = 0;  //nezobrazovat kontextové menu
+            if (prefix == "p14" || prefix=="p15")
+            {
+                v.contextmenuflag = 0;  //nezobrazovat kontextové menu
+                v.dblclick = "";        //bez dblclick
+            }
             return v;
 
         }

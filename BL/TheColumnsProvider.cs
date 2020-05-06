@@ -63,6 +63,7 @@ namespace BL
             {
                 AF("p10MasterProduct","p10Name", "Název",true);
                 AF("p10MasterProduct","p10Code", "Kód produktu",true);
+                AF("p10MasterProduct", "p13Code", "Číslo postupu", true,"p13.p13Code");
                 AF("p10MasterProduct","b02Name", "Stav",false,"b02.b02Name");
                 AF("p10MasterProduct", "o12Name", "Kategorie", false, "o12.o12Name");
                 AF("p10MasterProduct", "p10Memo", "Podrobný popis");
@@ -179,6 +180,25 @@ namespace BL
                 AF("p12ClientTpv", "p12Code", "Číslo postupu", true);
                 AF("p12ClientTpv", "p12Memo", "Podrobný popis");
                 AppendTimestamp("p13MasterTpv");
+            }
+            if (bolIncludeOutsideEntity || _mq.Prefix == "p15")
+            {
+                AF("p15ClientOper", "p15RowNum", "RowNum", true, null, "num0");
+                AF("p15ClientOper", "p15OperNum", "OperNum", true);
+                AF("p15ClientOper", "p15OperCode", "OperCode", true);
+
+                AF("p15ClientOper", "p15Name", "Name", true);
+                AF("p15ClientOper", "p15OperParam", "OperPar", true, null, "num0");
+
+                AF("p15ClientOper", "p15MaterialCode", "MaterialCode", true);
+                AF("p15ClientOper", "p15MaterialName", "MaterialName", true);
+
+                AF("p15ClientOper", "p15UnitsCount", "UnitsCount", true, null, "num");
+                AF("p15ClientOper", "p15DurationPreOper", "DurationPreOper", true, null, "num");
+                AF("p15ClientOper", "p15DurationOper", "DurationOper", true, null, "num");
+                AF("p15ClientOper", "p15DurationPostOper", "DurationPostOper", true, null, "num");
+
+                AppendTimestamp("p15ClientOper");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p41")
             {

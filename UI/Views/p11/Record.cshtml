@@ -1,0 +1,59 @@
+﻿@model p11RecordViewModel
+
+@{
+    ViewData["Title"] = "Klientský produkt";
+    Layout = "~/Views/Shared/_LayoutModal.cshtml";
+    if (Model.Rec == null) return;
+}
+
+@addTagHelper *, UI
+
+<h4>Produkt [Klient]</h4>
+@using (Html.BeginForm())
+{
+
+    @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
+    @Html.HiddenFor(m => m.Rec.pid)
+
+    <div class="modal_record_container">
+
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
+            <div class="col-sm-9 col-md-8">
+                <input class="form-control" asp-for="Rec.p11Name" />
+                <span asp-validation-for="Rec.p11Name" class="text-danger"></span>
+            </div>
+            <div class="col-sm-2 col-md-2">
+                <input class="form-control" asp-for="Rec.p11Code" placeholder="Kód" />
+                <span asp-validation-for="Rec.p11Code" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-row" style="margin-top:10px;display:none;">
+            <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
+            <div class="col-sm-11 col-md-10">
+                <mycombo entity="b02Status" asp-for="Rec.b02ID" selectedtext="Rec.b02Name" param1="p11"></mycombo>
+            </div>
+        </div>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">TPV:</label>
+            <div class="col-sm-11 col-md-10">
+                <mycombo entity="p13MasterTpv" asp-for="Rec.p12ID" selectedtext="Rec.p12Name"></mycombo>
+            </div>
+        </div>
+       
+
+        <div class="form-row">
+            <textarea asp-for="Rec.p11Memo" class="form-control" placeholder="Podrobný popis"></textarea>
+            <span asp-validation-for="Rec.p11Memo" class="text-danger"></span>
+        </div>
+
+
+
+    </div>
+}
+
+@Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
+
+
+

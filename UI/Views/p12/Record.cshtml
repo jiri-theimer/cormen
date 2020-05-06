@@ -1,11 +1,9 @@
-﻿@model p13RecordViewModel
+﻿@model p12RecordViewModel
 
 @{
-    ViewData["Title"] = "Master TPV";
+    ViewData["Title"] = "Klientské TPV";
     Layout = "~/Views/Shared/_LayoutModal.cshtml";
     if (Model.Rec == null) return;
-
-
 }
 
 @addTagHelper *, UI
@@ -13,7 +11,7 @@
 
 @using (Html.BeginForm())
 {
-    <h4>TPV [Master]</h4>
+    <h4>TPV [Klient]</h4>
     @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
     @Html.HiddenFor(m => m.Rec.pid)
 
@@ -23,19 +21,19 @@
         <div class="form-row">
             <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
             <div class="col-sm-9 col-md-8">
-                <input class="form-control" asp-for="Rec.p13Name" />
-                <span asp-validation-for="Rec.p13Name" class="text-danger"></span>
+                <input class="form-control" asp-for="Rec.p12Name" />
+                <span asp-validation-for="Rec.p12Name" class="text-danger"></span>
             </div>
             <div class="col-sm-2 col-md-2">
-                <input class="form-control" asp-for="Rec.p13Code" placeholder="Číslo postupu" />
-                <span asp-validation-for="Rec.p13Code" class="text-danger"></span>
+                <input class="form-control" asp-for="Rec.p12Code" placeholder="Číslo postupu" />
+                <span asp-validation-for="Rec.p12Code" class="text-danger"></span>
             </div>
         </div>
 
 
         <div class="form-row">
-            <textarea asp-for="Rec.p13Memo" class="form-control" placeholder="Podrobný popis"></textarea>
-            <span asp-validation-for="Rec.p13Memo" class="text-danger"></span>
+            <textarea asp-for="Rec.p12Memo" class="form-control" placeholder="Podrobný popis"></textarea>
+            <span asp-validation-for="Rec.p12Memo" class="text-danger"></span>
         </div>
 
 
@@ -79,19 +77,19 @@
 
 <script type="text/javascript">
     var _guid = "@Model.Guid";
-    var _p13id = "@Model.Rec.pid";
+    var _p12id = "@Model.Rec.pid";
     var _changed_cell;
 
     $(document).ready(function () {
 
         if (_guid == "") {
-            render_p14_body();
+            render_p15_body();
         } else {
             render_temp_body();
             init_table_behaviour();
         }
         refresh_state();
-        
+
     });
 
 
@@ -146,10 +144,10 @@
     function save2temp(cell) {
         var val = $(cell).text();
         var row = $(cell).closest("tr");
-        var recpid = $(row).attr("data-p14id");
+        var recpid = $(row).attr("data-p15id");
         var p85id = $(row).attr("data-p85id");
             var field = $(cell).attr("data-field");
-            var prefix = "p14";
+            var prefix = "p15";
             var url = "@Url.Action("Save2Temp", "Common")";
             //alert("field: " + field + ", value: " + val + ", p85id: " + p85id);
             $.post(url, { p85id: p85id, guid: _guid, prefix: prefix,recpid:recpid, fieldname: field, fieldvalue: val }, function (data) {
@@ -165,7 +163,7 @@
 
 
     $("#cmdNew").on("click", function () {
-        var url = "@Url.Action("InsertTempRow", "p13")";
+        var url = "@Url.Action("InsertTempRow", "p12")";
         $.post(url, { guid: _guid }, function (data) {
 
             render_temp_body();
@@ -177,35 +175,35 @@
 
     $("#cmdPrepareTempData").on("click", function () {
         _guid = _generate_guid();
-        $("#Guid").val(_guid);       
+        $("#Guid").val(_guid);
         refresh_state();
         render_temp_body();
     });
 
     function render_temp_body() {
-        var url = "@Url.Action("getHtmlTempBody","p13")";
-        $.post(url, { guid: _guid, p13id:@Model.Rec.pid }, function (data) {
+        var url = "@Url.Action("getHtmlTempBody","p12")";
+        $.post(url, { guid: _guid, p12id:@Model.Rec.pid }, function (data) {
 
             $("#tbody1").html(data);
 
             init_table_behaviour();
         });
     }
-    function render_p14_body() {
-        if (_p13id == "0") return;
+    function render_p15_body() {
+        if (_p12id == "0") return;
         var url = "@Url.Action("GetBodyOfTale", "Common")";
-        
-        $.post(url, { entity: "p14MasterOper", queryfield: "p13id", queryvalue:_p13id }, function (data) {            
+
+        $.post(url, { entity: "p15ClientOper", queryfield: "p12id", queryvalue:_p12id }, function (data) {
             $("#tbody1").html(data);
         });
     }
 
     function move_row(pid, dir) {
 
-        var url = "@Url.Action("MoveTempRow", "p13")";
+        var url = "@Url.Action("MoveTempRow", "p12")";
         var direction = "up";
         if (dir == 1) direction = "down";
-        
+
         $.post(url, { guid: _guid, p85id: pid, direction: direction }, function (data) {
 
             render_temp_body();
@@ -214,7 +212,7 @@
         });
     }
     function delete_row(pid) {
-        var url = "@Url.Action("DeleteTempRow", "p13")";
+        var url = "@Url.Action("DeleteTempRow", "p12")";
         $.post(url, { p85id: pid }, function (data) {
             render_temp_body();
             _toolbar_warn2save_changes();
@@ -231,9 +229,11 @@
             $("#cmdNew").css("display", "block");
             $("#thead1").css("background-color", "aliceblue");
         }
-        
-        
+
+
     }
 
 </script>
+
+
 

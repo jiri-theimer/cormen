@@ -117,6 +117,10 @@ namespace BL
                     break;
                 case "p12":
                     sb.Append(" FROM p12ClientTpv a LEFT OUTER JOIN p21License p21 ON a.p21ID=p21.p21ID LEFT OUTER JOIN p28Company p28 ON p21.p28ID=p28.p28ID");
+                    break;                
+                case "p15":
+                    sb.Append(" FROM p15ClientOper a");
+                    if (String.IsNullOrEmpty(mq.explicit_orderby) && bolGetTotalsRow == false) mq.explicit_orderby = "a.p15RowNum";
                     break;
                 case "p41":
                     sb.Append(" FROM p41Task a LEFT OUTER JOIN p11ClientProduct p11 ON a.p11ID=p11.p11ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID");

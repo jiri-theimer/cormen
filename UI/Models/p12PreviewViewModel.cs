@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace UI.Models
 {
-    public class Privacy_vm
+    public class p12PreviewViewModel:BaseViewModel
     {
-        public MyGridViewModel grid1 { get; set; }
+        public BO.p12ClientTpv Rec { get; set; }
     }
 }

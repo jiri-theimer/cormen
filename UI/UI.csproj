@@ -24,7 +24,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\" />
-    <Folder Include="Views\p12\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 

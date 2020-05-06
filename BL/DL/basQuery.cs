@@ -37,6 +37,11 @@ namespace BL.DL
                 if (mq.Prefix == "p11") AQ(ref lis, "a.p10ID_Master=@p10id", "p10id", mq.p10id);
                 if (mq.Prefix == "o23") AQ(ref lis, "a.o23Entity LIKE 'p10MasterProduct' AND a.o23RecordPid=@p10id", "p10id", mq.p10id);
             }
+            if (mq.p12id > 0)
+            {
+                if (mq.Prefix == "p11" || mq.Prefix == "p15") AQ(ref lis, "a.p12ID=@p12id", "p12id", mq.p12id);
+                if (mq.Prefix == "o23") AQ(ref lis, "a.o23Entity LIKE 'p12ClientTpv' AND a.o23RecordPid=@p12id", "p12id", mq.p12id);
+            }
             if (mq.p13id > 0)
             {
                 if (mq.Prefix == "p10" || mq.Prefix=="p14") AQ(ref lis, "a.p13ID=@p13id", "p13id", mq.p13id);

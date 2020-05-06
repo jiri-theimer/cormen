@@ -114,6 +114,7 @@ namespace BO
                 case "j04":return "j04UserRole";
                 case "p11":return "p11ClientProduct";
                 case "p12":return "p12ClientTpv";
+                case "p15":return "p15ClientOper";
                 default:
                     return "";
             }
@@ -129,16 +130,17 @@ namespace BO
                     case "j02": return "Lidé";
                     case "j03":return "Uživatelské účty";
                     case "p21": return "Licence";
-                    case "p10": return "Master produkty";
-                    case "p13": return "Master TPV";
-                    case "p14": return "Technologický rozpis operací";
+                    case "p10": return "Produkty [Master]";
+                    case "p13": return "TPV [Master]";
+                    case "p14": return "Technologický rozpis operací [Master]";
                     case "o23": return "Dokumenty";
                     case "p41": return "Výrobní zakázky";
                     case "b02":return "Workflow stavy";
                     case "o12":return "Kategorie";
                     case "j04":return "Aplikační role";
-                    case "p11":return "Klientské produkty";
-                    case "p12":return "Klientské TPV";
+                    case "p11":return "Produkty [Klient]";
+                    case "p12":return "TPV [Klient]";
+                    case "p15": return "Technologický rozpis operací [Klient]";
                     default:
                         return "";
                 }
@@ -150,16 +152,16 @@ namespace BO
                 case "j02":return "Jméno";
                 case "j03":return "Uživatel";
                 case "p21": return "Licence";
-                case "p10": return "Master produkt";
-                case "p13": return "Master TPV";
-                case "p14": return "Technologický rozpis operací";
+                case "p10": return "Produkt [Master]";
+                case "p13": return "TPV [Master]";
+                case "p14": return "Technologický rozpis operací [Master]";
                 case "o23": return "Dokument";
                 case "p41": return "Výrobní zakázka";
                 case "b02": return "Workflow stav";
                 case "o12": return "Kategorie";
                 case "j04": return "Aplikační role";
-                case "p11": return "Klientský produkt";
-                case "p12": return "Klientské TPV";
+                case "p11": return "Produkt [Klient]";
+                case "p12": return "TPV [Klient]";
                 default:
                     return "";
             }

@@ -1,7 +1,7 @@
-﻿@model p13PreviewViewModel
+﻿@model p12PreviewViewModel
 
 @{
-    ViewData["Title"] = "TPV";
+    ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_LayoutSubform.cshtml";
     if (Model.Rec == null) return;
 }
@@ -10,25 +10,25 @@
 
 
 <div class="modal_record_container">
-    
-   
+
+
     <div class="form-row">
         <label class="col-sm-1 col-md-2 col-form-label">TPV:</label>
         <div class="col-sm-9 col-md-8">
-            <input class="form-control" asp-for="Rec.p13Name" readonly="readonly" />
+            <input class="form-control" asp-for="Rec.p12Name" readonly="readonly" />
 
         </div>
         <div class="col-sm-2 col-md-2">
-            <input class="form-control" asp-for="Rec.p13Code" readonly="readonly" />
+            <input class="form-control" asp-for="Rec.p12Code" readonly="readonly" />
 
         </div>
     </div>
 
-    @if (Model.Rec.p13Memo != null)
+    @if (Model.Rec.p12Memo != null)
     {
         <hr />
 
-        <pre>@Html.DisplayFor(m => m.Rec.p13Memo, new { @class = "form-control" });</pre>
+        <pre>@Html.DisplayFor(m => m.Rec.p12Memo, new { @class = "form-control" });</pre>
 
 
     }
@@ -65,12 +65,14 @@
 
 $(document).ready(function () {
     var url = "@Url.Action("GetBodyOfTale", "Common")";
-    
-    $.post(url, { entity: "p14MasterOper", tableid: "tabp14", queryfield: "p13id", queryvalue:@Model.Rec.pid }, function (data) {
-            
+
+    $.post(url, { entity: "p15ClientOper", tableid: "tabp14", queryfield: "p12id", queryvalue:@Model.Rec.pid }, function (data) {
+
             $("#tbody1").html(data);
         });
 
 
         });
 </script>
+
+
