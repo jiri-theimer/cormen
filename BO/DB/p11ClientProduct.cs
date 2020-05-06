@@ -28,6 +28,7 @@ namespace BO
         public string p12Name;
         public string b02Name;        
         public string p21Name;
+        public string p10Name;
         
     }
 }

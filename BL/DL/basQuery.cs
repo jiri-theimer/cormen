@@ -24,24 +24,38 @@ namespace BL.DL
             {
                 AQ(ref lis, "a.j04ID=@j04id", "j04id", mq.j04id);
             }
+           
             if (mq.p21id >0)
             {
                 if (mq.Prefix == "p10") AQ(ref lis, "a.p10ID IN (select p10ID FROM p22LicenseBinding WHERE p21ID=@p21id)", "p21id", mq.p21id);
-                if (mq.Prefix == "p11") AQ(ref lis, "a.p21ID=@p21id", "p21id", mq.p21id);
+                if (mq.Prefix == "p11" || mq.Prefix=="p12") AQ(ref lis, "a.p21ID=@p21id", "p21id", mq.p21id);
+                if (mq.Prefix == "o23") AQ(ref lis, "a.o23Entity LIKE 'p21License' AND a.o23RecordPid=@p21id", "p21id", mq.p21id);
             }
             if (mq.p10id > 0)
             {
                 if (mq.Prefix == "p21") AQ(ref lis, "a.p21ID IN (select p21ID FROM p22LicenseBinding WHERE p10ID=@p10id)", "p10id", mq.p10id);
+                if (mq.Prefix == "p11") AQ(ref lis, "a.p10ID_Master=@p10id", "p10id", mq.p10id);
+                if (mq.Prefix == "o23") AQ(ref lis, "a.o23Entity LIKE 'p10MasterProduct' AND a.o23RecordPid=@p10id", "p10id", mq.p10id);
             }
             if (mq.p13id > 0)
             {
                 if (mq.Prefix == "p10" || mq.Prefix=="p14") AQ(ref lis, "a.p13ID=@p13id", "p13id", mq.p13id);
+                if (mq.Prefix == "p12") AQ(ref lis, "a.p13ID_Master=@p13id", "p13id", mq.p13id);
+                if (mq.Prefix == "p11") AQ(ref lis, "a.p11ID IN (select xa.p11ID FROM p11ClientProduct xa INNER JOIN p12ClientTpv xb ON xa.p12ID=xb.p12ID WHERE xb.p13ID_Master=@p13id)", "p13id", mq.p13id);
+                if (mq.Prefix == "o23") AQ(ref lis, "a.o23Entity LIKE 'p13MasterTpv' AND a.o23RecordPid=@p13id", "p13id", mq.p13id);
             }
 
             if (mq.p28id > 0)
             {
-                if (mq.Prefix == "j02" || mq.Prefix == "p26") AQ(ref lis, "a.p28ID=@p28id", "p28id", mq.p28id);
+                if (mq.Prefix == "j02" || mq.Prefix == "p26" || mq.Prefix=="p21") AQ(ref lis, "a.p28ID=@p28id", "p28id", mq.p28id);
+                if (mq.Prefix == "p11" || mq.Prefix == "p12") AQ(ref lis, "a.p21ID IN (select p21ID FROM p21License WHERE p28ID=@p28id)", "p28id", mq.p28id);
+                if (mq.Prefix == "o23") AQ(ref lis, "a.o23Entity LIKE 'p28Company' AND a.o23RecordPid=@p28id", "p28id", mq.p28id);
             }
+            if (mq.j02id > 0)
+            {
+                if (mq.Prefix == "o23") AQ(ref lis, "a.o23Entity LIKE 'j02Person' AND a.o23RecordPid=@j02id", "j02id", mq.j02id);
+            }
+            
             if (mq.Prefix == "b02" && !string.IsNullOrEmpty(mq.query_by_entity_prefix))
             {
                 AQ(ref lis, "a.b02Entity=@prefix", "prefix", mq.query_by_entity_prefix);    //filtr seznamu stavů podle druhu entity

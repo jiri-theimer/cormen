@@ -113,9 +113,10 @@ namespace BL
                     break;
                 case "p11":
                     sb.Append(" FROM p11ClientProduct a LEFT OUTER JOIN p12ClientTpv p12 ON a.p12ID=p12.p12ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p21License p21 ON a.p21ID=p21.p21ID");
+                    sb.Append(" LEFT OUTER JOIN p28Company p28 ON p21.p28ID=p28.p28ID");
                     break;
                 case "p12":
-                    sb.Append(" FROM p12ClientTpv a LEFT OUTER JOIN p21License p21 ON a.p21ID=p21.p21ID");
+                    sb.Append(" FROM p12ClientTpv a LEFT OUTER JOIN p21License p21 ON a.p21ID=p21.p21ID LEFT OUTER JOIN p28Company p28 ON p21.p28ID=p28.p28ID");
                     break;
                 case "p41":
                     sb.Append(" FROM p41Task a LEFT OUTER JOIN p11ClientProduct p11 ON a.p11ID=p11.p11ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID");

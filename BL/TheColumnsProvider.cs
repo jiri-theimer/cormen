@@ -261,9 +261,9 @@ namespace BL
                 case "o23":
                     return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "b02" || p.Prefix == "o12");
                 case "p11":
-                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p12" || p.Prefix=="p21" || p.Prefix == "b02");
+                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p12" || p.Prefix=="p21" || p.Prefix == "b02" || p.Prefix=="p28");
                 case "p12":
-                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p21");
+                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p21" || p.Prefix=="p28");
                 case "p41":
                     return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix=="p11" || p.Prefix == "p28" || p.Prefix == "p26" || p.Prefix == "b02");
                 default:

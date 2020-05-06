@@ -1,0 +1,63 @@
+﻿@model UI.Models.p11PreviewViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutSubform.cshtml";
+}
+
+    <div class="modal_record_container">
+
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
+            <div class="col-sm-9 col-md-8">
+                <input class="form-control" asp-for="Rec.p11Name" readonly="readonly" />
+
+            </div>
+            <div class="col-sm-2 col-md-2">
+                <input class="form-control" asp-for="Rec.p11Code" readonly="readonly" />
+
+            </div>
+        </div>
+
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
+            <div class="col-sm-11 col-md-10">
+                <input class="form-control" asp-for="Rec.b02Name" readonly="readonly" />
+            </div>
+        </div>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">TPV:</label>
+            <div class="col-sm-11 col-md-10">
+                <input class="form-control" asp-for="Rec.p12Name" readonly="readonly" />
+            </div>
+        </div>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Licence:</label>
+            <div class="col-sm-11 col-md-10">
+                <input class="form-control" asp-for="Rec.p21Name" readonly="readonly" />
+            </div>
+        </div>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Master produkt:</label>
+            <div class="col-sm-11 col-md-10">
+                <input class="form-control" asp-for="Rec.p10Name" readonly="readonly" />
+            </div>
+        </div>
+
+
+        @if (Model.Rec.p11Memo != null)
+        {
+            <hr />
+
+            <pre>@Html.DisplayFor(m => m.Rec.p11Memo, new { @class = "form-control" });</pre>
+
+
+        }
+
+
+
+
+    </div>
+
+@Html.DisplayFor(m => Model.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
+

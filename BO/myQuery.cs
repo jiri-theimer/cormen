@@ -45,7 +45,7 @@ namespace BO
 
         public List<int> pids;
         public IEnumerable<BO.TheGridColumn> explicit_columns { get; set; }
-        public string explicit_orderby { get; set; }        
+        public string explicit_orderby { get; set; }
 
         public bool? IsRecordValid;
 
@@ -55,6 +55,10 @@ namespace BO
         public int p21id { get; set; }
         public int p10id { get; set; }
         public int p26id { get; set; }
+        public int j02id {get;set;}
+        public int p11id { get; set; }
+        public int p12id { get; set; }
+        public int p41id { get; set; }
         public int p13id { get; set; }
         public string query_by_entity_prefix;
 
