@@ -40,12 +40,21 @@ namespace UI.Controllers
                 {
                     return RecNotFound(v);
                 }
-
+                var mq = new BO.myQuery("p14MasterOper");
+                mq.p13id = v.Rec.pid;
+                v.lisP14 = Factory.p14MasterOperBL.GetList(mq).ToList();
+                for (var i = 0; i < v.lisP14.Count(); i++)
+                {
+                    v.lisP14[i].TempRecGuid = BO.BAS.GetGuid();
+                    v.lisP14[i].TempRecDisplay = "table-row";
+                }
             }
             else
             {
                 v.Rec = new BO.p13MasterTpv();
                 v.Rec.entity = "p13";
+                v.lisP14 = new List<BO.p14MasterOper>();
+                v.lisP14.Add(new BO.p14MasterOper() { TempRecDisplay = "table-row", TempRecGuid = BO.BAS.GetGuid() });
             }
 
             v.lisTemp = new List<BO.p85Tempbox>();
@@ -56,15 +65,10 @@ namespace UI.Controllers
                 v.Guid = BO.BAS.GetGuid();
                 PrepareTempTable(pid,v.Guid,true);
             }
-            var mq = new BO.myQuery("p14MasterOper");
-            mq.p13id = v.Rec.pid;
-            v.lisP14 = Factory.p14MasterOperBL.GetList(mq).ToList();
-            for(var i = 0; i < v.lisP14.Count(); i++)
-            {
-                v.lisP14[i].TempRecGuid = BO.BAS.GetGuid();
-                v.lisP14[i].TempRecDisplay = "table-row";
-            }
             
+
+            
+
             return View(v);
         }
 
@@ -77,12 +81,13 @@ namespace UI.Controllers
             {
                 if (rec_oper == "add")
                 {
-                    v.lisP14.Add(new BO.p14MasterOper() {TempRecDisplay="table-row", TempRecGuid = BO.BAS.GetGuid() });
+                    v.lisP14.Add(new BO.p14MasterOper() {TempRecDisplay="table-row", TempRecGuid = BO.BAS.GetGuid(),p14RowNum=-1 });
+                    
                 }
                 if (rec_oper == "postback")
                 {
                     //pouze postback
-                    v.lisP14 = v.lisP14.OrderBy(p => p.p14RowNum).ToList();
+                   
 
                 }
 
