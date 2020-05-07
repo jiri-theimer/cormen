@@ -57,12 +57,31 @@ namespace UI.Controllers
                 PrepareTempTable(pid,v.Guid,true);
             }
 
+            v.lisP14 = new List<BO.p14MasterOper>();
+            var cc = new BO.p14MasterOper() {p14ID=1, p14Name = "nazdar", p14MaterialCode = "kód-materiálu", p14MaterialName = "název-materiálu" };
+            v.lisP14.Add(cc);
+            cc = new BO.p14MasterOper() {p14ID=2, p14Name = "nazdar II", p14MaterialCode = "kód-materiálu II", p14MaterialName = "název-materiálu II" };
+            v.lisP14.Add(cc);
+
+
             return View(v);
         }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Record(Models.p13RecordViewModel v)
+        public IActionResult Record(Models.p13RecordViewModel v,bool bolAddRowOnly)
         {
+            if (bolAddRowOnly)
+            {
+
+                v.lisP14.Add(new BO.p14MasterOper() { p14Name = "Hovado", p14MaterialName = DateTime.Now.ToString() });
+                v.lisP14 = v.lisP14.OrderByDescending(p => p.p14UnitsCount).ToList();
+
+                v.Toolbar = new MyToolbarViewModel(v.Rec);
+
+                return View(v);
+            }
             if (ModelState.IsValid)
             {
                 BO.p13MasterTpv c = new BO.p13MasterTpv();
@@ -87,6 +106,7 @@ namespace UI.Controllers
                 
             }
             v.Toolbar = new MyToolbarViewModel(v.Rec);
+           
             this.Notify_RecNotSaved();
             return View(v);
         }

@@ -68,11 +68,13 @@ namespace UI.Views.Shared.TagHelpers
                 _StringValue = "0";
                 
             }
+            string strControlID = this.For.Name.Replace(".", "_").Replace("[", "_").Replace("]", "_");
 
-            sb.Append(string.Format("<input type='text' for-id='{0}' class='form-control' step='{1}' placeholder='{2}' onfocus='mynumber_focus(this)' onblur='mynumber_blur(this,{3})' value='{4}'/>", this.For.Name.Replace(".", "_"),strStep,strPlaceHolder,DecimalDigits, strFormatted));
-            sb.Append(string.Format("<input type='hidden' value ='{0}' id ='{1}' name ='{2}'/>", _StringValue, this.For.Name.Replace(".", "_"), this.For.Name));
+            sb.Append(string.Format("<input type='text' for-id='{0}' class='form-control' step='{1}' placeholder='{2}' onfocus='mynumber_focus(this)' onblur='mynumber_blur(this,{3})' value='{4}'/>", strControlID, strStep,strPlaceHolder,DecimalDigits, strFormatted));
+            sb.Append(string.Format("<input type='hidden' value ='{0}' id ='{1}' name ='{2}'/>", _StringValue, strControlID, this.For.Name));
 
-            output.Content.AppendHtml(sb.ToString());
+            //output.Content.AppendHtml(sb.ToString());
+            output.Content.SetHtmlContent(sb.ToString());
         }
     }
 }

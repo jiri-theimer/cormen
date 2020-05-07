@@ -11,8 +11,7 @@
 @addTagHelper *, UI
 
 
-@using (Html.BeginForm())
-{
+<form id="form1" asp-controller="p13" asp-action="Record" method="POST">
     <h4>TPV [Master]</h4>
     @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
     @Html.HiddenFor(m => m.Rec.pid)
@@ -42,7 +41,44 @@
 
         <input type="hidden" asp-for="@Model.Guid" />
     </div>
-}
+
+    <button type="button" onclick="pokus()">pokus</button>
+    <table>
+        <tr>
+            <th>p14Name</th>
+            <th>p14MaterialCode</th>
+            <th>p14MaterialName</th>
+            <th>p14OperCode</th>
+            <th>p14UnitsCount</th>
+        </tr>
+        @for (var i = 0; i < Model.lisP14.Count; i++)
+        {
+            <tr>
+                <td>
+                    @Html.EditorFor(m => m.lisP14[i].p14Name)
+
+
+
+
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.lisP14[i].p14MaterialCode)
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.lisP14[i].p14MaterialName)
+                </td>
+                <td>
+
+                    <input type="text" asp-for="@Model.lisP14[i].p14OperCode" />
+
+                </td>
+                <td>
+                    <mynumber asp-for="@Model.lisP14[i].p14UnitsCount"></mynumber>
+                </td>
+            </tr>
+        }
+    </table>
+</form>
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
 
@@ -91,7 +127,7 @@
             init_table_behaviour();
         }
         refresh_state();
-        
+
     });
 
 
@@ -177,7 +213,7 @@
 
     $("#cmdPrepareTempData").on("click", function () {
         _guid = _generate_guid();
-        $("#Guid").val(_guid);       
+        $("#Guid").val(_guid);
         refresh_state();
         render_temp_body();
     });
@@ -194,8 +230,8 @@
     function render_p14_body() {
         if (_p13id == "0") return;
         var url = "@Url.Action("GetBodyOfTale", "Common")";
-        
-        $.post(url, { entity: "p14MasterOper", queryfield: "p13id", queryvalue:_p13id }, function (data) {            
+
+        $.post(url, { entity: "p14MasterOper", queryfield: "p13id", queryvalue:_p13id }, function (data) {
             $("#tbody1").html(data);
         });
     }
@@ -205,7 +241,7 @@
         var url = "@Url.Action("MoveTempRow", "p13")";
         var direction = "up";
         if (dir == 1) direction = "down";
-        
+
         $.post(url, { guid: _guid, p85id: pid, direction: direction }, function (data) {
 
             render_temp_body();
@@ -231,8 +267,16 @@
             $("#cmdNew").css("display", "block");
             $("#thead1").css("background-color", "aliceblue");
         }
-        
-        
+
+
+    }
+
+
+    function pokus() {
+         var url = "@Url.Action("Record","p13", new { bolAddRowOnly = true})";
+                form1.action = url;
+
+                form1.submit();
     }
 
 </script>
