@@ -108,7 +108,7 @@ namespace UI.Controllers
                         cU.j03Login = v.UserProfile.j03Login;
                         cU.j03IsMustChangePassword = v.UserProfile.j03IsMustChangePassword;
                         cU.ValidUntil = c.ValidUntil;
-                        cU.j03EnvironmentFlag = 2;  //klientské rozhraní
+                        if (c.j03ID==0) cU.j03EnvironmentFlag = 2;  //klientské rozhraní
 
                         if (!string.IsNullOrEmpty(v.ResetPassword))
                         {                            
@@ -134,7 +134,7 @@ namespace UI.Controllers
                 }                
                
             }
-          
+            
             RefreshState(v);
             this.Notify_RecNotSaved();
             return View(v);
@@ -176,9 +176,9 @@ namespace UI.Controllers
                     Factory.CurrentUser.AddMessage("Pro nového uživatele musíte definovat výchozí heslo.");return false;
                     
                 }
-                if (c.p28ID == 0  || Factory.p28CompanyBL.Load(c.p28ID).p28TypeFlag == 0)
+                if (c.p28ID == 0  || Factory.p28CompanyBL.LoadValidSwLicense(c.p28ID) ==null)
                 {
-                    Factory.CurrentUser.AddMessage("Osoba s uživatelským účtem musí mít vazbu na firmu/držitele licence. Vyplňte firmu, která je držitelem licence.");
+                    Factory.CurrentUser.AddMessage("Osoba s uživatelským účtem musí mít vazbu na subjekt (firmu) s platnou licencí užívat tento software.");
                     return false;
                 }
                 if (Factory.j03UserBL.GetList(new BO.myQuery("j03User")).Where(p=>p.pid !=c.j03ID && p.j03Login.ToUpper()==v.UserProfile.j03Login.ToUpper()).Count()>0)

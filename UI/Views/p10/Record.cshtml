@@ -47,6 +47,17 @@
             <mycombo entity="o12Category" asp-for="Rec.o12ID" selectedtext="Rec.o12Name" param1="p10"></mycombo>
         </div>
     </div>
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Produkt slouží pro SW licenci:</label>
+        <div class="col-sm-11 col-md-10">
+            <select class="form-control" asp-for="Rec.p10SwLicenseFlag">
+                <option value="0"></option>
+                <option value="1">Základní verze [1]</option>
+                <option value="2">Verze Cybertruck [2]</option>
+                <option value="3">Verze Me 262 [3]</option>
+            </select>
+        </div>
+    </div>
 
 
     <div class="form-row">
@@ -55,7 +66,7 @@
     </div>
 
 
-    
+
 </div>
 }
 

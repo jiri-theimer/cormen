@@ -42,8 +42,7 @@ namespace BL
                 AF("p28Company", "p28Name", "Název", true);
                 AF("p28Company", "p28Code", "Kód");
                 AF("p28Company", "p28ShortName", "Zkrácený název");
-                AF("p28Company", "p28TypeFlag", "Typ subjektu", false, "case when a.p28TypeFlag=1 then 'Držitel licence' else null end");
-
+               
                 AF("p28Company", "p28Street1", "Ulice",true);
                 AF("p28Company", "p28City1", "Město",true);
                 AF("p28Company", "p28PostCode1", "PSČ");
@@ -67,6 +66,8 @@ namespace BL
                 AF("p10MasterProduct","b02Name", "Stav",false,"b02.b02Name");
                 AF("p10MasterProduct", "o12Name", "Kategorie", false, "o12.o12Name");
                 AF("p10MasterProduct", "p10Memo", "Podrobný popis");
+                AF("p10MasterProduct", "p10SwLicenseFlag", "SW licence", false, "case when a.p10SwLicenseFlag>0 then 'SW licence '+convert(varchar(10),a.p10SwLicenseFlag) else null end");
+
                 AppendTimestamp("p10MasterProduct");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p21")
@@ -105,6 +106,7 @@ namespace BL
             {
                 AF("j03User", "j03Login", "Login", true);
                 AF("j03User", "j04Name", "Aplikační role", true,"j04.j04Name");
+                AF("j03User", "j03PingTimestamp", "Last ping", false, "j03.j03PingTimestamp", "datetime");
                 
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p13")
@@ -138,6 +140,12 @@ namespace BL
             {
                 AF("o12Category", "o12Name", "Název", true);
                 AF("o12Category", "EntityAlias", "Vazba", true, "dbo.getEntityAlias(a.o12Entity)");
+            }
+            if (bolIncludeOutsideEntity || _mq.Prefix == "p19")
+            {
+                AF("p19Material", "p19Name", "Název", true);
+                AF("p19Material", "p19Code", "Kód", true);
+                AF("p19Material", "o12Name", "", true,"o12.o12Name");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "j04")
             {
@@ -284,7 +292,7 @@ namespace BL
                 case "o23":
                     return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "b02" || p.Prefix == "o12");
                 case "p11":
-                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p12" || p.Prefix=="p21" || p.Prefix == "b02" || p.Prefix=="p28");
+                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p12" || p.Prefix=="p21" || p.Prefix == "b02" || p.Prefix=="p28" || p.Prefix=="p10");
                 case "p12":
                     return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p21" || p.Prefix=="p28");
                 case "p41":

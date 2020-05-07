@@ -211,8 +211,9 @@ td.td_nowrap {
 
 
 
-#tabgrid1 tr.trbin {
+#tabgrid1 tr.trbin td {
     text-decoration: line-through;
+    
 }
 
 

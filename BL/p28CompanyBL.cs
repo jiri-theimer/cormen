@@ -9,6 +9,7 @@ namespace BL
         public BO.p28Company Load(int pid);
         public IEnumerable<BO.p28Company> GetList(BO.myQuery mq);
         public int Save(BO.p28Company rec);
+        public BO.p10MasterProduct LoadValidSwLicense(int intP28ID);
     }
     class p28CompanyBL : BaseBL,Ip28CompanyBL
     {        
@@ -26,6 +27,10 @@ namespace BL
         {
             return _db.Load<BO.p28Company>(string.Format("{0} WHERE a.p28ID=@pid", GetSQL1()),new { pid = pid });
         }
+        public BO.p10MasterProduct LoadValidSwLicense(int intP28ID)
+        {
+            return _db.Load<BO.p10MasterProduct>("select TOP 1 a.* from p10MasterProduct a INNER JOIN p22LicenseBinding b ON a.p10ID=b.p10ID INNER JOIN p21License c ON b.p21ID=c.p21ID WHERE a.p10SwLicenseFlag>0 AND c.p28ID=@p28id AND GETDATE() BETWEEN c.ValidFrom AND c.ValidUntil", new { p28id = intP28ID });
+        }
         public IEnumerable<BO.p28Company> GetList(BO.myQuery mq)
         {
             DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq, _mother.CurrentUser);
@@ -37,8 +42,7 @@ namespace BL
             var p = new DL.Params4Dapper();
             p.AddInt("pid", rec.p28ID);
             if (rec.j02ID_Owner == 0) rec.j02ID_Owner = _db.CurrentUser.pid;            
-            p.AddInt("j02ID_Owner", rec.j02ID_Owner, true);
-            p.AddInt("p28TypeFlag", rec.p28TypeFlag);
+            p.AddInt("j02ID_Owner", rec.j02ID_Owner, true);            
             p.AddString("p28Name", rec.p28Name);
             p.AddString("p28ShortName", rec.p28ShortName);
             p.AddString("p28Code", rec.p28Code);

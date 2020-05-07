@@ -29,10 +29,12 @@ namespace BO
 
 
         ///readonly účely:        
-        public string p28Name;
+        public string p28Name { get; set; } //get+set: kvůli mycombo
+        public string j04Name;
+
         public int j03ID;
         public string j03Login;
-        public string j04Name;
+        
         public string RecordOwner;
 
     }

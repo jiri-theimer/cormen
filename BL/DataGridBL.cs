@@ -49,7 +49,7 @@ namespace BL
             }
             else
             {
-                return string.Format("a.{0}ID as pid,CASE WHEN GETDATE() BETWEEN a.ValidFrom AND a.ValidUntil THEN 0 ELSE 1 end as isclosed", strPrefix);
+                return string.Format("a.{0}ID as pid,convert(bit,CASE WHEN GETDATE() BETWEEN a.ValidFrom AND a.ValidUntil THEN 0 ELSE 1 end) as isclosed", strPrefix);
             }
             
         }
@@ -98,6 +98,9 @@ namespace BL
                 case "o12":
                     sb.Append(" FROM o12Category a");
                     break;
+                case "p19":
+                    sb.Append(" FROM p19Material a LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID");
+                    break;
                 case "p10":
                     sb.Append(" FROM p10MasterProduct a LEFT OUTER JOIN p13MasterTpv p13 ON a.p13ID=p13.p13ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID");
                     break;
@@ -114,6 +117,7 @@ namespace BL
                 case "p11":
                     sb.Append(" FROM p11ClientProduct a LEFT OUTER JOIN p12ClientTpv p12 ON a.p12ID=p12.p12ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p21License p21 ON a.p21ID=p21.p21ID");
                     sb.Append(" LEFT OUTER JOIN p28Company p28 ON p21.p28ID=p28.p28ID LEFT OUTER JOIN p20Unit p20 ON a.p20ID=p20.p20ID");
+                    sb.Append(" LEFT OUTER JOIN p10MasterProduct p10 ON a.p10ID_Master=p10.p10ID");
                     break;
                 case "p12":
                     sb.Append(" FROM p12ClientTpv a LEFT OUTER JOIN p21License p21 ON a.p21ID=p21.p21ID LEFT OUTER JOIN p28Company p28 ON p21.p28ID=p28.p28ID");

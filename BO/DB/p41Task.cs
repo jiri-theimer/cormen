@@ -35,10 +35,10 @@ namespace BO
         public int p41ActualRowNum { get; set; }
         public double p41RealUnitsCount { get; set; }
 
-        public string p11Name;
-        public string b02Name;
-        public string p28Name;
-        public string p26Name;
+        public string p11Name { get; set; } //get+set: kvůli mycombo
+        public string b02Name { get; set; } //get+set: kvůli mycombo
+        public string p28Name { get; set; } //get+set: kvůli mycombo
+        public string p26Name { get; set; } //get+set: kvůli mycombo
         public string RecordOwner;
     }
 }

@@ -412,18 +412,18 @@ namespace UI.Controllers
             for (int i = intStartIndex; i <= intEndIndex; i++)
             {
                 System.Data.DataRow dbRow = dt.Rows[i];
-                var strRowClass = "class='selectable'";
+                string strRowClass = "selectable";
                 if (Convert.ToBoolean(dbRow["isclosed"])==true)
                 {
-                    strRowClass+= "class='trbin'";
+                    strRowClass+= " trbin";
                 }
                 if (_grid.GridState.OnDblClick == null)
                 {
-                    _s.Append(string.Format("<tr id='r{0}' {1}>", dbRow["pid"], strRowClass));
+                    _s.Append(string.Format("<tr id='r{0}' class='{1}'>", dbRow["pid"], strRowClass));
                 }
                 else
                 {
-                    _s.Append(string.Format("<tr id='r{0}' {1} ondblclick='{2}(this)'>", dbRow["pid"], strRowClass, _grid.GridState.OnDblClick));
+                    _s.Append(string.Format("<tr id='r{0}' class='{1}' ondblclick='{2}(this)'>", dbRow["pid"], strRowClass, _grid.GridState.OnDblClick));
                 }
                 
 

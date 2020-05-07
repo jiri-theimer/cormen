@@ -77,7 +77,7 @@ namespace UI.Views.Shared.TagHelpers
 
             sb("</div>");
 
-            sb(string.Format("<input type='hidden' value='{0}' data-id='text_{1}'name ='{2}'/>", this.SelectedText.Model, strControlID, this.SelectedText.Name));
+            sb(string.Format("<input type='hidden' value='{0}' data-id='text_{1}' name='{2}'/>", this.SelectedText.Model, strControlID, this.SelectedText.Name));
 
             sb(string.Format("<input type='hidden' value ='{0}' id='{1}' data-id='value_{1}' name='{2}'/>", _SelectedValue.ToString(), strControlID, this.For.Name));   //asp-for pro hostitelské view
 

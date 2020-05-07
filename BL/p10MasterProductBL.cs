@@ -51,6 +51,7 @@ namespace BL
             p.AddString("p10Name", rec.p10Name);
             p.AddString("p10Code", rec.p10Code);
             p.AddString("p10Memo", rec.p10Memo);
+            p.AddInt("p10SwLicenseFlag", rec.p10SwLicenseFlag);
 
 
             return _db.SaveRecord("p10MasterProduct", p.getDynamicDapperPars(), rec);

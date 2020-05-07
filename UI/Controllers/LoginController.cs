@@ -54,6 +54,12 @@ namespace UI.Controllers
                 return View(lu);
             }
             BO.j03User cJ03 = _f.j03UserBL.LoadByLogin(lu.Login);
+            BO.j04UserRole cJ04 = _f.j04UserRoleBL.Load(cJ03.j04ID);
+            if (cJ04.j04IsClientRole && _f.p28CompanyBL.LoadValidSwLicense(_f.CurrentUser.p28ID)==null)
+            {
+                lu.Message = "Držitel licence nemá platnou licenci!";
+                return View(lu);
+            }
             if (lu.Password == "hash")
             {
                 lu.Message = lu.Pwd2Hash("123456", cJ03);

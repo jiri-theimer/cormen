@@ -30,7 +30,7 @@ namespace BO
         public string fullname_desc;
         public string j02Email;
         public string p28Name;
-        public string j04Name;
-        
+        public string j04Name { get; set; } //get+set: kvůli mycombo
+
     }
 }

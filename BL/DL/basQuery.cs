@@ -79,9 +79,13 @@ namespace BL.DL
             {
                 ParseSqlFromTheGridFilter(mq, ref lis);  //složit filtrovací podmínku ze sloupcového filtru gridu
             }
-            if (ru.j03EnvironmentFlag == 2)    //odstínit data pouze pro držitele licence, tj. firmu p28Type=1
+            if (ru.j03EnvironmentFlag == 2)    //odstínit data pouze pro držitele licence, tj. firmu s licencí na p10SwLicenseFlag>0
             {
-                if (mq.Prefix == "j02" || mq.Prefix == "p28" || mq.Prefix == "o23" ||  mq.Prefix == "p41")
+                if (mq.Prefix == "j02")
+                {
+                    AQ(ref lis, "a.p28ID=@p28id", "p28id", ru.p28ID);
+                }
+                if (mq.Prefix == "p28" || mq.Prefix == "o23" ||  mq.Prefix == "p41")
                 {
 
                     AQ(ref lis, "a.j02ID_Owner IN (select j02ID FROM j02Person WHERE p28ID=@p28id)", "p28id", ru.p28ID);

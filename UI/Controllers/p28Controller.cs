@@ -47,8 +47,7 @@ namespace UI.Controllers
             
             v.Toolbar = new MyToolbarViewModel(v.Rec);            
             if (isclone) {
-                v.Toolbar.MakeClone();
-                v.Rec.p28TypeFlag = 0;
+                v.Toolbar.MakeClone();                
             }
 
 
@@ -62,10 +61,6 @@ namespace UI.Controllers
             {
                 BO.p28Company c = new BO.p28Company();
                 if (v.Rec.pid > 0) c = Factory.p28CompanyBL.Load(v.Rec.pid);
-                if (Factory.CurrentUser.j03EnvironmentFlag == 1)
-                {
-                    c.p28TypeFlag = v.Rec.p28TypeFlag;  //master může určovat typ subjektu, zákazník nikoliv
-                }
                 
                 c.p28Code = v.Rec.p28Code;
                 c.p28Name = v.Rec.p28Name;

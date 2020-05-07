@@ -115,6 +115,7 @@ namespace BO
                 case "p11":return "p11ClientProduct";
                 case "p12":return "p12ClientTpv";
                 case "p15":return "p15ClientOper";
+                case "p19":return "p19Material";
                 default:
                     return "";
             }
@@ -141,6 +142,7 @@ namespace BO
                     case "p11":return "Produkty [Klient]";
                     case "p12":return "TPV [Klient]";
                     case "p15": return "Technologický rozpis operací [Klient]";
+                    case "p19":return "Materiály";
                     default:
                         return "";
                 }
@@ -162,6 +164,7 @@ namespace BO
                 case "j04": return "Aplikační role";
                 case "p11": return "Produkt [Klient]";
                 case "p12": return "TPV [Klient]";
+                case "p19":return "Material";
                 default:
                     return "";
             }

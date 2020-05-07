@@ -21,7 +21,7 @@ namespace BO
         public string p21Code { get; set; }
         public double p21Price { get; set; }
 
-        public string p28Name;
-        public string b02Name;
+        public string p28Name { get; set; } //get+set: kvůli mycombo
+        public string b02Name { get; set; } //get+set: kvůli mycombo
     }
 }

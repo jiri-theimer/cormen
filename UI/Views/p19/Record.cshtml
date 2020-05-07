@@ -1,0 +1,78 @@
+﻿@model p19RecordViewModel
+
+@{
+    ViewData["Title"] = "Materiál";
+    Layout = "~/Views/Shared/_LayoutModal.cshtml";
+    if (Model.Rec == null) return;
+}
+@addTagHelper *, UI
+
+<h4>Karta materiálu</h4>
+@using (Html.BeginForm())
+{
+
+    @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
+    @Html.HiddenFor(m => m.Rec.pid)
+
+<div class="modal_record_container">
+
+    <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
+        <div class="col-sm-9 col-md-8">
+            <input class="form-control" asp-for="Rec.p19Name" />
+            <span asp-validation-for="Rec.p19Name" class="text-danger"></span>
+        </div>
+        <div class="col-sm-2 col-md-2">
+            <input class="form-control" asp-for="Rec.p19Code" placeholder="Kód" />
+            <span asp-validation-for="Rec.p19Code" class="text-danger"></span>
+        </div>
+    </div>
+
+
+
+
+
+
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Jednotka:</label>
+
+        <div class="col-sm-2 col-md-2">
+            <select asp-for="Rec.p20ID" class="form-control">
+                <option value="0"></option>
+                <option value="1">Hmotnost (kg)</option>
+                <option value="2">Objem (lt)</option>
+
+            </select>
+        </div>
+    </div>
+    <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Výchozí OperParam hodnota:</label>
+        <div class="col-sm-9 col-md-8">
+            <mynumber asp-for="Rec.p19DefaultOperParam" decimal-digits="0"></mynumber>
+
+        </div>
+
+    </div>
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Kategorie:</label>
+        <div class="col-sm-11 col-md-10">
+            <mycombo entity="o12Category" asp-for="Rec.o12ID" selectedtext="Rec.o12Name" param1="p19"></mycombo>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <textarea asp-for="Rec.p19Memo" class="form-control" placeholder="Podrobný popis"></textarea>
+        <span asp-validation-for="Rec.p19Memo" class="text-danger"></span>
+    </div>
+
+
+
+</div>
+}
+
+@Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
+
+
+
+
+

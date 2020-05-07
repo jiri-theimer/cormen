@@ -27,9 +27,9 @@ namespace BO
         public string o23Code { get; set; }
         public DateTime? o23Date { get; set; }
 
-        public string o12Name;
+        public string o12Name { get; set; } //get+set: kvůli mycombo
 
-        public string b02Name;
+        public string b02Name { get; set; } //get+set: kvůli mycombo
 
         public string RecordPidAlias;
 
