@@ -23,11 +23,10 @@ namespace BO
         [Required(ErrorMessage = "Chybí vyplnit kód!")]
         public string p10Code { get; set; }
 
-       
-        public string p13Name { get; set; }
-        
-        public string b02Name { get; set; }
-        
-        public string o12Name { get; set; }
+
+        public string p13Name;
+        public string p13Code;
+        public string b02Name;
+        public string o12Name;
     }
 }

@@ -15,42 +15,58 @@
     @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
     @Html.HiddenFor(m => m.Rec.pid)
 
-    <div class="modal_record_container">
+<div class="modal_record_container">
 
-        <div class="form-row">
-            <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
-            <div class="col-sm-9 col-md-8">
-                <input class="form-control" asp-for="Rec.p11Name" />
-                <span asp-validation-for="Rec.p11Name" class="text-danger"></span>
-            </div>
-            <div class="col-sm-2 col-md-2">
-                <input class="form-control" asp-for="Rec.p11Code" placeholder="Kód" />
-                <span asp-validation-for="Rec.p11Code" class="text-danger"></span>
-            </div>
+    <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
+        <div class="col-sm-9 col-md-8">
+            <input class="form-control" asp-for="Rec.p11Name" />
+            <span asp-validation-for="Rec.p11Name" class="text-danger"></span>
         </div>
-
-        <div class="form-row" style="margin-top:10px;display:none;">
-            <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
-            <div class="col-sm-11 col-md-10">
-                <mycombo entity="b02Status" asp-for="Rec.b02ID" selectedtext="Rec.b02Name" param1="p11"></mycombo>
-            </div>
+        <div class="col-sm-2 col-md-2">
+            <input class="form-control" asp-for="Rec.p11Code" placeholder="Kód" />
+            <span asp-validation-for="Rec.p11Code" class="text-danger"></span>
         </div>
-        <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">TPV:</label>
-            <div class="col-sm-11 col-md-10">
-                <mycombo entity="p13MasterTpv" asp-for="Rec.p12ID" selectedtext="Rec.p12Name"></mycombo>
-            </div>
-        </div>
-       
-
-        <div class="form-row">
-            <textarea asp-for="Rec.p11Memo" class="form-control" placeholder="Podrobný popis"></textarea>
-            <span asp-validation-for="Rec.p11Memo" class="text-danger"></span>
-        </div>
-
-
-
     </div>
+
+    <div class="form-row" style="margin-top:10px;display:none;">
+        <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
+        <div class="col-sm-11 col-md-10">
+            <mycombo entity="b02Status" asp-for="Rec.b02ID" selectedtext="Rec.b02Name" param1="p11"></mycombo>
+        </div>
+    </div>
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">TPV:</label>
+        <div class="col-sm-11 col-md-10">
+            <mycombo entity="p13MasterTpv" asp-for="Rec.p12ID" selectedtext="Rec.p12Name"></mycombo>
+        </div>
+    </div>
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Jednotková cena:</label>
+        <div class="col-sm-3 col-md-2">
+            <mynumber asp-for="Rec.p11UnitPrice" decimal-digits="2"></mynumber>
+            
+        </div>
+        <div class="col-sm-2 col-md-2">
+            <select asp-for="Rec.p20ID" class="form-control">
+                <option value="0"></option>
+                <option value="1">Hmotnost (kg)</option>
+                <option value="2">Objem (lt)</option>
+                <option value="4">Rok (yyyy)</option>
+                <option value="5">Měsíc (mm)</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="form-row">
+        <textarea asp-for="Rec.p11Memo" class="form-control" placeholder="Podrobný popis"></textarea>
+        <span asp-validation-for="Rec.p11Memo" class="text-danger"></span>
+    </div>
+
+
+
+</div>
 }
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")

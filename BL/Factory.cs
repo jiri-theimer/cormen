@@ -46,21 +46,26 @@ namespace BL
             
         }
 
-        
-
+      
         public void InhaleUserByLogin(string strLogin)
         {
             DL.DbHandler db = new DL.DbHandler(this.App.ConnectString, this.CurrentUser,this.App.LogFolder);
-            this.CurrentUser= db.Load<BO.RunningUser>("SELECT a.j03ID as pid,a.j02ID,j02.p28ID,p28.p28Name,a.j03Login,j02.j02FirstName+' '+j02.j02LastName as FullName,a.j03FontStyleFlag,a.j03EnvironmentFlag,a.j03IsMustChangePassword,j04.j04PermissionValue,null as ErrorMessage,CASE WHEN GETDATE() BETWEEN a.ValidFrom AND a.ValidUntil THEN 0 ELSE 1 end as isclosed,a.j03LiveChatTimestamp,j02.j02Email FROM j03User a INNER JOIN j02Person j02 ON a.j02ID=j02.j02ID INNER JOIN j04UserRole j04 ON a.j04ID=j04.j04ID INNER JOIN p28Company p28 ON j02.p28ID=p28.p28ID WHERE a.j03Login LIKE @login", new { login = strLogin });
-            if (this.CurrentUser.j03LiveChatTimestamp !=null)
+            this.CurrentUser= db.Load<BO.RunningUser>("SELECT a.j03ID as pid,a.j02ID,j02.p28ID,p28.p28Name,a.j03Login,j02.j02FirstName+' '+j02.j02LastName as FullName,a.j03FontStyleFlag,a.j03EnvironmentFlag,a.j03IsMustChangePassword,j04.j04PermissionValue,null as ErrorMessage,CASE WHEN GETDATE() BETWEEN a.ValidFrom AND a.ValidUntil THEN 0 ELSE 1 end as isclosed,a.j03LiveChatTimestamp,j02.j02Email,a.j03PingTimestamp FROM j03User a INNER JOIN j02Person j02 ON a.j02ID=j02.j02ID INNER JOIN j04UserRole j04 ON a.j04ID=j04.j04ID INNER JOIN p28Company p28 ON j02.p28ID=p28.p28ID WHERE a.j03Login LIKE @login", new { login = strLogin });
+            if (this.CurrentUser.j03PingTimestamp == null || this.CurrentUser.j03PingTimestamp.Value.AddSeconds(200) < DateTime.Now)
             {
-                if (this.CurrentUser.j03LiveChatTimestamp.Value.AddMinutes(20) < DateTime.Now)
+                db.RunSql("UPDATE j03User set j03PingTimestamp=GETDATE() WHERE j03ID=@pid", new { pid = this.CurrentUser.pid });    //ping aktualizace po 200 sekundách
+                
+                if (this.CurrentUser.j03LiveChatTimestamp != null)
                 {
-                    var c = this.j03UserBL.Load(this.CurrentUser.pid);
-                    c.j03LiveChatTimestamp = null;   //vypnout smartsupp
-                    this.j03UserBL.Save(c);
+                    if (this.CurrentUser.j03LiveChatTimestamp.Value.AddMinutes(20) < DateTime.Now)
+                    {
+                        var c = this.j03UserBL.Load(this.CurrentUser.pid);
+                        c.j03LiveChatTimestamp = null;   //vypnout smartsupp
+                        this.j03UserBL.Save(c);
+                    }
                 }
             }
+            
         }
 
 

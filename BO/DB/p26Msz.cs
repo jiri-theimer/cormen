@@ -22,10 +22,8 @@ namespace BO
         public string p26Code { get; set; }
 
 
-        public string p28Name { get; set; }
-
-
-        public string b02Name { get; set; }
+        public string p28Name;
+        public string b02Name;
 
 
     }

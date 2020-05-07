@@ -39,6 +39,7 @@ namespace BL
             DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq, _mother.CurrentUser);
             return _db.GetList<BO.j03User>(fq.FinalSql, fq.Parameters);
         }
+        
 
         public int Save(BO.j03User rec)
         {

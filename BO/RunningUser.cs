@@ -20,6 +20,7 @@ namespace BO
         public int j03FontStyleFlag { get; set; }
         public int j03EnvironmentFlag { get; set; }
         public DateTime? j03LiveChatTimestamp { get; set; }
+        public DateTime? j03PingTimestamp { get; set; }
 
 
         public List<BO.COM.StringPairValue> Messages4Notify { get; set; }

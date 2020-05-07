@@ -6,10 +6,10 @@
     if (Model.Rec == null) return;
 }
 
-    
+
 <div class="modal_record_container">
-    
-    
+
+
     <div class="form-row">
         <label class="col-sm-1 col-md-2 col-form-label">Licence:</label>
         <div class="col-sm-6 col-md-6">
@@ -50,19 +50,15 @@
 
     </div>
 
-
-    @if (Model.Rec.p21Memo != null)
-    {
-        <hr />
-
-        <pre>@Html.DisplayFor(m => m.Rec.p21Memo, new { @class = "form-control" });</pre>
-
-
-    }
-
-   
-
 </div>
+@if (Model.Rec.p21Memo != null)
+{
+    <hr />
+
+    <pre>@Html.DisplayFor(m => m.Rec.p21Memo, new { @class = "form-control" });</pre>
+
+
+}
 
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")

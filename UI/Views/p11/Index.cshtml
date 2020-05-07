@@ -19,16 +19,27 @@
             </div>
         </div>
 
-        <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
-            <div class="col-sm-11 col-md-10">
-                <input class="form-control" asp-for="Rec.b02Name" readonly="readonly" />
-            </div>
-        </div>
+
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">TPV:</label>
-            <div class="col-sm-11 col-md-10">
+            <div class="col-sm-9 col-md-8">
                 <input class="form-control" asp-for="Rec.p12Name" readonly="readonly" />
+            </div>
+            <div class="col-sm-2 col-md-2">
+                <input class="form-control" asp-for="Rec.p12Code" readonly="readonly" />
+
+            </div>
+        </div>
+
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Jednotková cena:</label>
+            <div class="col-sm-9 col-md-8">
+                <input class="form-control" asp-for="Rec.p11UnitPrice" readonly="readonly" />
+
+            </div>
+            <div class="col-sm-2 col-md-2">
+                <input class="form-control" asp-for="Rec.p20Code" readonly="readonly" />
+
             </div>
         </div>
         <div class="form-row" style="margin-top:10px;">
@@ -37,27 +48,36 @@
                 <input class="form-control" asp-for="Rec.p21Name" readonly="readonly" />
             </div>
         </div>
+
         <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Master produkt:</label>
-            <div class="col-sm-11 col-md-10">
+            <label class="col-sm-1 col-md-2 col-form-label">Vzorový Master produkt:</label>
+            <div class="col-sm-9 col-md-8">
                 <input class="form-control" asp-for="Rec.p10Name" readonly="readonly" />
+
+            </div>
+            <div class="col-sm-2 col-md-2">
+                <input class="form-control" asp-for="Rec.p10Code" readonly="readonly" />
+
+            </div>
+        </div>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
+            <div class="col-sm-11 col-md-10">
+                <input class="form-control" asp-for="Rec.b02Name" readonly="readonly" />
             </div>
         </div>
 
 
-        @if (Model.Rec.p11Memo != null)
-        {
-            <hr />
-
-            <pre>@Html.DisplayFor(m => m.Rec.p11Memo, new { @class = "form-control" });</pre>
-
-
-        }
-
-
-
 
     </div>
+@if (Model.Rec.p11Memo != null)
+{
+    <hr />
+
+    <pre>@Html.DisplayFor(m => m.Rec.p11Memo, new { @class = "form-control" });</pre>
+
+
+}
 
 @Html.DisplayFor(m => Model.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
 

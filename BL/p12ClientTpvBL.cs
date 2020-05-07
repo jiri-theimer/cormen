@@ -20,7 +20,7 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*,p21.p21Name," + _db.GetSQL1_Ocas("p12") + " FROM p12ClientTpv a LEFT OUTER JOIN p21License p21 ON a.p21ID=p21.p21ID";
+            return "SELECT a.*,p21.p21Name,p13.p13Name,p13.p13Code," + _db.GetSQL1_Ocas("p12") + " FROM p12ClientTpv a LEFT OUTER JOIN p21License p21 ON a.p21ID=p21.p21ID LEFT OUTER JOIN p13MasterTpv p13 ON a.p13ID_Master=p13.p13ID";
         }
         public BO.p12ClientTpv Load(int pid)
         {

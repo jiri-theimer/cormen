@@ -58,6 +58,8 @@ namespace UI.Controllers
                 c.p11Memo = v.Rec.p11Memo;
                 c.b02ID = v.Rec.b02ID;
                 c.p12ID = v.Rec.p12ID;
+                c.p11UnitPrice = v.Rec.p11UnitPrice;
+                c.p20ID = v.Rec.p20ID;
                 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);

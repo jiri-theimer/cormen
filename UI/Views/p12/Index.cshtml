@@ -23,17 +23,30 @@
 
         </div>
     </div>
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Vzor TPV:</label>
+        <div class="col-sm-9 col-md-8">
+            <input class="form-control" asp-for="Rec.p13Name" readonly="readonly" />
 
-    @if (Model.Rec.p12Memo != null)
-    {
-        <hr />
+        </div>
+        <div class="col-sm-2 col-md-2">
+            <input class="form-control" asp-for="Rec.p13Code" readonly="readonly" />
 
-        <pre>@Html.DisplayFor(m => m.Rec.p12Memo, new { @class = "form-control" });</pre>
+        </div>
+    </div>
 
 
-    }
 
 </div>
+
+@if (Model.Rec.p12Memo != null)
+{
+    <hr />
+
+    <pre>@Html.DisplayFor(m => m.Rec.p12Memo, new { @class = "form-control" });</pre>
+
+
+}
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
 

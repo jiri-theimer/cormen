@@ -11,8 +11,8 @@ namespace BO
         public int j02ID { get; set; }
         public int p28ID { get; set; }
         public int j02ID_Owner { get; set; }
-                        
-        public string p28Name { get; set; }
+
+        
 
         [Required(ErrorMessage = "Chybí vyplnit e-mail adresa!")]
         public string j02Email { get; set; }        
@@ -28,7 +28,8 @@ namespace BO
         public string j02Tel2 { get; set; }
 
 
-        ///readonly účely:
+        ///readonly účely:        
+        public string p28Name;
         public int j03ID;
         public string j03Login;
         public string j04Name;

@@ -10,8 +10,8 @@
 
 
 <div class="modal_record_container">
-    
-   
+
+
     <div class="form-row">
         <label class="col-sm-1 col-md-2 col-form-label">TPV:</label>
         <div class="col-sm-9 col-md-8">
@@ -24,16 +24,17 @@
         </div>
     </div>
 
-    @if (Model.Rec.p13Memo != null)
-    {
-        <hr />
 
-        <pre>@Html.DisplayFor(m => m.Rec.p13Memo, new { @class = "form-control" });</pre>
-
-
-    }
 
 </div>
+@if (Model.Rec.p13Memo != null)
+{
+    <hr />
+
+    <pre>@Html.DisplayFor(m => m.Rec.p13Memo, new { @class = "form-control" });</pre>
+
+
+}
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
 
@@ -65,9 +66,9 @@
 
 $(document).ready(function () {
     var url = "@Url.Action("GetBodyOfTale", "Common")";
-    
+
     $.post(url, { entity: "p14MasterOper", tableid: "tabp14", queryfield: "p13id", queryvalue:@Model.Rec.pid }, function (data) {
-            
+
             $("#tbody1").html(data);
         });
 

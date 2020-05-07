@@ -5,98 +5,99 @@
     Layout = "~/Views/Shared/_LayoutSubform.cshtml";
     if (Model.Rec == null) return;
 }
-    
-    <div class="modal_record_container">
+
+<div class="modal_record_container">
 
 
-        <div class="form-row">
-            <label class="col-sm-1 col-md-2 col-form-label">Dokument:</label>
-            <div class="col-sm-9 col-md-8">
-                <input class="form-control" asp-for="Rec.o23Name" readonly="readonly" />
+    <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Dokument:</label>
+        <div class="col-sm-9 col-md-8">
+            <input class="form-control" asp-for="Rec.o23Name" readonly="readonly" />
 
-            </div>
-            <div class="col-sm-2 col-md-2">
-                <input class="form-control" asp-for="Rec.o23Code" readonly="readonly" />
-
-            </div>
         </div>
+        <div class="col-sm-2 col-md-2">
+            <input class="form-control" asp-for="Rec.o23Code" readonly="readonly" />
+
+        </div>
+    </div>
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Svázaný záznam:</label>
+        <div class="col-sm-11 col-md-10">
+            <div class="btn-group" style="width:100%;">
+                <span class="form-control" style="background-color:khaki;width:200px;">@Model.Rec.EntityAlias</span>
+                <strong class="form-control bg-light">@Model.Rec.RecordPidAlias</strong>
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+    @if (Model.Rec.b02ID > 0)
+    {
         <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Svázaný záznam:</label>
+            <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
             <div class="col-sm-11 col-md-10">
-                <div class="btn-group" style="width:100%;">
-                    <span class="form-control" style="background-color:khaki;width:200px;">@Model.Rec.EntityAlias</span>
-                    <strong class="form-control bg-light">@Model.Rec.RecordPidAlias</strong>
-
-                </div>
-
-
+                <input class="form-control" asp-for="Rec.b02Name" readonly="readonly" />
             </div>
         </div>
-
-
-        @if (Model.Rec.b02ID > 0)
-        {
-            <div class="form-row" style="margin-top:10px;">
-                <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
-                <div class="col-sm-11 col-md-10">
-                    <input class="form-control" asp-for="Rec.b02Name" readonly="readonly" />
-                </div>
-            </div>
-        }
-        @if (Model.Rec.o12ID > 0)
-        {
-            <div class="form-row" style="margin-top:10px;">
-                <label class="col-sm-1 col-md-2 col-form-label">Kategorie/Skupina:</label>
-                <div class="col-sm-11 col-md-10">
-                    <input class="form-control" asp-for="Rec.o12Name" readonly="readonly" />
-                </div>
-            </div>
-        }
-        <div class="form-row">
-            <label class="col-sm-1 col-md-2 col-form-label">Vlastník záznamu:</label>
+    }
+    @if (Model.Rec.o12ID > 0)
+    {
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Kategorie/Skupina:</label>
             <div class="col-sm-11 col-md-10">
-                <input class="form-control" asp-for="@Model.Rec.RecordOwner" readonly="readonly" />
-
+                <input class="form-control" asp-for="Rec.o12Name" readonly="readonly" />
             </div>
+        </div>
+    }
+    <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Vlastník záznamu:</label>
+        <div class="col-sm-11 col-md-10">
+            <input class="form-control" asp-for="@Model.Rec.RecordOwner" readonly="readonly" />
 
         </div>
-
-
-
-
-        @if (Model.Rec.o23Memo != null)
-        {
-            <hr />
-
-            <pre>@Html.DisplayFor(m => m.Rec.o23Memo, new { @class = "form-control" });</pre>
-
-
-        }
-
-        <table class="table table-sm table-hover">
-            @foreach (var c in Model.lisO27)
-            {
-                <text>
-                    <tr>
-                        <td style="width:30px;">
-                            <a title="Stáhnout" asp-action="FileDownload" asp-route-guid="@c.o27GUID"><i class="fas fa-download"></i></a>
-                        </td>
-                        <td style="width:60px;">
-                            <small>@BO.BAS.FormatFileSize(c.o27FileSize)</small>
-                        </td>
-                        <td>
-                            <a title="Stáhnout a otevřít v přidružené aplikaci" asp-action="FileDownloadInline" target="_blank" asp-route-guid="@c.o27GUID">@c.o27Name</a>
-                        </td>
-
-                    </tr>
-                </text>
-
-            }
-
-        </table>
-
 
     </div>
+
+
+
+
+
+
+    <table class="table table-sm table-hover">
+        @foreach (var c in Model.lisO27)
+        {
+            <text>
+                <tr>
+                    <td style="width:30px;">
+                        <a title="Stáhnout" asp-action="FileDownload" asp-route-guid="@c.o27GUID"><i class="fas fa-download"></i></a>
+                    </td>
+                    <td style="width:60px;">
+                        <small>@BO.BAS.FormatFileSize(c.o27FileSize)</small>
+                    </td>
+                    <td>
+                        <a title="Stáhnout a otevřít v přidružené aplikaci" asp-action="FileDownloadInline" target="_blank" asp-route-guid="@c.o27GUID">@c.o27Name</a>
+                    </td>
+
+                </tr>
+            </text>
+
+        }
+
+    </table>
+
+
+</div>
+@if (Model.Rec.o23Memo != null)
+{
+    <hr />
+
+    <pre>@Html.DisplayFor(m => m.Rec.o23Memo, new { @class = "form-control" });</pre>
+
+
+}
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
 

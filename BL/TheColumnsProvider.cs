@@ -172,6 +172,9 @@ namespace BL
                 AF("p11ClientProduct", "b02Name", "Stav", false, "b02.b02Name");
                 AF("p11ClientProduct", "o12Name", "Kategorie", false, "o12.o12Name");
                 AF("p11ClientProduct", "p11Memo", "Podrobný popis");
+                AF("p11ClientProduct", "p11UnitPrice", "Jedn.cena",false,null,"num");
+                AF("p11ClientProduct", "p20Code", "Jednotka",false,"p20.p20Code");
+
                 AppendTimestamp("p11ClientProduct");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p12")

@@ -18,6 +18,9 @@ namespace BO
         public string p12Code { get; set; }
         [MaxLength(1000, ErrorMessage = "Maximum 1000 znaků")]
         public string p12Memo { get; set; }
+
+        public string p13Name;
+        public string p13Code;
         
     }
 }

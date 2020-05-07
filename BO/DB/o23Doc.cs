@@ -27,11 +27,11 @@ namespace BO
         public string o23Code { get; set; }
         public DateTime? o23Date { get; set; }
 
-        public string o12Name { get; set; }
-        
-        public string b02Name { get; set; }
+        public string o12Name;
 
-        public string RecordPidAlias { get; set; }
+        public string b02Name;
+
+        public string RecordPidAlias;
 
         public string EntityAlias { get
             {
