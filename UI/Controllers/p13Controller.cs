@@ -81,13 +81,13 @@ namespace UI.Controllers
             {
                 if (rec_oper == "add")
                 {
-                    v.lisP14.Add(new BO.p14MasterOper() {TempRecDisplay="table-row", TempRecGuid = BO.BAS.GetGuid(),p14RowNum=-1 });
+                    v.lisP14.Add(new BO.p14MasterOper() {TempRecDisplay="table-row", TempRecGuid = BO.BAS.GetGuid(),p14RowNum=v.lisP14.Count()+1 });
                     
                 }
                 if (rec_oper == "postback")
                 {
                     //pouze postback
-                   
+                    
 
                 }
 

@@ -77,7 +77,7 @@
 
                 <tr style="display:@Model.lisP14[i].TempRecDisplay">
                     <td>
-                        <input type="text" class="form-control rownum" asp-for="@Model.lisP14[i].p14RowNum" />
+                        <input type="text" class="form-control rownum" id="rownumber_@rowindex" asp-for="@Model.lisP14[i].p14RowNum" />
                         <input type="hidden" asp-for="@Model.lisP14[i].p14ID" />
                         <input type="hidden" id="@Model.lisP14[i].TempRecGuid" asp-for="@Model.lisP14[i].TempRecDisplay" />
                         <input type="hidden" asp-for="@Model.lisP14[i].TempRecGuid" />
@@ -117,7 +117,7 @@
                     <td>
                         @if (rowindex > 0)
                         {
-                            <button type="button" class="btn btn-primary" onclick="p14_up_row(@i)">
+                            <button type="button" class="btn btn-primary" onclick="p14_up_row(@rowindex)">
                                 ↑
                             </button>
                         }
@@ -126,7 +126,7 @@
                     <td>
                         @if (rowindex < Model.lisP14.Count() - 1)
                         {
-                            <button type="button" class="btn btn-primary" onclick="p14_down_row(@i)">
+                            <button type="button" class="btn btn-primary" onclick="p14_down_row(@rowindex)">
                                 ↓
                             </button>
                         }
@@ -350,13 +350,29 @@
             x += 1;
         });
 
-        x = $("#lisP14_" + (rowindex+1) + "__p14RowNum").val();
-        $("#lisP14_" + rowindex + "__p14RowNum").val(x);
-        $("#lisP14_" + (rowindex + 1) + "__p14RowNum").val(x - 1);
+        x = parseInt($("#rownumber_" + (rowindex+1)).val());
+        $("#rownumber_" + rowindex).val(x);
+        $("#rownumber_" + (rowindex + 1)).val(x - 1);
 
         form1.action = "/p13/Record?rec_oper=postback";
         form1.submit();
     }
+    function p14_up_row(rowindex) {
+        var x = 1;
+        $(".rownum").each(function () {
+            $(this).val(x);
+            x += 1;
+        });
+        
+        x = parseInt($("#rownumber_" + (rowindex - 1)).val());
+        $("#rownumber_" + rowindex).val(x);
+        $("#rownumber_" + (rowindex - 1)).val(x+1);
+
+        form1.action = "/p13/Record?rec_oper=postback";
+        form1.submit();
+    }
+
+    
 
 </script>
 
