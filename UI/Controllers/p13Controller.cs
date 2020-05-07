@@ -56,27 +56,35 @@ namespace UI.Controllers
                 v.Guid = BO.BAS.GetGuid();
                 PrepareTempTable(pid,v.Guid,true);
             }
-
-            v.lisP14 = new List<BO.p14MasterOper>();
-            var cc = new BO.p14MasterOper() {p14ID=1, p14Name = "nazdar", p14MaterialCode = "kód-materiálu", p14MaterialName = "název-materiálu" };
-            v.lisP14.Add(cc);
-            cc = new BO.p14MasterOper() {p14ID=2, p14Name = "nazdar II", p14MaterialCode = "kód-materiálu II", p14MaterialName = "název-materiálu II" };
-            v.lisP14.Add(cc);
-
-
+            var mq = new BO.myQuery("p14MasterOper");
+            mq.p13id = v.Rec.pid;
+            v.lisP14 = Factory.p14MasterOperBL.GetList(mq).ToList();
+            for(var i = 0; i < v.lisP14.Count(); i++)
+            {
+                v.lisP14[i].TempRecGuid = BO.BAS.GetGuid();
+                v.lisP14[i].TempRecDisplay = "table-row";
+            }
+            
             return View(v);
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Record(Models.p13RecordViewModel v,bool bolAddRowOnly)
+        public IActionResult Record(Models.p13RecordViewModel v,string rec_oper,string rec_guid)
         {
-            if (bolAddRowOnly)
+            if (rec_oper != null)
             {
+                if (rec_oper == "add")
+                {
+                    v.lisP14.Add(new BO.p14MasterOper() {TempRecDisplay="table-row", TempRecGuid = BO.BAS.GetGuid() });
+                }
+                if (rec_oper == "postback")
+                {
+                    //pouze postback
+                    v.lisP14 = v.lisP14.OrderBy(p => p.p14RowNum).ToList();
 
-                v.lisP14.Add(new BO.p14MasterOper() { p14Name = "Hovado", p14MaterialName = DateTime.Now.ToString() });
-                v.lisP14 = v.lisP14.OrderByDescending(p => p.p14UnitsCount).ToList();
+                }
 
                 v.Toolbar = new MyToolbarViewModel(v.Rec);
 
@@ -96,7 +104,8 @@ namespace UI.Controllers
 
                 if (string.IsNullOrEmpty(v.Guid)) { v.Guid = BO.BAS.GetGuid(); };
 
-                v.Rec.pid = Factory.p13MasterTpvBL.Save(c,v.Guid);
+                v.Rec.pid = Factory.p13MasterTpvBL.Save(c, v.lisP14);
+                //v.Rec.pid = Factory.p13MasterTpvBL.Save(c,v.Guid);
                 if (v.Rec.pid > 0)
                 {
                     v.SetJavascript_CallOnLoad(v.Rec.pid);

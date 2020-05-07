@@ -42,39 +42,83 @@
         <input type="hidden" asp-for="@Model.Guid" />
     </div>
 
-    <button type="button" onclick="pokus()">pokus</button>
-    <table>
-        <tr>
-            <th>p14Name</th>
-            <th>p14MaterialCode</th>
-            <th>p14MaterialName</th>
-            <th>p14OperCode</th>
-            <th>p14UnitsCount</th>
+    <button type="button" onclick="p14_add_row()">Přidat řádek</button>
+    <table class="table table-sm table-hover">
+        <tr style="display:table-row;">
+            <th>RowNum</th>
+            <th>OperNum</th>
+            <th>OperCode</th>
+            <th>Name</th>
+            <th>OperPar</th>
+            <th>MaterialCode</th>
+            <th>MaterialName</th>
+            <th>UnitsCount</th>
+            <th>DurationPreOper</th>
+            <th>DurationOper</th>
+            <th>DurationPostOper</th>
+            <th></th>
+            <th></th>
+            <th></th>
         </tr>
-        @for (var i = 0; i < Model.lisP14.Count; i++)
+        @for (var i = 0; i < Model.lisP14.OrderBy(p=>p.p14RowNum).Count(); i++)
         {
-            <tr>
+            <tr style="display:@Model.lisP14[i].TempRecDisplay">
                 <td>
-                    @Html.EditorFor(m => m.lisP14[i].p14Name)
-
-
-
-
+                    <input type="text" class="form-control rownum" asp-for="@Model.lisP14[i].p14RowNum" />                    
+                    <input type="hidden" asp-for="@Model.lisP14[i].p14ID" />
+                    <input type="hidden" id="@Model.lisP14[i].TempRecGuid" asp-for="@Model.lisP14[i].TempRecDisplay" />
+                    <input type="hidden" asp-for="@Model.lisP14[i].TempRecGuid" />
                 </td>
                 <td>
-                    @Html.TextBoxFor(m => m.lisP14[i].p14MaterialCode)
+                    <input type="text" class="form-control" asp-for="@Model.lisP14[i].p14OperNum" />
                 </td>
                 <td>
-                    @Html.TextBoxFor(m => m.lisP14[i].p14MaterialName)
+                    <input type="text" class="form-control" asp-for="@Model.lisP14[i].p14OperCode" />
                 </td>
                 <td>
-
-                    <input type="text" asp-for="@Model.lisP14[i].p14OperCode" />
+                    <input type="text" class="form-control" asp-for="@Model.lisP14[i].p14Name" />
+                </td>
+                <td>
+                    <input type="number" class="form-control" step="0" asp-for="@Model.lisP14[i].p14OperParam" />
+                </td>
+                <td>
+                    <input type="text" class="form-control" asp-for="@Model.lisP14[i].p14MaterialCode" />
+                </td>
+                <td>
+                    <input type="text" class="form-control" asp-for="@Model.lisP14[i].p14MaterialName" />
 
                 </td>
                 <td>
                     <mynumber asp-for="@Model.lisP14[i].p14UnitsCount"></mynumber>
                 </td>
+                <td>
+                    <input type="number" class="form-control" step="0" asp-for="@Model.lisP14[i].p14DurationPreOper" />
+                </td>
+                <td>
+                    <input type="number" class="form-control" step="0" asp-for="@Model.lisP14[i].p14DurationOper" />
+                </td>
+                <td>
+                    <input type="number" class="form-control" step="0" asp-for="@Model.lisP14[i].p14DurationPostOper" />
+                </td>
+
+                <td>
+                    <button type="button" class="btn btn-primary" onclick="p14_up_row(@i)">
+                        ↑
+                    </button>
+                </td>
+                <td>
+                    @if (i < Model.lisP14.Count()-1)
+                    {
+                        <button type="button" class="btn btn-primary" onclick="p14_down_row(@i)">
+                            ↓
+                        </button>
+                    }
+
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger" onclick="p14_delete_row('@Model.lisP14[i].TempRecGuid')">x</button>
+                </td>
+
             </tr>
         }
     </table>
@@ -272,11 +316,28 @@
     }
 
 
-    function pokus() {
-         var url = "@Url.Action("Record","p13", new { bolAddRowOnly = true})";
-                form1.action = url;
+    function p14_add_row() {        
+        form1.action = "/p13/Record?rec_oper=add";         
+        form1.submit();
+    }
+    function p14_delete_row(guid) {         
+        $("#" + guid).val("none");
+        form1.action = "/p13/Record?rec_oper=postback";
+        form1.submit();
+    }
+    function p14_down_row(rowindex) {        
+        var x = 1;
+        $(".rownum").each(function () {
+            $(this).val(x);
+            x += 1;
+        });
 
-                form1.submit();
+        x = $("#lisP14_" + (rowindex+1) + "__p14RowNum").val();
+        $("#lisP14_" + rowindex + "__p14RowNum").val(x);
+        $("#lisP14_" + (rowindex + 1) + "__p14RowNum").val(x - 1);
+
+        form1.action = "/p13/Record?rec_oper=postback";
+        form1.submit();
     }
 
 </script>
