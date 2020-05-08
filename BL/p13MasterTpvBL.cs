@@ -71,9 +71,9 @@ namespace BL
             var p = new DL.Params4Dapper();            
             p.AddInt("pid", rec.p14ID);
             p.AddInt("p13ID", rec.p13ID, true);
+            p.AddInt("p19ID", rec.p19ID, true);
             p.AddString("p14Name", rec.p14Name);
-            p.AddString("p14MaterialCode", rec.p14MaterialCode);
-            p.AddString("p14MaterialName", rec.p14MaterialName);
+           
             p.AddInt("p14RowNum", rec.p14RowNum);
             p.AddString("p14OperCode", rec.p14OperCode);
             p.AddString("p14OperNum", rec.p14OperNum);

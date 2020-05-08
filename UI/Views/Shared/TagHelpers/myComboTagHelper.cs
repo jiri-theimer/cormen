@@ -52,7 +52,7 @@ namespace UI.Views.Shared.TagHelpers
             }
 
             _sb = new System.Text.StringBuilder();
-            var strControlID = this.For.Name.Replace(".", "_");
+            var strControlID = this.For.Name.Replace(".", "_").Replace("[", "_").Replace("]", "_");
 
 
             sb(string.Format("<div id='divDropdownContainer{0}' class='dropdown input-group' style='border:solid 1px #C8C8C8;border-radius:3px;width:100%;'>", strControlID));

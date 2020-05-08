@@ -39,26 +39,26 @@
 
 
 
-        <input type="hidden" asp-for="@Model.Guid" />
+        
     </div>
-
-    <button type="button" onclick="p14_add_row()">Přidat řádek</button>
-    <table class="table table-sm table-hover">
+    <hr />
+    <button type="button" class="btn btn-primary" onclick="p14_add_row()">Přidat řádek</button>
+    <table class="table table-sm table-hover" style="table-layout: fixed;width:100%;min-width:800px;">
         <tr style="display:table-row;">
-            <th>RowNum</th>
-            <th>OperNum</th>
-            <th>OperCode</th>
+            <th style="width:70px;">Row<br />Num</th>
+            <th style="width:70px;">Oper<br />Num</th>
+            <th>Oper<br />Code</th>
             <th>Name</th>
-            <th>OperPar</th>
-            <th>MaterialCode</th>
-            <th>MaterialName</th>
-            <th>UnitsCount</th>
-            <th>DurationPreOper</th>
-            <th>DurationOper</th>
-            <th>DurationPostOper</th>
-            <th></th>
-            <th></th>
-            <th></th>
+            <th style="width:70px;">Oper<br />Par</th>
+            
+            <th>Material</th>
+            <th style="width:70px;">Units<br />Count</th>
+            <th style="width:70px;">Duration<br />PreOper</th>
+            <th style="width:70px;">Duration<br />Oper</th>
+            <th style="width:70px;">Duration<br />PostOper</th>
+            <th style="width:30px;"></th>
+            <th style="width:30px;"></th>
+            <th style="width:30px;"></th>
         </tr>
         @{ 
             int rowindex = -1;
@@ -77,41 +77,38 @@
 
                 <tr style="display:@Model.lisP14[i].TempRecDisplay">
                     <td>
-                        <input type="text" class="form-control rownum" id="rownumber_@rowindex" asp-for="@Model.lisP14[i].p14RowNum" />
+                        <input type="text" class="form-control px-1 rownum" id="rownumber_@rowindex" asp-for="@Model.lisP14[i].p14RowNum" />
                         <input type="hidden" asp-for="@Model.lisP14[i].p14ID" />
                         <input type="hidden" id="@Model.lisP14[i].TempRecGuid" asp-for="@Model.lisP14[i].TempRecDisplay" />
                         <input type="hidden" asp-for="@Model.lisP14[i].TempRecGuid" />
                     </td>
                     <td>
-                        <input type="text" class="form-control" asp-for="@Model.lisP14[i].p14OperNum" />
+                        <input type="text" class="form-control px-1" asp-for="@Model.lisP14[i].p14OperNum" />
                     </td>
                     <td>
-                        <input type="text" class="form-control" asp-for="@Model.lisP14[i].p14OperCode" />
+                        <input type="text" class="form-control px-1" asp-for="@Model.lisP14[i].p14OperCode" />
                     </td>
                     <td>
-                        <input type="text" class="form-control" asp-for="@Model.lisP14[i].p14Name" />
+                        <input type="text" class="form-control px-1" asp-for="@Model.lisP14[i].p14Name" />
                     </td>
                     <td>
-                        <input type="number" class="form-control" step="0" asp-for="@Model.lisP14[i].p14OperParam" />
+                        <input type="number" class="form-control px-1" step="0" asp-for="@Model.lisP14[i].p14OperParam" />
                     </td>
-                    <td>
-                        <input type="text" class="form-control" asp-for="@Model.lisP14[i].p14MaterialCode" />
+                    <td style="background-color:lightgoldenrodyellow;">
+                        <mycombo entity="p19Material" asp-for="@Model.lisP14[i].p19ID" selectedtext="@Model.lisP14[i].Material"></mycombo>
                     </td>
-                    <td>
-                        <input type="text" class="form-control" asp-for="@Model.lisP14[i].p14MaterialName" />
-
-                    </td>
+                   
                     <td>
                         <mynumber asp-for="@Model.lisP14[i].p14UnitsCount"></mynumber>
                     </td>
                     <td>
-                        <input type="number" class="form-control" step="0" asp-for="@Model.lisP14[i].p14DurationPreOper" />
+                        <input type="number" class="form-control px-1" step="0" asp-for="@Model.lisP14[i].p14DurationPreOper" />
                     </td>
                     <td>
-                        <input type="number" class="form-control" step="0" asp-for="@Model.lisP14[i].p14DurationOper" />
+                        <input type="number" class="form-control px-1" step="0" asp-for="@Model.lisP14[i].p14DurationOper" />
                     </td>
                     <td>
-                        <input type="number" class="form-control" step="0" asp-for="@Model.lisP14[i].p14DurationPostOper" />
+                        <input type="number" class="form-control px-1" step="0" asp-for="@Model.lisP14[i].p14DurationPostOper" />
                     </td>
 
                     <td>
@@ -145,193 +142,18 @@
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
 
 
-<button type="button" id="cmdPrepareTempData" class="btn btn-primary py-0">Editovat technologický rozpis operací</button>
-<div>
-    <button type="button" id="cmdNew" class="btn btn-primary py-0" style="display:none;">Přidat operaci</button>
-</div>
-<table id="tab1" class="table table-sm table-hover table-bordered" style="min-width:900px;">
-    <thead id="thead1" style="background-color:lightgray;">
-        <tr>
-            <th>RowNum</th>
-            <th>OperNum</th>
-            <th>OperCode</th>
-            <th>Name</th>
-            <th>OperPar</th>
-            <th>MaterialCode</th>
-            <th>MaterialName</th>
-            <th>UnitsCount</th>
-            <th>DurationPreOper</th>
-            <th>DurationOper</th>
-            <th>DurationPostOper</th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-
-    <tbody id="tbody1">
-    </tbody>
-</table>
 
 
 
-<script type="text/javascript">
-    var _guid = "@Model.Guid";
-    var _p13id = "@Model.Rec.pid";
-    var _changed_cell;
 
+<script type="text/javascript">   
+   
     $(document).ready(function () {
 
-        if (_guid == "") {
-            render_p14_body();
-        } else {
-            render_temp_body();
-            init_table_behaviour();
-        }
-        refresh_state();
+    
 
     });
 
-
-
-    function init_table_behaviour() {
-        $("#tbody1 td").on("blur", function (e) {
-            var val = $(this).text();
-            if (this == _changed_cell) {
-                save2temp(this);
-            }
-            _changed_cell = null;
-        });
-
-
-        $("#tbody1 td").on("input", function (e) {
-            _changed_cell = this;
-            var val = $(this).text();
-
-
-        });
-
-        $("#tbody1 td").on("focus", function (e) {
-
-            $("#tbody1 .inedit").removeClass("inedit");
-
-            $(this).addClass("inedit");
-
-
-
-        });
-
-
-        $("#tbody1 td").on("keypress", function (e) {
-            //$("#log1").val(e.keyCode);
-            if ($(this).attr("data-type") == "number") {
-
-                if ((e.keyCode >= 48 && e.keyCode <= 57) || e.keyCode === 13 || e.keyCode == 44 || e.keyCode == 46 || e.keyCode == 45) {
-                    return true;
-                } else {
-                    return false;
-                }
-
-            }
-
-
-        });
-    }
-
-
-
-
-    function save2temp(cell) {
-        var val = $(cell).text();
-        var row = $(cell).closest("tr");
-        var recpid = $(row).attr("data-p14id");
-        var p85id = $(row).attr("data-p85id");
-            var field = $(cell).attr("data-field");
-            var prefix = "p14";
-            var url = "@Url.Action("Save2Temp", "Common")";
-            //alert("field: " + field + ", value: " + val + ", p85id: " + p85id);
-            $.post(url, { p85id: p85id, guid: _guid, prefix: prefix,recpid:recpid, fieldname: field, fieldvalue: val }, function (data) {
-                //alert(data.pid);
-                if (data != null) {
-                    $(row).attr("data-p85id", data.pid);
-                    _toolbar_warn2save_changes();
-                }
-
-
-            });
-        }
-
-
-    $("#cmdNew").on("click", function () {
-        var url = "@Url.Action("InsertTempRow", "p13")";
-        $.post(url, { guid: _guid }, function (data) {
-
-            render_temp_body();
-            _toolbar_warn2save_changes();
-        });
-
-
-    });
-
-    $("#cmdPrepareTempData").on("click", function () {
-        _guid = _generate_guid();
-        $("#Guid").val(_guid);
-        refresh_state();
-        render_temp_body();
-    });
-
-    function render_temp_body() {
-        var url = "@Url.Action("getHtmlTempBody","p13")";
-        $.post(url, { guid: _guid, p13id:@Model.Rec.pid }, function (data) {
-
-            $("#tbody1").html(data);
-
-            init_table_behaviour();
-        });
-    }
-    function render_p14_body() {
-        if (_p13id == "0") return;
-        var url = "@Url.Action("GetBodyOfTale", "Common")";
-
-        $.post(url, { entity: "p14MasterOper", queryfield: "p13id", queryvalue:_p13id }, function (data) {
-            $("#tbody1").html(data);
-        });
-    }
-
-    function move_row(pid, dir) {
-
-        var url = "@Url.Action("MoveTempRow", "p13")";
-        var direction = "up";
-        if (dir == 1) direction = "down";
-
-        $.post(url, { guid: _guid, p85id: pid, direction: direction }, function (data) {
-
-            render_temp_body();
-            _toolbar_warn2save_changes();
-
-        });
-    }
-    function delete_row(pid) {
-        var url = "@Url.Action("DeleteTempRow", "p13")";
-        $.post(url, { p85id: pid }, function (data) {
-            render_temp_body();
-            _toolbar_warn2save_changes();
-        });
-    }
-
-
-    function refresh_state() {
-        if (_guid == "") {
-            $("#cmdPrepareTempData").css("display", "block");
-            $("#cmdNew").css("display", "none");
-        } else {
-            $("#cmdPrepareTempData").css("display", "none");
-            $("#cmdNew").css("display", "block");
-            $("#thead1").css("background-color", "aliceblue");
-        }
-
-
-    }
 
 
     function p14_add_row() {        

@@ -653,7 +653,12 @@ namespace UI.Controllers
             s.Append(string.Format("</tr></thead><tbody id='{0}_tbody'>", tableid));
             for (int i = 0; i < intRows; i++)
             {
-                s.Append(string.Format("<tr class='txz' data-v='{0}'>", dt.Rows[i]["pid"]));
+                s.Append(string.Format("<tr class='txz' data-v='{0}'", dt.Rows[i]["pid"]));
+                if (mq.Prefix == "p19")
+                {
+                    s.Append(string.Format(" data-t='{0} - {1}'", dt.Rows[i]["p19Code"], dt.Rows[i]["p19Name"]));
+                }
+                s.Append(">");
                 foreach (var col in cols)
                 {
                     s.Append(string.Format("<td>{0}</td>", dt.Rows[i][col.Field]));

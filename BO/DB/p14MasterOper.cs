@@ -10,13 +10,12 @@ namespace BO
         [Key]
         public int p14ID { get; set; }
         public int p13ID { get; set; }
+        public int p19ID { get; set; }
 
         public string p14Name { get; set; }
 
         public int p14RowNum { get; set; }
-
-        public string p14MaterialCode { get; set; }
-        public string p14MaterialName { get; set; }
+        
         public string p14OperCode { get; set; }
         public string p14OperNum { get; set; }    
         public int p14OperParam { get; set; }
@@ -26,7 +25,9 @@ namespace BO
         public double p14DurationOper { get; set; }
         public string TempRecDisplay { get; set; }   //pomocník pro editaci v repeateru
         public string TempRecGuid { get; set; }    //pomocník pro editaci v repeater
-       
 
+
+        public string Material { get; set; }
+        
     }
 }
