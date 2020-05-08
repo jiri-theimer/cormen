@@ -1,0 +1,38 @@
+﻿@model StopPageViewModel
+@inject BL.Factory _f
+
+@{
+    ViewData["Title"] = "Stop";
+    if (Model.IsModal == true)
+    {
+        Layout = "~/Views/Shared/_LayoutModal.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+}
+
+<h1>Nastal problém!</h1>
+<hr />
+
+<h4>@Model.Message</h4>
+<hr />
+@if (_f.CurrentUser.j03EnvironmentFlag == 2)
+{
+    <p>Pracujete v režimu [CLIENT].</p>
+    <p>Uživatel: <strong>@_f.CurrentUser.FullName</strong></p>
+    <p>Klient: <strong>@_f.CurrentUser.p28Name</strong></p>
+    <p>Oprávnění CLIENT ADMIN: @_f.CurrentUser.TestPermission(BO.UserPermFlag.ClientAdmin)</p>
+    <p>Oprávnění CLIENT READER: @_f.CurrentUser.TestPermission(BO.UserPermFlag.ClientReader)</p>
+}
+else
+{
+    <p>Pracujete v režimu [MASTER].</p>
+    <p>Uživatel: <strong>@_f.CurrentUser.FullName</strong></p>
+    <p>Oprávnění MASTER ADMIN: @_f.CurrentUser.TestPermission(BO.UserPermFlag.MasterAdmin)</p>
+    <p>Oprávnění MASTER READER: @_f.CurrentUser.TestPermission(BO.UserPermFlag.MasterReader)</p>
+}
+
+

@@ -11,6 +11,10 @@ namespace UI.Controllers
     {
         public IActionResult Record(int pid, bool isclone)
         {
+            if (!this.TestIfUserEditor(true, true))
+            {
+                return this.StopPageCreateEdit(true);
+            }
             var v = new Models.p19RecordViewModel();
             
             if (pid > 0)
@@ -22,10 +26,9 @@ namespace UI.Controllers
                     return RecNotFound(v);
                 }
                 
-                if (Factory.CurrentUser.j03EnvironmentFlag== 2 && v.Rec.p28ID != Factory.CurrentUser.p28ID)
+                if (!this.TestIfRecordEditable(0,v.Rec.p28ID))
                 {
-                    
-                    return this.StopPage(true, "Tento materiál není pro klientskou editaci.");
+                    return this.StopPageEdit(true);
                 }
 
             }

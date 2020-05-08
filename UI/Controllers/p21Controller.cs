@@ -25,6 +25,10 @@ namespace UI.Controllers
         }
         public IActionResult Record(int pid, bool isclone)
         {
+            if (!this.TestIfUserEditor(true, false))
+            {
+                return this.StopPageCreateEdit(true);
+            }
             var v = new Models.p21RecordViewModel();
             
             if (pid > 0)

@@ -7,7 +7,8 @@ namespace BL
     public interface Ij02PersonBL
     {
         public BO.j02Person Load(int pid);
-        
+        BO.COM.GetInteger LoadPersonalP28ID(int intPID);
+
         public IEnumerable<BO.j02Person> GetList(BO.myQuery mq);
         public int Save(BO.j02Person rec);
        
@@ -28,7 +29,11 @@ namespace BL
         {
             return _db.Load<BO.j02Person>(GetSQL1()+" WHERE a.j02ID=@pid",new { pid = intPID });
         }
-        
+        public BO.COM.GetInteger LoadPersonalP28ID(int intPID)
+        {
+            return _db.Load<BO.COM.GetInteger>("SELECT p28ID as Value FROM j02Person WHERE j02ID=@pid", new { pid = intPID });
+        }
+
         public IEnumerable<BO.j02Person>GetList(BO.myQuery mq)
         {            
             DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq,_mother.CurrentUser);

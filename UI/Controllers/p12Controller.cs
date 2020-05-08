@@ -22,12 +22,17 @@ namespace UI.Controllers
             }
             else
             {
+                
                 return View(v);
             }
 
         }
         public IActionResult Record(int pid, bool isclone)
         {
+            if (!Factory.CurrentUser.TestPermission(BO.UserPermFlag.ClientAdmin))
+            {
+                return this.StopPageCreateEdit(true);
+            }
             var v = new Models.p12RecordViewModel();
 
             if (pid > 0)
@@ -37,6 +42,7 @@ namespace UI.Controllers
                 {
                     return RecNotFound(v);
                 }
+                
                 var mq = new BO.myQuery("p15ClientOper");
                 mq.p12id = v.Rec.pid;
                 v.lisP15 = Factory.p15ClientOperBL.GetList(mq).ToList();
@@ -49,6 +55,7 @@ namespace UI.Controllers
             }
             else
             {
+                
                 v.Rec = new BO.p12ClientTpv();
                 v.Rec.entity = "p12";
                 v.lisP15 = new List<BO.p15ClientOper>();

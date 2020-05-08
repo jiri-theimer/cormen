@@ -20,6 +20,11 @@ namespace UI.Controllers
         }
         public IActionResult Record(int pid, bool isclone)
         {
+            if (!Factory.CurrentUser.TestPermission(BO.UserPermFlag.ClientAdmin))
+            {
+                return this.StopPageCreateEdit(true);
+            }
+
             var v = new Models.p11RecordViewModel();
 
             if (pid > 0)
@@ -29,10 +34,12 @@ namespace UI.Controllers
                 {
                     return RecNotFound(v);
                 }
+                
 
             }
             else
             {
+
                 v.Rec = new BO.p11ClientProduct();
                 v.Rec.entity = "p11";
             }

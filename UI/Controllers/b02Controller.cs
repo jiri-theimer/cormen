@@ -14,6 +14,10 @@ namespace UI.Controllers
         //WORKFLOW STAV
         public IActionResult Record(int pid, bool isclone)
         {
+            if (!this.TestIfUserEditor(true, true))
+            {
+                return this.StopPageCreateEdit(true);
+            }
             var v = new Models.b02RecordViewModel();
             if (pid > 0)
             {

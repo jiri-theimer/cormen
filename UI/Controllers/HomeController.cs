@@ -103,6 +103,8 @@ namespace UI.Controllers
             sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p28/record');\">Klient</a>");
             sb.Append("<a class='nav-link' href=\"javascript:_window_open('/j02/record');\">Osoba/Uživatel</a>");
             sb.Append("<hr/>");
+            sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p19/record');\">Materiál</a>");
+
             if (Factory.CurrentUser.j03EnvironmentFlag == 1)
             {
                 sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p10/record');\">Master produkt</a>");

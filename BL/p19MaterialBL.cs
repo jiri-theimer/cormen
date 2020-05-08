@@ -46,7 +46,7 @@ namespace BL
             p.AddInt("p28ID", rec.p28ID, true);
             if (_db.CurrentUser.j03EnvironmentFlag == 2 && rec.p28ID !=_db.CurrentUser.p28ID)
             {
-                _db.CurrentUser.AddMessage("V klientském režimu se pořizuje materiál na míru klienta. Musíte záznam svázat se subjektem klienta.");
+                _db.CurrentUser.AddMessage("V klientském režimu se pořizuje materiál na míru klienta. Musíte záznam svázat s klientem s vazbou na váš profil.");
                 return 0;
             }
 

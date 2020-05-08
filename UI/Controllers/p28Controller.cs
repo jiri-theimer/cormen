@@ -20,6 +20,7 @@ namespace UI.Controllers
             }
             else
             {
+                
                 return View(v);
             }
             
@@ -27,6 +28,10 @@ namespace UI.Controllers
         }
         public IActionResult Record(int pid, bool isclone)
         {
+            if (!this.TestIfUserEditor(true, true))
+            {
+                return this.StopPageCreateEdit(true);
+            }
             var v = new Models.p28RecordViewModel();
             if (pid > 0)
             {
@@ -35,10 +40,15 @@ namespace UI.Controllers
                 {                    
                     return RecNotFound(v);
                 }
+                if (!this.TestIfRecordEditable(v.Rec.j02ID_Owner))
+                {
+                    return this.StopPageEdit(true);
+                }
 
             }
             else
             {
+
                 v.Rec = new BO.p28Company();
                 v.Rec.entity = "p28";
 

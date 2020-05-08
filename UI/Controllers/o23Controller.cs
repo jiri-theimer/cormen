@@ -30,6 +30,10 @@ namespace UI.Controllers
         }
         public IActionResult Record(int pid, bool isclone)
         {
+            if (!this.TestIfUserEditor(true, true))
+            {
+                return this.StopPageCreateEdit(true);
+            }
             var v = new Models.o23RecordViewModel();
             v.Guid = BO.BAS.GetGuid();
             if (pid > 0)
@@ -39,7 +43,11 @@ namespace UI.Controllers
                 {
                     return RecNotFound(v);
                 }
-     
+                if (!this.TestIfRecordEditable(v.Rec.j02ID_Owner))
+                {
+                    return this.StopPageEdit(true);
+                }
+
             }
             else
             {

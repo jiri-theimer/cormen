@@ -12,6 +12,10 @@ namespace UI.Controllers
         ///APLIKAČNÍ ROLE
         public IActionResult Record(int pid, bool isclone)
         {
+            if (!this.TestIfUserEditor(true, false))
+            {
+                return this.StopPageCreateEdit(true);
+            }
             var v = new Models.j04RecordViewModel();
             if (pid > 0)
             {

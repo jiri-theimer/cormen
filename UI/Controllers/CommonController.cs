@@ -14,17 +14,7 @@ namespace UI.Controllers
         {
             return View();
         }
-        public IActionResult StopModal(string message)
-        {
-            var v = new BaseViewModel();
-            ViewBag.message = message;
-            return View(v);
-        }
-        public IActionResult Stop(string message)
-        {
-            ViewBag.message = message;
-            return View();
-        }
+      
 
         public string DeleteRecord(string entity, int pid)  //Univerzální mazání záznamů
         {

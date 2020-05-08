@@ -12,6 +12,10 @@ namespace UI.Controllers
         ///KATEGORIE
         public IActionResult Record(int pid, bool isclone)
         {
+            if (!this.TestIfUserEditor(true, false))
+            {
+                return this.StopPageCreateEdit(true);
+            }
             var v = new Models.o12RecordViewModel();
             if (pid > 0)
             {

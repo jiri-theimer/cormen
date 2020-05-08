@@ -23,7 +23,11 @@ namespace UI.Controllers
 
         }
         public IActionResult Record(int pid, bool isclone)
-        {            
+        {
+            if (!this.TestIfUserEditor(true, true))
+            {
+                return this.StopPageCreateEdit(true);
+            }
             var v = new Models.j02RecordViewModel();
             if (pid > 0)
             {
@@ -31,6 +35,10 @@ namespace UI.Controllers
                 if (v.Rec == null)
                 {
                     return RecNotFound(v);
+                }
+                if (!this.TestIfRecordEditable(v.Rec.j02ID_Owner, v.Rec.p28ID))
+                {
+                    return this.StopPageEdit(true);
                 }
                 if (v.Rec.j03ID > 0)
                 {

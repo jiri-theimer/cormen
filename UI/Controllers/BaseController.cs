@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
-
+using UI.Models;
 
 namespace UI.Controllers    
 {
@@ -74,20 +74,61 @@ namespace UI.Controllers
         //    //Factory = new BL.Factory(context.HttpContext.User.Identity.Name);                                    
         //}
 
-
-        public RedirectToActionResult StopPage(bool bolModal,string strMessage)
+        public bool TestIfUserEditor(bool bolTestMasterSide,bool bolTestClientSide)
         {
-            if (bolModal)
+            if (bolTestMasterSide && Factory.CurrentUser.j03EnvironmentFlag==1 && Factory.CurrentUser.TestPermission(BO.UserPermFlag.MasterAdmin)==true)
             {
-                return RedirectToAction("StopModal", "Common", new { message = strMessage });
+                return true;
             }
-            else
+            if (bolTestClientSide && Factory.CurrentUser.j03EnvironmentFlag==2 && Factory.CurrentUser.TestPermission(BO.UserPermFlag.ClientAdmin) == true)
             {
-                return RedirectToAction("Stop", "Common", new { message = strMessage });
+                return true;
             }
+            return false;
+        }
+        public bool TestIfRecordEditable(int intRecJ02ID_Owner=0, int intRecP28ID=0)
+        {
+            if (intRecP28ID == 0 && intRecJ02ID_Owner == 0) return false;
+            if (intRecP28ID==0 && intRecJ02ID_Owner > 0)
+            {
+                //zjistit svázané p28ID pro intRecJ02ID_Owner v testovaném záznamu
+                BO.COM.GetInteger c = Factory.j02PersonBL.LoadPersonalP28ID(intRecJ02ID_Owner);
+                if (c == null) return false;
+                intRecP28ID = c.Value;
+            }
+            if (Factory.CurrentUser.j03EnvironmentFlag == 1 && Factory.CurrentUser.TestPermission(BO.UserPermFlag.MasterAdmin)){
+                return true; //master admin může vše
+            }
+         
+            if (Factory.CurrentUser.j03EnvironmentFlag == 2 && intRecP28ID == Factory.CurrentUser.p28ID)
+            {
+                if (Factory.CurrentUser.TestPermission(BO.UserPermFlag.ClientAdmin))
+                {
+                    return true;    //client admin může editovat
+                }
+            }
+            return false;
+            
+        }
+        public IActionResult StopPage(bool bolModal,string strMessage)
+        {
+            var v = new StopPageViewModel() { Message = strMessage, IsModal = bolModal };
+
+            return View("_StopPage",v);
+        }
+        public IActionResult StopPageEdit(bool bolModal)
+        {
+            return (StopPage(bolModal, "Nemáte oprávnění editovat tento záznam."));            
+        }
+        public IActionResult StopPageCreate(bool bolModal)
+        {
+            return (StopPage(bolModal, "Nemáte oprávnění zakládat tento druh záznamu."));
+        }
+        public IActionResult StopPageCreateEdit(bool bolModal)
+        {
+            return (StopPage(bolModal, "Nemáte oprávnění zakládat nebo editovat tento druh záznamu."));
         }
 
-        
         public ViewResult RecNotFound(UI.Models.BaseViewModel v)
         {
             Factory.CurrentUser.AddMessage("Hledaný záznam neexistuje!","error");            
