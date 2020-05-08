@@ -59,7 +59,7 @@ namespace UI.Views.Shared.TagHelpers
             
             
             sb(string.Format("<div class='input-group-prepend' id='divSearch{0}'>", strControlID));
-            sb(string.Format("<input id='searchbox{0}' autocomplete='off' type='text' class='form-control' placeholder='...' title='Najít' style='border:none;width:150px;'>", strControlID));
+            sb(string.Format("<input id='searchbox{0}' autocomplete='off' type='text' class='form-control' placeholder='...' title='Najít' style='border:none;width:80px;'>", strControlID));
             sb("</div>");            
             sb("");
 
@@ -69,7 +69,7 @@ namespace UI.Views.Shared.TagHelpers
             sb("<span aria-hidden='true'>&times;</span>");
             sb("</button>");
 
-            sb(string.Format("<div id='divDropdown{0}' class='dropdown-menu' aria-labelledby='cmdCombo' style='width:100%;margin-left:-150px;' tabindex='-1'>", strControlID));
+            sb(string.Format("<div id='divDropdown{0}' class='dropdown-menu' aria-labelledby='cmdCombo' style='width:100%;margin-left:-80px;' tabindex='-1'>", strControlID));
             sb(string.Format("<div id='divData{0}' style='height:220px;overflow:auto;background-color:#E6F0FF;z-index:500;width:100%;'>", strControlID));
             sb("</div>");
             sb("</div>");

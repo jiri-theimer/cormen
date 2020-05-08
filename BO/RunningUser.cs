@@ -64,5 +64,13 @@ namespace BO
             
            
         }
+        public bool TestIfClientRole()  //vrací true, pokud se jedná o uživatele s klientským oprávněním
+        {
+            if (TestPermission(UserPermFlag.MasterAdmin) || TestPermission(UserPermFlag.MasterReader))
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

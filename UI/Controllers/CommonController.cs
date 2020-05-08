@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using UI.Models;
 
 namespace UI.Controllers
 {
@@ -15,8 +16,9 @@ namespace UI.Controllers
         }
         public IActionResult StopModal(string message)
         {
+            var v = new BaseViewModel();
             ViewBag.message = message;
-            return View();
+            return View(v);
         }
         public IActionResult Stop(string message)
         {

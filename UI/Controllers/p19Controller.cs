@@ -12,12 +12,20 @@ namespace UI.Controllers
         public IActionResult Record(int pid, bool isclone)
         {
             var v = new Models.p19RecordViewModel();
+            
             if (pid > 0)
             {
                 v.Rec = Factory.p19MaterialBL.Load(pid);
+               
                 if (v.Rec == null)
                 {
                     return RecNotFound(v);
+                }
+                
+                if (Factory.CurrentUser.j03EnvironmentFlag== 2 && v.Rec.p28ID != Factory.CurrentUser.p28ID)
+                {
+                    
+                    return this.StopPage(true, "Tento materiál není pro klientskou editaci.");
                 }
 
             }
@@ -47,6 +55,7 @@ namespace UI.Controllers
                 c.p19Memo = v.Rec.p19Memo;
                 c.p20ID = v.Rec.p20ID;
                 c.o12ID = v.Rec.o12ID;
+                c.p28ID = v.Rec.p28ID;
                 c.p19DefaultOperParam = v.Rec.p19DefaultOperParam;
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);

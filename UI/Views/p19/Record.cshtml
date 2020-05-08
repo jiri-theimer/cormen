@@ -59,6 +59,12 @@
             <mycombo entity="o12Category" asp-for="Rec.o12ID" selectedtext="Rec.o12Name" param1="p19"></mycombo>
         </div>
     </div>
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Materiál na míru pro klienta:</label>
+        <div class="col-sm-11 col-md-10">
+            <mycombo entity="p28Company" asp-for="Rec.p28ID" selectedtext="Rec.p28Name"></mycombo>
+        </div>
+    </div>
 
     <div class="form-row">
         <textarea asp-for="Rec.p19Memo" class="form-control" placeholder="Podrobný popis"></textarea>

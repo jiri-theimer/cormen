@@ -145,8 +145,9 @@ namespace BL
             {
                 AF("p19Material", "p19Code", "Kód", true);
                 AF("p19Material", "p19Name", "Název", true);
-                
-                AF("p19Material", "o12Name", "", true,"o12.o12Name");
+                AF("p19Material", "p28Name", "Klient", true,"p28.p28Name");
+
+                AF("p19Material", "o12Name", "Kategorie", true,"o12.o12Name");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "j04")
             {
@@ -159,16 +160,14 @@ namespace BL
             {
                 AF("p14MasterOper", "p14RowNum", "RowNum", true,null,"num0");
                 AF("p14MasterOper", "p14OperNum", "OperNum", true);
-                AF("p14MasterOper", "p14OperCode", "OperCode", true);
+                AF("p14MasterOper", "p18Code", "OperCode", true,"p18.p18Code");
 
                 AF("p14MasterOper", "p14Name", "Name", true);
                 AF("p14MasterOper", "p14OperParam", "OperPar", true,null,"num0");
 
                 AF("p14MasterOper", "p19Code", "MaterialCode", true,"p19.p19Code");
                 AF("p14MasterOper", "p19Name", "MaterialName", true,"p19.p19Name");
-                //AF("p14MasterOper", "p14MaterialCode", "MaterialCode", true);
-                //AF("p14MasterOper", "p14MaterialName", "MaterialName", true);
-
+               
                 AF("p14MasterOper", "p14UnitsCount", "UnitsCount", true,null,"num");
                 AF("p14MasterOper", "p14DurationPreOper", "DurationPreOper", true,null,"num");
                 AF("p14MasterOper", "p14DurationOper", "DurationOper", true,null,"num");                
@@ -199,13 +198,13 @@ namespace BL
             {
                 AF("p15ClientOper", "p15RowNum", "RowNum", true, null, "num0");
                 AF("p15ClientOper", "p15OperNum", "OperNum", true);
-                AF("p15ClientOper", "p15OperCode", "OperCode", true);
+                AF("p15ClientOper", "p18Code", "OperCode", true,"p18.p18Code");
 
                 AF("p15ClientOper", "p15Name", "Name", true);
                 AF("p15ClientOper", "p15OperParam", "OperPar", true, null, "num0");
 
-                AF("p15ClientOper", "p15MaterialCode", "MaterialCode", true);
-                AF("p15ClientOper", "p15MaterialName", "MaterialName", true);
+                AF("p15ClientOper", "p19Code", "MaterialCode", true,"p19.p19Code");
+                AF("p15ClientOper", "p19Name", "MaterialName", true,"p19.p19Name");
 
                 AF("p15ClientOper", "p15UnitsCount", "UnitsCount", true, null, "num");
                 AF("p15ClientOper", "p15DurationPreOper", "DurationPreOper", true, null, "num");
@@ -288,6 +287,8 @@ namespace BL
                     return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix=="p13" || p.Prefix== "b02" || p.Entity == "o12");
                 case "p26":
                     return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p28" || p.Prefix == "b02");
+                case "p19":
+                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p28" || p.Prefix == "o12");
                 case "p21":
                     return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p28" || p.Prefix == "b02");
                 case "j02":

@@ -24,7 +24,7 @@ namespace BL
         }
         public BO.p14MasterOper Load(int pid)
         {
-            return _db.Load<BO.p14MasterOper>(string.Format("{0} WHERE a.p14ID={1}", GetSQL1(), pid));
+            return _db.Load<BO.p14MasterOper>(string.Format("{0} WHERE a.p14ID=@pid", GetSQL1()), new { pid = pid });
         }
         public IEnumerable<BO.p14MasterOper> GetList(BO.myQuery mq)
         {

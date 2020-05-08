@@ -102,6 +102,10 @@ namespace BL.DL
                 {
                     AQ(ref lis, "a.j04IsClientRole=1","",null); //pouze klientské role
                 }
+                if (mq.Prefix == "p19")
+                {
+                    AQ(ref lis, "(a.p28ID IS NULL OR a.p28ID=@p28id)", "p28id", ru.p28ID); //pouze klientské role
+                }
             }
            
 

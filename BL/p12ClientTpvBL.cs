@@ -8,7 +8,7 @@ namespace BL
     {
         public BO.p12ClientTpv Load(int pid);
         public IEnumerable<BO.p12ClientTpv> GetList(BO.myQuery mq);
-        public int Save(BO.p12ClientTpv rec, string strGUID);
+        public int Save(BO.p12ClientTpv rec, List<BO.p15ClientOper> lisP15);
     }
     class p12ClientTpvBL : BaseBL, Ip12ClientTpvBL
     {
@@ -34,31 +34,56 @@ namespace BL
 
         }
 
-        public int Save(BO.p12ClientTpv rec, string strGUID)
+        public int Save(BO.p12ClientTpv rec, List<BO.p15ClientOper> lisP15)
         {
 
-            BO.p85Tempbox cP85;
+            var p = new DL.Params4Dapper();
+            p.AddInt("pid", rec.p12ID);
+            p.AddString("p12Name", rec.p12Name);
+            p.AddString("p12Code", rec.p12Code);
+            p.AddString("p12Memo", rec.p12Memo);
 
-            cP85 = new BO.p85Tempbox() { p85RecordPid = rec.pid, p85GUID = strGUID, p85Prefix = "p12", p85FreeText01 = rec.p12Name, p85FreeText02 = rec.p12Code, p85Message = rec.p12Memo, p85FreeDate01 = rec.ValidFrom, p85FreeDate02 = rec.ValidUntil };
-            _mother.p85TempboxBL.Save(cP85);
+            int intPID = _db.SaveRecord("p12ClientTpv", p.getDynamicDapperPars(), rec);
 
-            var p = new Dapper.DynamicParameters();
-            p.Add("userid", _db.CurrentUser.pid);
-            p.Add("guid", strGUID);
-            p.Add("pid_ret", rec.pid, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-            p.Add("err_ret", "", System.Data.DbType.String, System.Data.ParameterDirection.Output);
-
-            string s1 = _db.RunSp("p12_save", ref p);
-            if (s1 == "1")
+            if (intPID > 0 && lisP15 != null)
             {
-                return p.Get<int>("pid_ret");
-            }
-            else
-            {
+                foreach (var c in lisP15)
+                {
+                    c.pid = c.p15ID;
+                    c.p12ID = intPID;
+                    if (c.TempRecDisplay == "none" && c.p15ID > 0)
+                    {
+                        _db.RunSql("DELETE FROM p15ClientOper WHERE p15ID=@p15id", new { p15id = c.p15ID });
+                    }
+                    else
+                    {
+                        SaveP15Rec(c);
+                    }
 
-                return 0;
+                }
             }
 
+            return intPID;
+
+        }
+
+        private int SaveP15Rec(BO.p15ClientOper rec)
+        {
+            var p = new DL.Params4Dapper();
+            p.AddInt("pid", rec.p15ID);
+            p.AddInt("p12ID", rec.p12ID, true);
+            p.AddInt("p19ID", rec.p19ID, true);
+            p.AddInt("p18ID", rec.p18ID, true);
+            p.AddString("p15Name", rec.p15Name);
+            p.AddInt("p15RowNum", rec.p15RowNum);
+            p.AddString("p15OperNum", rec.p15OperNum);
+            p.AddInt("p15OperParam", rec.p15OperParam);
+            p.AddDouble("p15UnitsCount", rec.p15UnitsCount);
+            p.AddDouble("p15DurationPreOper", rec.p15DurationPreOper);
+            p.AddDouble("p15DurationPostOper", rec.p15DurationPostOper);
+            p.AddDouble("p15DurationOper", rec.p15DurationOper);
+
+            return _db.SaveRecord("p15ClientOper", p.getDynamicDapperPars(), rec);
         }
     }
 }

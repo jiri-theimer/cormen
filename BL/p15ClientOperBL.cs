@@ -8,7 +8,7 @@ namespace BL
     {
         public BO.p15ClientOper Load(int pid);
         public IEnumerable<BO.p15ClientOper> GetList(BO.myQuery mq);
-        public int Save(BO.p15ClientOper rec);
+        
     }
     class p15ClientOperBL : BaseBL, Ip15ClientOperBL
     {
@@ -20,11 +20,11 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*," + _db.GetSQL1_Ocas("p15") + " FROM p15ClientOper a";
+            return "SELECT a.*,p19.p19Code,p19.p19Name,p19.p19Code+' - '+p19.p19Name as Material,p18.p18Code as OperCode," + _db.GetSQL1_Ocas("p15") + " FROM p15ClientOper a LEFT OUTER JOIN p19Material p19 ON a.p19ID=p19.p19ID LEFT OUTER JOIN p18OperCode p18 ON a.p18ID=p18.p18ID";
         }
         public BO.p15ClientOper Load(int pid)
         {
-            return _db.Load<BO.p15ClientOper>(string.Format("{0} WHERE a.p15ID={1}", GetSQL1(), pid));
+            return _db.Load<BO.p15ClientOper>(string.Format("{0} WHERE a.p15ID=@pid", GetSQL1()), new { pid = pid });
         }
         public IEnumerable<BO.p15ClientOper> GetList(BO.myQuery mq)
         {
@@ -35,25 +35,6 @@ namespace BL
         }
 
 
-        public int Save(BO.p15ClientOper rec)
-        {
-            var p = new DL.Params4Dapper();
-            p.AddInt("pid", rec.p15ID);
-            p.AddInt("p12ID", rec.p12ID, true);
-            p.AddString("p15Name", rec.p15Name);
-            p.AddString("p15MaterialCode", rec.p15MaterialCode);
-            p.AddString("p15MaterialName", rec.p15MaterialName);
-            p.AddInt("p15RowNum", rec.p15RowNum);
-            p.AddString("p15OperCode", rec.p15OperCode);
-            p.AddString("p15OperNum", rec.p15OperNum);
-            p.AddInt("p15OperParam", rec.p15OperParam);
-            p.AddDouble("p15UnitsCount", rec.p15UnitsCount);
-            p.AddDouble("p15DurationPreOper", rec.p15DurationPreOper);
-            p.AddDouble("p15DurationPostOper", rec.p15DurationPostOper);
-            p.AddDouble("p15DurationOper", rec.p15DurationOper);
-
-
-            return _db.SaveRecord("p15ClientOper", p.getDynamicDapperPars(), rec);
-        }
+       
     }
 }

@@ -43,11 +43,11 @@
     </div>
     <hr />
     <button type="button" class="btn btn-primary" onclick="p14_add_row()">Přidat řádek</button>
-    <table class="table table-sm table-hover" style="table-layout: fixed;width:100%;min-width:800px;">
+    <table class="table table-sm table-hover" style="table-layout: fixed;width:100%;min-width:1000px;overflow-x:auto;">
         <tr style="display:table-row;">
             <th style="width:70px;">Row<br />Num</th>
             <th style="width:70px;">Oper<br />Num</th>
-            <th style="width:100%px;">Oper<br />Code</th>
+            <th style="width:100px;">Oper<br />Code</th>
             <th>Name</th>
             <th style="width:70px;">Oper<br />Par</th>
             
@@ -85,8 +85,8 @@
                     <td>
                         <input type="text" class="form-control px-1" asp-for="@Model.lisP14[i].p14OperNum" />
                     </td>
-                    <td>
-                        <mycombo entity="p18OperCode" asp-for="@Model.lisP14[i].p18ID" selectedtext="@Model.lisP14[i].OperCode"></mycombo>
+                    <td style="background-color:lightgoldenrodyellow;">
+                        <mycombo entity="p18OperCode" view-flag="2" asp-for="@Model.lisP14[i].p18ID" selectedtext="@Model.lisP14[i].OperCode"></mycombo>
                     </td>
                     <td>
                         <input type="text" class="form-control px-1" asp-for="@Model.lisP14[i].p14Name" />

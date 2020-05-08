@@ -11,7 +11,6 @@ namespace UI.Models
 
         public MyToolbarViewModel Toolbar { get; set; }
 
-        public string Guid { get; set; }
-        public List<BO.p85Tempbox> lisTemp { get; set; }
+        public List<BO.p15ClientOper> lisP15 { get; set; }
     }
 }

@@ -9,8 +9,7 @@
 @addTagHelper *, UI
 
 
-@using (Html.BeginForm())
-{
+<form id="form1" asp-controller="p12" asp-action="Record" method="POST">
     <h4>TPV [Klient]</h4>
     @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
     @Html.HiddenFor(m => m.Rec.pid)
@@ -36,201 +35,155 @@
             <span asp-validation-for="Rec.p12Memo" class="text-danger"></span>
         </div>
 
-
-
-        <input type="hidden" asp-for="@Model.Guid" />
     </div>
-}
+
+    <hr />
+    <button type="button" class="btn btn-primary" onclick="p15_add_row()">Přidat řádek</button>
+    <table class="table table-sm table-hover" style="table-layout: fixed;width:100%;min-width:1000px;overflow-x:auto;">
+        <tr style="display:table-row;">
+            <th style="width:70px;">Row<br />Num</th>
+            <th style="width:70px;">Oper<br />Num</th>
+            <th style="width:100px;">Oper<br />Code</th>
+            <th>Name</th>
+            <th style="width:70px;">Oper<br />Par</th>
+
+            <th>Material</th>
+            <th style="width:70px;">Units<br />Count</th>
+            <th style="width:70px;">Duration<br />PreOper</th>
+            <th style="width:70px;">Duration<br />Oper</th>
+            <th style="width:70px;">Duration<br />PostOper</th>
+            <th style="width:30px;"></th>
+            <th style="width:30px;"></th>
+            <th style="width:30px;"></th>
+        </tr>
+        @{
+            int rowindex = -1;
+        }
+        @foreach (var c in Model.lisP15.OrderBy(p => p.p15RowNum))
+        {
+            rowindex += 1;
+            int i = 0;
+            @for (var x = 0; x < Model.lisP15.Count(); x++)
+            {
+                if (c.TempRecGuid == Model.lisP15[x].TempRecGuid)
+                {
+                    i = x;
+                }
+            }
+
+            <tr style="display:@Model.lisP15[i].TempRecDisplay">
+                <td>
+                    <input type="text" class="form-control px-1 rownum" id="rownumber_@rowindex" asp-for="@Model.lisP15[i].p15RowNum" />
+                    <input type="hidden" asp-for="@Model.lisP15[i].p15ID" />
+                    <input type="hidden" id="@Model.lisP15[i].TempRecGuid" asp-for="@Model.lisP15[i].TempRecDisplay" />
+                    <input type="hidden" asp-for="@Model.lisP15[i].TempRecGuid" />
+                </td>
+                <td>
+                    <input type="text" class="form-control px-1" asp-for="@Model.lisP15[i].p15OperNum" />
+                </td>
+                <td style="background-color:lightgoldenrodyellow;">
+                    <mycombo entity="p18OperCode" view-flag="2" asp-for="@Model.lisP15[i].p18ID" selectedtext="@Model.lisP15[i].OperCode"></mycombo>
+                </td>
+                <td>
+                    <input type="text" class="form-control px-1" asp-for="@Model.lisP15[i].p15Name" />
+                </td>
+                <td>
+                    <input type="number" class="form-control px-1" step="0" asp-for="@Model.lisP15[i].p15OperParam" />
+                </td>
+                <td style="background-color:lightgoldenrodyellow;">
+                    <mycombo entity="p19Material" asp-for="@Model.lisP15[i].p19ID" selectedtext="@Model.lisP15[i].Material"></mycombo>
+                </td>
+
+                <td>
+                    <mynumber asp-for="@Model.lisP15[i].p15UnitsCount"></mynumber>
+                </td>
+                <td>
+                    <input type="number" class="form-control px-1" step="0" asp-for="@Model.lisP15[i].p15DurationPreOper" />
+                </td>
+                <td>
+                    <input type="number" class="form-control px-1" step="0" asp-for="@Model.lisP15[i].p15DurationOper" />
+                </td>
+                <td>
+                    <input type="number" class="form-control px-1" step="0" asp-for="@Model.lisP15[i].p15DurationPostOper" />
+                </td>
+
+                <td>
+                    @if (rowindex > 0)
+                    {
+                        <button type="button" class="btn btn-primary" onclick="p15_up_row(@rowindex)">
+                            ↑
+                        </button>
+                    }
+
+                </td>
+                <td>
+                    @if (rowindex < Model.lisP15.Count() - 1)
+                    {
+                        <button type="button" class="btn btn-primary" onclick="p15_down_row(@rowindex)">
+                            ↓
+                        </button>
+                    }
+
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger" onclick="p15_delete_row('@Model.lisP15[i].TempRecGuid')">x</button>
+
+                </td>
+
+            </tr>
+        }
+    </table>
+
+
+</form>
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
 
 
-<button type="button" id="cmdPrepareTempData" class="btn btn-primary py-0">Editovat technologický rozpis operací</button>
-<div>
-    <button type="button" id="cmdNew" class="btn btn-primary py-0" style="display:none;">Přidat operaci</button>
-</div>
-<table id="tab1" class="table table-sm table-hover table-bordered" style="min-width:900px;">
-    <thead id="thead1" style="background-color:lightgray;">
-        <tr>
-            <th>RowNum</th>
-            <th>OperNum</th>
-            <th>OperCode</th>
-            <th>Name</th>
-            <th>OperPar</th>
-            <th>MaterialCode</th>
-            <th>MaterialName</th>
-            <th>UnitsCount</th>
-            <th>DurationPreOper</th>
-            <th>DurationOper</th>
-            <th>DurationPostOper</th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-
-    <tbody id="tbody1">
-    </tbody>
-</table>
 
 
 
 <script type="text/javascript">
-    var _guid = "@Model.Guid";
-    var _p12id = "@Model.Rec.pid";
-    var _changed_cell;
 
-    $(document).ready(function () {
-
-        if (_guid == "") {
-            render_p15_body();
-        } else {
-            render_temp_body();
-            init_table_behaviour();
-        }
-        refresh_state();
-
-    });
-
-
-
-    function init_table_behaviour() {
-        $("#tbody1 td").on("blur", function (e) {
-            var val = $(this).text();
-            if (this == _changed_cell) {
-                save2temp(this);
-            }
-            _changed_cell = null;
-        });
-
-
-        $("#tbody1 td").on("input", function (e) {
-            _changed_cell = this;
-            var val = $(this).text();
-
-
-        });
-
-        $("#tbody1 td").on("focus", function (e) {
-
-            $("#tbody1 .inedit").removeClass("inedit");
-
-            $(this).addClass("inedit");
-
-
-
-        });
-
-
-        $("#tbody1 td").on("keypress", function (e) {
-            //$("#log1").val(e.keyCode);
-            if ($(this).attr("data-type") == "number") {
-
-                if ((e.keyCode >= 48 && e.keyCode <= 57) || e.keyCode === 13 || e.keyCode == 44 || e.keyCode == 46 || e.keyCode == 45) {
-                    return true;
-                } else {
-                    return false;
-                }
-
-            }
-
-
-        });
+    function p15_add_row() {
+        form1.action = "/p12/Record?rec_oper=add";
+        form1.submit();
     }
 
 
-
-
-    function save2temp(cell) {
-        var val = $(cell).text();
-        var row = $(cell).closest("tr");
-        var recpid = $(row).attr("data-p15id");
-        var p85id = $(row).attr("data-p85id");
-            var field = $(cell).attr("data-field");
-            var prefix = "p15";
-            var url = "@Url.Action("Save2Temp", "Common")";
-            //alert("field: " + field + ", value: " + val + ", p85id: " + p85id);
-            $.post(url, { p85id: p85id, guid: _guid, prefix: prefix,recpid:recpid, fieldname: field, fieldvalue: val }, function (data) {
-                //alert(data.pid);
-                if (data != null) {
-                    $(row).attr("data-p85id", data.pid);
-                    _toolbar_warn2save_changes();
-                }
-
-
-            });
-        }
-
-
-    $("#cmdNew").on("click", function () {
-        var url = "@Url.Action("InsertTempRow", "p12")";
-        $.post(url, { guid: _guid }, function (data) {
-
-            render_temp_body();
-            _toolbar_warn2save_changes();
-        });
-
-
-    });
-
-    $("#cmdPrepareTempData").on("click", function () {
-        _guid = _generate_guid();
-        $("#Guid").val(_guid);
-        refresh_state();
-        render_temp_body();
-    });
-
-    function render_temp_body() {
-        var url = "@Url.Action("getHtmlTempBody","p12")";
-        $.post(url, { guid: _guid, p12id:@Model.Rec.pid }, function (data) {
-
-            $("#tbody1").html(data);
-
-            init_table_behaviour();
-        });
+    function p15_delete_row(guid) {
+        $("#" + guid).val("none");
+        form1.action = "/p12/Record?rec_oper=postback";
+        form1.submit();
     }
-    function render_p15_body() {
-        if (_p12id == "0") return;
-        var url = "@Url.Action("GetBodyOfTale", "Common")";
-
-        $.post(url, { entity: "p15ClientOper", queryfield: "p12id", queryvalue:_p12id }, function (data) {
-            $("#tbody1").html(data);
+    function p15_down_row(rowindex) {
+        var x = 1;
+        $(".rownum").each(function () {
+            $(this).val(x);
+            x += 1;
         });
+
+        x = parseInt($("#rownumber_" + (rowindex + 1)).val());
+        $("#rownumber_" + rowindex).val(x);
+        $("#rownumber_" + (rowindex + 1)).val(x - 1);
+
+        form1.action = "/p12/Record?rec_oper=postback";
+        form1.submit();
     }
 
-    function move_row(pid, dir) {
-
-        var url = "@Url.Action("MoveTempRow", "p12")";
-        var direction = "up";
-        if (dir == 1) direction = "down";
-
-        $.post(url, { guid: _guid, p85id: pid, direction: direction }, function (data) {
-
-            render_temp_body();
-            _toolbar_warn2save_changes();
-
+    function p15_up_row(rowindex) {
+        var x = 1;
+        $(".rownum").each(function () {
+            $(this).val(x);
+            x += 1;
         });
-    }
-    function delete_row(pid) {
-        var url = "@Url.Action("DeleteTempRow", "p12")";
-        $.post(url, { p85id: pid }, function (data) {
-            render_temp_body();
-            _toolbar_warn2save_changes();
-        });
-    }
 
+        x = parseInt($("#rownumber_" + (rowindex - 1)).val());
+        $("#rownumber_" + rowindex).val(x);
+        $("#rownumber_" + (rowindex - 1)).val(x + 1);
 
-    function refresh_state() {
-        if (_guid == "") {
-            $("#cmdPrepareTempData").css("display", "block");
-            $("#cmdNew").css("display", "none");
-        } else {
-            $("#cmdPrepareTempData").css("display", "none");
-            $("#cmdNew").css("display", "block");
-            $("#thead1").css("background-color", "aliceblue");
-        }
-
-
+        form1.action = "/p12/Record?rec_oper=postback";
+        form1.submit();
     }
 
 </script>

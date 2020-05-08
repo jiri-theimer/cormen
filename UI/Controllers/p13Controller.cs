@@ -61,7 +61,11 @@ namespace UI.Controllers
             v.Toolbar = new MyToolbarViewModel(v.Rec);            
             if (isclone) {
                 v.Toolbar.MakeClone();
-               
+                for (var i = 0; i < v.lisP14.Count(); i++)
+                {
+                    v.lisP14[i].p14ID = 0;
+                    v.lisP14[i].pid = 0;
+                }
             }
             
 
@@ -102,8 +106,8 @@ namespace UI.Controllers
                 c.p13Name = v.Rec.p13Name;
                 c.p13Memo = v.Rec.p13Memo;
 
-                c.ValidUntil = v.Toolbar.GetValidUntil(c);
-                c.ValidFrom = v.Toolbar.GetValidFrom(c);
+                //c.ValidUntil = v.Toolbar.GetValidUntil(c);
+                //c.ValidFrom = v.Toolbar.GetValidFrom(c);
 
                
                 v.Rec.pid = Factory.p13MasterTpvBL.Save(c, v.lisP14);
