@@ -116,6 +116,7 @@ namespace BO
                 case "p12":return "p12ClientTpv";
                 case "p15":return "p15ClientOper";
                 case "p19":return "p19Material";
+                case "p18":return "p18OperCode";
                 default:
                     return "";
             }
@@ -142,9 +143,9 @@ namespace BO
                     case "p11":return "Produkty [Klient]";
                     case "p12":return "TPV [Klient]";
                     case "p15": return "Technologický rozpis operací [Klient]";
-                    case "p19":return "Materiály";
+                    case "p19":return "Materiály";                    
                     default:
-                        return "";
+                        return strEntity;
                 }
             }
             switch (strEntity.Substring(0,3))
@@ -166,7 +167,7 @@ namespace BO
                 case "p12": return "TPV [Klient]";
                 case "p19":return "Material";
                 default:
-                    return "";
+                    return strEntity;
             }
         }
 

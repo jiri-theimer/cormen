@@ -72,10 +72,10 @@ namespace BL
             p.AddInt("pid", rec.p14ID);
             p.AddInt("p13ID", rec.p13ID, true);
             p.AddInt("p19ID", rec.p19ID, true);
+            p.AddInt("p18ID", rec.p18ID, true);
             p.AddString("p14Name", rec.p14Name);
            
-            p.AddInt("p14RowNum", rec.p14RowNum);
-            p.AddString("p14OperCode", rec.p14OperCode);
+            p.AddInt("p14RowNum", rec.p14RowNum);            
             p.AddString("p14OperNum", rec.p14OperNum);
             p.AddInt("p14OperParam", rec.p14OperParam);
             p.AddDouble("p14UnitsCount", rec.p14UnitsCount);

@@ -86,6 +86,9 @@ namespace BL
                 case "b02":
                     sb.Append(" FROM b02Status a");               
                     break;
+                case "p18":
+                    sb.Append(" FROM p18OperCode a");
+                    break;
                 case "p28":
                     sb.Append(" FROM p28Company a");
                     break;
@@ -108,7 +111,7 @@ namespace BL
                     sb.Append(" FROM p13MasterTpv a");
                     break;
                 case "p14":
-                    sb.Append(" FROM p14MasterOper a LEFT OUTER JOIN p19Material p19 ON a.p19ID=p19.p19ID");
+                    sb.Append(" FROM p14MasterOper a LEFT OUTER JOIN p19Material p19 ON a.p19ID=p19.p19ID LEFT OUTER JOIN p18OperCode p18 ON a.p18ID=p18.p18ID");
                     if (String.IsNullOrEmpty(mq.explicit_orderby) && bolGetTotalsRow==false) mq.explicit_orderby = "a.p14RowNum";
                     break;
                 case "o23":
