@@ -87,6 +87,7 @@ namespace UI.Controllers
             {
                 if (rec_oper == "add")
                 {
+                    if (v.lisP14 == null) v.lisP14 = new List<BO.p14MasterOper>();
                     v.lisP14.Add(new BO.p14MasterOper() {TempRecDisplay="table-row", TempRecGuid = BO.BAS.GetGuid(),p14RowNum=v.lisP14.Count()+1 });
                     
                 }

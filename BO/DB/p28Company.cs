@@ -17,7 +17,7 @@ namespace BO
 
         [Required(ErrorMessage = "Chybí vyplnit kód!")]
         public string p28Code { get; set; }
-        
+        public string p28CloudID { get; set; }
         public string p28RegID { get; set; }        
         public string p28VatID { get; set; }
         public string p28Street1 { get; set; }

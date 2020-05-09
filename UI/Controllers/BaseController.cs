@@ -52,10 +52,11 @@ namespace UI.Controllers
             if (ModelState.IsValid == false)
             {
                 var modelErrors = new List<string>();
-                foreach (var modelState in ModelState.Values)
+                foreach (var ms in ModelState.Values)
                 {
-                    foreach (var modelError in modelState.Errors)
+                    foreach (var modelError in ms.Errors)
                     {
+                        
                         modelErrors.Add(modelError.ErrorMessage);
                         Factory.CurrentUser.AddMessage("Kontrola chyb: "+modelError.ErrorMessage);
                     }

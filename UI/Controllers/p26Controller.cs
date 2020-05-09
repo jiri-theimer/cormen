@@ -44,12 +44,13 @@ namespace UI.Controllers
             {
                 v.Rec = new BO.p26Msz();
                 v.Rec.entity = "p26";
+                v.Rec.p26Code = Factory.CBL.EstimateRecordCode("p26");
             }
 
             RefreshState(v);
 
             v.Toolbar = new MyToolbarViewModel(v.Rec);
-            if (isclone) { v.Toolbar.MakeClone(); }
+            if (isclone) { v.Toolbar.MakeClone(); v.Rec.p26Code = Factory.CBL.EstimateRecordCode("p26"); }
 
 
             return View(v);

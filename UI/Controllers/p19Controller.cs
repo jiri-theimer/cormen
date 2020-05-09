@@ -15,6 +15,11 @@ namespace UI.Controllers
             {
                 return this.StopPageCreateEdit(true);
             }
+
+            if (!this.TestIfUserEditor(true, true))
+            {
+                return this.StopPageCreateEdit(true);
+            }
             var v = new Models.p19RecordViewModel();
             
             if (pid > 0)
@@ -26,9 +31,10 @@ namespace UI.Controllers
                     return RecNotFound(v);
                 }
                 
-                if (!this.TestIfRecordEditable(0,v.Rec.p28ID))
+                
+                if (Factory.CurrentUser.j03EnvironmentFlag == 2 && v.Rec.p28ID != Factory.CurrentUser.p28ID)
                 {
-                    return this.StopPageEdit(true);
+                    return this.StopPage(true, "V režimu [CLIENT] nemáte oprávnění editovat tuto kartu materiálu");
                 }
 
             }
@@ -36,11 +42,12 @@ namespace UI.Controllers
             {
                 v.Rec = new BO.p19Material();
                 v.Rec.entity = "p19";
+                v.Rec.p19Code = Factory.CBL.EstimateRecordCode("p19");
 
             }
 
             v.Toolbar = new MyToolbarViewModel(v.Rec);
-            if (isclone) { v.Toolbar.MakeClone(); }
+            if (isclone) { v.Toolbar.MakeClone(); v.Rec.p19Code = Factory.CBL.EstimateRecordCode("p19"); }
 
             return View(v);
         }

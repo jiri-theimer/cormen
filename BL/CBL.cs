@@ -10,6 +10,7 @@ namespace BL
         public string DeleteRecord(string prefix, int pid);
         public string LoadUserParam(string strKey);
         public bool SetUserParam(string strKey, string strValue);
+        public string EstimateRecordCode(string entity);
     }
     class CBL :BaseBL, ICBL
     {
@@ -38,6 +39,11 @@ namespace BL
             }
 
             return "";
+        }
+        public string EstimateRecordCode(string entity)
+        {
+            BO.COM.GetString c = _db.Load<BO.COM.GetString>("select dbo.getRecordCode(@ent,@j03id) as Value",new { ent = entity,j03id=_mother.CurrentUser.pid });
+            return c.Value;
         }
 
         public string LoadUserParam(string strKey)

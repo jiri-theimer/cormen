@@ -29,12 +29,13 @@ namespace UI.Controllers
             else
             {
                 v.Rec = new BO.o12Category();
+                v.Rec.o12Code = Factory.CBL.EstimateRecordCode("o12");
                 v.Rec.entity = "o12";
                
             }
 
             v.Toolbar = new MyToolbarViewModel(v.Rec);            
-            if (isclone) { v.Toolbar.MakeClone(); }
+            if (isclone) { v.Toolbar.MakeClone(); v.Rec.o12Code = Factory.CBL.EstimateRecordCode("o12"); }
 
             return View(v);
         }

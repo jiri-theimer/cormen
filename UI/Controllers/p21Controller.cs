@@ -48,6 +48,7 @@ namespace UI.Controllers
                 v.Rec = new BO.p21License();
                 v.Rec.ValidFrom = DateTime.Today;
                 v.Rec.ValidUntil = new DateTime(3000, 1, 1);
+                v.Rec.p21Code = Factory.CBL.EstimateRecordCode("p21");
                 v.Rec.entity = "p21";
             }
 
@@ -55,7 +56,7 @@ namespace UI.Controllers
 
             
                         
-            if (isclone) { v.Toolbar.MakeClone(); }
+            if (isclone) { v.Toolbar.MakeClone(); v.Rec.p21Code = Factory.CBL.EstimateRecordCode("p21"); }
 
 
             return View(v);

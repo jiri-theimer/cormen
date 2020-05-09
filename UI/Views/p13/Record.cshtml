@@ -105,7 +105,8 @@
                         <input type="number" class="form-control px-1" step="0" asp-for="@Model.lisP14[i].p14DurationPreOper" />
                     </td>
                     <td>
-                        <input type="number" class="form-control px-1" step="0" asp-for="@Model.lisP14[i].p14DurationOper" />
+                        <mynumber asp-for="@Model.lisP14[i].p14DurationOper"></mynumber>
+                        
                     </td>
                     <td>
                         <input type="number" class="form-control px-1" step="0" asp-for="@Model.lisP14[i].p14DurationPostOper" />

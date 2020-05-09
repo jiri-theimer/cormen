@@ -51,13 +51,14 @@ namespace UI.Controllers
 
                 v.Rec = new BO.p28Company();
                 v.Rec.entity = "p28";
-
+                v.Rec.p28Code = Factory.CBL.EstimateRecordCode("p28");
             }
 
             
             v.Toolbar = new MyToolbarViewModel(v.Rec);            
             if (isclone) {
-                v.Toolbar.MakeClone();                
+                v.Toolbar.MakeClone();
+                v.Rec.p28Code = Factory.CBL.EstimateRecordCode("p28");
             }
 
 

@@ -45,8 +45,9 @@ namespace BL
             p.AddInt("j02ID_Owner", rec.j02ID_Owner, true);            
             p.AddString("p28Name", rec.p28Name);
             p.AddString("p28ShortName", rec.p28ShortName);
-            p.AddString("p28Code", rec.p28Code);
-            p.AddString("p28RegID", rec.p28RegID);
+            p.AddString("p28Code", rec.p28Code);            
+            p.AddString("p28CloudID", rec.p28CloudID);
+            p.AddString("p28RegID", rec.p28RegID);            
             p.AddString("p28VatID", rec.p28VatID);
             p.AddString("p28Street1", rec.p28Street1);
             p.AddString("p28City1", rec.p28City1);
@@ -57,7 +58,12 @@ namespace BL
             p.AddString("p28PostCode2", rec.p28PostCode2);
             p.AddString("p28Country2", rec.p28Country2);
 
-            return _db.SaveRecord("p28Company", p.getDynamicDapperPars(),rec);
+            int intPID= _db.SaveRecord("p28Company", p.getDynamicDapperPars(),rec);
+            if (String.IsNullOrEmpty(rec.p28CloudID))
+            {                
+                _db.RunSql("UPDATE p28Company SET p28CloudID=@cloudid", new { cloudid = intPID.ToString() });
+            }
+            return intPID;
         }
 
     }

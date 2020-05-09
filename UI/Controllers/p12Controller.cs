@@ -84,6 +84,7 @@ namespace UI.Controllers
             {
                 if (rec_oper == "add")
                 {
+                    if (v.lisP15 == null) v.lisP15 = new List<BO.p15ClientOper>();
                     v.lisP15.Add(new BO.p15ClientOper() { TempRecDisplay = "table-row", TempRecGuid = BO.BAS.GetGuid(), p15RowNum = v.lisP15.Count() + 1 });
 
                 }

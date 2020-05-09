@@ -31,11 +31,12 @@ namespace UI.Controllers
             else
             {
                 v.Rec = new BO.b02Status();
+                v.Rec.b02Code = Factory.CBL.EstimateRecordCode("b02");
                 v.Rec.entity = "b02";
             }
           
             v.Toolbar = new MyToolbarViewModel(v.Rec);            
-            if (isclone) { v.Toolbar.MakeClone(); }
+            if (isclone) { v.Toolbar.MakeClone(); v.Rec.b02Code = Factory.CBL.EstimateRecordCode("b02"); }
 
             return View(v);
         }

@@ -21,14 +21,14 @@
 
     <div class="form-row">
         <label class="col-sm-2 col-md-3 col-form-label">Název:</label>
-        <div class="col-sm-7 col-md-6">
+        <div class="col-sm-6 col-md-5">
             <input class="form-control" asp-for="Rec.p28Name" />
             <span asp-validation-for="Rec.p28Name" class="text-danger"></span>
         </div>
         <div class="col-sm-2 col-md-2">
             <input class="form-control" asp-for="Rec.p28ShortName" placeholder="Zkrácený název" />
         </div>
-        <div class="col-sm-1 col-md-1">
+        <div class="col-sm-2 col-md-2">
             <input class="form-control" asp-for="Rec.p28Code" placeholder="Kód" />
             <span asp-validation-for="Rec.p28Code" class="text-danger"></span>
         </div>
@@ -38,11 +38,11 @@
 
     <div class="form-row">
         <label class="col-sm-2 col-md-3 col-form-label">IČ/DIČ:</label>
-        <div class="col-sm-7 col-md-6">
+        <div class="col-sm-6 col-md-5">
             <input class="form-control" asp-for="Rec.p28RegID" placeholder="IČ" />
             <span asp-validation-for="Rec.p28RegID" class="text-danger"></span>
         </div>
-        <div class="col-sm-3 col-md-3">
+        <div class="col-sm-4 col-md-4">
             <input class="form-control" asp-for="Rec.p28VatID" placeholder="DIČ" />
             <span asp-validation-for="Rec.p28VatID" class="text-danger"></span>
         </div>

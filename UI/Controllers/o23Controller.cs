@@ -54,6 +54,7 @@ namespace UI.Controllers
                 v.Rec = new BO.o23Doc();
                 v.Rec.entity = "o23";
                 v.Rec.o23Entity = "p28Company";
+                v.Rec.o23Code = Factory.CBL.EstimateRecordCode("o23");
             }
           
             
@@ -62,6 +63,7 @@ namespace UI.Controllers
 
             if (isclone) {
                 v.Toolbar.MakeClone();
+                v.Rec.o23Code = Factory.CBL.EstimateRecordCode("o23");
             }
 
             if (pid>0 && !isclone) v.lisO27 = Factory.o23DocBL.GetListO27(pid);
