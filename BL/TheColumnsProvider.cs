@@ -161,6 +161,7 @@ namespace BL
                 AF("p14MasterOper", "p14RowNum", "RowNum", true,null,"num0");
                 AF("p14MasterOper", "p14OperNum", "OperNum", true);
                 AF("p14MasterOper", "p18Code", "OperCode", true,"p18.p18Code");
+                AF("p14MasterOper", "p18Name", "OperCodeName", false, "p18.p18Name");
 
                 AF("p14MasterOper", "p14Name", "Name", true);
                 AF("p14MasterOper", "p14OperParam", "OperPar", true,null,"num0");
@@ -199,6 +200,7 @@ namespace BL
                 AF("p15ClientOper", "p15RowNum", "RowNum", true, null, "num0");
                 AF("p15ClientOper", "p15OperNum", "OperNum", true);
                 AF("p15ClientOper", "p18Code", "OperCode", true,"p18.p18Code");
+                AF("p15ClientOper", "p18Name", "OperCodeName", false, "p18.p18Name");
 
                 AF("p15ClientOper", "p15Name", "Name", true);
                 AF("p15ClientOper", "p15OperParam", "OperPar", true, null, "num0");
@@ -235,6 +237,31 @@ namespace BL
                 AF("p41Task", "RecordOwner", "Vlastník záznamu", false, "dbo.j02_show_as_owner(a.j02ID_Owner)");
 
                 AppendTimestamp("p41Task");
+            }
+            if (bolIncludeOutsideEntity || _mq.Prefix == "p51")
+            {
+                AF("p51Order", "p51Name", "Název", true);
+                AF("p51Order", "p51Code", "Kód", true);
+                AF("p51Order", "p28Name", "Klient", true, "p28.p28Name");
+                AF("p51Order", "b02Name", "Stav", true, "b02.b02Name");
+                AF("p51Order", "p26Name", "Stroj", true, "p26.p26Name");
+
+                AF("p51Order", "p51Date", "Datum", true, null, "date");
+                AF("p51Order", "p51DateDelivery", "Termín dodání", true, null, "datetime");
+               
+                AF("p51Order", "p51CodeByClient", "Kód podle klienta", false);
+                AF("p51Order", "p51IsDraft", "Draft",false,null,"bool");
+               
+                AF("p51Order", "p51Memo", "Podrobný popis");
+                AF("p51Order", "RecordOwner", "Vlastník záznamu", false, "dbo.j02_show_as_owner(a.j02ID_Owner)");
+
+                AppendTimestamp("p51Order");
+            }
+            if (bolIncludeOutsideEntity || _mq.Prefix == "p18")
+            {
+                AF("p18OperCode", "p18Code", "Kód", true);
+                AF("p18OperCode", "p18Name", "Název", true);
+
             }
             if (_lis.Count == 0)
             {
@@ -301,6 +328,8 @@ namespace BL
                     return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p21" || p.Prefix=="p28");
                 case "p41":
                     return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix=="p11" || p.Prefix == "p28" || p.Prefix == "p26" || p.Prefix == "b02");
+                case "p51":
+                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p28" || p.Prefix == "p26" || p.Prefix == "b02");
                 default:
                     return _lis.Where(p => p.Entity == _mq.Entity);
             }

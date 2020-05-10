@@ -15,5 +15,7 @@ namespace BO
 
         [Required(ErrorMessage = "Chybí vyplnit kód!")]        
         public string p18Code { get; set; }
+
+        public string CodePlusName { get; set; }
     }
 }

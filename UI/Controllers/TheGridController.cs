@@ -90,6 +90,12 @@ namespace UI.Controllers
                     tabs.Add(new NavTab() { Name = "Dokumenty", Entity = "o23Doc", Url = "SlaveView?prefix=o23" });
 
                     break;
+                case "p51":
+                    tabs.Add(new NavTab() { Name = "Detail", Url = "/p51/Index?pid=@pid" });
+                    tabs.Add(new NavTab() { Name = "Položky objednávky", Entity = "p52OrderItem", Url = "SlaveView?prefix=p52" });
+                    tabs.Add(new NavTab() { Name = "Dokumenty", Entity = "o23Doc", Url = "SlaveView?prefix=o23" });
+
+                    break;
             }
             string strDefTab = Factory.CBL.LoadUserParam("masterview-tab-" + prefix);
             var deftab = tabs[0];
@@ -642,9 +648,9 @@ namespace UI.Controllers
             var intRows = dt.Rows.Count;
 
             var s = new System.Text.StringBuilder();
-
-
+           
             s.Append(string.Format("<table id='{0}' class='table table-hover'>", tableid));
+            
             s.Append("<thead><tr>");
             foreach (var col in cols)
             {

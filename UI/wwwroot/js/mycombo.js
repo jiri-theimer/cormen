@@ -12,9 +12,11 @@
     var _dropdownid = "divDropdownContainer" + _controlid;
     var _event_after_change = c.on_after_change;
     
-    if (c.viewflag === "2") {//bez zobrazení search
+    if (c.viewflag === "2") {//bez zobrazení search, ale až po otevření combonabídky
+        $("#divSearch" + _controlid).css("width", "50px");
         $("#divSearch" + _controlid).css("display", "none");
-        $("#divDropdown" + _controlid).css("margin-left", "-30px");
+        $("#divDropdown" + _controlid).css("margin-left", "-50px");
+        $(_cmdcombo).removeAttr("tabindex");    //combo tímto má tabindex - původně měl -1
     }
     if (c.defvalue !== "") {    //výchozí vyplněná hodnota comba
         if (c.deftext!=="") $(_cmdcombo).text(c.deftext);   
@@ -25,10 +27,12 @@
     }
     
     $("#" + _dropdownid).on("show.bs.dropdown", function () {
-        
+        if (c.viewflag === "2") {//bez zobrazení search
+            $("#divSearch" + _controlid).css("display", "block");
+            $(_cmdcombo).attr("tabindex","-1");
+        }
         if ($("#" + _dropdownid).prop("filled") === true) return;    //data už byla dříve načtena
-        
-        var entity = "p10MasterProduct";
+                
         $.post(c.posturl, { entity: c.entity, o15flag: "", tableid: _tabid, param1: c.param1 }, function (data) {
             $("#divData"+c.controlid).html(data);
             
@@ -43,9 +47,16 @@
 
         });
     })
+    $("#" + _dropdownid).on("hide.bs.dropdown", function () {        
+        if (c.viewflag === "2") {//bez zobrazení search
+            $("#divSearch" + _controlid).css("display", "none");
+            $(_cmdcombo).removeAttr("tabindex");
+        }
+    });
 
 
     $(_cmdcombo).on("focus", function (e) {
+        $(this).css("background-color", "aliceblue");        
         _lastFocusWasSearchbox = false;
         if (e.relatedTarget !== null) {
             if (e.relatedTarget.id === "searchbox"+_controlid) {
@@ -54,14 +65,19 @@
         }
 
     })
+    $(_cmdcombo).on("blur", function (e) {
+        $(this).css("background-color", "");        
+    })
 
     $(_cmdcombo).on("click", function (e) {
         if (_lastFocusWasSearchbox === true) return;
+        
 
         if (_current_syntetic_event === "click_from_focus") {
             _current_syntetic_event = "";
             return;
         }
+        
 
         if (_current_syntetic_event === "") {
             //normální ruční klik
@@ -275,9 +291,9 @@
     function handle_update_state() {
         
         if ($(_cmdcombo).text() !== "") {
-            $("#cmdClear"+_controlid).css("visibility", "visible");
+            $("#cmdClear"+_controlid).css("display", "block");
         } else {
-            $("#cmdClear"+_controlid).css("visibility", "hidden");
+            $("#cmdClear"+_controlid).css("display", "none");
         }
     }
 
@@ -320,3 +336,5 @@
     }
 
 }
+
+

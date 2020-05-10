@@ -65,12 +65,12 @@ namespace UI.Views.Shared.TagHelpers
 
             sb(string.Format("<button type='button' id='cmdCombo{0}' class='btn btn-outline-light dropdown-toggle form-control' title='Vybrat z nabídky' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' tabindex='-1' style='text-align:left;border:none;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;color:black;font-weight:bold;'>{1}</button>",strControlID,this.PlaceHolder));
             
-            sb(string.Format("<button type='button' id='cmdClear{0}' class='btn btn-secondary close' aria-label='Close' tabindex='-1' title='Vyčistit' style='width:30px;border:none;visibility:hidden;'>",strControlID));
+            sb(string.Format("<button type='button' id='cmdClear{0}' class='btn btn-secondary close' aria-label='Close' tabindex='-1' title='Vyčistit' style='width:30px;border:none;display:none;'>",strControlID));
             sb("<span aria-hidden='true'>&times;</span>");
             sb("</button>");
 
             sb(string.Format("<div id='divDropdown{0}' class='dropdown-menu' aria-labelledby='cmdCombo' style='width:100%;margin-left:-80px;' tabindex='-1'>", strControlID));
-            sb(string.Format("<div id='divData{0}' style='height:220px;overflow:auto;background-color:#E6F0FF;z-index:500;width:100%;'>", strControlID));
+            sb(string.Format("<div id='divData{0}' style='height:220px;overflow:auto;background-color:#E6F0FF;z-index:500;width:100%;min-width:170px;'>", strControlID));
             sb("</div>");
             sb("</div>");
             sb("");

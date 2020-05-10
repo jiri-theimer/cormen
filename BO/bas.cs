@@ -109,6 +109,8 @@ namespace BO
                 case "p14": return "p14MasterOper";
                 case "o23": return "o23Doc";
                 case "p41": return "p41Task";
+                case "p51":return "p51Order";
+                case "p52":return "p52OrderItem";
                 case "b02":return "b02Status";
                 case "o12":return "o12Category";
                 case "j04":return "j04UserRole";
@@ -137,6 +139,8 @@ namespace BO
                     case "p14": return "Technologický rozpis operací [Master]";
                     case "o23": return "Dokumenty";
                     case "p41": return "Výrobní zakázky";
+                    case "p51":return "Objednávky";
+                    case "p52":return "Položky objednávek";
                     case "b02":return "Workflow stavy";
                     case "o12":return "Kategorie";
                     case "j04":return "Aplikační role";

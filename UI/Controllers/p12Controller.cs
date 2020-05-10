@@ -105,8 +105,14 @@ namespace UI.Controllers
 
                 c.p12Code = v.Rec.p12Code;
                 c.p12Name = v.Rec.p12Name;
-                c.p12Memo = v.Rec.p12Memo;               
-               
+                c.p12Memo = v.Rec.p12Memo;
+                int x = 1;
+                foreach (var row in v.lisP15.OrderBy(p => p.p15RowNum))
+                {
+                    row.p15RowNum = x;  //narovnat rownum na postupku od jedničky
+                    x += 1;
+                }
+
                 v.Rec.pid = Factory.p12ClientTpvBL.Save(c, v.lisP15);
                 if (v.Rec.pid > 0)
                 {

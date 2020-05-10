@@ -113,8 +113,15 @@ namespace UI.Controllers
 
                 //c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 //c.ValidFrom = v.Toolbar.GetValidFrom(c);
-
+                int x = 1;
+                foreach(var row in v.lisP14.OrderBy(p => p.p14RowNum))
+                {
+                    row.p14RowNum = x;  //narovnat rownum na postupku od jedničky
+                    x += 1;
+                }
                
+
+
                 v.Rec.pid = Factory.p13MasterTpvBL.Save(c, v.lisP14);
                 
                 if (v.Rec.pid > 0)

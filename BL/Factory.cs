@@ -31,6 +31,7 @@ namespace BL
         private Ip12ClientTpvBL _p12;
         private Ip15ClientOperBL _p15;
         private Ip41TaskBL _p41;
+        private Ip51OrderBL _p51;
         private Ip19MaterialBL _p19;
 
         public Factory(BO.RunningUser c,BL.RunningApp runningapp)
@@ -221,6 +222,14 @@ namespace BL
             {
                 if (_p41 == null) _p41 = new p41TaskBL(this);
                 return _p41;
+            }
+        }
+        public Ip51OrderBL p51OrderBL
+        {
+            get
+            {
+                if (_p51 == null) _p51 = new p51OrderBL(this);
+                return _p51;
             }
         }
         public Ip85TempboxBL p85TempboxBL

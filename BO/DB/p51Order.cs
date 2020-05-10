@@ -20,5 +20,10 @@ namespace BO
         public DateTime p51Date { get; set; }
         public DateTime p51DateDelivery { get; set; }
         public string p51Memo { get; set; }
+
+        public string RecordOwner;
+        public string p28Name { get; set; } //get+set: kvůli mycombo
+        public string p26Name { get; set; } //get+set: kvůli mycombo
+        public string b02Name { get; set; } //get+set: kvůli mycombo
     }
 }

@@ -47,7 +47,7 @@
         <tr style="display:table-row;">
             <th style="width:70px;">Row<br />Num</th>
             <th style="width:70px;">Oper<br />Num</th>
-            <th style="width:100px;">Oper<br />Code</th>
+            <th style="width:130px;">Oper<br />Code</th>
             <th>Name</th>
             <th style="width:70px;">Oper<br />Par</th>
             
@@ -95,7 +95,7 @@
                         <input type="number" class="form-control px-1" step="0" asp-for="@Model.lisP14[i].p14OperParam" />
                     </td>
                     <td style="background-color:lightgoldenrodyellow;">
-                        <mycombo entity="p19Material" asp-for="@Model.lisP14[i].p19ID" selectedtext="@Model.lisP14[i].Material"></mycombo>
+                        <mycombo entity="p19Material" asp-for="@Model.lisP14[i].p19ID" selectedtext="@Model.lisP14[i].Material" view-flag="2"></mycombo>
                     </td>
                    
                     <td>
