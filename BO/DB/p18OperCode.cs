@@ -9,6 +9,7 @@ namespace BO
     {
         [Key]
         public int p18ID { get; set; }
+        public int p25ID { get; set; }
 
         [Required(ErrorMessage = "Chybí vyplnit název!")]
         public string p18Name { get; set; }
@@ -17,5 +18,7 @@ namespace BO
         public string p18Code { get; set; }
 
         public string CodePlusName { get; set; }
+
+        public string p25Name { get; set; } //kvůli combo
     }
 }

@@ -155,8 +155,11 @@ namespace BL
             {
                 AF("j04UserRole", "j04Name", "Název role", true);
                 AF("j04UserRole", "j04IsClientRole", "Klientská role", true,null,"bool");
-
-
+            }
+            if (bolIncludeOutsideEntity || _mq.Prefix == "p25")
+            {
+                AF("p25MszType", "p25Name", "Název", true);
+                
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p14")
             {

@@ -149,7 +149,8 @@ namespace BO
                     case "p11":return "Produkty [Klient]";
                     case "p12":return "TPV [Klient]";
                     case "p15": return "Technologický rozpis operací [Klient]";
-                    case "p19":return "Materiály";                    
+                    case "p19":return "Materiály";
+                    case "p18":return "Kód operací";
                     default:
                         return strEntity;
                 }
@@ -173,6 +174,7 @@ namespace BO
                 case "p11": return "Produkt [Klient]";
                 case "p12": return "TPV [Klient]";
                 case "p19":return "Material";
+                case "p18":return "Kód operace";
                 default:
                     return strEntity;
             }
