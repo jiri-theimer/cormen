@@ -18,7 +18,7 @@
     @Html.HiddenFor(m => m.Rec.pid)
 
 <div class="modal_record_container">
-    
+
     <div class="form-row">
         <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
         <div class="col-sm-8 col-md-7">
@@ -31,6 +31,12 @@
         </div>
     </div>
     <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Typ zařízení:</label>
+        <div class="col-sm-5 col-md-4">
+            <mycombo entity="p25MszType" asp-for="Rec.p25ID" selectedtext="Rec.p25Name" view-flag="2"></mycombo>
+        </div>
+    </div>
+    <div class="form-row" style="margin-top:10px;">
         <label class="col-sm-1 col-md-2 col-form-label">Klient/Vlastník:</label>
         <div class="col-sm-11 col-md-10">
             <mycombo entity="p28Company" asp-for="Rec.p28ID" selectedtext="Rec.p28Name"></mycombo>
@@ -38,22 +44,28 @@
     </div>
 
     <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
-        <div class="col-sm-11 col-md-10">
-            <mycombo entity="b02Status" asp-for="Rec.b02ID" selectedtext="Rec.b02Name" param1="p26"></mycombo>
+        <label class="col-sm-1 col-md-2 col-form-label">Kategorie:</label>
+        <div class="col-sm-5 col-md-4">
+            <mycombo entity="o12Category" view-flag="2" asp-for="Rec.o12ID" selectedtext="Rec.o12Name" param1="p26"></mycombo>
+        </div>
+        <label class="col-sm-1 col-md-1 col-form-label">Aktuální stav:</label>
+        <div class="col-sm-5 col-md-5">
+            <mycombo entity="b02Status" view-flag="2" asp-for="Rec.b02ID" selectedtext="Rec.b02Name" param1="p26"></mycombo>
         </div>
     </div>
 
 
-    <div class="form-row">
-        <textarea asp-for="Rec.p26Memo" class="form-control" style="height:150px;"></textarea>
+
+
+    <div class="form-row" style="margin-top:10px;">
+        <textarea asp-for="Rec.p26Memo" class="form-control" style="height:150px;" placeholder="Podrobný popis"></textarea>
         <span asp-validation-for="Rec.p26Memo" class="text-danger"></span>
     </div>
 
 
-   
-        
-    
+
+
+
 </div>
 }
 

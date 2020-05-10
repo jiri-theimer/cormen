@@ -9,6 +9,7 @@ namespace BO
     {
         [Key]
         public int p13ID { get; set; }
+        public int p25ID { get; set; }
 
         [Required(ErrorMessage = "Chybí vyplnit název!")]
         [MaxLength(100, ErrorMessage = "Maximum 100 znaků")]
@@ -18,5 +19,7 @@ namespace BO
         public string p13Code { get; set; }
         [MaxLength(1000, ErrorMessage = "Maximum 1000 znaků")]
         public string p13Memo { get; set; }
+
+        public string p25Name { get; set; } //kvůli combo
     }
 }

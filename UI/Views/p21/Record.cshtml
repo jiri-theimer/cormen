@@ -55,12 +55,15 @@
                 <mycombo entity="b02Status" asp-for="Rec.b02ID" selectedtext="Rec.b02Name" param1="p21" view-flag="2"></mycombo>
             </div>
         </div>
-        <div class="form-row">
+        <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Cena:</label>
-            <div class="col-sm-11 col-md-10">
+            <div class="col-sm-3 col-md-2">
                 <mynumber asp-for="Rec.p21Price" decimal-digits="2"></mynumber>
-
-                
+            </div>
+            <div class="col-sm-4 col-md-4"></div>
+            <label class="col-sm-1 col-md-1 col-form-label">Kategorie:</label>
+            <div class="col-sm-3 col-md-3">
+                <mycombo entity="o12Category" asp-for="Rec.o12ID" selectedtext="Rec.o12Name" param1="p21" view-flag="2"></mycombo>
             </div>
         </div>
 

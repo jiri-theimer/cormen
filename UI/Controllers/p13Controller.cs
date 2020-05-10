@@ -107,6 +107,7 @@ namespace UI.Controllers
                 BO.p13MasterTpv c = new BO.p13MasterTpv();
                 if (v.Rec.pid > 0) c = Factory.p13MasterTpvBL.Load(v.Rec.pid);
 
+                c.p25ID = v.Rec.p25ID;
                 c.p13Code = v.Rec.p13Code;
                 c.p13Name = v.Rec.p13Name;
                 c.p13Memo = v.Rec.p13Memo;

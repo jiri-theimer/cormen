@@ -1,0 +1,43 @@
+﻿@model p25RecordViewModel
+
+@{
+    ViewData["Title"] = "Typ zařízení";
+    Layout = "~/Views/Shared/_LayoutModal.cshtml";
+}
+@addTagHelper *, UI
+
+@using (Html.BeginForm())
+{
+    <h4>Typ zařízení</h4>
+    @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
+    @Html.HiddenFor(m => m.Rec.pid)
+
+    <div class="modal_record_container">
+
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
+            <div class="col-sm-11 col-md-10">
+                <input class="form-control" asp-for="Rec.p25Name" />
+                <span asp-validation-for="Rec.p25Name" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Kód:</label>
+            <div class="col-sm-11 col-md-10">
+                <input class="form-control" asp-for="Rec.p25Code" />
+                <span asp-validation-for="Rec.p25Code" class="text-danger"></span>
+            </div>
+        </div>
+
+        
+
+
+
+
+
+    </div>
+}
+
+@Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
+
+

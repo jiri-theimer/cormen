@@ -17,30 +17,35 @@
     @Html.HiddenFor(m => m.Rec.pid)
 
 
-    <div class="modal_record_container">
-
-        <div class="form-row">
-            <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
-            <div class="col-sm-9 col-md-8">
-                <input class="form-control" asp-for="Rec.p13Name" />
-                <span asp-validation-for="Rec.p13Name" class="text-danger"></span>
-            </div>
-            <div class="col-sm-2 col-md-2">
-                <input class="form-control" asp-for="Rec.p13Code" placeholder="Číslo postupu" />
-                <span asp-validation-for="Rec.p13Code" class="text-danger"></span>
-            </div>
+<div class="modal_record_container">
+    <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
+        <div class="col-sm-9 col-md-8">
+            <input class="form-control" asp-for="Rec.p13Name" />
+            <span asp-validation-for="Rec.p13Name" class="text-danger"></span>
         </div>
-
-
-        <div class="form-row">
-            <textarea asp-for="Rec.p13Memo" class="form-control" placeholder="Podrobný popis"></textarea>
-            <span asp-validation-for="Rec.p13Memo" class="text-danger"></span>
+        <div class="col-sm-2 col-md-2">
+            <input class="form-control" asp-for="Rec.p13Code" placeholder="Číslo postupu" />
+            <span asp-validation-for="Rec.p13Code" class="text-danger"></span>
         </div>
-
-
-
-        
     </div>
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Typ zařízení:</label>
+        <div class="col-sm-5 col-md-4">
+            <mycombo entity="p25MszType" asp-for="Rec.p25ID" selectedtext="Rec.p25Name" view-flag="2"></mycombo>
+        </div>
+    </div>
+
+
+    <div class="form-row">
+        <textarea asp-for="Rec.p13Memo" class="form-control" placeholder="Podrobný popis"></textarea>
+        <span asp-validation-for="Rec.p13Memo" class="text-danger"></span>
+    </div>
+
+
+
+
+</div>
     <hr />
     <button type="button" class="btn btn-primary" onclick="p14_add_row()">Přidat řádek</button>
     <table class="table table-sm table-hover" style="table-layout: fixed;width:100%;min-width:1000px;overflow-x:auto;">

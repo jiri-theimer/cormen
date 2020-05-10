@@ -75,6 +75,7 @@ namespace UI.Controllers
                 c.p21Memo = v.Rec.p21Memo;
                 c.b02ID = v.Rec.b02ID;
                 c.p28ID = v.Rec.p28ID;
+                c.o12ID = v.Rec.o12ID;
                 c.p21Price = v.Rec.p21Price;
 
                 c.ValidFrom = v.Rec.ValidFrom;

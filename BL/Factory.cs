@@ -18,6 +18,7 @@ namespace BL
         private Ip28CompanyBL _p28;
         private Ip21LicenseBL _p21;
         private Ip26MszBL _p26;
+        private Ip25MszTypeBL _p25;
         private Ij04UserRoleBL _j04;
         private Ib02StatusBL _b02;
         private Io12CategoryBL _o12;
@@ -126,6 +127,14 @@ namespace BL
             {
                 if (_p28 == null) _p28 = new p28CompanyBL(this);
                 return _p28;
+            }
+        }
+        public Ip25MszTypeBL p25MszTypeBL
+        {
+            get
+            {
+                if (_p25 == null) _p25 = new p25MszTypeBL(this);
+                return _p25;
             }
         }
         public Ip26MszBL p26MszBL

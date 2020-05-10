@@ -89,14 +89,17 @@ namespace BL
                 case "p18":
                     sb.Append(" FROM p18OperCode a");
                     break;
+                case "p25":
+                    sb.Append(" FROM p25MszType a");
+                    break;
                 case "p28":
                     sb.Append(" FROM p28Company a");
                     break;
                 case "p26":
-                    sb.Append(" FROM p26Msz a LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID");
+                    sb.Append(" FROM p26Msz a INNER JOIN p25MszType p25 ON a.p25ID=p25.p25ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID");
                     break;
                 case "p21":
-                    sb.Append(" FROM p21License a LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID");
+                    sb.Append(" FROM p21License a LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID");
                     break;
                 case "o12":
                     sb.Append(" FROM o12Category a");
@@ -108,7 +111,7 @@ namespace BL
                     sb.Append(" FROM p10MasterProduct a LEFT OUTER JOIN p13MasterTpv p13 ON a.p13ID=p13.p13ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID");
                     break;
                 case "p13":
-                    sb.Append(" FROM p13MasterTpv a");
+                    sb.Append(" FROM p13MasterTpv a INNER JOIN p25MszType p25 ON a.p25ID=p25.p25ID");
                     break;
                 case "p14":
                     sb.Append(" FROM p14MasterOper a LEFT OUTER JOIN p19Material p19 ON a.p19ID=p19.p19ID LEFT OUTER JOIN p18OperCode p18 ON a.p18ID=p18.p18ID");

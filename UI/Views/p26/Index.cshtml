@@ -6,38 +6,51 @@
     if (Model.Rec == null) return;
 }
 
-<div class="modal_record_container">
+    <div class="modal_record_container">
 
 
-    <div class="form-row">
-        <label class="col-sm-1 col-md-2 col-form-label">Stroj:</label>
-        <div class="col-sm-6 col-md-6">
-            <input class="form-control" asp-for="Rec.p26Name" readonly="readonly" />
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Stroj:</label>
+            <div class="col-sm-6 col-md-6">
+                <input class="form-control" asp-for="Rec.p26Name" readonly="readonly" />
+
+            </div>
+            <div class="col-sm-5 col-md-4">
+                <input class="form-control" asp-for="Rec.p26Code" readonly="readonly" />
+
+            </div>
+        </div>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Typ zařízení:</label>
+            <div class="col-sm-11 col-md-10">
+                <input class="form-control" asp-for="Rec.p25Name" readonly="readonly" />
+            </div>
 
         </div>
-        <div class="col-sm-5 col-md-4">
-            <input class="form-control" asp-for="Rec.p26Code" readonly="readonly" />
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Klient:</label>
+            <div class="col-sm-11 col-md-10">
+                <input class="form-control" asp-for="Rec.p28Name" readonly="readonly" />
+            </div>
 
         </div>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Kategorie:</label>
+            <div class="col-sm-11 col-md-10">
+                <input class="form-control" asp-for="Rec.o12Name" readonly="readonly" />
+            </div>
+
+        </div>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Stav:</label>
+            <div class="col-sm-11 col-md-10">
+                <input class="form-control" asp-for="Rec.b02Name" readonly="readonly" />
+            </div>
+
+        </div>
+
+
     </div>
-
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Klient:</label>
-        <div class="col-sm-11 col-md-10">
-            <input class="form-control" asp-for="Rec.p28Name" readonly="readonly" />
-        </div>
-
-    </div>
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Stav:</label>
-        <div class="col-sm-11 col-md-10">
-            <input class="form-control" asp-for="Rec.b02Name" readonly="readonly" />
-        </div>
-
-    </div>
-
-
-</div>
 @if (Model.Rec.p26Memo != null)
 {
     <hr />

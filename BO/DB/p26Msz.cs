@@ -9,9 +9,12 @@ namespace BO
     {
         [Key]
         public int p26ID { get; set; }
+                
+        public int p25ID { get; set; }
         
         public int b02ID { get; set; }
         public int p28ID { get; set; }
+        public int o12ID { get; set; }
         [Required(ErrorMessage = "Chybí vyplnit název!")]
         [MaxLength(100, ErrorMessage = "Maximum 100 znaků")]
         public string p26Name { get; set; }
@@ -21,10 +24,10 @@ namespace BO
         [Required(ErrorMessage = "Chybí vyplnit kód!")]
         public string p26Code { get; set; }
 
-
+        public string p25Name { get; set; } //get+set: kvůli mycombo
         public string p28Name { get; set; } //get+set: kvůli mycombo
         public string b02Name { get; set; } //get+set: kvůli mycombo
-
+        public string o12Name { get; set; } //get+set: kvůli mycombo
 
     }
 }

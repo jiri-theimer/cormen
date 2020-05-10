@@ -58,7 +58,8 @@ namespace UI.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Record(Models.p26RecordViewModel v)
-        {
+        {            
+
             if (ModelState.IsValid)
             {
                 BO.p26Msz c = new BO.p26Msz();
@@ -67,9 +68,10 @@ namespace UI.Controllers
                 c.p26Code = v.Rec.p26Code;
                 c.p26Name = v.Rec.p26Name;
                 c.p26Memo = v.Rec.p26Memo;
+                c.p25ID = v.Rec.p25ID;
                 c.b02ID = v.Rec.b02ID;
                 c.p28ID = v.Rec.p28ID;
-
+                c.o12ID = v.Rec.o12ID;
                 
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);

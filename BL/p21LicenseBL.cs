@@ -21,7 +21,7 @@ namespace BL
        
         private string GetSQL1()
         {
-            return "SELECT a.*," + _db.GetSQL1_Ocas("p21") + ",b02.b02Name,p28.p28Name FROM p21License a LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID";
+            return "SELECT a.*,o12.o12Name," + _db.GetSQL1_Ocas("p21") + ",b02.b02Name,p28.p28Name FROM p21License a LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID";
         }
         public BO.p21License Load(int pid)
         {
@@ -40,35 +40,59 @@ namespace BL
         
 
         public int Save(BO.p21License rec,List<int> p10ids)
-        {           
-            var strGUID = BO.BAS.GetGuid();
-            BO.p85Tempbox cP85;
-            
-            cP85 = new BO.p85Tempbox() {p85RecordPid=rec.pid, p85GUID = strGUID, p85Prefix = "p21", p85FreeText01 = rec.p21Name, p85FreeText02 = rec.p21Code, p85Message = rec.p21Memo, p85OtherKey1 = rec.p28ID, p85OtherKey2 = rec.b02ID, p85FreeDate01 = rec.ValidFrom, p85FreeDate02 = rec.ValidUntil,p85FreeNumber01=rec.p21Price };
-            _mother.p85TempboxBL.Save(cP85);
+        {
+            var p = new DL.Params4Dapper();
+            p.AddInt("pid", rec.p21ID);
+            p.AddInt("b02ID", rec.b02ID, true);
+            p.AddInt("p28ID", rec.p28ID, true);
+            p.AddInt("o12ID", rec.o12ID, true);
+            p.AddString("p21Name", rec.p21Name);
+            p.AddString("p21Code", rec.p21Code);
+            p.AddString("p21Memo", rec.p21Memo);
+            p.AddDouble("p21Price", rec.p21Price);
+            p.AddDateTime("ValidFrom", rec.ValidFrom);
+            p.AddDateTime("ValidUntil", rec.ValidUntil);
 
-            foreach (var p10id in p10ids)
+            int intPID= _db.SaveRecord("p21License", p.getDynamicDapperPars(), rec);
+            if (intPID>0 && p10ids != null)
             {
-                cP85= new BO.p85Tempbox() { p85GUID = strGUID, p85Prefix = "p22", p85OtherKey1 = p10id };                
-                _mother.p85TempboxBL.Save(cP85);
+                if (rec.pid > 0)
+                {
+                    _db.RunSql("DELETE FROM p22LicenseBinding WHERE p21ID=@pid", new { pid = rec.pid });
+                }
+                _db.RunSql("INSERT INTO p22LicenseBinding(p21ID,p10ID) SELECT @pid,p10ID FROM p10MasterProduct WHERE p10ID IN (" + string.Join(",", p10ids) + ")",new { pid = intPID });
             }
-           
-            var p = new Dapper.DynamicParameters();
-            p.Add("userid", _db.CurrentUser.pid);                 
-            p.Add("guid", strGUID);
-            p.Add("pid_ret", rec.pid, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-            p.Add("err_ret", "", System.Data.DbType.String, System.Data.ParameterDirection.Output);
 
-            string s1 = _db.RunSp("p21_save",ref p);
-            if (s1 == "1")
-            {
-                return p.Get<int>("pid_ret");
-            }
-            else
-            {                                
-                return 0;
-            }           
-            
+            return intPID;
+
+            //var strGUID = BO.BAS.GetGuid();
+            //BO.p85Tempbox cP85;
+
+            //cP85 = new BO.p85Tempbox() {p85RecordPid=rec.pid, p85GUID = strGUID, p85Prefix = "p21", p85FreeText01 = rec.p21Name, p85FreeText02 = rec.p21Code, p85Message = rec.p21Memo, p85OtherKey1 = rec.p28ID, p85OtherKey2 = rec.b02ID, p85FreeDate01 = rec.ValidFrom, p85FreeDate02 = rec.ValidUntil,p85FreeNumber01=rec.p21Price };
+            //_mother.p85TempboxBL.Save(cP85);
+
+            //foreach (var p10id in p10ids)
+            //{
+            //    cP85= new BO.p85Tempbox() { p85GUID = strGUID, p85Prefix = "p22", p85OtherKey1 = p10id };                
+            //    _mother.p85TempboxBL.Save(cP85);
+            //}
+
+            //var p = new Dapper.DynamicParameters();
+            //p.Add("userid", _db.CurrentUser.pid);                 
+            //p.Add("guid", strGUID);
+            //p.Add("pid_ret", rec.pid, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
+            //p.Add("err_ret", "", System.Data.DbType.String, System.Data.ParameterDirection.Output);
+
+            //string s1 = _db.RunSp("p21_save",ref p);
+            //if (s1 == "1")
+            //{
+            //    return p.Get<int>("pid_ret");
+            //}
+            //else
+            //{                                
+            //    return 0;
+            //}           
+
         }
 
         public BO.Result CreateClientProducts(int intP21ID)

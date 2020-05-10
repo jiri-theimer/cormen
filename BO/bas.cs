@@ -101,6 +101,7 @@ namespace BO
             {
                 case "p28": return "p28Company";
                 case "p26": return "p26Msz";
+                case "p25":return "p25MszType";
                 case "j02": return "j02Person";
                 case "j03": return "j03User";
                 case "p21": return "p21License";
@@ -131,6 +132,7 @@ namespace BO
                 {
                     case "p28": return "Klienti";
                     case "p26": return "Stroje";
+                    case "p25":return "Typy zařízení";
                     case "j02": return "Lidé";
                     case "j03":return "Uživatelské účty";
                     case "p21": return "Licence";
@@ -156,6 +158,7 @@ namespace BO
             {
                 case "p28":return "Klient";
                 case "p26":return "Stroj";
+                case "p25":return "Typ zařízení";
                 case "j02":return "Jméno";
                 case "j03":return "Uživatel";
                 case "p21": return "Licence";

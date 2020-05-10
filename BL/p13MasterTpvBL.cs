@@ -20,7 +20,7 @@ namespace BL
        
         private string GetSQL1()
         {
-            return "SELECT a.*," + _db.GetSQL1_Ocas("p13") + " FROM p13MasterTpv a";
+            return "SELECT a.*,p25.p25Name," + _db.GetSQL1_Ocas("p13") + " FROM p13MasterTpv a INNER JOIN p25MszType p25 ON a.p25ID=p25.p25ID";
         }
         public BO.p13MasterTpv Load(int pid)
         {
@@ -36,8 +36,14 @@ namespace BL
 
         public int Save(BO.p13MasterTpv rec,List<BO.p14MasterOper> lisP14)
         {
+            if (rec.p25ID == 0)
+            {
+                _mother.CurrentUser.AddMessage("Chybí vyplnit typ zařízení.");
+                return 0;
+            }
             var p = new DL.Params4Dapper();
-            p.AddInt("pid", rec.p13ID);           
+            p.AddInt("pid", rec.p13ID);
+            p.AddInt("p25ID", rec.p25ID);
             p.AddString("p13Name", rec.p13Name);
             p.AddString("p13Code", rec.p13Code);
             p.AddString("p13Memo", rec.p13Memo);

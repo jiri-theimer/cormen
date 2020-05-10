@@ -81,6 +81,7 @@ namespace BL
             {
                 AF("p26Msz","p26Name", "Název",true);
                 AF("p26Msz","p26Code", "Kód",true);
+                AF("p26Msz", "p25Name", "Typ zařízení", true, "p25.p25Name");
                 AF("p26Msz","p28Name", "Klient",true,"p28.p28Name");
                 AF("p26Msz", "b02Name", "Stav", false, "b02.b02Name");
                 AF("p26Msz", "p26Memo", "Podrobný popis");
@@ -113,6 +114,7 @@ namespace BL
             {
                 AF("p13MasterTpv", "p13Name", "Název", true);
                 AF("p13MasterTpv", "p13Code", "Číslo postupu", true);
+                AF("p13MasterTpv", "p25Name", "Typ zařízení", true, "p25.p25Name");
                 AF("p13MasterTpv", "p13Memo", "Podrobný popis");
                 AppendTimestamp("p13MasterTpv");
             }
@@ -313,11 +315,11 @@ namespace BL
                 case "p10":
                     return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix=="p13" || p.Prefix== "b02" || p.Entity == "o12");
                 case "p26":
-                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p28" || p.Prefix == "b02");
+                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p28" || p.Prefix == "b02" || p.Prefix=="o12");
                 case "p19":
                     return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p28" || p.Prefix == "o12");
                 case "p21":
-                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p28" || p.Prefix == "b02");
+                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p28" || p.Prefix == "b02" || p.Prefix=="o12");
                 case "j02":
                     return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "j03" || p.Prefix == "p28");
                 case "o23":

@@ -12,7 +12,7 @@ namespace BL.DL
             _lis = new List<Param4DT>();
 
         }
-        public void Add(string name,object? value)
+        public void Add(string name,object value)
         {
             
             DL.Param4DT c = new DL.Param4DT() { ParName = name, ParValue = value };
