@@ -19,7 +19,12 @@ namespace BO
         public string p19Code { get; set; }
         public string p19Memo { get; set; }
 
-       
+        public string p19Lang1 { get; set; }
+        public string p19Lang2 { get; set; }
+        public string p19Lang3 { get; set; }
+        public string p19Lang4 { get; set; }
+
+
         public string o12Name { get; set; }
         public string p28Name { get; set; }
     }

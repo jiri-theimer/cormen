@@ -66,7 +66,12 @@ namespace UI.Controllers
                 c.p20ID = v.Rec.p20ID;
                 c.o12ID = v.Rec.o12ID;
                 c.p28ID = v.Rec.p28ID;
-               
+
+                c.p19Lang1 = v.Rec.p19Lang1;
+                c.p19Lang2 = v.Rec.p19Lang2;
+                c.p19Lang3 = v.Rec.p19Lang3;
+                c.p19Lang4 = v.Rec.p19Lang4;
+
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
 

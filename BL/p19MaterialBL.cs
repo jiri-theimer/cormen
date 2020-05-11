@@ -53,7 +53,12 @@ namespace BL
             p.AddString("p19Name", rec.p19Name);
             p.AddString("p19Code", rec.p19Code);
             p.AddString("p19Memo", rec.p19Memo);
-            
+
+            p.AddString("p19Lang1", rec.p19Lang1);
+            p.AddString("p19Lang2", rec.p19Lang2);
+            p.AddString("p19Lang3", rec.p19Lang3);
+            p.AddString("p19Lang4", rec.p19Lang4);
+
 
             return _db.SaveRecord("p19Material", p.getDynamicDapperPars(), rec);
         }

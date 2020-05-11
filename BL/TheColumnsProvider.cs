@@ -150,6 +150,11 @@ namespace BL
                 AF("p19Material", "p28Name", "Klient", true,"p28.p28Name");
 
                 AF("p19Material", "o12Name", "Kategorie", true,"o12.o12Name");
+
+                AF("p19Material", "p19Lang1", "Jazyk1");
+                AF("p19Material", "p19Lang2", "Jazyk2");
+                AF("p19Material", "p19Lang3", "Jazyk3");
+                AF("p19Material", "p19Lang4", "Jazyk4");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "j04")
             {
