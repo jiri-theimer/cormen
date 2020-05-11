@@ -82,7 +82,7 @@
                     <input type="text" class="form-control px-1" asp-for="@Model.lisP15[i].p15OperNum" />
                 </td>
                 <td style="background-color:lightgoldenrodyellow;">
-                    <mycombo entity="p18OperCode" view-flag="2" asp-for="@Model.lisP15[i].p18ID" selectedtext="@Model.lisP15[i].OperCode"></mycombo>
+                    <mycombo entity="p18OperCode" view-flag="2" asp-for="@Model.lisP15[i].p18ID" param1="@Model.Rec.p25ID" selectedtext="@Model.lisP15[i].OperCode" event_after_changevalue="p18id_change(#pid#,@(i))"></mycombo>
                 </td>
                 <td>
                     <input type="text" class="form-control px-1" asp-for="@Model.lisP15[i].p15Name" />
@@ -186,6 +186,43 @@
 
         form1.action = "/p12/Record?rec_oper=postback";
         form1.submit();
+    }
+
+    function p18id_change(p18id, index) {
+
+        $.post("/p13/load_p18_record", { p18id: p18id }, function (data) {
+
+            $("#lisP15_" + index + "__p15Name").val(data.p18Name);
+            var s = "";
+            if (data.p18UnitsCount > 0) {
+                s = data.p18UnitsCount.toString().replace(".", ",");
+                $("#lisP15_" + index + "__p15UnitsCount").val(s);
+                $("[for-id=lisP15_" + index + "__p15UnitsCount]").val(s);
+            }
+            if (data.p18DurationPreOper > 0) {
+                s = data.p18DurationPreOper.toString().replace(".", ",");
+                $("#lisP15_" + index + "__p15DurationPreOper").val(s);
+                $("[for-id=lisP15_" + index + "__p15DurationPreOper]").val(s);
+            }
+            if (data.p18DurationOper > 0) {
+                s = data.p18DurationOper.toString().replace(".", ",");
+                $("#lisP15_" + index + "__p15DurationOper").val(s);
+                $("[for-id=lisP15_" + index + "__p15DurationOper]").val(s);
+            }
+            if (data.p18DurationPostOper > 0) {
+                s = data.p18DurationPostOper.toString().replace(".", ",");
+                $("#lisP15_" + index + "__p15DurationPostOper").val(s);
+                $("[for-id=lisP15_" + index + "__p15DurationPostOper]").val(s);
+            }
+            if (data.p19ID > 0) {
+                $("#cmdCombolisP15_" + index + "__p19ID").text(data.p19Code + " - " + data.p19Name);
+                $("#lisP15_" + index + "__p19ID").val(data.p19ID);
+                $("[data-id=text_lisP15_" + index + "__p19ID]").val(data.p19Code + " - " + data.p19Name);
+
+                document.getElementsByName("lisp15[" + index + "].Material").value = data.p19Code + " - " + data.p19Name;
+            }
+
+        });
     }
 
 </script>

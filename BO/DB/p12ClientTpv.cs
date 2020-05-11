@@ -21,6 +21,8 @@ namespace BO
 
         public string p13Name;
         public string p13Code;
+        public string p25Name;
+        public int p25ID;
         
     }
 }

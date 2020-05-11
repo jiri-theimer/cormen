@@ -203,7 +203,8 @@ namespace BL
                 AF("p12ClientTpv", "p12Name", "Název", true);
                 AF("p12ClientTpv", "p12Code", "Číslo postupu", true);
                 AF("p12ClientTpv", "p12Memo", "Podrobný popis");
-                AppendTimestamp("p13MasterTpv");
+                AF("p12ClientTpv", "p25Name", "Typ zařízení", false, "p25.p25Name");
+                AppendTimestamp("p12ClientTpv");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p15")
             {

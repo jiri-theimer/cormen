@@ -126,7 +126,7 @@ namespace BL
                     sb.Append(" LEFT OUTER JOIN p10MasterProduct p10 ON a.p10ID_Master=p10.p10ID");
                     break;
                 case "p12":
-                    sb.Append(" FROM p12ClientTpv a LEFT OUTER JOIN p21License p21 ON a.p21ID=p21.p21ID LEFT OUTER JOIN p28Company p28 ON p21.p28ID=p28.p28ID");
+                    sb.Append(" FROM p12ClientTpv a LEFT OUTER JOIN p21License p21 ON a.p21ID=p21.p21ID LEFT OUTER JOIN p28Company p28 ON p21.p28ID=p28.p28ID LEFT OUTER JOIN p13MasterTpv p13 ON a.p13ID_Master=p13.p13ID LEFT OUTER JOIN p25MszType p25 ON p13.p25ID=p25.p25ID");
                     break;                
                 case "p15":
                     sb.Append(" FROM p15ClientOper a LEFT OUTER JOIN p19Material p19 ON a.p19ID=p19.p19ID LEFT OUTER JOIN p18OperCode p18 ON a.p18ID=p18.p18ID");
