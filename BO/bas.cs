@@ -94,6 +94,10 @@ namespace BO
             if (d == System.DBNull.Value) return "";
             return Convert.ToDateTime(d).ToString(format);
         }
+        public static string Number2String(double n)
+        {
+            return string.Format("{0:#,0.00}",n);
+        }
 
         public static string getEntityFromPrefix(string strEntity)
         {
@@ -168,6 +172,7 @@ namespace BO
                 case "p14": return "Technologický rozpis operací [Master]";
                 case "o23": return "Dokument";
                 case "p41": return "Výrobní zakázka";
+                case "p51":return "Objednávka";
                 case "b02": return "Workflow stav";
                 case "o12": return "Kategorie";
                 case "j04": return "Aplikační role";

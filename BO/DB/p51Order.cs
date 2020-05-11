@@ -13,12 +13,18 @@ namespace BO
         public int p26ID { get; set; }
         public int b02ID { get; set; }
         public int j02ID_Owner { get; set; }
+        [Required(ErrorMessage = "Chybí vyplnit název!")]
+        [MaxLength(100, ErrorMessage = "Maximum 100 znaků")]
         public string p51Name { get; set; }
         public bool p51IsDraft { get; set; }
+
+        [Required(ErrorMessage = "Chybí vyplnit kód!")]        
         public string p51Code { get; set; }
         public string p51CodeByClient { get; set; }
         public DateTime p51Date { get; set; }
         public DateTime p51DateDelivery { get; set; }
+
+        [MaxLength(1000, ErrorMessage = "Maximum 1000 znaků")]
         public string p51Memo { get; set; }
 
         public string RecordOwner;

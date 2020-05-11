@@ -1,0 +1,82 @@
+﻿@model p51PreviewViewModel
+@{
+    ViewData["Title"] = "Objednávka";
+    Layout = "~/Views/Shared/_LayoutSubform.cshtml";
+}
+
+    <div class="modal_record_container">
+
+        @Html.HiddenFor(m => m.Rec.pid)
+
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Objednávka:</label>
+            <div class="col-sm-8 col-md-7">
+                <span class="form-control bg-light">@(Model.Rec.p51Name)</span>
+
+            </div>
+            <div class="col-sm-3 col-md-3">
+                <span class="form-control bg-light">@(Model.Rec.p51Code)</span>
+
+            </div>
+        </div>
+
+
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Klient:</label>
+            <div class="col-sm-8 col-md-7">
+                <span class="form-control bg-light">@(Model.Rec.p28Name)</span>
+
+            </div>
+            <div class="col-sm-3 col-md-3">
+                <span class="form-control bg-light">@(Model.Rec.p51CodeByClient)</span>
+
+            </div>
+        </div>
+
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Datum:</label>
+            <div class="col-sm-2 col-md-2">
+                <span class="form-control bg-light">@(BO.BAS.ObjectDate2String(@Model.Rec.p51Date))</span>
+
+
+            </div>
+            <label class="col-sm-1 col-md-1 col-form-label">Termín:</label>
+            <div class="col-sm-2 col-md-2">
+                <span class="form-control text-danger">@(BO.BAS.ObjectDate2String(@Model.Rec.p51DateDelivery,"dd.MM.yyyy hh:mm"))</span>
+
+
+            </div>
+
+            <label class="col-sm-1 col-md-1 col-form-label">Stav:</label>
+            <div class="col-sm-4 col-md-4">
+                <span class="form-control bg-light">@(Model.Rec.b02Name)</span>
+            </div>
+
+        </div>
+
+
+
+
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Vlastník záznamu:</label>
+            <div class="col-sm-11 col-md-10">
+                <span class="form-control bg-light">@(Model.Rec.RecordOwner)</span>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+@if (Model.Rec.p51Memo != null)
+{
+    <hr />
+
+    <pre>@Html.DisplayFor(m => m.Rec.p51Memo, new { @class = "form-control" });</pre>
+
+
+}
+
+@Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
+

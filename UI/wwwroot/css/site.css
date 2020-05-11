@@ -607,7 +607,7 @@ iframe {
     border: none;
     width: 100%;
     height: 100%;
-    background: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100% 100%"><text fill="silver" x="50%" y="50%" font-family="\'Lucida Grande\', sans-serif" font-size="24" text-anchor="middle">Je třeba vybrat nadřízený záznam...</text></svg>') 0px 0px no-repeat;
+    background: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100% 100%"><text fill="silver" x="50%" y="50%" font-family="\'Lucida Grande\', sans-serif" font-size="24" text-anchor="middle">Datový prostor...</text></svg>') 0px 0px no-repeat;
 }
 
 a.nav-link:hover {

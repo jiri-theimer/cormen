@@ -1,0 +1,55 @@
+﻿@model p52RecordViewModelcs
+
+@{
+    ViewData["Title"] = "Položka objednávky";
+    Layout = "~/Views/Shared/_LayoutModal.cshtml";
+    if (Model.Rec == null) return;
+}
+
+@addTagHelper *, UI
+
+
+    <form id="form1" asp-controller="p51" asp-action="Record_Item" method="POST">
+        <h4>Položka objednávky</h4>
+
+        @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
+        @Html.HiddenFor(m => m.Rec.pid)
+       
+        <input type="hidden" asp-for="Rec.p51ID" />
+
+        <div class="modal_record_container">
+
+            <div class="form-row">
+                <label class="col-sm-1 col-md-2 col-form-label">Produkt:</label>
+                <div class="col-sm-11 col-md-10">
+                    <mycombo entity="p11ClientProduct" asp-for="Rec.p11ID" selectedtext="Rec.p11Name"></mycombo>
+                </div>
+
+            </div>
+
+            <div class="form-row" style="margin-top:10px;">
+                <label class="col-sm-1 col-md-2 col-form-label">Množství:</label>
+                <div class="col-sm-3 col-md-2">
+                    <mynumber asp-for="Rec.p52UnitsCount" decimal-digits="2"></mynumber>
+                </div>
+
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    Hlavička objednávky
+                    <a style="margin-left:20px;" href="/p51/Record?pid=@Model.Rec.p51ID">Vrátit se do hlavičky</a>
+                </div>
+                <div class="card-body">
+                    
+                </div>
+            </div>
+
+
+
+        </div>
+        
+    </form>
+
+@Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
+

@@ -96,7 +96,9 @@ namespace UI.Controllers
             var sb = new System.Text.StringBuilder();
             if (Factory.CurrentUser.j03EnvironmentFlag == 2)
             {
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p41/record');\">Výrobní zakázka</a>");
+                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p51/record');\">Objednávka</a>");
+                
+                //sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p41/record');\">Výrobní zakázka</a>");
                 sb.Append("<hr/>");
             }
             sb.Append("<a class='nav-link' href=\"javascript:_window_open('/o23/record');\">Dokument</a>");

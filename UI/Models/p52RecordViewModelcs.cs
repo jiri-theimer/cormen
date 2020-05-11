@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 
 namespace UI.Models
 {
-    public class p51RecordViewModel:BaseViewModel
+    public class p52RecordViewModelcs:BaseViewModel
     {
-        public BO.p51Order Rec { get; set; }
+        public BO.p52OrderItem Rec { get; set; }
 
-        public IEnumerable<BO.p52OrderItem> OrderItems { get; set; }
         public MyToolbarViewModel Toolbar { get; set; }
     }
 }
