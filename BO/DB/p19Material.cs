@@ -17,6 +17,7 @@ namespace BO
         public string p19Name { get; set; }
         [Required(ErrorMessage = "Chybí vyplnit kód!")]
         public string p19Code { get; set; }
+        
         public string p19Memo { get; set; }
 
         public string p19Lang1 { get; set; }

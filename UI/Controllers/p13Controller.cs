@@ -78,6 +78,11 @@ namespace UI.Controllers
             return View(v);
         }
 
+        public BO.p18OperCode load_p18_record(int p18id)
+        {
+            return Factory.p18OperCodeBL.Load(p18id);
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

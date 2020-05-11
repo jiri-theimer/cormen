@@ -641,8 +641,17 @@ namespace UI.Controllers
             var mq = new BO.myQuery(entity);
             mq.SetPids(pids);
             mq.query_by_entity_prefix = param1;
+            
             var cols = new BL.TheColumnsProvider(mq).getDefaultPallete();
 
+            if (mq.Prefix == "p18")
+            {
+                mq.p25id = BO.BAS.InInt(param1);    //kódy operací je povinné zobrazovat v kontextu k typu zařízení
+            }
+            if (mq.Prefix == "p18" && mq.p25id == 0)
+            {
+                return "<p>Na vstupu chybí vybrat typ zařízení.</p>";
+            }
 
             var dt = Factory.gridBL.GetList(mq);
             var intRows = dt.Rows.Count;

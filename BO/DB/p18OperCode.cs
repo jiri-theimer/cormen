@@ -34,5 +34,6 @@ namespace BO
 
         public string p25Name { get; set; } //kvůli combo
         public string p19Name { get; set; } //kvůli combo
+        public string p19Code { get; set; }
     }
 }

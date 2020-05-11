@@ -33,6 +33,7 @@ namespace UI.Views.Shared.TagHelpers
             
             string strStep = "0.01";
             string strPlaceHolder = "0,00";
+            string strFormat = "{0:#,0.00}";
             string strFormatted = "0";
             switch (this.DecimalDigits)
             {
@@ -51,6 +52,7 @@ namespace UI.Views.Shared.TagHelpers
                 case 3:
                     strStep = "0.001";
                     strPlaceHolder = "0,000";
+                    strFormat = "{0:#,0.000}";
                     break;
                 default:
                     strStep = "any";
@@ -60,7 +62,7 @@ namespace UI.Views.Shared.TagHelpers
             if ( this.For.Model != null)
             {
                 _StringValue = this.For.Model.ToString().Replace(".",",");
-                strFormatted = String.Format("{0:#,0.00}", this.For.Model);
+                strFormatted = String.Format(strFormat, this.For.Model);
                 
             }
             else

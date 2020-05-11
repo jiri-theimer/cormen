@@ -98,13 +98,15 @@
                     <mynumber asp-for="@Model.lisP15[i].p15UnitsCount"></mynumber>
                 </td>
                 <td>
-                    <input type="number" class="form-control px-1" step="0" asp-for="@Model.lisP15[i].p15DurationPreOper" />
+                    <mynumber asp-for="@Model.lisP15[i].p15DurationPreOper" decimal-digits="3"></mynumber>
+                    
                 </td>
                 <td>
-                    <mynumber asp-for="@Model.lisP15[i].p15DurationOper"></mynumber>
+                    <mynumber asp-for="@Model.lisP15[i].p15DurationOper" decimal-digits="3"></mynumber>
                 </td>
                 <td>
-                    <input type="number" class="form-control px-1" step="0" asp-for="@Model.lisP15[i].p15DurationPostOper" />
+                    <mynumber asp-for="@Model.lisP15[i].p15DurationPostOper" decimal-digits="3"></mynumber>
+                    
                 </td>
 
                 <td>

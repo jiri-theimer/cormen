@@ -323,7 +323,14 @@
         handle_update_state();
 
         if (_event_after_change !== "") {
-            eval(_event_after_change + "('" + v + "')");
+            if (_event_after_change.indexOf("#pid#") === -1) {
+                eval(_event_after_change + "('" + v + "')");
+            } else {
+                
+                eval(_event_after_change.replace("#pid#", v));
+            }
+            
+            
         }
     }
 

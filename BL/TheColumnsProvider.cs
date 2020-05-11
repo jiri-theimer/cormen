@@ -271,12 +271,12 @@ namespace BL
             {
                 AF("p18OperCode", "p18Code", "Kód", true);
                 AF("p18OperCode", "p18Name", "Název", true);
-                AF("p18OperCode", "p25Name", "Typ zařízení", true, "p25.p25Name");
-                AF("p18OperCode", "p19Name", "Materiál", true, "p19.p19Name");
+                AF("p18OperCode", "p25Name", "Typ zařízení", false, "p25.p25Name");
+                AF("p18OperCode", "p19Name", "Materiál", false, "p19.p19Name");
                 AF("p18OperCode", "p18UnitsCount", "UnitsCount", false, null, "num");
-                AF("p18OperCode", "p18DurationPreOper", "DurationPreOper", false, null, "num");
-                AF("p18OperCode", "p18DurationOper", "DurationPreOper", false, null, "num");
-                AF("p18OperCode", "p18DurationPostOper", "DurationPostOper", false, null, "num");
+                AF("p18OperCode", "p18DurationPreOper", "DurationPreOper", false, null, "num3");
+                AF("p18OperCode", "p18DurationOper", "DurationPreOper", false, null, "num3");
+                AF("p18OperCode", "p18DurationPostOper", "DurationPostOper", false, null, "num3");
 
                 AF("p18OperCode", "p18Lang1", "Jazyk1");
                 AF("p18OperCode", "p18Lang2", "Jazyk2");

@@ -65,7 +65,12 @@ namespace BL.DL
             {
                 if (mq.Prefix == "o23") AQ(ref lis, "a.o23Entity LIKE 'j02Person' AND a.o23RecordPid=@j02id", "j02id", mq.j02id);
             }
-            
+            if (mq.p25id > 0)
+            {
+                if (mq.Prefix == "p18" || mq.Prefix=="p26") AQ(ref lis, "a.p25ID=@p25id", "p25id", mq.p25id);
+                
+            }
+
             if (mq.Prefix == "b02" && !string.IsNullOrEmpty(mq.query_by_entity_prefix))
             {
                 AQ(ref lis, "a.b02Entity=@prefix", "prefix", mq.query_by_entity_prefix);    //filtr seznamu stavů podle druhu entity

@@ -70,7 +70,7 @@ namespace UI.Views.Shared.TagHelpers
             sb("</button>");
 
             sb(string.Format("<div id='divDropdown{0}' class='dropdown-menu' aria-labelledby='cmdCombo' style='width:100%;margin-left:-80px;' tabindex='-1'>", strControlID));
-            sb(string.Format("<div id='divData{0}' style='height:220px;overflow:auto;background-color:#E6F0FF;z-index:500;width:100%;min-width:170px;'>", strControlID));
+            sb(string.Format("<div id='divData{0}' style='height:220px;overflow:auto;background-color:#E6F0FF;z-index:500;width:100%;min-width:200px;'>", strControlID));
             sb("</div>");
             sb("</div>");
             sb("");
