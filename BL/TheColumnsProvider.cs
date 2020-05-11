@@ -180,9 +180,9 @@ namespace BL
                 AF("p14MasterOper", "p19Name", "MaterialName", true,"p19.p19Name");
                
                 AF("p14MasterOper", "p14UnitsCount", "UnitsCount", true,null,"num");
-                AF("p14MasterOper", "p14DurationPreOper", "DurationPreOper", true,null,"num");
-                AF("p14MasterOper", "p14DurationOper", "DurationOper", true,null,"num");                
-                AF("p14MasterOper", "p14DurationPostOper", "DurationPostOper", true,null,"num");
+                AF("p14MasterOper", "p14DurationPreOper", "DurationPreOper", true,null,"num3");
+                AF("p14MasterOper", "p14DurationOper", "DurationOper", true,null,"num3");                
+                AF("p14MasterOper", "p14DurationPostOper", "DurationPostOper", true,null,"num3");
 
                 AppendTimestamp("p14MasterOper");
             }
@@ -219,9 +219,9 @@ namespace BL
                 AF("p15ClientOper", "p19Name", "MaterialName", true,"p19.p19Name");
 
                 AF("p15ClientOper", "p15UnitsCount", "UnitsCount", true, null, "num");
-                AF("p15ClientOper", "p15DurationPreOper", "DurationPreOper", true, null, "num");
-                AF("p15ClientOper", "p15DurationOper", "DurationOper", true, null, "num");
-                AF("p15ClientOper", "p15DurationPostOper", "DurationPostOper", true, null, "num");
+                AF("p15ClientOper", "p15DurationPreOper", "DurationPreOper", true, null, "num3");
+                AF("p15ClientOper", "p15DurationOper", "DurationOper", true, null, "num3");
+                AF("p15ClientOper", "p15DurationPostOper", "DurationPostOper", true, null, "num3");
 
                 AppendTimestamp("p15ClientOper");
             }
