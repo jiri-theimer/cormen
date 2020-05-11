@@ -21,7 +21,7 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*,p25.p25Name," + _db.GetSQL1_Ocas("p18") + " FROM p18OperCode a INNER JOIN p25MszType p25 ON a.p25ID=p25.p25ID";
+            return "SELECT a.*,p25.p25Name,p19.p19Name," + _db.GetSQL1_Ocas("p18") + " FROM p18OperCode a INNER JOIN p25MszType p25 ON a.p25ID=p25.p25ID LEFT OUTER JOIN p19Material p19 ON a.p19ID=p19.p19ID";
         }
         public BO.p18OperCode Load(int pid)
         {
@@ -39,10 +39,18 @@ namespace BL
             var p = new DL.Params4Dapper();
 
             p.AddInt("pid", rec.p18ID);
+            p.AddInt("p25ID", rec.p25ID, true);
+            p.AddInt("p19ID", rec.p19ID, true);
             p.AddString("p18Name", rec.p18Name);
             p.AddString("p18Code", rec.p18Code);
-            p.AddString("p18Memo", rec.p18Memo);
-
+            p.AddDouble("p18UnitsCount", rec.p18UnitsCount);
+            p.AddDouble("p18DurationPreOper", rec.p18DurationPreOper);
+            p.AddDouble("p18DurationOper", rec.p18DurationOper);
+            p.AddDouble("p18DurationPostOper", rec.p18DurationPostOper);
+            p.AddString("p18Lang1", rec.p18Lang1);
+            p.AddString("p18Lang2", rec.p18Lang2);
+            p.AddString("p18Lang3", rec.p18Lang3);
+            p.AddString("p18Lang4", rec.p18Lang4);
 
             return _db.SaveRecord("p18OperCode", p.getDynamicDapperPars(), rec);
         }

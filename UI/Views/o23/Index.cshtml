@@ -12,11 +12,11 @@
     <div class="form-row">
         <label class="col-sm-1 col-md-2 col-form-label">Dokument:</label>
         <div class="col-sm-9 col-md-8">
-            <input class="form-control" asp-for="Rec.o23Name" readonly="readonly" />
+            <span class="form-control bg-light">@(Model.Rec.o23Name)</span>
 
         </div>
         <div class="col-sm-2 col-md-2">
-            <input class="form-control" asp-for="Rec.o23Code" readonly="readonly" />
+            <span class="form-control bg-light">@(Model.Rec.o23Code)</span>
 
         </div>
     </div>
@@ -39,7 +39,7 @@
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
             <div class="col-sm-11 col-md-10">
-                <input class="form-control" asp-for="Rec.b02Name" readonly="readonly" />
+                <span class="form-control bg-light">@(Model.Rec.b02Name)</span>
             </div>
         </div>
     }
@@ -48,14 +48,14 @@
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Kategorie/Skupina:</label>
             <div class="col-sm-11 col-md-10">
-                <input class="form-control" asp-for="Rec.o12Name" readonly="readonly" />
+                <span class="form-control bg-light">@(Model.Rec.o12Name)</span>
             </div>
         </div>
     }
     <div class="form-row">
         <label class="col-sm-1 col-md-2 col-form-label">Vlastník záznamu:</label>
         <div class="col-sm-11 col-md-10">
-            <input class="form-control" asp-for="@Model.Rec.RecordOwner" readonly="readonly" />
+            <span class="form-control bg-light">@(Model.Rec.RecordOwner)</span>
 
         </div>
 

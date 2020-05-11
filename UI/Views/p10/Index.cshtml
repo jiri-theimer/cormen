@@ -11,11 +11,11 @@
         <div class="form-row">
             <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
             <div class="col-sm-9 col-md-8">
-                <input class="form-control" asp-for="Rec.p10Name" readonly="readonly" />
-
+                
+                <span class="form-control bg-light">@(Model.Rec.p10Name)</span>
             </div>
             <div class="col-sm-2 col-md-2">
-                <input class="form-control" asp-for="Rec.p10Code" readonly="readonly" />
+                <span class="form-control bg-light">@(Model.Rec.p10Code)</span>
 
             </div>
         </div>
@@ -23,23 +23,23 @@
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">TPV:</label>
             <div class="col-sm-9 col-md-8">
-                <input class="form-control" asp-for="Rec.p13Name" readonly="readonly" />
+                <span class="form-control bg-light">@(Model.Rec.p13Name)</span>
             </div>
             <div class="col-sm-2 col-md-2">
-                <input class="form-control" asp-for="Rec.p13Code" readonly="readonly" />
+                <span class="form-control bg-light">@(Model.Rec.p13Code)</span>
 
             </div>
         </div>
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
             <div class="col-sm-11 col-md-10">
-                <input class="form-control" asp-for="Rec.b02Name" readonly="readonly" />
+                <span class="form-control bg-light">@(Model.Rec.b02Name)</span>
             </div>
         </div>
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Kategorie/Skupina:</label>
             <div class="col-sm-11 col-md-10">
-                <input class="form-control" asp-for="Rec.o12Name" readonly="readonly" />
+                <span class="form-control bg-light">@(Model.Rec.o12Name)</span>
             </div>
         </div>
         @if (Model.Rec.p10SwLicenseFlag > 0)
@@ -47,7 +47,7 @@
             <div class="form-row" style="margin-top:10px;">
                 <label class="col-sm-1 col-md-2 col-form-label">Kód SW licence:</label>
                 <div class="col-sm-11 col-md-10">
-                    <input class="form-control" asp-for="Rec.p10SwLicenseFlag" readonly="readonly" />
+                    <span class="form-control bg-light">@(Model.Rec.p10SwLicenseFlag)</span>
                 </div>
             </div>
         }

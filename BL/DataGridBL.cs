@@ -87,7 +87,7 @@ namespace BL
                     sb.Append(" FROM b02Status a");               
                     break;
                 case "p18":
-                    sb.Append(" FROM p18OperCode a");
+                    sb.Append(" FROM p18OperCode a INNER JOIN p25MszType p25 ON a.p25ID=p25.p25ID LEFT OUTER JOIN p19Material p19 ON a.p19ID=p19.p19ID");
                     break;
                 case "p25":
                     sb.Append(" FROM p25MszType a");

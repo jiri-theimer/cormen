@@ -17,7 +17,7 @@
         <div class="form-row">
             <label class="col-sm-1 col-md-2 col-form-label">Jméno:</label>
             <div class="col-sm-11 col-md-10">
-                <input class="form-control" asp-for="@_fullname" readonly="readonly" />
+                <span class="form-control bg-light">@(_fullname)</span>                
 
             </div>
 
@@ -25,7 +25,8 @@
         <div class="form-row">
             <label class="col-sm-1 col-md-2 col-form-label">E-mail:</label>
             <div class="col-sm-11 col-md-10">
-                <input class="form-control" asp-for="@Model.UserProfile.j02Email" readonly="readonly" />
+                <span class="form-control bg-light">@(Model.Rec.j02Email)</span>
+                
 
             </div>
 
@@ -35,7 +36,8 @@
             <div class="form-row">
                 <label class="col-sm-1 col-md-2 col-form-label">Uživatel:</label>
                 <div class="col-sm-11 col-md-10">
-                    <input class="form-control" asp-for="@Model.UserProfile.j03Login" readonly="readonly" />
+                    <span class="form-control bg-light">@(Model.UserProfile.j03Login)</span>
+                    
 
                 </div>
 
@@ -43,7 +45,8 @@
             <div class="form-row">
                 <label class="col-sm-1 col-md-2 col-form-label">Aplikační role:</label>
                 <div class="col-sm-11 col-md-10">
-                    <input class="form-control" asp-for="@Model.UserProfile.j04Name" readonly="readonly" />
+                    <span class="form-control bg-light">@(Model.UserProfile.j04Name)</span>
+                    
 
                 </div>
 
@@ -62,15 +65,15 @@
         <div class="form-row">
             <label class="col-sm-1 col-md-2 col-form-label">Firma/Subjekt:</label>
             <div class="col-sm-11 col-md-10">
-                <input class="form-control" asp-for="@Model.Rec.p28Name" readonly="readonly" />
-
+                
+                <span class="form-control bg-light">@(Model.Rec.p28Name)</span>
             </div>
 
         </div>
         <div class="form-row">
             <label class="col-sm-1 col-md-2 col-form-label">Vlastník záznamu:</label>
             <div class="col-sm-11 col-md-10">
-                <input class="form-control" asp-for="@Model.Rec.RecordOwner" readonly="readonly" />
+                <span class="form-control bg-light">@(Model.Rec.RecordOwner)</span>
 
             </div>
 

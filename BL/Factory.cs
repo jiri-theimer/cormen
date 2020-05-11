@@ -34,6 +34,7 @@ namespace BL
         private Ip41TaskBL _p41;
         private Ip51OrderBL _p51;
         private Ip19MaterialBL _p19;
+        private Ip18OperCodeBL _p18;
 
         public Factory(BO.RunningUser c,BL.RunningApp runningapp)
         {
@@ -255,6 +256,14 @@ namespace BL
             {
                 if (_p19 == null) _p19 = new p19MaterialBL(this);
                 return _p19;
+            }
+        }
+        public Ip18OperCodeBL p18OperCodeBL
+        {
+            get
+            {
+                if (_p18 == null) _p18 = new p18OperCodeBL(this);
+                return _p18;
             }
         }
     }

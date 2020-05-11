@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace UI.Models
 {
-    public class p18OperCodeViewModel
+    public class p18RecordViewModel:BaseViewModel
     {
         public BO.p18OperCode Rec { get; set; }
 

@@ -116,8 +116,10 @@ namespace UI.Controllers
                 sb.Append("<a class='nav-link' href=\"javascript:_window_open('/b02/record');\">Workflow stav</a>");
                 sb.Append("<a class='nav-link' href=\"javascript:_window_open('/o12/record');\">Kategorie</a>");
                 sb.Append("<a class='nav-link' href=\"javascript:_window_open('/j04/record');\">Aplikační role</a>");
+                sb.Append("<hr>");
+                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p18/record');\">Kód operace</a>");
                 sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p19/record');\">Materiál</a>");
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p25/record');\">Typ zařízení</a>");
+                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p25/record');\">Typ zařízení</a>");                                
             }
             
 

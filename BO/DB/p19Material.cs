@@ -19,8 +19,7 @@ namespace BO
         public string p19Code { get; set; }
         public string p19Memo { get; set; }
 
-        public int p19DefaultOperParam { get; set; }
-
+       
         public string o12Name { get; set; }
         public string p28Name { get; set; }
     }

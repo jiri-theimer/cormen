@@ -66,8 +66,7 @@ namespace UI.Controllers
                 c.p20ID = v.Rec.p20ID;
                 c.o12ID = v.Rec.o12ID;
                 c.p28ID = v.Rec.p28ID;
-                c.p19DefaultOperParam = v.Rec.p19DefaultOperParam;
-
+               
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
 
