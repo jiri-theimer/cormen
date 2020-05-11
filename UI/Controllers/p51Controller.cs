@@ -126,7 +126,7 @@ namespace UI.Controllers
                 v.Rec.p51ID = p51id;
                 
             }
-
+            v.Rec_Header = Factory.p51OrderBL.Load(v.Rec.p51ID);
             
             v.Toolbar = new MyToolbarViewModel(v.Rec) { IsClone = false, IsToArchive = false,IsRefresh=false };
 
