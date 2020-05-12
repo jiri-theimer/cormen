@@ -145,8 +145,15 @@ namespace UI.Controllers
         }
         public IActionResult MyProfile()
         {
-            
+                        
+
             var v = new MyProfileViewModel();
+            v.userAgent = Request.Headers["User-Agent"];
+            
+            var uaParser = UAParser.Parser.GetDefault();
+            v.client_info = uaParser.Parse(v.userAgent);
+            
+
             v.Rec = Factory.j02PersonBL.Load(Factory.CurrentUser.pid);
             v.CurrentUser = Factory.CurrentUser;
             return View(v);

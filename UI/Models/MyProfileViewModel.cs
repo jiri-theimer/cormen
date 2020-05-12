@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UAParser;
+
 
 namespace UI.Models
 {
@@ -9,5 +11,8 @@ namespace UI.Models
     {
         public BO.j02Person Rec;
         public BO.RunningUser CurrentUser;
+
+        public string userAgent { get; set; }
+        public ClientInfo client_info { get; set; }
     }
 }
