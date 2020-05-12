@@ -61,6 +61,7 @@ namespace BL.DL
                 if (mq.Prefix == "j02" || mq.Prefix == "p26" || mq.Prefix=="p21") AQ(ref lis, "a.p28ID=@p28id", "p28id", mq.p28id);
                 if (mq.Prefix == "p11" || mq.Prefix == "p12") AQ(ref lis, "a.p21ID IN (select p21ID FROM p21License WHERE p28ID=@p28id)", "p28id", mq.p28id);
                 if (mq.Prefix == "o23") AQ(ref lis, "a.o23Entity LIKE 'p28Company' AND a.o23RecordPid=@p28id", "p28id", mq.p28id);
+                if (mq.Prefix == "p51") AQ(ref lis, "a.p28ID=@p28id", "p28id", mq.p28id);
             }
             if (mq.j02id > 0)
             {

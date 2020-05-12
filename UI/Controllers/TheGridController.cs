@@ -40,6 +40,7 @@ namespace UI.Controllers
                 case "p28":
                     tabs.Add(new NavTab() { Name = "Detail", Url = "/p28/Index?pid=@pid" });
                     tabs.Add(new NavTab() { Name = "Lidé", Entity = "j02Person", Url = "SlaveView?prefix=j02" });
+                    tabs.Add(new NavTab() { Name = "Objednávky", Entity = "p51Order", Url = "SlaveView?prefix=p51" });
                     tabs.Add(new NavTab() { Name = "Stroje", Entity = "p26Msz", Url = "SlaveView?prefix=p26" });
                     tabs.Add(new NavTab() { Name = "Licence", Entity = "p21License", Url = "SlaveView?prefix=p21" });
                     tabs.Add(new NavTab() { Name = "Klientská receptura", Entity = "p12ClientTpv", Url = "SlaveView?prefix=p12" });
@@ -675,10 +676,15 @@ namespace UI.Controllers
             for (int i = 0; i < intRows; i++)
             {
                 s.Append(string.Format("<tr class='txz' data-v='{0}'", dt.Rows[i]["pid"]));
-                if (mq.Prefix == "p19")
+                if (mq.Prefix == "p19" || mq.Prefix=="p21" || mq.Prefix=="p26" || mq.Prefix == "p10" || mq.Prefix == "p13" || mq.Prefix == "p12" || mq.Prefix == "p11")
                 {
-                    s.Append(string.Format(" data-t='{0} - {1}'", dt.Rows[i]["p19Code"], dt.Rows[i]["p19Name"]));
+                    s.Append(string.Format(" data-t='{1} ## {0}'", dt.Rows[i][mq.Prefix+"Code"], dt.Rows[i][mq.Prefix+"Name"]));
                 }
+                if (mq.Prefix == "p51")
+                {
+                    s.Append(string.Format(" data-t='{0} - {1} ## {2}'", dt.Rows[i]["p51Code"], dt.Rows[i]["p51Name"],dt.Rows[i]["p28Name"]));
+                }
+
                 s.Append(">");
                 foreach (var col in cols)
                 {
