@@ -67,6 +67,8 @@ namespace UI.Controllers
                 case "j02":
                     tabs.Add(new NavTab() { Name = "Detail", Url = "/j02/Index?pid=@pid" });
                     tabs.Add(new NavTab() { Name = "Dokumenty", Entity = "o23Doc", Url = "SlaveView?prefix=o23" });
+                    tabs.Add(new NavTab() { Name = "Založené objednávky", Entity = "p51Order", Url = "SlaveView?prefix=p51" });
+                    tabs.Add(new NavTab() { Name = "Založené zakázky", Entity = "p41Task", Url = "SlaveView?prefix=p41" });
                     break;
                 case "p26":
                     tabs.Add(new NavTab() { Name = "Detail", Url = "/p26/Index?pid=@pid" });

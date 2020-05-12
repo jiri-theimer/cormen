@@ -68,6 +68,8 @@ namespace BL.DL
             if (mq.j02id > 0)
             {
                 if (mq.Prefix == "o23") AQ(ref lis, "a.o23Entity LIKE 'j02Person' AND a.o23RecordPid=@j02id", "j02id", mq.j02id);
+                if (mq.Prefix == "p51" || mq.Prefix=="p41") AQ(ref lis, "a.j02ID_Owner=@j02id", "j02id", mq.j02id);
+                
             }
             if (mq.p25id > 0)
             {
