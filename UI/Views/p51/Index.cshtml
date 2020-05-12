@@ -36,13 +36,13 @@
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Datum:</label>
             <div class="col-sm-2 col-md-2">
-                <span class="form-control bg-light">@(BO.BAS.ObjectDate2String(@Model.Rec.p51Date))</span>
+                <span class="form-control bg-light">@(BO.BAS.ObjectDate2String(@Model.Rec.p51Date, "dd.MM.yyyy HH:mm"))</span>
 
 
             </div>
             <label class="col-sm-1 col-md-1 col-form-label">Termín:</label>
             <div class="col-sm-2 col-md-2">
-                <span class="form-control text-danger">@(BO.BAS.ObjectDate2String(@Model.Rec.p51DateDelivery,"dd.MM.yyyy hh:mm"))</span>
+                <span class="form-control text-danger">@(BO.BAS.ObjectDate2String(@Model.Rec.p51DateDelivery,"dd.MM.yyyy HH:mm"))</span>
 
 
             </div>
