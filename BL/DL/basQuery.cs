@@ -36,6 +36,7 @@ namespace BL.DL
                 if (mq.Prefix == "p21") AQ(ref lis, "a.p21ID IN (select p21ID FROM p22LicenseBinding WHERE p10ID=@p10id)", "p10id", mq.p10id);
                 if (mq.Prefix == "p11") AQ(ref lis, "a.p10ID_Master=@p10id", "p10id", mq.p10id);
                 if (mq.Prefix == "o23") AQ(ref lis, "a.o23Entity LIKE 'p10MasterProduct' AND a.o23RecordPid=@p10id", "p10id", mq.p10id);
+                if (mq.Prefix == "p14") AQ(ref lis, "a.p13ID IN (select p13ID FROM p10MasterProduct WHERE p10ID=@p10id)", "p10id", mq.p10id);
             }
             if (mq.p12id > 0)
             {
@@ -47,6 +48,7 @@ namespace BL.DL
                 if (mq.Prefix == "o23") AQ(ref lis, "a.o23Entity LIKE 'p11ClientProduct' AND a.o23RecordPid=@p10id", "p11id", mq.p11id);
                 if (mq.Prefix == "p21") AQ(ref lis, "a.p21ID IN (select p21ID FROM p11ClientProduct WHERE p11ID=@p11id)", "p11id", mq.p11id);
                 if (mq.Prefix == "p51") AQ(ref lis, "a.p51ID IN (select p51ID FROM p52OrderItem WHERE p11ID=@p11id)", "p11id", mq.p11id);
+                if (mq.Prefix == "p15") AQ(ref lis, "a.p12ID IN (select p12ID FROM p11ClientProduct WHERE p11ID=@p11id)", "p11id", mq.p11id);
             }
             if (mq.p13id > 0)
             {
