@@ -195,7 +195,7 @@ namespace BL
                 AF("p11ClientProduct", "p11Name", "Název", 1);
                 
                 AF("p11ClientProduct", "b02Name", "Stav", 0, "b02.b02Name");
-                AF("p11ClientProduct", "o12Name", "Kategorie", 2, "o12.o12Name");
+                
                 AF("p11ClientProduct", "p11Memo", "Podrobný popis");
                 AF("p11ClientProduct", "p11UnitPrice", "Jedn.cena",0,null,"num");
                 AF("p11ClientProduct", "p20Code", "Jednotka",2,"p20.p20Code");

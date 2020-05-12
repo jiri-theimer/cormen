@@ -34,7 +34,20 @@ namespace UI.Controllers
             }
 
             v.Toolbar = new MyToolbarViewModel(v.Rec);
-            if (isclone) { v.Toolbar.MakeClone(); v.Rec.p25Code = Factory.CBL.EstimateRecordCode("p25"); }
+            if (isclone) {
+                v.Toolbar.MakeClone();
+                v.Rec.p25Code = Factory.CBL.EstimateRecordCode("p25");
+            }
+            else
+            {
+                if (v.Rec.pid > 0)
+                {
+                    var mq = new BO.myQuery("p18OperCode");
+                    mq.p25id = v.Rec.pid;
+                    v.lisP18 = Factory.p18OperCodeBL.GetList(mq);
+                }
+                
+            }
 
             return View(v);
         }
@@ -65,6 +78,12 @@ namespace UI.Controllers
             v.Toolbar = new MyToolbarViewModel(v.Rec);
             this.Notify_RecNotSaved();
             return View(v);
+        }
+
+        public BO.Result Copy_p18OperCode(int p25id_dest,int p25id_source)
+        {
+            bool b = Factory.p25MszTypeBL.Copy_p18OperCode(p25id_dest, p25id_source);
+            return new BO.Result(b);
         }
     }
 }

@@ -11,5 +11,9 @@ namespace UI.Models
 
         public MyToolbarViewModel Toolbar { get; set; }
 
+        public int p25ID_CopyTemplate { get; set; }
+        public string p25Name_CopyTemplate { get; set; }
+
+        public IEnumerable<BO.p18OperCode> lisP18 { get; set; }
     }
 }
