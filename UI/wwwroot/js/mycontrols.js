@@ -107,9 +107,22 @@ function datepicker_button_click(inputid) {
 
 function datepicker_change(ctl) {
     var forid = $(ctl).attr("for-id");   //hidden id prvku pro spojení s hostitelským view   
-    $("#" + forid).val(ctl.value);    //pro uložení na server v rámci hostitelského view
+    var s = ctl.value;
+    if (document.getElementById(forid + "_Time")) {
+        s = s + " " + document.getElementById(forid + "_Time").value;
+    }
+    $("#" + forid).val(s);    //pro uložení na server v rámci hostitelského view
+    
+}
+function datepicker_time_change(ctl) {
+    
+    var forid = $(ctl).attr("for-id");   //hidden id prvku pro spojení s hostitelským view   
+    var s = $("#" + forid +"helper").val()+" "+$(ctl).val();
+    
+    $("#" + forid).val(s);    //pro uložení na server v rámci hostitelského view
 
 }
+
 
 
 

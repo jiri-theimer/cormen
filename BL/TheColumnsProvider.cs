@@ -198,7 +198,7 @@ namespace BL
                 
                 AF("p11ClientProduct", "p11Memo", "Podrobný popis");
                 AF("p11ClientProduct", "p11UnitPrice", "Jedn.cena",0,null,"num");
-                AF("p11ClientProduct", "p20Code", "Jednotka",2,"p20.p20Code");
+                AF("p11ClientProduct", "p20Code", "MJ",1,"p20.p20Code");
 
                 AppendTimestamp("p11ClientProduct");
             }
@@ -262,7 +262,7 @@ namespace BL
                 AF("p51Order", "b02Name", "Stav", 2, "b02.b02Name");
                 AF("p51Order", "p26Name", "Stroj", 2, "p26.p26Name");
 
-                AF("p51Order", "p51Date", "Datum", 2, null, "date");
+                AF("p51Order", "p51Date", "Datum", 2, null, "datetime");
                 AF("p51Order", "p51DateDelivery", "Termín dodání", 2, null, "datetime");
                
                 AF("p51Order", "p51CodeByClient", "Kód podle klienta", 0);
@@ -278,6 +278,7 @@ namespace BL
                 AF("p52OrderItem", "p52Code", "Kód", 1);                
                 AF("p52OrderItem", "p11Name", "Produkt", 1,"p11.p11Name");
                 AF("p52OrderItem", "p52UnitsCount", "Množství", 1, null, "num");
+                AF("p52OrderItem", "p20Code", "MJ", 1, "p20.p20Code");
 
                 AF("p52OrderItem", "RecordOwner", "Vlastník záznamu", 0, "dbo.j02_show_as_owner(a.j02ID_Owner)");
 

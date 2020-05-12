@@ -32,8 +32,9 @@ namespace BO
         public string p12Code;
         public string b02Name;        
         public string p21Name;
+        public string p21Code;
         public string p10Name;
         public string p10Code;
-        public string p20Code;
+        public string p20Code { get; set; } 
     }
 }

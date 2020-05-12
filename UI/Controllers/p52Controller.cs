@@ -73,5 +73,10 @@ namespace UI.Controllers
             return View(v);
 
         }
+
+        public BO.p11ClientProduct p11_load(int p11id)
+        {
+            return Factory.p11ClientProductBL.Load(p11id);
+        }
     }
 }

@@ -71,21 +71,24 @@
 
             @foreach (var c in Model.OrderItems)
             {
-                <tr>
-                    <td>
-                        <a title="Upravit/Odstranit" href="javascript:p52_record(@c.pid)">@c.p52Code</a>
+            <tr>
+                <td>
+                    <a title="Upravit/Odstranit" href="javascript:p52_record(@c.pid)">@c.p52Code</a>
 
-                    </td>
-                    <td>
-                        @c.p11Code
-                    </td>
-                    <td>
-                        @c.p11Name
-                    </td>
-                    <td style="text-align:right;">
-                        @(BO.BAS.Number2String(c.p52UnitsCount))
-                    </td>
-                </tr>
+                </td>
+                <td>
+                    @c.p11Code
+                </td>
+                <td>
+                    @c.p11Name
+                </td>
+                <td style="text-align:right;">
+                    @(BO.BAS.Number2String(c.p52UnitsCount))
+                </td>
+                <td>
+                    @c.p20Code
+                </td>
+            </tr>
             }
         </table>
 

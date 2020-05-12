@@ -22,5 +22,6 @@ namespace BO
         public string p11Name { get; set; }
         public string p11Code { get; set; }
         public string p51Code;
+        public string p20Code;
     }
 }

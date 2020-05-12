@@ -22,7 +22,7 @@
             <div class="form-row">
                 <label class="col-sm-1 col-md-2 col-form-label">Produkt:</label>
                 <div class="col-sm-11 col-md-10">
-                    <mycombo entity="p11ClientProduct" asp-for="Rec.p11ID" selectedtext="Rec.p11Name"></mycombo>
+                    <mycombo entity="p11ClientProduct" asp-for="Rec.p11ID" selectedtext="Rec.p11Name" event_after_changevalue="p11id_change"></mycombo>
                 </div>
 
             </div>
@@ -32,7 +32,9 @@
                 <div class="col-sm-3 col-md-2">
                     <mynumber asp-for="Rec.p52UnitsCount" decimal-digits="2"></mynumber>
                 </div>
-
+                <div class="col-1">
+                    <span id="p20Code">@Model.Rec.p20Code</span>
+                </div>
             </div>
             @if (Model.Rec_Header != null)
             {
@@ -75,3 +77,14 @@
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
 
+
+<script type="text/javascript">
+    function p11id_change(p11id) {
+       
+        $.post("@(Url.Action("p11_load"))", { p11id: p11id }, function (data) {            
+            $("#p20Code").text(data.p20Code);
+
+        });
+        
+    }
+</script>
