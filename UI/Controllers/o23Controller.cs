@@ -28,7 +28,7 @@ namespace UI.Controllers
             return View(v);
             
         }
-        public IActionResult Record(int pid, bool isclone)
+        public IActionResult Record(int pid, bool isclone,string recprefix,int recpid)
         {
             if (!this.TestIfUserEditor(true, true))
             {
@@ -53,7 +53,20 @@ namespace UI.Controllers
             {
                 v.Rec = new BO.o23Doc();
                 v.Rec.entity = "o23";
-                v.Rec.o23Entity = "p28Company";
+                if (string.IsNullOrEmpty(recprefix))
+                {
+                    v.Rec.o23Entity = "p28Company";
+                }
+                else
+                {
+                    v.Rec.o23Entity = BO.BAS.getEntityFromPrefix(recprefix);
+                    if (recpid > 0)
+                    {
+                        v.Rec.o23RecordPid = recpid;
+                        v.Rec.RecordPidAlias = Factory.CBL.GetRecordAlias(v.Rec.o23Entity, recpid);
+                    }
+                }
+                
                 v.Rec.o23Code = Factory.CBL.EstimateRecordCode("o23");
             }
           

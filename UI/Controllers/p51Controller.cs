@@ -55,7 +55,17 @@ namespace UI.Controllers
             RefreshState(v);
 
 
-            if (isclone) { v.Toolbar.MakeClone(); v.Rec.p51Code = Factory.CBL.EstimateRecordCode("p51"); }
+            if (isclone)
+            {                
+                v.NewItems = new List<BO.p52OrderItem>();
+                foreach(var c in Factory.p52OrderItemBL.GetList(v.Rec.pid))
+                {
+                    v.NewItems.Add(new BO.p52OrderItem() { p11ID = c.p11ID, p11Name = c.p11Name, p52UnitsCount = c.p52UnitsCount });
+                }
+                v.Toolbar.MakeClone();
+                v.Rec.p51Code = Factory.CBL.EstimateRecordCode("p51");
+            }
+                
 
 
             return View(v);

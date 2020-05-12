@@ -109,8 +109,8 @@ namespace UI.Controllers
 
             if (Factory.CurrentUser.j03EnvironmentFlag == 1)
             {
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p10/record');\">Master Produkt</a>");
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p13/record');\">Master TPV</a>");
+                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p10/record');\">Produkt [Master]</a>");
+                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p13/record');\">Receptura [Master]</a>");
                 sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p21/record');\">Licence</a>");
                 sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p26/record');\">Stroj</a>");
 

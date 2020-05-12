@@ -33,7 +33,7 @@ namespace UI.Controllers
                     tabs.Add(new NavTab() { Name = "Detail", Url = "/p13/Index?pid=@pid" });
                     tabs.Add(new NavTab() { Name="Master produkty",Entity = "p10MasterProduct", Url = "SlaveView?prefix=p10" });
                     tabs.Add(new NavTab() { Name = "Technologický rozpis operací", Entity = "p14MasterOper", Url = "SlaveView?prefix=p14" });
-                    tabs.Add(new NavTab() { Name = "Klientská TPV", Entity = "p12ClientTpv", Url = "SlaveView?prefix=p12" });
+                    tabs.Add(new NavTab() { Name = "Klientská receptura", Entity = "p12ClientTpv", Url = "SlaveView?prefix=p12" });
                     tabs.Add(new NavTab() { Name = "Klientské produkty", Entity = "p11ClientProduct", Url = "SlaveView?prefix=p11" });
                     tabs.Add(new NavTab() { Name = "Dokumenty", Entity = "o23Doc", Url = "SlaveView?prefix=o23" });
                     break;
@@ -42,7 +42,7 @@ namespace UI.Controllers
                     tabs.Add(new NavTab() { Name = "Lidé", Entity = "j02Person", Url = "SlaveView?prefix=j02" });
                     tabs.Add(new NavTab() { Name = "Stroje", Entity = "p26Msz", Url = "SlaveView?prefix=p26" });
                     tabs.Add(new NavTab() { Name = "Licence", Entity = "p21License", Url = "SlaveView?prefix=p21" });
-                    tabs.Add(new NavTab() { Name = "Klientská TPV", Entity = "p12ClientTpv", Url = "SlaveView?prefix=p12" });
+                    tabs.Add(new NavTab() { Name = "Klientská receptura", Entity = "p12ClientTpv", Url = "SlaveView?prefix=p12" });
                     tabs.Add(new NavTab() { Name = "Klientské produkty", Entity = "p11ClientProduct", Url = "SlaveView?prefix=p11" });
                     tabs.Add(new NavTab() { Name = "Dokumenty", Entity = "o23Doc", Url = "SlaveView?prefix=o23" });
 
@@ -50,7 +50,7 @@ namespace UI.Controllers
                 case "p21":
                     tabs.Add(new NavTab() { Name = "Detail", Url = "/p21/Index?pid=@pid" });
                     tabs.Add(new NavTab() { Name = "Master produkty", Entity = "p10MasterProduct", Url = "SlaveView?prefix=p10" });
-                    tabs.Add(new NavTab() { Name = "Klientská TPV", Entity = "p12ClientTpv", Url = "SlaveView?prefix=p12" });
+                    tabs.Add(new NavTab() { Name = "Klientská receptura", Entity = "p12ClientTpv", Url = "SlaveView?prefix=p12" });
                     tabs.Add(new NavTab() { Name = "Klientské produkty", Entity = "p11ClientProduct", Url = "SlaveView?prefix=p11" });
                     tabs.Add(new NavTab() { Name = "Dokumenty", Entity = "o23Doc", Url = "SlaveView?prefix=o23" });
 
@@ -83,6 +83,7 @@ namespace UI.Controllers
                 case "p11":
                     tabs.Add(new NavTab() { Name = "Detail", Url = "/p11/Index?pid=@pid" });
                     tabs.Add(new NavTab() { Name = "Licence", Entity = "p21License", Url = "SlaveView?prefix=p21" });
+                    tabs.Add(new NavTab() { Name = "Objednávky", Entity = "p51Order", Url = "SlaveView?prefix=p51" });
                     tabs.Add(new NavTab() { Name = "Dokumenty", Entity = "o23Doc", Url = "SlaveView?prefix=o23" });
                     break;
                 case "p41":
@@ -530,7 +531,9 @@ namespace UI.Controllers
 
                 case "num":
                     return string.Format("{0:#,0.00}", dbRow[c.Field]);
-                  
+                case "num3":
+                    return string.Format("{0:#,0.000}", dbRow[c.Field]);
+
 
                 case "date":
                     return Convert.ToDateTime(dbRow[c.Field]).ToString("dd.MM.yyyy");
@@ -645,7 +648,7 @@ namespace UI.Controllers
             mq.SetPids(pids);
             mq.query_by_entity_prefix = param1;
             
-            var cols = new BL.TheColumnsProvider(mq).getDefaultPallete();
+            var cols = new BL.TheColumnsProvider(mq).getDefaultPallete(1,3);
 
             if (mq.Prefix == "p18")
             {

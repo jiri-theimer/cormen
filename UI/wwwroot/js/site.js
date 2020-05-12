@@ -25,6 +25,9 @@ function _preview(controller, pid) {
     _window_open("/" + controller + "/index?pid=" + pid);
     
 }
+function _append_doc(recprefix,recpid) {
+    _window_open("/o23/record?recprefix="+recprefix+"&recpid=" + recpid);
+}
 
 
 function _get_request_param(name) {

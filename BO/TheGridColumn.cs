@@ -15,7 +15,8 @@ namespace BO
         public string FieldType { get; set; }   //string, bool, int, num, date, datetime
         public string Header { get; set; }
         public string SqlSyntax { get; set; }
-        public bool IsDefault { get; set; }
+        public int DefaultColumnFlag { get; set; }  //1 - default grid sloupec i combo sloupec, 2 - pouze default grid sloupec
+        
         public bool IsSortable { get; set; } = true;
         public bool IsFilterable { get; set; } = true;
         public bool IsShowTotals { get; set; }
@@ -54,7 +55,7 @@ namespace BO
             {
                 if (_CssClass == null)
                 {
-                    if (FieldType == "num0" || FieldType == "num") _CssClass = "tdn";
+                    if (FieldType == "num" || FieldType == "num0" || FieldType=="num3") _CssClass = "tdn";
                     if (FieldType == "bool") _CssClass = "tdb";
                 }                
                 return _CssClass;

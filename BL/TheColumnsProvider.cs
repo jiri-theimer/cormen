@@ -17,10 +17,12 @@ namespace BL
 
         }
 
-        private void AF(string strEntity, string strField, string strHeader,bool bolIsDefault=false, string strSqlSyntax = null,string strFieldType="string",bool bolIsShowTotals=false)
+        private void AF(string strEntity, string strField, string strHeader,int intDefaultFlag=0, string strSqlSyntax = null,string strFieldType="string",bool bolIsShowTotals=false)
         {
-            _lis.Add(new BO.TheGridColumn() { Field = strField, Entity = strEntity, Header = strHeader,IsDefault= bolIsDefault, SqlSyntax = strSqlSyntax,FieldType= strFieldType,IsShowTotals=bolIsShowTotals });
-            }
+            _lis.Add(new BO.TheGridColumn() { Field = strField, Entity = strEntity, Header = strHeader,DefaultColumnFlag= intDefaultFlag, SqlSyntax = strSqlSyntax,FieldType= strFieldType,IsShowTotals=bolIsShowTotals });
+        }
+      
+
         private void AF_TIMESTAMP(string strEntity, string strField, string strHeader, string strSqlSyntax,string strFieldType)
         {
             _lis.Add(new BO.TheGridColumn() { IsTimestamp = true, Field = strField, Entity = strEntity, Header = strHeader, SqlSyntax = strSqlSyntax, FieldType = strFieldType });
@@ -39,12 +41,12 @@ namespace BL
         {            
             if (bolIncludeOutsideEntity || _mq.Prefix == "p28")
             {                   
-                AF("p28Company", "p28Name", "Název", true);
+                AF("p28Company", "p28Name", "Název", 1);
                 AF("p28Company", "p28Code", "Kód");
                 AF("p28Company", "p28ShortName", "Zkrácený název");
                
-                AF("p28Company", "p28Street1", "Ulice",true);
-                AF("p28Company", "p28City1", "Město",true);
+                AF("p28Company", "p28Street1", "Ulice",1);
+                AF("p28Company", "p28City1", "Město",1);
                 AF("p28Company", "p28PostCode1", "PSČ");
                 AF("p28Company", "p28Country1", "Stát");
 
@@ -53,103 +55,104 @@ namespace BL
                 AF("p28Company", "p28PostCode2", "PSČ 2");
                 AF("p28Company", "p28Country2", "Stát 2");
 
-                AF("p28Company", "p28RegID", "IČ",true);
+                AF("p28Company", "p28RegID", "IČ",1);
                 AF("p28Company", "p28VatID", "DIČ");
-                AF("p28Company", "RecordOwner", "Vlastník záznamu", false, "dbo.j02_show_as_owner(a.j02ID_Owner)");
+                AF("p28Company", "RecordOwner", "Vlastník záznamu", 0, "dbo.j02_show_as_owner(a.j02ID_Owner)");
                 AppendTimestamp("p28Company");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p10")
             {
-                AF("p10MasterProduct","p10Name", "Název",true);
-                AF("p10MasterProduct","p10Code", "Kód produktu",true);
-                AF("p10MasterProduct", "p13Code", "Číslo postupu", true,"p13.p13Code");
-                AF("p10MasterProduct","b02Name", "Stav",false,"b02.b02Name");
-                AF("p10MasterProduct", "o12Name", "Kategorie", false, "o12.o12Name");
+                AF("p10MasterProduct","p10Name", "Název",1);
+                AF("p10MasterProduct","p10Code", "Kód produktu",1);
+                AF("p10MasterProduct", "p13Code", "Číslo receptury", 1,"p13.p13Code");
+                AF("p10MasterProduct","b02Name", "Stav",0,"b02.b02Name");
+                AF("p10MasterProduct", "o12Name", "Kategorie", 0, "o12.o12Name");
                 AF("p10MasterProduct", "p10Memo", "Podrobný popis");
-                AF("p10MasterProduct", "p10SwLicenseFlag", "SW licence", false, "case when a.p10SwLicenseFlag>0 then 'SW licence '+convert(varchar(10),a.p10SwLicenseFlag) else null end");
+                AF("p10MasterProduct", "p10SwLicenseFlag", "SW licence", 0, "case when a.p10SwLicenseFlag>0 then 'SW licence '+convert(varchar(10),a.p10SwLicenseFlag) else null end");
 
                 AppendTimestamp("p10MasterProduct");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p21")
             {
-                AF("p21License","p21Name", "Název",true);
-                AF("p21License", "p21Code", "Kód", true);
-                AF("p21License","p21Price", "Cena",false,null,"num",true);
+                AF("p21License","p21Name", "Název",1);
+                AF("p21License", "p21Code", "Kód", 1);
+                AF("p21License", "p28Name", "Klient", 1,"p28.p28Name");
+                AF("p21License","p21Price", "Cena",0,null,"num",true);
                 AppendTimestamp("p21License");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p26")
             {
-                AF("p26Msz","p26Name", "Název",true);
-                AF("p26Msz","p26Code", "Kód",true);
-                AF("p26Msz", "p25Name", "Typ zařízení", true, "p25.p25Name");
-                AF("p26Msz","p28Name", "Klient",true,"p28.p28Name");
-                AF("p26Msz", "b02Name", "Stav", false, "b02.b02Name");
+                AF("p26Msz","p26Name", "Název",1);
+                AF("p26Msz","p26Code", "Kód",1);
+                AF("p26Msz", "p25Name", "Typ zařízení", 2, "p25.p25Name");
+                AF("p26Msz","p28Name", "Klient",1,"p28.p28Name");
+                AF("p26Msz", "b02Name", "Stav", 0, "b02.b02Name");
                 AF("p26Msz", "p26Memo", "Podrobný popis");
                 AppendTimestamp("p26Msz");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "j02")
             {
-                AF("j02Person", "fullname_desc", "Příjmení+Jméno",true,"a.j02LastName+' '+a.j02FirstName");
-                AF("j02Person", "fullname_asc", "Jméno+Příjmení", false, "a.j02FirstName+' '+a.j02LastName");
-                AF("j02Person", "j02Email", "E-mail", true);
+                AF("j02Person", "fullname_desc", "Příjmení+Jméno",1,"a.j02LastName+' '+a.j02FirstName");
+                AF("j02Person", "fullname_asc", "Jméno+Příjmení", 0, "a.j02FirstName+' '+a.j02LastName");
+                AF("j02Person", "j02Email", "E-mail", 1);
                 AF("j02Person", "j02FirstName", "Jméno");
                 AF("j02Person", "j02LastName", "Příjmení");
                 AF("j02Person", "j02TitleBeforeName", "Titul před");
                 AF("j02Person", "j02TitleAfterName", "Titul za");
-                AF("j02Person", "p28Name", "Klient", true, "p28.p28Name");
+                AF("j02Person", "p28Name", "Klient", 1, "p28.p28Name");
                 AF("j02Person", "j02Tel1", "TEL1");
                 AF("j02Person", "j02Tel2", "TEL2");
-                AF("j02Person", "RecordOwner", "Vlastník záznamu", false, "dbo.j02_show_as_owner(a.j02ID_Owner)");
+                AF("j02Person", "RecordOwner", "Vlastník záznamu", 0, "dbo.j02_show_as_owner(a.j02ID_Owner)");
 
                 AppendTimestamp("j02Person");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "j03")
             {
-                AF("j03User", "j03Login", "Login", true);
-                AF("j03User", "j04Name", "Aplikační role", true,"j04.j04Name");
-                AF("j03User", "j03PingTimestamp", "Last ping", false, "j03.j03PingTimestamp", "datetime");
+                AF("j03User", "j03Login", "Login", 1);
+                AF("j03User", "j04Name", "Aplikační role", 1,"j04.j04Name");
+                AF("j03User", "j03PingTimestamp", "Last ping", 0, "j03.j03PingTimestamp", "datetime");
                 
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p13")
             {
-                AF("p13MasterTpv", "p13Name", "Název", true);
-                AF("p13MasterTpv", "p13Code", "Číslo postupu", true);
-                AF("p13MasterTpv", "p25Name", "Typ zařízení", true, "p25.p25Name");
+                AF("p13MasterTpv", "p13Name", "Název", 1);
+                AF("p13MasterTpv", "p13Code", "Číslo receptury", 1);
+                AF("p13MasterTpv", "p25Name", "Typ zařízení", 2, "p25.p25Name");
                 AF("p13MasterTpv", "p13Memo", "Podrobný popis");
                 AppendTimestamp("p13MasterTpv");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "o23")
             {
-                AF("o23Doc","o23Name", "Název",true);
-                AF("o23Doc", "RecordPidAlias", "Vazba",true, "dbo.getRecordAlias(a.o23Entity,a.o23RecordPid)");
-                AF("o23Doc","EntityAlias", "Druh vazby",true, "dbo.getEntityAlias(a.o23Entity)");
-                AF("o23Doc","o12Name", "Kategorie",false,"o12.o12Name");
-                AF("o23Doc","b02Name", "Stav",false,"b02.b02Name");
-                AF("o23Doc", "o12Name", "Kategorie", false, "o12.o12Name");
+                AF("o23Doc","o23Name", "Název",1);
+                AF("o23Doc", "RecordPidAlias", "Vazba",1, "dbo.getRecordAlias(a.o23Entity,a.o23RecordPid)");
+                AF("o23Doc","EntityAlias", "Druh vazby",1, "dbo.getEntityAlias(a.o23Entity)");
+                AF("o23Doc","o12Name", "Kategorie",0,"o12.o12Name");
+                AF("o23Doc","b02Name", "Stav",0,"b02.b02Name");
+                AF("o23Doc", "o12Name", "Kategorie", 0, "o12.o12Name");
                 AF("o23Doc", "o23Memo", "Podrobný popis");
-                AF("o23Doc", "o23Date", "Datum dokumentu", false,null,"date");
-                AF("o23Doc", "RecordOwner", "Vlastník záznamu", false, "dbo.j02_show_as_owner(a.j02ID_Owner)");
-                AF("o23Doc", "RecordOwner", "Vlastník záznamu", false, "dbo.j02_show_as_owner(a.j02ID_Owner)");
+                AF("o23Doc", "o23Date", "Datum dokumentu", 0,null,"date");
+                AF("o23Doc", "RecordOwner", "Vlastník záznamu", 0, "dbo.j02_show_as_owner(a.j02ID_Owner)");
+                
                 AppendTimestamp("o23Doc");
 
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "b02")
             {
-                AF("b02Status", "b02Name", "Název", true);
-                AF("b02Status", "EntityAlias", "Vazba", true, "dbo.getEntityAlias(a.b02Entity)");
+                AF("b02Status", "b02Name", "Název", 1);
+                AF("b02Status", "EntityAlias", "Vazba", 1, "dbo.getEntityAlias(a.b02Entity)");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "o12")
             {
-                AF("o12Category", "o12Name", "Název", true);
-                AF("o12Category", "EntityAlias", "Vazba", true, "dbo.getEntityAlias(a.o12Entity)");
+                AF("o12Category", "o12Name", "Název", 1);
+                AF("o12Category", "EntityAlias", "Vazba", 1, "dbo.getEntityAlias(a.o12Entity)");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p19")
             {
-                AF("p19Material", "p19Code", "Kód", true);
-                AF("p19Material", "p19Name", "Název", true);
-                AF("p19Material", "p28Name", "Klient", true,"p28.p28Name");
+                AF("p19Material", "p19Code", "Kód", 1);
+                AF("p19Material", "p19Name", "Název", 1);
+                AF("p19Material", "p28Name", "Klient", 1,"p28.p28Name");
 
-                AF("p19Material", "o12Name", "Kategorie", true,"o12.o12Name");
+                AF("p19Material", "o12Name", "Kategorie", 2,"o12.o12Name");
 
                 AF("p19Material", "p19Lang1", "Jazyk1");
                 AF("p19Material", "p19Lang2", "Jazyk2");
@@ -158,136 +161,138 @@ namespace BL
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "j04")
             {
-                AF("j04UserRole", "j04Name", "Název role", true);
-                AF("j04UserRole", "j04IsClientRole", "Klientská role", true,null,"bool");
+                AF("j04UserRole", "j04Name", "Název role", 1);
+                AF("j04UserRole", "j04IsClientRole", "Klientská role", 2,null,"bool");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p25")
             {
-                AF("p25MszType", "p25Name", "Název", true);
+                AF("p25MszType", "p25Name", "Název", 1);
                 
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p14")
             {
-                AF("p14MasterOper", "p14RowNum", "RowNum", true,null,"num0");
-                AF("p14MasterOper", "p14OperNum", "OperNum", true);
-                AF("p14MasterOper", "p18Code", "OperCode", true,"p18.p18Code");
-                AF("p14MasterOper", "p18Name", "OperCodeName", false, "p18.p18Name");
+                AF("p14MasterOper", "p14RowNum", "RowNum", 1,null,"num0");
+                AF("p14MasterOper", "p14OperNum", "OperNum", 2);
+                AF("p14MasterOper", "p18Code", "OperCode", 1,"p18.p18Code");
+                AF("p14MasterOper", "p18Name", "OperCodeName", 0, "p18.p18Name");
 
-                AF("p14MasterOper", "p14Name", "Name", true);
-                AF("p14MasterOper", "p14OperParam", "OperPar", true,null,"num0");
+                AF("p14MasterOper", "p14Name", "Name", 1);
+                AF("p14MasterOper", "p14OperParam", "OperPar", 2,null,"num0");
 
-                AF("p14MasterOper", "p19Code", "MaterialCode", true,"p19.p19Code");
-                AF("p14MasterOper", "p19Name", "MaterialName", true,"p19.p19Name");
+                AF("p14MasterOper", "p19Code", "MaterialCode", 2,"p19.p19Code");
+                AF("p14MasterOper", "p19Name", "MaterialName", 2,"p19.p19Name");
                
-                AF("p14MasterOper", "p14UnitsCount", "UnitsCount", true,null,"num");
-                AF("p14MasterOper", "p14DurationPreOper", "DurationPreOper", true,null,"num3");
-                AF("p14MasterOper", "p14DurationOper", "DurationOper", true,null,"num3");                
-                AF("p14MasterOper", "p14DurationPostOper", "DurationPostOper", true,null,"num3");
+                AF("p14MasterOper", "p14UnitsCount", "UnitsCount", 2,null,"num");
+                AF("p14MasterOper", "p14DurationPreOper", "DurationPreOper", 2,null,"num0");
+                AF("p14MasterOper", "p14DurationOper", "DurationOper", 2,null,"num3");                
+                AF("p14MasterOper", "p14DurationPostOper", "DurationPostOper", 2,null,"num0");
 
                 AppendTimestamp("p14MasterOper");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p11")
             {
-                AF("p11ClientProduct", "p11Name", "Název", true);
-                AF("p11ClientProduct", "p11Code", "Kód produktu", true);
-                AF("p11ClientProduct", "b02Name", "Stav", false, "b02.b02Name");
-                AF("p11ClientProduct", "o12Name", "Kategorie", false, "o12.o12Name");
+                AF("p11ClientProduct", "p11Code", "Kód produktu", 1);
+                AF("p11ClientProduct", "p11Name", "Název", 1);
+                
+                AF("p11ClientProduct", "b02Name", "Stav", 0, "b02.b02Name");
+                AF("p11ClientProduct", "o12Name", "Kategorie", 2, "o12.o12Name");
                 AF("p11ClientProduct", "p11Memo", "Podrobný popis");
-                AF("p11ClientProduct", "p11UnitPrice", "Jedn.cena",false,null,"num");
-                AF("p11ClientProduct", "p20Code", "Jednotka",false,"p20.p20Code");
+                AF("p11ClientProduct", "p11UnitPrice", "Jedn.cena",0,null,"num");
+                AF("p11ClientProduct", "p20Code", "Jednotka",2,"p20.p20Code");
 
                 AppendTimestamp("p11ClientProduct");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p12")
             {
-                AF("p12ClientTpv", "p12Name", "Název", true);
-                AF("p12ClientTpv", "p12Code", "Číslo postupu", true);
+                AF("p12ClientTpv", "p12Name", "Název", 1);
+                AF("p12ClientTpv", "p12Code", "Číslo receptury", 1);
                 AF("p12ClientTpv", "p12Memo", "Podrobný popis");
-                AF("p12ClientTpv", "p25Name", "Typ zařízení", false, "p25.p25Name");
+                AF("p12ClientTpv", "p25Name", "Typ zařízení", 2, "p25.p25Name");
                 AppendTimestamp("p12ClientTpv");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p15")
             {
-                AF("p15ClientOper", "p15RowNum", "RowNum", true, null, "num0");
-                AF("p15ClientOper", "p15OperNum", "OperNum", true);
-                AF("p15ClientOper", "p18Code", "OperCode", true,"p18.p18Code");
-                AF("p15ClientOper", "p18Name", "OperCodeName", false, "p18.p18Name");
+                AF("p15ClientOper", "p15RowNum", "RowNum", 1, null, "num0");
+                AF("p15ClientOper", "p15OperNum", "OperNum", 2);
+                AF("p15ClientOper", "p18Code", "OperCode", 1,"p18.p18Code");
+                AF("p15ClientOper", "p18Name", "OperCodeName", 2, "p18.p18Name");
 
-                AF("p15ClientOper", "p15Name", "Name", true);
-                AF("p15ClientOper", "p15OperParam", "OperPar", true, null, "num0");
+                AF("p15ClientOper", "p15Name", "Name", 1);
+                AF("p15ClientOper", "p15OperParam", "OperPar", 2, null, "num0");
 
-                AF("p15ClientOper", "p19Code", "MaterialCode", true,"p19.p19Code");
-                AF("p15ClientOper", "p19Name", "MaterialName", true,"p19.p19Name");
+                AF("p15ClientOper", "p19Code", "MaterialCode", 2,"p19.p19Code");
+                AF("p15ClientOper", "p19Name", "MaterialName", 2,"p19.p19Name");
 
-                AF("p15ClientOper", "p15UnitsCount", "UnitsCount", true, null, "num");
-                AF("p15ClientOper", "p15DurationPreOper", "DurationPreOper", true, null, "num3");
-                AF("p15ClientOper", "p15DurationOper", "DurationOper", true, null, "num3");
-                AF("p15ClientOper", "p15DurationPostOper", "DurationPostOper", true, null, "num3");
+                AF("p15ClientOper", "p15UnitsCount", "UnitsCount", 2, null, "num");
+                AF("p15ClientOper", "p15DurationPreOper", "DurationPreOper", 2, null, "num0");
+                AF("p15ClientOper", "p15DurationOper", "DurationOper", 2, null, "num3");
+                AF("p15ClientOper", "p15DurationPostOper", "DurationPostOper", 2, null, "num0");
 
                 AppendTimestamp("p15ClientOper");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p41")
             {
-                AF("p41Task", "p41Name", "Název", true);
-                AF("p41Task", "p41Code", "Kód", true);
-                AF("p41Task", "p28Name", "Klient", true, "p28.p28Name");
-                AF("p41Task", "b02Name", "Stav", true, "b02.b02Name");
-                AF("p41Task", "p26Name", "Stroj", true, "p26.p26Name");
+                AF("p41Task", "p41Code", "Kód", 1);
+                AF("p41Task", "p41Name", "Název", 1);
+                
+                AF("p41Task", "p28Name", "Klient", 1, "p28.p28Name");
+                AF("p41Task", "b02Name", "Stav", 2, "b02.b02Name");
+                AF("p41Task", "p26Name", "Stroj", 2, "p26.p26Name");
 
-                AF("p41Task", "p41PlanStart", "Plán zahájení", true,null, "datetime");
-                AF("p41Task", "p41PlanEnd", "Plán dokončení", true, null, "datetime");
-                AF("p41Task", "p41RealStart", "Reálné zahájení", false, null, "datetime");
-                AF("p41Task", "p41RealEnd", "Reálné dokončení", false, null, "datetime");
+                AF("p41Task", "p41PlanStart", "Plán zahájení", 2,null, "datetime");
+                AF("p41Task", "p41PlanEnd", "Plán dokončení", 2, null, "datetime");
+                AF("p41Task", "p41RealStart", "Reálné zahájení", 0, null, "datetime");
+                AF("p41Task", "p41RealEnd", "Reálné dokončení", 0, null, "datetime");
 
-                AF("p41Task", "p41StockCode", "Kód skladu", false);
-                AF("p41Task", "p41ActualRowNum", "Aktuální RowNum", false,null,"num0");
-                AF("p41Task", "p41PlanUnitsCount", "Plán množství", false,null, "num");
-                AF("p41Task", "p41RealUnitsCount", "Skutečné množství", false, null, "num");
+                AF("p41Task", "p41StockCode", "Kód skladu", 0);
+                AF("p41Task", "p41ActualRowNum", "Aktuální RowNum", 0,null,"num0");
+                AF("p41Task", "p41PlanUnitsCount", "Plán množství", 0,null, "num");
+                AF("p41Task", "p41RealUnitsCount", "Skutečné množství", 0, null, "num");
 
                 AF("p41Task", "p41Memo", "Podrobný popis");
-                AF("p41Task", "RecordOwner", "Vlastník záznamu", false, "dbo.j02_show_as_owner(a.j02ID_Owner)");
+                AF("p41Task", "RecordOwner", "Vlastník záznamu", 0, "dbo.j02_show_as_owner(a.j02ID_Owner)");
 
                 AppendTimestamp("p41Task");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p51")
             {
-                AF("p51Order", "p51Name", "Název", true);
-                AF("p51Order", "p51Code", "Kód", true);
-                AF("p51Order", "p28Name", "Klient", true, "p28.p28Name");
-                AF("p51Order", "b02Name", "Stav", true, "b02.b02Name");
-                AF("p51Order", "p26Name", "Stroj", true, "p26.p26Name");
+                AF("p51Order", "p51Code", "Kód", 1);
+                AF("p51Order", "p51Name", "Název", 1);                
+                AF("p51Order", "p28Name", "Klient", 1, "p28.p28Name");
+                AF("p51Order", "b02Name", "Stav", 2, "b02.b02Name");
+                AF("p51Order", "p26Name", "Stroj", 2, "p26.p26Name");
 
-                AF("p51Order", "p51Date", "Datum", true, null, "date");
-                AF("p51Order", "p51DateDelivery", "Termín dodání", true, null, "datetime");
+                AF("p51Order", "p51Date", "Datum", 2, null, "date");
+                AF("p51Order", "p51DateDelivery", "Termín dodání", 2, null, "datetime");
                
-                AF("p51Order", "p51CodeByClient", "Kód podle klienta", false);
-                AF("p51Order", "p51IsDraft", "Draft",false,null,"bool");
+                AF("p51Order", "p51CodeByClient", "Kód podle klienta", 0);
+                AF("p51Order", "p51IsDraft", "Draft",0,null,"bool");
                
                 AF("p51Order", "p51Memo", "Podrobný popis");
-                AF("p51Order", "RecordOwner", "Vlastník záznamu", false, "dbo.j02_show_as_owner(a.j02ID_Owner)");
+                AF("p51Order", "RecordOwner", "Vlastník záznamu", 0, "dbo.j02_show_as_owner(a.j02ID_Owner)");
 
                 AppendTimestamp("p51Order");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p52")
             {
-                AF("p52OrderItem", "p52Code", "Kód", true);                
-                AF("p52OrderItem", "p11Name", "Produkt", true,"p11.p11Name");
-                AF("p52OrderItem", "p52UnitsCount", "Množství", true, null, "num");
+                AF("p52OrderItem", "p52Code", "Kód", 1);                
+                AF("p52OrderItem", "p11Name", "Produkt", 1,"p11.p11Name");
+                AF("p52OrderItem", "p52UnitsCount", "Množství", 1, null, "num");
 
-                AF("p52OrderItem", "RecordOwner", "Vlastník záznamu", false, "dbo.j02_show_as_owner(a.j02ID_Owner)");
+                AF("p52OrderItem", "RecordOwner", "Vlastník záznamu", 0, "dbo.j02_show_as_owner(a.j02ID_Owner)");
 
                 AppendTimestamp("p52OrderItem");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p18")
             {
-                AF("p18OperCode", "p18Code", "Kód", true);
-                AF("p18OperCode", "p18Name", "Název", true);
-                AF("p18OperCode", "p25Name", "Typ zařízení", false, "p25.p25Name");
-                AF("p18OperCode", "p19Name", "Materiál", false, "p19.p19Name");
-                AF("p18OperCode", "p18UnitsCount", "UnitsCount", false, null, "num");
-                AF("p18OperCode", "p18DurationPreOper", "DurationPreOper", false, null, "num3");
-                AF("p18OperCode", "p18DurationOper", "DurationPreOper", false, null, "num3");
-                AF("p18OperCode", "p18DurationPostOper", "DurationPostOper", false, null, "num3");
+                AF("p18OperCode", "p18Code", "Kód", 1);
+                AF("p18OperCode", "p18Name", "Název", 1);
+                AF("p18OperCode", "p25Name", "Typ zařízení", 2, "p25.p25Name");
+                AF("p18OperCode", "p19Name", "Materiál", 2, "p19.p19Name");
+                AF("p18OperCode", "p18UnitsCount", "UnitsCount", 2, null, "num");
+                AF("p18OperCode", "p18DurationPreOper", "DurationPreOper", 2, null, "num3");
+                AF("p18OperCode", "p18DurationOper", "DurationPreOper", 2, null, "num3");
+                AF("p18OperCode", "p18DurationPostOper", "DurationPostOper", 2, null, "num3");
 
                 AF("p18OperCode", "p18Lang1", "Jazyk1");
                 AF("p18OperCode", "p18Lang2", "Jazyk2");
@@ -296,18 +301,18 @@ namespace BL
             }
             if (_lis.Count == 0)
             {
-                AF(_mq.Entity,_mq.Prefix + "Name", "Název",true);
+                AF(_mq.Entity,_mq.Prefix + "Name", "Název",1);
             }
 
             
         }
 
-        public IEnumerable<BO.TheGridColumn> getDefaultPallete()
+        public IEnumerable<BO.TheGridColumn> getDefaultPallete(int intDefaultFlag1, int intDefaultFlag2)
         {
             if (_lis.Count > 0) { _lis.Clear(); };
             SetupPallete(false);
 
-            return _lis.Where(p => p.IsDefault == true);
+            return _lis.Where(p => p.DefaultColumnFlag == intDefaultFlag1 || p.DefaultColumnFlag == intDefaultFlag2);
 
             
         }
@@ -384,7 +389,7 @@ namespace BL
                 if (_lis.Where(p => p.UniqueName == sels[i]).Count() > 0)
                 {
                     var c = _lis.Where(p => p.UniqueName == sels[i]).FirstOrDefault();
-                    if ((i == sels.Count - 1) && (c.FieldType=="num" || c.FieldType=="num0"))
+                    if ((i == sels.Count - 1) && (c.FieldType=="num" || c.FieldType=="num0" || c.FieldType == "num3"))
                     {
                         c.CssClass = "tdn_lastcol";
                     }

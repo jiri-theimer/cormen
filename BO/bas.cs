@@ -141,7 +141,7 @@ namespace BO
                     case "j03":return "Uživatelské účty";
                     case "p21": return "Licence";
                     case "p10": return "Produkty [Master]";
-                    case "p13": return "TPV [Master]";
+                    case "p13": return "Receptury [Master]";
                     case "p14": return "Technologický rozpis operací [Master]";
                     case "o23": return "Dokumenty";
                     case "p41": return "Výrobní zakázky";
@@ -151,7 +151,7 @@ namespace BO
                     case "o12":return "Kategorie";
                     case "j04":return "Aplikační role";
                     case "p11":return "Produkty [Klient]";
-                    case "p12":return "TPV [Klient]";
+                    case "p12":return "Receptury [Klient]";
                     case "p15": return "Technologický rozpis operací [Klient]";
                     case "p19":return "Materiály";
                     case "p18":return "Kód operací";
@@ -168,7 +168,7 @@ namespace BO
                 case "j03":return "Uživatel";
                 case "p21": return "Licence";
                 case "p10": return "Produkt [Master]";
-                case "p13": return "TPV [Master]";
+                case "p13": return "Receptura [Master]";
                 case "p14": return "Technologický rozpis operací [Master]";
                 case "o23": return "Dokument";
                 case "p41": return "Výrobní zakázka";
@@ -178,7 +178,7 @@ namespace BO
                 case "o12": return "Kategorie";
                 case "j04": return "Aplikační role";
                 case "p11": return "Produkt [Klient]";
-                case "p12": return "TPV [Klient]";
+                case "p12": return "Receptura [Klient]";
                 case "p19":return "Material";
                 case "p18":return "Kód operace";
                 default:

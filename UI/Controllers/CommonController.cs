@@ -48,7 +48,7 @@ namespace UI.Controllers
             {
                 BO.Reflexe.SetPropertyValue(mq, queryfield, queryvalue);
             }
-            mq.explicit_columns = new BL.TheColumnsProvider(mq).getDefaultPallete();
+            mq.explicit_columns = new BL.TheColumnsProvider(mq).getDefaultPallete(1,2);
             var dt = Factory.gridBL.GetList(mq);
             var intRows = dt.Rows.Count;
             
@@ -79,7 +79,7 @@ namespace UI.Controllers
                 BO.Reflexe.SetPropertyValue(mq, queryfield, queryvalue);
             }
             
-            mq.explicit_columns = new BL.TheColumnsProvider(mq).getDefaultPallete();
+            mq.explicit_columns = new BL.TheColumnsProvider(mq).getDefaultPallete(1,2);
 
             var dt = Factory.gridBL.GetList(mq);
             var intRows = dt.Rows.Count;

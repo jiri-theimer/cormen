@@ -46,6 +46,7 @@ namespace BL.DL
             {
                 if (mq.Prefix == "o23") AQ(ref lis, "a.o23Entity LIKE 'p11ClientProduct' AND a.o23RecordPid=@p10id", "p11id", mq.p11id);
                 if (mq.Prefix == "p21") AQ(ref lis, "a.p21ID IN (select p21ID FROM p11ClientProduct WHERE p11ID=@p11id)", "p11id", mq.p11id);
+                if (mq.Prefix == "p51") AQ(ref lis, "a.p51ID IN (select p51ID FROM p52OrderItem WHERE p11ID=@p11id)", "p11id", mq.p11id);
             }
             if (mq.p13id > 0)
             {

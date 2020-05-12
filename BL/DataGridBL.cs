@@ -60,7 +60,7 @@ namespace BL
 
             if (mq.explicit_columns == null)
             {
-                mq.explicit_columns = new BL.TheColumnsProvider(mq).getDefaultPallete();    //na vstupu není přesný výčet sloupců -> pracovat s default sadou
+                mq.explicit_columns = new BL.TheColumnsProvider(mq).getDefaultPallete(1,1);    //na vstupu není přesný výčet sloupců -> pracovat s default sadou
             }
             if (bolGetTotalsRow)
             {

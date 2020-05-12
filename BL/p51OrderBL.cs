@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BL
@@ -51,6 +52,18 @@ namespace BL
             {
                 return 0;
             }
+            if (newitems != null)
+            {
+                if (newitems.Where(p => p.p11ID == 0).Count() > 0)
+                {
+                    _mother.CurrentUser.AddMessage("V položkách je nevyplněný produkt.");return 0;
+                }
+                if (newitems.Where(p => p.p52UnitsCount<= 0).Count() > 0)
+                {
+                    _mother.CurrentUser.AddMessage("V položkách je nekorektně zadané množství produktu."); return 0;
+                }
+            }
+
             var p = new DL.Params4Dapper();
             p.AddInt("pid", rec.p51ID);
             if (rec.j02ID_Owner == 0) rec.j02ID_Owner = _db.CurrentUser.pid;
