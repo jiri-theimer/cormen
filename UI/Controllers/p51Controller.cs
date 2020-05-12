@@ -20,6 +20,7 @@ namespace UI.Controllers
             }
             else
             {
+                v.OrderItems = Factory.p52OrderItemBL.GetList(pid);
                 return View(v);
             }
 
@@ -38,7 +39,7 @@ namespace UI.Controllers
                 {
                     return RecNotFound(v);
                 }
-
+                
             }
             else
             {
@@ -47,6 +48,8 @@ namespace UI.Controllers
                 v.Rec.p51Code = Factory.CBL.EstimateRecordCode("p51");
                 v.Rec.p51Date = DateTime.Today;
                 v.Rec.p51DateDelivery = DateTime.Today.AddDays(10).AddSeconds(-1);
+                v.NewItems = new List<BO.p52OrderItem>();
+                v.NewItems.Add(new BO.p52OrderItem());
             }
 
             RefreshState(v);
@@ -59,8 +62,19 @@ namespace UI.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Record(Models.p51RecordViewModel v)
+        public IActionResult Record(Models.p51RecordViewModel v, string rec_oper)
         {
+            if (rec_oper == "newitem")
+            {
+                if (v.NewItems == null) v.NewItems = new List<BO.p52OrderItem>();
+                v.NewItems.Add(new BO.p52OrderItem() { p51ID=v.Rec.p51ID});
+                
+                v.Toolbar = new MyToolbarViewModel(v.Rec);
+                return View(v);
+            }
+            
+
+           
             if (ModelState.IsValid)
             {
                 BO.p51Order c = new BO.p51Order();
@@ -78,7 +92,7 @@ namespace UI.Controllers
                 c.p51DateDelivery = v.Rec.p51DateDelivery;
 
 
-                v.Rec.pid = Factory.p51OrderBL.Save(c);
+                v.Rec.pid = Factory.p51OrderBL.Save(c,v.NewItems);
                 if (v.Rec.pid > 0)
                 {
                     v.SetJavascript_CallOnLoad(v.Rec.pid);
@@ -97,76 +111,12 @@ namespace UI.Controllers
 
         private void RefreshState(p51RecordViewModel v)
         {
-            v.OrderItems = Factory.p51OrderBL.GetList_OrderItems(v.Rec.pid);
+            
             v.Toolbar = new MyToolbarViewModel(v.Rec);
         }
 
 
-        //položka objednávky
-        public IActionResult Record_Item(int pid,int p51id)
-        {
-            if (!this.TestIfUserEditor(true, true))
-            {
-                return this.StopPageCreateEdit(true);
-            }
-            var v = new Models.p52RecordViewModelcs();
-            if (pid > 0)
-            {
-                v.Rec = Factory.p51OrderBL.LoadOrderItem(pid);
-                if (v.Rec == null)
-                {
-                    return RecNotFound(v);
-                }
-
-            }
-            else
-            {
-                v.Rec = new BO.p52OrderItem();
-                v.Rec.entity = "p52";
-                v.Rec.p51ID = p51id;
-                
-            }
-            v.Rec_Header = Factory.p51OrderBL.Load(v.Rec.p51ID);
-            
-            v.Toolbar = new MyToolbarViewModel(v.Rec) { IsClone = false, IsToArchive = false,IsRefresh=false };
-
-            return View(v);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Record_Item(Models.p52RecordViewModelcs v)
-        {
-            if (ModelState.IsValid)
-            {
-                BO.p52OrderItem c = new BO.p52OrderItem();
-                if (v.Rec.pid > 0) c = Factory.p51OrderBL.LoadOrderItem(v.Rec.pid);
-                
-                c.p52Code = v.Rec.p52Code;
-                c.p51ID = v.Rec.p51ID;
-                c.p11ID = v.Rec.p11ID;
-                c.p52UnitsCount = v.Rec.p52UnitsCount;
-
-
-                v.Rec.pid = Factory.p51OrderBL.SaveOrderItem(c);
-                if (v.Rec.pid > 0)
-                {
-                    return RedirectToAction("Record", new { pid = v.Rec.p51ID });
-                    //var v2 = new Models.p51RecordViewModel();
-                    //v2.Rec = Factory.p51OrderBL.Load(v.Rec.p51ID);
-                    //return View(v2);
-                }
-
-
-            }
-
-            v.Toolbar = new MyToolbarViewModel(v.Rec) { IsClone = false, IsToArchive = false, IsRefresh=false };
-            
-
-            this.Notify_RecNotSaved();
-            return View(v);
-
-        }
+        
 
 
     }

@@ -8,10 +8,9 @@ namespace BL
     {
         public BO.p51Order Load(int pid);
         public IEnumerable<BO.p51Order> GetList(BO.myQuery mq);
-        public int Save(BO.p51Order rec);
-        public BO.p52OrderItem LoadOrderItem(int intP52ID);
-        public IEnumerable<BO.p52OrderItem> GetList_OrderItems(int intP51ID);
-        public int SaveOrderItem(BO.p52OrderItem rec);
+        public int Save(BO.p51Order rec, List<BO.p52OrderItem> newitems);
+
+        public void AdjustItemsCode(BO.p51Order rec);
     }
     class p51OrderBL : BaseBL, Ip51OrderBL
     {
@@ -46,7 +45,7 @@ namespace BL
 
         
 
-        public int Save(BO.p51Order rec)
+        public int Save(BO.p51Order rec,List<BO.p52OrderItem> newitems)
         {
             if (ValidateBeforeSave(rec) == false)
             {
@@ -68,7 +67,19 @@ namespace BL
             p.AddDateTime("p51Date", rec.p51Date);
             p.AddDateTime("p51DateDelivery", rec.p51DateDelivery);
 
-            return _db.SaveRecord("p51Order", p.getDynamicDapperPars(), rec);
+            int intP51ID= _db.SaveRecord("p51Order", p.getDynamicDapperPars(), rec);
+
+            if (newitems != null)
+            {
+                foreach (var c in newitems)
+                {
+                    _db.RunSql("INSERT INTO p52OrderItem(p51ID,p11ID,p52UnitsCount) VALUES(@p51id,@p11id,@unitscount)", new { p51id = intP51ID, p11id = c.p11ID, unitscount = c.p52UnitsCount });
+                }
+            }
+
+            AdjustItemsCode(Load(intP51ID));
+
+            return intP51ID;
         }
 
         private bool ValidateBeforeSave(BO.p51Order rec)
@@ -83,40 +94,12 @@ namespace BL
         }
 
 
-        public BO.p52OrderItem LoadOrderItem(int intP52ID)
+        
+
+        public void AdjustItemsCode(BO.p51Order rec)
         {
-            return _db.Load<BO.p52OrderItem>(string.Format("{0} WHERE a.p52ID=@pid", GetSQL2()), new { pid = intP52ID });
-        }
-        public IEnumerable<BO.p52OrderItem> GetList_OrderItems(int intP51ID)
-        {
+            _db.RunSql("update a set p52Code=@s+'.'+convert(varchar(10),RowID) from (SELECT ROW_NUMBER() OVER(ORDER BY p52id ASC) AS RowID,* FROM p52OrderItem WHERE p51ID=@p51id) a", new { s = rec.p51Code, p51id = rec.p51ID });
 
-            return _db.GetList<BO.p52OrderItem>(GetSQL2() + " WHERE a.p51ID=@p51id", new { p51id = intP51ID });
-
-        }
-        public int SaveOrderItem(BO.p52OrderItem rec)
-        {
-            if (rec.p51ID == 0)
-            {
-                _mother.CurrentUser.AddMessage("Chybí hlavička objednávky.");return 0;                
-            }
-            if (rec.p11ID == 0)
-            {
-                _mother.CurrentUser.AddMessage("Chybí vyplnit produkt."); return 0;
-            }
-            var p = new DL.Params4Dapper();
-            p.AddInt("pid", rec.p52ID);
-            p.AddInt("p51ID", rec.p51ID, true);
-            if (rec.j02ID_Owner == 0) rec.j02ID_Owner = _db.CurrentUser.pid;
-            p.AddInt("j02ID_Owner", rec.j02ID_Owner, true);
-            p.AddInt("p11ID", rec.p11ID, true);
-            p.AddDouble("p52UnitsCount",rec.p52UnitsCount);
-            
-            int intP52ID= _db.SaveRecord("p52OrderItem", p.getDynamicDapperPars(), rec);
-            BO.p51Order cP51 = Load(rec.p51ID);
-
-            _db.RunSql("update a set p52Code=@s+'.'+convert(varchar(10),RowID) from (SELECT ROW_NUMBER() OVER(ORDER BY p52id ASC) AS RowID,* FROM p52OrderItem WHERE p51ID=@p51id) a", new {s= cP51.p51Code, p51id = rec.p51ID });
-
-            return intP52ID;
         }
 
 

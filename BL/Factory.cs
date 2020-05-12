@@ -33,6 +33,7 @@ namespace BL
         private Ip15ClientOperBL _p15;
         private Ip41TaskBL _p41;
         private Ip51OrderBL _p51;
+        private Ip52OrderItemBL _p52;
         private Ip19MaterialBL _p19;
         private Ip18OperCodeBL _p18;
 
@@ -240,6 +241,14 @@ namespace BL
             {
                 if (_p51 == null) _p51 = new p51OrderBL(this);
                 return _p51;
+            }
+        }
+        public Ip52OrderItemBL p52OrderItemBL
+        {
+            get
+            {
+                if (_p52 == null) _p52 = new p52OrderItemBL(this);
+                return _p52;
             }
         }
         public Ip85TempboxBL p85TempboxBL

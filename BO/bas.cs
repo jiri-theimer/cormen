@@ -173,6 +173,7 @@ namespace BO
                 case "o23": return "Dokument";
                 case "p41": return "Výrobní zakázka";
                 case "p51":return "Objednávka";
+                case "p52":return "Položka objednávky";
                 case "b02": return "Workflow stav";
                 case "o12": return "Kategorie";
                 case "j04": return "Aplikační role";

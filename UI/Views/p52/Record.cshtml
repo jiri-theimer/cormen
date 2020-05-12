@@ -9,7 +9,7 @@
 @addTagHelper *, UI
 
 
-    <form id="form1" asp-controller="p51" asp-action="Record_Item" method="POST">
+    <form id="form1" asp-controller="p52" asp-action="Record" method="POST">
         <h4>Položka objednávky</h4>
 
         @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
@@ -34,35 +34,38 @@
                 </div>
 
             </div>
+            @if (Model.Rec_Header != null)
+            {
+                <div class="card" style="margin-top:10px;">
+                    <div class="card-header">
+                        Hlavička objednávky
+                        <a style="margin-left:20px;" href="/p51/Record?pid=@Model.Rec.p51ID">Upravit</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="col-sm-6 col-md-6">
+                                <span class="form-control bg-light">@(Model.Rec_Header.p51Name)</span>
 
-            <div class="card">
-                <div class="card-header">
-                    Hlavička objednávky
-                    <a class="btn btn-secondary py-0" style="margin-left:20px;" href="/p51/Record?pid=@Model.Rec.p51ID">Vrátit se do hlavičky</a>
-                </div>
-                <div class="card-body">
-                    <div class="form-row">
-                        <div class="col-sm-6 col-md-6">
-                            <span class="form-control bg-light">@(Model.Rec_Header.p51Name)</span>
+                            </div>
+                            <div class="col-sm-5 col-md-4">
+                                <span class="form-control bg-light">@(Model.Rec_Header.p51Code)</span>
 
+                            </div>
                         </div>
-                        <div class="col-sm-5 col-md-4">
-                            <span class="form-control bg-light">@(Model.Rec_Header.p51Code)</span>
+                        <div class="form-row">
+                            <div class="col-sm-6 col-md-6">
+                                <span class="form-control bg-light">@(Model.Rec_Header.p28Name)</span>
 
+                            </div>
+                            <div class="col-sm-5 col-md-4">
+                                <span class="form-control bg-light">@(Model.Rec_Header.p51CodeByClient)</span>
+
+                            </div>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="col-sm-6 col-md-6">
-                            <span class="form-control bg-light">@(Model.Rec_Header.p28Name)</span>
-
-                        </div>
-                        <div class="col-sm-5 col-md-4">
-                            <span class="form-control bg-light">@(Model.Rec_Header.p51CodeByClient)</span>
-
-                        </div>
-                    </div>
                 </div>
-            </div>
+            }
+
 
 
 

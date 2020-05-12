@@ -9,8 +9,7 @@ namespace BO
     {
         public int p52ID { get; set; }        
         public int p51ID { get; set; }
-
-        [Range(1, int.MaxValue, ErrorMessage = "Chybí vyplnit produkt")]
+       
         public int p11ID { get; set; }
         public int j02ID_Owner { get; set; }
         public string p52Code { get; set; }

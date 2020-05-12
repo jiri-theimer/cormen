@@ -371,6 +371,9 @@ namespace UI.Controllers
                 case "p41Task":                
                     mq.p41id = cJ72.j72MasterPID;
                     break;
+                case "p51Order":
+                    mq.p51id = cJ72.j72MasterPID;
+                    break;
                 default:
                     break;
             }

@@ -268,6 +268,16 @@ namespace BL
 
                 AppendTimestamp("p51Order");
             }
+            if (bolIncludeOutsideEntity || _mq.Prefix == "p52")
+            {
+                AF("p52OrderItem", "p52Code", "Kód", true);                
+                AF("p52OrderItem", "p11Name", "Produkt", true,"p11.p11Name");
+                AF("p52OrderItem", "p52UnitsCount", "Množství", true, null, "num");
+
+                AF("p52OrderItem", "RecordOwner", "Vlastník záznamu", false, "dbo.j02_show_as_owner(a.j02ID_Owner)");
+
+                AppendTimestamp("p52OrderItem");
+            }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p18")
             {
                 AF("p18OperCode", "p18Code", "Kód", true);
@@ -351,6 +361,8 @@ namespace BL
                     return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix=="p11" || p.Prefix == "p28" || p.Prefix == "p26" || p.Prefix == "b02");
                 case "p51":
                     return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p28" || p.Prefix == "p26" || p.Prefix == "b02");
+                case "p52":
+                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p11" || p.Prefix == "p51");
                 default:
                     return _lis.Where(p => p.Entity == _mq.Entity);
             }

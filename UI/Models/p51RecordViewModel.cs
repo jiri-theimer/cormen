@@ -9,7 +9,7 @@ namespace UI.Models
     {
         public BO.p51Order Rec { get; set; }
 
-        public IEnumerable<BO.p52OrderItem> OrderItems { get; set; }
+        public List<BO.p52OrderItem> NewItems { get; set; }
         public MyToolbarViewModel Toolbar { get; set; }
     }
 }

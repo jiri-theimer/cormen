@@ -66,6 +66,28 @@
 
         </div>
 
+        <button class="btn btn-primary" type="button" onclick="p52_record_new()">Přidat položku</button>
+        <table class="table table-hover">
+
+            @foreach (var c in Model.OrderItems)
+            {
+                <tr>
+                    <td>
+                        <a title="Upravit/Odstranit" href="javascript:p52_record(@c.pid)">@c.p52Code</a>
+
+                    </td>
+                    <td>
+                        @c.p11Code
+                    </td>
+                    <td>
+                        @c.p11Name
+                    </td>
+                    <td style="text-align:right;">
+                        @(BO.BAS.Number2String(c.p52UnitsCount))
+                    </td>
+                </tr>
+            }
+        </table>
 
     </div>
 
@@ -79,4 +101,14 @@
 }
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
+
+
+<script type="text/javascript">
+    function p52_record(p52id) {
+        _window_open("/p52/Record?pid="+p52id)
+    }
+    function p52_record_new() {
+        _window_open("/p52/Record?p51id=@Model.Rec.pid&pid=0")
+    }
+</script>
 
