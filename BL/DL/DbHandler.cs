@@ -320,7 +320,7 @@ namespace BL.DL
 
         private  void log_error(Exception e,string strSQL,object param=null)
         {
-            CurrentUser.AddMessage(e.Message);
+            if (CurrentUser !=null) CurrentUser.AddMessage(e.Message);
             var strPath = string.Format("{0}\\sql-error-{1}.log", _logDir, DateTime.Now.ToString("yyyy.MM.dd"));
                         
             var strParams = "";

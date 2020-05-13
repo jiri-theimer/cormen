@@ -10,6 +10,7 @@ namespace BL
         public IEnumerable<BO.p28Company> GetList(BO.myQuery mq);
         public int Save(BO.p28Company rec);
         public BO.p10MasterProduct LoadValidSwLicense(int intP28ID);
+        public bool UpdateCloudID(int intP28ID, string strCloudID);
     }
     class p28CompanyBL : BaseBL,Ip28CompanyBL
     {        
@@ -37,6 +38,21 @@ namespace BL
             return _db.GetList<BO.p28Company>(fq.FinalSql,fq.Parameters);
         }
 
+        public bool UpdateCloudID(int intP28ID,string strCloudID)
+        {
+            if (string.IsNullOrEmpty(strCloudID) == false)
+            {
+                BO.COM.GetInteger c = _db.Load<BO.COM.GetInteger>("select p28ID as Value FROM p28Company WHERE p28CloudID=@cloudid AND p28ID<>@pid", new { cloudid = strCloudID, pid = intP28ID });
+                if (c != null)
+                {
+                    _mother.CurrentUser.AddMessage("Zadané cloud-id je již obsazenou jiným subjektem.");
+                    return false;
+                }
+            }
+            if (strCloudID == "-1") strCloudID = null;
+            return _db.RunSql("UPDATE p28Company SET p28CloudID=@cloudid WHERE p28ID=@pid", new { cloudid = strCloudID,pid= intP28ID });
+        }
+
         public int Save(BO.p28Company rec)
         {
             var p = new DL.Params4Dapper();
@@ -59,10 +75,7 @@ namespace BL
             p.AddString("p28Country2", rec.p28Country2);
 
             int intPID= _db.SaveRecord("p28Company", p.getDynamicDapperPars(),rec);
-            if (String.IsNullOrEmpty(rec.p28CloudID))
-            {                
-                _db.RunSql("UPDATE p28Company SET p28CloudID=@cloudid", new { cloudid = intPID.ToString() });
-            }
+            
             return intPID;
         }
 

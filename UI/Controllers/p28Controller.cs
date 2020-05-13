@@ -20,7 +20,9 @@ namespace UI.Controllers
             }
             else
             {
-                
+                if (Factory.CurrentUser.TestPermission(BO.UserPermFlag.MasterAdmin)){
+                    v.IsPossible2SetupCloudID = true;
+                }
                 return View(v);
             }
             
@@ -105,6 +107,18 @@ namespace UI.Controllers
             return View(v);
 
 
+        }
+
+        public BO.Result UpdateCloudID(int p28id, string cloudid)
+        {
+            if (Factory.p28CompanyBL.UpdateCloudID(p28id, cloudid))
+            {
+                return new BO.Result(false);
+            }
+            else
+            {
+                return new BO.Result(true, Factory.CurrentUser.Messages4Notify[0].Value);
+            }
         }
     }
 }

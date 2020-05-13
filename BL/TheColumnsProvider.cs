@@ -57,6 +57,7 @@ namespace BL
 
                 AF("p28Company", "p28RegID", "IČ",1);
                 AF("p28Company", "p28VatID", "DIČ");
+                AF("p28Company", "p28CloudID", "CLOUD ID");
                 AF("p28Company", "RecordOwner", "Vlastník záznamu", 0, "dbo.j02_show_as_owner(a.j02ID_Owner)");
                 AppendTimestamp("p28Company");
             }
@@ -299,6 +300,20 @@ namespace BL
                 AF("p18OperCode", "p18Lang2", "Jazyk2");
                 AF("p18OperCode", "p18Lang3", "Jazyk3");
                 AF("p18OperCode", "p18Lang4", "Jazyk4");
+            }
+            if (bolIncludeOutsideEntity || _mq.Prefix == "j90")
+            {
+                AF("j90LoginAccessLog", "j90Date", "Čas", 1,null, "datetime");
+                AF("j90LoginAccessLog", "j90BrowserFamily", "Prohlížeč", 1);
+                AF("j90LoginAccessLog", "j90BrowserOS", "OS", 1);
+                AF("j90LoginAccessLog", "j90BrowserDeviceType", "Device", 1);
+                AF("j90LoginAccessLog", "j90BrowserAvailWidth", "Šířka (px)", 1);
+                AF("j90LoginAccessLog", "j90BrowserAvailHeight", "Výška (px)", 1);
+                AF("j90LoginAccessLog", "j90LocationHost", "Host", 1);
+                AF("j90LoginAccessLog", "j90LoginMessage", "Chyba", 1);
+                AF("j90LoginAccessLog", "j90CookieExpiresInHours", "Expirace přihlášení", 1,null,"num0");
+                AF("j90LoginAccessLog", "j90LoginName", "Login", 1);
+
             }
             if (_lis.Count == 0)
             {

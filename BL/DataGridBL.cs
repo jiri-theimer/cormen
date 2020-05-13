@@ -70,7 +70,8 @@ namespace BL
             {
                 sb.Append(string.Join(",", mq.explicit_columns.Select(p => p.getFinalSqlSyntax_SELECT(mq.Prefix))));    //grid sloupce               
             }
-            sb.Append(","+GetSQL_SELECT_Ocas(mq.Prefix, bolGetTotalsRow));  //konstantní pole jako pid,isclosed
+            sb.Append("," + GetSQL_SELECT_Ocas(mq.Prefix, bolGetTotalsRow));  //konstantní pole jako pid,isclosed
+
 
             switch (mq.Prefix)
             {
@@ -142,8 +143,9 @@ namespace BL
                     break;
                 case "p52":
                     sb.Append(" FROM p52OrderItem a INNER JOIN p51Order p51 ON a.p51ID=p51.p51ID INNER JOIN p11ClientProduct p11 ON a.p11ID=p11.p11ID LEFT OUTER JOIN p20Unit p20 ON p11.p20ID=p20.p20ID");                    
-                    break;
+                    break;                
                 default:
+                    sb.Append(" FROM "+BO.BAS.getEntityFromPrefix(mq.Prefix)+" a");
                     break;
             }
 

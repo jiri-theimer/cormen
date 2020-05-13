@@ -39,13 +39,13 @@
                 </select>
             </div>
 
-            <input type="text" asp-for="@Model.Browser_AvailWidth" />
-            <input type="text" asp-for="@Model.Browser_AvailHeight" />
-            <input type="text" asp-for="@Model.Browser_InnerWidth" />
-            <input type="text" asp-for="@Model.Browser_InnerHeight" />
-            <input type="text" asp-for="@Model.Browser_UserAgent" />
-            <input type="text" asp-for="@Model.Browser_DeviceType" />
-            <input type="text" asp-for="@Model.Browser_Host" />
+            <input type="hidden" asp-for="@Model.Browser_AvailWidth" />
+            <input type="hidden" asp-for="@Model.Browser_AvailHeight" />
+            <input type="hidden" asp-for="@Model.Browser_InnerWidth" />
+            <input type="hidden" asp-for="@Model.Browser_InnerHeight" />
+            <input type="hidden" asp-for="@Model.Browser_UserAgent" />
+            <input type="hidden" asp-for="@Model.Browser_DeviceType" />
+            <input type="hidden" asp-for="@Model.Browser_Host" />
         </form>
     </div>
 

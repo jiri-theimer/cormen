@@ -128,9 +128,7 @@ namespace UI.Controllers
             c.j90LoginMessage = lu.Message;
             c.j90LoginName = lu.Login;
             c.j90CookieExpiresInHours = lu.CookieExpiresInHours;
-
             c.j90LocationHost = lu.Browser_Host;
-
 
             _f.Write2AccessLog(c);
         }
