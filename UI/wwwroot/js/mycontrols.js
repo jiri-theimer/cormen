@@ -122,6 +122,13 @@ function datepicker_time_change(ctl) {
     $("#" + forid).val(s);    //pro uložení na server v rámci hostitelského view
 
 }
+function datepicker_get_value(ctlClientID) {
+    var value = $("#" + ctlClientID + "helper").datepicker("getDate");
+    return (value);
+}
+function datepicker_set_value(ctlClientID, datValue) {
+    $("#" + ctlClientID + "helper").datepicker("setDate", datValue);
+}
 
 
 

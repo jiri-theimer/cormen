@@ -20,7 +20,7 @@ namespace UI.Controllers
             }
             else
             {
-                if (Factory.CurrentUser.TestPermission(BO.UserPermFlag.MasterAdmin)){
+                if (v.Rec.p28CloudID !=null || Factory.p28CompanyBL.LoadValidSwLicense(pid) !=null){
                     v.IsPossible2SetupCloudID = true;
                 }
                 return View(v);

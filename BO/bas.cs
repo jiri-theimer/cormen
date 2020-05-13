@@ -124,6 +124,7 @@ namespace BO
                 case "p15":return "p15ClientOper";
                 case "p19":return "p19Material";
                 case "p18":return "p18OperCode";
+                case "p31":return "p31CapTemplate";
                 case "j90":return "j90LoginAccessLog";
                 default:
                     return "";
@@ -155,7 +156,8 @@ namespace BO
                     case "p12":return "Receptury [Klient]";
                     case "p15": return "Technologický rozpis operací [Klient]";
                     case "p19":return "Materiály";
-                    case "p18":return "Kód operací";
+                    case "p18":return "Kódy operací";
+                    case "p31":return "Šablony kapacit";
                     case "j90":return "Access user log";
                     default:
                         return strEntity;
@@ -183,6 +185,7 @@ namespace BO
                 case "p12": return "Receptura [Klient]";
                 case "p19":return "Material";
                 case "p18":return "Kód operace";
+                case "p31":return "Šablona kapacity";
                 case "j90": return "Access user log";
                 default:
                     return strEntity;

@@ -170,6 +170,12 @@ namespace BL
                 AF("p25MszType", "p25Name", "Název", 1);
                 
             }
+            if (bolIncludeOutsideEntity || _mq.Prefix == "p31")
+            {
+                AF("p31CapTemplate", "p31Name", "Název", 1);
+                AF("p31CapTemplate", "Link1", "link", 1,"'<a class=\"link-in-grid\" href=/p31/p31Timeline?p31id='+convert(varchar(10),a.p31ID)+'>Timeline</a>'");
+                AppendTimestamp("p31CapTemplate");
+            }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p14")
             {
                 AF("p14MasterOper", "p14RowNum", "RowNum", 1,null,"num0");
@@ -300,6 +306,7 @@ namespace BL
                 AF("p18OperCode", "p18Lang2", "Jazyk2");
                 AF("p18OperCode", "p18Lang3", "Jazyk3");
                 AF("p18OperCode", "p18Lang4", "Jazyk4");
+                AppendTimestamp("p18OperCode");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "j90")
             {
@@ -318,6 +325,7 @@ namespace BL
             if (_lis.Count == 0)
             {
                 AF(_mq.Entity,_mq.Prefix + "Name", "Název",1);
+                AppendTimestamp(_mq.Entity);
             }
 
             

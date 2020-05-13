@@ -58,7 +58,7 @@ namespace BL
             var sb = new System.Text.StringBuilder();
             sb.Append("SELECT ");
 
-            if (mq.explicit_columns == null)
+            if (mq.explicit_columns == null || mq.explicit_columns.Count()==0)
             {
                 mq.explicit_columns = new BL.TheColumnsProvider(mq).getDefaultPallete(1,1);    //na vstupu není přesný výčet sloupců -> pracovat s default sadou
             }

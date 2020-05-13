@@ -339,3 +339,9 @@ button.tgp {
     width: 100%;
     height:28px;
 }
+
+.link-in-grid{
+    color:green;
+    text-decoration:underline;
+
+}
