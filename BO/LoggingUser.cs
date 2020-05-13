@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Common;
 
 namespace BO
 {
@@ -14,6 +15,14 @@ namespace BO
         public int CookieExpiresInHours { get; set; } = 1;      
 
         public string Message { get; set; }
+
+        public string Browser_UserAgent { get; set; }
+        public int Browser_AvailWidth { get; set; }
+        public int Browser_AvailHeight { get; set; }
+        public int Browser_InnerWidth { get; set; }
+        public int Browser_InnerHeight { get; set; }
+        public string Browser_DeviceType { get; set; }
+        public string Browser_Host { get; set; }
 
         public Result ValidatePassword(string strPwd)
         {            

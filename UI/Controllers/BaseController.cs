@@ -67,13 +67,7 @@ namespace UI.Controllers
         }
 
 
-        //public MotherController(IHttpContextAccessor context)
-        //{
-
-
-
-        //    //Factory = new BL.Factory(context.HttpContext.User.Identity.Name);                                    
-        //}
+        
 
         public bool TestIfUserEditor(bool bolTestMasterSide,bool bolTestClientSide)
         {
