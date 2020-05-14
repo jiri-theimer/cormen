@@ -63,7 +63,13 @@
             <textarea asp-for="Rec.p51Memo" class="form-control" placeholder="Podrobný popis"></textarea>
             <span asp-validation-for="Rec.p51Memo" class="text-danger"></span>
         </div>
-
+        <hr />
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Vlastník záznamu:</label>
+            <div class="col-sm-11 col-md-10">
+                <mycombo entity="j02Person" asp-for="Rec.j02ID_Owner" selectedtext="Rec.RecordOwner"></mycombo>
+            </div>
+        </div>
 
 
         @if (Model.NewItems != null)

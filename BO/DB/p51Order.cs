@@ -27,7 +27,7 @@ namespace BO
         [MaxLength(1000, ErrorMessage = "Maximum 1000 znaků")]
         public string p51Memo { get; set; }
 
-        public string RecordOwner;
+        public string RecordOwner { get; set; } //get+set: kvůli mycombo
         public string p28Name { get; set; } //get+set: kvůli mycombo
         public string p26Name { get; set; } //get+set: kvůli mycombo
         public string b02Name { get; set; } //get+set: kvůli mycombo

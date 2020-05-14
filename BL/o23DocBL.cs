@@ -52,11 +52,11 @@ namespace BL
             }
             var p = new DL.Params4Dapper();
             p.AddInt("pid", rec.o23ID);
-            if (rec.j02ID_Owner == 0) rec.j02ID_Owner = _db.CurrentUser.pid;
+            if (rec.j02ID_Owner == 0) rec.j02ID_Owner = _db.CurrentUser.j02ID;
             p.AddInt("j02ID_Owner", rec.j02ID_Owner,true);
             p.AddInt("o23RecordPid", rec.o23RecordPid,true);
             p.AddString("o23Entity", rec.o23Entity);
-            p.AddInt("o12ID", rec.o12ID);
+            p.AddInt("o12ID", rec.o12ID,true);
             p.AddInt("b02ID", rec.b02ID,true);
             p.AddDateTime("o23Date", rec.o23Date);
             p.AddString("o23Name", rec.o23Name);

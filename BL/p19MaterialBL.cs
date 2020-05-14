@@ -41,7 +41,7 @@ namespace BL
             p.AddInt("pid", rec.p19ID);
             p.AddInt("o12ID", rec.o12ID, true);
             p.AddInt("p20ID", rec.p20ID, true);
-            if (rec.j02ID_Owner == 0) rec.j02ID_Owner = _db.CurrentUser.pid;
+            if (rec.j02ID_Owner == 0) rec.j02ID_Owner = _db.CurrentUser.j02ID;
             p.AddInt("j02ID_Owner", rec.j02ID_Owner, true);
             p.AddInt("p28ID", rec.p28ID, true);
             if (_db.CurrentUser.j03EnvironmentFlag == 2 && rec.p28ID !=_db.CurrentUser.p28ID)

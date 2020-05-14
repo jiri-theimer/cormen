@@ -46,7 +46,7 @@ namespace BL
             p.AddInt("pid", rec.j02ID);
            
             p.AddInt("p28ID",rec.p28ID,true);
-            if (rec.j02ID_Owner == 0) rec.j02ID_Owner = _db.CurrentUser.pid;
+            if (rec.j02ID_Owner == 0) rec.j02ID_Owner = _db.CurrentUser.j02ID;
             p.AddInt("j02ID_Owner", rec.j02ID_Owner, true);
             p.AddString("j02FirstName", rec.j02FirstName);
             p.AddString("j02LastName", rec.j02LastName);

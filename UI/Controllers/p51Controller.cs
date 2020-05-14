@@ -96,6 +96,7 @@ namespace UI.Controllers
                 c.p51Memo = v.Rec.p51Memo;
                 c.b02ID = v.Rec.b02ID;
                 c.p28ID = v.Rec.p28ID;
+                c.j02ID_Owner = v.Rec.j02ID_Owner;
                 c.p51CodeByClient = v.Rec.p51CodeByClient;
                 c.p26ID = v.Rec.p26ID;
                 c.p51Date = v.Rec.p51Date;
