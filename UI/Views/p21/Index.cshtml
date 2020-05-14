@@ -7,53 +7,57 @@
 }
 
 
-<div class="modal_record_container">
+    <div class="modal_record_container">
 
 
-    <div class="form-row">
-        <label class="col-sm-1 col-md-2 col-form-label">Licence:</label>
-        <div class="col-sm-6 col-md-6">
-            <span class="form-control bg-light">@(Model.Rec.p21Name)</span>
-
-        </div>
-        <div class="col-sm-5 col-md-4">
-            <span class="form-control bg-light">@(Model.Rec.p21Code)</span>
-
-        </div>
-    </div>
-
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Klient:</label>
-        <div class="col-sm-11 col-md-10">
-            <span class="form-control bg-light">@(Model.Rec.p28Name)</span>
-        </div>
-
-    </div>
-
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Platnost:</label>
-        <div class="col-sm-6 col-md-5">
-            <div class="btn-group">
-                <span class="form-control bg-light">@(BO.BAS.ObjectDate2String(@Model.Rec.ValidFrom)+" - "+ BO.BAS.ObjectDate2String(@Model.Rec.ValidUntil))</span>
-                
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Licence:</label>
+            <div class="col-sm-6 col-md-6">
+                <span class="form-control bg-light">@(Model.Rec.p21Name)</span>
 
             </div>
+            <div class="col-sm-5 col-md-4">
+                <span class="form-control bg-light">@(Model.Rec.p21Code)</span>
 
-
-        </div>
-        <label class="col-sm-1 col-md-1 col-form-label">Stav:</label>
-        <div class="col-sm-4 col-md-4">
-            <span class="form-control bg-light">@(Model.Rec.b02Name)</span>
+            </div>
         </div>
 
-    </div>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Klient:</label>
+            <div class="col-sm-11 col-md-10">
+                <span class="form-control bg-light">@(Model.Rec.p28Name)</span>
+            </div>
 
-    <hr />
-    <div class="form-row">
-        <button type="button" class="btn btn-primary" onclick="handle_create_client_products()">Aktualizovat klientovi jeho produkty a receptury podle licence</button>
-    </div>
+        </div>
 
-</div>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Platnost:</label>
+            <div class="col-sm-6 col-md-5">
+                <div class="btn-group">
+                    <span class="form-control bg-light">@(BO.BAS.ObjectDate2String(@Model.Rec.ValidFrom)+" - "+ BO.BAS.ObjectDate2String(@Model.Rec.ValidUntil))</span>
+
+
+                </div>
+
+
+            </div>
+            <label class="col-sm-1 col-md-1 col-form-label">Stav:</label>
+            <div class="col-sm-4 col-md-4">
+                <span class="form-control bg-light">@(Model.Rec.b02Name)</span>
+            </div>
+
+        </div>
+
+        @if (Model.IsPossible2UpdateClientProducts)
+        {
+            <hr />
+            <div class="form-row">
+                <button type="button" class="btn btn-primary" onclick="handle_create_client_products()">Aktualizovat klientovi jeho produkty a receptury podle licence</button>
+            </div>
+        }
+
+
+    </div>
 @if (Model.Rec.p21Memo != null)
 {
     <hr />

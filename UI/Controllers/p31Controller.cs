@@ -75,7 +75,7 @@ namespace UI.Controllers
 
                 
                 c.p31Name = v.Rec.p31Name;
-                
+                c.j02ID_Owner = v.Rec.j02ID_Owner;
                
                 v.Rec.pid = Factory.p31CapacityFondBL.Save(c);
                 if (v.Rec.pid > 0)

@@ -14,5 +14,7 @@ namespace BO
         [Required(ErrorMessage = "Chybí vyplnit název!")]
         public string p31Name { get; set; }
 
+        public string RecordOwner { get; set; }
+
     }
 }

@@ -103,10 +103,15 @@ namespace BL.DL
                 {
                     AQ(ref lis, "a.p28ID=@p28id", "p28id", ru.p28ID);
                 }
-                if (mq.Prefix == "p28" || mq.Prefix == "o23" ||  mq.Prefix == "p41")
+                if (mq.Prefix == "o23" ||  mq.Prefix == "p41")
                 {
 
                     AQ(ref lis, "a.j02ID_Owner IN (select j02ID FROM j02Person WHERE p28ID=@p28id)", "p28id", ru.p28ID);
+                }
+                if (mq.Prefix == "p28")
+                {
+
+                    AQ(ref lis, "(a.p28ID=@p28id OR a.j02ID_Owner IN (select j02ID FROM j02Person WHERE p28ID=@p28id))", "p28id", ru.p28ID);
                 }
                 if (mq.Prefix == "p11" || mq.Prefix == "p12")
                 {

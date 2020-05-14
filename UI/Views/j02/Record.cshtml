@@ -18,107 +18,115 @@
     @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
     @Html.HiddenFor(m => m.Rec.pid)
 
-    <div class="modal_record_container">
+<div class="modal_record_container">
 
 
 
 
-        <div class="form-row" style="margin-bottom:10px;">
-            <div class="col-sm-2 col-md-2">
-              <myautocomplete asp-for="Rec.j02TitleBeforeName" o15flag="1" placeholder="Titul"></myautocomplete>
-                
-            </div>
-            <div class="col-sm-3 col-md-3">
-                <input class="form-control" asp-for="Rec.j02FirstName" placeholder="Jméno" />
-                <span asp-validation-for="Rec.j02FirstName" class="text-danger"></span>
-
-            </div>
-            <div class="col-sm-5 col-md-5">
-                <input class="form-control" asp-for="Rec.j02LastName" placeholder="Příjmení" />
-                <span asp-validation-for="Rec.j02LastName" class="text-danger"></span>
-            </div>
-            <div class="col-sm-2 col-md-2">
-                <myautocomplete asp-for="Rec.j02TitleAfterName" o15flag="2"></myautocomplete>
-            </div>
+    <div class="form-row" style="margin-bottom:10px;">
+        <div class="col-sm-2 col-md-2">
+            <myautocomplete asp-for="Rec.j02TitleBeforeName" o15flag="1" placeholder="Titul"></myautocomplete>
 
         </div>
-
-
-        <div class="card-header">
-            <input asp-for="@Model.IsUserProfile" />
-            <label for="IsUserProfile">Má uživatelský účet?</label>
-            @if (Model.Rec.j03ID > 0)
-            {
-                <div style="float:right;">
-                    <a id="cmdResetPwd" style="float:right;" href="javascript:reset_password()">Resetovat přihlašovací heslo</a>
-
-                </div>
-
-            }
+        <div class="col-sm-3 col-md-3">
+            <input class="form-control" asp-for="Rec.j02FirstName" placeholder="Jméno" />
+            <span asp-validation-for="Rec.j02FirstName" class="text-danger"></span>
 
         </div>
-        <div id="ucet">
-            <div id="divNewPwd" class="form-row" style="display:none;">
-                <label class="col-sm-2 col-md-3 col-form-label">Nové heslo:</label>
-                <div class="col-sm-10 col-md-9">
-                    <input class="form-control" style="background-color:yellow;" autocomplete="off" asp-for="@Model.ResetPassword" placeholder="Pokud zůstane prázdné, nedojde k resetu hesla!" />
-                    <span asp-validation-for="@Model.ResetPassword" class="text-danger"></span>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <label class="col-sm-2 col-md-3 col-form-label">Uživatelský účet (Login):</label>
-                <div class="col-sm-10 col-md-9">
-                    <input class="form-control" asp-for="UserProfile.j03Login" />
-                    <span asp-validation-for="UserProfile.j03Login" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-row">
-                <label class="col-sm-2 col-md-3 col-form-label">Aplikační role:</label>
-                <div class="col-sm-10 col-md-9">
-                    <mycombo entity="j04UserRole" asp-for="UserProfile.j04ID" selectedtext="UserProfile.j04Name"></mycombo>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <input asp-for="UserProfile.j03IsMustChangePassword" />
-                <label for="UserProfile_j03IsMustChangePassword">Vynutit si od uživatele změnu hesla</label>
-            </div>
+        <div class="col-sm-5 col-md-5">
+            <input class="form-control" asp-for="Rec.j02LastName" placeholder="Příjmení" />
+            <span asp-validation-for="Rec.j02LastName" class="text-danger"></span>
+        </div>
+        <div class="col-sm-2 col-md-2">
+            <myautocomplete asp-for="Rec.j02TitleAfterName" o15flag="2"></myautocomplete>
         </div>
 
-        <div class="card-header">
-            Kontakt
-        </div>
+    </div>
 
-        <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-2 col-md-3 col-form-label">Firma:</label>
+
+    <div class="card-header">
+        <input asp-for="@Model.IsUserProfile" />
+        <label for="IsUserProfile">Má uživatelský účet?</label>
+        @if (Model.Rec.j03ID > 0)
+        {
+            <div style="float:right;">
+                <a id="cmdResetPwd" style="float:right;" href="javascript:reset_password()">Resetovat přihlašovací heslo</a>
+
+            </div>
+
+        }
+
+    </div>
+    <div id="ucet">
+        <div id="divNewPwd" class="form-row" style="display:none;">
+            <label class="col-sm-2 col-md-3 col-form-label">Nové heslo:</label>
             <div class="col-sm-10 col-md-9">
-                <mycombo entity="p28Company" asp-for="Rec.p28ID" selectedtext="Rec.p28Name"></mycombo>
-            </div>
-        </div>
-        <div class="form-row">
-            <label class="col-sm-2 col-md-3 col-form-label">E-mail:</label>
-            <div class="col-sm-10 col-md-9">
-                <input class="form-control" type="email" asp-for="Rec.j02Email" />
-                <span asp-validation-for="Rec.j02Email" class="text-danger"></span>
+                <input class="form-control" style="background-color:yellow;" autocomplete="off" asp-for="@Model.ResetPassword" placeholder="Pokud zůstane prázdné, nedojde k resetu hesla!" />
+                <span asp-validation-for="@Model.ResetPassword" class="text-danger"></span>
             </div>
         </div>
 
         <div class="form-row">
-            <label class="col-sm-2 col-md-3 col-form-label">Tel1 (Mobil):</label>
+            <label class="col-sm-2 col-md-3 col-form-label">Uživatelský účet (Login):</label>
             <div class="col-sm-10 col-md-9">
-                <input class="form-control" type="tel" asp-for="Rec.j02Tel1" />
-                <span asp-validation-for="Rec.j02Tel1" class="text-danger"></span>
+                <input class="form-control" asp-for="UserProfile.j03Login" />
+                <span asp-validation-for="UserProfile.j03Login" class="text-danger"></span>
             </div>
         </div>
         <div class="form-row">
-            <label class="col-sm-2 col-md-3 col-form-label">Tel2 (Pevná):</label>
+            <label class="col-sm-2 col-md-3 col-form-label">Aplikační role:</label>
             <div class="col-sm-10 col-md-9">
-                <input class="form-control" type="tel" asp-for="Rec.j02Tel2" />
-                <span asp-validation-for="Rec.j02Tel2" class="text-danger"></span>
+                <mycombo entity="j04UserRole" asp-for="UserProfile.j04ID" selectedtext="UserProfile.j04Name"></mycombo>
             </div>
+        </div>
+
+        <div class="form-row">
+            <input asp-for="UserProfile.j03IsMustChangePassword" />
+            <label for="UserProfile_j03IsMustChangePassword">Vynutit si od uživatele změnu hesla</label>
         </div>
     </div>
+
+    <div class="card-header">
+        Kontakt
+    </div>
+
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-2 col-md-3 col-form-label">Firma:</label>
+        <div class="col-sm-10 col-md-9">
+            <mycombo entity="p28Company" asp-for="Rec.p28ID" selectedtext="Rec.p28Name"></mycombo>
+        </div>
+    </div>
+    <div class="form-row">
+        <label class="col-sm-2 col-md-3 col-form-label">E-mail:</label>
+        <div class="col-sm-10 col-md-9">
+            <input class="form-control" type="email" asp-for="Rec.j02Email" />
+            <span asp-validation-for="Rec.j02Email" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <label class="col-sm-2 col-md-3 col-form-label">Tel1 (Mobil):</label>
+        <div class="col-sm-10 col-md-9">
+            <input class="form-control" type="tel" asp-for="Rec.j02Tel1" />
+            <span asp-validation-for="Rec.j02Tel1" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-row">
+        <label class="col-sm-2 col-md-3 col-form-label">Tel2 (Pevná):</label>
+        <div class="col-sm-10 col-md-9">
+            <input class="form-control" type="tel" asp-for="Rec.j02Tel2" />
+            <span asp-validation-for="Rec.j02Tel2" class="text-danger"></span>
+        </div>
+    </div>
+
+    <hr />
+    <div class="form-row">
+        <label class="col-sm-2 col-md-3 col-form-label">Vlastník záznamu:</label>
+        <div class="col-sm-10 col-md-9">
+            <mycombo entity="j02Person" asp-for="Rec.j02ID_Owner" selectedtext="Rec.RecordOwner"></mycombo>
+        </div>
+    </div>
+</div>
 }
 
 

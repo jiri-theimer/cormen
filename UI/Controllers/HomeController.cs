@@ -157,7 +157,7 @@ namespace UI.Controllers
             v.client_info = uaParser.Parse(v.userAgent);
             
 
-            v.Rec = Factory.j02PersonBL.Load(Factory.CurrentUser.pid);
+            v.Rec = Factory.j02PersonBL.Load(Factory.CurrentUser.j02ID);
             v.CurrentUser = Factory.CurrentUser;
             return View(v);
         }

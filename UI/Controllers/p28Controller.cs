@@ -20,9 +20,14 @@ namespace UI.Controllers
             }
             else
             {
-                if (v.Rec.p28CloudID !=null || Factory.p28CompanyBL.LoadValidSwLicense(pid) !=null){
-                    v.IsPossible2SetupCloudID = true;
+                if (Factory.CurrentUser.j03EnvironmentFlag == 1)
+                {
+                    if (v.Rec.p28CloudID != null || Factory.p28CompanyBL.LoadValidSwLicense(pid) != null)
+                    {
+                        v.IsPossible2SetupCloudID = true;
+                    }
                 }
+                
                 return View(v);
             }
             
@@ -54,6 +59,9 @@ namespace UI.Controllers
                 v.Rec = new BO.p28Company();
                 v.Rec.entity = "p28";
                 v.Rec.p28Code = Factory.CBL.EstimateRecordCode("p28");
+                v.Rec.j02ID_Owner = Factory.CurrentUser.j02ID;
+                v.Rec.RecordOwner = Factory.CurrentUser.FullName;
+                
             }
 
             
@@ -88,6 +96,7 @@ namespace UI.Controllers
                 c.p28City2 = v.Rec.p28City2;
                 c.p28PostCode2 = v.Rec.p28PostCode2;
                 c.p28Country2 = v.Rec.p28Country2;
+                c.j02ID_Owner = v.Rec.j02ID_Owner;
                
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);

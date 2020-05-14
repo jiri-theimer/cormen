@@ -29,6 +29,6 @@ namespace BO
         public string p28PostCode2 { get; set; }
         public string p28Country2 { get; set; }
 
-        public string RecordOwner;
+        public string RecordOwner { get; set; }
     }
 }

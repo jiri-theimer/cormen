@@ -15,20 +15,28 @@
     @Html.HiddenFor(m => m.Rec.pid)
 
    
-    <div class="modal_record_container">
+<div class="modal_record_container">
 
-        <div class="form-row">
-            <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
-            <div class="col-sm-11 col-md-10">
-                <input class="form-control" asp-for="Rec.p31Name" />
-                <span asp-validation-for="Rec.p31Name" class="text-danger"></span>
-            </div>
+    <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
+        <div class="col-sm-11 col-md-10">
+            <input class="form-control" asp-for="Rec.p31Name" />
+            <span asp-validation-for="Rec.p31Name" class="text-danger"></span>
         </div>
-
-
-
-
     </div>
+
+
+    <hr />
+    <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Vlastník záznamu:</label>
+        <div class="col-sm-11 col-md-10">
+            <mycombo entity="j02Person" asp-for="Rec.j02ID_Owner" selectedtext="Rec.RecordOwner"></mycombo>
+        </div>
+    </div>
+
+
+
+</div>
 
 </form>
 

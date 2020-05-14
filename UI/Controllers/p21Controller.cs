@@ -18,7 +18,8 @@ namespace UI.Controllers
                 return RecNotFound(v);
             }
             else
-            {                
+            {
+                v.IsPossible2UpdateClientProducts = this.TestIfUserEditor(true, false);
                 return View(v);
             }
 

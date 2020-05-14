@@ -113,7 +113,8 @@ namespace UI.Controllers
                 c.o23Memo = v.Rec.o23Memo;
                 c.o23Date = v.Rec.o23Date;
                 c.b02ID = v.Rec.b02ID;
-                c.o12ID = v.Rec.o12ID;              
+                c.o12ID = v.Rec.o12ID;
+                c.j02ID_Owner = v.Rec.j02ID_Owner;
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
