@@ -29,23 +29,11 @@
         </div>
     </div>
 
-    <div class="form-row" style="margin-top:10px;display:none;">
-        <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
-        <div class="col-sm-11 col-md-10">
-            <mycombo entity="b02Status" asp-for="Rec.b02ID" selectedtext="Rec.b02Name" param1="p11"></mycombo>
-        </div>
-    </div>
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Receptura:</label>
-        <div class="col-sm-11 col-md-10">
-            <mycombo entity="p13MasterTpv" asp-for="Rec.p12ID" selectedtext="Rec.p12Name"></mycombo>
-        </div>
-    </div>
     <div class="form-row" style="margin-top:10px;">
         <label class="col-sm-1 col-md-2 col-form-label">Jednotková cena:</label>
         <div class="col-sm-3 col-md-2">
             <mynumber asp-for="Rec.p11UnitPrice" decimal-digits="2"></mynumber>
-            
+
         </div>
         <div class="col-sm-2 col-md-2">
             <select asp-for="Rec.p20ID" class="form-control">
@@ -55,6 +43,26 @@
                 <option value="4">Rok (yyyy)</option>
                 <option value="5">Měsíc (mm)</option>
             </select>
+        </div>
+    </div>
+
+    <div class="form-row" style="margin-top:10px;display:none;">
+        <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
+        <div class="col-sm-11 col-md-10">
+            <mycombo entity="b02Status" asp-for="Rec.b02ID" selectedtext="Rec.b02Name" param1="p11"></mycombo>
+        </div>
+    </div>
+
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Receptura:</label>
+        <div class="col-sm-11 col-md-10">
+            <mycombo entity="p13MasterTpv" asp-for="Rec.p12ID" selectedtext="Rec.p12Name"></mycombo>
+        </div>
+    </div>
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Vzorový Master produkt:</label>
+        <div class="col-sm-11 col-md-10">
+            <mycombo entity="p10MasterProduct" asp-for="Rec.p10ID_Master" selectedtext="Rec.p10Name"></mycombo>
         </div>
     </div>
 

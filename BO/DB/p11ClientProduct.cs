@@ -14,7 +14,8 @@ namespace BO
         public int p21ID { get; set; }
        
         public int b02ID { get; set; }
-        
+        public int p10ID_Master { get; set; }
+
         [Required(ErrorMessage = "Chybí vyplnit název!")]
         [MaxLength(100, ErrorMessage = "Maximum 100 znaků")]
         public string p11Name { get; set; }

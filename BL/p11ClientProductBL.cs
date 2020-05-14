@@ -45,6 +45,7 @@ namespace BL
             var p = new DL.Params4Dapper();
             p.AddInt("pid", rec.p11ID);
             p.AddInt("p12ID", rec.p12ID, true);
+            p.AddInt("p10ID_Master", rec.p10ID_Master, true);
             p.AddInt("b02ID", rec.b02ID, true);
             p.AddInt("p20ID", rec.p20ID, true);
             p.AddString("p11Name", rec.p11Name);
@@ -62,10 +63,25 @@ namespace BL
             {
                 _db.CurrentUser.AddMessage("Chybí vyplnit měrná jednotka."); return false;
             }
-            if (LoadByCode(rec.p11Code, rec.pid) != null)
+            if (rec.p12ID == 0)
             {
-                _db.CurrentUser.AddMessage(string.Format("Zadaný kód nemůže být duplicitní s jiným produktem [{0}].", LoadByCode(rec.p11Code, rec.pid).p11Name));
-                return false;
+                _db.CurrentUser.AddMessage("Chybí vyplnit vazbu na recepturu."); return false;
+            }
+            if (rec.p10ID_Master == 0)
+            {
+                _db.CurrentUser.AddMessage("Chybí vyplnit vazbu na Master produkt."); return false;
+            }
+            //if (LoadByCode(rec.p11Code, rec.pid) != null)
+            //{
+            //    _db.CurrentUser.AddMessage(string.Format("Zadaný kód nemůže být duplicitní s jiným produktem [{0}].", LoadByCode(rec.p11Code, rec.pid).p11Name));
+            //    return false;
+            //}
+
+            BO.p10MasterProduct cP10 = _mother.p10MasterProductBL.Load(rec.p10ID_Master);
+            BO.p12ClientTpv cP12 = _mother.p12ClientTpvBL.Load(rec.p12ID);
+            if (cP10.p13ID != cP12.p13ID_Master)
+            {
+                _db.CurrentUser.AddMessage("Receptura vzorového Master produktu se liší od vzoru klientské receptury."); return false;
             }
 
             return true;

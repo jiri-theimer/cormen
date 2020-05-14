@@ -82,14 +82,14 @@
         </div>
         @if (_f.CurrentUser.j03EnvironmentFlag == 2)
         {
-            <div style="text-align:center;max-width:190px;overflow:hidden;text-overflow:ellipsis;">
-                <span title="Držitel licence" style="color:darkkhaki;">[@_f.CurrentUser.p28Name]</span>
+            <div style="text-align:center;overflow:hidden;text-overflow:ellipsis;color:white;background-color:navy;padding-bottom:20px;">
+                <span title="Držitel licence">CLIENT [@_f.CurrentUser.p28Name]</span>
             </div>
-            <hr />
+            
         }
         else
         {
-            <div style="text-align:center;background-color:green;color:white;margin-bottom:20px;">
+            <div style="text-align:center;background-color:green;color:white;padding-bottom:20px;">
                 <span style="color:white;">MASTER [@_f.CurrentUser.p28Name]</span>
             </div>
         }
