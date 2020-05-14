@@ -21,11 +21,11 @@ namespace BL
        
         private string GetSQL1()
         {
-            return "SELECT a.*,o12.o12Name," + _db.GetSQL1_Ocas("p21") + ",b02.b02Name,p28.p28Name FROM p21License a LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID";
+            return "SELECT a.*,o12.o12Name," + _db.GetSQL1_Ocas("p21") + ",b02.b02Name,p28.p28Name FROM "+ BL.TheEntities.ByPrefix("p21").SqlFrom;
         }
         public BO.p21License Load(int pid)
         {
-            return _db.Load<BO.p21License>(string.Format("{0} WHERE a.p21ID={1}", GetSQL1(), pid));
+            return _db.Load<BO.p21License>(string.Format("{0} WHERE a.p21ID=@pid", GetSQL1()), new { pid = pid });
         }
         public BO.p21License LoadByCode(string strCode, int intExcludePID)
         {

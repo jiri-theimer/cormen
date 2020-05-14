@@ -21,11 +21,11 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*," + _db.GetSQL1_Ocas("p31") + " FROM p31CapTemplate a";
+            return "SELECT a.*," + _db.GetSQL1_Ocas("p31") + " FROM " + BL.TheEntities.ByPrefix("p31").SqlFrom;
         }
         public BO.p31CapTemplate Load(int pid)
         {
-            return _db.Load<BO.p31CapTemplate>(string.Format("{0} WHERE a.p31ID={1}", GetSQL1(), pid));
+            return _db.Load<BO.p31CapTemplate>(string.Format("{0} WHERE a.p31ID=@pid", GetSQL1(), new { pid = pid }));
         }
         public IEnumerable<BO.p31CapTemplate> GetList(BO.myQuery mq)
         {

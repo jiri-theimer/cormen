@@ -23,7 +23,7 @@ namespace BL
        
         private string GetSQL1()
         {
-            return "SELECT a.*,"+_db.GetSQL1_Ocas("j02")+ ",j04.j04Name,p28.p28Name,j03.j03Login,j03.j03ID,dbo.j02_show_as_owner(a.j02ID_Owner) as RecordOwner FROM j02Person a LEFT OUTER JOIN j03User j03 ON a.j02ID=j03.j02ID LEFT OUTER JOIN j04UserRole j04 ON j03.j04ID=j04.j04ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID";
+            return "SELECT a.*,"+_db.GetSQL1_Ocas("j02")+ ",j04.j04Name,p28.p28Name,j03.j03Login,j03.j03ID,dbo.j02_show_as_owner(a.j02ID_Owner) as RecordOwner FROM "+ BL.TheEntities.ByPrefix("j02").SqlFrom;
         }
         public BO.j02Person Load(int intPID)
         {

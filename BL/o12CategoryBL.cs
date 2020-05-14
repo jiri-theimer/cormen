@@ -21,11 +21,11 @@ namespace BL
        
         private string GetSQL1()
         {
-            return "SELECT a.*," + _db.GetSQL1_Ocas("o12") + " FROM o12Category a";
+            return "SELECT a.*," + _db.GetSQL1_Ocas("o12") + " FROM "+ BL.TheEntities.ByPrefix("o12").SqlFrom;
         }
         public BO.o12Category Load(int pid)
         {
-            return _db.Load<BO.o12Category>(string.Format("{0} WHERE a.o12ID={1}", GetSQL1(), pid));
+            return _db.Load<BO.o12Category>(string.Format("{0} WHERE a.o12ID=@pid", GetSQL1()), new { pid = pid });
         }
         public IEnumerable<BO.o12Category> GetList(BO.myQuery mq)
         {

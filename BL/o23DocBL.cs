@@ -22,11 +22,11 @@ namespace BL
         
         private string GetSQL1()
         {
-            return "SELECT a.*," + _db.GetSQL1_Ocas("o23") + ",o12.o12Name,b02.b02Name,dbo.getRecordAlias(a.o23Entity,a.o23RecordPid) as RecordPidAlias,dbo.j02_show_as_owner(a.j02ID_Owner) as RecordOwner FROM o23Doc a LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID";
+            return "SELECT a.*," + _db.GetSQL1_Ocas("o23") + ",o12.o12Name,b02.b02Name,dbo.getRecordAlias(a.o23Entity,a.o23RecordPid) as RecordPidAlias,dbo.j02_show_as_owner(a.j02ID_Owner) as RecordOwner FROM "+ BL.TheEntities.ByPrefix("o23").SqlFrom;
         }
         public BO.o23Doc Load(int pid)
         {
-            return _db.Load<BO.o23Doc>(string.Format("{0} WHERE a.o23ID={1}", GetSQL1(), pid));
+            return _db.Load<BO.o23Doc>(string.Format("{0} WHERE a.o23ID=@pid", GetSQL1()), new { pid = pid });
         }
         public IEnumerable<BO.o23Doc> GetList(BO.myQuery mq)
         {

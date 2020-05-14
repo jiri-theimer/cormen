@@ -20,15 +20,16 @@ namespace BL
         
         private string GetSQL1()
         {
-            return "SELECT a.*," + _db.GetSQL1_Ocas("p26") + ",b02.b02Name,p28.p28Name,o12.o12Name,p25.p25Name FROM p26Msz a INNER JOIN p25MszType p25 ON a.p25ID=p25.p25ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID";
+            return "SELECT a.*," + _db.GetSQL1_Ocas("p26") + ",b02.b02Name,p28.p28Name,o12.o12Name,p25.p25Name FROM "+ BL.TheEntities.ByPrefix("p26").SqlFrom;
         }
         public BO.p26Msz Load(int pid)
         {
-            return _db.Load<BO.p26Msz>(string.Format("{0} WHERE a.p26ID={1}", GetSQL1(), pid));
+            return _db.Load<BO.p26Msz>(string.Format("{0} WHERE a.p26ID=@pid", GetSQL1()), new { pid = pid });
         }
         public IEnumerable<BO.p26Msz> GetList(BO.myQuery mq)
         {
-            return _db.GetList<BO.p26Msz>(GetSQL1());
+            DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq, _mother.CurrentUser);
+            return _db.GetList<BO.p26Msz>(fq.FinalSql, fq.Parameters);
         }
 
         public int Save(BO.p26Msz rec)

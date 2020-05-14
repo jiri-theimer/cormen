@@ -22,11 +22,11 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*,p25.p25Name,p19.p19Name,p19.p19Code," + _db.GetSQL1_Ocas("p18") + " FROM p18OperCode a INNER JOIN p25MszType p25 ON a.p25ID=p25.p25ID LEFT OUTER JOIN p19Material p19 ON a.p19ID=p19.p19ID";
+            return "SELECT a.*,p25.p25Name,p19.p19Name,p19.p19Code," + _db.GetSQL1_Ocas("p18") + " FROM "+ BL.TheEntities.ByPrefix("p18").SqlFrom;
         }
         public BO.p18OperCode Load(int pid)
         {
-            return _db.Load<BO.p18OperCode>(string.Format("{0} WHERE a.p18ID={1}", GetSQL1(), pid));
+            return _db.Load<BO.p18OperCode>(string.Format("{0} WHERE a.p18ID=@pid", GetSQL1()), new { pid = pid });
         }
         public BO.p18OperCode LoadByCode(string strCode,int intP25ID, int intExcludePID)
         {

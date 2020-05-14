@@ -22,7 +22,7 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*,dbo.j02_show_as_owner(a.j02ID_Owner) as RecordOwner," + _db.GetSQL1_Ocas("p28") + " FROM p28Company a";
+            return "SELECT a.*,dbo.j02_show_as_owner(a.j02ID_Owner) as RecordOwner," + _db.GetSQL1_Ocas("p28") + " FROM " + BL.TheEntities.ByPrefix("p28").SqlFrom;
         }
         public BO.p28Company Load(int pid)
         {

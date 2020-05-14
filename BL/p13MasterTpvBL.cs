@@ -20,12 +20,12 @@ namespace BL
        
         private string GetSQL1()
         {
-            return "SELECT a.*,p25.p25Name," + _db.GetSQL1_Ocas("p13") + " FROM p13MasterTpv a INNER JOIN p25MszType p25 ON a.p25ID=p25.p25ID";
+            return "SELECT a.*,p25.p25Name," + _db.GetSQL1_Ocas("p13") + " FROM "+ BL.TheEntities.ByPrefix("p13").SqlFrom;
         }
         public BO.p13MasterTpv Load(int pid)
         {
 
-            return _db.Load<BO.p13MasterTpv>(string.Format("{0} WHERE a.p13ID={1}", GetSQL1(), pid));
+            return _db.Load<BO.p13MasterTpv>(string.Format("{0} WHERE a.p13ID=@pid", GetSQL1()),new { pid = pid });
         }
         public IEnumerable<BO.p13MasterTpv> GetList(BO.myQuery mq)
         {

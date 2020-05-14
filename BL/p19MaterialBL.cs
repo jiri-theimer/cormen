@@ -21,11 +21,11 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*,o12.o12Name,p28.p28Name," + _db.GetSQL1_Ocas("p19") + " FROM p19Material a LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID";
+            return "SELECT a.*,o12.o12Name,p28.p28Name," + _db.GetSQL1_Ocas("p19") + " FROM "+ BL.TheEntities.ByPrefix("p19").SqlFrom;
         }
         public BO.p19Material Load(int pid)
         {
-            return _db.Load<BO.p19Material>(string.Format("{0} WHERE a.p19ID={1}", GetSQL1(), pid));
+            return _db.Load<BO.p19Material>(string.Format("{0} WHERE a.p19ID=@pid", GetSQL1()), new { pid = pid });
         }
         public IEnumerable<BO.p19Material> GetList(BO.myQuery mq)
         {

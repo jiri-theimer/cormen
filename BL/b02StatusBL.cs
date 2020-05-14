@@ -19,11 +19,11 @@ namespace BL
         
         private string GetSQL1()
         {
-            return "SELECT a.*," + _db.GetSQL1_Ocas("b02") + " FROM b02Status a";
+            return "SELECT a.*," + _db.GetSQL1_Ocas("b02") + " FROM " + BL.TheEntities.ByPrefix("b02").SqlFrom;
         }
         public BO.b02Status Load(int pid)
         {
-            return _db.Load<BO.b02Status>(string.Format("{0} WHERE a.b02ID={1}", GetSQL1(), pid));
+            return _db.Load<BO.b02Status>(string.Format("{0} WHERE a.b02ID=@pid", GetSQL1()), new { pid = pid });
         }
         public IEnumerable<BO.b02Status> GetList(BO.myQuery mq)
         {

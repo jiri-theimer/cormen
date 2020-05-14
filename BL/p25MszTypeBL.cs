@@ -22,11 +22,11 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*," + _db.GetSQL1_Ocas("p25") + " FROM p25MszType a";
+            return "SELECT a.*," + _db.GetSQL1_Ocas("p25") + " FROM "+ BL.TheEntities.ByPrefix("p25").SqlFrom;
         }
         public BO.p25MszType Load(int pid)
         {
-            return _db.Load<BO.p25MszType>(string.Format("{0} WHERE a.p25ID={1}", GetSQL1(), pid));
+            return _db.Load<BO.p25MszType>(string.Format("{0} WHERE a.p25ID=@pid", GetSQL1()), new { pid = pid });
         }
         public IEnumerable<BO.p25MszType> GetList(BO.myQuery mq)
         {

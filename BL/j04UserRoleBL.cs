@@ -17,15 +17,20 @@ namespace BL
         {
             
         }
-       
-      
+
+        private string GetSQL1()
+        {
+            return "SELECT a.*," + _db.GetSQL1_Ocas("j04") + " FROM " + BL.TheEntities.ByPrefix("j04").SqlFrom;
+        }
+
         public BO.j04UserRole Load(int pid)
-        {            
-            return _db.Load<BO.j04UserRole>(string.Format("SELECT a.*,{0} FROM j04UserRole a WHERE a.j04ID={1}", _db.GetSQL1_Ocas("j04"), pid.ToString()));
+        {
+            return _db.Load<BO.j04UserRole>(string.Format("{0} WHERE a.j04ID=@pid", GetSQL1()), new { pid = pid });            
         }
         public IEnumerable<BO.j04UserRole> GetList(BO.myQuery mq)
         {
-            return _db.GetList<BO.j04UserRole>(string.Format("SELECT a.*,{0} FROM j04UserRole a", _db.GetSQL1_Ocas("j04")));
+            DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq, _mother.CurrentUser);
+            return _db.GetList<BO.j04UserRole>(fq.FinalSql, fq.Parameters);
         }
 
         public int Save(BO.j04UserRole rec)
