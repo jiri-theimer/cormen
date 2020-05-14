@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Objednávka";
     Layout = "~/Views/Shared/_LayoutSubform.cshtml";
+    if (Model.Rec == null) return;
 }
 
     <div class="modal_record_container">

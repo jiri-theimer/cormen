@@ -147,7 +147,7 @@ namespace UI.Controllers
             v.master_pid = master_pid;
             if (String.IsNullOrEmpty(v.master_entity) || v.master_pid == 0)
             {
-                Factory.CurrentUser.AddMessage("master_entity or master_pid missing.");
+                Factory.CurrentUser.AddMessage("Musíte vybrat záznam z nadřízeného panelu.");
             }
             
             return View(v);
