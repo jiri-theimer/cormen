@@ -389,6 +389,8 @@ namespace BL
                     return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix=="p13" || p.Prefix== "b02" || p.Entity == "o12");
                 case "p26":
                     return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p28" || p.Prefix == "b02" || p.Prefix=="o12");
+                case "p31":
+                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p28");
                 case "p19":
                     return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p28" || p.Prefix == "o12");
                 case "p21":

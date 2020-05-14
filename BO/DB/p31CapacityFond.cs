@@ -10,6 +10,8 @@ namespace BO
         [Key]
         public int p31ID { get; set; }
         public int j02ID_Owner { get; set; }
+
+        [Required(ErrorMessage = "Chybí vyplnit název!")]
         public string p31Name { get; set; }
 
     }

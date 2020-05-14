@@ -32,7 +32,7 @@ namespace UI.Controllers
             switch (prefix)
             {
                 case "p13":
-                    tabs.Add(new NavTab() { Name = "Detail", Url = "/p13/Index?pid=@pid" });
+                    tabs.Add(new NavTab() { Name = "Detail", Url = "/p13/Index?pid="+ AppendPid2Url(v.go2pid) });
                     tabs.Add(new NavTab() { Name="Master produkty",Entity = "p10MasterProduct", Url = "SlaveView?prefix=p10" });
                     tabs.Add(new NavTab() { Name = "Technologický rozpis operací", Entity = "p14MasterOper", Url = "SlaveView?prefix=p14" });
                     tabs.Add(new NavTab() { Name = "Klientská receptura", Entity = "p12ClientTpv", Url = "SlaveView?prefix=p12" });
@@ -40,7 +40,7 @@ namespace UI.Controllers
                     tabs.Add(new NavTab() { Name = "Dokumenty", Entity = "o23Doc", Url = "SlaveView?prefix=o23" });
                     break;
                 case "p28":
-                    tabs.Add(new NavTab() { Name = "Detail", Url = "/p28/Index?pid=@pid" });
+                    tabs.Add(new NavTab() { Name = "Detail", Url = "/p28/Index?pid="+ AppendPid2Url(v.go2pid) });
                     tabs.Add(new NavTab() { Name = "Lidé", Entity = "j02Person", Url = "SlaveView?prefix=j02" });
                     tabs.Add(new NavTab() { Name = "Objednávky", Entity = "p51Order", Url = "SlaveView?prefix=p51" });
                     tabs.Add(new NavTab() { Name = "Stroje", Entity = "p26Msz", Url = "SlaveView?prefix=p26" });
@@ -51,7 +51,7 @@ namespace UI.Controllers
 
                     break;
                 case "p21":
-                    tabs.Add(new NavTab() { Name = "Detail", Url = "/p21/Index?pid=@pid" });
+                    tabs.Add(new NavTab() { Name = "Detail", Url = "/p21/Index?pid="+ AppendPid2Url(v.go2pid) });
                     tabs.Add(new NavTab() { Name = "Master produkty", Entity = "p10MasterProduct", Url = "SlaveView?prefix=p10" });
                     tabs.Add(new NavTab() { Name = "Klientská receptura", Entity = "p12ClientTpv", Url = "SlaveView?prefix=p12" });
                     tabs.Add(new NavTab() { Name = "Klientské produkty", Entity = "p11ClientProduct", Url = "SlaveView?prefix=p11" });
@@ -59,7 +59,7 @@ namespace UI.Controllers
 
                     break;
                 case "p10":                    
-                    tabs.Add(new NavTab() { Name = "Detail", Url = "/p10/Index?pid=@pid" });
+                    tabs.Add(new NavTab() { Name = "Detail", Url = "/p10/Index?pid="+ AppendPid2Url(v.go2pid) });
                     tabs.Add(new NavTab() { Name = "Technologický rozpis operací", Entity = "p14MasterOper", Url = "SlaveView?prefix=p14" });
                     tabs.Add(new NavTab() { Name = "Licence", Entity = "p21License", Url = "SlaveView?prefix=p21" });
                     tabs.Add(new NavTab() { Name = "Klientské produkty", Entity = "p11ClientProduct", Url = "SlaveView?prefix=p11" });
@@ -67,40 +67,40 @@ namespace UI.Controllers
 
                     break;
                 case "j02":
-                    tabs.Add(new NavTab() { Name = "Detail", Url = "/j02/Index?pid=@pid" });
+                    tabs.Add(new NavTab() { Name = "Detail", Url = "/j02/Index?pid="+ AppendPid2Url(v.go2pid) });
                     tabs.Add(new NavTab() { Name = "Dokumenty", Entity = "o23Doc", Url = "SlaveView?prefix=o23" });
                     tabs.Add(new NavTab() { Name = "Založené objednávky", Entity = "p51Order", Url = "SlaveView?prefix=p51" });
                     tabs.Add(new NavTab() { Name = "Založené zakázky", Entity = "p41Task", Url = "SlaveView?prefix=p41" });
                     tabs.Add(new NavTab() { Name = "Historie přihlašování", Entity = "j90LoginAccessLog", Url = "SlaveView?prefix=j90" });
                     break;
                 case "p26":
-                    tabs.Add(new NavTab() { Name = "Detail", Url = "/p26/Index?pid=@pid" });
+                    tabs.Add(new NavTab() { Name = "Detail", Url = "/p26/Index?pid="+ AppendPid2Url(v.go2pid) });
                     tabs.Add(new NavTab() { Name = "Dokumenty", Entity = "o23Doc", Url = "SlaveView?prefix=o23" });
                     break;
                 case "o23":
-                    tabs.Add(new NavTab() { Name = "Detail", Url = "/o23/Index?pid=@pid" });
+                    tabs.Add(new NavTab() { Name = "Detail", Url = "/o23/Index?pid="+ AppendPid2Url(v.go2pid) });
                     break;
                 //klientské prostředí
                 case "p12":
-                    tabs.Add(new NavTab() { Name = "Detail", Url = "/p12/Index?pid=@pid" });
+                    tabs.Add(new NavTab() { Name = "Detail", Url = "/p12/Index?pid="+ AppendPid2Url(v.go2pid) });
                     tabs.Add(new NavTab() { Name = "Produkty", Entity = "p11ClientProduct", Url = "SlaveView?prefix=p11" });
                     tabs.Add(new NavTab() { Name = "Technologický rozpis operací", Entity = "p15ClientOper", Url = "SlaveView?prefix=p15" });
                     tabs.Add(new NavTab() { Name = "Dokumenty", Entity = "o23Doc", Url = "SlaveView?prefix=o23" });
                     break;
                 case "p11":
-                    tabs.Add(new NavTab() { Name = "Detail", Url = "/p11/Index?pid=@pid" });
+                    tabs.Add(new NavTab() { Name = "Detail", Url = "/p11/Index?pid="+ AppendPid2Url(v.go2pid) });
                     tabs.Add(new NavTab() { Name = "Technologický rozpis operací", Entity = "p15ClientOper", Url = "SlaveView?prefix=p15" });
                     tabs.Add(new NavTab() { Name = "Licence", Entity = "p21License", Url = "SlaveView?prefix=p21" });
                     tabs.Add(new NavTab() { Name = "Objednávky", Entity = "p51Order", Url = "SlaveView?prefix=p51" });
                     tabs.Add(new NavTab() { Name = "Dokumenty", Entity = "o23Doc", Url = "SlaveView?prefix=o23" });
                     break;
                 case "p41":
-                    tabs.Add(new NavTab() { Name = "Detail", Url = "/p41/Index?pid=@pid" });
+                    tabs.Add(new NavTab() { Name = "Detail", Url = "/p41/Index?pid="+ AppendPid2Url(v.go2pid) });
                     tabs.Add(new NavTab() { Name = "Dokumenty", Entity = "o23Doc", Url = "SlaveView?prefix=o23" });
 
                     break;
                 case "p51":
-                    tabs.Add(new NavTab() { Name = "Detail", Url = "/p51/Index?pid=@pid" });
+                    tabs.Add(new NavTab() { Name = "Detail", Url = "/p51/Index?pid="+ AppendPid2Url(v.go2pid) });
                     tabs.Add(new NavTab() { Name = "Položky objednávky", Entity = "p52OrderItem", Url = "SlaveView?prefix=p52" });
                     tabs.Add(new NavTab() { Name = "Dokumenty", Entity = "o23Doc", Url = "SlaveView?prefix=o23" });
 
@@ -111,7 +111,8 @@ namespace UI.Controllers
             
             foreach (var tab in tabs)
             {
-                tab.Url += "&master_entity=" + ce.TableName + "&master_pid=@pid";
+                tab.Url += "&master_entity=" + ce.TableName+"&master_pid="+ AppendPid2Url(v.go2pid);
+               
                 if (strDefTab !="" && tab.Entity== strDefTab)
                 {
                     deftab = tab;  //uživatelem naposledy vybraná záložka
@@ -120,11 +121,24 @@ namespace UI.Controllers
             deftab.CssClass += " active";
             if (go2pid > 0)
             {
-                v.go2pid_url_in_iframe = deftab.Url.Replace("@pid", go2pid.ToString());
+                v.go2pid_url_in_iframe = deftab.Url;
+                //v.go2pid_url_in_iframe = deftab.Url.Replace("@pid", go2pid.ToString());
             }
 
             v.NavTabs = tabs;
             return View(v);
+        }
+
+        private string AppendPid2Url(int go2pid)
+        {
+            if (go2pid > 0)
+            {
+                return go2pid.ToString();
+            }
+            else
+            {
+                return  "@pid";
+            }
         }
         public IActionResult SlaveView(string master_entity,int master_pid, string prefix, int go2pid)    //podřízený subform v rámci MasterView
         {
