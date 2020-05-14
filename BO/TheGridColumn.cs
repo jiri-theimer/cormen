@@ -21,7 +21,9 @@ namespace BO
         public bool IsFilterable { get; set; } = true;
         public bool IsShowTotals { get; set; }
         public int FixedWidth { get; set; }
-        
+        public string EntityAlias { get; set; }
+
+
         public string Entity
         {
             get
@@ -94,19 +96,13 @@ namespace BO
         {
             get
             {
-                if (FieldType == "num0" || FieldType == "num") return "num";
+                if (FieldType == "num0" || FieldType == "num" || FieldType=="num3") return "num";
                 if (FieldType == "date" || FieldType == "datetime") return "date";
                 return this.FieldType;
             }
             
         }
-        public string EntityAlias
-        {
-            get
-            {
-                return BO.BAS.getEntityAlias(this.Entity);
-            }
-        }
+        
         public string Prefix
         {
             get

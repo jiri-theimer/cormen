@@ -72,86 +72,19 @@ namespace BL
             }
             sb.Append("," + GetSQL_SELECT_Ocas(mq.Prefix, bolGetTotalsRow));  //konstantní pole jako pid,isclosed
 
-
-            switch (mq.Prefix)
+            sb.Append(" FROM ");
+            BO.TheEntity ce = BL.TheEntities.ByPrefix(mq.Prefix);
+            sb.Append(ce.SqlFrom);
+            if (ce.SqlOrderBy != null)  //výchozí třídění záznamů entity
             {
-                case "j02":                                        
-                    sb.Append(" FROM j02Person a LEFT OUTER JOIN j03User j03 ON a.j02ID=j03.j02ID LEFT OUTER JOIN j04UserRole j04 ON j03.j04ID=j04.j04ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID");
-                    break;
-                case "j03":
-                    sb.Append(" FROM j03User a INNER JOIN j02Person j02 ON a.j02ID=j02.j02ID INNER JOIN j04UserRole j04 ON a.j04ID=j04.j04ID LEFT OUTER JOIN p28Company p28 ON j02.p28ID=p28.p28ID");
-                    break;
-                case "j04":
-                    sb.Append(" FROM j04UserRole a");
-                    break;
-                case "b02":
-                    sb.Append(" FROM b02Status a");               
-                    break;
-                case "p18":
-                    sb.Append(" FROM p18OperCode a INNER JOIN p25MszType p25 ON a.p25ID=p25.p25ID LEFT OUTER JOIN p19Material p19 ON a.p19ID=p19.p19ID");
-                    break;
-                case "p25":
-                    sb.Append(" FROM p25MszType a");
-                    break;
-                case "p28":
-                    sb.Append(" FROM p28Company a");
-                    break;
-                case "p26":
-                    sb.Append(" FROM p26Msz a INNER JOIN p25MszType p25 ON a.p25ID=p25.p25ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID");
-                    break;
-                case "p21":
-                    sb.Append(" FROM p21License a LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID");
-                    break;
-                case "o12":
-                    sb.Append(" FROM o12Category a");
-                    break;
-                case "p19":
-                    sb.Append(" FROM p19Material a LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID");
-                    break;
-                case "p10":
-                    sb.Append(" FROM p10MasterProduct a LEFT OUTER JOIN p13MasterTpv p13 ON a.p13ID=p13.p13ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID");
-                    break;
-                case "p13":
-                    sb.Append(" FROM p13MasterTpv a INNER JOIN p25MszType p25 ON a.p25ID=p25.p25ID");
-                    break;
-                case "p14":
-                    sb.Append(" FROM p14MasterOper a LEFT OUTER JOIN p19Material p19 ON a.p19ID=p19.p19ID LEFT OUTER JOIN p18OperCode p18 ON a.p18ID=p18.p18ID");
-                    if (String.IsNullOrEmpty(mq.explicit_orderby) && bolGetTotalsRow==false) mq.explicit_orderby = "a.p14RowNum";
-                    break;
-                case "o23":
-                    sb.Append(" FROM o23Doc a LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID");
-                    break;
-                case "p11":
-                    sb.Append(" FROM p11ClientProduct a LEFT OUTER JOIN p12ClientTpv p12 ON a.p12ID=p12.p12ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p21License p21 ON a.p21ID=p21.p21ID");
-                    sb.Append(" LEFT OUTER JOIN p28Company p28 ON p21.p28ID=p28.p28ID LEFT OUTER JOIN p20Unit p20 ON a.p20ID=p20.p20ID");
-                    sb.Append(" LEFT OUTER JOIN p10MasterProduct p10 ON a.p10ID_Master=p10.p10ID");
-                    break;
-                case "p12":
-                    sb.Append(" FROM p12ClientTpv a LEFT OUTER JOIN p21License p21 ON a.p21ID=p21.p21ID LEFT OUTER JOIN p28Company p28 ON p21.p28ID=p28.p28ID LEFT OUTER JOIN p13MasterTpv p13 ON a.p13ID_Master=p13.p13ID LEFT OUTER JOIN p25MszType p25 ON p13.p25ID=p25.p25ID");
-                    break;                
-                case "p15":
-                    sb.Append(" FROM p15ClientOper a LEFT OUTER JOIN p19Material p19 ON a.p19ID=p19.p19ID LEFT OUTER JOIN p18OperCode p18 ON a.p18ID=p18.p18ID");
-                    if (String.IsNullOrEmpty(mq.explicit_orderby) && bolGetTotalsRow == false) mq.explicit_orderby = "a.p15RowNum";
-                    break;
-                case "p41":
-                    sb.Append(" FROM p41Task a LEFT OUTER JOIN p11ClientProduct p11 ON a.p11ID=p11.p11ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID");
-                    sb.Append(" LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN p26Msz p26 ON a.p26ID=p26.p26ID");
-                    break;
-                case "p51":
-                    sb.Append(" FROM p51Order a LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID");
-                    sb.Append(" LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN p26Msz p26 ON a.p26ID=p26.p26ID");
-                    break;
-                case "p52":
-                    sb.Append(" FROM p52OrderItem a INNER JOIN p51Order p51 ON a.p51ID=p51.p51ID INNER JOIN p11ClientProduct p11 ON a.p11ID=p11.p11ID LEFT OUTER JOIN p20Unit p20 ON p11.p20ID=p20.p20ID");                    
-                    break;                
-                default:
-                    sb.Append(" FROM "+BO.BAS.getEntityFromPrefix(mq.Prefix)+" a");
-                    break;
+                if (String.IsNullOrEmpty(mq.explicit_orderby) && bolGetTotalsRow == false) mq.explicit_orderby = ce.SqlOrderBy;
             }
-
-          
-            //parametrický dotaz s WHERE klauzulí
             
+
+           
+
+            //parametrický dotaz s WHERE klauzulí
+
             DL.FinalSqlCommand q = DL.basQuery.ParseFinalSql(sb.ToString(),mq,_mother.CurrentUser, true);    //závěrečné vygenerování WHERE a ORDERBY klauzule
             
             return _db.GetDataTable(q.FinalSql, q.Parameters4DT);

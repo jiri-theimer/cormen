@@ -9,6 +9,8 @@ namespace BL
     {
         private List<BO.TheGridColumn> _lis;
         private BO.myQuery _mq;
+        private string _lastEntity;
+        private string _curEntityAlias;
 
         public TheColumnsProvider(BO.myQuery mq)
         {
@@ -19,13 +21,23 @@ namespace BL
 
         private void AF(string strEntity, string strField, string strHeader,int intDefaultFlag=0, string strSqlSyntax = null,string strFieldType="string",bool bolIsShowTotals=false)
         {
-            _lis.Add(new BO.TheGridColumn() { Field = strField, Entity = strEntity, Header = strHeader,DefaultColumnFlag= intDefaultFlag, SqlSyntax = strSqlSyntax,FieldType= strFieldType,IsShowTotals=bolIsShowTotals });
+            if (strEntity != _lastEntity)
+            {
+                _curEntityAlias = BL.TheEntities.ByTable(strEntity).AliasSingular;
+            }
+            _lis.Add(new BO.TheGridColumn() { Field = strField, Entity = strEntity, EntityAlias= _curEntityAlias, Header = strHeader,DefaultColumnFlag= intDefaultFlag, SqlSyntax = strSqlSyntax,FieldType= strFieldType,IsShowTotals=bolIsShowTotals });
+            _lastEntity = strEntity;
         }
       
 
         private void AF_TIMESTAMP(string strEntity, string strField, string strHeader, string strSqlSyntax,string strFieldType)
         {
-            _lis.Add(new BO.TheGridColumn() { IsTimestamp = true, Field = strField, Entity = strEntity, Header = strHeader, SqlSyntax = strSqlSyntax, FieldType = strFieldType });
+            if (strEntity != _lastEntity)
+            {
+                _curEntityAlias = BL.TheEntities.ByTable(strEntity).AliasSingular;
+            }
+            _lis.Add(new BO.TheGridColumn() { IsTimestamp = true, Field = strField, Entity = strEntity, EntityAlias = _curEntityAlias, Header = strHeader, SqlSyntax = strSqlSyntax, FieldType = strFieldType });
+            _lastEntity = strEntity;
         }
 
         private void AppendTimestamp(string strEntity)

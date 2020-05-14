@@ -59,7 +59,7 @@ namespace UI.Controllers
                 }
                 else
                 {
-                    v.Rec.o23Entity = BO.BAS.getEntityFromPrefix(recprefix);
+                    v.Rec.o23Entity = BL.TheEntities.ByPrefix(recprefix).TableName;
                     if (recpid > 0)
                     {
                         v.Rec.o23RecordPid = recpid;

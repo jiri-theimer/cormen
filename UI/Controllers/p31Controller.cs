@@ -24,7 +24,7 @@ namespace UI.Controllers
                 //v.CurrentDate = DateTime.ParseExact(d, "dd.MM.yyyy", System.Globalization.CultureInfo.InvariantCulture);
             }
             v.Rec = Factory.p31CapTemplateBL.Load(p31id);
-
+            
             return View(v);
         }
         public IActionResult Record(int pid, bool isclone)

@@ -24,7 +24,7 @@
         <label class="col-sm-1 col-md-2 col-form-label">Svázaný záznam:</label>
         <div class="col-sm-11 col-md-10">
             <div class="btn-group" style="width:100%;">
-                <span class="form-control" style="background-color:khaki;width:200px;">@Model.Rec.EntityAlias</span>
+                <span class="form-control" style="background-color:khaki;width:200px;">@(BL.TheEntities.ByTable(Model.Rec.o23Entity).AliasSingular)</span>
                 <strong class="form-control bg-light">@Model.Rec.RecordPidAlias</strong>
 
             </div>

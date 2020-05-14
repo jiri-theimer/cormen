@@ -40,8 +40,8 @@
         -ms-user-select: none; /* IE 10+ and Edge */
         user-select: none; /* Standard syntax */
     }
-    .nowork{
-        background-color:lightpink;
+    .nowork {
+        background-color: #FFF0F7;
     }
 </style>
 
@@ -152,7 +152,7 @@
             onElementUnselect: function (element) { }, // fired every time an element is de-selected. (element) = just de-selected node.
             callback: function (elements) {
                 // fired once the user releases the mouse. (elements) = selected nodes.
-
+                _notify_message(elements.length);
 
             }
 

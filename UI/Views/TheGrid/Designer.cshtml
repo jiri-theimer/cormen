@@ -96,7 +96,7 @@
 
 <h4>
     GRID [
-    @(BO.BAS.getEntityAlias(Model.Rec.j72Entity,true))
+    @(BL.TheEntities.ByTable(Model.Rec.j72Entity).AliasPlural)
     ]
     Návrhář sloupců
 </h4>
@@ -125,7 +125,7 @@
                 @foreach (var strEntity in _entities)
                 {
                     <li>
-                        <span id="@("group"+strEntity)" class="caret">@BO.BAS.getEntityAlias(strEntity)</span>
+                        <span id="@("group"+strEntity)" class="caret">@BL.TheEntities.ByTable(strEntity).AliasSingular</span>
                         <ul class="collapsed">
                             @foreach (var col in Model.ApplicableCollumns.Where(p => p.Entity == strEntity))
                             {

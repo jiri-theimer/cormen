@@ -59,7 +59,7 @@ namespace BL
                     c = _db.Load<BO.COM.GetString>("select j02LastName+' - '+j02FirstName as Value FROM j02Person WHERE j02ID=@pid", new { pid = pid });
                     break;
                 default:
-                    c = _db.Load<BO.COM.GetString>(string.Format("select {0}Name+' ['+{0}Code+']' as Value FROM {1} WHERE {0}ID=@pid",strPrefix,BO.BAS.getEntityFromPrefix(strPrefix)), new { pid = pid });
+                    c = _db.Load<BO.COM.GetString>(string.Format("select {0}Name+' ['+{0}Code+']' as Value FROM {1} WHERE {0}ID=@pid",strPrefix,BL.TheEntities.ByPrefix(strPrefix).TableName), new { pid = pid });
                     break;
             }
             

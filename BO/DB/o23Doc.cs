@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
+using System.Reflection.Metadata;
 
 namespace BO
 {
@@ -33,10 +34,11 @@ namespace BO
 
         public string RecordPidAlias;
 
-        public string EntityAlias { get
-            {
-                return BAS.getEntityAlias(this.o23Entity);
-            } }
+        //public string EntityAlias { get
+        //    {
+        //        return BAS.getEntityAlias(this.o23Entity);
+                
+        //    } }
 
         public string RecordOwner;
     }

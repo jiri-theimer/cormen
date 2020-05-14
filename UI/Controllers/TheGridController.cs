@@ -25,6 +25,7 @@ namespace UI.Controllers
         public IActionResult MasterView(string prefix,int go2pid)    //grid horní + spodní panel
         {
             TheGridInstanceViewModel v = inhaleGridViewInstance(prefix, go2pid);
+            BO.TheEntity ce = BL.TheEntities.ByPrefix(prefix);
             var tabs = new List<NavTab>();
             
             switch (prefix)
@@ -109,7 +110,7 @@ namespace UI.Controllers
             
             foreach (var tab in tabs)
             {
-                tab.Url += "&master_entity=" + BO.BAS.getEntityFromPrefix(prefix) + "&master_pid=@pid";
+                tab.Url += "&master_entity=" + ce.TableName + "&master_pid=@pid";
                 if (strDefTab !="" && tab.Entity== strDefTab)
                 {
                     deftab = tab;  //uživatelem naposledy vybraná záložka
@@ -139,7 +140,7 @@ namespace UI.Controllers
         private TheGridInstanceViewModel inhaleGridViewInstance(string prefix,int go2pid)
         {
             var v = new TheGridInstanceViewModel() { prefix = prefix, go2pid = go2pid,contextmenuflag=1 };
-            v.entity = BO.BAS.getEntityFromPrefix(prefix);
+            v.entity = BL.TheEntities.ByPrefix(prefix).TableName;
             if (v.entity == "")
             {
                 Factory.CurrentUser.AddMessage("Entity for Grid not found.");
