@@ -60,6 +60,7 @@ namespace UI.Controllers
                 c.p10Name = v.Rec.p10Name;
                 c.p10Memo = v.Rec.p10Memo;
                 c.b02ID = v.Rec.b02ID;
+                c.p20ID = v.Rec.p20ID;
                 c.p13ID = v.Rec.p13ID;
                 c.o12ID = v.Rec.o12ID;
                 c.p10SwLicenseFlag = v.Rec.p10SwLicenseFlag;

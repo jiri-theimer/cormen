@@ -77,6 +77,7 @@ namespace BL
             {
                 AF("p10MasterProduct","p10Name", "Název",1);
                 AF("p10MasterProduct","p10Code", "Kód produktu",1);
+                AF("p10MasterProduct", "p20Code", "MJ", 1, "p20.p20Code");
                 AF("p10MasterProduct", "p13Code", "Číslo receptury", 1,"p13.p13Code");
                 AF("p10MasterProduct","b02Name", "Stav",0,"b02.b02Name");
                 AF("p10MasterProduct", "o12Name", "Kategorie", 0, "o12.o12Name");

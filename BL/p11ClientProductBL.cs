@@ -58,6 +58,10 @@ namespace BL
 
         private bool ValidateBeforeSave(BO.p11ClientProduct rec)
         {
+            if (rec.p20ID == 0)
+            {
+                _db.CurrentUser.AddMessage("Chybí vyplnit měrná jednotka."); return false;
+            }
             if (LoadByCode(rec.p11Code, rec.pid) != null)
             {
                 _db.CurrentUser.AddMessage(string.Format("Zadaný kód nemůže být duplicitní s jiným produktem [{0}].", LoadByCode(rec.p11Code, rec.pid).p11Name));

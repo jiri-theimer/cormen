@@ -42,6 +42,19 @@
         </div>
     </div>
     <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Měrná jednotka:</label>
+
+        <div class="col-sm-2 col-md-2">
+            <select asp-for="Rec.p20ID" class="form-control">
+                <option value="0"></option>
+                <option value="1">Hmotnost (kg)</option>
+                <option value="2">Objem (lt)</option>
+                <option value="4">Rok (yyyy)</option>
+                <option value="5">Měsíc (mm)</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-row" style="margin-top:10px;">
         <label class="col-sm-1 col-md-2 col-form-label">Kategorie/Skupina:</label>
         <div class="col-sm-11 col-md-10">
             <mycombo entity="o12Category" asp-for="Rec.o12ID" selectedtext="Rec.o12Name" param1="p10"></mycombo>

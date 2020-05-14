@@ -20,7 +20,7 @@ namespace BL
        
         private string GetSQL1()
         {
-            return "SELECT a.*," + _db.GetSQL1_Ocas("p10") + ",b02.b02Name,p13.p13Name,p13.p13Code,o12.o12Name FROM "+ BL.TheEntities.ByPrefix("p10").SqlFrom;
+            return "SELECT a.*," + _db.GetSQL1_Ocas("p10") + ",b02.b02Name,p13.p13Name,p13.p13Code,o12.o12Name,p20.p20Code FROM "+ BL.TheEntities.ByPrefix("p10").SqlFrom;
         }
         public BO.p10MasterProduct Load(int pid)
         {
@@ -48,6 +48,7 @@ namespace BL
             p.AddInt("p13ID",rec.p13ID,true);
             p.AddInt("b02ID", rec.b02ID,true);
             p.AddInt("o12ID", rec.o12ID,true);
+            p.AddInt("p20ID", rec.p20ID, true);
             p.AddString("p10Name", rec.p10Name);
             p.AddString("p10Code", rec.p10Code);
             p.AddString("p10Memo", rec.p10Memo);
@@ -59,6 +60,10 @@ namespace BL
 
         private bool ValidateBeforeSave(BO.p10MasterProduct rec)
         {
+            if (rec.p20ID == 0)
+            {
+                _db.CurrentUser.AddMessage("Chybí vyplnit měrná jednotka."); return false;
+            }
             if (LoadByCode(rec.p10Code,rec.pid) != null)
             {
                 _db.CurrentUser.AddMessage(string.Format("Zadaný kód nemůže být duplicitní s jiným záznamem [{0}].", LoadByCode(rec.p10Code, rec.pid).p10Name));
