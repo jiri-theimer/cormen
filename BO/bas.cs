@@ -88,7 +88,12 @@ namespace BO
             }
         }
         
-
+        public static DateTime String2Date(string d)
+        {
+            string[] arr = d.Split(".");
+            if (arr.Length < 3) return (DateTime.Today);
+            return (new DateTime(int.Parse(arr[2]), int.Parse(arr[1]), int.Parse(arr[0])));
+        }
         public static string ObjectDate2String(object d,string format="dd.MM.yyyy")
         {
             if (d == System.DBNull.Value) return "";

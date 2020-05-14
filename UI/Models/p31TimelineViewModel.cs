@@ -8,9 +8,11 @@ namespace UI.Models
     public class p31TimelineViewModel:BaseViewModel
 
     {
-        public BO.p31CapTemplate Rec { get; set; }
+        public BO.p31CapacityFond Rec { get; set; }
 
         public DateTime CurrentDate { get; set; }
-        public int CurrentP31ID { get; set; }
+        public BO.p31CapacityFond RecP31 { get; set; }
+
+        
     }
 }

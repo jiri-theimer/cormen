@@ -36,7 +36,7 @@ namespace BL
         private Ip52OrderItemBL _p52;
         private Ip19MaterialBL _p19;
         private Ip18OperCodeBL _p18;
-        private Ip31CapTemplateBL _p31;
+        private Ip31CapacityFondBL _p31;
 
         public Factory(BO.RunningUser c,BL.RunningApp runningapp)
         {
@@ -288,11 +288,11 @@ namespace BL
             }
         }
 
-        public Ip31CapTemplateBL p31CapTemplateBL
+        public Ip31CapacityFondBL p31CapacityFondBL
         {
             get
             {
-                if (_p31 == null) _p31 = new p31CapTemplateBL(this);
+                if (_p31 == null) _p31 = new p31CapacityFondBL(this);
                 return _p31;
             }
         }

@@ -122,9 +122,11 @@ namespace UI.Controllers
                 sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p18/record');\">Kód operace</a>");
                 sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p19/record');\">Materiál</a>");
                 sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p25/record');\">Typ zařízení</a>");
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p31/record');\">Šablona kapacity</a>");
             }
-            
+
+            sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p31/record');\">Kapacitní fond</a>");
+
+
 
             return sb.ToString();
         }

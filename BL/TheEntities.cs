@@ -39,7 +39,7 @@ namespace BL
             AE("j02Person", "Lidé", "Jméno", "j02Person a LEFT OUTER JOIN j03User j03 ON a.j02ID=j03.j02ID LEFT OUTER JOIN j04UserRole j04 ON j03.j04ID=j04.j04ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID");
             AE("j03User", "Uživatelé", "Uživatel", "j03User a INNER JOIN j02Person j02 ON a.j02ID=j02.j02ID INNER JOIN j04UserRole j04 ON a.j04ID=j04.j04ID LEFT OUTER JOIN p28Company p28 ON j02.p28ID=p28.p28ID");
             
-            AE("p26Msz", "Stroje | MSZ", "Stroj | MSZ", "p26Msz a INNER JOIN p25MszType p25 ON a.p25ID=p25.p25ID LEFT OUTER JOIN p31CapTemplate p31 ON a.p31ID=p31.p31ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID");
+            AE("p26Msz", "Stroje | MSZ", "Stroj | MSZ", "p26Msz a INNER JOIN p25MszType p25 ON a.p25ID=p25.p25ID LEFT OUTER JOIN p31CapacityFond p31 ON a.p31ID=p31.p31ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID");
             AE("p21License", "Licence", "Licence", "p21License a LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID");
 
             AE("p18OperCode", "Kódy operací", "Kód operace", "p18OperCode a INNER JOIN p25MszType p25 ON a.p25ID=p25.p25ID LEFT OUTER JOIN p19Material p19 ON a.p19ID=p19.p19ID");
@@ -65,7 +65,7 @@ namespace BL
             AE_TINY("p25MszType", "Typy zařízení", "Typ zařízení");
             AE_TINY("p28Company", "Subjekty | Klienti", "Subjekt | Klient");
             AE_TINY("o12Category", "Kategorie", "Kategorie");
-            AE_TINY("p31CapTemplate", "Kapacitní fondy", "Kapacitní fond");
+            AE_TINY("p31CapacityFond", "Kapacitní fondy", "Kapacitní fond");
             AE_TINY("j90LoginAccessLog", "Historie přihlašování", "Historie přihlašování");
 
 

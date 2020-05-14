@@ -9,8 +9,12 @@
 
         <div class="form-row">
             <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
-            <div class="col-sm-9 col-md-8">
+            <div class="col-sm-8 col-md-7">
                 <span class="form-control bg-light">@(Model.Rec.p11Name)</span>
+
+            </div>
+            <div class="col-sm-1 col-md-1">
+                <span class="form-control bg-light">@(Model.Rec.p20Code)</span>
 
             </div>
             <div class="col-sm-2 col-md-2">
@@ -33,14 +37,15 @@
 
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Jednotková cena:</label>
-            <div class="col-sm-9 col-md-8">
+            <div class="col-sm-3 col-md-2">
                 <span class="form-control bg-light">@(Model.Rec.p11UnitPrice)</span>
 
             </div>
-            <div class="col-sm-2 col-md-2">
-                <span class="form-control bg-light">@(Model.Rec.p20Code)</span>
-
+            <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
+            <div class="col-sm-7 col-md-6">
+                <span class="form-control bg-light">@(Model.Rec.b02Name)</span>
             </div>
+
         </div>
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Licence:</label>
@@ -64,12 +69,7 @@
 
             </div>
         </div>
-        <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
-            <div class="col-sm-11 col-md-10">
-                <span class="form-control bg-light">@(Model.Rec.b02Name)</span>
-            </div>
-        </div>
+        
 
 
 

@@ -46,22 +46,26 @@
 </style>
 
 <div class="input-group">
-    <div>
+    <div style="padding-top:4px;">
         <h4>Kapacitní Timeline</h4>
     </div>
-    <div style="width:30px;margin-left:20px;">
+
+    <div style="width:30px;">
         <button type="button" class="btn btn-light" title="Předchozí měsíc" onclick="month_prev()">&lt;&lt;</button>
     </div>
     <div style="width:120px;">
-        
+
         <mydate asp-for="@Model.CurrentDate"></mydate>
-        
+
     </div>
     <div style="width:30px;">
         <button type="button" class="btn btn-light" title="Následující měsíc" onclick="month_next()">&gt;&gt;</button>
     </div>
+    <div style="min-width:200px;margin-left:20px;">
+        <mycombo entity="p31CapacityFond" asp-for="@Model.RecP31.pid" selectedtext="@Model.RecP31.p31Name" event_after_changevalue="p31id_change" view-flag="2"></mycombo>
+    </div>
     <div>
-        
+
     </div>
 </div>
 <div id="container1">
@@ -130,7 +134,7 @@
 
         $("#CurrentDatehelper").change(function () {
             var d = $(this).val();
-            location.replace("/p31/p31Timeline?p31id=@Model.CurrentP31ID&d=" + d);
+            location.replace("/p31/p31Timeline?p31id=@Model.RecP31.pid&d=" + d);
         });
     });
 
@@ -163,14 +167,18 @@
 
     function month_next() {
         var s = "@(BO.BAS.ObjectDate2String( Model.CurrentDate.AddMonths(1)))";
-        location.replace("/p31/p31Timeline?p31id=@Model.CurrentP31ID&d=" + s);
+        location.replace("/p31/p31Timeline?p31id=@Model.RecP31.pid&d=" + s);
 
 
     }
     function month_prev() {
         var s = "@(BO.BAS.ObjectDate2String( Model.CurrentDate.AddMonths(-1)))";
-        location.replace("/p31/p31Timeline?p31id=@Model.CurrentP31ID&d=" + s);
+        location.replace("/p31/p31Timeline?p31id=@Model.RecP31.pid&d=" + s);
 
+    }
+    function p31id_change(p31id) {
+        var s = "@(BO.BAS.ObjectDate2String( Model.CurrentDate))";
+        location.replace("/p31/p31Timeline?p31id=" + p31id+"&d="+s);
     }
 
 </script>

@@ -45,6 +45,7 @@ namespace BL
             p.AddInt("b02ID",rec.b02ID,true);
             p.AddInt("p28ID", rec.p28ID,true);
             p.AddInt("o12ID", rec.o12ID, true);
+            p.AddInt("p31ID", rec.p31ID, true);
             p.AddString("p26Name", rec.p26Name);           
             p.AddString("p26Code", rec.p26Code);
             p.AddString("p26Memo", rec.p26Memo);

@@ -10,33 +10,42 @@ namespace UI.Controllers
     public class p31Controller : BaseController
     {
         public IActionResult p31Timeline(int p31id,string d)
-        {
+        {            
             var v = new Models.p31TimelineViewModel();
-            v.CurrentP31ID = p31id;
+            if (p31id == 0)
+            {
+                var lis=Factory.p31CapacityFondBL.GetList(new BO.myQuery("p31CapacityFond"));
+                if (lis.Count() == 0)
+                {
+                    return (this.StopPage(false, "Nejdříve musíte založit minimálně jeden kapacitní fond."));                    
+                }
+                p31id = lis.First().pid;
+            }
+            
+            v.RecP31 = Factory.p31CapacityFondBL.Load(p31id);
             if (String.IsNullOrEmpty(d) == true)
             {
                 v.CurrentDate = DateTime.Today;
             }
             else
-            {
-                string[] arr=d.Split(".");
-                v.CurrentDate = new DateTime(int.Parse(arr[2]), int.Parse(arr[1]), int.Parse(arr[0]));
+            {                
+                v.CurrentDate = BO.BAS.String2Date(d);
                 //v.CurrentDate = DateTime.ParseExact(d, "dd.MM.yyyy", System.Globalization.CultureInfo.InvariantCulture);
             }
-            v.Rec = Factory.p31CapTemplateBL.Load(p31id);
+            v.Rec = Factory.p31CapacityFondBL.Load(p31id);
             
             return View(v);
         }
         public IActionResult Record(int pid, bool isclone)
         {
-            if (!this.TestIfUserEditor(true, false))
+            if (!this.TestIfUserEditor(true, true))
             {
                 return this.StopPageCreateEdit(true);
             }
             var v = new Models.p31RecordViewModel();
             if (pid > 0)
             {
-                v.Rec = Factory.p31CapTemplateBL.Load(pid);
+                v.Rec = Factory.p31CapacityFondBL.Load(pid);
                 if (v.Rec == null)
                 {
                     return RecNotFound(v);
@@ -45,7 +54,7 @@ namespace UI.Controllers
             }
             else
             {
-                v.Rec = new BO.p31CapTemplate();                
+                v.Rec = new BO.p31CapacityFond();                
                 v.Rec.entity = "p31";
 
             }
@@ -61,14 +70,14 @@ namespace UI.Controllers
         {
             if (ModelState.IsValid)
             {
-                BO.p31CapTemplate c = new BO.p31CapTemplate();
-                if (v.Rec.pid > 0) c = Factory.p31CapTemplateBL.Load(v.Rec.pid);
+                BO.p31CapacityFond c = new BO.p31CapacityFond();
+                if (v.Rec.pid > 0) c = Factory.p31CapacityFondBL.Load(v.Rec.pid);
 
                 
                 c.p31Name = v.Rec.p31Name;
                 
                
-                v.Rec.pid = Factory.p31CapTemplateBL.Save(c);
+                v.Rec.pid = Factory.p31CapacityFondBL.Save(c);
                 if (v.Rec.pid > 0)
                 {
                     v.SetJavascript_CallOnLoad(v.Rec.pid);

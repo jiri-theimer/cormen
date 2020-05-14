@@ -99,6 +99,7 @@ namespace BL
                 AF("p26Msz","p26Name", "Název",1);
                 AF("p26Msz","p26Code", "Kód",1);
                 AF("p26Msz", "p25Name", "Typ zařízení", 2, "p25.p25Name");
+                AF("p26Msz", "p31Name", "Kapacitní fond", 2, "p31.p31Name");
                 AF("p26Msz","p28Name", "Klient",1,"p28.p28Name");
                 AF("p26Msz", "b02Name", "Stav", 0, "b02.b02Name");
                 AF("p26Msz", "p26Memo", "Podrobný popis");
@@ -185,9 +186,10 @@ namespace BL
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p31")
             {
-                AF("p31CapTemplate", "p31Name", "Název", 1);
-                AF("p31CapTemplate", "Link1", "link", 1,"'<a class=\"link-in-grid\" href=/p31/p31Timeline?p31id='+convert(varchar(10),a.p31ID)+'>Timeline</a>'");
-                AppendTimestamp("p31CapTemplate");
+                AF("p31CapacityFond", "p31Name", "Název", 1);
+                AF("p31CapacityFond", "RecordOwner", "Vlastník záznamu", 0, "dbo.j02_show_as_owner(a.j02ID_Owner)");
+                //AF("p31CapacityFond", "Link1", "link", 1,"'<a class=\"link-in-grid\" href=/p31/p31Timeline?p31id='+convert(varchar(10),a.p31ID)+'>Timeline</a>'");
+                AppendTimestamp("p31CapacityFond");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p14")
             {
