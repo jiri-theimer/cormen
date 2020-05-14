@@ -10,6 +10,7 @@ using System.Text;
 
 
 using UI.Models;
+using System.ComponentModel;
 
 namespace UI.Controllers
 {
@@ -763,6 +764,28 @@ namespace UI.Controllers
 
 
         //}
+
+        public string getHTML_ContextMenu(int j72id)
+        {
+            var sb = new System.Text.StringBuilder();
+            BO.j72TheGridState c = Factory.gridBL.LoadTheGridState(j72id);
+            sb.AppendLine(string.Format("<div style='padding-left:10px;'>GRID <kbd>{0}</kbd></div>", BL.TheEntities.ByTable(c.j72Entity).AliasPlural));
+
+            sb.AppendLine(string.Format("<a class='nav-link' href='javascript:_window_open(\"/TheGrid/Designer?j72id={0}\");'>Návrhář sloupců</a>",j72id));
+            sb.AppendLine("<hr />");
+            sb.AppendLine(string.Format("<a class='nav-link' href='/TheGrid/GridExport?format=csv&j72id={0}'>CSV Export</a>",j72id));
+            //sb.AppendLine(string.Format("<a class='nav-link' href='/TheGrid/GridExport?format=xlsx&j72id={0}'>MS-EXCEL Export</a>",j72id));
+            sb.AppendLine("<hr />");
+            sb.AppendLine("<a class='nav-link' href='javascript:tg_select(20)'>Vybrat prvních 20</a>");
+            sb.AppendLine("<a class='nav-link' href='javascript:tg_select(50)'>Vybrat prvních 50</a>");
+            sb.AppendLine("<a class='nav-link' href='javascript:tg_select(100)'>Vybrat prvních 100</a>");
+            sb.AppendLine("<a class='nav-link' href='javascript:tg_select(1000)'>Vybrat všechny záznamy na stránce</a>");
+            sb.AppendLine("<hr>");
+            sb.AppendLine("&#128161;");
+            sb.AppendLine("<i>Hromadně vybrat více záznamů lze myší, funguje klávesa CTRL nebo ruční zaškrtnutí checkboxu na záznamu.</i>");
+
+            return sb.ToString();
+        }
 
         public FileResult GridExport(string format,int j72id)
         {
