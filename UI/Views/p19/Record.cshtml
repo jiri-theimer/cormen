@@ -34,15 +34,9 @@
 
 
     <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Jednotka:</label>
-
+        <label class="col-sm-1 col-md-2 col-form-label">Měrná jednotka (MJ):</label>
         <div class="col-sm-2 col-md-2">
-            <select asp-for="Rec.p20ID" class="form-control">
-                <option value="0"></option>
-                <option value="1">Hmotnost (kg)</option>
-                <option value="2">Objem (lt)</option>
-
-            </select>
+            <mycombo entity="p20Unit" asp-for="Rec.p20ID" selectedtext="Rec.p20Code" view-flag="2"></mycombo>
         </div>
     </div>
 

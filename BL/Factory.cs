@@ -35,6 +35,7 @@ namespace BL
         private Ip51OrderBL _p51;
         private Ip52OrderItemBL _p52;
         private Ip19MaterialBL _p19;
+        private Ip20UnitBL _p20;
         private Ip18OperCodeBL _p18;
         private Ip31CapacityFondBL _p31;
 
@@ -277,6 +278,14 @@ namespace BL
             {
                 if (_p19 == null) _p19 = new p19MaterialBL(this);
                 return _p19;
+            }
+        }
+        public Ip20UnitBL p20UnitBL
+        {
+            get
+            {
+                if (_p20 == null) _p20 = new p20UnitBL(this);
+                return _p20;
             }
         }
         public Ip18OperCodeBL p18OperCodeBL

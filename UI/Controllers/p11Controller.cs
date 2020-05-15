@@ -68,7 +68,9 @@ namespace UI.Controllers
                 c.p10ID_Master = v.Rec.p10ID_Master;
                 c.p11UnitPrice = v.Rec.p11UnitPrice;
                 c.p20ID = v.Rec.p20ID;
-                
+                c.p11RecalcUnit2Kg = v.Rec.p11RecalcUnit2Kg;
+
+
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
 

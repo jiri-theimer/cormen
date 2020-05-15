@@ -52,6 +52,7 @@ namespace BL
             p.AddString("p11Code", rec.p11Code);
             p.AddString("p11Memo", rec.p11Memo);
             p.AddDouble("p11UnitPrice", rec.p11UnitPrice);
+            p.AddDouble("p11RecalcUnit2Kg", rec.p11RecalcUnit2Kg);
 
 
             return _db.SaveRecord("p11ClientProduct", p.getDynamicDapperPars(), rec);

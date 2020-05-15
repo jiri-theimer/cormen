@@ -21,7 +21,7 @@ namespace BL
      
         private string GetSQL()
         {
-            return "SELECT a.*," + _db.GetSQL1_Ocas("p52") + ",dbo.j02_show_as_owner(a.j02ID_Owner) as RecordOwner,p11.p11Name,p11.p11Code,p51.p51Code,p20.p20Code FROM " + BL.TheEntities.ByPrefix("p52").SqlFrom;
+            return "SELECT a.*," + _db.GetSQL1_Ocas("p52") + ",dbo.j02_show_as_owner(a.j02ID_Owner) as RecordOwner,p11.p11Name,p11.p11Code,p51.p51Code,p20.p20Code,p11.p11RecalcUnit2Kg FROM " + BL.TheEntities.ByPrefix("p52").SqlFrom;
         }
        
         public BO.p52OrderItem Load(int pid)

@@ -21,7 +21,7 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*,o12.o12Name,p28.p28Name," + _db.GetSQL1_Ocas("p19") + " FROM "+ BL.TheEntities.ByPrefix("p19").SqlFrom;
+            return "SELECT a.*,o12.o12Name,p28.p28Name,p20.p20Code," + _db.GetSQL1_Ocas("p19") + " FROM "+ BL.TheEntities.ByPrefix("p19").SqlFrom;
         }
         public BO.p19Material Load(int pid)
         {
@@ -36,8 +36,11 @@ namespace BL
 
         public int Save(BO.p19Material rec)
         {
+            if (rec.p20ID == 0)
+            {
+                _db.CurrentUser.AddMessage("Chybí vyplnit měrná jednotka."); return 0;
+            }
             var p = new DL.Params4Dapper();
-
             p.AddInt("pid", rec.p19ID);
             p.AddInt("o12ID", rec.o12ID, true);
             p.AddInt("p20ID", rec.p20ID, true);

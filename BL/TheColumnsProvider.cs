@@ -83,7 +83,7 @@ namespace BL
                 AF("p10MasterProduct", "o12Name", "Kategorie", 0, "o12.o12Name");
                 AF("p10MasterProduct", "p10Memo", "Podrobný popis");
                 AF("p10MasterProduct", "p10SwLicenseFlag", "SW licence", 0, "case when a.p10SwLicenseFlag>0 then 'SW licence '+convert(varchar(10),a.p10SwLicenseFlag) else null end");
-
+                AF("p10MasterProduct", "p10RecalcUnit2Kg", "Přepočet MJ na KG", 0, null, "num3");
                 AppendTimestamp("p10MasterProduct");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p21")
@@ -168,6 +168,7 @@ namespace BL
                 AF("p19Material", "p28Name", "Klient", 1,"p28.p28Name");
 
                 AF("p19Material", "o12Name", "Kategorie", 2,"o12.o12Name");
+                AF("p19Material", "p20Code", "MJ", 1, "p20.p20Code");
 
                 AF("p19Material", "p19Lang1", "Jazyk1");
                 AF("p19Material", "p19Lang2", "Jazyk2");
@@ -222,6 +223,8 @@ namespace BL
                 AF("p11ClientProduct", "p11UnitPrice", "Jedn.cena",0,null,"num");
                 AF("p11ClientProduct", "p20Code", "MJ",1,"p20.p20Code");
 
+                AF("p11ClientProduct", "p11RecalcUnit2Kg", "Přepočet MJ na KG", 0, null, "num3");
+
                 AppendTimestamp("p11ClientProduct");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p12")
@@ -230,6 +233,12 @@ namespace BL
                 AF("p12ClientTpv", "p12Code", "Číslo receptury", 1);
                 AF("p12ClientTpv", "p12Memo", "Podrobný popis");
                 AF("p12ClientTpv", "p25Name", "Typ zařízení", 2, "p25.p25Name");
+                AppendTimestamp("p12ClientTpv");
+            }
+            if (bolIncludeOutsideEntity || _mq.Prefix == "p20")
+            {
+                AF("p20Unit", "p20Code", "Kód", 1);
+                AF("p20Unit", "p20Name", "Název", 1);                
                 AppendTimestamp("p12ClientTpv");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p15")
@@ -301,6 +310,7 @@ namespace BL
                 AF("p52OrderItem", "p11Name", "Produkt", 1,"p11.p11Name");
                 AF("p52OrderItem", "p52UnitsCount", "Množství", 1, null, "num");
                 AF("p52OrderItem", "p20Code", "MJ", 1, "p20.p20Code");
+                AF("p52OrderItem", "Recalc2Kg", "Přepočteno na KG", 1, "p52UnitsCount * p11.p11RecalcUnit2Kg", "num", true);
 
                 AF("p52OrderItem", "RecordOwner", "Vlastník záznamu", 0, "dbo.j02_show_as_owner(a.j02ID_Owner)");
 

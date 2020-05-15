@@ -1,0 +1,51 @@
+﻿@model p20RecordViewModel
+
+@{
+    ViewData["Title"] = "Měrná jednotka";
+    Layout = "~/Views/Shared/_LayoutModal.cshtml";
+}
+
+@addTagHelper *, UI
+
+<h4>Měrná jednotka</h4>
+@using (Html.BeginForm())
+{
+
+@Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
+@Html.HiddenFor(m => m.Rec.pid)
+
+<div class="modal_record_container">
+
+    <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
+        <div class="col-sm-9 col-md-8">
+            <input class="form-control" asp-for="Rec.p20Name" />
+            <span asp-validation-for="Rec.p20Name" class="text-danger"></span>
+        </div>
+
+    </div>
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Kód:</label>
+        <div class="col-sm-2 col-md-2">
+            <input class="form-control" asp-for="Rec.p20Code" placeholder="Kód" />
+            <span asp-validation-for="Rec.p20Code" class="text-danger"></span>
+        </div>
+    </div>
+
+        
+
+
+
+
+
+    </div>
+    }
+
+    @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
+
+
+
+
+
+
+

@@ -121,6 +121,7 @@ namespace UI.Controllers
                 sb.Append("<hr>");
                 sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p18/record');\">Kód operace</a>");
                 sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p19/record');\">Materiál</a>");
+                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p20/record');\">Měrná jednotka</a>");
                 sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p25/record');\">Typ zařízení</a>");
             }
 

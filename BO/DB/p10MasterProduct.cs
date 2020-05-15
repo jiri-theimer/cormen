@@ -25,7 +25,7 @@ namespace BO
         public string p10Code { get; set; }
         public int p10SwLicenseFlag { get; set; }   //1 - oprávnění používat cloud sw, další hodnoty rezerva pro rozlišení různých verzí sw
 
-
+        public double p10RecalcUnit2Kg { get; set; }
         public string p13Name { get; set; } //get+set: kvůli mycombo
         public string p13Code;
         public string b02Name { get; set; } //get+set: kvůli mycombo

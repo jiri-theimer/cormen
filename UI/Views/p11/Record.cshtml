@@ -35,14 +35,13 @@
             <mynumber asp-for="Rec.p11UnitPrice" decimal-digits="2"></mynumber>
 
         </div>
+        <label class="col-sm-1 col-md-2 col-form-label">Měrná jednotka (MJ):</label>
         <div class="col-sm-2 col-md-2">
-            <select asp-for="Rec.p20ID" class="form-control">
-                <option value="0"></option>
-                <option value="1">Hmotnost (kg)</option>
-                <option value="2">Objem (lt)</option>
-                <option value="4">Rok (yyyy)</option>
-                <option value="5">Měsíc (mm)</option>
-            </select>
+            <mycombo entity="p20Unit" asp-for="Rec.p20ID" selectedtext="Rec.p20Code" view-flag="2"></mycombo>
+        </div>
+        <label class="col-sm-1 col-md-2 col-form-label">Přepočet MJ na KG:</label>
+        <div class="col-sm-2 col-md-2">
+            <mynumber asp-for="Rec.p11RecalcUnit2Kg" decimal-digits="3"></mynumber>
         </div>
     </div>
 

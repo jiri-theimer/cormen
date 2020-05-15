@@ -25,6 +25,8 @@ namespace BO
         [Required(ErrorMessage = "Chybí vyplnit kód!")]
         public string p11Code { get; set; }
 
+        public double p11RecalcUnit2Kg { get; set; }
+
         public double p11UnitPrice { get; set; }
         public int p20ID { get; set; }
 
@@ -34,8 +36,8 @@ namespace BO
         public string b02Name;        
         public string p21Name;
         public string p21Code;
-        public string p10Name;
+        public string p10Name { get; set; }//get+set: kvůli mycombo
         public string p10Code;
-        public string p20Code { get; set; } 
+        public string p20Code { get; set; } //get+set: kvůli mycombo
     }
 }
