@@ -238,8 +238,9 @@ namespace BL
             if (bolIncludeOutsideEntity || _mq.Prefix == "p20")
             {
                 AF("p20Unit", "p20Code", "Kód", 1);
-                AF("p20Unit", "p20Name", "Název", 1);                
-                AppendTimestamp("p12ClientTpv");
+                AF("p20Unit", "p20Name", "Název", 1);
+                
+                AppendTimestamp("p20Unit");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p15")
             {
@@ -403,6 +404,8 @@ namespace BL
                     return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p28");
                 case "p19":
                     return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p28" || p.Prefix == "o12");
+                case "p20":
+                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p28");
                 case "p21":
                     return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p28" || p.Prefix == "b02" || p.Prefix=="o12");
                 case "j02":

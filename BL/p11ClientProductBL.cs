@@ -79,12 +79,16 @@ namespace BL
             //    return false;
             //}
 
-            BO.p10MasterProduct cP10 = _mother.p10MasterProductBL.Load(rec.p10ID_Master);
-            BO.p12ClientTpv cP12 = _mother.p12ClientTpvBL.Load(rec.p12ID);
-            if (cP10.p13ID != cP12.p13ID_Master)
+            if (rec.p10ID_Master > 0)
             {
-                _db.CurrentUser.AddMessage("Receptura vzorového Master produktu se liší od vzoru klientské receptury."); return false;
+                BO.p10MasterProduct cP10 = _mother.p10MasterProductBL.Load(rec.p10ID_Master);
+                BO.p12ClientTpv cP12 = _mother.p12ClientTpvBL.Load(rec.p12ID);
+                if (cP10.p13ID != cP12.p13ID_Master)
+                {
+                    _db.CurrentUser.AddMessage("Receptura vzorového Master produktu se liší od vzoru klientské receptury."); return false;
+                }
             }
+            
 
             return true;
         }

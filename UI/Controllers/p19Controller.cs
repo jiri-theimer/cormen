@@ -43,6 +43,11 @@ namespace UI.Controllers
                 v.Rec = new BO.p19Material();
                 v.Rec.entity = "p19";
                 v.Rec.p19Code = Factory.CBL.EstimateRecordCode("p19");
+                if (Factory.CurrentUser.j03EnvironmentFlag == 2)
+                {//klientský režim
+                    v.Rec.p28ID = Factory.CurrentUser.p28ID;
+                    v.Rec.p28Name = Factory.CurrentUser.p28Name;
+                }
 
             }
 

@@ -31,14 +31,19 @@
             <span asp-validation-for="Rec.p20Code" class="text-danger"></span>
         </div>
     </div>
-
-        
-
-
-
-
-
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Jednotka na míru pro klienta:</label>
+        <div class="col-sm-11 col-md-10">
+            <mycombo entity="p28Company" asp-for="Rec.p28ID" selectedtext="Rec.p28Name"></mycombo>
+        </div>
     </div>
+
+
+
+
+
+
+</div>
     }
 
     @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")

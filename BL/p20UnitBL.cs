@@ -21,7 +21,7 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*," + _db.GetSQL1_Ocas("p20") + " FROM " + BL.TheEntities.ByPrefix("p20").SqlFrom;
+            return "SELECT a.*,p28.p28Name," + _db.GetSQL1_Ocas("p20") + " FROM " + BL.TheEntities.ByPrefix("p20").SqlFrom;
         }
         public BO.p20Unit Load(int pid)
         {
@@ -41,7 +41,15 @@ namespace BL
                      
             p.AddString("p20Name", rec.p20Name);
             p.AddString("p20Code", rec.p20Code);
-            
+            if (rec.j02ID_Owner == 0) rec.j02ID_Owner = _db.CurrentUser.j02ID;
+            p.AddInt("j02ID_Owner", rec.j02ID_Owner, true);
+            p.AddInt("p28ID", rec.p28ID, true);
+            if (_db.CurrentUser.j03EnvironmentFlag == 2 && rec.p28ID != _db.CurrentUser.p28ID)
+            {
+                _db.CurrentUser.AddMessage("V klientském režimu se se musí položka měrné jednotky povinně svázat s klientem z vašeho profilu.");
+                return 0;
+            }
+
 
             return _db.SaveRecord("p20Unit", p.getDynamicDapperPars(), rec);
         }

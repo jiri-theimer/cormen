@@ -45,6 +45,7 @@ namespace BL
 
             AE("p18OperCode", "Kódy operací", "Kód operace", "p18OperCode a INNER JOIN p25MszType p25 ON a.p25ID=p25.p25ID LEFT OUTER JOIN p19Material p19 ON a.p19ID=p19.p19ID");
             AE("p19Material", "Materiály", "Materiál", "p19Material a INNER JOIN p20Unit p20 ON a.p20ID=p20.p20ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID");
+            AE("p20Unit", "Měrné jednotky", "Měrná jednotka","p20Unit a LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID");
             AE("p10MasterProduct", "Master produkty", "Master produkt", "p10MasterProduct a INNER JOIN p20Unit p20 ON a.p20ID=p20.p20ID LEFT OUTER JOIN p13MasterTpv p13 ON a.p13ID=p13.p13ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID");
             AE("p13MasterTpv", "Master receptury", "Master receptura", "p13MasterTpv a INNER JOIN p25MszType p25 ON a.p25ID=p25.p25ID");
             AE("p14MasterOper", "Technologický rozpis operací", "Technologická operace", "p14MasterOper a LEFT OUTER JOIN p19Material p19 ON a.p19ID=p19.p19ID LEFT OUTER JOIN p18OperCode p18 ON a.p18ID=p18.p18ID", "a.p14RowNum");
@@ -66,7 +67,7 @@ namespace BL
             AE_TINY("p25MszType", "Typy zařízení", "Typ zařízení");
             AE_TINY("p28Company", "Subjekty | Klienti", "Subjekt | Klient");
             AE_TINY("o12Category", "Kategorie", "Kategorie");
-            AE_TINY("p20Unit", "Měrné jednotky", "Měrná jednotka");
+            
 
             AE_TINY("j90LoginAccessLog", "Historie přihlašování", "Historie přihlašování");
 

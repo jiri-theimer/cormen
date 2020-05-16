@@ -13,7 +13,7 @@ namespace UI.Controllers
     {
         public IActionResult Record(int pid, bool isclone)
         {
-            if (!this.TestIfUserEditor(true, false))
+            if (!this.TestIfUserEditor(true, true))
             {
                 return this.StopPageCreateEdit(true);
             }
@@ -31,7 +31,11 @@ namespace UI.Controllers
             {
                 v.Rec = new BO.p20Unit();              
                 v.Rec.entity = "p20";
-
+                if (Factory.CurrentUser.j03EnvironmentFlag == 2)
+                {//klientský režim
+                    v.Rec.p28ID = Factory.CurrentUser.p28ID;
+                    v.Rec.p28Name = Factory.CurrentUser.p28Name;
+                }
             }
 
             v.Toolbar = new MyToolbarViewModel(v.Rec);
@@ -50,7 +54,7 @@ namespace UI.Controllers
 
                 c.p20Code = v.Rec.p20Code;
                 c.p20Name = v.Rec.p20Name;
-                
+                c.p28ID = v.Rec.p28ID;
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
 
