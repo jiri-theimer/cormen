@@ -14,66 +14,67 @@
 
     @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
     @Html.HiddenFor(m => m.Rec.pid)
+    
+    <input type="hidden" asp-for="@Model.Rec.p21ID" />
+    <div class="modal_record_container">
 
-<div class="modal_record_container">
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
+            <div class="col-sm-9 col-md-8">
+                <input class="form-control" asp-for="Rec.p11Name" />
+                <span asp-validation-for="Rec.p11Name" class="text-danger"></span>
+            </div>
+            <div class="col-sm-2 col-md-2">
+                <input class="form-control" asp-for="Rec.p11Code" placeholder="Kód" />
+                <span asp-validation-for="Rec.p11Code" class="text-danger"></span>
+            </div>
+        </div>
 
-    <div class="form-row">
-        <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
-        <div class="col-sm-9 col-md-8">
-            <input class="form-control" asp-for="Rec.p11Name" />
-            <span asp-validation-for="Rec.p11Name" class="text-danger"></span>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Jednotková cena:</label>
+            <div class="col-sm-2 col-md-1">
+                <mynumber asp-for="Rec.p11UnitPrice" decimal-digits="2"></mynumber>
+
+            </div>
+            <label class="col-sm-1 col-md-2 col-form-label">Měrná jednotka (MJ):</label>
+            <div class="col-sm-3 col-md-3">
+                <mycombo entity="p20Unit" asp-for="Rec.p20ID" selectedtext="Rec.p20Code" view-flag="2"></mycombo>
+            </div>
+            <label class="col-sm-1 col-md-2 col-form-label">Přepočet MJ na KG:</label>
+            <div class="col-sm-2 col-md-2">
+                <mynumber asp-for="Rec.p11RecalcUnit2Kg" decimal-digits="3"></mynumber>
+            </div>
         </div>
-        <div class="col-sm-2 col-md-2">
-            <input class="form-control" asp-for="Rec.p11Code" placeholder="Kód" />
-            <span asp-validation-for="Rec.p11Code" class="text-danger"></span>
+
+        <div class="form-row" style="margin-top:10px;display:none;">
+            <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
+            <div class="col-sm-11 col-md-10">
+                <mycombo entity="b02Status" asp-for="Rec.b02ID" selectedtext="Rec.b02Name" param1="p11"></mycombo>
+            </div>
         </div>
+
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Receptura:</label>
+            <div class="col-sm-11 col-md-10">
+                <mycombo entity="p13MasterTpv" asp-for="Rec.p12ID" selectedtext="Rec.p12Name"></mycombo>
+            </div>
+        </div>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Vzorový Master produkt:</label>
+            <div class="col-sm-11 col-md-10">
+                <mycombo entity="p10MasterProduct" asp-for="Rec.p10ID_Master" selectedtext="Rec.p10Name"></mycombo>
+            </div>
+        </div>
+
+
+        <div class="form-row">
+            <textarea asp-for="Rec.p11Memo" class="form-control" placeholder="Podrobný popis"></textarea>
+            <span asp-validation-for="Rec.p11Memo" class="text-danger"></span>
+        </div>
+
+
+
     </div>
-
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Jednotková cena:</label>
-        <div class="col-sm-3 col-md-2">
-            <mynumber asp-for="Rec.p11UnitPrice" decimal-digits="2"></mynumber>
-
-        </div>
-        <label class="col-sm-1 col-md-2 col-form-label">Měrná jednotka (MJ):</label>
-        <div class="col-sm-2 col-md-2">
-            <mycombo entity="p20Unit" asp-for="Rec.p20ID" selectedtext="Rec.p20Code" view-flag="2"></mycombo>
-        </div>
-        <label class="col-sm-1 col-md-2 col-form-label">Přepočet MJ na KG:</label>
-        <div class="col-sm-2 col-md-2">
-            <mynumber asp-for="Rec.p11RecalcUnit2Kg" decimal-digits="3"></mynumber>
-        </div>
-    </div>
-
-    <div class="form-row" style="margin-top:10px;display:none;">
-        <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
-        <div class="col-sm-11 col-md-10">
-            <mycombo entity="b02Status" asp-for="Rec.b02ID" selectedtext="Rec.b02Name" param1="p11"></mycombo>
-        </div>
-    </div>
-
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Receptura:</label>
-        <div class="col-sm-11 col-md-10">
-            <mycombo entity="p13MasterTpv" asp-for="Rec.p12ID" selectedtext="Rec.p12Name"></mycombo>
-        </div>
-    </div>
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Vzorový Master produkt:</label>
-        <div class="col-sm-11 col-md-10">
-            <mycombo entity="p10MasterProduct" asp-for="Rec.p10ID_Master" selectedtext="Rec.p10Name"></mycombo>
-        </div>
-    </div>
-
-
-    <div class="form-row">
-        <textarea asp-for="Rec.p11Memo" class="form-control" placeholder="Podrobný popis"></textarea>
-        <span asp-validation-for="Rec.p11Memo" class="text-danger"></span>
-    </div>
-
-
-
-</div>
 }
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")

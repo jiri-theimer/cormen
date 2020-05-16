@@ -15,6 +15,7 @@ namespace UI.Controllers
             var v = new Models.p11PreviewViewModel();
             v.Rec = Factory.p11ClientProductBL.Load(pid);
             if (v.Rec == null) return RecNotFound(v);
+            v.RecP10 = Factory.p10MasterProductBL.Load(v.Rec.p10ID_Master);
             return View(v);
 
         }
@@ -46,7 +47,10 @@ namespace UI.Controllers
             v.Toolbar = new MyToolbarViewModel(v.Rec);
 
 
-            if (isclone) { v.Toolbar.MakeClone(); }
+            if (isclone) {
+                v.Toolbar.MakeClone();
+                
+            }
 
 
             return View(v);
@@ -69,6 +73,7 @@ namespace UI.Controllers
                 c.p11UnitPrice = v.Rec.p11UnitPrice;
                 c.p20ID = v.Rec.p20ID;
                 c.p11RecalcUnit2Kg = v.Rec.p11RecalcUnit2Kg;
+                c.p21ID = v.Rec.p21ID;
 
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
