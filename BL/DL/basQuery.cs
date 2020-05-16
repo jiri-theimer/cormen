@@ -35,6 +35,7 @@ namespace BL.DL
             if (mq.p21id >0)
             {
                 if (mq.Prefix == "p10") AQ(ref lis, "a.p10ID IN (select p10ID FROM p22LicenseBinding WHERE p21ID=@p21id)", "p21id", mq.p21id);
+                if (mq.Prefix == "p13") AQ(ref lis, "a.p13ID IN (select xb.p13ID FROM p22LicenseBinding xa INNER JOIN p10MasterProduct xb ON xa.p10ID=xb.p10ID WHERE xa.p21ID=@p21id)", "p21id", mq.p21id);
                 if (mq.Prefix == "p11" || mq.Prefix=="p12") AQ(ref lis, "a.p21ID=@p21id", "p21id", mq.p21id);
                 if (mq.Prefix == "o23") AQ(ref lis, "a.o23Entity LIKE 'p21License' AND a.o23RecordPid=@p21id", "p21id", mq.p21id);
             }

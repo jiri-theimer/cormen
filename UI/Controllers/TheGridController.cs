@@ -53,7 +53,8 @@ namespace UI.Controllers
                 case "p21":
                     tabs.Add(new NavTab() { Name = "Detail", Url = "/p21/Index?pid="+ AppendPid2Url(v.go2pid) });
                     tabs.Add(new NavTab() { Name = "Master produkty", Entity = "p10MasterProduct", Url = "SlaveView?prefix=p10" });
-                    tabs.Add(new NavTab() { Name = "Klientská receptura", Entity = "p12ClientTpv", Url = "SlaveView?prefix=p12" });
+                    tabs.Add(new NavTab() { Name = "Master receptury", Entity = "p13MasterTpv", Url = "SlaveView?prefix=p13" });
+                    tabs.Add(new NavTab() { Name = "Klientské receptury", Entity = "p12ClientTpv", Url = "SlaveView?prefix=p12" });
                     tabs.Add(new NavTab() { Name = "Klientské produkty", Entity = "p11ClientProduct", Url = "SlaveView?prefix=p11" });
                     tabs.Add(new NavTab() { Name = "Dokumenty", Entity = "o23Doc", Url = "SlaveView?prefix=o23" });
 

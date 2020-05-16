@@ -44,6 +44,10 @@ namespace UI.Controllers
 
                 v.Rec = new BO.p11ClientProduct();
                 v.Rec.entity = "p11";
+                if (Factory.p21LicenseBL.GetList(new BO.myQuery("p21License")).Where(p => p.p21PermissionFlag == BO.p21PermENUM.Independent2Master).Count() == 0)
+                {
+                    Factory.CurrentUser.AddMessage("Systém nepovolí uložit produkt bez vazby na vzorový Master produkt, protože ani jedna z vašich licencí k tomu nemá oprávnění.", "warning");
+                }
             }
             v.Toolbar = new MyToolbarViewModel(v.Rec);
 

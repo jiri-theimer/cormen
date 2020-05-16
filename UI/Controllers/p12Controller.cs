@@ -72,6 +72,11 @@ namespace UI.Controllers
                 
                 v.Rec = new BO.p12ClientTpv();
                 v.Rec.entity = "p12";
+                if (Factory.p21LicenseBL.GetList(new BO.myQuery("p21License")).Where(p => p.p21PermissionFlag == BO.p21PermENUM.Independent2Master).Count() == 0)
+                {
+                    Factory.CurrentUser.AddMessage("Systém nepovolí uložit vlastní recepturu, protože ani jedna z vašich licencí k tomu nemá oprávnění.", "warning");
+                }
+
                 v.lisP15 = new List<BO.p15ClientOper>();
                 v.lisP15.Add(new BO.p15ClientOper() { TempRecDisplay = "table-row", TempRecGuid = BO.BAS.GetGuid() });
             }
