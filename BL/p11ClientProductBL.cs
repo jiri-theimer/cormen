@@ -19,7 +19,7 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*," + _db.GetSQL1_Ocas("p11") + ",b02.b02Name,p12.p12Name,p12.p12Code,p21.p21Name,p21.p21Code,p10.p10Name,p10.p10Code,p20.p20Code FROM "+ BL.TheEntities.ByPrefix("p11").SqlFrom;
+            return "SELECT a.*," + _db.GetSQL1_Ocas("p11") + ",b02.b02Name,p12.p12Name,p12.p12Code,p21.p21Name,p21.p21Code,p10.p10Name,p10.p10Code,p20.p20Code,p20.p20Name FROM "+ BL.TheEntities.ByPrefix("p11").SqlFrom;
         }
         public BO.p11ClientProduct Load(int pid)
         {
