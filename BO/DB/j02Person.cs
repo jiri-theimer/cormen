@@ -14,19 +14,19 @@ namespace BO
 
         
 
-        [Required(ErrorMessage = "Chybí vyplnit e-mail adresa!")]
+        //[Required(ErrorMessage = "Chybí vyplnit e-mail adresa!")]
         public string j02Email { get; set; }        
        
-        [Required(ErrorMessage = "Chybí vyplnit jméno!")]
-        public string j02FirstName { get; set; }   
-        [Required(ErrorMessage ="Chybí vyplnit příjmení!")]
+        //[Required(ErrorMessage = "Chybí vyplnit jméno!")]     //nepoužívat, protože se to pak aktivuje i u FirstPerson na kartě klienta
+        public string j02FirstName { get; set; }
+        //[Required(ErrorMessage ="Chybí vyplnit příjmení!")]   //nepoužívat, protože se to pak aktivuje i u FirstPerson na kartě klienta
         public string j02LastName { get; set; }
         public string j02TitleBeforeName { get; set; }
         public string j02TitleAfterName { get; set; }
 
         public string j02Tel1 { get; set; }
         public string j02Tel2 { get; set; }
-
+        public string j02JobTitle { get; set; }
 
         ///readonly účely:        
         public string p28Name { get; set; } //get+set: kvůli mycombo

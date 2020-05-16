@@ -116,6 +116,42 @@
                 </div>
             </div>
         }
+        <table class="table table-hover">
+
+            @foreach (var c in Model.Persons)
+            {
+            <tr>
+                <td>
+                    <a title="Karta osoby" href="javascript:j02_record(@c.pid)">@(c.j02FirstName+" "+c.j02LastName)</a>
+
+                </td>
+                <td>
+                    @if (c.j02Email != null)
+                    {
+                        <a href="mailto:@(c.j02Email)">@c.j02Email</a>
+                    }
+
+                </td>
+                <td>
+                    @c.j03Login
+                </td>
+                <td>
+                    @c.j04Name
+                </td>
+                <td>
+                    @c.j02JobTitle
+                </td>
+                <td>
+                    @c.j02Tel1
+                </td>
+                <td>
+                    @c.j02Tel2
+                </td>
+
+
+            </tr>
+            }
+        </table>
 
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Vlastník záznamu:</label>
@@ -161,4 +197,9 @@
 
             });
     }
+
+    function j02_record(j02id) {
+        _window_open("/j02/Record?pid=" + j02id)
+    }
 </script>
+

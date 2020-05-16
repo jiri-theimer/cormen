@@ -27,6 +27,9 @@ namespace UI.Controllers
                         v.IsPossible2SetupCloudID = true;
                     }
                 }
+                var mq = new BO.myQuery("j02Person");
+                mq.p28id = pid;
+                v.Persons = Factory.j02PersonBL.GetList(mq);
                 
                 return View(v);
             }
@@ -61,6 +64,8 @@ namespace UI.Controllers
                 v.Rec.p28Code = Factory.CBL.EstimateRecordCode("p28");
                 v.Rec.j02ID_Owner = Factory.CurrentUser.j02ID;
                 v.Rec.RecordOwner = Factory.CurrentUser.FullName;
+                v.FirstPerson = new BO.j02Person();
+                v.IsFirstPerson = true;
                 
             }
 
@@ -100,10 +105,17 @@ namespace UI.Controllers
                
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
+                
+                if (c.pid>0 || (c.pid==0 && v.IsFirstPerson == false))
+                {
+                    v.FirstPerson = null;
+                    //cFirstPerson = new BO.j02Person() { j02TitleBeforeName = v.FirstPerson.j02TitleBeforeName,j02FirstName=v.FirstPerson.j02FirstName,j02LastName=v.FirstPerson.j02LastName,j02TitleAfterName=v.FirstPerson.j02TitleAfterName,j02Email=v.FirstPerson.j02Email };
+                }
 
-                v.Rec.pid = Factory.p28CompanyBL.Save(c);
+                v.Rec.pid = Factory.p28CompanyBL.Save(c, v.FirstPerson);
                 if (v.Rec.pid > 0)
                 {
+
                     v.SetJavascript_CallOnLoad(v.Rec.pid);
                     return View(v);                    
                 }

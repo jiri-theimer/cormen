@@ -8,7 +8,7 @@ namespace BL
     {
         public BO.p28Company Load(int pid);
         public IEnumerable<BO.p28Company> GetList(BO.myQuery mq);
-        public int Save(BO.p28Company rec);
+        public int Save(BO.p28Company rec, BO.j02Person recFirstPerson);
         public BO.p10MasterProduct LoadValidSwLicense(int intP28ID);
         public bool UpdateCloudID(int intP28ID, string strCloudID);
     }
@@ -53,8 +53,16 @@ namespace BL
             return _db.RunSql("UPDATE p28Company SET p28CloudID=@cloudid WHERE p28ID=@pid", new { cloudid = strCloudID,pid= intP28ID });
         }
 
-        public int Save(BO.p28Company rec)
+        public int Save(BO.p28Company rec,BO.j02Person recFirstPerson)
         {
+            if (recFirstPerson != null)
+            {
+                if (String.IsNullOrEmpty(recFirstPerson.j02FirstName) || String.IsNullOrEmpty(recFirstPerson.j02LastName))
+                {
+                    _mother.CurrentUser.AddMessage("U kontaktní osoby musíte vyplnit [Jméno] a [Příjmení].");
+                    return 0;
+                }
+            }
             var p = new DL.Params4Dapper();
             p.AddInt("pid", rec.p28ID);
             if (rec.j02ID_Owner == 0) rec.j02ID_Owner = _db.CurrentUser.j02ID;
@@ -75,6 +83,12 @@ namespace BL
             p.AddString("p28Country2", rec.p28Country2);
 
             int intPID= _db.SaveRecord("p28Company", p.getDynamicDapperPars(),rec);
+
+            if (intPID>0 && recFirstPerson != null)
+            {
+                recFirstPerson.p28ID = intPID;
+                _mother.j02PersonBL.Save(recFirstPerson);
+            }
             
             return intPID;
         }

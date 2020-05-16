@@ -11,5 +11,7 @@ namespace UI.Models
         public BO.p28Company Rec { get; set; }
 
         public bool IsPossible2SetupCloudID = false;
+
+        public IEnumerable<BO.j02Person> Persons { get; set; }
     }
 }

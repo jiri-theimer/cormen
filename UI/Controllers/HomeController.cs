@@ -102,7 +102,7 @@ namespace UI.Controllers
                 sb.Append("<hr/>");
                 sb.Append("<a class='nav-link' href=\"javascript:_window_open('/o23/record');\">Dokument</a>");
                 sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p28/record');\">Klient</a>");
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/j02/record');\">Osoba/Uživatel</a>");
+                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/j02/record');\">Kontaktní osoba/Uživatel</a>");
                 sb.Append("<hr/>");
                 sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p11/record');\">Produkt [Client]</a>");
                 sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p12/record');\">Receptura [Client]</a>");
@@ -116,7 +116,7 @@ namespace UI.Controllers
             {
                 sb.Append("<a class='nav-link' href=\"javascript:_window_open('/o23/record');\">Dokument</a>");
                 sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p28/record');\">Klient</a>");
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/j02/record');\">Osoba/Uživatel</a>");
+                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/j02/record');\">Kontaktní osoba/Uživatel</a>");
 
                 sb.Append("<hr/>");
                 sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p10/record');\">Produkt [Master]</a>");

@@ -10,10 +10,12 @@ namespace UI.Models
     {
         public BO.p28Company Rec { get; set; }
 
+        public BO.j02Person FirstPerson { get; set; }
+
         public MyToolbarViewModel Toolbar { get; set; }
 
-        
-       
+
+        public bool IsFirstPerson { get; set; }
 
     }
 }

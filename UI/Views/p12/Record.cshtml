@@ -39,7 +39,7 @@
     <div class="form-row" style="margin-top:10px;">
         <label class="col-sm-1 col-md-2 col-form-label">Typ zařízení:</label>
         <div class="col-sm-5 col-md-4">
-            <mycombo entity="p25MszType" asp-for="Rec.p25ID" selectedtext="Rec.p25Name" view-flag="2"></mycombo>
+            <mycombo entity="p25MszType" asp-for="Rec.p25ID" selectedtext="Rec.p25Name" view-flag="2" event_after_changevalue="p25id_change"></mycombo>
         </div>
     </div>
 
@@ -202,6 +202,12 @@
         form1.submit();
     }
 
+    function p25id_change(p25id) {       
+        form1.action = "/p12/Record?rec_oper=postback";
+        form1.submit();
+
+    }
+
     function p18id_change(p18id, index) {
 
         $.post("/p13/load_p18_record", { p18id: p18id }, function (data) {
@@ -237,6 +243,8 @@
             }
 
         });
+
+        
     }
 
 </script>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using BO;
 
 namespace BL.DL
 {
@@ -107,23 +108,23 @@ namespace BL.DL
             }
             if (ru.j03EnvironmentFlag == 2)    //odstínit data pouze pro držitele licence, tj. firmu s licencí na p10SwLicenseFlag>0
             {
-                if (mq.Prefix == "j02")
-                {
-                    AQ(ref lis, "a.p28ID=@p28id", "p28id", ru.p28ID);
-                }
+                //if (mq.Prefix == "j02")
+                //{
+                //    AQ(ref lis, "(a.p28ID=@p28id_my OR a.j02ID_Owner IN (select j02ID FROM j02Person WHERE p28ID=@p28id_my)", "p28id_my", ru.p28ID);
+                //}
                 if (mq.Prefix == "o23" ||  mq.Prefix == "p41")
                 {
 
-                    AQ(ref lis, "a.j02ID_Owner IN (select j02ID FROM j02Person WHERE p28ID=@p28id)", "p28id", ru.p28ID);
+                    AQ(ref lis, "a.j02ID_Owner IN (select j02ID FROM j02Person WHERE p28ID=@p28id_my)", "p28id_my", ru.p28ID);
                 }
-                if (mq.Prefix == "p28")
+                if (mq.Prefix == "p28" || mq.Prefix == "j02")
                 {
 
-                    AQ(ref lis, "(a.p28ID=@p28id OR a.j02ID_Owner IN (select j02ID FROM j02Person WHERE p28ID=@p28id))", "p28id", ru.p28ID);
+                    AQ(ref lis, "(a.p28ID=@p28id_my OR a.j02ID_Owner IN (select j02ID FROM j02Person WHERE p28ID=@p28id_my))", "p28id_my", ru.p28ID);
                 }
                 if (mq.Prefix == "p11" || mq.Prefix == "p12")
                 {
-                    AQ(ref lis, "a.p21ID IN (SELECT p21ID FROM p21License WHERE p28ID = @p28id)", "p28id", ru.p28ID);    //pouze produkty v licenci klienta
+                    AQ(ref lis, "a.p21ID IN (SELECT p21ID FROM p21License WHERE p28ID = @p28id_my)", "p28id_my", ru.p28ID);    //pouze produkty v licenci klienta
                 }
                 if (mq.Prefix == "p26" || mq.Prefix=="p21")
                 {
@@ -178,9 +179,10 @@ namespace BL.DL
                 ret.Parameters = new Dapper.DynamicParameters();
                 if (bolPrepareParam4DT) ret.Parameters4DT = new List<DL.Param4DT>();
                 foreach (var c in lis.Where(p=>String.IsNullOrEmpty(p.ParName)==false))
-                {
+                {                    
                     ret.Parameters.Add(c.ParName, c.ParValue);
                     if (bolPrepareParam4DT) ret.Parameters4DT.Add(new DL.Param4DT() { ParName = c.ParName, ParValue = c.ParValue });
+                    
                 }
 
 
@@ -207,6 +209,10 @@ namespace BL.DL
             if (lis.Count == 0)
             {
                 strAndOrZleva = ""; //první podmínka zleva
+            }
+            if (String.IsNullOrEmpty(strParName)==false && lis.Where(p => p.ParName == strParName).Count() > 0)
+            {
+                return; //parametr strParName již byl dříve přidán
             }
             lis.Add(new DL.QueryRow() { StringWhere = strWhere, ParName = strParName, ParValue = ParValue,AndOrZleva= strAndOrZleva });
         }

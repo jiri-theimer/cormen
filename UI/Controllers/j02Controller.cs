@@ -36,7 +36,7 @@ namespace UI.Controllers
                 {
                     return RecNotFound(v);
                 }
-                if (!this.TestIfRecordEditable(v.Rec.j02ID_Owner, v.Rec.p28ID))
+                if (!this.TestIfRecordEditable(v.Rec.j02ID_Owner))
                 {
                     return this.StopPageEdit(true);
                 }
@@ -86,6 +86,7 @@ namespace UI.Controllers
                 c.j02Email = v.Rec.j02Email;
                 c.j02Tel1 = v.Rec.j02Tel1;
                 c.j02Tel2 = v.Rec.j02Tel2;
+                c.j02JobTitle = v.Rec.j02JobTitle;
                 c.j02ID_Owner = v.Rec.j02ID_Owner;
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);

@@ -40,8 +40,26 @@ namespace BL
             return _db.GetList<BO.j02Person>(fq.FinalSql,fq.Parameters);
         }
 
+        private bool ValidateBeforeSave(BO.j02Person rec)
+        {
+            if (string.IsNullOrEmpty(rec.j02FirstName))
+            {
+                _db.CurrentUser.AddMessage("Chybí vyplnit [Jméno]."); return false;
+            }
+            if (string.IsNullOrEmpty(rec.j02LastName))
+            {
+                _db.CurrentUser.AddMessage("Chybí vyplnit [Příjmení]."); return false;
+            }
+
+            return true;
+        }
+
         public int Save(BO.j02Person rec)
         {
+            if (ValidateBeforeSave(rec) == false)
+            {
+                return 0;
+            }
             var p = new DL.Params4Dapper();
             p.AddInt("pid", rec.j02ID);
            
@@ -56,7 +74,7 @@ namespace BL
       
             p.AddString("j02Tel1", rec.j02Tel1);
             p.AddString("j02Tel2", rec.j02Tel2);
-            
+            p.AddString("j02JobTitle", rec.j02JobTitle);
             
             return _db.SaveRecord("j02Person", p.getDynamicDapperPars(),rec);
         }
