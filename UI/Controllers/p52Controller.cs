@@ -12,6 +12,10 @@ namespace UI.Controllers
         //položka objednávky
         public IActionResult Record(int pid, int p51id, bool isclone)
         {
+            if (Factory.CurrentUser.j03EnvironmentFlag == 1)
+            {
+                return this.StopPageClientPageOnly(true);
+            }
             if (!this.TestIfUserEditor(true, true))
             {
                 return this.StopPageCreateEdit(true);

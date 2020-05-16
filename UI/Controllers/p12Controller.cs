@@ -33,10 +33,15 @@ namespace UI.Controllers
         }
         public IActionResult Record(int pid, bool isclone)
         {
-            if (!Factory.CurrentUser.TestPermission(BO.UserPermFlag.ClientAdmin))
+            if (Factory.CurrentUser.j03EnvironmentFlag == 1)
+            {
+                return this.StopPageClientPageOnly(true);
+            }
+            if (!this.TestIfUserEditor(false, true))
             {
                 return this.StopPageCreateEdit(true);
             }
+           
             var v = new Models.p12RecordViewModel();
 
             if (pid > 0)

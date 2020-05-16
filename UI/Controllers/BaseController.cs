@@ -123,6 +123,10 @@ namespace UI.Controllers
         {
             return (StopPage(bolModal, "Nemáte oprávnění zakládat nebo editovat tento druh záznamu."));
         }
+        public IActionResult StopPageClientPageOnly(bool bolModal)
+        {
+            return (StopPage(bolModal, "100% klientský záznam.<hr>Přepněte se do rozhraní [CLIENT]."));
+        }
 
         public ViewResult RecNotFound(UI.Models.BaseViewModel v)
         {

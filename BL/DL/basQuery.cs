@@ -142,6 +142,7 @@ namespace BL.DL
                     AQ(ref lis, "(a.p28ID IS NULL OR a.p28ID=@p28id)", "p28id", ru.p28ID);
                 }
             }
+
            
 
 
