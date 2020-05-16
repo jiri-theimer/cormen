@@ -90,6 +90,7 @@ namespace BL
             {
                 AF("p21License","p21Name", "Název",1);
                 AF("p21License", "p21Code", "Kód", 1);
+                AF("p21License", "p21PermissionFlag", "Typ licence", 1, "case a.p21PermissionFlag when 1 then 'Standard' when 2 then 'Cyber' else '???' end");
                 AF("p21License", "p28Name", "Klient", 1,"p28.p28Name");
                 AF("p21License","p21Price", "Cena",0,null,"num",true);
                 AppendTimestamp("p21License");
@@ -233,6 +234,7 @@ namespace BL
                 AF("p12ClientTpv", "p12Code", "Číslo receptury", 1);
                 AF("p12ClientTpv", "p12Memo", "Podrobný popis");
                 AF("p12ClientTpv", "p25Name", "Typ zařízení", 2, "p25.p25Name");
+                AF("p12ClientTpv", "p21Name", "Licence", 3, "p21.p21Name");
                 AppendTimestamp("p12ClientTpv");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p20")

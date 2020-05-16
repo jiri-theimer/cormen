@@ -35,8 +35,18 @@
             <div class="col-sm-11 col-md-10">
                 <mycombo entity="p28Company" asp-for="Rec.p28ID" selectedtext="Rec.p28Name"></mycombo>
             </div>
-        </div>
 
+
+        </div>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Typ licence:</label>
+            <div class="col-sm-11 col-md-10">
+                <select asp-for="Rec.p21PermissionFlag" class="form-control">
+                    <option value="1">Standard (Bez možnosti vytvářet produkty na vlastních recepturách)</option>
+                    <option value="2">Cyber (Možnost vytvářet produkty na vlastních recepturách)</option>
+                </select>
+            </div>
+        </div>
 
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Rozsah platnosti:</label>
@@ -64,10 +74,6 @@
         </div>
 
 
-        <div class="form-row">
-            <textarea asp-for="Rec.p21Memo" class="form-control" placeholder="Podrobný popis"></textarea>
-            <span asp-validation-for="Rec.p21Memo" class="text-danger"></span>
-        </div>
 
 
 
@@ -78,22 +84,26 @@
     <div class="card">
         <div class="card-header">
             Master produkty v licenci
-            
+
         </div>
         <div class="card-body">
             <div style="width:100%;">
                 <mycombo entity="p10MasterProduct" asp-for="@Model.SelectedP10ID" selectedtext="@Model.SelectedP10Name" event_after_changevalue="handle_append_product" placeholder="Vybrat Master produkty do licence..."></mycombo>
-                
+
             </div>
             <div id="divP10" style="margin-top:20px;"></div>
-            
+
         </div>
     </div>
-    
+
     <input type="hidden" id="hidP10IDs" asp-for="@Model.p10IDs" />
 
-    
-  
+    <div class="form-group" style="margin-top:10px;">
+        <textarea asp-for="Rec.p21Memo" class="form-control" placeholder="Podrobný popis"></textarea>
+        <span asp-validation-for="Rec.p21Memo" class="text-danger"></span>
+    </div>
+
+
 
 
 }
@@ -109,17 +119,17 @@
 
 
 <script type="text/javascript">
-   
+
 
     $(document).ready(function () {
-        
+
 
         if ($("#hidP10IDs").val() != "") {
             $("#cmdCreateClientProducts").css("display", "block");
             refresh_p10_table();
         }
 
-      
+
 
 
     });
@@ -127,7 +137,7 @@
     function handle_select_product(e) {
         _notify_message("handle_select_product");
     }
-    function handle_append_product(p10id) {        
+    function handle_append_product(p10id) {
         if (p10id == "") {
             _notify_message("Musíte vybrat produkt.");
             return;
@@ -162,7 +172,7 @@
     function refresh_p10_table() {
         var url = "@Url.Action("GetWorkTable", "Common")";
         var pids = $("#hidP10IDs").val();
-        
+
         if (pids == "") {
             $("#divP10").html("");
             return;
@@ -173,7 +183,7 @@
         });
     }
 
-   
+
 </script>
 
 

@@ -11,7 +11,14 @@ namespace BL.DL
         public static DL.FinalSqlCommand ParseFinalSql(string strPrimarySql,BO.myQuery mq,BO.RunningUser ru, bool bolPrepareParam4DT = false)
         {
             var lis = new List<DL.QueryRow>();
-
+            if (mq.IsRecordValid == true)
+            {
+                AQ(ref lis, "a.ValidUntil>GETDATE()","",null);
+            }
+            if (mq.IsRecordValid == false)
+            {
+                AQ(ref lis, "GETDATE() NOT BETWEEN a.ValidFrom AND a.ValidUntil", "", null);
+            }
             if (mq.pids !=null && mq.pids.Any())
             {
                 AQ(ref lis, mq.PkField + " IN (" + String.Join(",", mq.pids) + ")", "", null);

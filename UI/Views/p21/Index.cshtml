@@ -31,10 +31,13 @@
 
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Klient:</label>
-            <div class="col-sm-11 col-md-10">
+            <div class="col-sm-6 col-md-5">
                 <span class="form-control bg-light">@(Model.Rec.p28Name)</span>
             </div>
-
+            <label class="col-sm-1 col-md-1 col-form-label">Typ licence:</label>
+            <div class="col-sm-4 col-md-4">
+                <span class="form-control bg-light">@(Model.Rec.PermFlagAlias)</span>
+            </div>
         </div>
 
         <div class="form-row" style="margin-top:10px;">

@@ -5,6 +5,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BO
 {
+    public enum p21PermENUM
+    {
+        Default=1,
+        Independent2Master=2
+        
+    }
     public class p21License: BO.BaseBO
     {
         [Key]
@@ -22,8 +28,19 @@ namespace BO
         public string p21Code { get; set; }
         public double p21Price { get; set; }
 
+        public p21PermENUM p21PermissionFlag { get; set; }
+
         public string p28Name { get; set; } //get+set: kvůli mycombo
         public string b02Name { get; set; } //get+set: kvůli mycombo
         public string o12Name { get; set; } //get+set: kvůli mycombo
+
+        public string PermFlagAlias
+        {
+            get
+            {                
+                if (this.p21PermissionFlag == BO.p21PermENUM.Independent2Master) return "Cyber";
+                return "Standard";
+            }
+        }
     }
 }

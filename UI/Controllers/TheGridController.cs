@@ -669,7 +669,8 @@ namespace UI.Controllers
             var mq = new BO.myQuery(entity);
             mq.SetPids(pids);
             mq.query_by_entity_prefix = param1;
-            
+            mq.IsRecordValid = true;    //v combo nabídce pouze časově platné záznamy
+
             var cols = new BL.TheColumnsProvider(mq).getDefaultPallete(1,3);
 
             if (mq.Prefix == "p18")
@@ -680,6 +681,7 @@ namespace UI.Controllers
             {
                 return "<p>Na vstupu chybí vybrat typ zařízení.</p>";
             }
+            
 
             var dt = Factory.gridBL.GetList(mq);
             var intRows = dt.Rows.Count;

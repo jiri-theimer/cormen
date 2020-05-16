@@ -29,7 +29,7 @@
         </div>
 
 
-        
+
 
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Jednotková cena:</label>
@@ -64,26 +64,30 @@
 
             </div>
         </div>
-        <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Vzorový Master produkt:</label>
-            <div class="col-sm-6 col-md-5">
-                <span class="form-control bg-light">@(Model.RecP10.p10Name)</span>
+        @if (Model.Rec.p10ID_Master > 0)
+        {
+            <div class="form-row" style="margin-top:10px;">
+                <label class="col-sm-1 col-md-2 col-form-label">Vzorový Master produkt:</label>
+                <div class="col-sm-6 col-md-5">
+                    <span class="form-control bg-light">@(Model.RecP10.p10Name)</span>
 
-            </div>
-            <div class="col-sm-2 col-md-2" style="overflow:hidden;">
-                <span title="@Model.RecP10.p20Name" class="form-control bg-light">@(Model.RecP10.p20Code+" ["+ Model.RecP10.p20Name+"]")</span>
+                </div>
+                <div class="col-sm-2 col-md-2" style="overflow:hidden;">
+                    <span title="@Model.RecP10.p20Name" class="form-control bg-light">@(Model.RecP10.p20Code+" ["+ Model.RecP10.p20Name+"]")</span>
 
-            </div>
-            <div class="col-sm-1 col-md-1">
-                <span class="form-control bg-light">@(Model.RecP10.p10RecalcUnit2Kg)KG</span>
+                </div>
+                <div class="col-sm-1 col-md-1">
+                    <span class="form-control bg-light">@(Model.RecP10.p10RecalcUnit2Kg)KG</span>
 
-            </div>
-            <div class="col-sm-2 col-md-2">
-                <span class="form-control bg-light">@(Model.RecP10.p10Code)</span>
+                </div>
+                <div class="col-sm-2 col-md-2">
+                    <span class="form-control bg-light">@(Model.RecP10.p10Code)</span>
 
+                </div>
             </div>
-        </div>
-        
+        }
+
+
 
 
 

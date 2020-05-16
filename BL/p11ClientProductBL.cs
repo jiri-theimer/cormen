@@ -61,18 +61,19 @@ namespace BL
 
         private bool ValidateBeforeSave(BO.p11ClientProduct rec)
         {
+            if (rec.p21ID == 0)
+            {
+                _db.CurrentUser.AddMessage("Chybí vyplnit [Licence]."); return false;
+            }
             if (rec.p20ID == 0)
             {
-                _db.CurrentUser.AddMessage("Chybí vyplnit měrná jednotka."); return false;
+                _db.CurrentUser.AddMessage("Chybí vyplnit [Měrná jednotka]."); return false;
             }
             if (rec.p12ID == 0)
             {
-                _db.CurrentUser.AddMessage("Chybí vyplnit vazbu na recepturu."); return false;
+                _db.CurrentUser.AddMessage("Chybí vyplnit [Receptura]."); return false;
             }
-            if (rec.p10ID_Master == 0)
-            {
-                _db.CurrentUser.AddMessage("Chybí vyplnit vazbu na Master produkt."); return false;
-            }
+           
             //if (LoadByCode(rec.p11Code, rec.pid) != null)
             //{
             //    _db.CurrentUser.AddMessage(string.Format("Zadaný kód nemůže být duplicitní s jiným produktem [{0}].", LoadByCode(rec.p11Code, rec.pid).p11Name));

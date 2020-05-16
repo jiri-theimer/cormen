@@ -50,6 +50,7 @@ namespace UI.Controllers
                 v.Rec.ValidFrom = DateTime.Today;
                 v.Rec.ValidUntil = new DateTime(3000, 1, 1);
                 v.Rec.p21Code = Factory.CBL.EstimateRecordCode("p21");
+                v.Rec.p21PermissionFlag = BO.p21PermENUM.Default;
                 v.Rec.entity = "p21";
             }
 
@@ -78,6 +79,7 @@ namespace UI.Controllers
                 c.p28ID = v.Rec.p28ID;
                 c.o12ID = v.Rec.o12ID;
                 c.p21Price = v.Rec.p21Price;
+                c.p21PermissionFlag = v.Rec.p21PermissionFlag;
 
                 c.ValidFrom = v.Rec.ValidFrom;
                 c.ValidUntil = v.Rec.ValidUntil;
