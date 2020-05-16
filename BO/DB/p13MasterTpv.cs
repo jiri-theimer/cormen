@@ -15,7 +15,7 @@ namespace BO
         [MaxLength(100, ErrorMessage = "Maximum 100 znaků")]
         public string p13Name { get; set; }
 
-        [Required(ErrorMessage = "Chybí vyplnit kód TPV!")]        
+        [Required(ErrorMessage = "Chybí vyplnit kód receptury!")]        
         public string p13Code { get; set; }
         [MaxLength(1000, ErrorMessage = "Maximum 1000 znaků")]
         public string p13Memo { get; set; }

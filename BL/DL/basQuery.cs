@@ -128,6 +128,10 @@ namespace BL.DL
                 {
                     AQ(ref lis, "a.p28ID = @p28id", "p28id", ru.p28ID);    //pouze licence a stroje klienta
                 }
+                if (mq.Prefix == "p25")
+                {
+                    AQ(ref lis, "a.p25ID IN (select p25ID FROM p26Msz WHERE p28ID=@p28id)", "p28id", ru.p28ID);    //pouze typy zařízení za klientovi stroje
+                }
                 if (mq.Prefix == "j04")
                 {
                     AQ(ref lis, "a.j04IsClientRole=1","",null); //pouze klientské role

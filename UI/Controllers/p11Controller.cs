@@ -16,6 +16,7 @@ namespace UI.Controllers
             v.Rec = Factory.p11ClientProductBL.Load(pid);
             if (v.Rec == null) return RecNotFound(v);
             v.RecP10 = Factory.p10MasterProductBL.Load(v.Rec.p10ID_Master);
+            v.RecP21 = Factory.p21LicenseBL.Load(v.Rec.p21ID);
             return View(v);
 
         }
@@ -49,7 +50,7 @@ namespace UI.Controllers
 
             if (isclone) {
                 v.Toolbar.MakeClone();
-                
+                v.Rec.p11Code += "-COPY";
             }
 
 
@@ -73,7 +74,8 @@ namespace UI.Controllers
                 c.p11UnitPrice = v.Rec.p11UnitPrice;
                 c.p20ID = v.Rec.p20ID;
                 c.p11RecalcUnit2Kg = v.Rec.p11RecalcUnit2Kg;
-                c.p21ID = v.Rec.p21ID;
+                
+                
 
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);

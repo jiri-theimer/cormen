@@ -89,7 +89,7 @@
     function handle_create_client_products() {
 
 
-        if (confirm("Chcete zkopírovat Master produkty a jejich receptury do klientských produktů a receptur?") == true) {
+        if (confirm("Chcete zaktualizovat klientské produkty a receptury podle vzoru vybraných Master produktů v licenci?") == true) {
             var url = "@Url.Action("CreateClientProducts", "p21")";
             $.post(url, { p21id:@Model.Rec.pid}, function (data) {
                 alert(data.message);

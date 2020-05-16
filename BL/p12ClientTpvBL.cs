@@ -39,10 +39,14 @@ namespace BL
             {
                 _db.CurrentUser.AddMessage("Chybí vyplnit [Licence]."); return false;
             }
+            if (rec.p25ID == 0)
+            {
+                _db.CurrentUser.AddMessage("Chybí vyplnit [Typ zařízení]."); return false;
+            }
             BO.p21License cP21 = _mother.p21LicenseBL.Load(rec.p21ID);
             if (cP21.p21PermissionFlag != BO.p21PermENUM.Independent2Master)
             {
-                _db.CurrentUser.AddMessage(string.Format("Ve zvolené licenci [{1} - {0}] nelze upravovat receptury.",cP21.p21Name,cP21.p21Code)); return false;
+                _db.CurrentUser.AddMessage(string.Format("Ve zvolené licenci [{1} - {0}] nelze zakládat/upravovat vlastní receptury.",cP21.p21Name,cP21.p21Code)); return false;
             }
 
             return true;
@@ -57,6 +61,7 @@ namespace BL
             var p = new DL.Params4Dapper();
             p.AddInt("pid", rec.p12ID);
             p.AddInt("p21ID", rec.p21ID, true);
+            p.AddInt("p25ID", rec.p25ID, true);
             p.AddString("p12Name", rec.p12Name);
             p.AddString("p12Code", rec.p12Code);
             p.AddString("p12Memo", rec.p12Memo);

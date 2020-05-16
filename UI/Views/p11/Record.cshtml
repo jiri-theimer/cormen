@@ -48,11 +48,13 @@
 
     @if (Model.Rec.p10ID_Master > 0)
     {
-        <input type="hidden" asp-for="@Model.Rec.p21ID" />
+
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Licence:</label>
             <div class="col-sm-9 col-md-8">
-                <span class="form-control bg-light">@(Model.Rec.p21Name+" ["+Model.Rec.p28Name+"]")</span>
+                <span class="form-control bg-light">@(Model.Rec.p21Name)</span>
+                <input type="hidden" asp-for="Rec.p21ID" />
+
             </div>
             <div class="col-sm-2 col-md-2">
                 <span class="form-control bg-light">@(Model.Rec.p21Code)</span>
@@ -83,20 +85,15 @@
     }
     else
     {
-        <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Licence:</label>
-            <div class="col-sm-11 col-md-10">
-                <mycombo entity="p21License" asp-for="Rec.p21ID" selectedtext="Rec.p21Name"></mycombo>
 
-            </div>
-        </div>
         <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Receptura:</label>
+            <label class="col-sm-1 col-md-2 col-form-label">Receptura+Licence:</label>
             <div class="col-sm-11 col-md-10">
                 <mycombo entity="p12ClientTpv" asp-for="Rec.p12ID" selectedtext="Rec.p12Name"></mycombo>
 
             </div>
         </div>
+
     }
 
 
@@ -115,6 +112,16 @@
         <textarea asp-for="Rec.p11Memo" class="form-control" placeholder="Podrobný popis"></textarea>
         <span asp-validation-for="Rec.p11Memo" class="text-danger"></span>
     </div>
+
+    @if (Model.Rec.p10ID_Master == 0)
+    {
+        <div>
+            <hr />
+            <i>Produkt s vazbou na Master produkt vytvoříte jednoduše z GRIDu zkopírováním vašeho vybraného produktu!</i>
+            <br />
+            <i>Zde se předpokládá založení/úprava produktu bez vazby na Master produkt.</i>
+        </div>
+    }
 
 
 

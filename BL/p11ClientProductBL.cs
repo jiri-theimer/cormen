@@ -38,6 +38,10 @@ namespace BL
 
         public int Save(BO.p11ClientProduct rec)
         {
+            if (rec.p12ID > 0)
+            {
+                rec.p21ID = _mother.p12ClientTpvBL.Load(rec.p12ID).p21ID;   //licenci produktu zjistit z receptury
+            }
             if (ValidateBeforeSave(rec) == false)
             {
                 return 0;
@@ -92,6 +96,14 @@ namespace BL
                 if (cP10.p13ID != cP12.p13ID_Master)
                 {
                     _db.CurrentUser.AddMessage("Receptura vzorového Master produktu se liší od vzoru klientské receptury."); return false;
+                }
+            }
+            else
+            {
+                BO.p21License cP21 = _mother.p21LicenseBL.Load(rec.p21ID);
+                if (cP21.p21PermissionFlag != BO.p21PermENUM.Independent2Master)
+                {
+                    _db.CurrentUser.AddMessage(string.Format("Ve zvolené licenci [{1} - {0}] nelze zakládat produkty s vlastní recepturou.", cP21.p21Name, cP21.p21Code)); return false;
                 }
             }
             

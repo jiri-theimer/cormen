@@ -22,7 +22,11 @@ namespace UI.Controllers
             }
             else
             {
-                
+                if (v.Rec.p13ID_Master > 0)
+                {
+                    v.RecP13 = Factory.p13MasterTpvBL.Load(v.Rec.p13ID_Master);
+                }
+                v.RecP21 = Factory.p21LicenseBL.Load(v.Rec.p21ID);
                 return View(v);
             }
 
@@ -46,7 +50,7 @@ namespace UI.Controllers
                 BO.p21License cP21 = Factory.p21LicenseBL.Load(v.Rec.p21ID);
                 if (isclone == false && v.Rec.p13ID_Master>0)
                 {
-                    return this.StopPage(true, "Recepturu s Master vzorem nelze upravovat. Zkopírujte si ji do nové receptury, kterou můžete upravovat.");
+                    return this.StopPage(true, "Recepturu s Master vzorem nelze upravovat.<hr>Zkopírujte si ji do nové receptury, kterou můžete upravovat.");
                 }
                 if (cP21.p21PermissionFlag != BO.p21PermENUM.Independent2Master)
                 {
@@ -77,6 +81,7 @@ namespace UI.Controllers
             if (isclone)
             {
                 v.Toolbar.MakeClone();
+                v.Rec.p12Code += "-COPY";
                 for (var i = 0; i < v.lisP15.Count(); i++)
                 {
                     v.lisP15[i].p15ID = 0;
@@ -117,6 +122,7 @@ namespace UI.Controllers
                 c.p12Name = v.Rec.p12Name;
                 c.p12Memo = v.Rec.p12Memo;
                 c.p21ID = v.Rec.p21ID;
+                c.p25ID = v.Rec.p25ID;
                 int x = 1;
                 foreach (var row in v.lisP15.OrderBy(p => p.p15RowNum))
                 {

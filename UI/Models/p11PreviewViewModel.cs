@@ -9,6 +9,7 @@ namespace UI.Models
     {
         public BO.p11ClientProduct Rec { get; set; }
         public BO.p10MasterProduct RecP10 { get; set; }
+        public BO.p21License RecP21 { get; set; }
 
     }
 }

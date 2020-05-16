@@ -61,7 +61,11 @@ namespace BL
                 {
                     _db.RunSql("DELETE FROM p22LicenseBinding WHERE p21ID=@pid", new { pid = rec.pid });
                 }
-                _db.RunSql("INSERT INTO p22LicenseBinding(p21ID,p10ID) SELECT @pid,p10ID FROM p10MasterProduct WHERE p10ID IN (" + string.Join(",", p10ids) + ")",new { pid = intPID });
+                if (p10ids.Count > 0)
+                {
+                    _db.RunSql("INSERT INTO p22LicenseBinding(p21ID,p10ID) SELECT @pid,p10ID FROM p10MasterProduct WHERE p10ID IN (" + string.Join(",", p10ids) + ")", new { pid = intPID });
+                }
+                
             }
 
             return intPID;

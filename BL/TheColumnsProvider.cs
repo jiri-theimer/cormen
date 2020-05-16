@@ -235,6 +235,7 @@ namespace BL
                 AF("p12ClientTpv", "p12Memo", "Podrobný popis");
                 AF("p12ClientTpv", "p25Name", "Typ zařízení", 2, "p25.p25Name");
                 AF("p12ClientTpv", "p21Name", "Licence", 3, "p21.p21Name");
+                AF("p21License", "p21PermissionFlag", "Typ licence", 3, "case p21.p21PermissionFlag when 1 then 'Standard' when 2 then 'Cyber' else '???' end");
                 AppendTimestamp("p12ClientTpv");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p20")
