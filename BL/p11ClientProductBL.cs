@@ -19,7 +19,7 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*," + _db.GetSQL1_Ocas("p11") + ",b02.b02Name,p12.p12Name,p12.p12Code,p21.p21Name,p21.p21Code,p10.p10Name,p10.p10Code,p20.p20Code,p20.p20Name FROM "+ BL.TheEntities.ByPrefix("p11").SqlFrom;
+            return "SELECT a.*," + _db.GetSQL1_Ocas("p11") + ",b02.b02Name,p12.p12Name,p12.p12Code,p21.p21Name,p21.p21Code,p10.p10Name,p10.p10Code,p20.p20Code,p20.p20Name,p28.p28Name FROM "+ BL.TheEntities.ByPrefix("p11").SqlFrom;
         }
         public BO.p11ClientProduct Load(int pid)
         {
@@ -73,17 +73,22 @@ namespace BL
             {
                 _db.CurrentUser.AddMessage("Chybí vyplnit [Receptura]."); return false;
             }
-           
+
             //if (LoadByCode(rec.p11Code, rec.pid) != null)
             //{
             //    _db.CurrentUser.AddMessage(string.Format("Zadaný kód nemůže být duplicitní s jiným produktem [{0}].", LoadByCode(rec.p11Code, rec.pid).p11Name));
             //    return false;
             //}
 
+            BO.p12ClientTpv cP12 = _mother.p12ClientTpvBL.Load(rec.p12ID);
+            if (cP12.p21ID != rec.p21ID)
+            {
+                _db.CurrentUser.AddMessage("Licence produktu se liší od licence receptury."); return false;
+            }
+
             if (rec.p10ID_Master > 0)
             {
-                BO.p10MasterProduct cP10 = _mother.p10MasterProductBL.Load(rec.p10ID_Master);
-                BO.p12ClientTpv cP12 = _mother.p12ClientTpvBL.Load(rec.p12ID);
+                BO.p10MasterProduct cP10 = _mother.p10MasterProductBL.Load(rec.p10ID_Master);                
                 if (cP10.p13ID != cP12.p13ID_Master)
                 {
                     _db.CurrentUser.AddMessage("Receptura vzorového Master produktu se liší od vzoru klientské receptury."); return false;

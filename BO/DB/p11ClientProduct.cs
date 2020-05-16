@@ -34,8 +34,9 @@ namespace BO
         public string p12Name { get; set; } //get+set: kvůli mycombo
         public string p12Code;
         public string b02Name;        
-        public string p21Name;
+        public string p21Name { get; set; }//get+set: kvůli mycombo
         public string p21Code;
+        public string p28Name;
         public string p10Name { get; set; }//get+set: kvůli mycombo
         public string p10Code;
         public string p20Code { get; set; } //get+set: kvůli mycombo

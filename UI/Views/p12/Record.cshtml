@@ -15,27 +15,35 @@
     @Html.HiddenFor(m => m.Rec.pid)
 
 
-    <div class="modal_record_container">
+<div class="modal_record_container">
 
-        <div class="form-row">
-            <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
-            <div class="col-sm-9 col-md-8">
-                <input class="form-control" asp-for="Rec.p12Name" />
-                <span asp-validation-for="Rec.p12Name" class="text-danger"></span>
-            </div>
-            <div class="col-sm-2 col-md-2">
-                <input class="form-control" asp-for="Rec.p12Code" placeholder="Číslo postupu" />
-                <span asp-validation-for="Rec.p12Code" class="text-danger"></span>
-            </div>
+    <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
+        <div class="col-sm-9 col-md-8">
+            <input class="form-control" asp-for="Rec.p12Name" />
+            <span asp-validation-for="Rec.p12Name" class="text-danger"></span>
         </div>
-
-
-        <div class="form-row">
-            <textarea asp-for="Rec.p12Memo" class="form-control" placeholder="Podrobný popis"></textarea>
-            <span asp-validation-for="Rec.p12Memo" class="text-danger"></span>
+        <div class="col-sm-2 col-md-2">
+            <input class="form-control" asp-for="Rec.p12Code" placeholder="Číslo postupu" />
+            <span asp-validation-for="Rec.p12Code" class="text-danger"></span>
         </div>
-
     </div>
+    
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Licence:</label>
+        <div class="col-sm-11 col-md-10">
+            <mycombo entity="p21License" asp-for="Rec.p21ID" selectedtext="Rec.p21Name"></mycombo>
+
+        </div>
+    </div>
+
+
+    <div class="form-row">
+        <textarea asp-for="Rec.p12Memo" class="form-control" placeholder="Podrobný popis"></textarea>
+        <span asp-validation-for="Rec.p12Memo" class="text-danger"></span>
+    </div>
+
+</div>
 
     <hr />
     <button type="button" class="btn btn-primary" onclick="p15_add_row()">Přidat řádek</button>

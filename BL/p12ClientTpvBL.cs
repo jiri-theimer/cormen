@@ -20,7 +20,7 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*,p21.p21Name,p13.p13Name,p13.p13Code,p25.p25Name,p13.p25ID," + _db.GetSQL1_Ocas("p12") + " FROM "+BL.TheEntities.ByPrefix("p12").SqlFrom;
+            return "SELECT a.*,p21.p21Name,p21.p21Code,p28.p28Name,p13.p13Name,p13.p13Code,p25.p25Name,p13.p25ID," + _db.GetSQL1_Ocas("p12") + " FROM "+BL.TheEntities.ByPrefix("p12").SqlFrom;
         }
         public BO.p12ClientTpv Load(int pid)
         {
@@ -33,11 +33,30 @@ namespace BL
 
         }
 
+        private bool ValidateBeforeSave(BO.p12ClientTpv rec)
+        {
+            if (rec.p21ID == 0)
+            {
+                _db.CurrentUser.AddMessage("Chybí vyplnit [Licence]."); return false;
+            }
+            BO.p21License cP21 = _mother.p21LicenseBL.Load(rec.p21ID);
+            if (cP21.p21PermissionFlag != BO.p21PermENUM.Independent2Master)
+            {
+                _db.CurrentUser.AddMessage(string.Format("Ve zvolené licenci [{1} - {0}] nelze upravovat receptury.",cP21.p21Name,cP21.p21Code)); return false;
+            }
+
+            return true;
+        }
+
         public int Save(BO.p12ClientTpv rec, List<BO.p15ClientOper> lisP15)
         {
-
+            if (ValidateBeforeSave(rec) == false)
+            {
+                return 0;
+            }
             var p = new DL.Params4Dapper();
             p.AddInt("pid", rec.p12ID);
+            p.AddInt("p21ID", rec.p21ID, true);
             p.AddString("p12Name", rec.p12Name);
             p.AddString("p12Code", rec.p12Code);
             p.AddString("p12Memo", rec.p12Memo);

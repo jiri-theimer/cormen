@@ -672,6 +672,7 @@ namespace UI.Controllers
             mq.IsRecordValid = true;    //v combo nabídce pouze časově platné záznamy
 
             var cols = new BL.TheColumnsProvider(mq).getDefaultPallete(1,3);
+            mq.explicit_columns = cols;
 
             if (mq.Prefix == "p18")
             {

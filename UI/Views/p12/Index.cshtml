@@ -9,46 +9,59 @@
 @Html.HiddenFor(m => m.Rec.pid)
 
 
-<div class="modal_record_container">
+    <div class="modal_record_container">
 
 
-    <div class="form-row">
-        <label class="col-sm-1 col-md-2 col-form-label">Receptura:</label>
-        <div class="col-sm-9 col-md-8">
-            <span class="form-control bg-light">@(Model.Rec.p12Name)</span>
-            
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Receptura:</label>
+            <div class="col-sm-9 col-md-8">
+                <span class="form-control bg-light">@(Model.Rec.p12Name)</span>
 
+
+            </div>
+            <div class="col-sm-2 col-md-2">
+                <span class="form-control bg-light">@(Model.Rec.p12Code)</span>
+
+
+            </div>
         </div>
-        <div class="col-sm-2 col-md-2">
-            <span class="form-control bg-light">@(Model.Rec.p12Code)</span>
-            
-
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Licence:</label>
+            <div class="col-sm-9 col-md-8">
+                <span class="form-control bg-light">@(Model.Rec.p21Name+" ["+Model.Rec.p28Name+"]")</span>
+            </div>
+            <div class="col-sm-2 col-md-2">
+                <span class="form-control bg-light">@(Model.Rec.p21Code)</span>
+            </div>
         </div>
+        @if (Model.Rec.p13ID_Master > 0)
+        {
+            <div class="form-row" style="margin-top:10px;">
+                <label class="col-sm-1 col-md-2 col-form-label">Vzorová Master receptura:</label>
+                <div class="col-sm-5 col-md-4">
+                    <span class="form-control bg-light">@(Model.Rec.p13Name)</span>
+
+
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <span class="form-control bg-light">@(Model.Rec.p25Name)</span>
+
+
+                </div>
+                <div class="col-sm-2 col-md-2">
+                    <span class="form-control bg-light">@(Model.Rec.p13Code)</span>
+
+
+                </div>
+
+            </div>
+        }
+
+
+
+
+
     </div>
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Vzorová receptura:</label>
-        <div class="col-sm-5 col-md-4">
-            <span class="form-control bg-light">@(Model.Rec.p13Name)</span>
-
-
-        </div>
-        <div class="col-sm-4 col-md-4">
-            <span class="form-control bg-light">@(Model.Rec.p25Name)</span>
-
-
-        </div>
-        <div class="col-sm-2 col-md-2">
-            <span class="form-control bg-light">@(Model.Rec.p13Code)</span>
-
-
-        </div>
-
-    </div>
-   
-
-
-
-</div>
 
 @if (Model.Rec.p12Memo != null)
 {

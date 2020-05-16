@@ -36,13 +36,23 @@ namespace UI.Controllers
             var v = new Models.p12RecordViewModel();
 
             if (pid > 0)
-            {
+            {                
+
                 v.Rec = Factory.p12ClientTpvBL.Load(pid);
                 if (v.Rec == null)
                 {
                     return RecNotFound(v);
                 }
-                
+                BO.p21License cP21 = Factory.p21LicenseBL.Load(v.Rec.p21ID);
+                if (isclone == false && v.Rec.p13ID_Master>0)
+                {
+                    return this.StopPage(true, "Recepturu s Master vzorem nelze upravovat. Zkopírujte si ji do nové receptury, kterou můžete upravovat.");
+                }
+                if (cP21.p21PermissionFlag != BO.p21PermENUM.Independent2Master)
+                {
+                    return this.StopPage(true, string.Format("S licencí typu {2} [{0} - {1}]  nemáte oprávnění zakládat vlastní receptury.", cP21.p21Code,cP21.p21Name,cP21.PermFlagAlias));
+                }
+
                 var mq = new BO.myQuery("p15ClientOper");
                 mq.p12id = v.Rec.pid;
                 v.lisP15 = Factory.p15ClientOperBL.GetList(mq).ToList();
@@ -106,6 +116,7 @@ namespace UI.Controllers
                 c.p12Code = v.Rec.p12Code;
                 c.p12Name = v.Rec.p12Name;
                 c.p12Memo = v.Rec.p12Memo;
+                c.p21ID = v.Rec.p21ID;
                 int x = 1;
                 foreach (var row in v.lisP15.OrderBy(p => p.p15RowNum))
                 {

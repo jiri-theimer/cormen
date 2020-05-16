@@ -51,25 +51,33 @@
         <input type="hidden" asp-for="@Model.Rec.p21ID" />
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Licence:</label>
-            <div class="col-sm-11 col-md-10">
-                <span class="form-control bg-light">@(Model.Rec.p21Name+" ["+Model.Rec.p21Code+"]")</span>
+            <div class="col-sm-9 col-md-8">
+                <span class="form-control bg-light">@(Model.Rec.p21Name+" ["+Model.Rec.p28Name+"]")</span>
             </div>
-
+            <div class="col-sm-2 col-md-2">
+                <span class="form-control bg-light">@(Model.Rec.p21Code)</span>
+            </div>
         </div>
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Receptura:</label>
-            <div class="col-sm-11 col-md-10">
-                <span class="form-control bg-light">@(Model.Rec.p12Name+" ["+Model.Rec.p12Code+"]")</span>
+            <div class="col-sm-9 col-md-8">
+                <span class="form-control bg-light">@(Model.Rec.p12Name)</span>
                 <input type="hidden" asp-for="Rec.p12ID" />
 
+            </div>
+            <div class="col-sm-2 col-md-2">
+                <span class="form-control bg-light">@(Model.Rec.p12Code)</span>
             </div>
         </div>
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Vzorový Master produkt:</label>
-            <div class="col-sm-11 col-md-10">
-                <span class="form-control bg-light">@(Model.Rec.p10Name+" ["+Model.Rec.p10Code+"]")</span>
+            <div class="col-sm-9 col-md-8">
+                <span class="form-control bg-light">@(Model.Rec.p10Name)</span>
                 <input type="hidden" asp-for="Rec.p10ID_Master" />
 
+            </div>
+            <div class="col-sm-2 col-md-2">
+                <span class="form-control bg-light">@(Model.Rec.p10Code)</span>
             </div>
         </div>
     }
