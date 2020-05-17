@@ -181,7 +181,7 @@
 
     <script type="text/javascript">
         var _modal = document.getElementById("myModalContainer");
-
+        var _modal_current_layout = null;
 
         //zabránit submit formuláře po stisknutí ENTER na jakémkoliv non-submit input elementu
 
@@ -260,8 +260,16 @@
 
 
 
-        function hardrefresh(pid, flag) {    
+        function hardrefresh(pid, flag) {     
             var url = window.location.href;
+
+            if (_modal_current_layout == "subform") {   //volání z iframe -> refreshovat pouze iframe
+                if (document.getElementById("fra_subgrid")) {    
+                    document.getElementById("fra_subgrid").contentDocument.location.reload(true);
+                    return;
+                   
+                }
+            }            
             if (pid !== null && pid !== 0) {
                 url = _removeUrlParam("go2pid", url);
                 if (url.indexOf("?") > 0) {
@@ -329,7 +337,9 @@
             }
 
         }
-        function _window_open(url, flag, header) {
+        function _window_open(url, flag, header, layout) {
+            if (typeof layout === "undefined") layout = null;
+            _modal_current_layout = layout;
             if (typeof flag === "undefined") flag = 1;
 
             if (!$(_modal).attr("initialized") && flag !== 2) {

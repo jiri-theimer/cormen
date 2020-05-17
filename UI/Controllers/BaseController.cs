@@ -82,16 +82,18 @@ namespace UI.Controllers
             return false;
         }
         public bool TestIfRecordEditable(int intRecJ02ID_Owner=0)
-        {
+        {            
+            if (Factory.CurrentUser.j03EnvironmentFlag==1 && Factory.CurrentUser.TestPermission(BO.UserPermFlag.MasterAdmin))
+            {
+                return true;    //master admin může vše
+            }
             if (intRecJ02ID_Owner == 0) return false;
+
             //zjistit svázané p28ID pro intRecJ02ID_Owner v testovaném záznamu
             BO.COM.GetInteger c = Factory.j02PersonBL.LoadPersonalP28ID(intRecJ02ID_Owner);
             if (c == null) return false;
             int intRecP28ID = c.Value;
-
-            if (Factory.CurrentUser.j03EnvironmentFlag == 1 && Factory.CurrentUser.TestPermission(BO.UserPermFlag.MasterAdmin)){
-                return true; //master admin může vše
-            }
+            
          
             if (Factory.CurrentUser.j03EnvironmentFlag == 2 && intRecP28ID == Factory.CurrentUser.p28ID)
             {

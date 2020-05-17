@@ -73,7 +73,11 @@
 
 
         function _window_open(url, flag, header) {
-            window.parent._window_open(url, flag, header);
+            var layout = null;
+            if (window !== top) {
+                layout = "subform";    //stránka v iframe
+            }
+            window.parent._window_open(url, flag, header, layout);
         }
         
     </script>
