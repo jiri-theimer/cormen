@@ -149,6 +149,18 @@
             $("#divDropdown"+_controlid).dropdown("show");
         }
 
+        if (_filterflag === "1") {  //filtruje se na straně serveru
+            if (typeof _searchbox_serverfiltering_timeout !== "undefined") {
+                clearTimeout(_searchbox_serverfiltering_timeout);
+            }
+            _searchbox_serverfiltering_timeout = setTimeout(function () {
+                //čeká se 500ms až uživatel napíše všechny znaky
+                handle_server_filtering();
+                
+            }, 500);
+            
+        }
+
 
     })
 
@@ -215,24 +227,13 @@
     }
 
     $(_searchbox).on("keyup", function (e) {
-        if (_is_alpha_numeric_keycode(e.keyCode)===false) {
-            _notify_message("return: " + e.keyCode);
+        if (_filterflag === "1") return;
+        //zde se filtruje podle lokálních dat:
+
+        if (e.keyCode===27) {            
             return;
         }        
-        if (_filterflag === "1") {  //filtruje se na straně serveru
-            if (typeof _searchbox_serverfiltering_timeout !== "undefined") {
-                clearTimeout(_searchbox_serverfiltering_timeout);
-            }
-            _searchbox_serverfiltering_timeout=setTimeout(function () {
-                //čeká se 500ms až uživatel napíše všechny znaky
-                handle_server_filtering();
-                _notify_message("server filtering, keyCode: " + e.keyCode);
-
-            }, 500);
-            
-            return;
-        }
-        //dále se filtruje podle lokálních dat:
+                
         var value = $(this).val().toLowerCase();
         var x = 0;
         var rows_count = $("#" + _tabbodyid).find("tr").length;
