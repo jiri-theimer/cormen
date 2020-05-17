@@ -151,11 +151,15 @@ namespace BL.DL
             {
                 if (mq.Prefix == "p28")
                 {
-                    AQ(ref lis, "(a.p28Name LIKE '%'+@expr+'%' OR a.p28RegID LIKE '%'+@expr+'%' OR a.p28VatID LIKE '%'+@expr+'%' OR a.p28Code LIKE '%'+@expr+'%' OR a.p28ID IN (select p28ID FROM j02Person WHERE p28ID IS NOT NULL AND j02LastName like '%'+@expr+'%'))", "expr", mq.SearchString);
+                    AQ(ref lis, "(a.p28Name LIKE '%'+@expr+'%' OR a.p28ShortName LIKE '%'+@expr+'%' OR a.p28RegID LIKE '%'+@expr+'%' OR a.p28VatID LIKE '%'+@expr+'%' OR a.p28Code LIKE '%'+@expr+'%' OR a.p28ID IN (select p28ID FROM j02Person WHERE p28ID IS NOT NULL AND j02LastName like '%'+@expr+'%'))", "expr", mq.SearchString);
                 }
-                if (mq.Prefix == "p26")
+                if (mq.Prefix == "j02")
                 {
-                    AQ(ref lis, "(a.p26Name LIKE '%'+@expr+'%' OR a.p26Code LIKE '%'+@expr+'%')", "expr", mq.SearchString);
+                    AQ(ref lis, "(a.j02LastName LIKE '%'+@expr+'%' OR a.j02FirstName LIKE '%'+@expr+'%' OR a.j02Email LIKE '%'+@expr+'%' OR p28.p28Name LIKE '%'+@expr+'%')", "expr", mq.SearchString);
+                }
+                if (mq.Prefix == "p51")
+                {
+                    AQ(ref lis, "(a.p51Name LIKE '%'+@expr+'%' OR a.p51Code LIKE '%'+@expr+'%')", "expr", mq.SearchString);
                 }
                 if (mq.Prefix == "p10")
                 {

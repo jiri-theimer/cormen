@@ -18,6 +18,7 @@ namespace UI.Controllers
             if (filterflag == "1")
             {
                 mq.SearchString = searchstring; //filtrování na straně serveru
+                mq.TopRecordsOnly = 50; //maximálně prvních 50 záznamů, které vyhovují podmínce
             }
 
             var cols = new BL.TheColumnsProvider(mq).getDefaultPallete(1, 3);
@@ -37,6 +38,19 @@ namespace UI.Controllers
             var intRows = dt.Rows.Count;
 
             var s = new System.Text.StringBuilder();
+
+            if (mq.TopRecordsOnly>0)
+            {
+                if (intRows >= mq.TopRecordsOnly)
+                {
+                    s.AppendLine(string.Format("<small style='margin-left:10px;'>Zobrazeno prvních {0} záznamů. Zpřesněte filtrovací podmínku.</small>", intRows));
+                }
+                else
+                {
+                    s.AppendLine(string.Format("<small style='margin-left:10px;'>Počet záznamů: {0}.</small>", intRows));
+                }
+                
+            }
 
             s.Append(string.Format("<table id='{0}' class='table table-hover'>", tableid));
 

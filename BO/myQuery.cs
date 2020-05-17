@@ -65,10 +65,12 @@ namespace BO
         public string query_by_entity_prefix;
 
         public string SearchString;
+        public int TopRecordsOnly;
 
-        
-       
-        
+
+
+
+
         public void SetPids(string strPids)
         {
             this.pids = BO.BAS.ConvertString2ListInt(strPids);

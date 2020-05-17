@@ -215,7 +215,8 @@
     }
 
     $(_searchbox).on("keyup", function (e) {
-        if (e.keyCode === 13) {
+        if (_is_alpha_numeric_keycode(e.keyCode)===false) {
+            _notify_message("return: " + e.keyCode);
             return;
         }        
         if (_filterflag === "1") {  //filtruje se na straně serveru
@@ -225,7 +226,7 @@
             _searchbox_serverfiltering_timeout=setTimeout(function () {
                 //čeká se 500ms až uživatel napíše všechny znaky
                 handle_server_filtering();
-                _notify_message("filtruje se na straně serveru: "+$(_searchbox).val());
+                _notify_message("server filtering, keyCode: " + e.keyCode);
 
             }, 500);
             

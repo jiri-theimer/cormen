@@ -57,6 +57,10 @@ namespace BL
         {            
             var sb = new System.Text.StringBuilder();
             sb.Append("SELECT ");
+            if (mq.TopRecordsOnly > 0)
+            {
+                sb.Append("TOP "+mq.TopRecordsOnly.ToString()+" ");
+            }
 
             if (mq.explicit_columns == null || mq.explicit_columns.Count()==0)
             {
