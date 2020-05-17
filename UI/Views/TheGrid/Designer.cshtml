@@ -122,22 +122,22 @@
                     string strClass = "";
                     
                 }
-                @foreach (var strEntity in _entities)
+                @foreach (var rel in Model.Relations)
                 {
                     <li>
-                        <span id="@("group"+strEntity)" class="caret">@BL.TheEntities.ByTable(strEntity).AliasSingular</span>
+                        <span id="@("group__"+rel.RelName+"__"+rel.TableName)" class="caret">@rel.AliasSingular</span>
                         <ul class="collapsed">
-                            @foreach (var col in Model.ApplicableCollumns.Where(p => p.Entity == strEntity))
+                            @foreach (var col in Model.AllColumns.Where(p => p.Entity == rel.TableName))
                             {
                                 strClass = "field";
                                 if (col.IsTimestamp) strClass += " timestamp";
 
                             <li class="tree_item">
                                 <span class="symbol">@Html.Raw(col.getSymbol())</span>
-                                <span data-field="@col.UniqueName" class="@strClass">@col.Header</span>
+                                <span data-field="@(rel.RelName+"__"+col.UniqueName)" class="@strClass">@col.Header</span>
 
                                 
-                                <button data-entity="@col.Entity" data-field="@col.UniqueName" title="Přidat" style="font-size:150%;" class="btn btn-primary py-0 button_field_append">
+                                <button data-entity="@(rel.RelName+"__"+col.Entity)" data-field="@(rel.RelName+"__"+col.UniqueName)" title="Přidat" style="font-size:150%;" class="btn btn-primary py-0 button_field_append">
                                     →
                                 </button>
 
@@ -190,7 +190,7 @@
         refresh_state();
 
         //expand all
-        $(".caret").click();
+        //$(".caret").click();
 
 
 
@@ -203,10 +203,11 @@
         var field = $(cmd).attr("data-field");
 
 
-        var entity = $(cmd).attr("data-entity");
-        var entity_alias = $("#group" + entity).text();
-
-        var alias = $("span[data-field=" + field + "]").first().text() + " [" + entity_alias + "]";
+        var rel_plus_entity = $(cmd).attr("data-entity");
+        
+        var rel_alias = $("#group__" + rel_plus_entity).text();
+       
+        var alias = $("span[data-field=" + field + "]").first().text() + " [" + rel_alias + "]";
 
         if (_sels.includes(field)) {
             _notify_message("Sloupec [" + field + "] již je ve výběru.", "info");

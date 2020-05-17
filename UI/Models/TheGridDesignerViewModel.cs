@@ -12,5 +12,8 @@ namespace UI.Models
         public List<BO.TheGridColumn> SelectedColumns;
 
 
+        public List<BO.EntityRelation> Relations;
+        public IEnumerable<BO.TheGridColumn> AllColumns;
+
     }
 }

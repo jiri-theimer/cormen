@@ -23,6 +23,8 @@ namespace BO
         public int FixedWidth { get; set; }
         public string EntityAlias { get; set; }
 
+        public string RelName { get; set; } //název relace ve from klauzuly - naplní se v getSelectedPallete
+        public string RelSql { get; set; }  //sql relace from klauzule - naplní se v getSelectedPallete
 
         public string Entity
         {
@@ -116,6 +118,10 @@ namespace BO
             
             if (this.SqlSyntax == null)
             {
+                if (this.RelName != null)
+                {
+                    return this.RelName+"."+this.Field + " AS " + this.Field;   //v RelName je uložený název relace GRIDU
+                }
                 if (_Prefix == strContextTablePrefix)
                 {
                     return "a." + this.Field+" AS "+this.Field;    //pole z primární tabulky strPrimaryTablePrefix
@@ -127,6 +133,15 @@ namespace BO
             }
             else
             {
+                if (this.RelName != null)
+                {
+                    if (this.SqlSyntax.IndexOf("a.") > -1)
+                    {
+                        return this.SqlSyntax.Replace("a.", this.RelName + ".") + " AS " + this.Field;
+                    }
+                    return this.SqlSyntax + " AS " + this.Field;
+                }
+
                 if (_Prefix == strContextTablePrefix)
                 {
                     return this.SqlSyntax + " AS " + this.Field;
@@ -139,21 +154,7 @@ namespace BO
                     }
                     return this.SqlSyntax + " AS " + this.Field;
                 }
-                //if (this.IsTimestamp)
-                //{
-                //    if (_Prefix == strContextTablePrefix)
-                //    {
-                //        return this.SqlSyntax + " AS " + this.Field;
-                //    }
-                //    else
-                //    {
-                //        return this.SqlSyntax.Replace("a.",_Prefix+".") + " AS " + this.Field;
-                //    }
-                //}
-                //else
-                //{
-                //    return this.SqlSyntax + " AS " + this.Field;
-                //}
+             
 
             }
             

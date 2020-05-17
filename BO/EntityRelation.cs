@@ -4,17 +4,10 @@ using System.Text;
 
 namespace BO
 {
-    public class TheEntity
+    public class EntityRelation
     {
         private string _Prefix;
-        private string _TableName;        
-        public string AliasSingular { get; set; }
-        public string AliasPlural { get; set; }        
-        public string SqlFrom { get; set; }     //from klauzule pro BL třídu dané entity
-
-        public string SqlFromGrid { get; set; } //kořenová from klauzule pro GRID sql dotaz
-       
-        public string SqlOrderBy { get; set; }
+        private string _TableName;
 
         public string TableName
         {
@@ -37,7 +30,15 @@ namespace BO
             }
         }
 
+        public string AliasSingular { get; set; }
 
-      
+        public string SqlFrom { get; set; }
+
+        public string RelName { get; set; }
+
+        public string RelNameDependOn { get; set; }
+
+        public bool IsPrimaryTable { get; set; }
+
     }
 }

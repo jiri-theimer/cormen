@@ -432,20 +432,29 @@ namespace BL
 
         }
 
-        public List<BO.TheGridColumn> getSelectedPallete(string strUniqueNames)
+        public List<BO.TheGridColumn> getSelectedPallete(BO.j72TheGridState cJ72)
         {
+            //v j72Columns je čárkou oddělený seznam sloupců z pole j72Columns: název relace+__+entita+__+field
             if (_lis.Count > 0) { _lis.Clear(); };
             SetupPallete(true);
 
-            var sels = BO.BAS.ConvertString2List(strUniqueNames, ",");
-            var ret = new List<BO.TheGridColumn>();
+            List<BO.EntityRelation> relations = BL.TheEntities.getApplicableEntities(cJ72.j72Entity.Substring(0, 3));
+            List<string> sels = BO.BAS.ConvertString2List(cJ72.j72Columns, ",");
+            List<BO.TheGridColumn> ret = new List<BO.TheGridColumn>();
             
+            string[] arr;
+            string strUniqueName = "";
 
-            for(var i=0;i<sels.Count; i++)
-            {
-                if (_lis.Where(p => p.UniqueName == sels[i]).Count() > 0)
+            for (var i=0;i<sels.Count; i++)
+            {                
+                arr = sels[i].Split("__");
+                strUniqueName = arr[1] + "__"+arr[2];
+                if (_lis.Where(p => p.UniqueName == strUniqueName).Count() > 0)
                 {
-                    var c = _lis.Where(p => p.UniqueName == sels[i]).FirstOrDefault();
+                    var c = _lis.Where(p => p.UniqueName == strUniqueName).FirstOrDefault();
+                    c.RelName = arr[0]; //název relace v sql dotazu
+                    c.RelSql = relations.Where(p => p.RelName == c.RelName).First().SqlFrom;    //sql klauzule relace
+
                     if ((i == sels.Count - 1) && (c.FieldType=="num" || c.FieldType=="num0" || c.FieldType == "num3"))
                     {
                         c.CssClass = "tdn_lastcol";

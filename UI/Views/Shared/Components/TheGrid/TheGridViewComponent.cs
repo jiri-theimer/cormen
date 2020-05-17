@@ -47,7 +47,7 @@ namespace UI.Views.Shared.Components.TheGrid
             cJ72.j72ContextMenuFlag = contextmenuflag;
             ret.ondblclick = ondblclick;
             ret.GridState = cJ72;
-            ret.Columns = colsProvider.getSelectedPallete(cJ72.j72Columns);
+            ret.Columns = colsProvider.getSelectedPallete(cJ72);
             ret.AdhocFilter = colsProvider.ParseAdhocFilterFromString(cJ72.j72Filter);
             ret.MasterEntity = master_entity;
             ret.MasterPID = master_pid;

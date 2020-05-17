@@ -187,10 +187,12 @@ namespace UI.Controllers
         }
         private void Designer_RefreshState(Models.TheGridDesignerViewModel v)
         {
+            v.Relations = BL.TheEntities.getApplicableEntities(v.Rec.j72Entity.Substring(0,3));
             var mq = new BO.myQuery(v.Rec.j72Entity);
             var cProvider = new BL.TheColumnsProvider(mq);
+            v.AllColumns = cProvider.AllColumns();
             v.ApplicableCollumns = cProvider.ApplicableColumns();
-            v.SelectedColumns = cProvider.getSelectedPallete(v.Rec.j72Columns);
+            v.SelectedColumns = cProvider.getSelectedPallete(v.Rec);
         }
         [HttpPost]
         public IActionResult Designer(Models.TheGridDesignerViewModel v)    //uložení grid sloupců
@@ -335,7 +337,7 @@ namespace UI.Controllers
         {
             
             var colProvider = new BL.TheColumnsProvider(mq);
-            mq.explicit_columns = colProvider.getSelectedPallete(cJ72.j72Columns);
+            mq.explicit_columns = colProvider.getSelectedPallete(cJ72);
             if (string.IsNullOrEmpty(cJ72.j72SortDataField)==false)
             {
                 
@@ -356,7 +358,7 @@ namespace UI.Controllers
             
             var mq = new BO.myQuery(cJ72.j72Entity);
            
-            _grid.Columns = new BL.TheColumnsProvider(mq).getSelectedPallete(cJ72.j72Columns);            
+            _grid.Columns = new BL.TheColumnsProvider(mq).getSelectedPallete(cJ72);            
 
             mq.explicit_columns = _grid.Columns;
             if (cJ72.j72SortDataField != "" && _grid.Columns.Where(p=>p.UniqueName==cJ72.j72SortDataField).Count()>0)
