@@ -8,11 +8,11 @@
 
 @addTagHelper *, UI
 
-    <form id="form1" asp-controller="p51" asp-action="Record" method="POST">
-        <h4>Objednávka</h4>
+<form id="form1" asp-controller="p51" asp-action="Record" method="POST">
+    <h4>Objednávka</h4>
 
-        @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
-        @Html.HiddenFor(m => m.Rec.pid)
+    @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
+    @Html.HiddenFor(m => m.Rec.pid)
 
 
     <div class="modal_record_container">
@@ -28,9 +28,13 @@
             </div>
         </div>
         <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Klient:</label>
+            <div class="col-sm-1 col-md-2">
+                Klient:
+                <button type="button" class="btn btn-light btn-sm" title="Založit nového klienta" onclick="p28_create()">+</button>
+            </div>
+            
             <div class="col-sm-9 col-md-8">
-                <mycombo entity="p28Company" asp-for="Rec.p28ID" selectedtext="Rec.p28Name"></mycombo>
+                <mycombo entity="p28Company" asp-for="Rec.p28ID" selectedtext="Rec.p28Name" filter-flag="1"></mycombo>
             </div>
             <div class="col-sm-2 col-md-2">
                 <input class="form-control" asp-for="Rec.p51CodeByClient" placeholder="Kód dle klienta" />
@@ -93,10 +97,12 @@
         }
     </div>
 
-        
 
 
-    </form>
+
+</form>
+
+
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
 
@@ -105,6 +111,17 @@
     function append_item() {
         form1.action = "/p51/Record?rec_oper=newitem";
         form1.submit();
+    }
+
+    function p28_create() {
+        _edit("p28", "0","Založit klienta");
+        
+    }
+
+    function hardrefresh(pid, flag) {
+        //zde volá modální okno otevřené z modálního okna (třetí vrstva) - to už si každá modální stránka řeší sama ve své režiji
+        
+        alert("p28_create, pid: " + pid+", flag: "+flag);
     }
 </script>
 

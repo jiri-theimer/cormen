@@ -52,7 +52,7 @@
 
 
     <script type="text/javascript">
-
+        var _modal;
 
     $(document).ready(function ()
     {
@@ -85,19 +85,107 @@
         }
 
 
+        $(document).on("click", function (e) {
+            if (e.target == _modal) {
+                _window_in_modal_close();
+            }
+        });
+        $(document).on("keydown", function (e) {
+            if (e.keyCode == 27 && _modal.style.display == "block") {
+                _window_in_modal_close();
+
+            }
+        });
+
+
+
     });
 
 
 
         function _window_close() {
 
+            if (document.getElementById("myModalContainer")) {
+                if ($(_modal).css("display") == "block") {  //test, zda o zavření volá modální okno nebo okno otevřené z modálního okna (3.vrstva)
+                    _window_in_modal_close();
+                    return;
+                }
+            }
+
             if (window != top) {
 
-                window.parent._window_close();
+                window.parent._window_close();  //toto okno je uvnitř iframe
             } else {
                 window.close();
             }
         }
+
+        function _window_in_modal_close() {
+            var iframe = document.getElementById("fraModalContent");
+            var elmnt = iframe.contentWindow.document.getElementById("toolbar_changeinfo");
+            if ($(elmnt).text() !== "") {
+                if (confirm("Chcete zavřít okno bez uložení změn?")) {
+                    $(_modal).css("display", "none");
+                } else {
+                    return;
+                }
+            }
+            $(_modal).css("display", "none");
+        }
+
+        function _window_open(url, flag, header, layout) {
+            if (typeof header === "undefined") header = "";
+            if (document.getElementById("myModalContainer")) {
+                //modal div na stránce již existuje
+            } else {
+                var el = document.createElement("DIV");
+                $(el).css("position", "absolute");
+
+                el.id = "myModalContainer";
+                document.body.appendChild(el);
+               
+                var s = "<div id='myModalContent'>";
+                s+= "<div style='height:30px;background-color: green;color:white;padding:3px;'>";
+                s += "<button class='btn btn-success btn-sm float-left' onclick='_window_in_modal_close()' style='margin-left:3px;margin-right:3px;'>&times;</button>";
+                s += "<span>" + header + "</span>";
+                s += "<button class='btn btn-success btn-sm float-right' onclick='_window_in_modal_close()' style='margin-right:3px;'>&times;</button>";
+                s += "</div>";
+                s += "<div id='myModalFrame' style='padding: 0px; margin:0px 0px 0px 10px; overflow: auto; -webkit-overflow-scrolling: touch;'>";
+                s += "<iframe id='fraModalContent' name='fraModalContent' frameborder='0'></iframe>";
+                s += "</div>";
+                s += "</div>";
+
+                _modal = document.getElementById("myModalContainer");
+                $(_modal).html(s);
+                _make_element_draggable(document.getElementById("myModalContent"), document.getElementById("myModalFrame")); //předávání nefunguje přes jquery
+            }
+
+            
+            var okno = $("#myModalContent");
+            var fra = $("#fraModalContent");
+
+            var w = window.innerWidth - 40;
+            
+            var h = window.innerHeight-30;
+            var x = 0;
+            var y = 0;
+
+            $(okno).css("width", w);
+            $(okno).css("height", h);
+            $(okno).css("left", x);
+            $(okno).css("top", y);
+            $(fra).css("width", w - 15);
+            $(fra).css("height", h - 30 - 10);    //10 padding dole, 30 div header
+
+            if (url !== "") {
+                $(fra).attr("src", url);
+            }
+
+
+            $(_modal).css("display", "block");
+        }
+
+        
     </script>
 
     @RenderSection("Scripts", required: false)

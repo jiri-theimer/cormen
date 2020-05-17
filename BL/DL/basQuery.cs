@@ -151,7 +151,7 @@ namespace BL.DL
             {
                 if (mq.Prefix == "p28")
                 {
-                    AQ(ref lis, "(a.p28Name LIKE '%'+@expr+'%' OR a.p28RegID LIKE '%'+@expr+'%' OR a.p28VatID LIKE '%'+@expr+'%' OR a.p28Code LIKE '%'+@expr+'%')", "expr", mq.SearchString);
+                    AQ(ref lis, "(a.p28Name LIKE '%'+@expr+'%' OR a.p28RegID LIKE '%'+@expr+'%' OR a.p28VatID LIKE '%'+@expr+'%' OR a.p28Code LIKE '%'+@expr+'%' OR a.p28ID IN (select p28ID FROM j02Person WHERE p28ID IS NOT NULL AND j02LastName like '%'+@expr+'%'))", "expr", mq.SearchString);
                 }
                 if (mq.Prefix == "p26")
                 {

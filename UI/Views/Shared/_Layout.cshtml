@@ -163,7 +163,7 @@
         <div id="myModalContent">
             <div style="height:30px;background-color: lightsteelblue;padding:3px;" ondblclick="_window_toggle()">
                 <button class="btn btn-secondary btn-sm float-left" onclick="_window_close()" style="margin-left:3px;margin-right:3px;">&times;</button>
-                <span>Okno</span>
+                <span id="myModalContentHeader"></span>
                 <button class="btn btn-secondary btn-sm float-right" onclick="_window_close()" style="margin-right:3px;">&times;</button>
                 <button class="btn btn-secondary btn-sm float-right" onclick="_window_toggle()" style="margin-right:3px;">&#9600;</button>
             </div>
@@ -338,6 +338,7 @@
 
         }
         function _window_open(url, flag, header, layout) {
+            if (typeof header === "undefined") header = "";
             if (typeof layout === "undefined") layout = null;
             _modal_current_layout = layout;
             if (typeof flag === "undefined") flag = 1;
@@ -346,6 +347,7 @@
                 _make_element_draggable(document.getElementById("myModalContent"), document.getElementById("myModalFrame")); //předávání nefunguje přes jquery
                 $(_modal).attr("initialized", true);
             }
+            $("#myModalContentHeader").text(header);
 
             var okno = $("#myModalContent");
             var fra = $("#fraModalContent");

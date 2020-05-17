@@ -11,6 +11,8 @@
     var _lookup_value = $(_searchbox).val();
     var _dropdownid = "divDropdownContainer" + _controlid;
     var _event_after_change = c.on_after_change;
+    var _filterflag = c.filterflag;
+    var _searchbox_serverfiltering_timeout;
     
     if (c.viewflag === "2") {//bez zobrazení search, ale až po otevření combonabídky
         $("#divSearch" + _controlid).css("width", "50px");
@@ -31,9 +33,9 @@
             $("#divSearch" + _controlid).css("display", "block");
             $(_cmdcombo).attr("tabindex","-1");
         }
-        if ($("#" + _dropdownid).prop("filled") === true) return;    //data už byla dříve načtena
+        if ($("#" + _dropdownid).prop("filled") === true && _filterflag === "0") return;    //data už byla dříve načtena a filtruje se na straně klienta, protože _filterflag=0
                 
-        $.post(c.posturl, { entity: c.entity, o15flag: "", tableid: _tabid, param1: c.param1 }, function (data) {
+        $.post(c.posturl, { entity: c.entity, o15flag: "", tableid: _tabid, param1: c.param1, filterflag: _filterflag, searchstring: $(_searchbox).val() }, function (data) {
             $("#divData"+c.controlid).html(data);
             
             $("#"+_dropdownid).prop("filled", true);
@@ -215,7 +217,21 @@
     $(_searchbox).on("keyup", function (e) {
         if (e.keyCode === 13) {
             return;
+        }        
+        if (_filterflag === "1") {  //filtruje se na straně serveru
+            if (typeof _searchbox_serverfiltering_timeout !== "undefined") {
+                clearTimeout(_searchbox_serverfiltering_timeout);
+            }
+            _searchbox_serverfiltering_timeout=setTimeout(function () {
+                //čeká se 500ms až uživatel napíše všechny znaky
+                handle_server_filtering();
+                _notify_message("filtruje se na straně serveru: "+$(_searchbox).val());
+
+            }, 500);
+            
+            return;
         }
+        //dále se filtruje podle lokálních dat:
         var value = $(this).val().toLowerCase();
         var x = 0;
         var rows_count = $("#" + _tabbodyid).find("tr").length;
@@ -340,6 +356,21 @@
         } else {
             return true;
         }
+    }
+
+    function handle_server_filtering() {
+        var s = $(_searchbox).val();
+        $.post(c.posturl, { entity: c.entity, o15flag: "", tableid: _tabid, param1: c.param1, filterflag: _filterflag, searchstring: s }, function (data) {
+            $("#divData" + c.controlid).html(data);
+          
+            $("#" + _tabid + " .txz").on("click", function () {
+                record_was_selected(this);
+
+                _toolbar_warn2save_changes();
+            });
+
+
+        });
     }
 
 }

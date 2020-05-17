@@ -59,7 +59,7 @@ namespace BL
             {
                 if (String.IsNullOrEmpty(recFirstPerson.j02FirstName) || String.IsNullOrEmpty(recFirstPerson.j02LastName))
                 {
-                    _mother.CurrentUser.AddMessage("U kontaktní osoby musíte vyplnit [Jméno] a [Příjmení].");
+                    _mother.CurrentUser.AddMessage("U kontaktní osoby musíte vyplnit [Jméno] a [Příjmení] nebo odškrtněte, že se má založit první kontaktní osoba klienta.");
                     return 0;
                 }
             }

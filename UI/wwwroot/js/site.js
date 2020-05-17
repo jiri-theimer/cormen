@@ -13,16 +13,16 @@ if (screen.availHeight > screen.availWidth || screen.width < 800 || screen.heigh
 
 }
 
-function _edit(controller, pid) {
-    _window_open("/" + controller + "/record?pid=" + pid);
+function _edit(controller, pid,header) {
+    _window_open("/" + controller + "/record?pid=" + pid,1,header);
     
 }
-function _clone(controller, pid) {
-    _window_open("/" + controller + "/record?isclone=true&pid=" + pid);
+function _clone(controller, pid,header) {
+    _window_open("/" + controller + "/record?isclone=true&pid=" + pid,1,header);
     
 }
 function _preview(controller, pid) {
-    _window_open("/" + controller + "/index?pid=" + pid);
+    _window_open("/" + controller + "/index?pid=" + pid,1,"Kopírovat");
     
 }
 function _append_doc(recprefix,recpid) {
@@ -331,9 +331,9 @@ function _cm(e, entity, pid) { //otevře kontextové menu
 
 }
 
-function _reload_layout_and_close(pid, flag) {    
-    if (window !== top) {
-
+function _reload_layout_and_close(pid, flag) {   
+    
+    if (window !== top) {        
         window.parent.hardrefresh(pid, flag);
         window.parent._window_close();
     } else {

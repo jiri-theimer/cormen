@@ -31,6 +31,9 @@ namespace UI.Views.Shared.TagHelpers
         public string Param1 { get; set; }
         public int ViewFlag { get; set; }
 
+        [HtmlAttributeName("filter-flag")]
+        public int FilterFlag { get; set; }
+
         private int _SelectedValue { get; set; }
         
 
@@ -87,7 +90,7 @@ namespace UI.Views.Shared.TagHelpers
             sb("<script type='text/javascript'>");
             _sb.Append(string.Format("var c{0}=", strControlID));
             _sb.Append("{");
-            _sb.Append(string.Format("controlid: '{0}',posturl: '/TheGrid/GetHtml4TheCombo',entity:'{1}',param1: '{2}',defvalue: '{3}',deftext: '{4}',on_after_change: '{5}',viewflag: '{6}'",strControlID,this.Entity,this.Param1,_SelectedValue.ToString(),this.SelectedText.Model,this.Event_After_ChangeValue,this.ViewFlag));
+            _sb.Append(string.Format("controlid: '{0}',posturl: '/TheCombo/GetHtml4TheCombo',entity:'{1}',param1: '{2}',defvalue: '{3}',deftext: '{4}',on_after_change: '{5}',viewflag: '{6}',filterflag: '{7}'",strControlID,this.Entity,this.Param1,_SelectedValue.ToString(),this.SelectedText.Model,this.Event_After_ChangeValue,this.ViewFlag,this.FilterFlag));
             _sb.Append("};");
             sb("");
             sb("");
