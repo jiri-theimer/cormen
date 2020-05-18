@@ -25,6 +25,7 @@ namespace BO
 
         public string RelName { get; set; } //název relace ve from klauzuly - naplní se v getSelectedPallete
         public string RelSql { get; set; }  //sql relace from klauzule - naplní se v getSelectedPallete
+        public string RelSqlDependOn { get; set; } //sql relace na které je závislá RelSql
 
         public string Entity
         {
@@ -73,13 +74,6 @@ namespace BO
         {
             get
             {
-                return Entity + "__" + Field;
-            }
-        }
-        public string RelUniqueName
-        {
-            get
-            {
                 if (RelName == null)
                 {
                     return "a__" + _Entity + "__" + _Field;
@@ -88,9 +82,9 @@ namespace BO
                 {
                     return RelName + "__" + _Entity + "__" + _Field;
                 }
-                
             }
         }
+        
 
 
         public string ColumnWidthPixels
@@ -133,27 +127,27 @@ namespace BO
             {
                 if (this.RelName == null)
                 {
-                    return "a." + this.Field + " AS " + this.RelUniqueName;    //pole z primární tabulky strPrimaryTablePrefix
+                    return "a." + this.Field + " AS " + this.UniqueName;    //pole z primární tabulky strPrimaryTablePrefix
                 }
                 else
                 {
-                    return this.RelName + "." + this.Field + " AS " + this.RelUniqueName;   //v RelName je uložený název relace GRIDU
+                    return this.RelName + "." + this.Field + " AS " + this.UniqueName;   //v RelName je uložený název relace GRIDU
                 }               
             }
             else
             {
                 if (this.RelName == null)
                 {
-                    return this.SqlSyntax + " AS " + this.RelUniqueName;
+                    return this.SqlSyntax + " AS " + this.UniqueName;
                 }else
                 {
                     if (this.SqlSyntax.IndexOf("a.") > -1)
                     {
-                        return this.SqlSyntax.Replace("a.", this.RelName + ".") + " AS " + this.RelUniqueName;
+                        return this.SqlSyntax.Replace("a.", this.RelName + ".") + " AS " + this.UniqueName;
                     }
                     else
                     {
-                        return this.SqlSyntax + " AS " + this.RelUniqueName;
+                        return this.SqlSyntax + " AS " + this.UniqueName;
                     }
                     
                 }
@@ -195,27 +189,27 @@ namespace BO
 
         public string getFinalSqlSyntax_SUM()
         {
-            if (this.IsShowTotals == false) return "NULL as " + this.RelUniqueName;
+            if (this.IsShowTotals == false) return "NULL as " + this.UniqueName;
             if (this.SqlSyntax == null)
             {
                 if (this.RelName == null)
                 {
-                    return "SUM(a." + this.Field + ") AS " + this.RelUniqueName;    //pole z primární tabulky strPrimaryTablePrefix
+                    return "SUM(a." + this.Field + ") AS " + this.UniqueName;    //pole z primární tabulky strPrimaryTablePrefix
                 }
                 else
                 {
-                    return "SUM("+this.RelName + "." + this.Field + ") AS " +this.RelUniqueName;
+                    return "SUM("+this.RelName + "." + this.Field + ") AS " +this.UniqueName;
                 }
             }
             else
             {
                 if (this.RelName == null)
                 {
-                    return "SUM(" + this.SqlSyntax + ") AS " + this.RelUniqueName;
+                    return "SUM(" + this.SqlSyntax + ") AS " + this.UniqueName;
                 }
                 else
                 {
-                    return "SUM(" + this.SqlSyntax.Replace("a.",this.RelName+".") + ") AS " +this.RelUniqueName;
+                    return "SUM(" + this.SqlSyntax.Replace("a.",this.RelName+".") + ") AS " +this.UniqueName;
                 }
                     
             }

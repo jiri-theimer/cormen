@@ -129,7 +129,45 @@ namespace BO
         }
 
 
+        public static string ParseCellValueFromDb(System.Data.DataRow dbRow, BO.TheGridColumn c)
+        {
+            if (dbRow[c.UniqueName] == System.DBNull.Value)
+            {
+                return "";
+            }
+            switch (c.FieldType)
+            {
+                case "bool":
+                    if (Convert.ToBoolean(dbRow[c.UniqueName]) == true)
+                    {
+                        return "&#10004;";
+                    }
+                    else
+                    {
+                        return "";
+                    }
+                case "num0":
+                    return string.Format("{0:#,0}", dbRow[c.UniqueName]);
 
+                case "num":
+                    return string.Format("{0:#,0.00}", dbRow[c.UniqueName]);
+                case "num3":
+                    return string.Format("{0:#,0.000}", dbRow[c.UniqueName]);
+
+
+                case "date":
+                    return Convert.ToDateTime(dbRow[c.UniqueName]).ToString("dd.MM.yyyy");
+
+
+                case "datetime":
+
+                    return Convert.ToDateTime(dbRow[c.UniqueName]).ToString("dd.MM.yyyy HH:mm");
+                default:
+                    return dbRow[c.UniqueName].ToString();
+            }
+
+
+        }
 
 
     }

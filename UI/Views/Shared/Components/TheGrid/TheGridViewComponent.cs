@@ -38,7 +38,7 @@ namespace UI.Views.Shared.Components.TheGrid
             {
                 var cols= colsProvider.getDefaultPallete(false);    //výchozí paleta sloupců
                 
-                cJ72 = new BO.j72TheGridState() { j72Entity = entity, j03ID = _f.CurrentUser.pid,j72Columns=String.Join(",",cols.Select(p=>p.RelUniqueName)),j72PageSize=100,j72MasterEntity= master_entity };
+                cJ72 = new BO.j72TheGridState() { j72Entity = entity, j03ID = _f.CurrentUser.pid,j72Columns=String.Join(",",cols.Select(p=>p.UniqueName)),j72PageSize=100,j72MasterEntity= master_entity };
                 var intJ72ID = _f.gridBL.SaveTheGridState(cJ72);
                 cJ72= _f.gridBL.LoadTheGridState(intJ72ID);
             }

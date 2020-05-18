@@ -270,9 +270,9 @@ namespace BL
                 AF("p41Task", "p41Code", "Kód", 1);
                 AF("p41Task", "p41Name", "Název", 1);
                 
-                AF("p41Task", "p28Name", "Klient", 1, "p28.p28Name");
-                AF("p41Task", "b02Name", "Stav", 2, "b02.b02Name");
-                AF("p41Task", "p26Name", "Stroj", 2, "p26.p26Name");
+                //AF("p41Task", "p28Name", "Klient", 1, "p28.p28Name");
+                //AF("p41Task", "b02Name", "Stav", 2, "b02.b02Name");
+                //AF("p41Task", "p26Name", "Stroj", 2, "p26.p26Name");
 
                 AF("p41Task", "p41PlanStart", "Plán zahájení", 2,null, "datetime");
                 AF("p41Task", "p41PlanEnd", "Plán dokončení", 2, null, "datetime");
@@ -293,9 +293,9 @@ namespace BL
             {
                 AF("p51Order", "p51Code", "Kód", 1);
                 AF("p51Order", "p51Name", "Název", 1);                
-                AF("p51Order", "p28Name", "Klient", 1, "p28.p28Name");
-                AF("p51Order", "b02Name", "Stav", 2, "b02.b02Name");
-                AF("p51Order", "p26Name", "Stroj", 2, "p26.p26Name");
+                //AF("p51Order", "p28Name", "Klient", 1, "p28.p28Name");
+                //AF("p51Order", "b02Name", "Stav", 2, "b02.b02Name");
+                //AF("p51Order", "p26Name", "Stroj", 2, "p26.p26Name");
 
                 AF("p51Order", "p51Date", "Datum", 2, null, "datetime");
                 AF("p51Order", "p51DateDelivery", "Termín dodání", 2, null, "datetime");
@@ -447,11 +447,16 @@ namespace BL
         }
         private BO.TheGridColumn InhaleColumn4Relation(string strRelName, string strFieldEntity,string strFieldName, List<BO.EntityRelation> applicable_rels,bool bolComboColumns)
         {
-            BO.TheGridColumn c = ByUniqueName(strFieldEntity+"__"+strFieldName);
+            BO.TheGridColumn c = ByUniqueName("a__"+strFieldEntity + "__"+strFieldName);
 
             BO.EntityRelation rel = applicable_rels.Where(p => p.RelName == strRelName).First();
             c.RelName = strRelName;
             c.RelSql = rel.SqlFrom;
+            if (rel.RelNameDependOn != null)
+            {
+                c.RelSqlDependOn = applicable_rels.Where(p => p.RelName == rel.RelNameDependOn).First().SqlFrom;    //relace závisí na jiné relaci
+            }
+            
             if (bolComboColumns == true)
             {
                 c.Header = rel.AliasSingular;
@@ -475,18 +480,8 @@ namespace BL
                 return null;
             }
         }
-        public BO.TheGridColumn ByRelUniqueName(string strRelUniqueName)
-        {
-            if (_lis.Where(p =>p.RelUniqueName == strRelUniqueName).Count() > 0)
-            {
-                return _lis.Where(p => p.RelUniqueName == strRelUniqueName).First();
-            }
-            else
-            {
-                return null;
-            }
-        }
         
+
 
         public List<BO.TheGridColumn> ParseTheGridColumns(string strPrimaryPrefix,string strJ72Columns)
         {
@@ -498,17 +493,16 @@ namespace BL
             List<string> sels = BO.BAS.ConvertString2List(strJ72Columns, ",");
             List<BO.TheGridColumn> ret = new List<BO.TheGridColumn>();
             
-            string[] arr;
-            string strUniqueName = "";
+            string[] arr;            
             BO.EntityRelation rel;
 
             for (var i=0;i<sels.Count; i++)
             {                
-                arr = sels[i].Split("__");
-                strUniqueName = arr[1] + "__"+arr[2];
-                if (_lis.Where(p => p.UniqueName == strUniqueName).Count() > 0)
+                arr = sels[i].Split("__");                
+               
+                if (_lis.Where(p => p.Entity == arr[1] && p.Field==arr[2]).Count() > 0)
                 {
-                    var c = _lis.Where(p => p.UniqueName == strUniqueName).FirstOrDefault();
+                    var c = _lis.Where(p => p.Entity == arr[1] && p.Field == arr[2]).First();
                     if (arr[0] == "a")
                     {
                         c.RelName = null;
@@ -517,8 +511,13 @@ namespace BL
                     {
                         c.RelName = arr[0]; //název relace v sql dotazu
                         rel = applicable_rels.Where(p => p.RelName == c.RelName).First();
-                        c.RelSql = rel.SqlFrom;    //sql klauzule relace
+                        c.RelSql = rel.SqlFrom;    //sql klauzule relace                        
                         c.Header = c.Header + " [" + rel.AliasSingular + "]";
+
+                        if (rel.RelNameDependOn != null)
+                        {
+                            c.RelSqlDependOn = applicable_rels.Where(p => p.RelName == rel.RelNameDependOn).First().SqlFrom;    //relace závisí na jiné relaci
+                        }
                     }
                                         
 
@@ -541,7 +540,7 @@ namespace BL
         {
             var ret = new List<BO.TheGridColumnFilter>();
             if (String.IsNullOrEmpty(strJ72Filter) == true) return ret;
-            SetupPallete(true);
+            //SetupPallete(true);
             
             
             List<string> lis = BO.BAS.ConvertString2List(strJ72Filter, "$$$");

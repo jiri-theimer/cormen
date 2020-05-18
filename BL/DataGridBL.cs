@@ -80,12 +80,29 @@ namespace BL
             BO.TheEntity ce = BL.TheEntities.ByPrefix(mq.Prefix);
             sb.Append(ce.SqlFromGrid);    //úvodní FROM klauzule s primární "a" tabulkou            
 
-            var relSqls = mq.explicit_columns.Where(x=>x.RelName !=null && x.RelName !="a").Select(p => p.RelSql).Distinct();
-            if (relSqls.Count() > 0)
+            //var relSqls = mq.explicit_columns.Where(x=>x.RelName !=null && x.RelName !="a").Select(p => p.RelSql).Distinct();
+            List<string> relSqls = new List<string>();
+            foreach (BO.TheGridColumn col in mq.explicit_columns.Where(x => x.RelName != null && x.RelName != "a"))
             {
-                sb.Append(" ");
-                sb.Append(String.Join(" ", relSqls));   //doplnit FROM klauzuly o další potřebné relace
+                if (col.RelSqlDependOn != null && relSqls.Exists(p=>p==col.RelSqlDependOn)==false)
+                {
+                    relSqls.Add(col.RelSqlDependOn);
+                    sb.Append(" ");
+                    sb.Append(col.RelSqlDependOn);
+                }
+                if (relSqls.Exists(p => p == col.RelSql) == false)
+                {
+                    relSqls.Add(col.RelSql);
+                    sb.Append(" ");
+                    sb.Append(col.RelSql);
+                }
+
             }
+            //if (relSqls.Count() > 0)
+            //{
+            //    sb.Append(" ");
+            //    sb.Append(String.Join(" ", relSqls));   //doplnit FROM klauzuly o další potřebné relace
+            //}
             
             
 

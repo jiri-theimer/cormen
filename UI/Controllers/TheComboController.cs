@@ -75,7 +75,8 @@ namespace UI.Controllers
                 s.Append(">");
                 foreach (var col in cols)
                 {
-                    s.Append(string.Format("<td>{0}</td>", dt.Rows[i][col.Field]));
+                    s.Append(string.Format("<td>{0}</td>", BO.BAS.ParseCellValueFromDb(dt.Rows[i], col)));                    
+                    
                 }
                 s.Append("</tr>");
             }

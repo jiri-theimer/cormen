@@ -121,8 +121,8 @@ namespace BL
                     break;
                 case "p11":
                     lis.Add(getREL("p20Unit", "p11_p20", "Měrná jednotka", "INNER JOIN p20Unit p11_p20 ON a.p20ID=p11_p20.p20ID"));
-                    lis.Add(getREL("p21License", "p11_p21", "Licence", "INNER JOIN p21License p12_p21 ON a.p21ID=p12_p21.p21ID"));
-                    lis.Add(getREL("p28Company", "p21_p28", "Klient licence", "LEFT OUTER JOIN p28Company p21_p28 ON p11_p21.p28ID=p21_p28.p28ID", "p11_p21"));
+                    lis.Add(getREL("p21License", "p11_p21", "Licence", "INNER JOIN p21License p11_p21 ON a.p21ID=p11_p21.p21ID"));
+                    lis.Add(getREL("p28Company", "p21_p28", "Klient", "LEFT OUTER JOIN p28Company p21_p28 ON p11_p21.p28ID=p21_p28.p28ID", "p11_p21"));
                     lis.Add(getREL("p12ClientTpv", "p11_p12", "Receptura", "INNER JOIN p12ClientTpv p11_p12 ON a.p12ID=p11_p12.p12ID"));
                     lis.Add(getREL("p10MasterProduct", "p11_p10", "Vzorový Master produkt", "LEFT OUTER JOIN p10MasterProduct p11_p10 ON a.p10ID_Master = p11_p10.p10ID"));                                        
                     lis.Add(getREL("b02Status", "p11_b02", "Workflow stav", "LEFT OUTER JOIN b02Status p11_b02 ON a.b02ID = p11_b02.b02ID"));
@@ -130,8 +130,8 @@ namespace BL
                 case "p12":
                     lis.Add(getREL("p25MszType", "p12_p25", "Typ zařízení", "INNER JOIN p25MszType p12_p25 ON a.p25ID=p12_p25.p25ID"));
                     lis.Add(getREL("p21License", "p12_p21", "Licence", "INNER JOIN p21License p12_p21 ON a.p21ID=p12_p21.p21ID"));
-                    lis.Add(getREL("p28Company", "p21_p28", "Klient licence", "LEFT OUTER JOIN p28Company p21_p28 ON p12_p21.p28ID=p21_p28.p28ID", "p12_p21"));
-                    lis.Add(getREL("p13MasterTpv", "p12_p13", "Vzorová Master receptura", "LEFT OUTER JOIN p13MasterTpv p12_p13 ON a.p13ID_Master=p12_p13.p13ID"));
+                    lis.Add(getREL("p28Company", "p21_p28", "Klient", "LEFT OUTER JOIN p28Company p21_p28 ON p12_p21.p28ID=p21_p28.p28ID", "p12_p21"));
+                    lis.Add(getREL("p13MasterTpv", "p12_p13", "Master receptura", "LEFT OUTER JOIN p13MasterTpv p12_p13 ON a.p13ID_Master=p12_p13.p13ID"));
                     break;
                 case "p13":
                     lis.Add(getREL("p25MszType", "p13_p25", "Typ zařízení", "INNER JOIN p25MszType p13_p25 ON a.p25ID=p13_p25.p25ID"));                    
@@ -179,7 +179,7 @@ namespace BL
                     lis.Add(getREL("b02Status", "p41_b02", "Workflow stav", "LEFT OUTER JOIN b02Status p41_b02 ON a.b02ID = p41_b02.b02ID"));
                     break;
                 case "p51":
-                    lis.Add(getREL("p28Company", "p51_p28", "Klient objednávky", "LEFT OUTER JOIN p28Company p51_p28 ON a.p28ID=p51_p28.p28ID"));
+                    lis.Add(getREL("p28Company", "p51_p28", "Klient", "LEFT OUTER JOIN p28Company p51_p28 ON a.p28ID=p51_p28.p28ID"));
                     lis.Add(getREL("p26Msz", "p51_p26", "Stroj", "LEFT OUTER JOIN p26Msz p51_p26 ON a.p26ID=p51_p26.p26ID"));
                     lis.Add(getREL("b02Status", "p51_b02", "Workflow stav", "LEFT OUTER JOIN b02Status p51_b02 ON a.b02ID = p51_b02.b02ID"));
                     break;
@@ -189,7 +189,7 @@ namespace BL
                     lis.Add(getREL("p20Unit", "p11_p20", "Měrná jednotka", "INNER JOIN p20Unit p11_p20 ON p52_p11.p20ID=p11_p20.p20ID", "p52_p11"));
                     break;
                 case "o23":
-                    lis.Add(getREL("b02Status", "o23_b02", "Workflow stav dokumentu", "LEFT OUTER JOIN b02Status o23_b02 ON a.b02ID = o23_b02.b02ID"));
+                    lis.Add(getREL("b02Status", "o23_b02", "Workflow stav", "LEFT OUTER JOIN b02Status o23_b02 ON a.b02ID = o23_b02.b02ID"));
                     lis.Add(getREL("o12Category", "o23_o12", "Kategorie dokumentu", "LEFT OUTER JOIN o12Category o23_o12 ON a.o12ID=o23_o12.o12ID"));
                     lis.Add(getREL("j02Person", "o23_owner", "Vlastník záznamu", "LEFT OUTER JOIN j02Person o23_owner ON a.j02ID_Owner=o23_owner.j02ID"));
                     break;

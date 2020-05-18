@@ -102,7 +102,7 @@ namespace BL.DL
                 AQ(ref lis, "a.o12Entity=@prefix", "prefix", mq.query_by_entity_prefix);    //filtr seznamu kategorií podle druhu entity
             }
 
-            if (String.IsNullOrEmpty(mq.j72Filter) == false)
+            if (mq.TheGridFilter !=null)
             {
                 ParseSqlFromTheGridFilter(mq, ref lis);  //složit filtrovací podmínku ze sloupcového filtru gridu
             }
@@ -250,10 +250,9 @@ namespace BL.DL
         }
         private static void ParseSqlFromTheGridFilter(BO.myQuery mq,ref List<DL.QueryRow> lisAQ)
         {
-            var colsProvider = new BL.TheColumnsProvider(mq);
-            var rows = colsProvider.ParseAdhocFilterFromString(mq.j72Filter);
+            
             int x = 0;
-            foreach (var filterrow in rows)
+            foreach (var filterrow in mq.TheGridFilter)
             {
                 var col = filterrow.BoundColumn;
                 var strF = col.getFinalSqlSyntax_WHERE();

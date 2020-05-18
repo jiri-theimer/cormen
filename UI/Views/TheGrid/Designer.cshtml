@@ -115,7 +115,8 @@
             <ul id="tree1">
                 @{ 
                     string strClass = "";
-                    
+                    string strUniqueName = "";
+
                 }
                 @foreach (var rel in Model.Relations)
                 {
@@ -124,15 +125,16 @@
                         <ul class="collapsed">
                             @foreach (var col in Model.AllColumns.Where(p => p.Entity == rel.TableName))
                             {
+                                strUniqueName = rel.RelName + "__" + col.Entity + "__" + col.Field;
                                 strClass = "field";
                                 if (col.IsTimestamp) strClass += " timestamp";
 
                             <li class="tree_item">
                                 <span class="symbol">@Html.Raw(col.getSymbol())</span>
-                                <span data-field="@(rel.RelName+"__"+col.UniqueName)" class="@strClass">@col.Header</span>
+                                <span data-field="@(strUniqueName)" class="@strClass">@col.Header</span>
 
                                 
-                                <button data-entity="@(rel.RelName+"__"+col.Entity)" data-field="@(rel.RelName+"__"+col.UniqueName)" title="Přidat" style="font-size:150%;" class="btn btn-primary py-0 button_field_append">
+                                <button data-entity="@(rel.RelName+"__"+col.Entity)" data-field="@(strUniqueName)" title="Přidat" style="font-size:150%;" class="btn btn-primary py-0 button_field_append">
                                     →
                                 </button>
 
@@ -181,6 +183,7 @@
     $(document).ready(function () {
 
         tree_init();
+        
         recovery_state();
         refresh_state();
 
@@ -188,7 +191,7 @@
         //$(".caret").click();
 
 
-
+        
         $(".button_field_append").click(function (e) {
             handle_append_field(this,true);
         });

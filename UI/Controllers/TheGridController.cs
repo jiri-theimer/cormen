@@ -344,9 +344,12 @@ namespace UI.Controllers
             {
                 
                 mq.explicit_orderby = colProvider.ByUniqueName(cJ72.j72SortDataField).getFinalSqlSyntax_ORDERBY() + " " + cJ72.j72SortOrder;
-            }                           
-            mq.j72Filter = cJ72.j72Filter;
-
+            }          
+            if (String.IsNullOrEmpty(cJ72.j72Filter) == false)
+            {
+                mq.TheGridFilter = colProvider.ParseAdhocFilterFromString(cJ72.j72Filter);
+            }
+            
             return Factory.gridBL.GetList(mq);
         }
         private TheGridOutput render_thegrid_html(BO.j72TheGridState cJ72)
@@ -359,17 +362,23 @@ namespace UI.Controllers
             ret.sortdir = cJ72.j72SortOrder;
             
             var mq = new BO.myQuery(cJ72.j72Entity);
-           
-            _grid.Columns = new BL.TheColumnsProvider(mq).ParseTheGridColumns(mq.Prefix,cJ72.j72Columns);            
+
+            var colsProvider = new BL.TheColumnsProvider(mq);
+            _grid.Columns =colsProvider.ParseTheGridColumns(mq.Prefix,cJ72.j72Columns);            
 
             mq.explicit_columns = _grid.Columns;
-            if (cJ72.j72SortDataField != "" && _grid.Columns.Where(p=>p.UniqueName==cJ72.j72SortDataField).Count()>0)
+            if (String.IsNullOrEmpty(cJ72.j72SortDataField)==false && _grid.Columns.Where(p=>p.UniqueName==cJ72.j72SortDataField).Count()>0)
             {
                 var c = _grid.Columns.Where(p => p.UniqueName == cJ72.j72SortDataField).First();
                 mq.explicit_orderby = c.getFinalSqlSyntax_ORDERBY() + " " + cJ72.j72SortOrder;
 
             }
-            mq.j72Filter = cJ72.j72Filter;
+            if (String.IsNullOrEmpty(cJ72.j72Filter) == false)
+            {
+                mq.TheGridFilter = colsProvider.ParseAdhocFilterFromString(cJ72.j72Filter);
+            }
+            
+            
             switch (cJ72.j72MasterEntity)
             {
                 case "p28Company":
@@ -499,7 +508,7 @@ namespace UI.Controllers
                     {
                         _s.Append(string.Format(" style='width:{0}'", col.ColumnWidthPixels));
                     }
-                    _s.Append(string.Format(">{0}</td>", ParseCellValueFromDb(dbRow, col)));
+                    _s.Append(string.Format(">{0}</td>", BO.BAS.ParseCellValueFromDb(dbRow, col)));
                     
 
                 }
@@ -523,9 +532,9 @@ namespace UI.Controllers
                 }
 
                 strVal = "&nbsp;";
-                if (dt.Rows[0][col.RelUniqueName] != System.DBNull.Value)
+                if (dt.Rows[0][col.UniqueName] != System.DBNull.Value)
                 {
-                    strVal = ParseCellValueFromDb(dt.Rows[0], col);
+                    strVal = BO.BAS.ParseCellValueFromDb(dt.Rows[0], col);
                 }
                 _s.Append(string.Format(" style='width:{0}'>{1}</th>",col.ColumnWidthPixels, strVal));
 
@@ -536,45 +545,7 @@ namespace UI.Controllers
 
 
 
-        string ParseCellValueFromDb(System.Data.DataRow dbRow, BO.TheGridColumn c)
-        {
-            if (dbRow[c.RelUniqueName] == System.DBNull.Value)
-            {
-                return "";
-            }
-            switch (c.FieldType)
-            {
-                case "bool":
-                    if (Convert.ToBoolean(dbRow[c.RelUniqueName]) == true)
-                    {
-                        return "&#10004;";
-                    }
-                    else
-                    {
-                        return "";
-                    }
-                case "num0":
-                    return string.Format("{0:#,0}", dbRow[c.RelUniqueName]);
-
-                case "num":
-                    return string.Format("{0:#,0.00}", dbRow[c.RelUniqueName]);
-                case "num3":
-                    return string.Format("{0:#,0.000}", dbRow[c.RelUniqueName]);
-
-
-                case "date":
-                    return Convert.ToDateTime(dbRow[c.RelUniqueName]).ToString("dd.MM.yyyy");
-
-
-                case "datetime":
-                    
-                    return Convert.ToDateTime(dbRow[c.RelUniqueName]).ToString("dd.MM.yyyy HH:mm");
-                default:                    
-                    return dbRow[c.RelUniqueName].ToString();
-            }
-
-
-        }
+        
 
 
         private void render_select_option(string strValue,string strText,string strSelValue)
@@ -787,9 +758,9 @@ namespace UI.Controllers
                 {
                     string value = "";
 
-                    if (!Convert.IsDBNull(dr[col.RelUniqueName]))
+                    if (!Convert.IsDBNull(dr[col.UniqueName]))
                     {
-                        value = dr[col.RelUniqueName].ToString();
+                        value = dr[col.UniqueName].ToString();
                         if (col.FieldType == "string")
                         {
                             value = "\"" + value + "\"";

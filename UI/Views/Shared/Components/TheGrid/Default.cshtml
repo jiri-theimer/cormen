@@ -1,7 +1,7 @@
 ﻿@model UI.Models.TheGridViewModel
 @{
 
-    var _cols = Model.Columns;
+
 }
 <div id="container_grid">
     <table id="tabgrid0" class="tabgrid_auto">
@@ -27,16 +27,16 @@
 
                 @{
                     string strStyle = "";
-                    string strHeader = "";
+                    //string strHeader = "";
 
                 }
                 @foreach (var c in Model.Columns)
                 {
-                    strHeader = c.Header;
-                    if (Model.Entity != c.Entity)
-                    {
-                        strHeader = c.Header + " [" + c.EntityAlias + "]";
-                    }
+                    //strHeader = c.Header;
+                    //if (Model.Entity != c.Entity)
+                    //{
+                    //    strHeader = c.Header + " [" + c.EntityAlias + "]";
+                    //}
                     strStyle = "width:" + c.ColumnWidthPixels;
 
                     if (c.IsSortable)
@@ -49,7 +49,7 @@
                     }
 
 
-                    <th class="@c.CssClass" id="th_@c.UniqueName" title="@strHeader" columntypename="@c.FieldType" style="@strStyle">@c.Header</th>
+                    <th class="@c.CssClass" id="th_@c.UniqueName" title="@c.Header" columntypename="@c.FieldType" style="@strStyle">@c.Header</th>
                 }
 
             </tr>
