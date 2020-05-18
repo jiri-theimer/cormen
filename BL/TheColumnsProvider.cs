@@ -197,14 +197,14 @@ namespace BL
             {
                 AF("p14MasterOper", "p14RowNum", "RowNum", 1,null,"num0");
                 AF("p14MasterOper", "p14OperNum", "OperNum", 2);
-                AF("p14MasterOper", "p18Code", "OperCode", 1,"p18.p18Code");
-                AF("p14MasterOper", "p18Name", "OperCodeName", 0, "p18.p18Name");
+                //AF("p14MasterOper", "p18Code", "OperCode", 1,"p18.p18Code");
+                //AF("p14MasterOper", "p18Name", "OperCodeName", 0, "p18.p18Name");
 
                 AF("p14MasterOper", "p14Name", "Name", 1);
                 AF("p14MasterOper", "p14OperParam", "OperPar", 2,null,"num0");
 
-                AF("p14MasterOper", "p19Code", "MaterialCode", 2,"p19.p19Code");
-                AF("p14MasterOper", "p19Name", "MaterialName", 2,"p19.p19Name");
+                //AF("p14MasterOper", "p19Code", "MaterialCode", 2,"p19.p19Code");
+                //AF("p14MasterOper", "p19Name", "MaterialName", 2,"p19.p19Name");
                
                 AF("p14MasterOper", "p14UnitsCount", "UnitsCount", 2,null,"num");
                 AF("p14MasterOper", "p14DurationPreOper", "DurationPreOper", 2,null,"num0");
@@ -235,7 +235,7 @@ namespace BL
                 AF("p12ClientTpv", "p12Memo", "Podrobný popis");
                 //AF("p12ClientTpv", "p25Name", "Typ zařízení", 2, "p25.p25Name");
                 //AF("p12ClientTpv", "p21Name", "Licence", 3, "p21.p21Name");
-                AF("p21License", "p21PermissionFlag", "Typ licence", 3, "case p21.p21PermissionFlag when 1 then 'Standard' when 2 then 'Cyber' else '???' end");
+                //AF("p21License", "p21PermissionFlag", "Typ licence", 3, "case p21.p21PermissionFlag when 1 then 'Standard' when 2 then 'Cyber' else '???' end");
                 AppendTimestamp("p12ClientTpv");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p20")
@@ -249,14 +249,14 @@ namespace BL
             {
                 AF("p15ClientOper", "p15RowNum", "RowNum", 1, null, "num0");
                 AF("p15ClientOper", "p15OperNum", "OperNum", 2);
-                AF("p15ClientOper", "p18Code", "OperCode", 1,"p18.p18Code");
-                AF("p15ClientOper", "p18Name", "OperCodeName", 2, "p18.p18Name");
+                //AF("p15ClientOper", "p18Code", "OperCode", 1,"p18.p18Code");
+                //AF("p15ClientOper", "p18Name", "OperCodeName", 2, "p18.p18Name");
 
                 AF("p15ClientOper", "p15Name", "Name", 1);
                 AF("p15ClientOper", "p15OperParam", "OperPar", 2, null, "num0");
 
-                AF("p15ClientOper", "p19Code", "MaterialCode", 2,"p19.p19Code");
-                AF("p15ClientOper", "p19Name", "MaterialName", 2,"p19.p19Name");
+                //AF("p15ClientOper", "p19Code", "MaterialCode", 2,"p19.p19Code");
+                //AF("p15ClientOper", "p19Name", "MaterialName", 2,"p19.p19Name");
 
                 AF("p15ClientOper", "p15UnitsCount", "UnitsCount", 2, null, "num");
                 AF("p15ClientOper", "p15DurationPreOper", "DurationPreOper", 2, null, "num0");
@@ -389,10 +389,13 @@ namespace BL
                 case "p11":
                     ret.Add(InhaleColumn4Relation("p11_p20", "p20Unit", "p20Name", rels, bolComboColumns));
                     ret.Add(InhaleColumn4Relation("p11_p21", "p21License", "p21Name", rels, bolComboColumns));
+                    ret.Add(InhaleColumn4Relation("p11_p21", "p21License", "p21PermissionFlag", rels, bolComboColumns));
                     break;
                 case "p12":
                     ret.Add(InhaleColumn4Relation("p12_p25", "p25MszType", "p25Name", rels, bolComboColumns));
                     ret.Add(InhaleColumn4Relation("p12_p21", "p21License", "p21Name", rels, bolComboColumns));
+                    ret.Add(InhaleColumn4Relation("p12_p21", "p21License", "p21PermissionFlag", rels, bolComboColumns));
+                    
                     break;
                 case "p13":
                     ret.Add(InhaleColumn4Relation("p13_p25", "p25MszType", "p25Name", rels, bolComboColumns));

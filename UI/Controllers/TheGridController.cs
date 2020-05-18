@@ -711,6 +711,7 @@ namespace UI.Controllers
 
             sb.AppendLine(string.Format("<a class='nav-link' href='javascript:_window_open(\"/TheGrid/Designer?j72id={0}\");'>Návrhář sloupců</a>",j72id));
             sb.AppendLine("<hr />");
+            sb.AppendLine(string.Format("<a class='nav-link' href='/TheGrid/GridExport?format=xlsx&j72id={0}'>MS-EXCEL Export</a>", j72id));
             sb.AppendLine(string.Format("<a class='nav-link' href='/TheGrid/GridExport?format=csv&j72id={0}'>CSV Export</a>",j72id));
             //sb.AppendLine(string.Format("<a class='nav-link' href='/TheGrid/GridExport?format=xlsx&j72id={0}'>MS-EXCEL Export</a>",j72id));
             sb.AppendLine("<hr />");
@@ -732,52 +733,30 @@ namespace UI.Controllers
             System.Data.DataTable dt = prepare_datatable(ref mq,cJ72);
             string filepath = Factory.App.TempFolder+"\\"+BO.BAS.GetGuid()+"."+ format;
 
-            ToCSV(dt, filepath,mq);
+            var cExport = new UI.dataExport();
+            string strFileClientName = "gridexport_" + mq.Prefix + "." + format;
 
-            string s = "application/CSV";
-            if (format == "xlsx") s = "application/vnd.ms-excel";
-
-            return File(System.IO.File.ReadAllBytes(filepath), s,"gridexport."+ format);
-
-        }
-
-        private void ToCSV(System.Data.DataTable dt, string strFilePath,BO.myQuery mq)
-        {
-            System.IO.StreamWriter sw = new System.IO.StreamWriter(strFilePath,false,System.Text.Encoding.UTF8);
-            //headers  
-            foreach (var col in mq.explicit_columns)
+            if (format == "csv")
             {
-                sw.Write("\""+col.Header+"\"");
-                sw.Write(";");
-            }
-            
-            sw.Write(sw.NewLine);
-            foreach (System.Data.DataRow dr in dt.Rows)
-            {
-                foreach (var col in mq.explicit_columns)
-                {
-                    string value = "";
-
-                    if (!Convert.IsDBNull(dr[col.UniqueName]))
-                    {
-                        value = dr[col.UniqueName].ToString();
-                        if (col.FieldType == "string")
-                        {
-                            value = "\"" + value + "\"";
-                        }
-                    }
-                    sw.Write(value);
-
-                    sw.Write(";");
-
-
+                if (cExport.ToCSV(dt, filepath, mq))
+                {                    
+                    return File(System.IO.File.ReadAllBytes(filepath), "application/CSV", strFileClientName);
                 }
-
-                sw.Write(sw.NewLine);
-
             }
-            sw.Close();
+            if (format == "xlsx")
+            {
+                if (cExport.ToXLSX(dt, filepath, mq))
+                {                    
+                    return File(System.IO.File.ReadAllBytes(filepath), "application/vnd.ms-excel", strFileClientName);
+                }
+            }
+
+
+            return null;
+
         }
+
+        
 
 
 

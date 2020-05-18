@@ -65,11 +65,12 @@ namespace UI.Controllers
                 s.Append(string.Format("<tr class='txz' data-v='{0}'", dt.Rows[i]["pid"]));
                 if (mq.Prefix == "p19" || mq.Prefix == "p21" || mq.Prefix == "p26" || mq.Prefix == "p10" || mq.Prefix == "p13" || mq.Prefix == "p12" || mq.Prefix == "p11")
                 {
-                    s.Append(string.Format(" data-t='{1} ## {0}'", dt.Rows[i][mq.Prefix + "Code"], dt.Rows[i][mq.Prefix + "Name"]));
+                    //po výběru hodnoty z comba bude SelectedText kód + název a nikoliv hodnota prvního sloupce
+                    s.Append(string.Format(" data-t='{1} ## {0}'", dt.Rows[i]["a__"+mq.Entity+"__"+mq.Prefix + "Code"], dt.Rows[i]["a__" + mq.Entity + "__" + mq.Prefix + "Name"]));
                 }
                 if (mq.Prefix == "p51")
                 {
-                    s.Append(string.Format(" data-t='{0} - {1} ## {2}'", dt.Rows[i]["p51Code"], dt.Rows[i]["p51Name"], dt.Rows[i]["p28Name"]));
+                    s.Append(string.Format(" data-t='{0} - {1} ## {2}'", dt.Rows[i]["a__p51Order__p51Code"], dt.Rows[i]["a__p51Order__p51Name"], dt.Rows[i]["p51_p28_p28Company_p28Name"]));
                 }
 
                 s.Append(">");
