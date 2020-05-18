@@ -40,7 +40,7 @@ namespace BL
             AE("j02Person", "Lidé", "Jméno","j02Person a", "j02Person a LEFT OUTER JOIN j03User j03 ON a.j02ID=j03.j02ID LEFT OUTER JOIN j04UserRole j04 ON j03.j04ID=j04.j04ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID");
             
 
-            AE("j03User", "Uživatelé", "Uživatel", "j03User a INNER JOIN j04UserRole j04 ON a.j04ID=j04.j04ID", "j03User a INNER JOIN j02Person j02 ON a.j02ID=j02.j02ID INNER JOIN j04UserRole j04 ON a.j04ID=j04.j04ID LEFT OUTER JOIN p28Company p28 ON j02.p28ID=p28.p28ID");
+            AE("j03User", "Uživatelé", "Uživatel", "j03User a INNER JOIN j04UserRole j03_j04 ON a.j04ID=j03_j04.j04ID", "j03User a INNER JOIN j02Person j02 ON a.j02ID=j02.j02ID INNER JOIN j04UserRole j04 ON a.j04ID=j04.j04ID LEFT OUTER JOIN p28Company p28 ON j02.p28ID=p28.p28ID");
             
             AE("p26Msz", "Stroje | MSZ", "Stroj | MSZ", "p26Msz a", "p26Msz a INNER JOIN p25MszType p25 ON a.p25ID=p25.p25ID LEFT OUTER JOIN p31CapacityFond p31 ON a.p31ID=p31.p31ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID");
             AE("p21License", "Licence", "Licence", "p21License a", "p21License a LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID");
@@ -68,7 +68,7 @@ namespace BL
             AE_TINY("j04UserRole", "Aplikační role", "Aplikační role");
             AE_TINY("b02Status", "Workflow stavy", "Workflow stav");
             AE_TINY("p25MszType", "Typy zařízení", "Typ zařízení");
-            AE_TINY("p28Company", "Subjekty | Klienti", "Subjekt | Klient");
+            AE_TINY("p28Company", "Subjekty | Klienti", "Klient");
             AE_TINY("o12Category", "Kategorie", "Kategorie");
             
 
@@ -94,24 +94,24 @@ namespace BL
 
         }
 
-        public static List<BO.EntityRelation>getApplicableEntities(string strPrimaryPrefix)
+        public static List<BO.EntityRelation>getApplicableRelations(string strPrimaryPrefix)
         {
             TestPallete();
             var lis = new List<BO.EntityRelation>();
             BO.TheEntity ce = ByPrefix(strPrimaryPrefix);
 
-            lis.Add(new BO.EntityRelation() { IsPrimaryTable = true, TableName = ce.TableName, AliasSingular = ce.AliasSingular, RelName = "a", SqlFrom = ce.SqlFromGrid });
+            //lis.Add(new BO.EntityRelation() { IsPrimaryTable = true, TableName = ce.TableName, AliasSingular = ce.AliasSingular, RelName = "a", SqlFrom = ce.SqlFromGrid });
 
 
             switch (strPrimaryPrefix)
             {
                 case "j02":                                    
-                    lis.Add(getREL("j03User", "j02_j03", "Uživatelský účet", "LEFT OUTER JOIN j03User j02_j03 ON a.j02ID=j02_j03.j02ID"));
+                    lis.Add(getREL("j03User", "j02_j03", "Uživatelský účet", "LEFT OUTER JOIN j03User j02_j03 ON a.j02ID=j02_j03.j02ID LEFT OUTER JOIN j04UserRole j03_j04 ON j02_j03.j04ID=j03_j04.j04ID"));
                     lis.Add(getREL("p28Company", "j02_p28", "Klient", "LEFT OUTER JOIN p28Company j02_p28 ON a.p28ID=j02_p28.p28ID"));
                     lis.Add(getREL("j02Person", "j02_owner", "Vlastník záznamu", "INNER JOIN j02Person j02_owner ON a.j02ID_Owner=j02_owner.j02ID"));
                     break;
                 case "j90":
-                    lis.Add(getREL("j03User", "j90_j03", "Uživatelský účet", "INNER JOIN j03User j90_j03 ON a.j03ID=j90_j03.j03ID"));
+                    lis.Add(getREL("j03User", "j90_j03", "Uživatelský účet", "INNER JOIN j03User j90_j03 ON a.j03ID=j90_j03.j03ID INNER JOIN j04UserRole j03_j04 ON j90_j03.j04ID=j03_j04.j04ID"));
                     break;
                 case "p10":
                     lis.Add(getREL("p20Unit", "p10_p20", "Měrná jednotka", "INNER JOIN p20Unit p10_p20 ON a.p20ID=p10_p20.p20ID"));
@@ -164,19 +164,24 @@ namespace BL
                     lis.Add(getREL("o12Category", "p21_o12", "Kategorie licence", "LEFT OUTER JOIN o12Category p21_o12 ON a.o12ID=p21_o12.o12ID"));
                     break;
                 case "p26":
-                    lis.Add(getREL("p28Company", "p26_p28", "Vlastník/Klient stroje", "LEFT OUTER JOIN p28Company p26_p28 ON a.p28ID=p26_p28.p28ID"));
+                    lis.Add(getREL("p28Company", "p26_p28", "Klient stroje", "LEFT OUTER JOIN p28Company p26_p28 ON a.p28ID=p26_p28.p28ID"));
                     lis.Add(getREL("p25MszType", "p26_p25", "Typ zařízení", "INNER JOIN p25MszType p26_p25 ON a.p25ID=p26_p25.p25ID"));
-                    lis.Add(getREL("o12Category", "p26_p31", "Kapacitní fond", "LEFT OUTER JOIN p31CapacityFond p26_p31 ON a.p31ID=p26_p31.p31ID"));
+                    lis.Add(getREL("p31CapacityFond", "p26_p31", "Kapacitní fond", "LEFT OUTER JOIN p31CapacityFond p26_p31 ON a.p31ID=p26_p31.p31ID"));
                     lis.Add(getREL("b02Status", "p26_b02", "Workflow stav stroje", "LEFT OUTER JOIN b02Status p26_b02 ON a.b02ID = p26_b02.b02ID"));
                     lis.Add(getREL("o12Category", "p26_o12", "Kategorie stroje", "LEFT OUTER JOIN o12Category p26_o12 ON a.o12ID=p26_o12.o12ID"));
                     break;
                 case "p28":
                     lis.Add(getREL("j02Person", "p28_owner", "Vlastník záznamu", "LEFT OUTER JOIN j02Person p28_owner ON a.j02ID_Owner=p28_owner.j02ID"));
                     break;
+                case "p41":
+                    lis.Add(getREL("p28Company", "p41_p28", "Klient", "LEFT OUTER JOIN p28Company p41_p28 ON a.p28ID=p41_p28.p28ID"));
+                    lis.Add(getREL("p26Msz", "p41_p26", "Stroj", "LEFT OUTER JOIN p26Msz p41_p26 ON a.p26ID=p41_p26.p26ID"));
+                    lis.Add(getREL("b02Status", "p41_b02", "Workflow stav", "LEFT OUTER JOIN b02Status p41_b02 ON a.b02ID = p41_b02.b02ID"));
+                    break;
                 case "p51":
                     lis.Add(getREL("p28Company", "p51_p28", "Klient objednávky", "LEFT OUTER JOIN p28Company p51_p28 ON a.p28ID=p51_p28.p28ID"));
                     lis.Add(getREL("p26Msz", "p51_p26", "Stroj", "LEFT OUTER JOIN p26Msz p51_p26 ON a.p26ID=p51_p26.p26ID"));
-                    lis.Add(getREL("b02Status", "p51_b02", "Workflow stav objednávky", "LEFT OUTER JOIN b02Status p51_b02 ON a.b02ID = p51_b02.b02ID"));
+                    lis.Add(getREL("b02Status", "p51_b02", "Workflow stav", "LEFT OUTER JOIN b02Status p51_b02 ON a.b02ID = p51_b02.b02ID"));
                     break;
                 case "p52":
                     lis.Add(getREL("p51Order", "p52_p51", "Objednávka", "INNER JOIN p51Order p52_p51 ON a.p51ID = p52_p51.p51ID"));

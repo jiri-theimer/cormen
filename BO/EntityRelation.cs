@@ -38,7 +38,7 @@ namespace BO
 
         public string RelNameDependOn { get; set; }
 
-        public bool IsPrimaryTable { get; set; }
+       
 
     }
 }

@@ -4,16 +4,11 @@
     ViewData["Title"] = "GRID: Návrhář sloupců";
     Layout = "~/Views/Shared/_LayoutModal.cshtml";
 
-    if (Model.Rec == null || Model.ApplicableCollumns==null)
+    if (Model.Rec == null || Model.Relations==null)
     {
         return;
     }
-    var _entities = new List<string>() { Model.Rec.j72Entity };
-
-    foreach (string s in Model.ApplicableCollumns.Select(p => p.Entity).Distinct()) //cílem je, aby ve stromu byla primární entita na prvním místě
-    {
-       if (s !=Model.Rec.j72Entity) _entities.Add(s);
-    }
+    
 
 }
 

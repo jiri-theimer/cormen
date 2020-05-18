@@ -76,8 +76,22 @@ namespace BO
                 return Entity + "__" + Field;
             }
         }
-        
-       
+        public string RelUniqueName
+        {
+            get
+            {
+                if (RelName == null)
+                {
+                    return "a__" + _Entity + "__" + _Field;
+                }
+                else
+                {
+                    return RelName + "__" + _Entity + "__" + _Field;
+                }
+                
+            }
+        }
+
 
         public string ColumnWidthPixels
         {
@@ -113,109 +127,97 @@ namespace BO
             }
         }
 
-        public string getFinalSqlSyntax_SELECT(string strContextTablePrefix)
-        {            
-            
+        public string getFinalSqlSyntax_SELECT()
+        {                        
             if (this.SqlSyntax == null)
             {
-                if (this.RelName != null)
+                if (this.RelName == null)
                 {
-                    return this.RelName+"."+this.Field + " AS " + this.Field;   //v RelName je uložený název relace GRIDU
-                }
-                if (_Prefix == strContextTablePrefix)
-                {
-                    return "a." + this.Field+" AS "+this.Field;    //pole z primární tabulky strPrimaryTablePrefix
+                    return "a." + this.Field + " AS " + this.RelUniqueName;    //pole z primární tabulky strPrimaryTablePrefix
                 }
                 else
                 {
-                    return _Prefix + "." + this.Field+" AS "+this.Field;
-                }
+                    return this.RelName + "." + this.Field + " AS " + this.RelUniqueName;   //v RelName je uložený název relace GRIDU
+                }               
             }
             else
             {
-                if (this.RelName != null)
+                if (this.RelName == null)
+                {
+                    return this.SqlSyntax + " AS " + this.RelUniqueName;
+                }else
                 {
                     if (this.SqlSyntax.IndexOf("a.") > -1)
                     {
-                        return this.SqlSyntax.Replace("a.", this.RelName + ".") + " AS " + this.Field;
+                        return this.SqlSyntax.Replace("a.", this.RelName + ".") + " AS " + this.RelUniqueName;
                     }
-                    return this.SqlSyntax + " AS " + this.Field;
-                }
-
-                if (_Prefix == strContextTablePrefix)
-                {
-                    return this.SqlSyntax + " AS " + this.Field;
-                }
-                else
-                {
-                    if (this.SqlSyntax.IndexOf("a.") > -1)
+                    else
                     {
-                        return this.SqlSyntax.Replace("a.", _Prefix + ".") + " AS " + this.Field;
+                        return this.SqlSyntax + " AS " + this.RelUniqueName;
                     }
-                    return this.SqlSyntax + " AS " + this.Field;
+                    
                 }
-             
-
+                                        
             }
             
         }
-        public string getFinalSqlSyntax_WHERE(string strContextTablePrefix)
+        public string getFinalSqlSyntax_WHERE()
         {
             if (this.SqlSyntax == null)
             {
-                if (_Prefix == strContextTablePrefix || _Prefix == "")
+                if (this.RelName == null)
                 {
                     return "a." + this.Field;    //pole z primární tabulky strPrimaryTablePrefix
                 }
                 else
                 {
-                    return _Prefix + "." + this.Field;
-                }
+                    return this.RelName + "." + this.Field;
+                }                    
             }
             else
             {
-                if (this.IsTimestamp)
-                {
-                    if (_Prefix == strContextTablePrefix)
-                    {
-                        return this.SqlSyntax;
-                    }
-                    else
-                    {
-                        return this.SqlSyntax.Replace("a.", _Prefix + ".");
-                    }
-                }
-                else
+                if (this.RelName == null)
                 {
                     return this.SqlSyntax;
                 }
-                
+                else
+                {
+                    return this.SqlSyntax.Replace("a.", this.RelName + ".");
+                }                                    
             }
 
         }
-        public string getFinalSqlSyntax_ORDERBY(string strContextTablePrefix)
+        public string getFinalSqlSyntax_ORDERBY()
         {
-            return getFinalSqlSyntax_WHERE(strContextTablePrefix);  //SQL pro ORDERBY je stejná jako WHERE
+            return getFinalSqlSyntax_WHERE();  //SQL pro ORDERBY je stejná jako WHERE
         }
 
 
-        public string getFinalSqlSyntax_SUM(string strContextTablePrefix)
+        public string getFinalSqlSyntax_SUM()
         {
-            if (this.IsShowTotals == false) return "NULL as " + Field;
+            if (this.IsShowTotals == false) return "NULL as " + this.RelUniqueName;
             if (this.SqlSyntax == null)
             {
-                if (_Prefix == strContextTablePrefix)
+                if (this.RelName == null)
                 {
-                    return "SUM(a." + this.Field + ") AS " + this.Field;    //pole z primární tabulky strPrimaryTablePrefix
+                    return "SUM(a." + this.Field + ") AS " + this.RelUniqueName;    //pole z primární tabulky strPrimaryTablePrefix
                 }
                 else
                 {
-                    return "SUM("+_Prefix + "." + this.Field + ") AS " + this.Field;
+                    return "SUM("+this.RelName + "." + this.Field + ") AS " +this.RelUniqueName;
                 }
             }
             else
             {
-                return "SUM("+this.SqlSyntax + ") AS " + this.Field;
+                if (this.RelName == null)
+                {
+                    return "SUM(" + this.SqlSyntax + ") AS " + this.RelUniqueName;
+                }
+                else
+                {
+                    return "SUM(" + this.SqlSyntax.Replace("a.",this.RelName+".") + ") AS " +this.RelUniqueName;
+                }
+                    
             }
 
         }

@@ -186,13 +186,16 @@ namespace UI.Controllers
 
         }
         private void Designer_RefreshState(Models.TheGridDesignerViewModel v)
-        {
-            v.Relations = BL.TheEntities.getApplicableEntities(v.Rec.j72Entity.Substring(0,3));
+        {            
             var mq = new BO.myQuery(v.Rec.j72Entity);
+            var ce = BL.TheEntities.ByPrefix(mq.Prefix);
+            v.Relations = BL.TheEntities.getApplicableRelations(mq.Prefix); //návazné relace
+            v.Relations.Insert(0, new BO.EntityRelation() { TableName = ce.TableName, AliasSingular = ce.AliasSingular,SqlFrom=ce.SqlFromGrid,RelName="a" });   //primární tabulka a
+
             var cProvider = new BL.TheColumnsProvider(mq);
             v.AllColumns = cProvider.AllColumns();
-            v.ApplicableCollumns = cProvider.ApplicableColumns();
-            v.SelectedColumns = cProvider.getSelectedPallete(v.Rec);
+            //v.ApplicableCollumns = cProvider.ApplicableColumns();
+            v.SelectedColumns = cProvider.ParseTheGridColumns(mq.Prefix,v.Rec.j72Columns);
         }
         [HttpPost]
         public IActionResult Designer(Models.TheGridDesignerViewModel v)    //uložení grid sloupců
@@ -334,14 +337,13 @@ namespace UI.Controllers
         }
         
         private System.Data.DataTable prepare_datatable(ref BO.myQuery mq, BO.j72TheGridState cJ72)
-        {
-            
+        {            
             var colProvider = new BL.TheColumnsProvider(mq);
-            mq.explicit_columns = colProvider.getSelectedPallete(cJ72);
+            mq.explicit_columns = colProvider.ParseTheGridColumns(mq.Prefix,cJ72.j72Columns);
             if (string.IsNullOrEmpty(cJ72.j72SortDataField)==false)
             {
                 
-                mq.explicit_orderby = colProvider.FindOneColumn(cJ72.j72SortDataField).getFinalSqlSyntax_ORDERBY(mq.Prefix) + " " + cJ72.j72SortOrder;
+                mq.explicit_orderby = colProvider.ByUniqueName(cJ72.j72SortDataField).getFinalSqlSyntax_ORDERBY() + " " + cJ72.j72SortOrder;
             }                           
             mq.j72Filter = cJ72.j72Filter;
 
@@ -358,13 +360,13 @@ namespace UI.Controllers
             
             var mq = new BO.myQuery(cJ72.j72Entity);
            
-            _grid.Columns = new BL.TheColumnsProvider(mq).getSelectedPallete(cJ72);            
+            _grid.Columns = new BL.TheColumnsProvider(mq).ParseTheGridColumns(mq.Prefix,cJ72.j72Columns);            
 
             mq.explicit_columns = _grid.Columns;
             if (cJ72.j72SortDataField != "" && _grid.Columns.Where(p=>p.UniqueName==cJ72.j72SortDataField).Count()>0)
             {
                 var c = _grid.Columns.Where(p => p.UniqueName == cJ72.j72SortDataField).First();
-                mq.explicit_orderby = c.getFinalSqlSyntax_ORDERBY(cJ72.j72Entity.Substring(0,3)) + " " + cJ72.j72SortOrder;
+                mq.explicit_orderby = c.getFinalSqlSyntax_ORDERBY() + " " + cJ72.j72SortOrder;
 
             }
             mq.j72Filter = cJ72.j72Filter;
@@ -521,7 +523,7 @@ namespace UI.Controllers
                 }
 
                 strVal = "&nbsp;";
-                if (dt.Rows[0][col.Field] != System.DBNull.Value)
+                if (dt.Rows[0][col.RelUniqueName] != System.DBNull.Value)
                 {
                     strVal = ParseCellValueFromDb(dt.Rows[0], col);
                 }
@@ -536,14 +538,14 @@ namespace UI.Controllers
 
         string ParseCellValueFromDb(System.Data.DataRow dbRow, BO.TheGridColumn c)
         {
-            if (dbRow[c.Field] == System.DBNull.Value)
+            if (dbRow[c.RelUniqueName] == System.DBNull.Value)
             {
                 return "";
             }
             switch (c.FieldType)
             {
                 case "bool":
-                    if (Convert.ToBoolean(dbRow[c.Field]) == true)
+                    if (Convert.ToBoolean(dbRow[c.RelUniqueName]) == true)
                     {
                         return "&#10004;";
                     }
@@ -552,23 +554,23 @@ namespace UI.Controllers
                         return "";
                     }
                 case "num0":
-                    return string.Format("{0:#,0}", dbRow[c.Field]);
+                    return string.Format("{0:#,0}", dbRow[c.RelUniqueName]);
 
                 case "num":
-                    return string.Format("{0:#,0.00}", dbRow[c.Field]);
+                    return string.Format("{0:#,0.00}", dbRow[c.RelUniqueName]);
                 case "num3":
-                    return string.Format("{0:#,0.000}", dbRow[c.Field]);
+                    return string.Format("{0:#,0.000}", dbRow[c.RelUniqueName]);
 
 
                 case "date":
-                    return Convert.ToDateTime(dbRow[c.Field]).ToString("dd.MM.yyyy");
+                    return Convert.ToDateTime(dbRow[c.RelUniqueName]).ToString("dd.MM.yyyy");
 
 
                 case "datetime":
                     
-                    return Convert.ToDateTime(dbRow[c.Field]).ToString("dd.MM.yyyy HH:mm");
+                    return Convert.ToDateTime(dbRow[c.RelUniqueName]).ToString("dd.MM.yyyy HH:mm");
                 default:                    
-                    return dbRow[c.Field].ToString();
+                    return dbRow[c.RelUniqueName].ToString();
             }
 
 
@@ -785,9 +787,9 @@ namespace UI.Controllers
                 {
                     string value = "";
 
-                    if (!Convert.IsDBNull(dr[col.Field]))
+                    if (!Convert.IsDBNull(dr[col.RelUniqueName]))
                     {
-                        value = dr[col.Field].ToString();
+                        value = dr[col.RelUniqueName].ToString();
                         if (col.FieldType == "string")
                         {
                             value = "\"" + value + "\"";

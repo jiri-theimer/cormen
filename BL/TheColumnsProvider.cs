@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.ComponentModel.DataAnnotations;
 
 namespace BL
 {
@@ -19,13 +20,13 @@ namespace BL
 
         }
 
-        private void AF(string strEntity, string strField, string strHeader,int intDefaultFlag=0, string strSqlSyntax = null,string strFieldType="string",bool bolIsShowTotals=false)
+        private void AF(string strEntity, string strField, string strHeader,int intDefaultFlag=0, string strSqlSyntax = null,string strFieldType="string",bool bolIsShowTotals=false,string strRelName=null)
         {
             if (strEntity != _lastEntity)
             {
                 _curEntityAlias = BL.TheEntities.ByTable(strEntity).AliasSingular;
             }
-            _lis.Add(new BO.TheGridColumn() { Field = strField, Entity = strEntity, EntityAlias= _curEntityAlias, Header = strHeader,DefaultColumnFlag= intDefaultFlag, SqlSyntax = strSqlSyntax,FieldType= strFieldType,IsShowTotals=bolIsShowTotals });
+            _lis.Add(new BO.TheGridColumn() { Field = strField, Entity = strEntity, EntityAlias= _curEntityAlias,RelName=strRelName, Header = strHeader,DefaultColumnFlag= intDefaultFlag, SqlSyntax = strSqlSyntax,FieldType= strFieldType,IsShowTotals=bolIsShowTotals });
             _lastEntity = strEntity;
         }
       
@@ -77,10 +78,10 @@ namespace BL
             {
                 AF("p10MasterProduct","p10Name", "Název",1);
                 AF("p10MasterProduct","p10Code", "Kód produktu",1);
-                AF("p10MasterProduct", "p20Code", "MJ", 1, "p20.p20Code");
-                AF("p10MasterProduct", "p13Code", "Číslo receptury", 1,"p13.p13Code");
-                AF("p10MasterProduct","b02Name", "Stav",0,"b02.b02Name");
-                AF("p10MasterProduct", "o12Name", "Kategorie", 0, "o12.o12Name");
+                //AF("p10MasterProduct", "p20Code", "MJ", 1, "p20.p20Code");
+                //AF("p10MasterProduct", "p13Code", "Číslo receptury", 1,"p13.p13Code");
+                //AF("p10MasterProduct","b02Name", "Stav",0,"b02.b02Name");
+                //AF("p10MasterProduct", "o12Name", "Kategorie", 0, "o12.o12Name");
                 AF("p10MasterProduct", "p10Memo", "Podrobný popis");
                 AF("p10MasterProduct", "p10SwLicenseFlag", "SW licence", 0, "case when a.p10SwLicenseFlag>0 then 'SW licence '+convert(varchar(10),a.p10SwLicenseFlag) else null end");
                 AF("p10MasterProduct", "p10RecalcUnit2Kg", "Přepočet MJ na KG", 0, null, "num3");
@@ -91,7 +92,7 @@ namespace BL
                 AF("p21License","p21Name", "Název",1);
                 AF("p21License", "p21Code", "Kód", 1);
                 AF("p21License", "p21PermissionFlag", "Typ licence", 1, "case a.p21PermissionFlag when 1 then 'Standard' when 2 then 'Cyber' else '???' end");
-                AF("p21License", "p28Name", "Klient", 1,"p28.p28Name");
+                //AF("p21License", "p28Name", "Klient", 1,"p28.p28Name");
                 AF("p21License","p21Price", "Cena",0,null,"num",true);
                 AppendTimestamp("p21License");
             }
@@ -99,10 +100,10 @@ namespace BL
             {
                 AF("p26Msz","p26Name", "Název",1);
                 AF("p26Msz","p26Code", "Kód",1);
-                AF("p26Msz", "p25Name", "Typ zařízení", 2, "p25.p25Name");
-                AF("p26Msz", "p31Name", "Kapacitní fond", 2, "p31.p31Name");
-                AF("p26Msz","p28Name", "Klient",1,"p28.p28Name");
-                AF("p26Msz", "b02Name", "Stav", 0, "b02.b02Name");
+                //AF("p26Msz", "p25Name", "Typ zařízení", 2, "p25.p25Name");
+                //AF("p26Msz", "p31Name", "Kapacitní fond", 2, "p31.p31Name");
+                //AF("p26Msz","p28Name", "Klient",1,"p28.p28Name");
+                //AF("p26Msz", "b02Name", "Stav", 0, "b02.b02Name");
                 AF("p26Msz", "p26Memo", "Podrobný popis");
                 AppendTimestamp("p26Msz");
             }
@@ -114,26 +115,25 @@ namespace BL
                 AF("j02Person", "j02FirstName", "Jméno");
                 AF("j02Person", "j02LastName", "Příjmení");
                 AF("j02Person", "j02TitleBeforeName", "Titul před");
-                AF("j02Person", "j02TitleAfterName", "Titul za");
-                AF("j02Person", "p28Name", "Klient", 1, "p28.p28Name");
+                AF("j02Person", "j02TitleAfterName", "Titul za");                
                 AF("j02Person", "j02Tel1", "TEL1");
                 AF("j02Person", "j02Tel2", "TEL2");
-                AF("j02Person", "RecordOwner", "Vlastník záznamu", 0, "dbo.j02_show_as_owner(a.j02ID_Owner)");
+                AF("j02Person", "fullname_plus_client", "Jméno+Firma", 0, "a.j02FirstName+' '+a.j02LastName+isnull(' ['+j02_p28.p28Name+']','')","string",false,"j02_p28");
 
                 AppendTimestamp("j02Person");
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "j03")
             {
                 AF("j03User", "j03Login", "Login", 1);
-                AF("j03User", "j04Name", "Aplikační role", 1,"j04.j04Name");
-                AF("j03User", "j03PingTimestamp", "Last ping", 0, "j03.j03PingTimestamp", "datetime");
+                AF("j03User", "j04Name", "Aplikační role", 1, "j03_j04.j04Name");
+                AF("j03User", "j03PingTimestamp", "Last ping", 0, "a.j03PingTimestamp", "datetime");
                 
             }
             if (bolIncludeOutsideEntity || _mq.Prefix == "p13")
             {
                 AF("p13MasterTpv", "p13Name", "Název", 1);
                 AF("p13MasterTpv", "p13Code", "Číslo receptury", 1);
-                AF("p13MasterTpv", "p25Name", "Typ zařízení", 2, "p25.p25Name");
+                //AF("p13MasterTpv", "p25Name", "Typ zařízení", 2, "p25.p25Name");
                 AF("p13MasterTpv", "p13Memo", "Podrobný popis");
                 AppendTimestamp("p13MasterTpv");
             }
@@ -166,10 +166,10 @@ namespace BL
             {
                 AF("p19Material", "p19Code", "Kód", 1);
                 AF("p19Material", "p19Name", "Název", 1);
-                AF("p19Material", "p28Name", "Klient", 1,"p28.p28Name");
+                //AF("p19Material", "p28Name", "Klient", 1,"p28.p28Name");
 
-                AF("p19Material", "o12Name", "Kategorie", 2,"o12.o12Name");
-                AF("p19Material", "p20Code", "MJ", 1, "p20.p20Code");
+                //AF("p19Material", "o12Name", "Kategorie", 2,"o12.o12Name");
+                //AF("p19Material", "p20Code", "MJ", 1, "p20.p20Code");
 
                 AF("p19Material", "p19Lang1", "Jazyk1");
                 AF("p19Material", "p19Lang2", "Jazyk2");
@@ -218,11 +218,11 @@ namespace BL
                 AF("p11ClientProduct", "p11Code", "Kód produktu", 1);
                 AF("p11ClientProduct", "p11Name", "Název", 1);
                 
-                AF("p11ClientProduct", "b02Name", "Stav", 0, "b02.b02Name");
+                //AF("p11ClientProduct", "b02Name", "Stav", 0, "b02.b02Name");
                 
                 AF("p11ClientProduct", "p11Memo", "Podrobný popis");
                 AF("p11ClientProduct", "p11UnitPrice", "Jedn.cena",0,null,"num");
-                AF("p11ClientProduct", "p20Code", "MJ",1,"p20.p20Code");
+                //AF("p11ClientProduct", "p20Code", "MJ",1,"p20.p20Code");
 
                 AF("p11ClientProduct", "p11RecalcUnit2Kg", "Přepočet MJ na KG", 0, null, "num3");
 
@@ -233,8 +233,8 @@ namespace BL
                 AF("p12ClientTpv", "p12Name", "Název", 1);
                 AF("p12ClientTpv", "p12Code", "Číslo receptury", 1);
                 AF("p12ClientTpv", "p12Memo", "Podrobný popis");
-                AF("p12ClientTpv", "p25Name", "Typ zařízení", 2, "p25.p25Name");
-                AF("p12ClientTpv", "p21Name", "Licence", 3, "p21.p21Name");
+                //AF("p12ClientTpv", "p25Name", "Typ zařízení", 2, "p25.p25Name");
+                //AF("p12ClientTpv", "p21Name", "Licence", 3, "p21.p21Name");
                 AF("p21License", "p21PermissionFlag", "Typ licence", 3, "case p21.p21PermissionFlag when 1 then 'Standard' when 2 then 'Cyber' else '???' end");
                 AppendTimestamp("p12ClientTpv");
             }
@@ -324,8 +324,8 @@ namespace BL
             {
                 AF("p18OperCode", "p18Code", "Kód", 1);
                 AF("p18OperCode", "p18Name", "Název", 1);
-                AF("p18OperCode", "p25Name", "Typ zařízení", 2, "p25.p25Name");
-                AF("p18OperCode", "p19Name", "Materiál", 2, "p19.p19Name");
+                //AF("p18OperCode", "p25Name", "Typ zařízení", 2, "p25.p25Name");
+                //AF("p18OperCode", "p19Name", "Materiál", 2, "p19.p19Name");
                 AF("p18OperCode", "p18UnitsCount", "UnitsCount", 2, null, "num");
                 AF("p18OperCode", "p18DurationPreOper", "DurationPreOper", 2, null, "num3");
                 AF("p18OperCode", "p18DurationOper", "DurationPreOper", 2, null, "num3");
@@ -360,14 +360,81 @@ namespace BL
             
         }
 
-        public IEnumerable<BO.TheGridColumn> getDefaultPallete(int intDefaultFlag1, int intDefaultFlag2)
+        public List<BO.TheGridColumn> getDefaultPallete(bool bolComboColumns)
         {
-            if (_lis.Count > 0) { _lis.Clear(); };
-            SetupPallete(false);
+            int intDefaultFlag1 = 1; int intDefaultFlag2 = 2;
+            if (bolComboColumns == true)
+            {
+                intDefaultFlag2 = 3;
+            }
 
-            return _lis.Where(p => p.DefaultColumnFlag == intDefaultFlag1 || p.DefaultColumnFlag == intDefaultFlag2);
+            if (_lis.Count > 0) { _lis.Clear(); };  //intDefaultFlag1: 1=Grid+Combo, 2=Pouze Grid, 3=Pouze Combo
+            SetupPallete(true);
 
+            List<BO.TheGridColumn> ret = _lis.Where(p => p.Prefix == _mq.Prefix && (p.DefaultColumnFlag == intDefaultFlag1 || p.DefaultColumnFlag == intDefaultFlag2)).ToList();
+            List<BO.EntityRelation> rels = BL.TheEntities.getApplicableRelations(_mq.Prefix);
             
+            switch (_mq.Prefix)
+            {
+                case "j02":
+                    ret.Add(InhaleColumn4Relation("j02_j03", "j03User","j03Login", rels, bolComboColumns));
+                    ret.Add(InhaleColumn4Relation("j02_j03", "j03User","j04Name", rels, bolComboColumns));                    
+                    ret.Add(InhaleColumn4Relation("j02_p28", "p28Company","p28Name", rels, bolComboColumns));
+                    
+                    break;
+                case "p10":
+                    ret.Add(InhaleColumn4Relation("p10_p20", "p20Unit", "p20Name", rels, bolComboColumns));
+                    ret.Add(InhaleColumn4Relation("p10_p13", "p13MasterTpv", "p13Code", rels, bolComboColumns));
+                    break;
+                case "p11":
+                    ret.Add(InhaleColumn4Relation("p11_p20", "p20Unit", "p20Name", rels, bolComboColumns));
+                    ret.Add(InhaleColumn4Relation("p11_p21", "p21License", "p21Name", rels, bolComboColumns));
+                    break;
+                case "p12":
+                    ret.Add(InhaleColumn4Relation("p12_p25", "p25MszType", "p25Name", rels, bolComboColumns));
+                    ret.Add(InhaleColumn4Relation("p12_p21", "p21License", "p21Name", rels, bolComboColumns));
+                    break;
+                case "p13":
+                    ret.Add(InhaleColumn4Relation("p13_p25", "p25MszType", "p25Name", rels, bolComboColumns));
+                    break;
+                case "p14":
+                    ret.Add(InhaleColumn4Relation("p14_p18", "p18OperCode", "p18Code", rels, bolComboColumns));
+                    ret.Add(InhaleColumn4Relation("p14_p19", "p19Material", "p19Code", rels, bolComboColumns));
+                    ret.Add(InhaleColumn4Relation("p14_p19", "p19Material", "p19Name", rels, bolComboColumns));
+                    break;
+                case "p15":
+                    ret.Add(InhaleColumn4Relation("p15_p18", "p18OperCode", "p18Code", rels, bolComboColumns));
+                    ret.Add(InhaleColumn4Relation("p15_p19", "p19Material", "p19Code", rels, bolComboColumns));
+                    ret.Add(InhaleColumn4Relation("p15_p19", "p19Material", "p19Name", rels, bolComboColumns));
+                    break;
+                case "p21":
+                    ret.Add(InhaleColumn4Relation("p21_p28", "p28Company", "p28Name", rels, bolComboColumns));
+                    break;
+                case "p19":
+                    ret.Add(InhaleColumn4Relation("p19_p20", "p20Unit", "p20Code", rels, bolComboColumns));
+                    ret.Add(InhaleColumn4Relation("p19_p28", "p28Company", "p28Name", rels, bolComboColumns));
+                    break;
+                case "p26":
+                    ret.Add(InhaleColumn4Relation("p26_p31", "p31CapacityFond", "p31Name", rels, bolComboColumns));
+                    break;
+                case "p41":
+                    ret.Add(InhaleColumn4Relation("p41_p28", "p28Company", "p28Name", rels, bolComboColumns));
+                    ret.Add(InhaleColumn4Relation("p41_p26", "p26Msz", "p26Name", rels, bolComboColumns));
+                    ret.Add(InhaleColumn4Relation("p41_b02", "b02Status", "b02Name", rels, bolComboColumns));
+                    break;
+                case "p51":
+                    ret.Add(InhaleColumn4Relation("p51_p28", "p28Company", "p28Name", rels, bolComboColumns));
+                    ret.Add(InhaleColumn4Relation("p51_p26", "p26Msz", "p26Name", rels, bolComboColumns));
+                    ret.Add(InhaleColumn4Relation("p51_b02", "b02Status", "b02Name", rels, bolComboColumns));
+                    break;
+                case "p52":                    
+                    ret.Add(InhaleColumn4Relation("p52_p11", "p11ClientProduct", "p11Name", rels, bolComboColumns));
+                    break;                
+            }
+            
+            return ret;
+
+
         }
         public IEnumerable<BO.TheGridColumn> AllColumns()
         {
@@ -378,9 +445,28 @@ namespace BL
 
 
         }
-        public BO.TheGridColumn FindOneColumn(string strUniqueName)
+        private BO.TheGridColumn InhaleColumn4Relation(string strRelName, string strFieldEntity,string strFieldName, List<BO.EntityRelation> applicable_rels,bool bolComboColumns)
         {
-            if (_lis.Where(p=>p.UniqueName== strUniqueName).Count() > 0)
+            BO.TheGridColumn c = ByUniqueName(strFieldEntity+"__"+strFieldName);
+
+            BO.EntityRelation rel = applicable_rels.Where(p => p.RelName == strRelName).First();
+            c.RelName = strRelName;
+            c.RelSql = rel.SqlFrom;
+            if (bolComboColumns == true)
+            {
+                c.Header = rel.AliasSingular;
+            }
+            else
+            {
+                c.Header = c.Header + " [" + rel.AliasSingular + "]";
+            }
+            
+            
+            return c;
+        }
+        public BO.TheGridColumn ByUniqueName(string strUniqueName)
+        {
+            if (_lis.Where(p=>p.UniqueName == strUniqueName).Count() > 0)
             {
                return _lis.Where(p => p.UniqueName == strUniqueName).First();
             }
@@ -389,61 +475,32 @@ namespace BL
                 return null;
             }
         }
-        public IEnumerable<BO.TheGridColumn> ApplicableColumns()    //Sloupce, které se nabízejí v návrháři jako možné k práci pro záznamy dané entity
+        public BO.TheGridColumn ByRelUniqueName(string strRelUniqueName)
         {
-            if (_lis.Count > 0) { _lis.Clear(); };
-            SetupPallete(true);
-          
-            switch (_mq.Prefix)
+            if (_lis.Where(p =>p.RelUniqueName == strRelUniqueName).Count() > 0)
             {
-                case "p28":
-                    return _lis.Where(p=>p.Entity==_mq.Entity);
-               
-                case "p10":
-                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix=="p13" || p.Prefix== "b02" || p.Entity == "o12");
-                case "p26":
-                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p28" || p.Prefix == "b02" || p.Prefix=="o12");
-                case "p31":
-                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p28");
-                case "p19":
-                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p28" || p.Prefix == "o12");
-                case "p20":
-                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p28");
-                case "p21":
-                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p28" || p.Prefix == "b02" || p.Prefix=="o12");
-                case "j02":
-                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "j03" || p.Prefix == "p28");
-                case "o23":
-                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "b02" || p.Prefix == "o12");
-                case "p11":
-                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p12" || p.Prefix=="p21" || p.Prefix == "b02" || p.Prefix=="p28" || p.Prefix=="p10");
-                case "p12":
-                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p21" || p.Prefix=="p28");
-                case "p41":
-                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix=="p11" || p.Prefix == "p28" || p.Prefix == "p26" || p.Prefix == "b02");
-                case "p51":
-                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p28" || p.Prefix == "p26" || p.Prefix == "b02");
-                case "p52":
-                    return _lis.Where(p => p.Entity == _mq.Entity || p.Prefix == "p11" || p.Prefix == "p51");
-                default:
-                    return _lis.Where(p => p.Entity == _mq.Entity);
+                return _lis.Where(p => p.RelUniqueName == strRelUniqueName).First();
             }
-            
-
+            else
+            {
+                return null;
+            }
         }
+        
 
-        public List<BO.TheGridColumn> getSelectedPallete(BO.j72TheGridState cJ72)
+        public List<BO.TheGridColumn> ParseTheGridColumns(string strPrimaryPrefix,string strJ72Columns)
         {
-            //v j72Columns je čárkou oddělený seznam sloupců z pole j72Columns: název relace+__+entita+__+field
+            //v strJ72Columns je čárkou oddělený seznam sloupců z pole j72Columns: název relace+__+entita+__+field
             if (_lis.Count > 0) { _lis.Clear(); };
             SetupPallete(true);
 
-            List<BO.EntityRelation> relations = BL.TheEntities.getApplicableEntities(cJ72.j72Entity.Substring(0, 3));
-            List<string> sels = BO.BAS.ConvertString2List(cJ72.j72Columns, ",");
+            List<BO.EntityRelation> applicable_rels = BL.TheEntities.getApplicableRelations(strPrimaryPrefix);
+            List<string> sels = BO.BAS.ConvertString2List(strJ72Columns, ",");
             List<BO.TheGridColumn> ret = new List<BO.TheGridColumn>();
             
             string[] arr;
             string strUniqueName = "";
+            BO.EntityRelation rel;
 
             for (var i=0;i<sels.Count; i++)
             {                
@@ -452,8 +509,18 @@ namespace BL
                 if (_lis.Where(p => p.UniqueName == strUniqueName).Count() > 0)
                 {
                     var c = _lis.Where(p => p.UniqueName == strUniqueName).FirstOrDefault();
-                    c.RelName = arr[0]; //název relace v sql dotazu
-                    c.RelSql = relations.Where(p => p.RelName == c.RelName).First().SqlFrom;    //sql klauzule relace
+                    if (arr[0] == "a")
+                    {
+                        c.RelName = null;
+                    }
+                    else
+                    {
+                        c.RelName = arr[0]; //název relace v sql dotazu
+                        rel = applicable_rels.Where(p => p.RelName == c.RelName).First();
+                        c.RelSql = rel.SqlFrom;    //sql klauzule relace
+                        c.Header = c.Header + " [" + rel.AliasSingular + "]";
+                    }
+                                        
 
                     if ((i == sels.Count - 1) && (c.FieldType=="num" || c.FieldType=="num0" || c.FieldType == "num3"))
                     {

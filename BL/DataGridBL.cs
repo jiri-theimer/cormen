@@ -64,21 +64,31 @@ namespace BL
 
             if (mq.explicit_columns == null || mq.explicit_columns.Count()==0)
             {
-                mq.explicit_columns = new BL.TheColumnsProvider(mq).getDefaultPallete(1,1);    //na vstupu není přesný výčet sloupců -> pracovat s default sadou
+                mq.explicit_columns = new BL.TheColumnsProvider(mq).getDefaultPallete(false);    //na vstupu není přesný výčet sloupců -> pracovat s default sadou
             }
             if (bolGetTotalsRow)
             {
-                sb.Append(string.Join(",", mq.explicit_columns.Select(p => p.getFinalSqlSyntax_SUM(mq.Prefix))));   //součtová řádka gridu
+                sb.Append(string.Join(",", mq.explicit_columns.Select(p => p.getFinalSqlSyntax_SUM())));   //součtová řádka gridu
             }
             else
             {
-                sb.Append(string.Join(",", mq.explicit_columns.Select(p => p.getFinalSqlSyntax_SELECT(mq.Prefix))));    //grid sloupce               
+                sb.Append(string.Join(",", mq.explicit_columns.Select(p => p.getFinalSqlSyntax_SELECT())));    //grid sloupce               
             }
             sb.Append("," + GetSQL_SELECT_Ocas(mq.Prefix, bolGetTotalsRow));  //konstantní pole jako pid,isclosed
 
             sb.Append(" FROM ");
             BO.TheEntity ce = BL.TheEntities.ByPrefix(mq.Prefix);
-            sb.Append(ce.SqlFrom);
+            sb.Append(ce.SqlFromGrid);    //úvodní FROM klauzule s primární "a" tabulkou            
+
+            var relSqls = mq.explicit_columns.Where(x=>x.RelName !=null && x.RelName !="a").Select(p => p.RelSql).Distinct();
+            if (relSqls.Count() > 0)
+            {
+                sb.Append(" ");
+                sb.Append(String.Join(" ", relSqls));   //doplnit FROM klauzuly o další potřebné relace
+            }
+            
+            
+
             if (ce.SqlOrderBy != null)  //výchozí třídění záznamů entity
             {
                 if (String.IsNullOrEmpty(mq.explicit_orderby) && bolGetTotalsRow == false) mq.explicit_orderby = ce.SqlOrderBy;

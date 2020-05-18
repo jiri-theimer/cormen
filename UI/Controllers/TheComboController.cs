@@ -21,7 +21,7 @@ namespace UI.Controllers
                 mq.TopRecordsOnly = 50; //maximálně prvních 50 záznamů, které vyhovují podmínce
             }
 
-            var cols = new BL.TheColumnsProvider(mq).getDefaultPallete(1, 3);
+            var cols = new BL.TheColumnsProvider(mq).getDefaultPallete(true);
             mq.explicit_columns = cols;
 
             if (mq.Prefix == "p18")

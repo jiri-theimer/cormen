@@ -256,7 +256,7 @@ namespace BL.DL
             foreach (var filterrow in rows)
             {
                 var col = filterrow.BoundColumn;
-                var strF = col.getFinalSqlSyntax_WHERE(mq.Prefix);
+                var strF = col.getFinalSqlSyntax_WHERE();
                
                 x += 1;
                 string parName = "par" + x.ToString();
