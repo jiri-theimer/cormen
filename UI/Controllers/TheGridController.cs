@@ -349,8 +349,47 @@ namespace UI.Controllers
             {
                 mq.TheGridFilter = colProvider.ParseAdhocFilterFromString(cJ72.j72Filter);
             }
-            
+            CompleteGridMyQuery(ref mq, cJ72);
+
             return Factory.gridBL.GetList(mq);
+        }
+        private void CompleteGridMyQuery(ref BO.myQuery mq, BO.j72TheGridState cJ72)
+        {
+            switch (cJ72.j72MasterEntity)
+            {
+                case "p28Company":
+                    mq.p28id = cJ72.j72MasterPID;
+                    break;
+                case "p10MasterProduct":
+                    mq.p10id = cJ72.j72MasterPID;
+                    break;
+                case "p13MasterTpv":
+                    mq.p13id = cJ72.j72MasterPID;
+                    break;
+                case "p21License":
+                    mq.p21id = cJ72.j72MasterPID;
+                    break;
+                case "p26Msz":
+                    mq.p26id = cJ72.j72MasterPID;
+                    break;
+                case "j02Person":
+                    mq.j02id = cJ72.j72MasterPID;
+                    break;
+                case "p11ClientProduct":
+                    mq.p11id = cJ72.j72MasterPID;
+                    break;
+                case "p12ClientTpv":
+                    mq.p12id = cJ72.j72MasterPID;
+                    break;
+                case "p41Task":
+                    mq.p41id = cJ72.j72MasterPID;
+                    break;
+                case "p51Order":
+                    mq.p51id = cJ72.j72MasterPID;
+                    break;
+                default:
+                    break;
+            }
         }
         private TheGridOutput render_thegrid_html(BO.j72TheGridState cJ72)
         {
@@ -377,43 +416,9 @@ namespace UI.Controllers
             {
                 mq.TheGridFilter = colsProvider.ParseAdhocFilterFromString(cJ72.j72Filter);
             }
-            
-            
-            switch (cJ72.j72MasterEntity)
-            {
-                case "p28Company":
-                    mq.p28id = cJ72.j72MasterPID;
-                    break;
-                case "p10MasterProduct":
-                    mq.p10id = cJ72.j72MasterPID;
-                    break;
-                case "p13MasterTpv":
-                    mq.p13id = cJ72.j72MasterPID;               
-                    break;
-                case "p21License":
-                    mq.p21id = cJ72.j72MasterPID;
-                    break;
-                case "p26Msz":
-                    mq.p26id = cJ72.j72MasterPID;
-                    break;
-                case "j02Person":
-                    mq.j02id = cJ72.j72MasterPID;
-                    break;
-                case "p11ClientProduct":
-                    mq.p11id = cJ72.j72MasterPID;
-                    break;
-                case "p12ClientTpv":
-                    mq.p12id = cJ72.j72MasterPID;
-                    break;
-                case "p41Task":                
-                    mq.p41id = cJ72.j72MasterPID;
-                    break;
-                case "p51Order":
-                    mq.p51id = cJ72.j72MasterPID;
-                    break;
-                default:
-                    break;
-            }
+
+
+            CompleteGridMyQuery(ref mq, cJ72);
            
             
             var dt = Factory.gridBL.GetList(mq);
@@ -711,8 +716,11 @@ namespace UI.Controllers
 
             sb.AppendLine(string.Format("<a class='nav-link' href='javascript:_window_open(\"/TheGrid/Designer?j72id={0}\");'>Návrhář sloupců</a>",j72id));
             sb.AppendLine("<hr />");
-            sb.AppendLine(string.Format("<a class='nav-link' href='/TheGrid/GridExport?format=xlsx&j72id={0}'>MS-EXCEL Export</a>", j72id));
-            sb.AppendLine(string.Format("<a class='nav-link' href='/TheGrid/GridExport?format=csv&j72id={0}'>CSV Export</a>",j72id));
+            
+            sb.AppendLine(string.Format("<a class='nav-link' href='javascript:tg_export(\"xlsx\")'>MS-EXCEL Export</a>", j72id));
+            sb.AppendLine(string.Format("<a class='nav-link' href='javascript:tg_export(\"csv\")'>CSV Export</a>", j72id));
+            //sb.AppendLine(string.Format("<a class='nav-link' href='/TheGrid/GridExport?format=xlsx&j72id={0}'>MS-EXCEL Export</a>", j72id));
+            //sb.AppendLine(string.Format("<a class='nav-link' href='/TheGrid/GridExport?format=csv&j72id={0}'>CSV Export</a>",j72id));
             //sb.AppendLine(string.Format("<a class='nav-link' href='/TheGrid/GridExport?format=xlsx&j72id={0}'>MS-EXCEL Export</a>",j72id));
             sb.AppendLine("<hr />");
             sb.AppendLine("<a class='nav-link' href='javascript:tg_select(20)'>Vybrat prvních 20</a>");
@@ -726,10 +734,13 @@ namespace UI.Controllers
             return sb.ToString();
         }
 
-        public FileResult GridExport(string format,int j72id)
+        public FileResult GridExport(string format,int j72id,int master_pid,string master_entity)
         {
             BO.j72TheGridState cJ72 = this.Factory.gridBL.LoadTheGridState(j72id);
+            cJ72.j72MasterEntity = master_entity;
+            cJ72.j72MasterPID = master_pid;
             var mq = new BO.myQuery(cJ72.j72Entity);
+           
             System.Data.DataTable dt = prepare_datatable(ref mq,cJ72);
             string filepath = Factory.App.TempFolder+"\\"+BO.BAS.GetGuid()+"."+ format;
 

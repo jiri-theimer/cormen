@@ -62,7 +62,7 @@ namespace UI.Controllers
                 s.Append(string.Format("<tr data-v='{0}'>", dt.Rows[i]["pid"]));
                 foreach (var col in mq.explicit_columns)
                 {
-                    s.Append(string.Format("<td>{0}</td>", dt.Rows[i][col.Field]));
+                    s.Append(string.Format("<td>{0}</td>", BO.BAS.ParseCellValueFromDb(dt.Rows[i],col)));
                 }
                 s.Append("</tr>");
 
@@ -93,7 +93,7 @@ namespace UI.Controllers
                 s.Append(string.Format("<tr data-v='{0}'>", dt.Rows[i]["pid"]));
                 foreach (var col in mq.explicit_columns)
                 {
-                    s.Append(string.Format("<td>{0}</td>", dt.Rows[i][col.Field]));
+                    s.Append(string.Format("<td>{0}</td>", BO.BAS.ParseCellValueFromDb(dt.Rows[i],col)));
                 }
                 if (delete_function != null)
                 {

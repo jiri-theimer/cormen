@@ -793,3 +793,9 @@ function tg_adjust_for_screen(strParentElementID) {
 function tg_dblclick(row) {
     _edit(_tg_entity.substr(0, 3), row.id.replace("r", ""));
 }
+
+function tg_export(format) {
+    var url = "/TheGrid/GridExport?j72id=" + _j72id + "&format=" + format + "&master_pid=" + _tg_master_pid + "&master_entity=" + _tg_master_entity;
+    location.replace(url);
+
+}
