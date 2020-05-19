@@ -16,5 +16,8 @@ namespace BO
 
         public string RecordOwner { get; set; }
 
+        public int p31DayHour1 { get; set; } = 5;
+        public int p31DayHour2 { get; set; } = 20;
+
     }
 }

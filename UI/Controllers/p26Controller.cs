@@ -26,7 +26,7 @@ namespace UI.Controllers
         }
         public IActionResult Record(int pid, bool isclone)
         {
-            if (!this.TestIfUserEditor(true,false))
+            if (!this.TestIfUserEditor(true,true))
             {
                 return this.StopPageCreateEdit(true);
             }
@@ -72,6 +72,7 @@ namespace UI.Controllers
                 c.b02ID = v.Rec.b02ID;
                 c.p28ID = v.Rec.p28ID;
                 c.o12ID = v.Rec.o12ID;
+                c.p31ID = v.Rec.p31ID;
                 
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);

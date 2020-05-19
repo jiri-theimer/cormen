@@ -158,6 +158,8 @@ namespace BL
 
             //p31 = kapacitní fondy
             AF("p31CapacityFond", "p31Name", "Název", 1);
+            AF("p31CapacityFond", "p31DayHour1", "První hodina",0,null,"num0");
+            AF("p31CapacityFond", "p31DayHour2", "Poslední hodina",0,null,"num0");
             AF("p31CapacityFond", "RecordOwner", "Vlastník záznamu", 0, "dbo.j02_show_as_owner(a.j02ID_Owner)");            
             AppendTimestamp("p31CapacityFond");
 

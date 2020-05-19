@@ -125,6 +125,8 @@ namespace UI.Controllers
 
                 
                 c.p31Name = v.Rec.p31Name;
+                c.p31DayHour1 = v.Rec.p31DayHour1;
+                c.p31DayHour2 = v.Rec.p31DayHour2;
                 c.j02ID_Owner = v.Rec.j02ID_Owner;
                
                 v.Rec.pid = Factory.p31CapacityFondBL.Save(c);

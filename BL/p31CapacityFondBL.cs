@@ -45,12 +45,18 @@ namespace BL
 
         public int Save(BO.p31CapacityFond rec)
         {
+            if (rec.p31DayHour1>= rec.p31DayHour2)
+            {
+                _mother.CurrentUser.AddMessage("Poslední hodina musí být větší než první hodina.");
+                return 0;
+            }
             var p = new DL.Params4Dapper();
             p.AddInt("pid", rec.p31ID);
             if (rec.j02ID_Owner == 0) rec.j02ID_Owner = _db.CurrentUser.j02ID;
             p.AddInt("j02ID_Owner", rec.j02ID_Owner, true);
             p.AddString("p31Name", rec.p31Name);
-         
+            p.AddInt("p31DayHour1", rec.p31DayHour1);
+            p.AddInt("p31DayHour2", rec.p31DayHour2);
 
             return _db.SaveRecord("p31CapacityFond", p.getDynamicDapperPars(), rec);
         }
