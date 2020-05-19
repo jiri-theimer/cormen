@@ -88,6 +88,8 @@ namespace UI
                 strLogFolder = System.IO.Directory.GetCurrentDirectory() + "\\Logs";
             }
 
+            
+
             services.AddSingleton<BL.RunningApp>(x => new BL.RunningApp() {
                 ConnectString= conf.GetSection("ConnectionStrings")["AppConnection"]
                 ,UploadFolder = conf.GetSection("Folders")["Upload"]
@@ -100,9 +102,9 @@ namespace UI
             services.AddScoped<BO.RunningUser, BO.RunningUser>();            
             services.AddScoped<BL.Factory,BL.Factory>();
 
-            
 
-            
+
+            services.AddHostedService<UI.TheRobot>();
 
 
         }
