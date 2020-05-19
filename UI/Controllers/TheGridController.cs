@@ -726,12 +726,17 @@ namespace UI.Controllers
 
             sb.AppendLine(string.Format("<a class='nav-link' href='javascript:_window_open(\"/TheGrid/Designer?j72id={0}\");'>Návrhář sloupců</a>",j72id));
             sb.AppendLine("<hr />");
-            
-            sb.AppendLine(string.Format("<a class='nav-link' href='javascript:tg_export(\"xlsx\")'>MS-EXCEL Export</a>", j72id));
-            sb.AppendLine(string.Format("<a class='nav-link' href='javascript:tg_export(\"csv\")'>CSV Export</a>", j72id));
-            //sb.AppendLine(string.Format("<a class='nav-link' href='/TheGrid/GridExport?format=xlsx&j72id={0}'>MS-EXCEL Export</a>", j72id));
-            //sb.AppendLine(string.Format("<a class='nav-link' href='/TheGrid/GridExport?format=csv&j72id={0}'>CSV Export</a>",j72id));
-            //sb.AppendLine(string.Format("<a class='nav-link' href='/TheGrid/GridExport?format=xlsx&j72id={0}'>MS-EXCEL Export</a>",j72id));
+
+            sb.AppendLine("<div style='padding-left:10px;'>");
+            sb.AppendLine(string.Format("<a href='javascript:tg_export(\"xlsx\")'>MS-EXCEL Export (vše)</a>", j72id));
+            sb.AppendLine(string.Format("<a style='margin-left:20px;'  href='javascript:tg_export(\"xlsx\",\"selected\")'>Pouze vybrané</a>", j72id));
+            sb.AppendLine("</div>");
+
+            sb.AppendLine("<div style='padding-left:10px;'>");
+            sb.AppendLine(string.Format("<a href='javascript:tg_export(\"csv\")'>TEXT CSV Export (vše)</a>", j72id));
+            sb.AppendLine(string.Format("<a style='margin-left:20px;'  href='javascript:tg_export(\"csv\",\"selected\")'>Pouze vybrané</a>", j72id));
+            sb.AppendLine("</div>");
+
             sb.AppendLine("<hr />");
             sb.AppendLine("<a class='nav-link' href='javascript:tg_select(20)'>Vybrat prvních 20</a>");
             sb.AppendLine("<a class='nav-link' href='javascript:tg_select(50)'>Vybrat prvních 50</a>");
@@ -744,12 +749,17 @@ namespace UI.Controllers
             return sb.ToString();
         }
 
-        public FileResult GridExport(string format,int j72id,int master_pid,string master_entity)
+        public FileResult GridExport(string format,int j72id,int master_pid,string master_entity,string pids)
         {
             BO.j72TheGridState cJ72 = this.Factory.gridBL.LoadTheGridState(j72id);
             cJ72.j72MasterEntity = master_entity;
             cJ72.j72MasterPID = master_pid;
             var mq = new BO.myQuery(cJ72.j72Entity);
+            if (String.IsNullOrEmpty(pids) == false)
+            {
+                mq.SetPids(pids);
+            }
+            
            
             System.Data.DataTable dt = prepare_datatable(ref mq,cJ72);
             string filepath = Factory.App.TempFolder+"\\"+BO.BAS.GetGuid()+"."+ format;

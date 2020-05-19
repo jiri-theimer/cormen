@@ -794,8 +794,17 @@ function tg_dblclick(row) {
     _edit(_tg_entity.substr(0, 3), row.id.replace("r", ""));
 }
 
-function tg_export(format) {
+function tg_export(format,scope) {
+        
     var url = "/TheGrid/GridExport?j72id=" + _j72id + "&format=" + format + "&master_pid=" + _tg_master_pid + "&master_entity=" + _tg_master_entity;
+    if (scope === "selected") {
+        var pids = $("#tg_selected_pids").val();
+        if (pids === "") {
+            _notify_message("Musíte vybrat minimálně jeden záznam.");
+            return;
+        }
+        url = url + "&pids=" + pids;
+    }
     location.replace(url);
 
 }
