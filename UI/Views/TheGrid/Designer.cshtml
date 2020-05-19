@@ -98,7 +98,10 @@
 
 <div class="bg-light" style="padding:10px;">
     <button id="cmdSave" onclick="savechanges()" class="btn btn-success">Uložit změny</button>
-    
+    <button id="cmdClose" onclick="_window_close()" class="btn btn-light">Zavřít</button>
+
+    <button id="cmdRestore2Factory" onclick="restore2factory()" class="btn btn-light" style="float:right;">Nahodit Grid do továrního stavu</button>
+
 </div>
 <div class="modal_record_container">
     <form id="form1" asp-controller="TheGrid" asp-action="Designer" method="POST">
@@ -183,7 +186,7 @@
     $(document).ready(function () {
 
         tree_init();
-        
+
         recovery_state();
         refresh_state();
 
@@ -191,7 +194,7 @@
         //$(".caret").click();
 
 
-        
+
         $(".button_field_append").click(function (e) {
             handle_append_field(this,true);
         });
@@ -202,27 +205,27 @@
 
 
         var rel_plus_entity = $(cmd).attr("data-entity");
-        
+
         var rel_alias = $("#group__" + rel_plus_entity).text();
-       
+
         var alias = $("span[data-field=" + field + "]").first().text() + " [" + rel_alias + "]";
 
         if (_sels.includes(field)) {
             _notify_message("Sloupec [" + field + "] již je ve výběru.", "info");
             return;
         }
-        
+
         $(cmd).prop("disabled", true);
         $("span[data-field=" + field + "]").addClass("field_selected");
 
-       
+
         $("#list1").append("<option selected value='" + field + "'>" + alias + "</option>");
         $("#list1").val(field);
 
         if (bolUpdateState == true) {
             refresh_state();
         }
-        
+
     }
 
     $("#cmdUp").click(function () {
@@ -257,7 +260,7 @@
 
             $("button[data-field=" + field + "]").prop("disabled", false);
 
-          
+
             $(this).remove();
 
         });
@@ -267,8 +270,8 @@
         refresh_state();
     });
 
-    
-    function refresh_state() {        
+
+    function refresh_state() {
         _sels = [];
         $("#list1 option").each(function () {
             _sels.push(this.value);
@@ -284,12 +287,12 @@
             $("#cmdUp").prop("disabled", true);
             $("#cmdDown").prop("disabled", true);
         }
-        
-        
-        
+
+
+
     }
 
-    function recovery_state() {        
+    function recovery_state() {
         var fields = $("#Rec_j72Columns").val();
         if (fields == "") return;
         var arr = fields.split(",");
@@ -324,6 +327,26 @@
             return;
         }
         form1.submit();
+    }
+
+    function restore2factory() {
+        $.showConfirm({
+            title: "Rozhodněte se...", body: "Tovární stav = Výchozí sada sloupců, vyčištění sloupců, filtru a souhrnů.<hr>Mám pokračovat?", textTrue: "ANO", textFalse: "NE",
+            onSubmit: function (result) {
+                if (result) {
+                    var url = "@Url.Action("Designer","TheGrid", new { restore2factory = true})";
+                    form1.action = url;
+                    form1.submit();
+
+
+                } else {
+                    //nechce
+                }
+            },
+            onDispose: function () {
+                //nic
+            }
+        })
     }
 
 </script>

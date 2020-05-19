@@ -141,9 +141,9 @@ namespace BO
                     return this.SqlSyntax + " AS " + this.UniqueName;
                 }else
                 {
-                    if (this.SqlSyntax.IndexOf("a.") > -1)
+                    if (this.SqlSyntax.Contains("a.") || this.SqlSyntax.Contains("relname."))
                     {
-                        return this.SqlSyntax.Replace("a.", this.RelName + ".") + " AS " + this.UniqueName;
+                        return this.SqlSyntax.Replace("a.", this.RelName + ".").Replace("relname.", this.RelName) + " AS " + this.UniqueName;
                     }
                     else
                     {
@@ -176,7 +176,7 @@ namespace BO
                 }
                 else
                 {
-                    return this.SqlSyntax.Replace("a.", this.RelName + ".");
+                    return this.SqlSyntax.Replace("a.", this.RelName + ".").Replace("relname.", this.RelName);
                 }                                    
             }
 
@@ -209,7 +209,7 @@ namespace BO
                 }
                 else
                 {
-                    return "SUM(" + this.SqlSyntax.Replace("a.",this.RelName+".") + ") AS " +this.UniqueName;
+                    return "SUM(" + this.SqlSyntax.Replace("a.",this.RelName+".").Replace("relname.", this.RelName) + ") AS " +this.UniqueName;
                 }
                     
             }

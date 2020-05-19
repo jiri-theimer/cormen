@@ -9,7 +9,12 @@ namespace UI.Controllers
 {
     public class CommonController : BaseController
     {
-        
+        private readonly BL.TheColumnsProvider _colsProvider;
+
+        public CommonController(BL.TheColumnsProvider cp)
+        {
+            _colsProvider = cp;
+        }
         public IActionResult Index()
         {
             return View();
@@ -48,7 +53,7 @@ namespace UI.Controllers
             {
                 BO.Reflexe.SetPropertyValue(mq, queryfield, queryvalue);
             }
-            mq.explicit_columns = new BL.TheColumnsProvider(mq).getDefaultPallete(false);
+            mq.explicit_columns = _colsProvider.getDefaultPallete(false,mq);
             var dt = Factory.gridBL.GetList(mq);
             var intRows = dt.Rows.Count;
             
@@ -79,7 +84,7 @@ namespace UI.Controllers
                 BO.Reflexe.SetPropertyValue(mq, queryfield, queryvalue);
             }
             
-            mq.explicit_columns = new BL.TheColumnsProvider(mq).getDefaultPallete(false);
+            mq.explicit_columns = _colsProvider.getDefaultPallete(false,mq);
 
             var dt = Factory.gridBL.GetList(mq);
             var intRows = dt.Rows.Count;

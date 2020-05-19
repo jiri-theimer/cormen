@@ -108,7 +108,7 @@ namespace BL
                 case "j02":                                    
                     lis.Add(getREL("j03User", "j02_j03", "Uživatelský účet", "LEFT OUTER JOIN j03User j02_j03 ON a.j02ID=j02_j03.j02ID LEFT OUTER JOIN j04UserRole j03_j04 ON j02_j03.j04ID=j03_j04.j04ID"));
                     lis.Add(getREL("p28Company", "j02_p28", "Klient", "LEFT OUTER JOIN p28Company j02_p28 ON a.p28ID=j02_p28.p28ID"));
-                    lis.Add(getREL("j02Person", "j02_owner", "Vlastník záznamu", "INNER JOIN j02Person j02_owner ON a.j02ID_Owner=j02_owner.j02ID"));
+                    lis.Add(getREL("j02Person", "j02_owner", "Vlastník záznamu", "INNER JOIN j02Person j02_owner ON a.j02ID_Owner=j02_owner.j02ID LEFT OUTER JOIN p28Company j02_owner_company ON j02_owner.p28ID=j02_owner_company.p28ID"));
                     break;
                 case "j90":
                     lis.Add(getREL("j03User", "j90_j03", "Uživatelský účet", "INNER JOIN j03User j90_j03 ON a.j03ID=j90_j03.j03ID INNER JOIN j04UserRole j03_j04 ON j90_j03.j04ID=j03_j04.j04ID"));
@@ -152,11 +152,11 @@ namespace BL
                     lis.Add(getREL("p20Unit", "p19_p20", "Měrná jednotka", "INNER JOIN p20Unit p19_p20 ON a.p20ID=p19_p20.p20ID"));
                     lis.Add(getREL("p28Company", "p19_p28", "Klient", "LEFT OUTER JOIN p28Company p19_p28 ON a.p28ID=p19_p28.p28ID"));
                     lis.Add(getREL("o12Category", "p19_o12", "Kategorie materiálu", "LEFT OUTER JOIN o12Category p19_o12 ON a.o12ID=p19_o12.o12ID"));
-                    lis.Add(getREL("j02Person", "p19_owner", "Vlastník záznamu", "LEFT OUTER JOIN j02Person p19_owner ON a.j02ID_Owner=p19_owner.j02ID"));
+                    lis.Add(getREL("j02Person", "p19_owner", "Vlastník záznamu", "LEFT OUTER JOIN j02Person p19_owner ON a.j02ID_Owner=p19_owner.j02ID LEFT OUTER JOIN p28Company p19_owner_company ON p19_owner.p28ID=p19_owner_company.p28ID"));
                     break;
                 case "p20":                    
                     lis.Add(getREL("p28Company", "p20_p28", "Klient", "LEFT OUTER JOIN p28Company p20_p28 ON a.p28ID=p20_p28.p28ID"));                    
-                    lis.Add(getREL("j02Person", "p20_owner", "Vlastník záznamu", "LEFT OUTER JOIN j02Person p20_owner ON a.j02ID_Owner=p20_owner.j02ID"));
+                    lis.Add(getREL("j02Person", "p20_owner", "Vlastník záznamu", "LEFT OUTER JOIN j02Person p20_owner ON a.j02ID_Owner=p20_owner.j02ID LEFT OUTER JOIN p28Company p20_owner_company ON p20_owner.p28ID=p20_owner_company.p28ID"));
                     break;
                 case "p21":
                     lis.Add(getREL("p28Company", "p21_p28", "Klient licence", "LEFT OUTER JOIN p28Company p21_p28 ON a.p28ID=p21_p28.p28ID"));
@@ -171,7 +171,7 @@ namespace BL
                     lis.Add(getREL("o12Category", "p26_o12", "Kategorie stroje", "LEFT OUTER JOIN o12Category p26_o12 ON a.o12ID=p26_o12.o12ID"));
                     break;
                 case "p28":
-                    lis.Add(getREL("j02Person", "p28_owner", "Vlastník záznamu", "LEFT OUTER JOIN j02Person p28_owner ON a.j02ID_Owner=p28_owner.j02ID"));
+                    lis.Add(getREL("j02Person", "p28_owner", "Vlastník záznamu", "LEFT OUTER JOIN j02Person p28_owner ON a.j02ID_Owner=p28_owner.j02ID LEFT OUTER JOIN p28Company p28_owner_company ON p28_owner.p28ID=p28_owner_company.p28ID"));
                     break;
                 case "p41":
                     lis.Add(getREL("p28Company", "p41_p28", "Klient", "LEFT OUTER JOIN p28Company p41_p28 ON a.p28ID=p41_p28.p28ID"));
@@ -191,7 +191,7 @@ namespace BL
                 case "o23":
                     lis.Add(getREL("b02Status", "o23_b02", "Workflow stav", "LEFT OUTER JOIN b02Status o23_b02 ON a.b02ID = o23_b02.b02ID"));
                     lis.Add(getREL("o12Category", "o23_o12", "Kategorie dokumentu", "LEFT OUTER JOIN o12Category o23_o12 ON a.o12ID=o23_o12.o12ID"));
-                    lis.Add(getREL("j02Person", "o23_owner", "Vlastník záznamu", "LEFT OUTER JOIN j02Person o23_owner ON a.j02ID_Owner=o23_owner.j02ID"));
+                    lis.Add(getREL("j02Person", "o23_owner", "Vlastník záznamu", "LEFT OUTER JOIN j02Person o23_owner ON a.j02ID_Owner=o23_owner.j02ID LEFT OUTER JOIN p28Company o23_owner_company ON o23_owner.p28ID=o23_owner_company.p28ID"));
                     break;
                 default:
                     break;

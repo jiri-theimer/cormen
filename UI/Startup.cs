@@ -95,8 +95,11 @@ namespace UI
                 ,LogFolder = strLogFolder
             });
 
+            services.AddSingleton<BL.TheColumnsProvider>();
+
             services.AddScoped<BO.RunningUser, BO.RunningUser>();            
             services.AddScoped<BL.Factory,BL.Factory>();
+
             
 
             

@@ -18,6 +18,12 @@ namespace UI.Controllers
     {
         private System.Text.StringBuilder _s;
         private UI.Models.TheGridViewModel _grid;
+        private readonly BL.TheColumnsProvider _colsProvider;
+
+        public TheGridController(BL.TheColumnsProvider cp)
+        {
+            _colsProvider = cp;
+        }
 
         public IActionResult FlatView(string prefix,int go2pid)    //pouze grid bez subform
         {
@@ -192,19 +198,23 @@ namespace UI.Controllers
             v.Relations = BL.TheEntities.getApplicableRelations(mq.Prefix); //návazné relace
             v.Relations.Insert(0, new BO.EntityRelation() { TableName = ce.TableName, AliasSingular = ce.AliasSingular,SqlFrom=ce.SqlFromGrid,RelName="a" });   //primární tabulka a
 
-            var cProvider = new BL.TheColumnsProvider(mq);
-            v.AllColumns = cProvider.AllColumns();
-            //v.ApplicableCollumns = cProvider.ApplicableColumns();
-            v.SelectedColumns = cProvider.ParseTheGridColumns(mq.Prefix,v.Rec.j72Columns);
+            
+            v.AllColumns = _colsProvider.AllColumns();            
+            v.SelectedColumns = _colsProvider.ParseTheGridColumns(mq.Prefix,v.Rec.j72Columns);
         }
         [HttpPost]
-        public IActionResult Designer(Models.TheGridDesignerViewModel v)    //uložení grid sloupců
+        public IActionResult Designer(Models.TheGridDesignerViewModel v,bool restore2factory)    //uložení grid sloupců
         {
-            
+            if (restore2factory == true)
+            {
+                Factory.CBL.DeleteRecord("j72", v.Rec.pid);
+                v.SetJavascript_CallOnLoad(v.Rec.pid);
+                return View(v);
+            }
+
             if (ModelState.IsValid)
             {
                 
-
                 var c = Factory.gridBL.LoadTheGridState(v.Rec.pid);
                 c.j72Columns = v.Rec.j72Columns;
                 c.j72Filter = "";   //automaticky vyčistit aktuální sloupcový filtr
@@ -338,16 +348,16 @@ namespace UI.Controllers
         
         private System.Data.DataTable prepare_datatable(ref BO.myQuery mq, BO.j72TheGridState cJ72)
         {            
-            var colProvider = new BL.TheColumnsProvider(mq);
-            mq.explicit_columns = colProvider.ParseTheGridColumns(mq.Prefix,cJ72.j72Columns);
+            
+            mq.explicit_columns = _colsProvider.ParseTheGridColumns(mq.Prefix,cJ72.j72Columns);
             if (string.IsNullOrEmpty(cJ72.j72SortDataField)==false)
             {
                 
-                mq.explicit_orderby = colProvider.ByUniqueName(cJ72.j72SortDataField).getFinalSqlSyntax_ORDERBY() + " " + cJ72.j72SortOrder;
+                mq.explicit_orderby = _colsProvider.ByUniqueName(cJ72.j72SortDataField).getFinalSqlSyntax_ORDERBY() + " " + cJ72.j72SortOrder;
             }          
             if (String.IsNullOrEmpty(cJ72.j72Filter) == false)
             {
-                mq.TheGridFilter = colProvider.ParseAdhocFilterFromString(cJ72.j72Filter);
+                mq.TheGridFilter = _colsProvider.ParseAdhocFilterFromString(cJ72.j72Filter, mq.explicit_columns);
             }
             CompleteGridMyQuery(ref mq, cJ72);
 
@@ -402,8 +412,8 @@ namespace UI.Controllers
             
             var mq = new BO.myQuery(cJ72.j72Entity);
 
-            var colsProvider = new BL.TheColumnsProvider(mq);
-            _grid.Columns =colsProvider.ParseTheGridColumns(mq.Prefix,cJ72.j72Columns);            
+            
+            _grid.Columns =_colsProvider.ParseTheGridColumns(mq.Prefix,cJ72.j72Columns);            
 
             mq.explicit_columns = _grid.Columns;
             if (String.IsNullOrEmpty(cJ72.j72SortDataField)==false && _grid.Columns.Where(p=>p.UniqueName==cJ72.j72SortDataField).Count()>0)
@@ -414,7 +424,7 @@ namespace UI.Controllers
             }
             if (String.IsNullOrEmpty(cJ72.j72Filter) == false)
             {
-                mq.TheGridFilter = colsProvider.ParseAdhocFilterFromString(cJ72.j72Filter);
+                mq.TheGridFilter = _colsProvider.ParseAdhocFilterFromString(cJ72.j72Filter, mq.explicit_columns);
             }
 
 
