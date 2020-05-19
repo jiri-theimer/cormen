@@ -1,7 +1,7 @@
 ﻿@model p31RecordViewModel
 
 @{
-    ViewData["Title"] = "Record";
+    ViewData["Title"] = "Kapacitní fond";
     Layout = "~/Views/Shared/_LayoutModal.cshtml";
 }
 
@@ -9,7 +9,7 @@
 
 
 <form id="form1" asp-controller="p31" asp-action="Record" method="POST">
-    <h4>Kapacitní plánn</h4>
+    <h4>Kapacitní fond</h4>
 
     @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
     @Html.HiddenFor(m => m.Rec.pid)

@@ -112,7 +112,7 @@ namespace BL.DL
                 //{
                 //    AQ(ref lis, "(a.p28ID=@p28id_my OR a.j02ID_Owner IN (select j02ID FROM j02Person WHERE p28ID=@p28id_my)", "p28id_my", ru.p28ID);
                 //}
-                if (mq.Prefix == "o23" ||  mq.Prefix == "p41")
+                if (mq.Prefix == "o23" ||  mq.Prefix == "p41" || mq.Prefix=="p31")
                 {
 
                     AQ(ref lis, "a.j02ID_Owner IN (select j02ID FROM j02Person WHERE p28ID=@p28id_my)", "p28id_my", ru.p28ID);

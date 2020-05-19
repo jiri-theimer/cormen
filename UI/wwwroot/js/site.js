@@ -283,7 +283,7 @@ function _mainmenu_select(prefix_caret, data_menu) {
    
     if (typeof data_menu !== "undefined") {
         var skupina = $("#mainmenu_caret_" + prefix_caret).closest("li");
-
+        
         $(skupina).find("[data-menu=" + data_menu + "]").first().addClass("selected_menu_item");
         
     }

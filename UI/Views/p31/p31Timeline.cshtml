@@ -3,7 +3,7 @@
 @addTagHelper *, UI
 
 @{
-    ViewData["Title"] = "Kapacitní Timeline";
+    ViewData["Title"] = "Kapacitní fondy";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     int _Month = Model.CurrentDate.Month;
@@ -47,7 +47,7 @@
 
 <div class="input-group">
     <div style="padding-top:4px;">
-        <h4>Kapacitní Timeline</h4>
+        <h4>Kapacitní fondy</h4>
     </div>
 
     <div style="width:30px;">
@@ -64,8 +64,8 @@
     <div style="min-width:200px;margin-left:20px;">
         <mycombo entity="p31CapacityFond" asp-for="@Model.RecP31.pid" selectedtext="@Model.RecP31.p31Name" event_after_changevalue="p31id_change" view-flag="2"></mycombo>
     </div>
-    <div>
-
+    <div style="margin-left:20px;">
+        <button type="button" class="btn btn-primary" onclick="save_cells()">Uložit kapacitu do označených buněk</button>
     </div>
 </div>
 <div id="container1">
@@ -109,9 +109,9 @@
                     </td>
                     @for (var i = 0; i <= 23; i++)
                     {
-                        <td class="can-select">
+                        <td class="can-select" data-day="@(dayindex)" data-hour="@(i)" data-minute="0">
                         </td>
-                        <td class="can-select">
+                        <td class="can-select" data-day="@(dayindex)" data-hour="@(i)" data-minute="30">
                         </td>
                     }
                 </tr>
@@ -125,6 +125,12 @@
 
 <script type="text/javascript">
     var _ds;
+    var _cells;
+    var _cell = {
+        dayindex:0,
+        hour: 0,
+        minute: 0
+    }
 
     $(document).ready(function () {
 
@@ -136,6 +142,8 @@
             var d = $(this).val();
             location.replace("/p31/p31Timeline?p31id=@Model.RecP31.pid&d=" + d);
         });
+
+        _mainmenu_select("p26", "p31timeline");
     });
 
 
@@ -156,7 +164,25 @@
             onElementUnselect: function (element) { }, // fired every time an element is de-selected. (element) = just de-selected node.
             callback: function (elements) {
                 // fired once the user releases the mouse. (elements) = selected nodes.
-                _notify_message(elements.length);
+
+                if (elements.length > 0) {
+                    _cells = [];
+                    var dayindex;
+                    var hour;
+                    var minute;
+                    for (i = 0; i < elements.length; i++) {
+
+                        _cell.dayindex = $(elements[i]).attr("data-day");
+                        _cell.hour = $(elements[i]).attr("data-hour");
+                        _cell.minute = $(elements[i]).attr("data-minute");
+                        _cells.push(_cell);
+
+                    }
+
+                    //$("#tg_selected_pids").val(pids.join(","));
+                    _notify_message(_cells.length);
+
+                }
 
             }
 
@@ -181,4 +207,14 @@
         location.replace("/p31/p31Timeline?p31id=" + p31id+"&d="+s);
     }
 
+    function save_cells() {
+        var url = "@Url.Action("SaveCells", "p31")";
+        var d = "@(BO.BAS.ObjectDate2String( Model.CurrentDate))";
+
+        $.post(url, { p31id:@Model.RecP31.pid, d: d, cells: _cells }, function (data) {
+                alert(data.message);
+
+
+            });
+    }
 </script>

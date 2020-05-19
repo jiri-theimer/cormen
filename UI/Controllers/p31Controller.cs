@@ -36,6 +36,20 @@ namespace UI.Controllers
             
             return View(v);
         }
+       public BO.Result SaveCells(int p31id, string d, List<BO.fondcell> cells)
+        {
+            var days = cells.OrderBy(p=>p.dayindex).Select(p => p.dayindex).Distinct();
+            foreach(int dayindex in days)
+            {
+
+            }
+            foreach (BO.fondcell cell in cells){
+
+            }
+            //Factory.CurrentUser.AddMessage("velikost listu buněk: " + cells.Count().ToString());
+            return new BO.Result(false,"První buňka, day: "+ cells[0].dayindex.ToString()+ ", hour: "+ cells[0].hour.ToString());
+
+        }
         public IActionResult Record(int pid, bool isclone)
         {
             if (!this.TestIfUserEditor(true, true))

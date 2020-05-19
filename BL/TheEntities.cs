@@ -171,7 +171,11 @@ namespace BL
                     lis.Add(getREL("o12Category", "p26_o12", "Kategorie stroje", "LEFT OUTER JOIN o12Category p26_o12 ON a.o12ID=p26_o12.o12ID"));
                     break;
                 case "p28":
-                    lis.Add(getREL("j02Person", "p28_owner", "Vlastník záznamu", getOwnerSql("p28")));
+                    lis.Add(getREL("j02Person", "p28_owner", "Vlastník záznamu", getOwnerSql("p28")));                
+                    break;
+                case "p31":
+                    lis.Add(getREL("p28Company", "p31_p28", "Klient", "LEFT OUTER JOIN p28Company p31_p28 ON p31_owner.p28ID=p31_p28.p28ID", "p31_owner"));                    
+                    lis.Add(getREL("j02Person", "p31_owner", "Vlastník záznamu", getOwnerSql("p31")));
                     break;
                 case "p41":
                     lis.Add(getREL("p28Company", "p41_p28", "Klient", "LEFT OUTER JOIN p28Company p41_p28 ON a.p28ID=p41_p28.p28ID"));
