@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace UI.Models
 {
-    public class p31TimelineViewModel:BaseViewModel
+    public class p31TimelineViewModel : BaseViewModel
 
     {
         public BO.p31CapacityFond Rec { get; set; }
@@ -13,6 +13,9 @@ namespace UI.Models
         public DateTime CurrentDate { get; set; }
         public BO.p31CapacityFond RecP31 { get; set; }
 
-        
+        public IEnumerable<BO.p33CapacityTimeline> lisP33 { get; set; }
+
+
+
     }
 }

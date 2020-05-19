@@ -30,9 +30,12 @@
 }
 
 <style type="text/css">
-    .selcell {
+    .selcell1 {
         background-color: #448CCB;
         color: white;
+    }
+    .selcell2 {
+        background-color: #DC3545 !important;
     }
 
     #container1 td {
@@ -40,9 +43,15 @@
         -ms-user-select: none; /* IE 10+ and Edge */
         user-select: none; /* Standard syntax */
     }
+
     .nowork {
         background-color: #FFF0F7;
     }
+
+    .obsazeno {
+        background-color:lightsteelblue;
+    }
+    
 </style>
 
 <div class="input-group">
@@ -53,7 +62,7 @@
     <div style="width:30px;">
         <button type="button" class="btn btn-light" title="Předchozí měsíc" onclick="month_prev()">&lt;&lt;</button>
     </div>
-    <div style="width:120px;">
+    <div style="width: 120px;">
 
         <mydate asp-for="@Model.CurrentDate"></mydate>
 
@@ -64,8 +73,13 @@
     <div style="min-width:200px;margin-left:20px;">
         <mycombo entity="p31CapacityFond" asp-for="@Model.RecP31.pid" selectedtext="@Model.RecP31.p31Name" event_after_changevalue="p31id_change" view-flag="2"></mycombo>
     </div>
-    <div style="margin-left:20px;">
+    <div style="margin-left: 20px;
+">
         <button type="button" class="btn btn-primary" onclick="save_cells()">Uložit kapacitu do označených buněk</button>
+    </div>
+    <div style="margin-left: 20px;
+">
+        <button type="button" class="btn btn-danger" onclick="clear_cells()">Vyčistit kapacitu v označených buňkách</button>
     </div>
 </div>
 <div id="container1">
@@ -87,32 +101,51 @@
             </tr>
         </thead>
         <tbody>
-            @{ 
-                string strClass = "work";
+            @{
+                string strTrClass = "work";
+                
             }
-            @for (var dayindex = 1; dayindex <= DateTime.DaysInMonth(_Year,_Month); dayindex++)
+            @for (var dayindex = 1; dayindex <= DateTime.DaysInMonth(_Year, _Month); dayindex++)
             {
                 {
                     DateTime dat = new DateTime(_Year, _Month, dayindex);
-                    if (dat.DayOfWeek== DayOfWeek.Saturday || dat.DayOfWeek == DayOfWeek.Sunday)
+                    if (dat.DayOfWeek == DayOfWeek.Saturday || dat.DayOfWeek == DayOfWeek.Sunday)
                     {
-                        strClass = "nowork";
+                        strTrClass = "nowork";
                     }
                     else
                     {
-                        strClass = "work";
+                        strTrClass = "work";
                     }
                 }
-                <tr class="@strClass">
+                <tr class="@strTrClass">
                     <td>
                         @(format_date(dayindex))
                     </td>
+
                     @for (var i = 0; i <= 23; i++)
                     {
-                        <td class="can-select" data-day="@(dayindex)" data-hour="@(i)" data-minute="0">
-                        </td>
-                        <td class="can-select" data-day="@(dayindex)" data-hour="@(i)" data-minute="30">
-                        </td>
+                        if (Model.lisP33.Where(p => p.p33Day == dayindex && p.p33Hour == i && p.p33Minute == 0).Count() > 0)
+                        {
+                            <td class="obsazeno" data-day="@(dayindex)" data-hour="@(i)" data-minute="0"></td>
+                        }
+                        else
+                        {
+                            <td class="can-select" data-day="@(dayindex)" data-hour="@(i)" data-minute="0"></td>
+                        }
+
+                        if (Model.lisP33.Where(p => p.p33Day == dayindex && p.p33Hour == i && p.p33Minute == 30).Count() > 0)
+                        {
+                            <td class="obsazeno" data-day="@(dayindex)" data-hour="@(i)" data-minute="30"></td>
+                        }
+                        else
+                        {
+                            <td class="can-select" data-day="@(dayindex)" data-hour="@(i)" data-minute="30"></td>
+                        }
+
+
+
+
                     }
                 </tr>
             }
@@ -124,18 +157,17 @@
 
 
 <script type="text/javascript">
-    var _ds;
-    var _cells;
-    var _cell = {
-        dayindex:0,
-        hour: 0,
-        minute: 0
-    }
+    var _ds1;
+    var _ds2;
+    var _cells1;
+    var _cells2;
+
 
     $(document).ready(function () {
 
 
-        tg_setup_selectable();
+        tg_setup_selectable1();
+        tg_setup_selectable2();
 
 
         $("#CurrentDatehelper").change(function () {
@@ -148,11 +180,11 @@
 
 
 
-    function tg_setup_selectable() {
+    function tg_setup_selectable1() {
 
-        _ds = new DragSelect({
+        _ds1 = new DragSelect({
             selectables: document.getElementsByClassName('can-select'), // node/nodes that can be selected. This is also optional, you could just add them later with .addSelectables.
-            selectedClass: "selcell",
+            selectedClass: "selcell1",
             area: document.getElementById("container1"), // area in which you can drag. If not provided it will be the whole document.
             customStyles: false,  // If set to true, no styles (except for position absolute) will be applied by default.
             multiSelectKeys: ['ctrlKey', 'shiftKey', 'metaKey'],  // special keys that allow multiselection.
@@ -166,21 +198,66 @@
                 // fired once the user releases the mouse. (elements) = selected nodes.
 
                 if (elements.length > 0) {
-                    _cells = [];
-                    var dayindex;
-                    var hour;
-                    var minute;
+                    _cells1 = [];
+                    
                     for (i = 0; i < elements.length; i++) {
 
-                        _cell.dayindex = $(elements[i]).attr("data-day");
-                        _cell.hour = $(elements[i]).attr("data-hour");
-                        _cell.minute = $(elements[i]).attr("data-minute");
-                        _cells.push(_cell);
+                        var cell = {
+                            dayindex: $(elements[i]).attr("data-day"),
+                            hour: $(elements[i]).attr("data-hour"),
+                            minute: $(elements[i]).attr("data-minute")
+                        }
+
+                        _cells1.push(cell);
 
                     }
 
-                    //$("#tg_selected_pids").val(pids.join(","));
-                    _notify_message(_cells.length);
+
+
+
+                }
+
+            }
+
+
+
+        });
+    }
+
+    function tg_setup_selectable2() {
+
+        _ds2 = new DragSelect({
+            selectables: document.getElementsByClassName('obsazeno'), // node/nodes that can be selected. This is also optional, you could just add them later with .addSelectables.
+            selectedClass: "selcell2",
+            area: document.getElementById("container1"), // area in which you can drag. If not provided it will be the whole document.
+            customStyles: false,  // If set to true, no styles (except for position absolute) will be applied by default.
+            multiSelectKeys: ['ctrlKey', 'shiftKey', 'metaKey'],  // special keys that allow multiselection.
+            multiSelectMode: false,  // If set to true, the multiselection behavior will be turned on by default without the need of modifier keys. Default: false
+            autoScrollSpeed: 20,  // Speed in which the area scrolls while selecting (if available). Unit is pixel per movement. Set to 0 to disable autoscrolling. Default = 1
+            onDragStart: function (element) { }, // fired when the user clicks in the area. This callback gets the event object. Executed after DragSelect function code ran, befor the setup of event listeners.
+            onDragMove: function (element) { }, // fired when the user drags. This callback gets the event object. Executed before DragSelect function code ran, after getting the current mouse position.
+            onElementSelect: function (element) { }, // fired every time an element is selected. (element) = just selected node
+            onElementUnselect: function (element) { }, // fired every time an element is de-selected. (element) = just de-selected node.
+            callback: function (elements) {
+                // fired once the user releases the mouse. (elements) = selected nodes.
+
+                if (elements.length > 0) {
+                    _cells2 = [];
+                   
+                    for (i = 0; i < elements.length; i++) {
+
+                        var cell = {
+                            dayindex: $(elements[i]).attr("data-day"),
+                            hour: $(elements[i]).attr("data-hour"),
+                            minute: $(elements[i]).attr("data-minute")
+                        }
+
+                        _cells2.push(cell);
+
+                    }
+
+
+
 
                 }
 
@@ -207,14 +284,35 @@
         location.replace("/p31/p31Timeline?p31id=" + p31id+"&d="+s);
     }
 
+
+
     function save_cells() {
+        if (_cells1 == null) {
+            _notify_message("Musíte označit minimálně jednu buňku.");
+            return;
+        }
         var url = "@Url.Action("SaveCells", "p31")";
         var d = "@(BO.BAS.ObjectDate2String( Model.CurrentDate))";
 
-        $.post(url, { p31id:@Model.RecP31.pid, d: d, cells: _cells }, function (data) {
-                alert(data.message);
+        $.post(url, { p31id:@Model.RecP31.pid, d: d, cells: _cells1 }, function (data) {
+                //_notify_message(data.message,"info");
+            p31id_change(@(Model.RecP31.pid));
 
+        });
+    }
+    function clear_cells() {
+        if (_cells2 == null) {
+            _notify_message("Musíte označit minimálně jednu buňku.");
+            return;
+        }
+        
+        var url = "@Url.Action("ClearCells", "p31")";
+        var d = "@(BO.BAS.ObjectDate2String( Model.CurrentDate))";
 
-            });
+        $.post(url, { p31id:@Model.RecP31.pid, d: d, cells: _cells2 }, function (data) {
+                //_notify_message(data.message,"info");
+            p31id_change(@(Model.RecP31.pid));
+
+        });
     }
 </script>
