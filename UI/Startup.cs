@@ -97,6 +97,10 @@ namespace UI
                 ,UploadFolder = conf.GetSection("Folders")["Upload"]
                 ,TempFolder = conf.GetSection("Folders")["Temp"]                
                 ,LogFolder = strLogFolder
+                ,SmtpHost= conf.GetSection("Smtp")["Host"]            
+                ,SmtpPort = BO.BAS.InInt(conf.GetSection("Smtp")["Port"])                
+                ,SmtpLogin = conf.GetSection("Smtp")["Login"]
+                ,SmtpPassword = conf.GetSection("Smtp")["Password"]
             });
 
             services.AddSingleton<BL.TheColumnsProvider>();

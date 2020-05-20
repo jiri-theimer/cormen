@@ -165,7 +165,8 @@ namespace UI.Controllers
         }
         public IActionResult MyProfile()
         {
-                        
+
+           
             var v = new MyProfileViewModel();
             v.userAgent = Request.Headers["User-Agent"];
             

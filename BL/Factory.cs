@@ -38,6 +38,7 @@ namespace BL
         private Ip20UnitBL _p20;
         private Ip18OperCodeBL _p18;
         private Ip31CapacityFondBL _p31;
+        private ISmtpBL _smtp;
 
         public Factory(BO.RunningUser c,BL.RunningApp runningapp)
         {
@@ -303,6 +304,15 @@ namespace BL
             {
                 if (_p31 == null) _p31 = new p31CapacityFondBL(this);
                 return _p31;
+            }
+        }
+
+        public ISmtpBL SmtpBL
+        {
+            get
+            {
+                if (_smtp == null) _smtp = new SmtpBL(this);
+                return _smtp;
             }
         }
     }
