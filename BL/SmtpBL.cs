@@ -10,8 +10,8 @@ namespace BL
     {
         public BO.Result SendMessage(MailMessage message);
         public BO.Result SendMessage(string toEmail,string toName, string subject, string body,bool ishtml);
-        
-
+        public void AddAttachment(string fullpath);
+        public void AddAttachment(Attachment att);
 
     }
     class SmtpBL : BaseBL, ISmtpBL
@@ -19,7 +19,19 @@ namespace BL
         public SmtpBL(BL.Factory mother) : base(mother)
         {
             
-        }        
+        }
+        private List<Attachment> _attachments;
+
+        public void AddAttachment(string fullpath)
+        {
+            if (_attachments == null) _attachments = new List<Attachment>();
+            _attachments.Add(new Attachment(fullpath));            
+        }
+        public void AddAttachment(Attachment att)
+        {
+            if (_attachments == null) _attachments = new List<Attachment>();
+            _attachments.Add(att);
+        }
         public BO.Result SendMessage(string toEmail, string toName, string subject, string body, bool ishtml)
         {
             MailMessage m = new MailMessage() { Body = body, IsBodyHtml = ishtml };
@@ -34,7 +46,6 @@ namespace BL
                 m.To.Add(new MailAddress(toEmail));
             }
             
-
 
             return handle_finish(m);
         }
@@ -74,6 +85,14 @@ namespace BL
              
                
                 m.BodyEncoding = Encoding.UTF8;
+
+                if (_attachments != null)
+                {
+                    foreach(var att in _attachments)
+                    {
+                        m.Attachments.Add(att);
+                    }
+                }
                
                 client.Send(m);
 
