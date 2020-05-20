@@ -14,6 +14,7 @@ namespace BL
         public string LogFolder { get; set; }
 
         public string AppName { get; set; }
+        public string AppVersion { get; set; }
 
     }
 }

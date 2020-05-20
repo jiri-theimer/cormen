@@ -1,7 +1,7 @@
 ﻿@model MyProfileViewModel
 
 @{
-    ViewData["Title"] = "MyProfile";
+    ViewData["Title"] = "Můj profil";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 
@@ -18,7 +18,8 @@
     <div class="form-row">
         <label class="col-sm-1 col-md-2 col-form-label">E-mail:</label>
         <div class="col-sm-11 col-md-10">
-            <input class="form-control" asp-for="@Model.Rec.j02Email" readonly="readonly" />
+            <span class="form-control bg-light">@(Model.Rec.j02Email)</span>
+            
 
         </div>
 
@@ -28,15 +29,16 @@
         <div class="form-row">
             <label class="col-sm-1 col-md-2 col-form-label">Uživatel:</label>
             <div class="col-sm-11 col-md-10">
-                <input class="form-control" asp-for="@Model.CurrentUser.j03Login" readonly="readonly" />
-
+                
+                <span class="form-control bg-light">@(Model.CurrentUser.j03Login)</span>
             </div>
 
         </div>
         <div class="form-row">
             <label class="col-sm-1 col-md-2 col-form-label">Aplikační role:</label>
             <div class="col-sm-11 col-md-10">
-                <input class="form-control" asp-for="@Model.Rec.j04Name" readonly="readonly" />
+                
+                <span class="form-control bg-light">@(Model.Rec.j04Name)</span>
 
             </div>
 
@@ -46,13 +48,13 @@
     <div class="form-row">
         <label class="col-sm-1 col-md-2 col-form-label">Firma/Držitel licence:</label>
         <div class="col-sm-11 col-md-10">
-            <input class="form-control" asp-for="@Model.Rec.p28Name" readonly="readonly" />
-
+            
+            <span class="form-control bg-light">@(Model.Rec.p28Name)</span>
         </div>
 
     </div>
 
-    <div class="card">
+    <div class="card" style="margin-top:20px;">
         <div class="card-header">
             userAgent
         </div>

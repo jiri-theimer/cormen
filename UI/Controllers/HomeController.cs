@@ -87,6 +87,7 @@ namespace UI.Controllers
             var sb = new System.Text.StringBuilder();
             sb.Append("<a class='nav-link' href='/Home/MyProfile'>Můj profil</a>");
             sb.Append("<a class='nav-link' href='/Home/ChangePassword'>Změnit přístupové heslo</a>");
+            sb.Append("<a class='nav-link' href='/Home/About'>O aplikaci</a>");
             sb.Append("<hr/><a class='nav-link' href='/Home/logout'>Odhlásit se</a>");
 
             return sb.ToString();
@@ -157,10 +158,14 @@ namespace UI.Controllers
             }
             return new BO.Result(false);
         }
+
+        public IActionResult About()
+        {
+            return View();
+        }
         public IActionResult MyProfile()
         {
                         
-
             var v = new MyProfileViewModel();
             v.userAgent = Request.Headers["User-Agent"];
             

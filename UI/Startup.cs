@@ -92,7 +92,8 @@ namespace UI
 
             services.AddSingleton<BL.RunningApp>(x => new BL.RunningApp() {
                 ConnectString= conf.GetSection("ConnectionStrings")["AppConnection"]
-                ,AppName=conf.GetSection("App")["Name"]+" "+conf.GetSection("App")["Version"]
+                ,AppName=conf.GetSection("App")["Name"]
+                ,AppVersion=conf.GetSection("App")["Version"]                
                 ,UploadFolder = conf.GetSection("Folders")["Upload"]
                 ,TempFolder = conf.GetSection("Folders")["Temp"]                
                 ,LogFolder = strLogFolder
