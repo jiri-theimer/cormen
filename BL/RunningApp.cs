@@ -16,10 +16,7 @@ namespace BL
         public string AppName { get; set; }
         public string AppVersion { get; set; }
 
-        public string SmtpHost { get; set; }
-        public int SmtpPort { get; set; }
-        public string SmtpLogin { get; set; }
-        public string SmtpPassword { get; set; }
+       
 
 
     }

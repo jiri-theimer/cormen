@@ -38,7 +38,7 @@ namespace BL
         private Ip20UnitBL _p20;
         private Ip18OperCodeBL _p18;
         private Ip31CapacityFondBL _p31;
-        private ISmtpBL _smtp;
+        private IMailBL _mail;
 
         public Factory(BO.RunningUser c,BL.RunningApp runningapp)
         {
@@ -307,12 +307,12 @@ namespace BL
             }
         }
 
-        public ISmtpBL SmtpBL
+        public IMailBL MailBL
         {
             get
             {
-                if (_smtp == null) _smtp = new SmtpBL(this);
-                return _smtp;
+                if (_mail == null) _mail = new MailBL(this);
+                return _mail;
             }
         }
     }

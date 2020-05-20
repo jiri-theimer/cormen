@@ -70,7 +70,8 @@ namespace BL
             AE_TINY("p25MszType", "Typy zařízení", "Typ zařízení");
             AE_TINY("p28Company", "Subjekty | Klienti", "Klient");
             AE_TINY("o12Category", "Kategorie", "Kategorie");
-            
+            AE_TINY("j40MailAccount", "Poštovní účty", "Poštovní účet");
+
 
             AE_TINY("j90LoginAccessLog", "Historie přihlašování", "Historie přihlašování");
 
@@ -197,6 +198,9 @@ namespace BL
                     lis.Add(getREL("b02Status", "o23_b02", "Workflow stav", "LEFT OUTER JOIN b02Status o23_b02 ON a.b02ID = o23_b02.b02ID"));
                     lis.Add(getREL("o12Category", "o23_o12", "Kategorie dokumentu", "LEFT OUTER JOIN o12Category o23_o12 ON a.o12ID=o23_o12.o12ID"));
                     lis.Add(getREL("j02Person", "o23_owner", "Vlastník záznamu", getOwnerSql("o23")));
+                    break;
+                case "j40":
+                    lis.Add(getREL("j02Person", "j40_owner", "Vlastník záznamu", getOwnerSql("j40")));
                     break;
                 default:
                     break;

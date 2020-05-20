@@ -290,6 +290,14 @@ namespace BL
             AF("j90LoginAccessLog", "j90CookieExpiresInHours", "Expirace přihlášení", 1, null, "num0");
             AF("j90LoginAccessLog", "j90LoginName", "Login", 1);
 
+
+            //j40 = poštovní účty
+            AF("j40MailAccount", "j40SmtpHost", "Smtp server", 1);
+            AF("j40MailAccount", "j40SmtpName", "Název odesílatele", 1);
+            AF("j40MailAccount", "j40SmtpEmail", "Adresa odesílatele", 1);
+            AF("j40MailAccount", "j40SmtpPort", "Smtp Port", 1,null,"num0");
+            AF("j40MailAccount", "j40UsageFlag", "Typ účtu", 1, "case a.j40UsageFlag when 1 then 'Privátní Smtp účet' when 2 then 'Globální Smtp účet' when 3 then 'Osobní Imap účet' when 4 then 'Globální Imap účet' else null end");
+
         }
 
         public List<BO.TheGridColumn> getDefaultPallete(bool bolComboColumns,BO.myQuery mq)
