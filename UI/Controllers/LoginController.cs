@@ -12,10 +12,10 @@ namespace UI.Controllers
 {
     public class LoginController : Controller
     {
-        private BL.Factory _f;
+        private BL.Factory _f;        
         public LoginController(BL.Factory f)
         {
-            _f = f;
+            _f = f;            
         }
         [HttpGet]
         public ActionResult UserLogin()
@@ -23,8 +23,7 @@ namespace UI.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 TryLogout();
-            }
-
+            }            
             var v = new BO.LoggingUser();
             return View(v);
         }

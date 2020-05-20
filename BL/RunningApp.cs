@@ -13,7 +13,7 @@ namespace BL
         public string TempFolder { get; set; }
         public string LogFolder { get; set; }
 
-
+        public string AppName { get; set; }
 
     }
 }
