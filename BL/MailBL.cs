@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Net.Mail;
-
+using System.Linq;
 
 namespace BL
 {
@@ -77,6 +77,10 @@ namespace BL
         }
         private BO.j40MailAccount InhaleMessageSender(int j40id)
         {
+            if (j40id == 0)
+            {
+                j40id = _mother.MailBL.GetListJ40().Where(p => p.j40UsageFlag == BO.MailUsageFlag.SmtpGlobal).First().pid;
+            }
             var c = LoadJ40(j40id);
             if (c.j40SmtpUsePersonalReply == true)
             {
@@ -87,6 +91,7 @@ namespace BL
         }
         public BO.Result SendMessage(int j40id, string toEmail, string toName, string subject, string body, bool ishtml)
         {
+            
             MailMessage m = new MailMessage() { Body = body, Subject = subject, IsBodyHtml = ishtml };
             var c = InhaleMessageSender(j40id);
 
@@ -123,6 +128,14 @@ namespace BL
             if (m.To.Count == 0)
             {
                 return new BO.Result(true, "Chybí příjemce zprávy");
+            }
+            if (string.IsNullOrEmpty(m.Body) == true)
+            {
+                return new BO.Result(true, "Chybí text zprávy.");
+            }
+            if (string.IsNullOrEmpty(m.Subject) == true)
+            {
+                return new BO.Result(true, "Chybí předmět zprávy.");
             }
 
             if (c.j40SmtpUsePersonalReply == true)

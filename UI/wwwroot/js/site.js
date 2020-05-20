@@ -29,6 +29,10 @@ function _append_doc(recprefix,recpid) {
     _window_open("/o23/record?recprefix="+recprefix+"&recpid=" + recpid);
 }
 
+function _sendmail() {
+    _window_open("/j40/SendMail");
+}
+
 
 function _get_request_param(name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);

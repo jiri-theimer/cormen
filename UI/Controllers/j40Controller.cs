@@ -9,6 +9,39 @@ namespace UI.Controllers
 {
     public class j40Controller : BaseController
     {
+        public IActionResult SendMail()
+        {
+
+            var v = new Models.SendMailViewModel();
+            v.Rec = new BO.x40MailQueue();
+           
+            return View(v);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult SendMail(Models.SendMailViewModel v)
+        {
+            if (ModelState.IsValid)
+            {
+
+                BO.Result r = Factory.MailBL.SendMessage(v.Rec.j40ID, v.Rec.x40To, "", v.Rec.x40Subject, v.Rec.x40Body, false);
+
+                if (r.Flag==BO.ResultEnum.Success)
+                {
+                    v.SetJavascript_CallOnLoad(v.Rec.pid);
+                    return View(v);
+                }
+                else
+                {
+                    Factory.CurrentUser.AddMessage(r.Message);
+                }
+
+            }
+
+            return View(v);
+        }
+
+
         public IActionResult Record(int pid, bool isclone)
         {
            

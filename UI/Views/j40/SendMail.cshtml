@@ -1,0 +1,81 @@
+﻿@model SendMailViewModel
+
+@{
+    ViewData["Title"] = "Odeslat poštovní zprávu";
+    Layout = "~/Views/Shared/_LayoutModal.cshtml";
+}
+
+@addTagHelper *, UI
+
+
+<form id="form1" asp-controller="j40" asp-action="SendMail" method="POST">
+    <h4>Odeslat poštovní zprávu</h4>
+
+
+    <div class="bg-light" style="padding:10px;">
+        <button id="cmdSave" onclick="sendmessage()" class="btn btn-success">Odeslat</button>
+        <button id="cmdClose" onclick="_window_close()" class="btn btn-light">Zavřít</button>
+
+
+
+    </div>
+    <div class="modal_record_container">
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Odesílatel:</label>
+            <div class="col-sm-11 col-md-10">
+                <mycombo entity="j40MailAccount" asp-for="Rec.j40ID" selectedtext="Rec.j40Name"></mycombo>
+            </div>
+        </div>
+
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Komu:</label>
+            <div class="col-sm-11 col-md-10">
+                <input class="form-control" asp-for="Rec.x40To" />
+
+            </div>
+
+        </div>
+
+        <div class="form-row" style="margin-top:10px;">
+            <input class="form-control" asp-for="Rec.x40Subject" placeholder="Předmět zprávy" />
+        </div>
+
+
+        <div class="form-row" style="margin-top:10px;">
+            <textarea asp-for="Rec.x40Body" class="form-control" placeholder="Text zprávy" style="height:200px;"></textarea>
+            <span asp-validation-for="Rec.x40Body" class="text-danger"></span>
+        </div>
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+</form>
+
+@Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+
+    });
+
+    function sendmessage() {
+        form1.submit();
+    }
+
+</script>
+
+
+
+
+
