@@ -27,7 +27,7 @@ namespace UI
         {
             _logger.LogInformation("Timed Hosted Service running.");
             
-            _timer = new Timer(DoWork, null, TimeSpan.Zero,TimeSpan.FromSeconds(20));   //každých 20 sekund
+            _timer = new Timer(DoWork, null, TimeSpan.Zero,TimeSpan.FromSeconds(300));   //každých 300 sekund
             
             return Task.CompletedTask;
         }

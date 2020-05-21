@@ -7,16 +7,18 @@ namespace BO
 {
     public enum ResultEnum
     {
-        Failed,
-        Success,
-        InfoOnly
+        Failed=0,
+        Success=1,
+        InfoOnly=2
     }
     public class Result
     {
         private string _message;
 
         public ResultEnum Flag { get; set; }
-        public string Message { get {
+        public int pid { get; set; }
+        public string Message { 
+            get {
                 if (this.PreMessage == null)
                 {
                     return _message;
@@ -27,7 +29,9 @@ namespace BO
                 }
                 
             }
-            set { Message = _message; }
+            set {
+                 _message= Message;
+            }
         }
         public string PreMessage { get; set; }
         public Result(bool bolError, string strMessage= null)

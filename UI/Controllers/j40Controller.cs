@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using UI.Models;
@@ -14,7 +15,11 @@ namespace UI.Controllers
 
             var v = new Models.SendMailViewModel();
             v.Rec = new BO.x40MailQueue();
-           
+            v.Rec.j40ID = BO.BAS.InInt(Factory.CBL.LoadUserParam("SendMail_j40ID"));
+            v.Rec.j40Name = Factory.CBL.LoadUserParam("SendMail_j40Name");
+
+
+
             return View(v);
         }
         [HttpPost]
@@ -25,16 +30,20 @@ namespace UI.Controllers
             {
 
                 BO.Result r = Factory.MailBL.SendMessage(v.Rec.j40ID, v.Rec.x40To, "", v.Rec.x40Subject, v.Rec.x40Body, false);
+                if (v.Rec.j40ID > 0)
+                {
+                    Factory.CBL.SetUserParam("SendMail_j40ID", v.Rec.j40ID.ToString());
+                    Factory.CBL.SetUserParam("SendMail_j40Name", v.Rec.j40Name);
+                }
+                
 
-                if (r.Flag==BO.ResultEnum.Success)
+
+                if (r.Flag==BO.ResultEnum.Success)  //případná chybová hláška je již naplněná v BL vrstvě
                 {
                     v.SetJavascript_CallOnLoad(v.Rec.pid);
                     return View(v);
                 }
-                else
-                {
-                    Factory.CurrentUser.AddMessage(r.Message);
-                }
+                
 
             }
 
