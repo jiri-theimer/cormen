@@ -3,12 +3,16 @@
 @{
     ViewData["Title"] = "Odeslat poštovní zprávu";
     Layout = "~/Views/Shared/_LayoutModal.cshtml";
+
+
 }
 
 @addTagHelper *, UI
 
 
 <form id="form1" asp-controller="j40" asp-action="SendMail" method="POST">
+    <input type="hidden" asp-for="@Model.UploadGuid" />
+
     <h4>Odeslat poštovní zprávu</h4>
 
 
@@ -28,9 +32,25 @@
         </div>
 
         <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Komu:</label>
+            <label class="col-sm-1 col-md-2 col-form-label">Komu (To):</label>
             <div class="col-sm-11 col-md-10">
                 <input class="form-control" asp-for="Rec.x40To" />
+
+            </div>
+
+        </div>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">V kopii (Cc):</label>
+            <div class="col-sm-11 col-md-10">
+                <input class="form-control" asp-for="Rec.x40Cc" />
+
+            </div>
+
+        </div>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Ve skryté kopii (Bcc):</label>
+            <div class="col-sm-11 col-md-10">
+                <input class="form-control" asp-for="Rec.x40Bcc" />
 
             </div>
 
@@ -48,18 +68,12 @@
 
 
 
-
-
-
-
-
-
-
     </div>
 
 </form>
 
-@Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
+<iframe id="fraUpload" src="/o23/DoUpload?prefix=x40&guid=@Model.UploadGuid" frameborder="0" height="200"></iframe>
+
 
 
 <script type="text/javascript">

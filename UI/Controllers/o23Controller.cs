@@ -179,16 +179,19 @@ namespace UI.Controllers
         }
 
 
-        public IActionResult DoUpload(string guid)
+        public IActionResult DoUpload(string guid,string prefix)
         {
+            ViewBag.prefix = prefix;
             ViewBag.guid = guid;
             return View();
         }
        
         [HttpPost]
-        public async Task<IActionResult> DoUpload(List<IFormFile> files,string guid)
+        public async Task<IActionResult> DoUpload(List<IFormFile> files,string guid,string prefix)
         {
             ViewBag.guid = guid;
+            ViewBag.prefix = prefix;
+
             long size = files.Sum(f => f.Length);
 
             var tempfiles = new List<string>();

@@ -8,5 +8,9 @@ namespace UI.Models
     public class SendMailViewModel:BaseViewModel
     {
         public BO.x40MailQueue Rec { get; set; }
+
+        public string UploadGuid { get; set; }
+
+       
     }
 }

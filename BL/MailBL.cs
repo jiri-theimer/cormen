@@ -11,13 +11,14 @@ namespace BL
     {
         public BO.Result SendMessage(int j40id, MailMessage message); //v Result.pid vrací x40id
         public BO.Result SendMessage(int j40id, string toEmail, string toName, string subject, string body, bool ishtml); //v Result.pid vrací x40id
+        public BO.Result SendMessage(BO.x40MailQueue rec);  //v Result.pid vrací x40id
         public void AddAttachment(string fullpath);
         public void AddAttachment(Attachment att);
         public BO.j40MailAccount LoadJ40(int pid);
         public BO.j40MailAccount LoadDefaultJ40();
         public IEnumerable<BO.j40MailAccount> GetListJ40();
         public int SaveJ40(BO.j40MailAccount rec);
-
+        public BO.x40MailQueue LoadX40(int x40id);
 
     }
     class MailBL : BaseBL, IMailBL
@@ -44,9 +45,9 @@ namespace BL
         }
         public IEnumerable<BO.j40MailAccount> GetListJ40()
         {
-
             return _db.GetList<BO.j40MailAccount>(GetSQL1());
         }
+        
         public int SaveJ40(BO.j40MailAccount rec)
         {
             var p = new DL.Params4Dapper();
@@ -72,6 +73,11 @@ namespace BL
             return _db.SaveRecord("j40MailAccount", p.getDynamicDapperPars(), rec);
         }
 
+        public BO.x40MailQueue LoadX40(int x40id)
+        {
+            return _db.Load<BO.x40MailQueue>("select * from x40MailQueue WHERE x40ID=@pid", new { pid = x40id });
+        }
+
         public void AddAttachment(string fullpath)
         {
             if (_attachments == null) _attachments = new List<Attachment>();
@@ -82,7 +88,7 @@ namespace BL
             if (_attachments == null) _attachments = new List<Attachment>();
             _attachments.Add(att);
         }
-        private BO.x40MailQueue InhaleMessageRecord(int j40id,int x40id)
+        private BO.x40MailQueue InhaleMessageSender(int j40id,BO.x40MailQueue rec)
         {
             if (j40id > 0)
             {
@@ -96,51 +102,74 @@ namespace BL
             {
                 return new BO.x40MailQueue() { j40ID = 0 };
             }
-            
-            BO.x40MailQueue rec = new BO.x40MailQueue() {j40ID=_account.pid, x40SenderAddress = _account.j40SmtpEmail, x40SenderName = _account.j40SmtpName };
-
+            rec.j40ID = _account.pid;
+            rec.x40SenderAddress = _account.j40SmtpEmail;
+            rec.x40SenderName = _account.j40SmtpName;            
             if (_account.j40SmtpUsePersonalReply)
             {
                 rec.x40SenderAddress = _mother.CurrentUser.j02Email;
                 rec.x40SenderName = _mother.CurrentUser.FullName;
             }
-            
+                                    
             return rec;
         }
         public BO.Result SendMessage(int j40id, string toEmail, string toName, string subject, string body, bool ishtml)  //v BO.Result.pid vrací x40id
-        {            
-            MailMessage m = new MailMessage() { Body = body, Subject = subject, IsBodyHtml = ishtml };
-            BO.x40MailQueue rec = InhaleMessageRecord(j40id,0);
+        {
 
+            BO.x40MailQueue rec = new BO.x40MailQueue() { x40To = toEmail, x40Subject = subject, x40Body = body, x40IsHtmlBody = ishtml };
+            rec = InhaleMessageSender(j40id,rec);
+            return SendMessage(rec);
+           
+        }
+        public BO.Result SendMessage(BO.x40MailQueue rec)  //v BO.Result.pid vrací x40id
+        {
+            rec = InhaleMessageSender(rec.j40ID, rec);
+            MailMessage m = new MailMessage() { Body = rec.x40Body, Subject = rec.x40Subject,IsBodyHtml=rec.x40IsHtmlBody};
+            
             m.From = new MailAddress(rec.x40SenderAddress, rec.x40SenderName);
-
-            if (string.IsNullOrEmpty(toName) == false || string.IsNullOrEmpty(toEmail) == false)
+            var lis = new List<string>();
+            if (String.IsNullOrEmpty(rec.x40To) == false)
             {
-                if (string.IsNullOrEmpty(toName) == false)
+                lis = BO.BAS.ConvertString2List(rec.x40To.Replace(";", ","), ",");
+                foreach (string s in lis)
                 {
-                    m.To.Add(new MailAddress(toEmail, toName));
-                }
-                else
-                {
-                    m.To.Add(new MailAddress(toEmail));
+                    m.To.Add(new MailAddress(s));
                 }
             }
-            
+            if (String.IsNullOrEmpty(rec.x40Cc) == false)
+            {
+                lis = BO.BAS.ConvertString2List(rec.x40Cc.Replace(";", ","), ",");
+                foreach (string s in lis)
+                {
+                    m.CC.Add(new MailAddress(s));
+                }
+            }
+            if (String.IsNullOrEmpty(rec.x40Bcc) == false)
+            {
+                lis = BO.BAS.ConvertString2List(rec.x40Bcc.Replace(";", ","), ",");
+                foreach (string s in lis)
+                {
+                    m.Bcc.Add(new MailAddress(s));
+                }
+            }
 
-            return handle_smtp_finish( m,rec);
+
+
+            return handle_smtp_finish(m, rec);
         }
         public BO.Result SendMessage(int j40id, MailMessage message)
         {
-            BO.x40MailQueue rec = InhaleMessageRecord(j40id, 0);
+            var rec = new BO.x40MailQueue();
             if (message.From == null)
             {
+                rec = InhaleMessageSender(j40id, rec);
                 message.From = new MailAddress(rec.x40SenderAddress, rec.x40SenderName);
             }
             return handle_smtp_finish(message,rec);
         }
 
 
-        private BO.Result handle_smtp_finish(MailMessage m,BO.x40MailQueue rec)
+        private BO.Result handle_smtp_finish(MailMessage m,BO.x40MailQueue rec)     //finální odeslání zprávy
         {
             if (_account == null)
             {

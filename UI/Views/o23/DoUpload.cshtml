@@ -20,8 +20,9 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -29,18 +30,14 @@
     
     <script src="~/js/site.js" asp-append-version="true"></script>
 
-    <form method="post" id="frmUpload" enctype="multipart/form-data" asp-controller="o23" asp-action="DoUpload" asp-route-guid="@ViewBag.guid">
+    <form method="post" id="frmUpload" enctype="multipart/form-data" asp-controller="o23" asp-action="DoUpload" asp-route-guid="@ViewBag.guid" asp-route-prefix="@ViewBag.prefix">
+        
         <div class="form-group">
-            <strong>Nahrát jeden nebo více souborových příloh k dokumentu:</strong>
-            <div class="col-md-10">
-
-                <input id="upload1" type="file" name="files" multiple />
-            </div>
+            <div>Nahrát jednu nebo více souborových příloh:</div>
+            <input id="upload1" type="file" name="files" multiple />
         </div>
         <div class="form-group">
-            <div class="col-md-10">
-                <input type="submit" id="cmdUpload" class="btn btn-primary py-0" value="Nahrát na server" style="display:none;" />
-            </div>
+            <input type="submit" id="cmdUpload" class="btn btn-primary py-0" value="Nahrát na server" style="display:none;" />
         </div>
 
         <input type="hidden" id="Guid" name="Guid" />
@@ -64,7 +61,7 @@
 
             $("#Guid").val("@ViewBag.guid");
 
-            @if (_files.Count > 0)
+            @if (_files.Count > 0 && ViewBag.prefix=="o23")
             {
                 <text>
             _notify_message("Nahrané přílohy (@_files.Count) uložíte k dokumentu až tlačítkem [Uložit změny]. ","info");
