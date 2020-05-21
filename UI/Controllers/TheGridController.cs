@@ -78,6 +78,7 @@ namespace UI.Controllers
                     tabs.Add(new NavTab() { Name = "Dokumenty", Entity = "o23Doc", Url = "SlaveView?prefix=o23" });
                     tabs.Add(new NavTab() { Name = "Založené objednávky", Entity = "p51Order", Url = "SlaveView?prefix=p51" });
                     tabs.Add(new NavTab() { Name = "Založené zakázky", Entity = "p41Task", Url = "SlaveView?prefix=p41" });
+                    tabs.Add(new NavTab() { Name = "Outbox", Entity = "x40MailQueue", Url = "SlaveView?prefix=x40" });
                     tabs.Add(new NavTab() { Name = "Historie přihlašování", Entity = "j90LoginAccessLog", Url = "SlaveView?prefix=j90" });
                     break;
                 case "p26":

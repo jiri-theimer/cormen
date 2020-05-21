@@ -121,22 +121,8 @@ namespace UI.Controllers
 
                 string strTempDir = _app.TempFolder;
                 string strUploadDir = _app.UploadFolder;
-                
-                var lisO27 = new List<BO.o27Attachment>();
-                foreach (string file in System.IO.Directory.EnumerateFiles(strTempDir, v.Guid + "_*.infox", System.IO.SearchOption.AllDirectories))
-                {
-                    var info = System.IO.File.ReadAllText(file).Split("|");
-                    var strGUID = BO.BAS.GetGuid();
-                    var cO27 = new BO.o27Attachment() { o27ContentType = info[0], o27FileSize = BO.BAS.InInt(info[1]), o27Name = info[2], o27GUID = strGUID };
-                    cO27.o27ArchiveFileName = strGUID + "_" + cO27.o27Name;
-                    cO27.o27ArchiveFolder = DateTime.Now.Year.ToString()+"\\"+DateTime.Now.Month.ToString();
-                    if (!System.IO.Directory.Exists(strUploadDir+ "\\"+ cO27.o27ArchiveFolder))
-                    {
-                        System.IO.Directory.CreateDirectory(strUploadDir + "\\" + cO27.o27ArchiveFolder);
-                    }
-                    System.IO.File.Copy(strTempDir + "\\" + v.Guid + "_" + cO27.o27Name, strUploadDir + "\\" + cO27.o27ArchiveFolder + "\\"+cO27.o27ArchiveFileName, true);
-                    lisO27.Add(cO27);
-                }
+
+                List<BO.o27Attachment> lisO27 = BO.BASFILE.CopyTempFiles2Upload(_app.TempFolder, v.Guid, _app.UploadFolder);               
 
                 v.Rec.pid = Factory.o23DocBL.Save(c,lisO27,BO.BAS.ConvertString2ListInt(v.o27IDs4Delete));
                 if (v.Rec.pid > 0)

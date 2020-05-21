@@ -4,6 +4,7 @@ using System.Text;
 using System.Net.Mail;
 using System.Linq;
 using BO;
+using System.IO;
 
 namespace BL
 {
@@ -12,13 +13,14 @@ namespace BL
         public BO.Result SendMessage(int j40id, MailMessage message); //v Result.pid vrací x40id
         public BO.Result SendMessage(int j40id, string toEmail, string toName, string subject, string body, bool ishtml); //v Result.pid vrací x40id
         public BO.Result SendMessage(BO.x40MailQueue rec);  //v Result.pid vrací x40id
-        public void AddAttachment(string fullpath);
+        public void AddAttachment(string fullpath, string displayname, string contenttype = null);
         public void AddAttachment(Attachment att);
         public BO.j40MailAccount LoadJ40(int pid);
         public BO.j40MailAccount LoadDefaultJ40();
         public IEnumerable<BO.j40MailAccount> GetListJ40();
         public int SaveJ40(BO.j40MailAccount rec);
-        public BO.x40MailQueue LoadX40(int x40id);
+        public BO.x40MailQueue LoadMessageByPid(int x40id);
+        public BO.x40MailQueue LoadMessageByGuid(string guid);
 
     }
     class MailBL : BaseBL, IMailBL
@@ -73,15 +75,25 @@ namespace BL
             return _db.SaveRecord("j40MailAccount", p.getDynamicDapperPars(), rec);
         }
 
-        public BO.x40MailQueue LoadX40(int x40id)
+        public BO.x40MailQueue LoadMessageByPid(int x40id)
         {
             return _db.Load<BO.x40MailQueue>("select * from x40MailQueue WHERE x40ID=@pid", new { pid = x40id });
         }
+        public BO.x40MailQueue LoadMessageByGuid(string guid)
+        {
+            return _db.Load<BO.x40MailQueue>("select * from x40MailQueue WHERE x40MessageGuid=@guid", new { guid = guid });
+        }
 
-        public void AddAttachment(string fullpath)
+        public void AddAttachment(string fullpath,string displayname,string contenttype=null)
         {
             if (_attachments == null) _attachments = new List<Attachment>();
-            _attachments.Add(new Attachment(fullpath));
+            var att = new Attachment(fullpath);
+            att.Name = displayname;
+            if (contenttype != null)
+            {
+                att.ContentType = new System.Net.Mime.ContentType(contenttype);
+            }            
+            _attachments.Add(att);
         }
         public void AddAttachment(Attachment att)
         {
@@ -123,9 +135,9 @@ namespace BL
         }
         public BO.Result SendMessage(BO.x40MailQueue rec)  //v BO.Result.pid vrací x40id
         {
-            rec = InhaleMessageSender(rec.j40ID, rec);
-            MailMessage m = new MailMessage() { Body = rec.x40Body, Subject = rec.x40Subject,IsBodyHtml=rec.x40IsHtmlBody};
-            
+            rec = InhaleMessageSender(rec.j40ID, rec);            
+            MailMessage m = new MailMessage() { Body = rec.x40Body, Subject = rec.x40Subject,IsBodyHtml=rec.x40IsHtmlBody};                        
+
             m.From = new MailAddress(rec.x40SenderAddress, rec.x40SenderName);
             var lis = new List<string>();
             if (String.IsNullOrEmpty(rec.x40To) == false)
@@ -153,7 +165,7 @@ namespace BL
                 }
             }
 
-
+           
 
             return handle_smtp_finish(m, rec);
         }
@@ -191,7 +203,7 @@ namespace BL
             {
                 return handle_result_error("Chybí předmět zprávy.");
             }
-
+           
             if (_account.j40SmtpUsePersonalReply)
             {
                 m.ReplyToList.Add(new MailAddress(_mother.CurrentUser.j02Email, _mother.CurrentUser.FullName));
@@ -210,6 +222,7 @@ namespace BL
 
                 m.BodyEncoding = Encoding.UTF8;
                 m.SubjectEncoding = Encoding.UTF8;
+                m.Headers.Add("Message-ID", rec.x40MessageGuid);
 
 
                 if (_attachments != null)
@@ -219,10 +232,25 @@ namespace BL
                         m.Attachments.Add(att);
                     }
                 }
-
                 
                 
-
+                client.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;    
+                client.PickupDirectoryLocation = _mother.App.TempFolder;                
+                client.Send(m);//nejdříve uložit eml soubor do temp složky
+                string strFullPath = FindEmlFileByGuid(rec.x40MessageGuid); //najít vygenerovaný eml file podle jeho Message-ID
+                if (strFullPath != "")
+                {
+                    rec.x40EmlFolder = "eml\\"+DateTime.Now.Year.ToString() + "\\" + DateTime.Now.Month.ToString();
+                    rec.x40EmlFileSize =(int)(new System.IO.FileInfo(strFullPath).Length);
+                    if (!System.IO.Directory.Exists(_mother.App.UploadFolder + "\\" + rec.x40EmlFolder))
+                    {
+                        System.IO.Directory.CreateDirectory(_mother.App.UploadFolder + "\\" + rec.x40EmlFolder);
+                    }
+                    File.Move(strFullPath, _mother.App.UploadFolder + "\\" +rec.x40EmlFolder + "\\"+ rec.x40MessageGuid + ".eml");    //přejmenovat nalezený eml file na guid
+                    
+                }
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                
                 try
                 {
                     client.Send(m);
@@ -255,6 +283,7 @@ namespace BL
         {            
             var p = new DL.Params4Dapper();
             p.AddInt("pid", rec.x40ID);
+            p.AddString("x40MessageGuid", rec.x40MessageGuid);
             p.AddInt("j40ID", rec.j40ID, true);
             if (rec.j03ID == 0) rec.j03ID = _mother.CurrentUser.pid;
             p.AddInt("j03ID", rec.j03ID, true);
@@ -273,7 +302,8 @@ namespace BL
             p.AddString("x40ErrorMessage", rec.x40ErrorMessage);
             p.AddInt("x40State", (int)rec.x40State);
             p.AddString("x40Attachments", String.Join(",", m.Attachments.Select(p => p.Name)));
-
+            p.AddString("x40EmlFolder", rec.x40EmlFolder);
+            p.AddInt("x40EmlFileSize", rec.x40EmlFileSize);
             return _db.SaveRecord("x40MailQueue", p.getDynamicDapperPars(), rec);
         }
 
@@ -281,6 +311,34 @@ namespace BL
         {
             _mother.CurrentUser.AddMessage(strError);
             return new BO.Result(true, strError);
+        }
+
+        private string FindEmlFileByGuid(string strGUID)
+        {
+
+            DirectoryInfo dir = new DirectoryInfo(_mother.App.TempFolder);
+            
+            foreach (FileInfo file in dir.GetFiles("*.eml").OrderByDescending(p => p.CreationTime))
+            {
+                StreamReader reader = file.OpenText();
+                string s = "";
+                while ((s = reader.ReadLine()) !=null)
+                {
+                    if (s.Contains("Message-ID"))
+                    {
+                        if (s.Contains(strGUID))
+                        {
+                            reader.Close();
+                            return file.FullName;                           
+                        }
+                        reader.Close();
+                        break;
+                    }                    
+                }
+
+            }
+
+            return "";
         }
 
     }

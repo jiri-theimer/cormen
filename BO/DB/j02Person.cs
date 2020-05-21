@@ -9,8 +9,7 @@ namespace BO
     {
         [Key]
         public int j02ID { get; set; }
-        public int p28ID { get; set; }
-        public int j40ID { get; set; }
+        public int p28ID { get; set; }        
         public int j02ID_Owner { get; set; }
 
         

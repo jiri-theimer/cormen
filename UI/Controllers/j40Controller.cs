@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Security.Cryptography.Xml;
@@ -17,9 +18,9 @@ namespace UI.Controllers
             var v = new Models.SendMailViewModel();
             v.Rec = new BO.x40MailQueue();
             v.Rec.j40ID = BO.BAS.InInt(Factory.CBL.LoadUserParam("SendMail_j40ID"));
-            v.Rec.j40Name = Factory.CBL.LoadUserParam("SendMail_j40Name");
+            v.Rec.j40Name = Factory.CBL.LoadUserParam("SendMail_j40Name");            
+            v.Rec.x40MessageGuid= BO.BAS.GetGuid();
             v.UploadGuid = BO.BAS.GetGuid();
-
 
             return View(v);
         }
@@ -29,7 +30,11 @@ namespace UI.Controllers
         {
             if (ModelState.IsValid)
             {
-                               
+                foreach(BO.o27Attachment c in BO.BASFILE.GetUploadedFiles(Factory.App.TempFolder, v.UploadGuid))
+                {
+                    Factory.MailBL.AddAttachment(c.FullPath,c.o27Name,c.o27ContentType);
+                }
+                
                 BO.Result r = Factory.MailBL.SendMessage(v.Rec);
                 if (v.Rec.j40ID > 0)
                 {

@@ -21,6 +21,9 @@ namespace BO
         public int x40ID { get; set; }
         public int j03ID { get; set; }
         public int j40ID { get; set; }
+        public string x40MessageGuid { get; set; }
+        public string x40EmlFolder { get; set; }
+        public int x40EmlFileSize { get; set; }
         public x40StateFlag x40State { get; set; }
         public int x40RecordPid { get; set; }
         public string x40Entity { get; set; }

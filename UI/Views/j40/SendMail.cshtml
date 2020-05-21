@@ -10,67 +10,68 @@
 @addTagHelper *, UI
 
 
-<form id="form1" asp-controller="j40" asp-action="SendMail" method="POST">
-    <input type="hidden" asp-for="@Model.UploadGuid" />
+    <form id="form1" asp-controller="j40" asp-action="SendMail" method="POST">
+        <input type="hidden" asp-for="@Model.UploadGuid" />
+        <input type="hidden" asp-for="Rec.x40MessageGuid" />
 
-    <h4>Odeslat poštovní zprávu</h4>
-
-
-    <div class="bg-light" style="padding:10px;">
-        <button id="cmdSave" onclick="sendmessage()" class="btn btn-success">Odeslat</button>
-        <button id="cmdClose" onclick="_window_close()" class="btn btn-light">Zavřít</button>
+        <h4>Odeslat poštovní zprávu</h4>
 
 
+        <div class="bg-light" style="padding:10px;">
+            <button id="cmdSave" onclick="sendmessage()" class="btn btn-success">Odeslat</button>
+            <button id="cmdClose" onclick="_window_close()" class="btn btn-light">Zavřít</button>
 
-    </div>
-    <div class="modal_record_container">
-        <div class="form-row">
-            <label class="col-sm-1 col-md-2 col-form-label">Odesílatel:</label>
-            <div class="col-sm-11 col-md-10">
-                <mycombo entity="j40MailAccount" asp-for="Rec.j40ID" selectedtext="Rec.j40Name" view-flag="2"></mycombo>
-            </div>
+
+
         </div>
-
-        <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Komu (To):</label>
-            <div class="col-sm-11 col-md-10">
-                <input class="form-control" asp-for="Rec.x40To" />
-
+        <div class="modal_record_container">
+            <div class="form-row">
+                <label class="col-sm-1 col-md-2 col-form-label">Odesílatel:</label>
+                <div class="col-sm-11 col-md-10">
+                    <mycombo entity="j40MailAccount" asp-for="Rec.j40ID" selectedtext="Rec.j40Name" view-flag="2"></mycombo>
+                </div>
             </div>
 
-        </div>
-        <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">V kopii (Cc):</label>
-            <div class="col-sm-11 col-md-10">
-                <input class="form-control" asp-for="Rec.x40Cc" />
+            <div class="form-row" style="margin-top:10px;">
+                <label class="col-sm-1 col-md-2 col-form-label">Komu (To):</label>
+                <div class="col-sm-11 col-md-10">
+                    <input class="form-control" asp-for="Rec.x40To" />
+
+                </div>
+
+            </div>
+            <div class="form-row" style="margin-top:10px;">
+                <label class="col-sm-1 col-md-2 col-form-label">V kopii (Cc):</label>
+                <div class="col-sm-11 col-md-10">
+                    <input class="form-control" asp-for="Rec.x40Cc" />
+
+                </div>
+
+            </div>
+            <div class="form-row" style="margin-top:10px;">
+                <label class="col-sm-1 col-md-2 col-form-label">Ve skryté kopii (Bcc):</label>
+                <div class="col-sm-11 col-md-10">
+                    <input class="form-control" asp-for="Rec.x40Bcc" />
+
+                </div>
 
             </div>
 
-        </div>
-        <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Ve skryté kopii (Bcc):</label>
-            <div class="col-sm-11 col-md-10">
-                <input class="form-control" asp-for="Rec.x40Bcc" />
-
+            <div class="form-row" style="margin-top:10px;">
+                <input class="form-control" asp-for="Rec.x40Subject" placeholder="Předmět zprávy" />
             </div>
 
+
+            <div class="form-row" style="margin-top:10px;">
+                <textarea asp-for="Rec.x40Body" class="form-control" placeholder="Text zprávy" style="height:200px;"></textarea>
+                <span asp-validation-for="Rec.x40Body" class="text-danger"></span>
+            </div>
+
+
+
         </div>
 
-        <div class="form-row" style="margin-top:10px;">
-            <input class="form-control" asp-for="Rec.x40Subject" placeholder="Předmět zprávy" />
-        </div>
-
-
-        <div class="form-row" style="margin-top:10px;">
-            <textarea asp-for="Rec.x40Body" class="form-control" placeholder="Text zprávy" style="height:200px;"></textarea>
-            <span asp-validation-for="Rec.x40Body" class="text-danger"></span>
-        </div>
-
-
-
-    </div>
-
-</form>
+    </form>
 
 <iframe id="fraUpload" src="/o23/DoUpload?prefix=x40&guid=@Model.UploadGuid" frameborder="0" height="200"></iframe>
 

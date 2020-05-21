@@ -10,12 +10,15 @@ namespace BO
         [Key]
         public int o27ID { get; set; }    
         public int o23ID { get; set; }
+        public int x40ID { get; set; }
         public string o27Name { get; set; }
         public string o27ArchiveFileName { get; set; }
         public string o27ArchiveFolder { get; set; }
         public int o27FileSize { get; set; }
         public string o27ContentType { get; set; }
         public string o27GUID { get; set; }
+
+        public string FullPath { get; set; }
 
     }
 }

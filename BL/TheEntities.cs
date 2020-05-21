@@ -64,7 +64,9 @@ namespace BL
 
             AE("o23Doc", "Dokumenty", "Dokument", "o23Doc a", "o23Doc a LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID");
 
-            
+            AE("x40MailQueue", "Outbox", "Poštovní zpráva", "x40MailQueue a", "x40MailQueue a INNER JOIN j03User j03 ON a.j03ID=j03.j03ID","a.x40ID DESC");
+
+
             AE_TINY("j04UserRole", "Aplikační role", "Aplikační role");
             AE_TINY("b02Status", "Workflow stavy", "Workflow stav");
             AE_TINY("p25MszType", "Typy zařízení", "Typ zařízení");

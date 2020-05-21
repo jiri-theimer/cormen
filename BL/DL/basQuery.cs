@@ -79,6 +79,7 @@ namespace BL.DL
                 if (mq.Prefix == "o23") AQ(ref lis, "a.o23Entity LIKE 'j02Person' AND a.o23RecordPid=@j02id", "j02id", mq.j02id);
                 if (mq.Prefix == "p51" || mq.Prefix=="p41") AQ(ref lis, "a.j02ID_Owner=@j02id", "j02id", mq.j02id);
                 if (mq.Prefix == "j90") AQ(ref lis, "a.j03ID IN (select j03ID FROM j03User WHERE j02ID=@j02id)", "j02id", mq.j02id);
+                if (mq.Prefix == "x40") AQ(ref lis, "a.j03ID IN (select j03ID FROM j03User WHERE j02ID=@j02id)", "j02id", mq.j02id);
 
             }
             if (mq.p25id > 0)

@@ -298,6 +298,21 @@ namespace BL
             AF("j40MailAccount", "j40SmtpPort", "Smtp Port", 2,null,"num0");
             AF("j40MailAccount", "j40UsageFlag", "Typ účtu", 1, "case a.j40UsageFlag when 1 then 'Privátní Smtp účet' when 2 then 'Globální Smtp účet' when 3 then 'Osobní Imap účet' when 4 then 'Globální Imap účet' else null end");
 
+
+            //x40 = OUTBOX            
+            AF("x40MailQueue", "x40WhenProceeded", "Čas", 1,null,"datetime");            
+            AF("x40MailQueue", "x40SenderName", "Odesílatel", 1);
+            AF("x40MailQueue", "x40SenderAddress", "Odesílatel (adresa)");
+            AF("x40MailQueue", "x40To", "Komu", 1);
+            AF("x40MailQueue", "x40Cc", "Cc");
+            AF("x40MailQueue", "x40Bcc", "Bcc");            
+            AF("x40MailQueue", "x40Subject", "Předmět zprávy", 1);
+            AF("x40MailQueue", "x40Body", "Text zprávy", 1, "convert(varchar(150),a.x40Body)+'...'");
+            AF("x40MailQueue", "x40Attachments", "Přílohy");
+            AF("x40MailQueue", "x40EmlFileSize_KB", "Velikost (kB)", 0, "a.x40EmlFileSize/1024", "num0",true);
+            AF("x40MailQueue", "x40EmlFileSize_MB", "Velikost (MB)", 0, "convert(float,a.x40EmlFileSize)/1048576", "num",true);
+            AF("x40MailQueue", "x40ErrorMessage", "Chyba", 1);
+            
         }
 
         public List<BO.TheGridColumn> getDefaultPallete(bool bolComboColumns,BO.myQuery mq)
