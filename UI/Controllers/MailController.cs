@@ -55,7 +55,7 @@ namespace UI.Controllers
         }
 
 
-        public IActionResult Record_j04(int pid, bool isclone)
+        public IActionResult Record_j40(int pid, bool isclone)
         {
            
             var v = new Models.j40RecordViewModel();
@@ -84,7 +84,7 @@ namespace UI.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Record_j04(Models.j40RecordViewModel v)
+        public IActionResult Record_j40(Models.j40RecordViewModel v)
         {
             if (ModelState.IsValid)
             {

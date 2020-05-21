@@ -13,20 +13,29 @@ if (screen.availHeight > screen.availWidth || screen.width < 800 || screen.heigh
 
 }
 
-function _edit(controller, pid,header) {
-    _window_open("/" + controller + "/record?pid=" + pid,1,header);
-    
+function _edit(controller, pid, header) {
+    _window_open("/" + controller + "/record?pid=" + pid, 1, header);
+
 }
-function _clone(controller, pid,header) {
-    _window_open("/" + controller + "/record?isclone=true&pid=" + pid,1,header);
-    
+
+function _clone(controller, pid, header) {
+    _window_open("/" + controller + "/record?isclone=true&pid=" + pid, 1, header);
+
 }
+
+function _edit_full(controller, action, pid, header) {
+    _window_open("/" + controller + "/" + action + "?pid=" + pid, 1, header);
+}
+function _clone_full(controller, action, pid, header) {
+    _window_open("/" + controller + "/" + action + "?isclone=true&pid=" + pid, 1, header);
+}
+
 function _preview(controller, pid) {
-    _window_open("/" + controller + "/index?pid=" + pid,1,"Kopírovat");
-    
+    _window_open("/" + controller + "/index?pid=" + pid, 1, "Kopírovat");
+
 }
-function _append_doc(recprefix,recpid) {
-    _window_open("/o23/record?recprefix="+recprefix+"&recpid=" + recpid);
+function _append_doc(recprefix, recpid) {
+    _window_open("/o23/record?recprefix=" + recprefix + "&recpid=" + recpid);
 }
 
 function _sendmail() {
@@ -273,7 +282,7 @@ function _mainmenu_init() {     //inicializace chování hlavního menu v postra
         });
     }
 
-   
+
 
 }
 
@@ -282,14 +291,14 @@ function _mainmenu_select(prefix_caret, data_menu) {
         data_menu = prefix_caret;
         prefix_caret = "other";
     }
-    
+
     $("#mainmenu_caret_" + prefix_caret).click();
-   
+
     if (typeof data_menu !== "undefined") {
         var skupina = $("#mainmenu_caret_" + prefix_caret).closest("li");
-        
+
         $(skupina).find("[data-menu=" + data_menu + "]").first().addClass("selected_menu_item");
-        
+
     }
 }
 
@@ -298,11 +307,6 @@ function _mainmenu_select(prefix_caret, data_menu) {
 function _cm(e, entity, pid) { //otevře kontextové menu
     var ctl = e.target;
 
-    var data = "";
-    if (document.getElementById("divContextMenuStatic")) {
-        data = $("#divContextMenuStatic").html();   //na stránce se nachází preferované UL statického menu v divu id=divContextMenuStatic -> není třeba ho volat ze serveru
-        data = data.replace(/#pid#/g, pid);  //místo #pid# replace pravé pid hodnoty
-    }
     var w = $(window).width();
     var pos_left = e.clientX + $(window).scrollLeft();
 
@@ -317,10 +321,20 @@ function _cm(e, entity, pid) { //otevře kontextové menu
         document.body.appendChild(el);
     }
 
-    $("#" + menuid).html(data);
-
+       
     if (ctl.getAttribute("menu_je_inicializovano") === "1") {
         return; // kontextové menu bylo již u tohoto elementu inicializováno - není třeba to dělat znovu.
+    }
+
+    if (document.getElementById("divContextMenuStatic")) {
+        var data = $("#divContextMenuStatic").html();   //na stránce se nachází preferované UL statického menu v divu id=divContextMenuStatic -> není třeba ho volat ze serveru
+        data = data.replace(/#pid#/g, pid);  //místo #pid# replace pravé pid hodnoty
+        $("#" + menuid).html(data);
+    } else {
+        //načíst menu ze serveru         
+        $.post("/Menu/ContextMenu", { entity: entity, pid: pid }, function (data) {
+            $("#" + menuid).html(data);
+        });
     }
 
     $(ctl).contextMenu({
@@ -331,13 +345,16 @@ function _cm(e, entity, pid) { //otevře kontextové menu
 
     ctl.setAttribute("menu_je_inicializovano", "1");
 
+    
 
 
 }
 
-function _reload_layout_and_close(pid, flag) {   
-    
-    if (window !== top) {        
+
+
+function _reload_layout_and_close(pid, flag) {
+
+    if (window !== top) {
         window.parent.hardrefresh(pid, flag);
         window.parent._window_close();
     } else {
@@ -369,6 +386,45 @@ function _is_alpha_numeric_keycode(code) {
         !(code > 96 && code < 123)) { // lower alpha (a-z)
         return false;
     }
-    
+
     return true;
 };
+
+
+
+///vrací ajax výsledek
+function _load_ajax_data(strHandlerUrl, params, is_async, data_type) {
+    var is_success = false;
+    var ret = null;
+    var is_done = false;
+    if (is_async === null) is_async = false;
+    if (data_type === null) data_type = "json";
+
+    $.ajax({
+        url: strHandlerUrl,
+        type: "POST",
+        dataType: data_type,
+        async: is_async,
+        cache: false,
+        data: params,
+        complete: function (result) {
+            is_success = true;
+            return (ret);
+        },
+        success: function (result) {
+            is_done = true;
+            is_success = true;
+            ret = result;
+
+        },
+        error: function (e, b, error) {
+            is_done = true;
+            alert("load_ajax_data: " + error + "/" + strHandlerUrl);
+        }
+    });
+
+    if (is_async === false) {
+        return (ret);
+    }
+
+}

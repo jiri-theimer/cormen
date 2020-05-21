@@ -192,7 +192,7 @@ function tg_adjust_parts_width() {
 }
 
 
-function tg_setup_selectable() {    
+function tg_setup_selectable() {        
     _ds = new DragSelect({
         selectables: document.getElementsByClassName('selectable'), // node/nodes that can be selected. This is also optional, you could just add them later with .addSelectables.
         selectedClass: "selrow",
