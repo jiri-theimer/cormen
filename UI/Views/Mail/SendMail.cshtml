@@ -10,7 +10,7 @@
 @addTagHelper *, UI
 
 
-    <form id="form1" asp-controller="j40" asp-action="SendMail" method="POST">
+    <form id="form1" asp-controller="Mail" asp-action="SendMail" method="POST">
         <input type="hidden" asp-for="@Model.UploadGuid" />
         <input type="hidden" asp-for="Rec.x40MessageGuid" />
 

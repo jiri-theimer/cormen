@@ -30,7 +30,7 @@ function _append_doc(recprefix,recpid) {
 }
 
 function _sendmail() {
-    _window_open("/j40/SendMail");
+    _window_open("/Mail/SendMail");
 }
 
 

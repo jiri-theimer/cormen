@@ -135,7 +135,7 @@ namespace UI.Controllers
                 sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p19/record');\">Materiál</a>");
                 sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p20/record');\">Měrná jednotka</a>");
                 sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p25/record');\">Typ zařízení</a>");
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/j40/record');\">Poštovní účet</a>");
+                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/Mail/record_j04');\">Poštovní účet</a>");
             }
 
             sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p31/record');\">Kapacitní fond</a>");

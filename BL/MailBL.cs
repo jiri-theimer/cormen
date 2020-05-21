@@ -210,7 +210,7 @@ namespace BL
             }
 
             BO.Result ret = new BO.Result(false);
-
+            
             using (SmtpClient client = new SmtpClient(_account.j40SmtpHost, _account.j40SmtpPort))
             {
                 client.UseDefaultCredentials = _account.j40SmtpUseDefaultCredentials;
