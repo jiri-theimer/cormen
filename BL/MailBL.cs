@@ -34,7 +34,7 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*,dbo.j02_show_as_owner(a.j02ID_Owner) as RecordOwner," + _db.GetSQL1_Ocas("j40") + " FROM " + BL.TheEntities.ByPrefix("j40").SqlFrom;
+            return "SELECT a.*,dbo.j02_show_as_owner(a.j02ID_Owner) as RecordOwner," + _db.GetSQL1_Ocas("j40") + " FROM j40MailAccount a";
         }
 
         public BO.j40MailAccount LoadJ40(int pid)

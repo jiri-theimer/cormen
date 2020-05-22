@@ -22,7 +22,7 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*," + _db.GetSQL1_Ocas("p25") + " FROM "+ BL.TheEntities.ByPrefix("p25").SqlFrom;
+            return "SELECT a.*," + _db.GetSQL1_Ocas("p25") + " FROM p25MszType a";
         }
         public BO.p25MszType Load(int pid)
         {

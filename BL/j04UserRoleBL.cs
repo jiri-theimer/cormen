@@ -20,7 +20,7 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*," + _db.GetSQL1_Ocas("j04") + " FROM " + BL.TheEntities.ByPrefix("j04").SqlFrom;
+            return "SELECT a.*," + _db.GetSQL1_Ocas("j04") + " FROM j04UserRole a";
         }
 
         public BO.j04UserRole Load(int pid)

@@ -428,7 +428,7 @@ namespace UI.Controllers
             var dtFooter = Factory.gridBL.GetList(mq, true);
             int intVirtualRowsCount = Convert.ToInt32(dtFooter.Rows[0]["RowsCount"]);
 
-            if (intVirtualRowsCount > 500)
+            if (intVirtualRowsCount > 1000)
             {   //dotazy nad 500 záznamů budou mít zapnutý OFFSET režim stránkování
                 mq.OFFSET_PageSize = cJ72.j72PageSize;
                 mq.OFFSET_PageNum = cJ72.j72CurrentPagerIndex / cJ72.j72PageSize;

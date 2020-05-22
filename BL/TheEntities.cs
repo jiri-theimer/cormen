@@ -37,34 +37,34 @@ namespace BL
         private static void SetupPallete()
         {           
             _lis = new List<BO.TheEntity>();
-            AE("j02Person", "Lidé", "Jméno","j02Person a", "j02Person a LEFT OUTER JOIN j03User j03 ON a.j02ID=j03.j02ID LEFT OUTER JOIN j04UserRole j04 ON j03.j04ID=j04.j04ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID");
+            AE("j02Person", "Lidé", "Jméno","j02Person a","a.j02LastName,a.j02FirstName");
             
 
-            AE("j03User", "Uživatelé", "Uživatel", "j03User a INNER JOIN j04UserRole j03_j04 ON a.j04ID=j03_j04.j04ID", "j03User a INNER JOIN j02Person j02 ON a.j02ID=j02.j02ID INNER JOIN j04UserRole j04 ON a.j04ID=j04.j04ID LEFT OUTER JOIN p28Company p28 ON j02.p28ID=p28.p28ID");
+            AE("j03User", "Uživatelé", "Uživatel", "j03User a INNER JOIN j04UserRole j03_j04 ON a.j04ID=j03_j04.j04ID", "a.j03Login");
             
-            AE("p26Msz", "Stroje | MSZ", "Stroj | MSZ", "p26Msz a", "p26Msz a INNER JOIN p25MszType p25 ON a.p25ID=p25.p25ID LEFT OUTER JOIN p31CapacityFond p31 ON a.p31ID=p31.p31ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID");
-            AE("p21License", "Licence", "Licence", "p21License a", "p21License a LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID");
-            AE("p31CapacityFond", "Kapacitní fondy", "Kapacitní fond", "p31CapacityFond a", "p31CapacityFond a INNER JOIN j02Person j02owner ON a.j02ID_Owner=j02owner.j02ID LEFT OUTER JOIN p28Company p28 ON j02owner.p28ID=p28.p28ID");
+            AE("p26Msz", "Stroje | MSZ", "Stroj | MSZ", "p26Msz a", "a.p26Name");
+            AE("p21License", "Licence", "Licence", "p21License a", "p28.p28Name,a.p21Name");
+            AE("p31CapacityFond", "Kapacitní fondy", "Kapacitní fond", "p31CapacityFond a", "a.p31Name");
 
-            AE("p18OperCode", "Kódy operací", "Kód operace", "p18OperCode a", "p18OperCode a INNER JOIN p25MszType p25 ON a.p25ID=p25.p25ID LEFT OUTER JOIN p19Material p19 ON a.p19ID=p19.p19ID");
-            AE("p19Material", "Materiály", "Materiál", "p19Material a", "p19Material a INNER JOIN p20Unit p20 ON a.p20ID=p20.p20ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID");
-            AE("p20Unit", "Měrné jednotky", "Měrná jednotka", "p20Unit a","p20Unit a LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID");
-            AE("p10MasterProduct", "Master produkty", "Master produkt", "p10MasterProduct a", "p10MasterProduct a INNER JOIN p20Unit p20 ON a.p20ID=p20.p20ID LEFT OUTER JOIN p13MasterTpv p13 ON a.p13ID=p13.p13ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID");
-            AE("p13MasterTpv", "Master receptury", "Master receptura", "p13MasterTpv a", "p13MasterTpv a INNER JOIN p25MszType p25 ON a.p25ID=p25.p25ID");
-            AE("p14MasterOper", "Technologický rozpis operací", "Technologická operace", "p14MasterOper a", "p14MasterOper a LEFT OUTER JOIN p19Material p19 ON a.p19ID=p19.p19ID LEFT OUTER JOIN p18OperCode p18 ON a.p18ID=p18.p18ID", "a.p14RowNum");
+            AE("p18OperCode", "Kódy operací", "Kód operace", "p18OperCode a", "a.p18Code");
+            AE("p19Material", "Materiály", "Materiál", "p19Material a", "a.p19Name");
+            AE("p20Unit", "Měrné jednotky", "Měrná jednotka", "p20Unit a","a.p20Name");
+            AE("p10MasterProduct", "Master produkty", "Master produkt", "p10MasterProduct a", "a.p10Name");
+            AE("p13MasterTpv", "Master receptury", "Master receptura", "p13MasterTpv a", "a.p13Name");
+            AE("p14MasterOper", "Technologický rozpis operací", "Technologická operace", "p14MasterOper a", "a.p14RowNum", "a.p14RowNum");
 
-            AE("p11ClientProduct", "Klientské produkty", "Klientský produkt", "p11ClientProduct a", "p11ClientProduct a INNER JOIN p12ClientTpv p12 ON a.p12ID=p12.p12ID INNER JOIN p20Unit p20 ON a.p20ID=p20.p20ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p21License p21 ON a.p21ID=p21.p21ID LEFT OUTER JOIN p28Company p28 ON p21.p28ID=p28.p28ID LEFT OUTER JOIN p10MasterProduct p10 ON a.p10ID_Master=p10.p10ID");
-            AE("p12ClientTpv", "Klientské receptury", "Klientská receptura", "p12ClientTpv a", "p12ClientTpv a INNER JOIN p21License p21 ON a.p21ID=p21.p21ID LEFT OUTER JOIN p28Company p28 ON p21.p28ID=p28.p28ID LEFT OUTER JOIN p13MasterTpv p13 ON a.p13ID_Master=p13.p13ID LEFT OUTER JOIN p25MszType p25 ON a.p25ID=p25.p25ID");
-            AE("p15ClientOper", "Technologický rozpis operací", "Technologická operace", "p15ClientOper a", "p15ClientOper a LEFT OUTER JOIN p19Material p19 ON a.p19ID=p19.p19ID LEFT OUTER JOIN p18OperCode p18 ON a.p18ID=p18.p18ID", "a.p15RowNum");
+            AE("p11ClientProduct", "Klientské produkty", "Klientský produkt", "p11ClientProduct a", "a.p11Name");
+            AE("p12ClientTpv", "Klientské receptury", "Klientská receptura", "p12ClientTpv a", "a.p12Name");
+            AE("p15ClientOper", "Technologický rozpis operací", "Technologická operace", "p15ClientOper a", "a.p15RowNum", "a.p15RowNum");
 
-            AE("p41Task", "Výrobní zakázky", "Výrobní zakázka", "p41Task a", "p41Task a LEFT OUTER JOIN p11ClientProduct p11 ON a.p11ID=p11.p11ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN p26Msz p26 ON a.p26ID=p26.p26ID");
+            AE("p41Task", "Výrobní zakázky", "Výrobní zakázka", "p41Task a", "a.p41Name,a.p14Code");
             
-            AE("p51Order", "Objednávky", "Objednávka", "p51Order a", "p51Order a LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN p26Msz p26 ON a.p26ID=p26.p26ID","a.p51ID DESC");
-            AE("p52OrderItem", "Položky objednávky", "Položka objednávky", "p52OrderItem a", "p52OrderItem a INNER JOIN p51Order p51 ON a.p51ID=p51.p51ID INNER JOIN p11ClientProduct p11 ON a.p11ID=p11.p11ID LEFT OUTER JOIN p20Unit p20 ON p11.p20ID=p20.p20ID");
+            AE("p51Order", "Objednávky", "Objednávka", "p51Order a", "a.p51Name,a.p51Code");
+            AE("p52OrderItem", "Položky objednávky", "Položka objednávky", "p52OrderItem a","a.p52Code");
 
-            AE("o23Doc", "Dokumenty", "Dokument", "o23Doc a", "o23Doc a LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID");
+            AE("o23Doc", "Dokumenty", "Dokument", "o23Doc a", null);
 
-            AE("x40MailQueue", "Outbox", "Poštovní zpráva", "x40MailQueue a", "x40MailQueue a INNER JOIN j03User j03 ON a.j03ID=j03.j03ID","a.x40ID DESC");
+            AE("x40MailQueue", "Outbox", "Poštovní zpráva", "x40MailQueue a", null,"a.x40ID DESC");
 
 
             AE_TINY("j04UserRole", "Aplikační role", "Aplikační role");
@@ -80,16 +80,16 @@ namespace BL
 
         }
 
-        private static void AE (string strTabName, string strPlural, string strSingular, string strSqlFromGrid,string strSqlFrom, string strSqlOrderBy=null)
+        private static void AE (string strTabName, string strPlural, string strSingular, string strSqlFromGrid,string strSqlOrderByCombo, string strSqlOrderBy=null)
         {
             if (strSqlOrderBy == null) strSqlOrderBy = "a." + strTabName.Substring(0, 3) + "ID DESC";
-            _lis.Add(new BO.TheEntity() {TableName = strTabName, AliasPlural = strPlural, AliasSingular = strSingular,SqlFromGrid=strSqlFromGrid, SqlFrom = strSqlFrom, SqlOrderBy = strSqlOrderBy });
+            _lis.Add(new BO.TheEntity() {TableName = strTabName, AliasPlural = strPlural, AliasSingular = strSingular,SqlFromGrid=strSqlFromGrid,SqlOrderByCombo= strSqlOrderByCombo, SqlOrderBy = strSqlOrderBy });
             
         }
         private static void AE_TINY(string strTabName, string strPlural, string strSingular)
         {
             
-            _lis.Add(new BO.TheEntity() {TableName = strTabName, AliasPlural = strPlural, AliasSingular = strSingular, SqlFromGrid=strTabName+" a", SqlFrom = strTabName + " a",SqlOrderBy= "a." + strTabName.Substring(0, 3) + "ID DESC" });
+            _lis.Add(new BO.TheEntity() {TableName = strTabName, AliasPlural = strPlural, AliasSingular = strSingular, SqlFromGrid=strTabName+" a", SqlOrderByCombo = "a." + strTabName.Substring(0, 3) + "Name", SqlOrderBy= "a." + strTabName.Substring(0, 3) + "ID DESC" });
         }
         private static BO.EntityRelation getREL(string strTabName,string strRelName, string strSingular, string strSqlFrom,string strDependOnRel=null)
         {

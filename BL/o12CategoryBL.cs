@@ -21,7 +21,7 @@ namespace BL
        
         private string GetSQL1()
         {
-            return "SELECT a.*," + _db.GetSQL1_Ocas("o12") + " FROM "+ BL.TheEntities.ByPrefix("o12").SqlFrom;
+            return "SELECT a.*," + _db.GetSQL1_Ocas("o12") + " FROM o12Category a";
         }
         public BO.o12Category Load(int pid)
         {

@@ -10,11 +10,11 @@ namespace BO
         private string _TableName;        
         public string AliasSingular { get; set; }
         public string AliasPlural { get; set; }        
-        public string SqlFrom { get; set; }     //from klauzule pro BL třídu dané entity
-
+        
         public string SqlFromGrid { get; set; } //kořenová from klauzule pro GRID sql dotaz
        
         public string SqlOrderBy { get; set; }
+        public string SqlOrderByCombo { get; set; }
 
         public string TableName
         {

@@ -21,7 +21,7 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*,o12.o12Name,p28.p28Name,p20.p20Code," + _db.GetSQL1_Ocas("p19") + " FROM "+ BL.TheEntities.ByPrefix("p19").SqlFrom;
+            return "SELECT a.*,o12.o12Name,p28.p28Name,p20.p20Code," + _db.GetSQL1_Ocas("p19") + " FROM p19Material a INNER JOIN p20Unit p20 ON a.p20ID=p20.p20ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID";
         }
         public BO.p19Material Load(int pid)
         {

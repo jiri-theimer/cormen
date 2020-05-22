@@ -24,15 +24,20 @@ namespace UI.Controllers
             var cols = new BL.TheColumnsProvider().getDefaultPallete(true,mq);
             mq.explicit_columns = cols;
 
-            if (mq.Prefix == "p18")
-            {
-                mq.p25id = BO.BAS.InInt(param1);    //kódy operací je povinné zobrazovat v kontextu k typu zařízení
-            }
-            if (mq.Prefix == "p18" && mq.p25id == 0)
-            {
-                return "<p>Na vstupu chybí vybrat typ zařízení.</p>";
-            }
+            mq.explicit_orderby = BL.TheEntities.ByPrefix(mq.Prefix).SqlOrderByCombo;
+           
+            switch (mq.Prefix) 
+            {                
+                case "p18":
+                    mq.explicit_orderby = "a.p18Code";
+                    mq.p25id = BO.BAS.InInt(param1);    //kódy operací je povinné zobrazovat v kontextu k typu zařízení
+                    if (mq.p25id == 0)
+                    {
+                        return "<p>Na vstupu chybí vybrat typ zařízení.</p>";
+                    }
+                    break;
 
+            }
 
             var dt = Factory.gridBL.GetList(mq);
             var intRows = dt.Rows.Count;

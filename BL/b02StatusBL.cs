@@ -19,7 +19,7 @@ namespace BL
         
         private string GetSQL1()
         {
-            return "SELECT a.*," + _db.GetSQL1_Ocas("b02") + " FROM " + BL.TheEntities.ByPrefix("b02").SqlFrom;
+            return "SELECT a.*," + _db.GetSQL1_Ocas("b02") + " FROM b02Status a";
         }
         public BO.b02Status Load(int pid)
         {

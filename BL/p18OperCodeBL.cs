@@ -22,7 +22,7 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*,p25.p25Name,p19.p19Name,p19.p19Code," + _db.GetSQL1_Ocas("p18") + " FROM "+ BL.TheEntities.ByPrefix("p18").SqlFrom;
+            return "SELECT a.*,p25.p25Name,p19.p19Name,p19.p19Code," + _db.GetSQL1_Ocas("p18") + " FROM p18OperCode a INNER JOIN p25MszType p25 ON a.p25ID=p25.p25ID LEFT OUTER JOIN p19Material p19 ON a.p19ID=p19.p19ID";
         }
         public BO.p18OperCode Load(int pid)
         {

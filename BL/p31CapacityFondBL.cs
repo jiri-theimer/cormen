@@ -24,7 +24,7 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*,dbo.j02_show_as_owner(a.j02ID_Owner) as RecordOwner," + _db.GetSQL1_Ocas("p31") + " FROM " + BL.TheEntities.ByPrefix("p31").SqlFrom;
+            return "SELECT a.*,dbo.j02_show_as_owner(a.j02ID_Owner) as RecordOwner," + _db.GetSQL1_Ocas("p31") + " FROM p31CapacityFond a INNER JOIN j02Person j02owner ON a.j02ID_Owner=j02owner.j02ID LEFT OUTER JOIN p28Company p28 ON j02owner.p28ID=p28.p28ID";
         }
         public BO.p31CapacityFond Load(int pid)
         {

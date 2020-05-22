@@ -23,7 +23,7 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*," + _db.GetSQL1_Ocas("j03") + ",j04.j04Name,p28.p28Name,j02.j02LastName+' '+j02.j02FirstName+ISNULL(' '+j02.j02TitleBeforeName,' ') as fullname_desc,j02.j02Email FROM "+ BL.TheEntities.ByPrefix("j03").SqlFrom;
+            return "SELECT a.*," + _db.GetSQL1_Ocas("j03") + ",j04.j04Name,p28.p28Name,j02.j02LastName+' '+j02.j02FirstName+ISNULL(' '+j02.j02TitleBeforeName,' ') as fullname_desc,j02.j02Email FROM j03User a INNER JOIN j02Person j02 ON a.j02ID=j02.j02ID INNER JOIN j04UserRole j04 ON a.j04ID=j04.j04ID LEFT OUTER JOIN p28Company p28 ON j02.p28ID=p28.p28ID";
         }
         public BO.j03User Load(int intPID)
         {
