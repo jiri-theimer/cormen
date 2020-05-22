@@ -7,12 +7,14 @@ using System.Security.Cryptography.Xml;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using UI.Models;
+using MimeKit;
+
 
 namespace UI.Controllers
 {
     public class MailController : BaseController
     {
-        public IActionResult SendMail()
+        public IActionResult SendMail(int x40id)
         {
 
             var v = new Models.SendMailViewModel();
@@ -21,6 +23,17 @@ namespace UI.Controllers
             v.Rec.j40Name = Factory.CBL.LoadUserParam("SendMail_j40Name");            
             v.Rec.x40MessageGuid= BO.BAS.GetGuid();
             v.UploadGuid = BO.BAS.GetGuid();
+
+            if (x40id > 0)
+            {
+                v.Rec = Factory.MailBL.LoadMessageByPid(x40id);
+                v.Rec.x40To = v.Rec.x40To;
+                v.Rec.x40Cc = v.Rec.x40Cc;
+                v.Rec.x40Bcc = v.Rec.x40Bcc;
+                v.Rec.x40Subject = v.Rec.x40Subject;
+                v.Rec.x40Body = v.Rec.x40Body;
+                
+            }
 
             return View(v);
         }
@@ -59,10 +72,51 @@ namespace UI.Controllers
         {
             var v = new Models.x40RecordViewModel();
             v.Rec = Factory.MailBL.LoadMessageByPid(pid);
+
+            
             if (v.Rec == null)
             {
                 return RecNotFound(v);
             }
+
+
+           
+            string fullPath = Factory.App.UploadFolder + "\\" + v.Rec.x40EmlFolder + "\\" + v.Rec.x40MessageGuid + ".eml";
+            if (System.IO.File.Exists(fullPath))
+            {
+                v.MimeMessage = MimeMessage.Load(fullPath);
+                v.MimeAttachments = new List<BO.COM.StringPairValue>();
+
+                foreach (var attachment in v.MimeMessage.Attachments)
+                {
+                    if (attachment is MessagePart)
+                    {
+                        
+                    }
+                    else
+                    {
+                        var part = (MimePart)attachment;
+                        var fileName = part.FileName;
+                        v.MimeAttachments.Add(new BO.COM.StringPairValue() { Key = part.ContentType.MimeType, Value = fileName });
+
+                        
+                        string strTempFullPath = this.Factory.App.TempFolder + "\\" +v.Rec.x40MessageGuid+"_"+ fileName;
+                        if (System.IO.File.Exists(strTempFullPath)==false)
+                        {
+                            using (var fs = new FileStream(strTempFullPath, System.IO.FileMode.Create))
+                            {
+                                part.Content.DecodeTo(fs);  //uložit attachment soubor do tempu
+                            }
+                        }
+                        
+
+
+                    }
+
+                    
+                }
+            }
+            
 
 
             return View(v);

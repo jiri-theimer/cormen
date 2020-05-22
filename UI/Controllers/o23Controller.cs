@@ -259,15 +259,34 @@ namespace UI.Controllers
 
         }
 
-        public FileResult FileDownloadTempFile(string tempfilename,string guid)
-        {                        
+        public FileResult FileDownloadTempFile(string tempfilename,string guid=null,string contenttype=null)
+        {
+            if (System.IO.File.Exists(_app.TempFolder + "\\" + tempfilename)==false)
+            {
+                return null;
+            }
 
-            string fullPath = _app.TempFolder + "\\" + tempfilename;
+            string destfilename = tempfilename;
+            if (guid != null)
+            {
+                destfilename = tempfilename.Replace(guid + "_", "");
+            }
 
-            byte[] fileBytes = System.IO.File.ReadAllBytes(fullPath);
-            return File(fileBytes, "application/octet-stream", tempfilename.Replace(guid + "_", ""));
+            if (contenttype == null)
+            {                
+                byte[] fileBytes = System.IO.File.ReadAllBytes(_app.TempFolder + "\\" + tempfilename);
+                Response.Headers["Content-Type"] = "application/octet-stream";
+                Response.Headers["Content-Length"] = fileBytes.Length.ToString();
+                return File(fileBytes, "application/octet-stream", destfilename);
+            }
+            else
+            {
+                Response.Headers["Content-Disposition"] = string.Format("inline; filename={0}", destfilename);
+                var fileContentResult = new FileContentResult(System.IO.File.ReadAllBytes(_app.TempFolder + "\\" + tempfilename), contenttype);
+                Response.Headers["Content-Length"] = fileContentResult.FileContents.Length.ToString();
+                return fileContentResult;
+            }
 
-            //return File(System.IO.File.ReadAllBytes(fullPath), "application/octet-stream", tempfilename.Replace(guid + "_",""));
         }
 
 

@@ -104,6 +104,8 @@ namespace UI.Controllers
                     break;
                 case "x40":
                     AMI("Detail odeslané zprávy", string.Format("javascript:_edit_full('Mail','Record_x40',{0})",pid));
+                    DIV();
+                    AMI("Zkopírovat do nové zprávy", string.Format(string.Format("javascript: _window_open('/Mail/SendMail?x40id={0}')",pid)));
                     break;
                 case "j90":
                 case "p14":

@@ -10,7 +10,7 @@
 
 <h4>
     Odeslaná poštovní zpráva
-    <button type="button" class="btn btn-primary" onclick="eml()">Otevřít poštovní zprávu (eml formát)</button>
+    <button type="button" class="btn btn-primary" onclick="eml()">Otevřít poštovní zprávu (@(BO.BAS.FormatFileSize(Model.Rec.x40EmlFileSize)))</button>
 
     <button type="button" class="btn btn-light" style="margin-left:10px;" onclick="_window_close()">Zavřít</button>
 </h4>
@@ -82,17 +82,31 @@
         </div>
 
     </div>
-    @if (Model.Rec.x40Attachments != null)
+    
+
+    @if (Model.MimeMessage != null && Model.MimeAttachments.Count() > 0)
     {
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Přílohy:</label>
             <div class="col-sm-11 col-md-10">
-                <span class="form-control bg-light text-primary">@(Model.Rec.x40Attachments.Replace(",","<br>"))</span>
+                @foreach (var item in Model.MimeAttachments)
+                {
+                    <div>
+                        <a target="_blank" href="/o23/FileDownloadTempFile?tempfilename=@(Model.Rec.x40MessageGuid+"_"+item.Value)&guid=@(Model.Rec.x40MessageGuid)&contenttype=@(item.Key)">@(item.Value)</a>
+                        
+                    </div>
+                }
+
+
+
+
 
             </div>
 
         </div>
     }
+
+
 
 
 

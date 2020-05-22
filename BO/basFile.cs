@@ -9,6 +9,18 @@ namespace BO
 {
     public class BASFILE
     {
+
+        public static void SaveStream2File(String strDestFullPath, Stream inputStream)
+        {
+            
+            using (FileStream outputFileStream = new FileStream(strDestFullPath, FileMode.Create))
+            {
+                inputStream.CopyTo(outputFileStream);
+            }
+
+            
+        }
+
         static List<string> GetFileNamesInDir(string strDir, string strPattern,bool getFullPath)
         {
             DirectoryInfo dir = new DirectoryInfo(strDir);

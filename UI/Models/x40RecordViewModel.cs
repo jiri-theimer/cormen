@@ -2,12 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MimeKit;
+
 
 namespace UI.Models
 {
     public class x40RecordViewModel:BaseViewModel
     {
         public BO.x40MailQueue Rec { get; set; }
+
+        public MimeMessage MimeMessage { get; set; }
+
+        public List<BO.COM.StringPairValue> MimeAttachments { get; set; }
 
     }
 }
