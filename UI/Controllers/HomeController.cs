@@ -82,69 +82,8 @@ namespace UI.Controllers
         }
 
 
-        public string getHTML_CurrentUserMenu()
-        {
-            var sb = new System.Text.StringBuilder();
-            sb.Append("<a class='nav-link' href='/Home/MyProfile'>Můj profil</a>");
-            sb.Append("<a class='nav-link' href='javascript:_sendmail()'>Odeslat zprávu</a>");
-            sb.Append("<a class='nav-link' href='/Home/ChangePassword'>Změnit přístupové heslo</a>");
-            sb.Append("<a class='nav-link' href='/Home/About'>O aplikaci</a>");
-            sb.Append("<hr/><a class='nav-link' href='/Home/logout'>Odhlásit se</a>");
-
-            return sb.ToString();
-        }
-        public string getHTML_MainMenu_New()
-        {
-            var sb = new System.Text.StringBuilder();
-            if (Factory.CurrentUser.j03EnvironmentFlag == 2)
-            {
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p51/record');\">Objednávka</a>");
-                
-                //sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p41/record');\">Výrobní zakázka</a>");
-                sb.Append("<hr/>");
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/o23/record');\">Dokument</a>");
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p28/record');\">Klient</a>");
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/j02/record');\">Kontaktní osoba/Uživatel</a>");
-                sb.Append("<hr/>");
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p11/record');\">Produkt [Client]</a>");
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p12/record');\">Receptura [Client]</a>");
-                sb.Append("<hr/>");
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p19/record');\">Materiál</a>");
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p20/record');\">Měrná jednotka</a>");                
-            }
-            
-
-            if (Factory.CurrentUser.j03EnvironmentFlag == 1)
-            {
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/o23/record');\">Dokument</a>");
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p28/record');\">Klient</a>");
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/j02/record');\">Kontaktní osoba/Uživatel</a>");
-
-                sb.Append("<hr/>");
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p10/record');\">Produkt [Master]</a>");
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p13/record');\">Receptura [Master]</a>");
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p21/record');\">Licence</a>");
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p26/record');\">Stroj</a>");
-
-                sb.Append("<hr/>");
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/b02/record');\">Workflow stav</a>");
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/o12/record');\">Kategorie</a>");
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/j04/record');\">Aplikační role</a>");
-                sb.Append("<hr>");
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p18/record');\">Kód operace</a>");
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p19/record');\">Materiál</a>");
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p20/record');\">Měrná jednotka</a>");
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p25/record');\">Typ zařízení</a>");
-                sb.Append("<a class='nav-link' href=\"javascript:_window_open('/Mail/record_j04');\">Poštovní účet</a>");
-            }
-
-            sb.Append("<a class='nav-link' href=\"javascript:_window_open('/p31/record');\">Kapacitní fond</a>");
-
-
-
-
-            return sb.ToString();
-        }
+       
+        
         public BO.Result ToggleEnvironment()
         {
             if (Factory.CurrentUser.TestPermission(BO.UserPermFlag.MasterReader) || Factory.CurrentUser.TestPermission(BO.UserPermFlag.MasterAdmin)){

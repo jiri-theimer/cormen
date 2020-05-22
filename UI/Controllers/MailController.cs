@@ -55,6 +55,19 @@ namespace UI.Controllers
         }
 
 
+        public IActionResult Record_x40(int pid)
+        {
+            var v = new Models.x40RecordViewModel();
+            v.Rec = Factory.MailBL.LoadMessageByPid(pid);
+            if (v.Rec == null)
+            {
+                return RecNotFound(v);
+            }
+
+
+            return View(v);
+        }
+
         public IActionResult Record_j40(int pid, bool isclone)
         {
            
@@ -124,5 +137,37 @@ namespace UI.Controllers
             this.Notify_RecNotSaved();
             return View(v);
         }
+
+        public ActionResult DownloadEmlFile(string guid)
+        {
+            var rec = Factory.MailBL.LoadMessageByGuid(guid);
+            if (rec == null)
+            {
+                return this.NotFound(new x40RecordViewModel());
+                
+            }
+            string fullPath = Factory.App.UploadFolder+"\\"+rec.x40EmlFolder+"\\"+ rec.x40MessageGuid+".eml";
+           
+            
+            if (System.IO.File.Exists(fullPath))
+            {
+                Response.Headers["Content-Length"] = rec.x40EmlFileSize.ToString();
+                Response.Headers["Content-Disposition"] = "inline; filename=poštovní_zpráva.eml";
+                var fileContentResult = new FileContentResult(System.IO.File.ReadAllBytes(fullPath), "message/rfc822");
+
+                return fileContentResult;
+                //return File(System.IO.File.ReadAllBytes(fullPath), "message/rfc822", "poštovní_zpráva.eml");
+            }
+            else
+            {
+                return RedirectToAction("FileDownloadNotFound", "o23");
+            }
+
+           
+            
+        }
     }
+
+
+
 }

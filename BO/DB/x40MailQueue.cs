@@ -40,5 +40,17 @@ namespace BO
         public string x40ErrorMessage { get; set; }
 
         public string j40Name { get; set; }
+
+        public string StateAlias
+        {
+            get
+            {
+
+                if (this.x40State == x40StateFlag.Error) return "Chyba";
+                if (this.x40State == x40StateFlag.Proceeded) return "Odesláno";
+
+                return this.x40State.ToString();
+            }
+        }
     }
 }

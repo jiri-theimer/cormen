@@ -300,13 +300,13 @@
         }
         function render_currentuser_menu() {
 
-            $.post("/Home/getHTML_CurrentUserMenu", function (data) {
+            $.post("/Menu/CurrentUserMenu", function (data) {
                 $("#divCurrentUserMenu").html(data);
             });
 
         }
         function render_new_menu() {
-            $.post("/Home/getHTML_MainMenu_New", function (data) {
+            $.post("/Menu/GlobalCreateMenu", function (data) {
                 $("#divMainNew").html(data);
             });
         }
