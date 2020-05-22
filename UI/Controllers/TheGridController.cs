@@ -412,31 +412,38 @@ namespace UI.Controllers
             ret.sortdir = cJ72.j72SortOrder;
             
             var mq = new BO.myQuery(cJ72.j72Entity);
-            mq.OFFSET_PageSize = cJ72.j72PageSize;
-            mq.OFFSET_PageNum = cJ72.j72CurrentPagerIndex / cJ72.j72PageSize;
+            
             
             _grid.Columns =_colsProvider.ParseTheGridColumns(mq.Prefix,cJ72.j72Columns);            
 
             mq.explicit_columns = _grid.Columns;
-            if (String.IsNullOrEmpty(cJ72.j72SortDataField)==false && _grid.Columns.Where(p=>p.UniqueName==cJ72.j72SortDataField).Count()>0)
-            {
-                var c = _grid.Columns.Where(p => p.UniqueName == cJ72.j72SortDataField).First();
-                mq.explicit_orderby = c.getFinalSqlSyntax_ORDERBY() + " " + cJ72.j72SortOrder;
-
-            }
+                        
             if (String.IsNullOrEmpty(cJ72.j72Filter) == false)
             {
                 mq.TheGridFilter = _colsProvider.ParseAdhocFilterFromString(cJ72.j72Filter, mq.explicit_columns);
             }
 
-
             CompleteGridMyQuery(ref mq, cJ72);
-           
             
-            var dt = Factory.gridBL.GetList(mq);
-            mq.explicit_orderby = "";
             var dtFooter = Factory.gridBL.GetList(mq, true);
             int intVirtualRowsCount = Convert.ToInt32(dtFooter.Rows[0]["RowsCount"]);
+
+            if (intVirtualRowsCount > 500)
+            {   //dotazy nad 500 záznamů budou mít zapnutý OFFSET režim stránkování
+                mq.OFFSET_PageSize = cJ72.j72PageSize;
+                mq.OFFSET_PageNum = cJ72.j72CurrentPagerIndex / cJ72.j72PageSize;
+            }
+
+            //třídění řešit až po spuštění FOOTER summary DOTAZu
+            if (String.IsNullOrEmpty(cJ72.j72SortDataField) == false && _grid.Columns.Where(p => p.UniqueName == cJ72.j72SortDataField).Count() > 0)
+            {
+                var c = _grid.Columns.Where(p => p.UniqueName == cJ72.j72SortDataField).First();
+                mq.explicit_orderby = c.getFinalSqlSyntax_ORDERBY() + " " + cJ72.j72SortOrder;
+            }
+
+            var dt = Factory.gridBL.GetList(mq);
+            
+            
 
             if (_grid.GridState.j72CurrentRecordPid > 0 && intVirtualRowsCount > cJ72.j72PageSize)
             {
