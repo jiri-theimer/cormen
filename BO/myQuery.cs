@@ -16,6 +16,8 @@ namespace BO
             this.Refresh();
         }
 
+        public int OFFSET_PageSize { get; set; }
+        public int OFFSET_PageNum { get; set; }
         public string Entity {
             get
             {

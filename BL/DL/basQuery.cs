@@ -204,6 +204,7 @@ namespace BL.DL
                 strPrimarySql += " ORDER BY " + mq.explicit_orderby;
             }
 
+            
             ret.FinalSql = strPrimarySql;
             return ret;
 

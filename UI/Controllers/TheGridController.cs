@@ -412,7 +412,8 @@ namespace UI.Controllers
             ret.sortdir = cJ72.j72SortOrder;
             
             var mq = new BO.myQuery(cJ72.j72Entity);
-
+            mq.OFFSET_PageSize = cJ72.j72PageSize;
+            mq.OFFSET_PageNum = cJ72.j72CurrentPagerIndex / cJ72.j72PageSize;
             
             _grid.Columns =_colsProvider.ParseTheGridColumns(mq.Prefix,cJ72.j72Columns);            
 
@@ -450,7 +451,7 @@ namespace UI.Controllers
 
             _s = new System.Text.StringBuilder();
 
-            Render_DATAROWS(dt);
+            Render_DATAROWS(dt,mq);
             ret.body = _s.ToString();
             _s = new System.Text.StringBuilder();
 
@@ -463,13 +464,23 @@ namespace UI.Controllers
             return ret;
         }
 
-        private void Render_DATAROWS(System.Data.DataTable dt)
-        {
-            string strPrefix = _grid.Entity.Substring(0, 3);
+        private void Render_DATAROWS(System.Data.DataTable dt,BO.myQuery mq)
+        {            
             int intRows = dt.Rows.Count;
-            int intStartIndex = _grid.GridState.j72CurrentPagerIndex;
-            int intEndIndex = intStartIndex + _grid.GridState.j72PageSize-1;
-            if (intEndIndex+1 > intRows) intEndIndex = intRows-1;
+            int intStartIndex = 0;
+            int intEndIndex = 0;
+            
+            if (mq.OFFSET_PageSize > 0)
+            {   //Zapnutý OFFSET - pouze jedna stránka díky OFFSET
+                intStartIndex = 0;
+                intEndIndex = intRows - 1;
+            }
+            else
+            {   //bez OFFSET               
+                intStartIndex = _grid.GridState.j72CurrentPagerIndex;
+                intEndIndex = intStartIndex + _grid.GridState.j72PageSize - 1;
+                if (intEndIndex + 1 > intRows) intEndIndex = intRows - 1;
+            }
 
             for (int i = intStartIndex; i <= intEndIndex; i++)
             {

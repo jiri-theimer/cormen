@@ -14,8 +14,28 @@ if (screen.availHeight > screen.availWidth || screen.width < 800 || screen.heigh
 }
 
 function _edit(controller, pid, header) {
-    _window_open("/" + controller + "/record?pid=" + pid, 1, header);
+    
+    var url = "";
+    switch (controller) {
+        case "x40":
+            url = "/Mail/Record_x40?pid=" + pid;
+            break;
+        case "j40":
+            url = "/Mail/Record_j40?pid=" + pid;
+            break;
+        case "j90":
+        case "p14":
+        case "p15":
+           
+            _notify_message("Pro tento záznam neexistuje stránka detailu.", "info");
+            return;
+        default:
+            url = "/" + controller + "/record?pid=" + pid;
+            break;
+    }
 
+    _window_open(url, 1, header);
+    
 }
 
 function _clone(controller, pid, header) {

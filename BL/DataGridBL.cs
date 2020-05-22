@@ -98,25 +98,29 @@ namespace BL
                 }
 
             }
-            //if (relSqls.Count() > 0)
+            
+
+            //if (ce.SqlOrderBy != null)  //výchozí třídění záznamů entity
             //{
-            //    sb.Append(" ");
-            //    sb.Append(String.Join(" ", relSqls));   //doplnit FROM klauzuly o další potřebné relace
+            //    if (String.IsNullOrEmpty(mq.explicit_orderby) && bolGetTotalsRow == false) mq.explicit_orderby = ce.SqlOrderBy;
             //}
-            
-            
+            //vždy musí být nějaké výchozí třídění v ce.SqlOrderBy!!
+            if (bolGetTotalsRow == false && String.IsNullOrEmpty(mq.explicit_orderby)) mq.explicit_orderby = ce.SqlOrderBy;
 
-            if (ce.SqlOrderBy != null)  //výchozí třídění záznamů entity
-            {
-                if (String.IsNullOrEmpty(mq.explicit_orderby) && bolGetTotalsRow == false) mq.explicit_orderby = ce.SqlOrderBy;
-            }
-            
 
-           
 
             //parametrický dotaz s WHERE klauzulí
 
             DL.FinalSqlCommand q = DL.basQuery.ParseFinalSql(sb.ToString(),mq,_mother.CurrentUser, true);    //závěrečné vygenerování WHERE a ORDERBY klauzule
+
+            if (bolGetTotalsRow == false && mq.OFFSET_PageSize > 0)
+            {
+                q.FinalSql += " OFFSET @pagesize*@pagenum ROWS FETCH NEXT @pagesize ROWS ONLY";
+                if (q.Parameters4DT == null) q.Parameters4DT = new List<DL.Param4DT>();
+                q.Parameters4DT.Add(new DL.Param4DT() { ParamType = "int", ParName = "pagesize", ParValue = mq.OFFSET_PageSize });
+                q.Parameters4DT.Add(new DL.Param4DT() { ParamType = "int", ParName = "pagenum", ParValue = mq.OFFSET_PageNum });
+
+            }
             
             return _db.GetDataTable(q.FinalSql, q.Parameters4DT);
             

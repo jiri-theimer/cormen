@@ -81,13 +81,15 @@ namespace BL
         }
 
         private static void AE (string strTabName, string strPlural, string strSingular, string strSqlFromGrid,string strSqlFrom, string strSqlOrderBy=null)
-        {            
+        {
+            if (strSqlOrderBy == null) strSqlOrderBy = "a." + strTabName.Substring(0, 3) + "ID DESC";
             _lis.Add(new BO.TheEntity() {TableName = strTabName, AliasPlural = strPlural, AliasSingular = strSingular,SqlFromGrid=strSqlFromGrid, SqlFrom = strSqlFrom, SqlOrderBy = strSqlOrderBy });
             
         }
         private static void AE_TINY(string strTabName, string strPlural, string strSingular)
-        {            
-            _lis.Add(new BO.TheEntity() {TableName = strTabName, AliasPlural = strPlural, AliasSingular = strSingular, SqlFromGrid=strTabName+" a", SqlFrom = strTabName + " a" });
+        {
+            
+            _lis.Add(new BO.TheEntity() {TableName = strTabName, AliasPlural = strPlural, AliasSingular = strSingular, SqlFromGrid=strTabName+" a", SqlFrom = strTabName + " a",SqlOrderBy= "a." + strTabName.Substring(0, 3) + "ID DESC" });
         }
         private static BO.EntityRelation getREL(string strTabName,string strRelName, string strSingular, string strSqlFrom,string strDependOnRel=null)
         {
