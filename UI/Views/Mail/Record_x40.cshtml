@@ -25,7 +25,7 @@
             <span class="form-control bg-light">
                 @Model.Rec.x40WhenProceeded
                 <strong style="margin-left:40px;">@Model.Rec.StateAlias</strong>
-                <span style="margin-left:40px;">Velikost: @(BO.BAS.FormatFileSize(Model.Rec.x40EmlFileSize))</span>
+
             </span>
 
         </div>
@@ -82,7 +82,7 @@
         </div>
 
     </div>
-    
+
 
     @if (Model.MimeMessage != null && Model.MimeAttachments.Count() > 0)
     {
@@ -93,17 +93,27 @@
                 {
                     <div>
                         <a target="_blank" href="/o23/FileDownloadTempFile?tempfilename=@(Model.Rec.x40MessageGuid+"_"+item.Value)&guid=@(Model.Rec.x40MessageGuid)&contenttype=@(item.Key)">@(item.Value)</a>
-                        
+
                     </div>
                 }
 
 
-
+                
 
 
             </div>
 
         </div>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Velikost zprávy:</label>
+            <div class="col-sm-11 col-md-10">
+                @(BO.BAS.FormatFileSize(Model.Rec.x40EmlFileSize))
+
+            </div>
+
+        </div>
+
+
     }
 
 

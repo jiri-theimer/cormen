@@ -246,7 +246,12 @@ namespace BL
                     {
                         System.IO.Directory.CreateDirectory(_mother.App.UploadFolder + "\\" + rec.x40EmlFolder);
                     }
-                    File.Move(strFullPath, _mother.App.UploadFolder + "\\" +rec.x40EmlFolder + "\\"+ rec.x40MessageGuid + ".eml");    //přejmenovat nalezený eml file na guid
+                    string strDestPath = _mother.App.UploadFolder + "\\" + rec.x40EmlFolder + "\\" + rec.x40MessageGuid + ".eml";
+                    if (!File.Exists(strDestPath))
+                    {
+                        File.Move(strFullPath, strDestPath);    //přejmenovat nalezený eml file na guid
+                    }
+                    
                     
                 }
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;

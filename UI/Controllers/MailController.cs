@@ -16,7 +16,6 @@ namespace UI.Controllers
     {
         public IActionResult SendMail(int x40id)
         {
-
             var v = new Models.SendMailViewModel();
             v.Rec = new BO.x40MailQueue();
             v.Rec.j40ID = BO.BAS.InInt(Factory.CBL.LoadUserParam("SendMail_j40ID"));
@@ -25,14 +24,18 @@ namespace UI.Controllers
             v.UploadGuid = BO.BAS.GetGuid();
 
             if (x40id > 0)
-            {
+            {   //kopírování zprávy do nové podle vzoru x40id
                 v.Rec = Factory.MailBL.LoadMessageByPid(x40id);
                 v.Rec.x40To = v.Rec.x40To;
                 v.Rec.x40Cc = v.Rec.x40Cc;
                 v.Rec.x40Bcc = v.Rec.x40Bcc;
                 v.Rec.x40Subject = v.Rec.x40Subject;
                 v.Rec.x40Body = v.Rec.x40Body;
-                
+
+                var vtemp = new x40RecordViewModel();
+                vtemp.Rec = v.Rec;
+                InhaleMimeMessage(ref vtemp,v.UploadGuid);
+
             }
 
             return View(v);
@@ -80,42 +83,40 @@ namespace UI.Controllers
             }
 
 
-           
-            string fullPath = Factory.App.UploadFolder + "\\" + v.Rec.x40EmlFolder + "\\" + v.Rec.x40MessageGuid + ".eml";
-            if (System.IO.File.Exists(fullPath))
-            {
-                v.MimeMessage = MimeMessage.Load(fullPath);
-                v.MimeAttachments = new List<BO.COM.StringPairValue>();
+            InhaleMimeMessage(ref v, v.Rec.x40MessageGuid);
 
-                foreach (var attachment in v.MimeMessage.Attachments)
-                {
-                    if (attachment is MessagePart)
-                    {
+            //string fullPath = Factory.App.UploadFolder + "\\" + v.Rec.x40EmlFolder + "\\" + v.Rec.x40MessageGuid + ".eml";
+            //if (System.IO.File.Exists(fullPath))
+            //{
+            //    v.MimeMessage = MimeMessage.Load(fullPath);
+            //    v.MimeAttachments = new List<BO.COM.StringPairValue>();
+
+            //    foreach (var attachment in v.MimeMessage.Attachments)
+            //    {
+            //        if (attachment is MessagePart)
+            //        {
                         
-                    }
-                    else
-                    {
-                        var part = (MimePart)attachment;
-                        var fileName = part.FileName;
-                        v.MimeAttachments.Add(new BO.COM.StringPairValue() { Key = part.ContentType.MimeType, Value = fileName });
-
+            //        }
+            //        else
+            //        {
+            //            var part = (MimePart)attachment;
+            //            var fileName = part.FileName;
+            //            v.MimeAttachments.Add(new BO.COM.StringPairValue() { Key = part.ContentType.MimeType, Value = fileName });
                         
-                        string strTempFullPath = this.Factory.App.TempFolder + "\\" +v.Rec.x40MessageGuid+"_"+ fileName;
-                        if (System.IO.File.Exists(strTempFullPath)==false)
-                        {
-                            using (var fs = new FileStream(strTempFullPath, System.IO.FileMode.Create))
-                            {
-                                part.Content.DecodeTo(fs);  //uložit attachment soubor do tempu
-                            }
-                        }
+            //            string strTempFullPath = this.Factory.App.TempFolder + "\\" +v.Rec.x40MessageGuid+"_"+ fileName;
+            //            if (System.IO.File.Exists(strTempFullPath)==false)
+            //            {
+            //                using (var fs = new FileStream(strTempFullPath, System.IO.FileMode.Create))
+            //                {
+            //                    part.Content.DecodeTo(fs);  //uložit attachment soubor do tempu
+            //                }
+            //            }
                         
-
-
-                    }
+            //        }
 
                     
-                }
-            }
+            //    }
+            //}
             
 
 
@@ -219,6 +220,48 @@ namespace UI.Controllers
 
            
             
+        }
+
+
+        private void InhaleMimeMessage(ref x40RecordViewModel v,string strDestGUID)
+        {
+            string fullPath = Factory.App.UploadFolder + "\\" + v.Rec.x40EmlFolder + "\\" + v.Rec.x40MessageGuid + ".eml";
+
+            if (System.IO.File.Exists(fullPath)==false)
+            {
+                return;
+            }
+
+            v.MimeMessage = MimeMessage.Load(fullPath);
+            v.MimeAttachments = new List<BO.COM.StringPairValue>();
+
+            foreach (var attachment in v.MimeMessage.Attachments)
+            {
+                if (attachment is MessagePart)
+                {
+
+                }
+                else
+                {
+                    var part = (MimePart)attachment;
+                    var fileName = part.FileName;
+                    v.MimeAttachments.Add(new BO.COM.StringPairValue() { Key = part.ContentType.MimeType, Value = fileName });
+
+                    string strTempFullPath = this.Factory.App.TempFolder + "\\" + strDestGUID + "_" + fileName;
+                    if (System.IO.File.Exists(strTempFullPath) == false)
+                    {
+                        using (var fs = new FileStream(strTempFullPath, System.IO.FileMode.Create))
+                        {
+                            part.Content.DecodeTo(fs);  //uložit attachment soubor do tempu
+                        }
+                    }
+
+                }
+
+
+            }
+
+           
         }
     }
 
