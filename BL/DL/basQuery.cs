@@ -121,10 +121,14 @@ namespace BL.DL
                 //{
                 //    AQ(ref lis, "(a.p28ID=@p28id_my OR a.j02ID_Owner IN (select j02ID FROM j02Person WHERE p28ID=@p28id_my)", "p28id_my", ru.p28ID);
                 //}
-                if (mq.Prefix == "o23" ||  mq.Prefix == "p41" || mq.Prefix=="p31")
+                if (mq.Prefix == "o23" ||  mq.Prefix == "p41" || mq.Prefix=="p31" || mq.Prefix=="p51")
                 {
 
                     AQ(ref lis, "a.j02ID_Owner IN (select j02ID FROM j02Person WHERE p28ID=@p28id_my)", "p28id_my", ru.p28ID);
+                }
+                if (mq.Prefix == "p52")
+                {
+                    AQ(ref lis, "a.p51ID IN (select xa.p51ID FROM p51Order xa INNER JOIN j02Person xb ON xa.j02ID_Owner=xb.j02ID WHERE xb.p28ID=@p28id_my)", "p28id", ru.p28ID);    //pouze objednávky cloud klienta
                 }
                 if (mq.Prefix == "p28" || mq.Prefix == "j02")
                 {
@@ -169,6 +173,10 @@ namespace BL.DL
                 if (mq.Prefix == "p51")
                 {
                     AQ(ref lis, "(a.p51Name LIKE '%'+@expr+'%' OR a.p51Code LIKE '%'+@expr+'%')", "expr", mq.SearchString);
+                }
+                if (mq.Prefix == "p52")
+                {
+                    AQ(ref lis, "a.p52ID IN (select xa.p52ID FROM p52OrderItem xa INNER JOIN p51Order xb ON xa.p51ID=xb.p51ID INNER JOIN p11ClientProduct xc ON xa.p11ID=xc.p11ID LEFT OUTER JOIN p28Company xd ON xb.p28ID=xd.p28ID WHERE xb.p51Name LIKE '%'+@expr+'%' OR xc.p11Name LIKE '%'+@expr+'%' OR xd.p28Name LIKE '%'+@expr+'%' OR xb.p51Code LIKE '%'+@expr+'%' OR xc.p11Code LIKE '%'+@expr+'%')", "expr", mq.SearchString);
                 }
                 if (mq.Prefix == "p10")
                 {

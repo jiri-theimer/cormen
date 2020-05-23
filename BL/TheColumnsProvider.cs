@@ -262,7 +262,7 @@ namespace BL
             //p52 = položky objednávky
             AF("p52OrderItem", "p52Code", "Kód", 1);            
             AF("p52OrderItem", "p52UnitsCount", "Množství", 1, null, "num");            
-            AF("p52OrderItem", "Recalc2Kg", "Přepočteno na KG", 1, "p52UnitsCount * p52_p11.p11RecalcUnit2Kg", "num", true, "p52_p11");
+            AF("p52OrderItem", "Recalc2Kg", "Přepočteno na KG", 2, "p52UnitsCount * p52_p11.p11RecalcUnit2Kg", "num", true, "p52_p11");
 
             AF("p52OrderItem", "RecordOwner", "Vlastník záznamu", 0, "dbo.j02_show_as_owner(a.j02ID_Owner)");
 
@@ -409,7 +409,9 @@ namespace BL
                     break;
                 case "p52":                    
                     ret.Add(InhaleColumn4Relation("p52_p11", "p11ClientProduct", "p11Name", rels, bolComboColumns));
+                    ret.Add(InhaleColumn4Relation("p51_p28", "p28Company", "p28Name", rels, bolComboColumns));
                     ret.Add(InhaleColumn4Relation("p11_p20", "p20Unit", "p20Code", rels, bolComboColumns));
+                    ret.Add(InhaleColumn4Relation("p52_p51", "p51Order", "p51DateDelivery", rels, bolComboColumns));
                     break;                
             }
             

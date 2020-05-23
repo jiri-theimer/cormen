@@ -100,6 +100,12 @@ namespace BL
                 return false;
             }
 
+            if (rec.p28ID==0 && string.IsNullOrEmpty(rec.p51Name) == true)
+            {
+                _db.CurrentUser.AddMessage("Musíte vyplnit klienta nebo název objednávky.");
+                return false;
+            }
+
             return true;
         }
 
