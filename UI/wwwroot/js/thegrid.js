@@ -24,7 +24,8 @@ function tg_init(c) {
     _tg_contextmenuflag = c.contextmenuflag;
     _tg_ondblclick = c.ondblclick;    
 
-    tg_post_data();
+    //tg_post_data(); //zatím pozastaveno - uvidíme, co dál
+    
 
     $("#container_grid").scroll(function () {
         $("#container_vScroll").width($("#container_grid").width() + $("#container_grid").scrollLeft());
@@ -39,11 +40,17 @@ function tg_init(c) {
     tg_setup_checkbox_handler();
 
     var parentElement = document.getElementById("container_grid").parentNode;
-    if (parentElement.id !== "splitter_panel1") {        
+    if (parentElement.id !== "splitter_panel1") {               
         tg_adjust_for_screen(); //bude voláno až po inicializaci splitteru v mateřské stránce gridu
     }
     
+    tg_adjust_parts_width();
+
+    var basewidth = $("#tabgrid0").width();
+    $("#tabgrid1").width(basewidth);
+    $("#tabgrid2").width(basewidth);
     
+    tg_setup_selectable();  //inicializace selectable
     
 
     $("#tabgrid1_thead .query_textbox").on("focus", function (e) {
@@ -245,24 +252,6 @@ function tg_setup_selectable() {
 
 
 
-function tg_adjust_col_widths() {
-    var cols_tab0 = $("#tr_header_headline th");
-    var cols_tab1 = $("#tabgrid1_tbody tr:first").find("td");
-    if (cols_tab1.length === 0) {
-        return;
-    }
-    var cols_tab2 = $("#tabgrid1_tr_totals th");
-    $("#tabgrid1_tbody").width($("#tabgrid1").width());
-
-    for (i = 0; i < cols_tab0.length; i++) {
-        var w = $(cols_tab0[i]).width();
-        $(cols_tab1[i]).width(w);
-        if (cols_tab2.length > 0) {
-            $(cols_tab2[i]).width(w);
-        }
-
-    }
-}
 
 
 function tg_setup_checkbox_handler() {
@@ -747,15 +736,21 @@ function tg_adjust_for_screen(strParentElementID) {
         //výška gridu bude odvozená podle nadřízeného elementu strParentElementID
         var parentElement = document.getElementById(strParentElementID);
         var hh = $(parentElement).height() - $("#tabgrid0").height() - $("#tabgrid2").height() - $("#divPagerContainer").height() - 2;
-        if ($("#tabgrid1_tfoot").height() <= 2) {
-            hh = hh - 35;   //rezerva pro tfoot s TOTALS
+        
+        if ($("#tabgrid2").height() <= 2) {
+            hh = hh - 35;   //rezerva pro tfoot s TOTALS            
+        } else {
+            //hh = hh - $("#tabgrid1_tfoot").height();
         }
+        
+
         w0 = $(parentElement).width();
 
         if ($("#tabgrid0").width() > w0) {
-            hh = hh - 20;   //je vidět horizontální scrollbara, ubereme výšku, aby byla vidět, 20: odhad výšky scrollbary            
+            //hh = hh - 20;   //je vidět horizontální scrollbara, ubereme výšku, aby byla vidět, 20: odhad výšky scrollbary            
         }
-        hh = hh + 5;
+        //hh = hh + 5;
+        
         $("#container_vScroll").css("height", hh + "px");
 
 

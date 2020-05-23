@@ -500,7 +500,7 @@ a.cm {
     height: 400px;
     width: 100%;
     min-height: 100px;
-    overflow-y: auto;
+    overflow-y: hidden;
 }
 
 .splitter-resizer-top2bottom {

@@ -75,7 +75,8 @@ namespace BL
             AE_TINY("j40MailAccount", "Poštovní účty", "Poštovní účet");
 
 
-            AE_TINY("j90LoginAccessLog", "Historie přihlašování", "Historie přihlašování");
+            AE_TINY("j90LoginAccessLog", "LOGIN Log", "LOGIN Log");
+            AE_TINY("j92PingLog", "PING Log", "PING Log");
 
 
         }
@@ -117,6 +118,9 @@ namespace BL
                     break;
                 case "j90":
                     lis.Add(getREL("j03User", "j90_j03", "Uživatelský účet", "INNER JOIN j03User j90_j03 ON a.j03ID=j90_j03.j03ID INNER JOIN j04UserRole j03_j04 ON j90_j03.j04ID=j03_j04.j04ID"));
+                    break;
+                case "j92":
+                    lis.Add(getREL("j03User", "j92_j03", "Uživatelský účet", "INNER JOIN j03User j92_j03 ON a.j03ID=j92_j03.j03ID INNER JOIN j04UserRole j03_j04 ON j92_j03.j04ID=j03_j04.j04ID"));
                     break;
                 case "p10":
                     lis.Add(getREL("p20Unit", "p10_p20", "Měrná jednotka", "INNER JOIN p20Unit p10_p20 ON a.p20ID=p10_p20.p20ID"));

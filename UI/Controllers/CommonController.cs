@@ -10,7 +10,7 @@ namespace UI.Controllers
     public class CommonController : BaseController
     {
         private readonly BL.TheColumnsProvider _colsProvider;
-
+       
         public CommonController(BL.TheColumnsProvider cp)
         {
             _colsProvider = cp;

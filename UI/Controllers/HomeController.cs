@@ -37,23 +37,6 @@ namespace UI.Controllers
 
         }
 
-     
-
-        public string getHTML_FontStyleMenu()
-        {
-            var sb = new System.Text.StringBuilder();
-            for (int i = 1; i <= 4; i++)
-            {
-                string s = "Malé písmo";
-                if (i == 2) s = "Výchozí velikost písma";
-                if (i == 3) s = "Větší";
-                if (i == 4) s = "Velké";
-                if (Factory.CurrentUser.j03FontStyleFlag == i) s += "&#10004;";
-                sb.AppendLine(string.Format("<div ><a class='nav-link' href='javascript: save_fontstyle_menu({0})'>{1}</a></div>", i,s));
-            }                        
-            return sb.ToString();
-        }
-        
         public BO.Result SaveCurrentUserFontStyle(int fontstyleflag)
         {
             var c = Factory.j03UserBL.Load(Factory.CurrentUser.pid);
@@ -61,6 +44,20 @@ namespace UI.Controllers
             Factory.j03UserBL.Save(c);
             return new BO.Result(false);
         }
+
+        public BO.Result UpdateCurrentUserPing(BO.j92PingLog c)
+        {
+            var uaParser = UAParser.Parser.GetDefault();
+            UAParser.ClientInfo client_info = uaParser.Parse(c.j92BrowserUserAgent);
+            c.j92BrowserOS = client_info.OS.Family + " " + client_info.OS.Major;
+            c.j92BrowserFamily = client_info.UA.Family + " " + client_info.UA.Major;
+            c.j92BrowserDeviceFamily = client_info.Device.Family;
+            
+            Factory.j03UserBL.UpdateCurrentUserPing(c);
+            
+            return new BO.Result(false);
+        }
+
         public BO.Result StartStopLiveChat(int flag)
         {
             var c = Factory.j03UserBL.Load(Factory.CurrentUser.pid);

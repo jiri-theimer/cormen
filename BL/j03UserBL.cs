@@ -11,6 +11,7 @@ namespace BL
         
         public IEnumerable<BO.j03User> GetList(BO.myQuery mq);
         public int Save(BO.j03User rec);
+        public void UpdateCurrentUserPing(BO.j92PingLog c);
 
     }
     class j03UserBL : BaseBL, Ij03UserBL
@@ -62,6 +63,28 @@ namespace BL
 
 
             return _db.SaveRecord("j03User", p.getDynamicDapperPars(), rec);
+        }
+
+
+        public void UpdateCurrentUserPing(BO.j92PingLog c) //zápis pravidelně po 2 minutách do PING logu
+        {
+            _db.RunSql("UPDATE j03User set j03PingTimestamp=GETDATE() WHERE j03ID=@pid", new { pid = _mother.CurrentUser.pid });    //ping aktualizace
+
+            string s = "INSERT INTO j92PingLog(j03ID,j92Date,j92BrowserUserAgent,j92BrowserFamily,j92BrowserOS,j92BrowserDeviceType,j92BrowserDeviceFamily,j92BrowserAvailWidth,j92BrowserAvailHeight,j92BrowserInnerWidth,j92BrowserInnerHeight,j92RequestUrl)";
+            s += " VALUES(@j03id,GETDATE(),@useragent,@browser,@os,@devicetype,@devicefamily,@aw,@ah,@iw,@ih,@requesturl)";
+            _db.RunSql(s, new { j03id = _mother.CurrentUser.pid, useragent = c.j92BrowserUserAgent, browser = c.j92BrowserFamily, os = c.j92BrowserOS, devicetype = c.j92BrowserDeviceType, devicefamily = c.j92BrowserDeviceFamily, aw = c.j92BrowserAvailWidth, ah = c.j92BrowserAvailHeight, iw = c.j92BrowserInnerWidth, ih = c.j92BrowserInnerHeight, requesturl=c.j92RequestURL });
+
+
+            if (_mother.CurrentUser.j03LiveChatTimestamp != null)   //hlídat, aby se automaticky vypnul live-chat box po 20ti minutách
+            {
+                if (_mother.CurrentUser.j03LiveChatTimestamp.Value.AddMinutes(20) < DateTime.Now)
+                {                    
+                    var rec = Load(_mother.CurrentUser.pid);
+                    rec.j03LiveChatTimestamp = null;   //vypnout smartsupp
+                    Save(rec);
+                }
+            }
+
         }
     }
 }

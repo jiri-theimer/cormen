@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using UI.Controllers;
 using UI.Models;
 
 namespace UI.Views.Shared.Components.TheGrid
@@ -53,6 +54,10 @@ namespace UI.Views.Shared.Components.TheGrid
             ret.MasterEntity = master_entity;
             ret.MasterPID = master_pid;
 
+            
+            var cc = new TheGridController(_colsProvider);
+            cc.Factory = _f;
+            ret.firstdata = cc.render_thegrid_html(cJ72);
 
             return View("Default", ret);
 

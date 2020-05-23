@@ -15,7 +15,10 @@ using System.ComponentModel;
 namespace UI.Controllers
 {
     public class TheGridController : BaseController
+
+        
     {
+       
         private System.Text.StringBuilder _s;
         private UI.Models.TheGridViewModel _grid;
         private readonly BL.TheColumnsProvider _colsProvider;
@@ -79,7 +82,8 @@ namespace UI.Controllers
                     tabs.Add(new NavTab() { Name = "Založené objednávky", Entity = "p51Order", Url = "SlaveView?prefix=p51" });
                     tabs.Add(new NavTab() { Name = "Založené zakázky", Entity = "p41Task", Url = "SlaveView?prefix=p41" });
                     tabs.Add(new NavTab() { Name = "Outbox", Entity = "x40MailQueue", Url = "SlaveView?prefix=x40" });
-                    tabs.Add(new NavTab() { Name = "Historie přihlašování", Entity = "j90LoginAccessLog", Url = "SlaveView?prefix=j90" });
+                    tabs.Add(new NavTab() { Name = "PING Log", Entity = "j92PingLog", Url = "SlaveView?prefix=j92" });
+                    tabs.Add(new NavTab() { Name = "LOGIN Log", Entity = "j90LoginAccessLog", Url = "SlaveView?prefix=j90" });
                     break;
                 case "p26":
                     tabs.Add(new NavTab() { Name = "Detail", Url = "/p26/Index?pid="+ AppendPid2Url(v.go2pid) });
@@ -402,7 +406,7 @@ namespace UI.Controllers
                     break;
             }
         }
-        private TheGridOutput render_thegrid_html(BO.j72TheGridState cJ72)
+        public TheGridOutput render_thegrid_html(BO.j72TheGridState cJ72)
         {
             var ret = new TheGridOutput();
             _grid = new TheGridViewModel() { Entity = cJ72.j72Entity };

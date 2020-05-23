@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 using UI.Models;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace UI.Controllers    
 {
@@ -15,7 +16,7 @@ namespace UI.Controllers
     {
         
         public BL.Factory Factory;
-        
+               
 
         //Test probíhá před spuštěním každé Akce!
         public override void OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext context)
@@ -25,8 +26,13 @@ namespace UI.Controllers
             if (string.IsNullOrEmpty(ru.j03Login))
             {
                 ru.j03Login = context.HttpContext.User.Identity.Name;
+                
             }
-            this.Factory= (BL.Factory)HttpContext.RequestServices.GetService(typeof(BL.Factory));
+            if (this.Factory == null)
+            {
+                this.Factory = (BL.Factory)HttpContext.RequestServices.GetService(typeof(BL.Factory));
+            }
+            
 
             if (Factory.CurrentUser==null || Factory.CurrentUser.isclosed)
             {

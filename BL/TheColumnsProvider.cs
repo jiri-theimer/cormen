@@ -282,7 +282,7 @@ namespace BL
             AF("j90LoginAccessLog", "j90Date", "Čas", 1, null, "datetime");
             AF("j90LoginAccessLog", "j90BrowserFamily", "Prohlížeč", 1);
             AF("j90LoginAccessLog", "j90BrowserOS", "OS", 1);
-            AF("j90LoginAccessLog", "j90BrowserDeviceType", "Device", 1);
+            AF("j90LoginAccessLog", "j90BrowserDeviceType", "Device");
             AF("j90LoginAccessLog", "j90BrowserAvailWidth", "Šířka (px)", 1);
             AF("j90LoginAccessLog", "j90BrowserAvailHeight", "Výška (px)", 1);
             AF("j90LoginAccessLog", "j90LocationHost", "Host", 1);
@@ -290,6 +290,15 @@ namespace BL
             AF("j90LoginAccessLog", "j90CookieExpiresInHours", "Expirace přihlášení", 1, null, "num0");
             AF("j90LoginAccessLog", "j90LoginName", "Login", 1);
 
+            //j92 = ping log uživatelů
+            AF("j92PingLog", "j92Date", "Čas", 1, null, "datetime");
+            AF("j92PingLog", "j92BrowserFamily", "Prohlížeč", 1);
+            AF("j92PingLog", "j92BrowserOS", "OS", 1);
+            AF("j92PingLog", "j92BrowserDeviceType", "Device", 1);
+            AF("j92PingLog", "j92BrowserAvailWidth", "Šířka (px)", 1);
+            AF("j92PingLog", "j92BrowserAvailHeight", "Výška (px)", 1);            
+            AF("j92PingLog", "j92RequestURL", "Url", 1);
+            
 
             //j40 = poštovní účty
             AF("j40MailAccount", "j40SmtpHost", "Smtp server", 1);

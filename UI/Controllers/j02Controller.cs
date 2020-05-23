@@ -9,7 +9,7 @@ namespace UI.Controllers
 {    
     public class j02Controller:BaseController
     {
-
+       
         public IActionResult Index(int pid)
         {
             var v = new Models.j02PreviewViewModel();
@@ -203,6 +203,16 @@ namespace UI.Controllers
 
 
             return true;
+        }
+
+        public IActionResult WhoIsOnline(int go2pid)
+        {
+            var v = new TheGridInstanceViewModel() { prefix = "j02", go2pid = go2pid, contextmenuflag = 1 };
+            v.entity = BL.TheEntities.ByPrefix("j02").TableName;
+           
+            
+            return View(v);
+
         }
     }
 }

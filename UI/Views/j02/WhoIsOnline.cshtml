@@ -1,0 +1,54 @@
+﻿@model TheGridInstanceViewModel
+
+@{
+    ViewData["Title"] = "Kdo je nyní online";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@addTagHelper *,UI
+
+
+
+
+
+<div class="input-group bg-light">
+    <div style="padding-top:4px;">
+        <h4>Kdo je právě online?</h4>
+    </div>
+    <div style="margin-left:20px;">
+        <select id="slot" class="form-control">
+            <option value="1">Poslední hodina</option>
+            <option value="2">-2 hodiny</option>
+        </select>
+    </div>
+</div>
+
+    
+    <vc:the-grid entity="j02Person" j72id="0" master_entity="who_is_online" master_pid="1" go2pid="0" contextmenuflag="@Model.contextmenuflag" ondblclick="tg_dblclick"></vc:the-grid>
+
+    
+    @section Scripts{
+
+        <script type="text/javascript">
+            $(document.body).css("overflow", "hidden");
+
+            $(document).ready(function () {
+
+
+
+
+                _mainmenu_select("j02", "who_is_online");
+
+
+            });
+
+
+
+            /*automaticky volaná událost z thegrid controlu*/
+            function thegrid_handle_event(event_name, pid) {
+
+            }
+        </script>
+
+    }
+

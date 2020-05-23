@@ -18,6 +18,7 @@ namespace UI.Models
         public List<BO.TheGridColumnFilter> AdhocFilter { get; set; }
         
         
+        public TheGridOutput firstdata { get; set; }
     }
 
    public class TheGridUIContext

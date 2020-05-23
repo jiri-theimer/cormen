@@ -103,7 +103,7 @@ namespace UI
 
             services.AddScoped<BO.RunningUser, BO.RunningUser>();            
             services.AddScoped<BL.Factory,BL.Factory>();
-
+            
 
 
             services.AddHostedService<UI.TheRobot>();

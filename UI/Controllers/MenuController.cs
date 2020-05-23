@@ -37,6 +37,22 @@ namespace UI.Controllers
            
             return FlushResult_NAVLINKs();
         }
+        public string CurrentUserFontMenu()
+        {
+            
+            for (int i = 1; i <= 4; i++)
+            {
+                string s = "Malé písmo";
+                if (i == 2) s = "Výchozí velikost písma";
+                if (i == 3) s = "Větší";
+                if (i == 4) s = "Velké";
+                if (Factory.CurrentUser.j03FontStyleFlag == i) s += "&#10004;";
+                AMI(s, string.Format("javascript: save_fontstyle_menu({0})",i));
+                
+            }
+          
+            return FlushResult_NAVLINKs();
+        }
         public string GlobalCreateMenu()
         {
             if (Factory.CurrentUser.j03EnvironmentFlag == 2)

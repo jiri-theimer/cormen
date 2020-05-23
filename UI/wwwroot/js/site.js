@@ -400,15 +400,30 @@ function _removeUrlParam(key, sourceURL) {
     return rtn;
 }
 
-function _is_alpha_numeric_keycode(code) {
-    if (!(code > 47 && code < 58) && // numeric (0-9)
-        !(code > 64 && code < 91) && // upper alpha (A-Z)
-        !(code > 96 && code < 123)) { // lower alpha (a-z)
-        return false;
+
+function _update_user_ping() {    
+
+    var devicetype = "Desktop";
+    if (screen.availHeight > screen.availWidth || screen.width < 800 || screen.height < 600) {   //mobilní zařízení výšku vyšší než šířku
+        devicetype = "Phone";
+    }
+    
+    var log = {
+        j92BrowserUserAgent: navigator.userAgent,
+        j92BrowserAvailWidth: screen.availWidth,
+        j92BrowserAvailHeight: screen.availHeight,
+        j92BrowserInnerWidth: window.innerWidth,
+        j92BrowserInnerHeight: window.innerHeight,
+        j92BrowserDeviceType: devicetype,
+        j92RequestURL: location.href.replace(location.host, "").replace(location.protocol, "").replace("///", "")
     }
 
-    return true;
-};
+    
+    $.post("/Home/UpdateCurrentUserPing", { c: log }, function (data) {
+        //ping aktualizován
+    });
+
+}
 
 
 

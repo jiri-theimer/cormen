@@ -85,7 +85,7 @@
             <div style="text-align:center;overflow:hidden;text-overflow:ellipsis;color:white;background-color:navy;padding-bottom:20px;">
                 <span title="Držitel licence">CLIENT [@_f.CurrentUser.p28Name]</span>
             </div>
-            
+
         }
         else
         {
@@ -218,21 +218,29 @@
 
 
 
-        $(document).on("click", function (e) {
+            $(document).on("click", function (e) {
             if (e.target == _modal) {
                 _window_close();
             }
-        });
-        $(document).on("keydown", function (e) {
+            });
+            $(document).on("keydown", function (e) {
             if (e.keyCode == 27 && _modal.style.display == "block") {
                 _window_close();
 
             }
+            });
+
+
+            @if (_f.CurrentUser.j03PingTimestamp == null || _f.CurrentUser.j03PingTimestamp.Value.AddSeconds(120) < DateTime.Now)
+            {
+                <text>
+                _update_user_ping();     //aktualizace ping logu po 120 sekundách
+                </text>
+            }
+
+
+
         });
-
-
-
-    });
 
 
 
@@ -260,16 +268,16 @@
 
 
 
-        function hardrefresh(pid, flag) {     
+        function hardrefresh(pid, flag) {
             var url = window.location.href;
 
             if (_modal_current_layout == "subform") {   //volání z iframe -> refreshovat pouze iframe
-                if (document.getElementById("fra_subgrid")) {    
+                if (document.getElementById("fra_subgrid")) {
                     document.getElementById("fra_subgrid").contentDocument.location.reload(true);
                     return;
-                   
+
                 }
-            }            
+            }
             if (pid !== null && pid !== 0) {
                 url = _removeUrlParam("go2pid", url);
                 if (url.indexOf("?") > 0) {
@@ -277,16 +285,16 @@
                 } else {
                     url = url + "?go2pid=" + pid;
                 }
-                
-            }            
+
+            }
             location.replace(url);
-            
+
         }
 
         function render_fontstyle_menu()
         {
 
-            $.post("/Home/getHTML_FontStyleMenu", function (data) {
+            $.post("/Menu/CurrentUserFontMenu", function (data) {
                 $("#divFontStyleMenu").html(data);
             });
 
@@ -376,7 +384,7 @@
             $(okno).css("height", h);
             $(okno).css("left", x);
             $(okno).css("top", y);
-            $(fra).css("width", w-15);      
+            $(fra).css("width", w-15);
             $(fra).css("height", h - 30 - 10);    //10 padding dole, 30 div header
 
             if (url !== "") {
@@ -390,7 +398,7 @@
         function toggle_layout_sidebar1() {
             $("#layout_sidebar").toggle();
         }
-       
+
 
         function ToggleEnvironment() {
             $.post("/Home/ToggleEnvironment", function (data) {
@@ -404,7 +412,7 @@
                 }
 
             });
-            
+
         }
     </script>
 
