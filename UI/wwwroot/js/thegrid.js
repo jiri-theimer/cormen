@@ -39,6 +39,8 @@ function tg_init(c) {
 
     tg_setup_checkbox_handler();
 
+    //$("#container_grid").css("visibility", "visible");
+
     var parentElement = document.getElementById("container_grid").parentNode;
     if (parentElement.id !== "splitter_panel1") {               
         tg_adjust_for_screen(); //bude voláno až po inicializaci splitteru v mateřské stránce gridu
@@ -785,7 +787,7 @@ function tg_adjust_for_screen(strParentElementID) {
     
 }
 
-function tg_dblclick(row) {
+function tg_dblclick(row) {    
     _edit(_tg_entity.substr(0, 3), row.id.replace("r", ""));
 }
 

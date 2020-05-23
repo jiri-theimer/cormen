@@ -10,9 +10,8 @@ namespace BO
         [Key]
         public int p41ID { get; set; }
 
-        public int p11ID { get; set; }
-        public int p26ID { get; set; }
-        public int p28ID { get; set; }
+        public int p52ID { get; set; }
+        public int p27ID { get; set; }      
         public int j02ID_Owner { get; set; }
 
         public int b02ID { get; set; }
@@ -21,6 +20,8 @@ namespace BO
         public string p41Name { get; set; }
         [MaxLength(1000, ErrorMessage = "Maximum 1000 znaků")]
         public string p41Memo { get; set; }
+
+        public bool p41IsDraft { get; set; }
 
         [Required(ErrorMessage = "Chybí vyplnit kód!")]
         public string p41Code { get; set; }
@@ -35,10 +36,11 @@ namespace BO
         public int p41ActualRowNum { get; set; }
         public double p41RealUnitsCount { get; set; }
 
-        public string p11Name { get; set; } //get+set: kvůli mycombo
+        public string p27Name { get; set; } //get+set: kvůli mycombo
         public string b02Name { get; set; } //get+set: kvůli mycombo
-        public string p28Name { get; set; } //get+set: kvůli mycombo
-        public string p26Name { get; set; } //get+set: kvůli mycombo
+        public string p52Name { get; set; } //get+set: kvůli mycombo
+        public string p52Code { get; set; } //get+set: kvůli mycombo
+
         public string RecordOwner;
     }
 }

@@ -19,7 +19,7 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*," + _db.GetSQL1_Ocas("p41") + ",b02.b02Name,p11.p11Name,dbo.j02_show_as_owner(a.j02ID_Owner) as RecordOwner,p28.p28Name,p26.p26Name FROM p41Task a LEFT OUTER JOIN p11ClientProduct p11 ON a.p11ID=p11.p11ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN p26Msz p26 ON a.p26ID=p26.p26ID";
+            return "SELECT a.*," + _db.GetSQL1_Ocas("p41") + ",b02.b02Name,p11.p11Name,dbo.j02_show_as_owner(a.j02ID_Owner) as RecordOwner,p28.p28Name,p26.p26Name,p52.p52Name,p52.p52Code,p27.p27Name,p51.p51Code FROM p41Task a INNER JOIN p52OrderItem p52 ON a.p52ID=p52.p52ID INNER JOIN p27MszUnit p27 ON a.p27ID=p27.p27ID INNER JOIN p11ClientProduct p11 ON p52.p11ID=p11.p11ID INNER JOIN p51Order p51 ON p52.p51ID=p51.p51ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p28Company p28 ON p51.p28ID=p28.p28ID LEFT OUTER JOIN p26Msz p26 ON p27.p26ID=p26.p26ID";
         }
         public BO.p41Task Load(int pid)
         {
@@ -46,10 +46,10 @@ namespace BL
             p.AddInt("pid", rec.p41ID);
             if (rec.j02ID_Owner == 0) rec.j02ID_Owner = _db.CurrentUser.j02ID;
             p.AddInt("j02ID_Owner", rec.j02ID_Owner, true);
-            p.AddInt("p11ID", rec.p11ID, true);
-            p.AddInt("p28ID", rec.p28ID, true);
-            p.AddInt("p26ID", rec.p26ID, true);
+            p.AddInt("p27ID", rec.p27ID, true);
+            p.AddInt("p52ID", rec.p52ID, true);            
             p.AddInt("b02ID", rec.b02ID, true);
+            p.AddBool("p41IsDraft", rec.p41IsDraft);
             p.AddString("p41Name", rec.p41Name);
             p.AddString("p41Code", rec.p41Code);
             p.AddString("p41Memo", rec.p41Memo);
@@ -57,14 +57,13 @@ namespace BL
 
             p.AddDateTime("p41PlanStart", rec.p41PlanStart);
             p.AddDateTime("p41PlanEnd", rec.p41PlanEnd);
-            p.AddDateTime("p41RealStart", rec.p41RealStart);
-            p.AddDateTime("p41RealEnd", rec.p41RealEnd);
+            //p.AddDateTime("p41RealStart", rec.p41RealStart);
+            //p.AddDateTime("p41RealEnd", rec.p41RealEnd);
 
-            p.AddDouble("p41PlanUnitsCount", rec.p41PlanUnitsCount);
-            p.AddDouble("p41RealUnitsCount", rec.p41RealUnitsCount);
+            //p.AddDouble("p41PlanUnitsCount", rec.p41PlanUnitsCount);
+            //p.AddDouble("p41RealUnitsCount", rec.p41RealUnitsCount);
 
-            p.AddInt("p41ActualRowNum", rec.p41ActualRowNum);
-
+            
 
 
             return _db.SaveRecord("p41Task", p.getDynamicDapperPars(), rec);

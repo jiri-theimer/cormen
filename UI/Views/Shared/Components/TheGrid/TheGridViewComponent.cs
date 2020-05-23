@@ -47,18 +47,20 @@ namespace UI.Views.Shared.Components.TheGrid
 
             cJ72.j72CurrentRecordPid = go2pid;
             cJ72.j72ContextMenuFlag = contextmenuflag;
+            cJ72.j72MasterEntity = master_entity;
+            cJ72.j72MasterPID = master_pid;
+            cJ72.OnDblClick = ondblclick;
+                        
+            var cc = new TheGridController(_colsProvider);
+            cc.Factory = _f;
+
+            ret.firstdata = cc.render_thegrid_html(cJ72);
             ret.ondblclick = ondblclick;
             ret.GridState = cJ72;
-            ret.Columns = _colsProvider.ParseTheGridColumns(mq.Prefix,cJ72.j72Columns);
+            ret.Columns = _colsProvider.ParseTheGridColumns(mq.Prefix, cJ72.j72Columns);
             ret.AdhocFilter = _colsProvider.ParseAdhocFilterFromString(cJ72.j72Filter, ret.Columns);
             ret.MasterEntity = master_entity;
             ret.MasterPID = master_pid;
-
-            
-            var cc = new TheGridController(_colsProvider);
-            cc.Factory = _f;
-            ret.firstdata = cc.render_thegrid_html(cJ72);
-
             return View("Default", ret);
 
             

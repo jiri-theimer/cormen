@@ -62,6 +62,7 @@ namespace UI.Controllers
                     return "<p>Přístup pouze pro čtení</p>";
                 }
                 AMI("Objednávka", "javascript:_window_open('/p51/record')");
+                AMI("Zakázka", "javascript:_window_open('/p41/record')");
                 DIV();
                 AMI("Dokument", "javascript:_window_open('/o23/record')");
                 AMI("Klient", "javascript:_window_open('/p28/record'");
@@ -73,6 +74,7 @@ namespace UI.Controllers
                 AMI("Materiál", "javascript:_window_open('/p19/record')");
                 AMI("Měrná jednotka", "javascript:_window_open('/p20/record')");
                 AMI("Kapacitní fond", "javascript:_window_open('/p31/record')");
+                AMI("Středisko", "javascript:_window_open('/p27/record')");
             }
 
 
@@ -88,9 +90,10 @@ namespace UI.Controllers
                 DIV();
                 AMI("Produkt [Master]", "javascript:_window_open('/p10/record')");
                 AMI("Receptura [Master]", "javascript:_window_open('/p13/record')");
-                DIV();
                 AMI("Licence", "javascript:_window_open('/p21/record')");
+                DIV();                
                 AMI("Stroj", "javascript:_window_open('/p26/record')");
+                AMI("Středisko", "javascript:_window_open('/p27/record')");
                 DIV();
                 AMI("Workflow stav", "javascript:_window_open('/b02/record')");
                 AMI("Kategorie", "javascript:_window_open('/o12/record')");

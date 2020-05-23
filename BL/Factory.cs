@@ -21,6 +21,7 @@ namespace BL
         private Ip21LicenseBL _p21;
         private Ip26MszBL _p26;
         private Ip25MszTypeBL _p25;
+        private Ip27MszUnitBL _p27;
         private Ij04UserRoleBL _j04;
         private Ib02StatusBL _b02;
         private Io12CategoryBL _o12;
@@ -62,7 +63,7 @@ namespace BL
             DL.DbHandler db = new DL.DbHandler(this.App.ConnectString, this.CurrentUser,this.App.LogFolder);
             this.CurrentUser= db.Load<BO.RunningUser>("SELECT a.j03ID as pid,a.j02ID,j02.p28ID,p28.p28Name,a.j03Login,j02.j02FirstName+' '+j02.j02LastName as FullName,a.j03FontStyleFlag,a.j03EnvironmentFlag,a.j03IsMustChangePassword,j04.j04PermissionValue,null as ErrorMessage,CASE WHEN GETDATE() BETWEEN a.ValidFrom AND a.ValidUntil THEN 0 ELSE 1 end as isclosed,a.j03LiveChatTimestamp,j02.j02Email,a.j03PingTimestamp FROM j03User a INNER JOIN j02Person j02 ON a.j02ID=j02.j02ID INNER JOIN j04UserRole j04 ON a.j04ID=j04.j04ID INNER JOIN p28Company p28 ON j02.p28ID=p28.p28ID WHERE a.j03Login LIKE @login", new { login = strLogin });
 
-            System.IO.File.AppendAllText("c:\\temp\\hovado.txt", "Byl jsem tu: " + DateTime.Now.ToString());
+            //System.IO.File.AppendAllText("c:\\temp\\hovado.txt", "Byl jsem tu: " + DateTime.Now.ToString());
             //if (this.CurrentUser != null)
             //{
             //    if (this.CurrentUser.j03PingTimestamp == null || this.CurrentUser.j03PingTimestamp.Value.AddSeconds(200) < DateTime.Now)
@@ -164,6 +165,14 @@ namespace BL
             {
                 if (_p26 == null) _p26 = new p26MszBL(this);
                 return _p26;
+            }
+        }
+        public Ip27MszUnitBL p27MszUnitBL
+        {
+            get
+            {
+                if (_p27 == null) _p27 = new p27MszUnitBL(this);
+                return _p27;
             }
         }
         public Ip21LicenseBL p21LicenseBL

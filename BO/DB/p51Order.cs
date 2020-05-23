@@ -10,7 +10,7 @@ namespace BO
         [Key]
         public int p51ID { get; set; }
         public int p28ID { get; set; }
-        public int p26ID { get; set; }
+        //public int p26ID { get; set; }
         public int b02ID { get; set; }
         public int j02ID_Owner { get; set; }
         
@@ -29,7 +29,7 @@ namespace BO
 
         public string RecordOwner { get; set; } //get+set: kvůli mycombo
         public string p28Name { get; set; } //get+set: kvůli mycombo
-        public string p26Name { get; set; } //get+set: kvůli mycombo
+        //public string p26Name { get; set; } //get+set: kvůli mycombo
         public string b02Name { get; set; } //get+set: kvůli mycombo
     }
 }

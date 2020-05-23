@@ -94,6 +94,12 @@ namespace BL
             AF("p26Msz", "p26Memo", "Podrobný popis");
             AppendTimestamp("p26Msz");
 
+            //p27 = středíska
+            AF("p27MszUnit", "p27Name", "Název", 1);
+            AF("p27MszUnit", "p27Code", "Kód", 1);
+            AF("p27MszUnit", "p27Capacity", "Kapacita",2,null,"num0",true);
+            AppendTimestamp("p27MszUnit");
+
             //j02 = osoby
             AF("j02Person", "fullname_desc", "Příjmení+Jméno", 1, "a.j02LastName+' '+a.j02FirstName");
             AF("j02Person", "fullname_asc", "Jméno+Příjmení", 0, "a.j02FirstName+' '+a.j02LastName");
@@ -256,7 +262,7 @@ namespace BL
             //p52 = položky objednávky
             AF("p52OrderItem", "p52Code", "Kód", 1);            
             AF("p52OrderItem", "p52UnitsCount", "Množství", 1, null, "num");            
-            AF("p52OrderItem", "Recalc2Kg", "Přepočteno na KG", 1, "a.p52UnitsCount * p52_p11.p11RecalcUnit2Kg", "num", true, "p52_p11");
+            AF("p52OrderItem", "Recalc2Kg", "Přepočteno na KG", 1, "p52UnitsCount * p52_p11.p11RecalcUnit2Kg", "num", true, "p52_p11");
 
             AF("p52OrderItem", "RecordOwner", "Vlastník záznamu", 0, "dbo.j02_show_as_owner(a.j02ID_Owner)");
 
@@ -388,14 +394,17 @@ namespace BL
                 case "p26":
                     ret.Add(InhaleColumn4Relation("p26_p31", "p31CapacityFond", "p31Name", rels, bolComboColumns));
                     break;
+                case "p27":
+                    ret.Add(InhaleColumn4Relation("p27_p26", "p26Msz", "p26Name", rels, bolComboColumns));
+                    break;
                 case "p41":
-                    ret.Add(InhaleColumn4Relation("p41_p28", "p28Company", "p28Name", rels, bolComboColumns));
-                    ret.Add(InhaleColumn4Relation("p41_p26", "p26Msz", "p26Name", rels, bolComboColumns));
+                    
+                    ret.Add(InhaleColumn4Relation("p41_p27", "p27MszUnit", "p27Name", rels, bolComboColumns));
                     ret.Add(InhaleColumn4Relation("p41_b02", "b02Status", "b02Name", rels, bolComboColumns));
                     break;
                 case "p51":
                     ret.Add(InhaleColumn4Relation("p51_p28", "p28Company", "p28Name", rels, bolComboColumns));
-                    ret.Add(InhaleColumn4Relation("p51_p26", "p26Msz", "p26Name", rels, bolComboColumns));
+                    
                     ret.Add(InhaleColumn4Relation("p51_b02", "b02Status", "b02Name", rels, bolComboColumns));
                     break;
                 case "p52":                    

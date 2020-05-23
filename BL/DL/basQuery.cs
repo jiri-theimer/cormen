@@ -57,6 +57,7 @@ namespace BL.DL
                 if (mq.Prefix == "o23") AQ(ref lis, "a.o23Entity LIKE 'p11ClientProduct' AND a.o23RecordPid=@p10id", "p11id", mq.p11id);
                 if (mq.Prefix == "p21") AQ(ref lis, "a.p21ID IN (select p21ID FROM p11ClientProduct WHERE p11ID=@p11id)", "p11id", mq.p11id);
                 if (mq.Prefix == "p51") AQ(ref lis, "a.p51ID IN (select p51ID FROM p52OrderItem WHERE p11ID=@p11id)", "p11id", mq.p11id);
+                if (mq.Prefix == "p41") AQ(ref lis, "a.p52ID IN (select p52ID FROM p52OrderItem WHERE p11ID=@p11id)", "p11id", mq.p11id);
                 if (mq.Prefix == "p15") AQ(ref lis, "a.p12ID IN (select p12ID FROM p11ClientProduct WHERE p11ID=@p11id)", "p11id", mq.p11id);
             }
             if (mq.p13id > 0)
@@ -84,12 +85,20 @@ namespace BL.DL
             if (mq.p25id > 0)
             {
                 if (mq.Prefix == "p18" || mq.Prefix=="p26") AQ(ref lis, "a.p25ID=@p25id", "p25id", mq.p25id);
+                if (mq.Prefix == "p27") AQ(ref lis, "a.p26ID IN (select p26ID FROM p26Msz WHERE p25ID=@p25id)", "p25id", mq.p25id);
                 
+            }
+            if (mq.p26id > 0)
+            {
+                if (mq.Prefix == "p27") AQ(ref lis, "a.p26ID=@p26id", "p26id", mq.p26id);
+                if (mq.Prefix == "p41") AQ(ref lis, "a.p27ID IN (select p27ID FROM p27MszUnit WHERE p26ID=@p26id)", "p26id", mq.p26id);
+
             }
             if (mq.p51id > 0)
             {
                 if (mq.Prefix == "p52") AQ(ref lis, "a.p51ID=@p51id", "p51id", mq.p51id);
                 if (mq.Prefix == "o23") AQ(ref lis, "a.o23Entity LIKE 'p51Order' AND a.o23RecordPid=@p51id", "p51id", mq.p51id);
+                if (mq.Prefix == "p41") AQ(ref lis, "a.p52ID IN (select p52ID FROM p52OrderItem WHERE p51ID=@p51id)", "p51id", mq.p51id);
 
             }
 

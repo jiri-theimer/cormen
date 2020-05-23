@@ -52,6 +52,7 @@ namespace UI.Controllers
                     tabs.Add(new NavTab() { Name = "Detail", Url = "/p28/Index?pid="+ AppendPid2Url(v.go2pid) });
                     tabs.Add(new NavTab() { Name = "Lidé", Entity = "j02Person", Url = "SlaveView?prefix=j02" });
                     tabs.Add(new NavTab() { Name = "Objednávky", Entity = "p51Order", Url = "SlaveView?prefix=p51" });
+                    tabs.Add(new NavTab() { Name = "Zakázky", Entity = "p41Task", Url = "SlaveView?prefix=p41" });
                     tabs.Add(new NavTab() { Name = "Stroje", Entity = "p26Msz", Url = "SlaveView?prefix=p26" });
                     tabs.Add(new NavTab() { Name = "Licence", Entity = "p21License", Url = "SlaveView?prefix=p21" });
                     tabs.Add(new NavTab() { Name = "Klientská receptura", Entity = "p12ClientTpv", Url = "SlaveView?prefix=p12" });
@@ -87,6 +88,8 @@ namespace UI.Controllers
                     break;
                 case "p26":
                     tabs.Add(new NavTab() { Name = "Detail", Url = "/p26/Index?pid="+ AppendPid2Url(v.go2pid) });
+                    tabs.Add(new NavTab() { Name = "Střediska", Entity = "p27MszUnit", Url = "SlaveView?prefix=p27" });
+                    tabs.Add(new NavTab() { Name = "Zakázky", Entity = "p41Task", Url = "SlaveView?prefix=p41" });
                     tabs.Add(new NavTab() { Name = "Dokumenty", Entity = "o23Doc", Url = "SlaveView?prefix=o23" });
                     break;
                 case "o23":
@@ -104,6 +107,7 @@ namespace UI.Controllers
                     tabs.Add(new NavTab() { Name = "Technologický rozpis operací", Entity = "p15ClientOper", Url = "SlaveView?prefix=p15" });
                     tabs.Add(new NavTab() { Name = "Licence", Entity = "p21License", Url = "SlaveView?prefix=p21" });
                     tabs.Add(new NavTab() { Name = "Objednávky", Entity = "p51Order", Url = "SlaveView?prefix=p51" });
+                    tabs.Add(new NavTab() { Name = "Zakázky", Entity = "p41Task", Url = "SlaveView?prefix=p41" });
                     tabs.Add(new NavTab() { Name = "Dokumenty", Entity = "o23Doc", Url = "SlaveView?prefix=o23" });
                     break;
                 case "p41":
@@ -432,7 +436,7 @@ namespace UI.Controllers
             var dtFooter = Factory.gridBL.GetList(mq, true);
             int intVirtualRowsCount = Convert.ToInt32(dtFooter.Rows[0]["RowsCount"]);
 
-            if (intVirtualRowsCount > 1000)
+            if (intVirtualRowsCount > 500)
             {   //dotazy nad 500 záznamů budou mít zapnutý OFFSET režim stránkování
                 mq.OFFSET_PageSize = cJ72.j72PageSize;
                 mq.OFFSET_PageNum = cJ72.j72CurrentPagerIndex / cJ72.j72PageSize;
