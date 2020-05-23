@@ -74,6 +74,7 @@ namespace BL.DL
                 if (mq.Prefix == "p11" || mq.Prefix == "p12") AQ(ref lis, "a.p21ID IN (select p21ID FROM p21License WHERE p28ID=@p28id)", "p28id", mq.p28id);
                 if (mq.Prefix == "o23") AQ(ref lis, "a.o23Entity LIKE 'p28Company' AND a.o23RecordPid=@p28id", "p28id", mq.p28id);
                 if (mq.Prefix == "p51") AQ(ref lis, "a.p28ID=@p28id", "p28id", mq.p28id);
+                if (mq.Prefix == "p41") AQ(ref lis, "a.p52ID IN (select xa.p52ID FROM p52OrderItem xa INNER JOIN p51Order xb ON xa.p51ID=xb.p51ID WHERE xb.p28ID=@p28id)", "p28id", mq.p28id);
             }
             if (mq.j02id > 0)
             {
@@ -93,6 +94,10 @@ namespace BL.DL
                 if (mq.Prefix == "p27") AQ(ref lis, "a.p26ID=@p26id", "p26id", mq.p26id);
                 if (mq.Prefix == "p41") AQ(ref lis, "a.p27ID IN (select p27ID FROM p27MszUnit WHERE p26ID=@p26id)", "p26id", mq.p26id);
 
+            }
+            if (mq.p41id > 0)
+            {
+                if (mq.Prefix == "o23") AQ(ref lis, "a.o23Entity LIKE 'p41Task' AND a.o23RecordPid=@p41id", "p41id", mq.p41id);
             }
             if (mq.p51id > 0)
             {
@@ -128,7 +133,7 @@ namespace BL.DL
                 }
                 if (mq.Prefix == "p52")
                 {
-                    AQ(ref lis, "a.p51ID IN (select xa.p51ID FROM p51Order xa INNER JOIN j02Person xb ON xa.j02ID_Owner=xb.j02ID WHERE xb.p28ID=@p28id_my)", "p28id", ru.p28ID);    //pouze objednávky cloud klienta
+                    AQ(ref lis, "a.p51ID IN (select xa.p51ID FROM p51Order xa INNER JOIN j02Person xb ON xa.j02ID_Owner=xb.j02ID WHERE xb.p28ID=@p28id_my)", "p28id_my", ru.p28ID);    //pouze objednávky cloud klienta
                 }
                 if (mq.Prefix == "p28" || mq.Prefix == "j02")
                 {
@@ -146,6 +151,10 @@ namespace BL.DL
                 if (mq.Prefix == "p25")
                 {
                     AQ(ref lis, "a.p25ID IN (select p25ID FROM p26Msz WHERE p28ID=@p28id)", "p28id", ru.p28ID);    //pouze typy zařízení za klientovi stroje
+                }
+                if (mq.Prefix == "p27")
+                {
+                    AQ(ref lis, "a.p26ID IN (select p26ID FROM p26Msz WHERE p28ID=@p28id_my)", "p28id_my", ru.p28ID);    //pouze klientovi stroje
                 }
                 if (mq.Prefix == "j04")
                 {

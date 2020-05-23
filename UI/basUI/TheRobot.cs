@@ -36,22 +36,22 @@ namespace UI
         {
             var count = Interlocked.Increment(ref executionCount);
 
-            BO.RunningUser c = new BO.RunningUser() { j03Login = "admin@marktime.cz" };
+            //BO.RunningUser c = new BO.RunningUser() { j03Login = "admin@marktime.cz" };
 
-            var f = new BL.Factory(c, _app);
-            string strPING = f.CurrentUser.j03PingTimestamp.ToString();
+            //var f = new BL.Factory(c, _app);
+            //string strPING = f.CurrentUser.j03PingTimestamp.ToString();
             
 
-            _logger.LogInformation("Timed Hosted Service is working. Count: {Count}, factory user: "+ f.CurrentUser.FullName+", last ping: "+strPING, count);
+            _logger.LogInformation("Timed Hosted Service is working. Count: {Count}", count);
 
-            try
-            {
-                var xx = new RedirectResult("~/Login/UserLogin");
-            }
-            catch(Exception ex)
-            {
-                _logger.LogInformation("Error, error: " + ex.Message);
-            }
+            //try
+            //{
+            //    var xx = new RedirectResult("~/Login/UserLogin");
+            //}
+            //catch(Exception ex)
+            //{
+            //    _logger.LogInformation("Error, error: " + ex.Message);
+            //}
             
             
 

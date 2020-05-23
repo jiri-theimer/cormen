@@ -53,6 +53,10 @@ function tg_init(c) {
     $("#tabgrid2").width(basewidth);
     
     tg_setup_selectable();  //inicializace selectable
+
+    if (_tg_go2pid !== null && _tg_go2pid !== 0) {  //automaticky vybrat záznam _tg_go2pid
+        tg_go2pid(_tg_go2pid);
+    }
     
 
     $("#tabgrid1_thead .query_textbox").on("focus", function (e) {
