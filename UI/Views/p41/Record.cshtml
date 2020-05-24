@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Zakázka";
     Layout = "~/Views/Shared/_LayoutModal.cshtml";
-    if (Model.Rec == null) return;
+    if (Model.Rec == null || Model.RecP52 ==null) return;
 }
 
 @addTagHelper *, UI
