@@ -248,8 +248,10 @@ namespace BL
             AF("p51Order", "p51Code", "Kód", 1);
             AF("p51Order", "p51Name", "Název", 1);
             
-            AF("p51Order", "p51Date", "Datum", 2, null, "datetime");
+            AF("p51Order", "p51Date", "Datum přijetí", 2, null, "datetime");
             AF("p51Order", "p51DateDelivery", "Termín dodání", 2, null, "datetime");
+            AF("p51Order", "p51DateDeliveryConfirmed", "Potvrzený termín dodání", 2, null, "datetime");
+            
 
             AF("p51Order", "p51CodeByClient", "Kód podle klienta", 0);
             AF("p51Order", "p51IsDraft", "Draft", 0, null, "bool");

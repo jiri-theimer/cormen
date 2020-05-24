@@ -15,84 +15,92 @@
     @Html.HiddenFor(m => m.Rec.pid)
 
 
-    <div class="modal_record_container">
-        <div class="form-row">
-            <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
-            <div class="col-sm-9 col-md-8">
-                <input class="form-control" asp-for="Rec.p51Name" />
-                <span asp-validation-for="Rec.p51Name" class="text-danger"></span>
-            </div>
-            <div class="col-sm-2 col-md-2">
-                <input class="form-control" asp-for="Rec.p51Code" placeholder="Kód:" />
-                <span asp-validation-for="Rec.p51Code" class="text-danger"></span>
-            </div>
+<div class="modal_record_container">
+    <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
+        <div class="col-sm-9 col-md-8">
+            <input class="form-control" asp-for="Rec.p51Name" />
+            <span asp-validation-for="Rec.p51Name" class="text-danger"></span>
         </div>
-        <div class="form-row" style="margin-top:10px;">
-            <div class="col-sm-1 col-md-2">
-                Klient:
-                <button type="button" class="btn btn-light btn-sm" title="Založit nového klienta" onclick="p28_create()">+</button>
-            </div>
-            
-            <div class="col-sm-9 col-md-8">
-                <mycombo entity="p28Company" asp-for="Rec.p28ID" selectedtext="Rec.p28Name" filter-flag="1"></mycombo>
-            </div>
-            <div class="col-sm-2 col-md-2">
-                <input class="form-control" asp-for="Rec.p51CodeByClient" placeholder="Kód dle klienta" />
-
-            </div>
+        <div class="col-sm-2 col-md-2">
+            <input class="form-control" asp-for="Rec.p51Code" placeholder="Kód:" />
+            <span asp-validation-for="Rec.p51Code" class="text-danger"></span>
         </div>
-        <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Datum:</label>
-            <div class="col-sm-3 col-md-3">
-                <mydate asp-for="Rec.p51Date" include-time="true"></mydate>
-            </div>
-            <label class="col-sm-1 col-md-2 col-form-label">Termín dodání:</label>
-            <div class="col-sm-3 col-md-3">
-                <mydate asp-for="Rec.p51DateDelivery" include-time="true"></mydate>
-            </div>
-
-        </div>
-        <div class="form-row" style="margin-top:10px;">
-            
-            <label class="col-sm-1 col-md-2 col-form-label">Stav:</label>
-            <div class="col-sm-11 col-md-10">
-                <mycombo entity="b02Status" asp-for="Rec.b02ID" selectedtext="Rec.b02Name" param1="p51"></mycombo>
-            </div>
-        </div>
-
-        <div class="form-row" style="margin-top:10px;">
-            <textarea asp-for="Rec.p51Memo" class="form-control" placeholder="Podrobný popis"></textarea>
-            <span asp-validation-for="Rec.p51Memo" class="text-danger"></span>
-        </div>
-        <hr />
-        <div class="form-row">
-            <label class="col-sm-1 col-md-2 col-form-label">Vlastník záznamu:</label>
-            <div class="col-sm-11 col-md-10">
-                <mycombo entity="j02Person" asp-for="Rec.j02ID_Owner" selectedtext="Rec.RecordOwner"></mycombo>
-            </div>
-        </div>
-
-
-        @if (Model.NewItems != null)
-        {
-            <hr />
-            <button class="btn btn-primary" type="button" onclick="append_item()">Přidat položku objednávky</button>
-            @for (var i = 0; i < Model.NewItems.Count; i++)
-            {
-                <div class="form-row">
-
-                    <div class="col-11">
-                        <mycombo entity="p11ClientProduct" asp-for="NewItems[i].p11ID" selectedtext="NewItems[i].p11Name"></mycombo>
-                    </div>
-                    <div class="col-1" title="Množství produktu">
-                        <mynumber asp-for="NewItems[i].p52UnitsCount"></mynumber>
-                    </div>
-
-                </div>
-            }
-
-        }
     </div>
+    <div class="form-row" style="margin-top:10px;">
+        <div class="col-sm-1 col-md-2">
+            Klient:
+            <button type="button" class="btn btn-light btn-sm" title="Založit nového klienta" onclick="p28_create()">+</button>
+        </div>
+
+        <div class="col-sm-9 col-md-8">
+            <mycombo entity="p28Company" asp-for="Rec.p28ID" selectedtext="Rec.p28Name" filter-flag="1"></mycombo>
+        </div>
+        <div class="col-sm-2 col-md-2">
+            <input class="form-control" asp-for="Rec.p51CodeByClient" placeholder="Kód dle klienta" />
+
+        </div>
+    </div>
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Přijetí objednávky:</label>
+        <div class="col-sm-3 col-md-3">
+            <mydate asp-for="Rec.p51Date" include-time="true"></mydate>
+        </div>
+        
+
+    </div>
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Termín dodání:</label>
+        <div class="col-sm-3 col-md-3">
+            <mydate asp-for="Rec.p51DateDelivery" include-time="true"></mydate>
+        </div>
+        <label class="col-sm-1 col-md-2 col-form-label">Potvrzený termín dodání:</label>
+        <div class="col-sm-3 col-md-3">
+            <mydate asp-for="Rec.p51DateDeliveryConfirmed" include-time="true"></mydate>
+        </div>
+
+    </div>
+    <div class="form-row" style="margin-top:10px;">
+
+        <label class="col-sm-1 col-md-2 col-form-label">Stav:</label>
+        <div class="col-sm-11 col-md-10">
+            <mycombo entity="b02Status" asp-for="Rec.b02ID" selectedtext="Rec.b02Name" param1="p51"></mycombo>
+        </div>
+    </div>
+
+    <div class="form-row" style="margin-top:10px;">
+        <textarea asp-for="Rec.p51Memo" class="form-control" placeholder="Podrobný popis"></textarea>
+        <span asp-validation-for="Rec.p51Memo" class="text-danger"></span>
+    </div>
+    <hr />
+    <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Vlastník záznamu:</label>
+        <div class="col-sm-11 col-md-10">
+            <mycombo entity="j02Person" asp-for="Rec.j02ID_Owner" selectedtext="Rec.RecordOwner"></mycombo>
+        </div>
+    </div>
+
+
+    @if (Model.NewItems != null)
+    {
+        <hr />
+        <button class="btn btn-primary" type="button" onclick="append_item()">Přidat položku objednávky</button>
+        @for (var i = 0; i < Model.NewItems.Count; i++)
+        {
+            <div class="form-row">
+
+                <div class="col-11">
+                    <mycombo entity="p11ClientProduct" asp-for="NewItems[i].p11ID" selectedtext="NewItems[i].p11Name"></mycombo>
+                </div>
+                <div class="col-1" title="Množství produktu">
+                    <mynumber asp-for="NewItems[i].p52UnitsCount"></mynumber>
+                </div>
+
+            </div>
+        }
+
+    }
+</div>
 
 
 

@@ -102,11 +102,11 @@ namespace UI.Controllers
                 c.p28ID = v.Rec.p28ID;
                 c.j02ID_Owner = v.Rec.j02ID_Owner;
                 c.p51CodeByClient = v.Rec.p51CodeByClient;
-                //c.p26ID = v.Rec.p26ID;
+                
                 c.p51Date = v.Rec.p51Date;
                 c.p51DateDelivery = v.Rec.p51DateDelivery;
-
-
+                c.p51DateDeliveryConfirmed = v.Rec.p51DateDeliveryConfirmed;
+               
                 v.Rec.pid = Factory.p51OrderBL.Save(c,v.NewItems);
                 if (v.Rec.pid > 0)
                 {

@@ -1,13 +1,13 @@
 ﻿@model p19RecordViewModel
 
 @{
-    ViewData["Title"] = "Materiál";
+    ViewData["Title"] = "Surivina";
     Layout = "~/Views/Shared/_LayoutModal.cshtml";
     if (Model.Rec == null) return;
 }
 @addTagHelper *, UI
 
-<h4>Karta materiálu</h4>
+<h4>Surovina</h4>
 @using (Html.BeginForm())
 {
 
@@ -47,7 +47,7 @@
         </div>
     </div>
     <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Materiál na míru pro klienta:</label>
+        <label class="col-sm-1 col-md-2 col-form-label">Surovina na míru pro klienta:</label>
         <div class="col-sm-11 col-md-10">
             <mycombo entity="p28Company" asp-for="Rec.p28ID" selectedtext="Rec.p28Name" filter-flag="1"></mycombo>
         </div>

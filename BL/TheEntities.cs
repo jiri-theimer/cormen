@@ -47,7 +47,7 @@ namespace BL
             AE("p31CapacityFond", "Kapacitní fondy", "Kapacitní fond", "p31CapacityFond a", "a.p31Name");
 
             AE("p18OperCode", "Kódy operací", "Kód operace", "p18OperCode a", "a.p18Code");
-            AE("p19Material", "Materiály", "Materiál", "p19Material a", "a.p19Name");
+            AE("p19Material", "Suroviny", "Surovina", "p19Material a", "a.p19Name");
             AE("p20Unit", "Měrné jednotky", "Měrná jednotka", "p20Unit a","a.p20Name");
             AE("p10MasterProduct", "Master produkty", "Master produkt", "p10MasterProduct a", "a.p10Name");
             AE("p13MasterTpv", "Master receptury", "Master receptura", "p13MasterTpv a", "a.p13Name");
@@ -147,21 +147,21 @@ namespace BL
                     lis.Add(getREL("p25MszType", "p13_p25", "Typ zařízení", "INNER JOIN p25MszType p13_p25 ON a.p25ID=p13_p25.p25ID"));                    
                     break;
                 case "p14":
-                    lis.Add(getREL("p19Material", "p14_p19", "Materiál", "LEFT OUTER JOIN p19Material p14_p19 ON a.p19ID=p14_p19.p19ID"));
+                    lis.Add(getREL("p19Material", "p14_p19", "Suroviny", "LEFT OUTER JOIN p19Material p14_p19 ON a.p19ID=p14_p19.p19ID"));
                     lis.Add(getREL("p18OperCode", "p14_p18", "Kód operace", "LEFT OUTER JOIN p18OperCode p14_p18 ON a.p18ID=p14_p18.p18ID"));
                     break;
                 case "p15":
-                    lis.Add(getREL("p19Material", "p15_p19", "Materiál", "LEFT OUTER JOIN p19Material p15_p19 ON a.p19ID=p15_p19.p19ID"));
+                    lis.Add(getREL("p19Material", "p15_p19", "Suroviny", "LEFT OUTER JOIN p19Material p15_p19 ON a.p19ID=p15_p19.p19ID"));
                     lis.Add(getREL("p18OperCode", "p15_p18", "Kód operace", "LEFT OUTER JOIN p18OperCode p15_p18 ON a.p18ID=p15_p18.p18ID"));
                     break;
                 case "p18":
                     lis.Add(getREL("p25MszType", "p18_p25", "Typ zařízení", "INNER JOIN p25MszType p18_p25 ON a.p25ID=p18_p25.p25ID"));                    
-                    lis.Add(getREL("p19Material", "p18_p19", "Materiál", "LEFT OUTER JOIN p19Material p18_p19 ON a.p19ID=p18_p19.p19ID"));                    
+                    lis.Add(getREL("p19Material", "p18_p19", "Suroviny", "LEFT OUTER JOIN p19Material p18_p19 ON a.p19ID=p18_p19.p19ID"));                    
                     break;
                 case "p19":
                     lis.Add(getREL("p20Unit", "p19_p20", "Měrná jednotka", "INNER JOIN p20Unit p19_p20 ON a.p20ID=p19_p20.p20ID"));
                     lis.Add(getREL("p28Company", "p19_p28", "Klient", "LEFT OUTER JOIN p28Company p19_p28 ON a.p28ID=p19_p28.p28ID"));
-                    lis.Add(getREL("o12Category", "p19_o12", "Kategorie materiálu", "LEFT OUTER JOIN o12Category p19_o12 ON a.o12ID=p19_o12.o12ID"));
+                    lis.Add(getREL("o12Category", "p19_o12", "Kategorie suroviny", "LEFT OUTER JOIN o12Category p19_o12 ON a.o12ID=p19_o12.o12ID"));
                     lis.Add(getREL("j02Person", "p19_owner", "Vlastník záznamu", getOwnerSql("p19")));
                     break;
                 case "p20":                    

@@ -29,6 +29,7 @@ namespace BL.DL
         }
         public void AddDateTime(string name, DateTime? value)
         {            
+
             DL.Param4DT c = new DL.Param4DT() { ParamType = "datetime", ParName = name, ParValue = value };
             _lis.Add(c);
         }

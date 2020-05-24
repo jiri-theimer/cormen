@@ -76,6 +76,7 @@ namespace BL
            
             p.AddDateTime("p51Date", rec.p51Date);
             p.AddDateTime("p51DateDelivery", rec.p51DateDelivery);
+            p.AddDateTime("p51DateDeliveryConfirmed", rec.p51DateDeliveryConfirmed);
 
             int intP51ID= _db.SaveRecord("p51Order", p.getDynamicDapperPars(), rec);
 

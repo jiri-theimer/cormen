@@ -79,49 +79,10 @@
 
 
 <div class="modal_record_container">
-    <div>
-        Objednávka: <strong style="margin-right:40px;">@Model.RecP52.p52Code</strong> Termín dodání: <strong class="text-danger">@(BO.BAS.ObjectDateTime2String(Model.RecP51.p51DateDelivery))</strong>
-    </div>
+    @Html.DisplayFor(m => m.RecP52, "~/Views/Shared/_p52Info.cshtml")
     <hr />
-    <div class="form-row">
-        <label class="col-sm-1 col-md-2 col-form-label">Objednávka:</label>
-        <div class="col-sm-6 col-md-6">
-            <span class="form-control bg-light">@(Model.RecP51.p51Name+" ["+ Model.RecP51.p51Code+"]")</span>
+    @Html.DisplayFor(m => m.RecP51, "~/Views/Shared/_p51Info.cshtml")
 
-        </div>
-        <label class="col-sm-1 col-md-1 col-form-label">Kód položky:</label>
-        <div class="col-sm-2 col-md-2">
-            <span class="form-control bg-light">@(Model.RecP52.p52Code)</span>
 
-        </div>
-    </div>
-    <div class="form-row">
-        <label class="col-sm-1 col-md-2 col-form-label">Produkt:</label>
-        <div class="col-sm-6 col-md-6">
-            <span class="form-control bg-light">@(Model.RecP52.p11Name + " [" + Model.RecP52.p11Code + "]")</span>
-
-        </div>
-        <label class="col-sm-1 col-md-1 col-form-label">Množství:</label>
-        <div class="col-sm-1 col-md-1">
-            <span class="form-control bg-light">@(BO.BAS.Number2String(Model.RecP52.p52UnitsCount))</span>
-
-        </div>
-        <div class="col-sm-1 col-md-1">
-            <span class="form-control bg-light">@(BO.BAS.Number2String(Model.RecP52.Recalc2Kg)) KG</span>
-
-        </div>
-    </div>
-    <div class="form-row">
-        <label class="col-sm-1 col-md-2 col-form-label">Klient:</label>
-        <div class="col-sm-6 col-md-6">
-            <span class="form-control bg-light">@(Model.RecP51.p28Name+" ["+Model.RecP51.p28Code+"]")</span>
-
-        </div>
-        <label class="col-sm-1 col-md-1 col-form-label"></label>
-        <div class="col-sm-2 col-md-2">
-            <span class="form-control bg-light">@(Model.RecP51.p51CodeByClient)</span>
-
-        </div>
-    </div>
 </div>
 

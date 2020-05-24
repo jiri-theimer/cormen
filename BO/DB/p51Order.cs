@@ -22,7 +22,8 @@ namespace BO
         public string p51Code { get; set; }
         public string p51CodeByClient { get; set; }
         public DateTime p51Date { get; set; }
-        public DateTime p51DateDelivery { get; set; }
+        public DateTime? p51DateDelivery { get; set; }
+        public DateTime? p51DateDeliveryConfirmed { get; set; }
 
         [MaxLength(1000, ErrorMessage = "Maximum 1000 znaků")]
         public string p51Memo { get; set; }

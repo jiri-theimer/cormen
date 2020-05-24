@@ -1,0 +1,64 @@
+﻿@model BO.p51Order
+@{
+    if (Model == null) return;
+}
+
+<div class="form-row">
+    <label class="col-sm-1 col-md-2 col-form-label">Objednávka:</label>
+    <div class="col-sm-8 col-md-7">
+        <span class="form-control bg-light">@(Model.p51Name)</span>
+
+    </div>
+    <div class="col-sm-3 col-md-3">
+        <span class="form-control bg-light">@(Model.p51Code)</span>
+
+    </div>
+</div>
+
+
+<div class="form-row">
+    <label class="col-sm-1 col-md-2 col-form-label">Klient:</label>
+    <div class="col-sm-8 col-md-7">
+        <span class="form-control bg-light">@(Model.p28Name)</span>
+
+    </div>
+    <div class="col-sm-3 col-md-3">
+        <span class="form-control bg-light">@(Model.p51CodeByClient)</span>
+
+    </div>
+</div>
+
+<div class="form-row" style="margin-top:10px;">
+    <label class="col-sm-1 col-md-2 col-form-label">Datum přijetí:</label>
+    <div class="col-sm-2 col-md-2">
+        <span class="form-control bg-light">@(BO.BAS.ObjectDate2String(@Model.p51Date, "dd.MM.yyyy HH:mm"))</span>
+
+
+    </div>
+    <label class="col-sm-1 col-md-2 col-form-label">Požadovaný termín:</label>
+    <div class="col-sm-2 col-md-2">
+        <span class="form-control text-danger">@(BO.BAS.ObjectDateTime2String(@Model.p51DateDelivery))</span>
+
+    </div>
+    <label class="col-sm-1 col-md-2 col-form-label">Potvrzený termín:</label>
+    <div class="col-sm-2 col-md-2">
+        <span class="form-control text-danger">@(BO.BAS.ObjectDateTime2String(@Model.p51DateDeliveryConfirmed))</span>
+
+    </div>
+
+
+</div>
+
+<div class="form-row" style="margin-top:10px;">
+    <label class="col-sm-1 col-md-2 col-form-label">Stav:</label>
+    <div class="col-sm-4 col-md-4">
+        <span class="form-control bg-light">@(Model.b02Name)</span>
+    </div>
+
+    <label class="col-sm-1 col-md-2 col-form-label">Vlastník záznamu:</label>
+    <div class="col-sm-6 col-md-4">
+        <span class="form-control bg-light">@(Model.RecordOwner)</span>
+
+    </div>
+
+</div>

@@ -111,7 +111,10 @@ function datepicker_change(ctl) {
     if (document.getElementById(forid + "_Time")) {
         s = s + " " + document.getElementById(forid + "_Time").value;
     }
+    if (s.trim() === "00:00") s = "";   //je třeba to vyčistit, aby se do db uložila null value
+  
     $("#" + forid).val(s);    //pro uložení na server v rámci hostitelského view
+    
     
 }
 function datepicker_time_change(ctl) {

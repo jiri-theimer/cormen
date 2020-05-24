@@ -6,14 +6,20 @@ using System.Threading.Tasks;
 
 namespace UI.Models
 {
-    public class p41CreateViewModel
+    public class p41CreateViewModel:BaseViewModel
     {
 
         public int p52ID { get; set; }
         public string p52Code { get; set; }
 
+        public int p26ID { get; set; }
+        public string p26Name { get; set; }
 
-        public List<BO.p41Task> lisTasks { get; set; }
+
+        public BO.p52OrderItem RecP52 { get; set; }
+        public BO.p51Order RecP51 { get; set; }
+
+        public List<BO.p41Task> Tasks { get; set; }
         
     }
 }

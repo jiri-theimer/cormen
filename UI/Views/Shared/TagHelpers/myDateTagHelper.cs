@@ -37,19 +37,20 @@ namespace UI.Views.Shared.TagHelpers
             else
             {
                 _StringValue = "";
-                _TimeValue = "00:00";
+                //_TimeValue = "00:00";
+                _TimeValue = "";
             }
             
 
             
             var sb = new System.Text.StringBuilder();
-            var strControlID = this.For.Name.Replace(".", "_");
+            var strControlID = this.For.Name.Replace(".", "_").Replace("[", "_").Replace("]", "_");
             sb.AppendLine("<div class='input-group' style='width:100%;'>");
             sb.Append(string.Format("<input type='text' id='{0}' for-id='{1}' class='form-control' placeholder='dd.mm.yyyy' autocomplete='off' value='{2}' onchange='datepicker_change(this)'/>", strControlID+"helper", strControlID, _StringValue));
 
             if (includetime == true)
             {
-                sb.Append(string.Format("<input type='time' class='form-control' placeholder='hh:mm' value='{0}' id='{1}' onchange='datepicker_time_change(this)' for-id='{2}'/>", _TimeValue, strControlID+"_Time",strControlID));
+                sb.Append(string.Format("<input type='time' class='form-control' placeholder='hh:mm' value='{0}' id='{1}' onchange='datepicker_time_change(this)' for-id='{2}' title='Přesný čas'/>", _TimeValue, strControlID+"_Time",strControlID));
             }
             
 

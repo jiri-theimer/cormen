@@ -97,11 +97,11 @@ namespace BO
         }
         public static string ObjectDate2String(object d,string format="dd.MM.yyyy")
         {
-            if (d == System.DBNull.Value) return "";
+            if (d == System.DBNull.Value || d==null) return "";
             return Convert.ToDateTime(d).ToString(format);
         }
         public static string ObjectDateTime2String(object d, string format = "dd.MM.yyyy HH:mm")
-        {
+        {            
             return ObjectDate2String(d, format);
         }
         public static string Number2String(double n)

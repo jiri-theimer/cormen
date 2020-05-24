@@ -30,11 +30,49 @@ namespace UI.Controllers
         public IActionResult Create(int p52id)
         {
             var v = new p41CreateViewModel();
-            v.lisTasks = new List<BO.p41Task>();
-
+            v.Tasks = new List<BO.p41Task>();           
 
             return View(v);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Models.p41CreateViewModel v, string rec_oper)
+        {
+            if (v.p52ID > 0)
+            {
+                v.RecP52 = Factory.p52OrderItemBL.Load(v.p52ID);
+                v.RecP51 = Factory.p51OrderBL.Load(v.RecP52.p51ID);
+            }
+            if (rec_oper == "newitem")
+            {
+                if (v.Tasks == null) v.Tasks = new List<BO.p41Task>();
+                v.Tasks.Add(new BO.p41Task());
+                
+                return View(v);
+            }
+            if (rec_oper == "postback")     //pouze postback
+            {
+                
+            }
+            if (v.Tasks == null)
+            {
+                v.Tasks = new List<BO.p41Task>();
+            }
+
+            if (ModelState.IsValid)
+            {
+                
+
+                
+
+
+            }
+
+            
+            return View(v);
+
+        }
+
         public IActionResult Record(int pid, bool isclone)
         {
             if (Factory.CurrentUser.j03EnvironmentFlag == 1)

@@ -15,7 +15,7 @@ namespace BO
         public int j02ID_Owner { get; set; }
 
         public int b02ID { get; set; }
-        [Required(ErrorMessage = "Chybí vyplnit název!")]
+        //[Required(ErrorMessage = "Chybí vyplnit název!")]
         [MaxLength(100, ErrorMessage = "Maximum 100 znaků")]
         public string p41Name { get; set; }
         [MaxLength(1000, ErrorMessage = "Maximum 1000 znaků")]
@@ -23,7 +23,7 @@ namespace BO
 
         public bool p41IsDraft { get; set; }
 
-        [Required(ErrorMessage = "Chybí vyplnit kód!")]
+        //[Required(ErrorMessage = "Chybí vyplnit kód!")]
         public string p41Code { get; set; }
 
         public string p41StockCode { get; set; }

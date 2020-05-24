@@ -71,7 +71,7 @@ namespace UI.Controllers
                 AMI("Produkt [Client]", "javascript:_window_open('/p11/record')");
                 AMI("Receptura [Client]", "javascript:_window_open('/p12/record')");
                 DIV();
-                AMI("Materiál", "javascript:_window_open('/p19/record')");
+                AMI("Surovina", "javascript:_window_open('/p19/record')");
                 AMI("Měrná jednotka", "javascript:_window_open('/p20/record')");
                 AMI("Kapacitní fond", "javascript:_window_open('/p31/record')");
                 AMI("Středisko", "javascript:_window_open('/p27/record')");
@@ -100,7 +100,7 @@ namespace UI.Controllers
                 AMI("Aplikační role", "javascript:_window_open('/j04/record')");
                 DIV();
                 AMI("Kód operace", "javascript:_window_open('/p18/record')");
-                AMI("Materiál", "javascript:_window_open('/p19/record')");
+                AMI("Surovina", "javascript:_window_open('/p19/record')");
                 AMI("Měrná jednotka", "javascript:_window_open('/p20/record')");
                 AMI("Typ zařízení", "javascript:_window_open('/p25/record')");
                 AMI("Poštovní účet", "javascript:_window_open('/j40/record')");

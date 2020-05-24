@@ -38,36 +38,14 @@
             </div>
             @if (Model.Rec_Header != null)
             {
+                
                 <div class="card" style="margin-top:10px;">
                     <div class="card-header">
                         Hlavička objednávky
                         <a style="margin-left:20px;" href="/p51/Record?pid=@Model.Rec.p51ID">Upravit</a>
                     </div>
                     <div class="card-body">
-                        <div class="form-row">
-                            <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
-                            <div class="col-sm-6 col-md-6">
-                                <span class="form-control bg-light">@(Model.Rec_Header.p51Name)</span>
-
-                            </div>
-                            <label class="col-sm-1 col-md-2 col-form-label">Kód:</label>
-                            <div class="col-sm-2 col-md-2">
-                                <span class="form-control bg-light">@(Model.Rec_Header.p51Code)</span>
-
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <label class="col-sm-1 col-md-2 col-form-label">Klient:</label>
-                            <div class="col-sm-6 col-md-6">
-                                <span class="form-control bg-light">@(Model.Rec_Header.p28Name)</span>
-
-                            </div>
-                            <label class="col-sm-1 col-md-2 col-form-label">Klientský kód:</label>
-                            <div class="col-sm-2 col-md-2">
-                                <span class="form-control bg-light">@(Model.Rec_Header.p51CodeByClient)</span>
-
-                            </div>
-                        </div>
+                        @Html.DisplayFor(m => m.Rec_Header, "~/Views/Shared/_p51Info.cshtml")
                     </div>
                 </div>
             }

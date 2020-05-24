@@ -71,6 +71,11 @@ namespace BL
 
         private bool ValidateBeforeSave(BO.p41Task rec)
         {
+            if (String.IsNullOrEmpty(rec.p41Name) || string.IsNullOrEmpty(rec.p41Code))
+            {
+                _db.CurrentUser.AddMessage("Chybí vyplnit název nebo kód zakázky.");
+                return false;
+            }
             if (rec.p27ID==0 || rec.p52ID == 0)
             {
                 _db.CurrentUser.AddMessage("Na vstupu chybí středisko nebo objednávka.");

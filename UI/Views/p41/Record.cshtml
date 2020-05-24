@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Zakázka";
     Layout = "~/Views/Shared/_LayoutModal.cshtml";
-    if (Model.Rec == null || Model.RecP52 ==null) return;
+    if (Model.Rec == null || Model.RecP52 == null) return;
 }
 
 @addTagHelper *, UI
@@ -13,125 +13,87 @@
     @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
     @Html.HiddenFor(m => m.Rec.pid)
 
-<div class="modal_record_container">
-    <input type="hidden" asp-for="@Model.Rec.p52ID" />
+    <div class="modal_record_container">
+        <input type="hidden" asp-for="@Model.Rec.p52ID" />
 
 
-    <div class="form-row">
-        <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
-        <div class="col-sm-8 col-md-7">
-            <input class="form-control" asp-for="Rec.p41Name" />
-            <span asp-validation-for="Rec.p41Name" class="text-danger"></span>
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
+            <div class="col-sm-8 col-md-7">
+                <input class="form-control" asp-for="Rec.p41Name" />
+                <span asp-validation-for="Rec.p41Name" class="text-danger"></span>
+            </div>
+            <div class="col-sm-3 col-md-3">
+                <input class="form-control" asp-for="Rec.p41Code" />
+                <span asp-validation-for="Rec.p41Code" class="text-danger"></span>
+            </div>
         </div>
-        <div class="col-sm-3 col-md-3">
-            <input class="form-control" asp-for="Rec.p41Code" />
-            <span asp-validation-for="Rec.p41Code" class="text-danger"></span>
+
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Středisko:</label>
+            <div class="col-sm-3 col-md-3">
+                <mycombo entity="p27MszUnit" view-flag="2" asp-for="Rec.p27ID" selectedtext="Rec.p27Name"></mycombo>
+            </div>
+            <label class="col-sm-1 col-md-1 col-form-label">Aktuální stav:</label>
+            <div class="col-sm-5 col-md-5">
+                <mycombo entity="b02Status" view-flag="2" asp-for="Rec.b02ID" selectedtext="Rec.b02Name" param1="p41"></mycombo>
+            </div>
         </div>
+
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Plán zahájení:</label>
+            <div class="col-sm-3 col-md-3">
+                <mydate asp-for="Rec.p41PlanStart" include-time="true"></mydate>
+            </div>
+            <label class="col-sm-1 col-md-1 col-form-label">Dokončení:</label>
+            <div class="col-sm-3 col-md-3">
+                <mydate asp-for="Rec.p41PlanEnd" include-time="true"></mydate>
+            </div>
+
+
+        </div>
+
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Plánované množství:</label>
+            <div class="col-sm-3 col-md-3">
+                <mynumber asp-for="Rec.p41PlanUnitsCount"></mynumber>
+            </div>
+
+            <label class="col-sm-1 col-md-1 col-form-label">Kód skladu:</label>
+            <div class="col-sm-6 col-md-6">
+                <input class="form-control" asp-for="Rec.p41StockCode" />
+                <span asp-validation-for="Rec.p41StockCode" class="text-danger"></span>
+            </div>
+
+        </div>
+
+        <div class="form-row" style="margin-top:10px;">
+            <textarea asp-for="Rec.p41Memo" class="form-control" style="height:150px;" placeholder="Podrobný popis"></textarea>
+            <span asp-validation-for="Rec.p41Memo" class="text-danger"></span>
+        </div>
+
+
+
     </div>
 
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Středisko:</label>
-        <div class="col-sm-3 col-md-3">
-            <mycombo entity="p27MszUnit" view-flag="2" asp-for="Rec.p27ID" selectedtext="Rec.p27Name"></mycombo>
-        </div>
-        <label class="col-sm-1 col-md-1 col-form-label">Aktuální stav:</label>
-        <div class="col-sm-5 col-md-5">
-            <mycombo entity="b02Status" view-flag="2" asp-for="Rec.b02ID" selectedtext="Rec.b02Name" param1="p41"></mycombo>
-        </div>
-    </div>
 
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Plán zahájení:</label>
-        <div class="col-sm-3 col-md-3">
-            <mydate asp-for="Rec.p41PlanStart" include-time="true"></mydate>
-        </div>
-        <label class="col-sm-1 col-md-1 col-form-label">Dokončení:</label>
-        <div class="col-sm-3 col-md-3">
-            <mydate asp-for="Rec.p41PlanEnd" include-time="true"></mydate>
-        </div>
-        
-        
-    </div>
-
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Plánované množství:</label>
-        <div class="col-sm-3 col-md-3">
-            <mynumber asp-for="Rec.p41PlanUnitsCount"></mynumber>
-        </div>
-
-        <label class="col-sm-1 col-md-1 col-form-label">Kód skladu:</label>
-        <div class="col-sm-6 col-md-6">
-            <input class="form-control" asp-for="Rec.p41StockCode" />
-            <span asp-validation-for="Rec.p41StockCode" class="text-danger"></span>
-        </div>
-
-    </div>
-
-    <div class="form-row" style="margin-top:10px;">
-        <textarea asp-for="Rec.p41Memo" class="form-control" style="height:150px;" placeholder="Podrobný popis"></textarea>
-        <span asp-validation-for="Rec.p41Memo" class="text-danger"></span>
-    </div>
-
-
-
-</div>
-
-    
 </form>
 
+@Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
 
-<hr />
-<div class="card" style="max-width:1050px;">
-    <div class="card-header">
-        Objednávka: <strong style="margin-right:40px;">@Model.RecP52.p52Code</strong> Termín dodání: <strong class="text-danger">@(BO.BAS.ObjectDateTime2String(Model.RecP51.p51DateDelivery))</strong>
-    </div>
-    <div class="card-body">
-        <div class="form-row">
-            <label class="col-sm-1 col-md-1 col-form-label">Objednávka:</label>
-            <div class="col-sm-6 col-md-6">
-                <span class="form-control bg-light">@(Model.RecP51.p51Name+" ["+ Model.RecP51.p51Code+"]")</span>
-
-            </div>
-            <label class="col-sm-1 col-md-1 col-form-label">Kód položky:</label>
-            <div class="col-sm-2 col-md-2">
-                <span class="form-control bg-light">@(Model.RecP52.p52Code)</span>
-
-            </div>
-        </div>
-        <div class="form-row">
-            <label class="col-sm-1 col-md-1 col-form-label">Produkt:</label>
-            <div class="col-sm-6 col-md-6">
-                <span class="form-control bg-light">@(Model.RecP52.p11Name + " [" + Model.RecP52.p11Code + "]")</span>
-
-            </div>
-            <label class="col-sm-1 col-md-1 col-form-label">Množství:</label>
-            <div class="col-sm-1 col-md-1">
-                <span class="form-control bg-light">@(BO.BAS.Number2String(Model.RecP52.p52UnitsCount))</span>
-
-            </div>
-            <div class="col-sm-1 col-md-1">
-                <span class="form-control bg-light">@(BO.BAS.Number2String(Model.RecP52.Recalc2Kg)) KG</span>
-
-            </div>
-        </div>
-        <div class="form-row">
-            <label class="col-sm-1 col-md-1 col-form-label">Klient:</label>
-            <div class="col-sm-6 col-md-6">
-                <span class="form-control bg-light">@(Model.RecP51.p28Name+" ["+Model.RecP51.p28Code+"]")</span>
-
-            </div>
-            <label class="col-sm-1 col-md-1 col-form-label"></label>
-            <div class="col-sm-2 col-md-2">
-                <span class="form-control bg-light">@(Model.RecP51.p51CodeByClient)</span>
-
-            </div>
-        </div>
-    </div>
+<button id="cmdMore" type="button" class="btn btn-secondary dropdown-toggle">
+    
+    Info o objednávce
+</button>
+<div id="divOrder" style="max-width:1050px;display:none;">
+    @Html.DisplayFor(m => m.RecP52, "~/Views/Shared/_p52Info.cshtml")
+    <hr />
+    @Html.DisplayFor(m => m.RecP51, "~/Views/Shared/_p51Info.cshtml")
 </div>
 
 
 
-@Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
+
 
 
 
@@ -139,7 +101,9 @@
 
 <script type="text/javascript">
 
-
+    $("#cmdMore").click(function () {
+        $("#divOrder").slideToggle();
+    });
 
 
     function hardrefresh(pid, flag) {
