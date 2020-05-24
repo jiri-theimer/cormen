@@ -30,8 +30,11 @@
         var prefix_caret = "@Model.prefix";
         var data_menu = "grid1";
 
+        if (prefix_caret == "p27") {
+            data_menu = prefix_caret;
+            prefix_caret = "p26";            
+        }
         
-
         _mainmenu_select(prefix_caret, data_menu);
 
 

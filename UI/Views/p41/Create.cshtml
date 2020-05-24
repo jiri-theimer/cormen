@@ -1,0 +1,67 @@
+﻿@model p41CreateViewModel
+
+@{
+    ViewData["Title"] = "Založit/naplánovat výrobní zakázky";
+    Layout = "~/Views/Shared/_LayoutModal.cshtml";
+    
+}
+
+@addTagHelper *, UI
+
+    <div class="bg-light" style="padding:10px;">
+        <button id="cmdSave" type="submit" class="btn btn-success">Uložit</button>
+        <button id="cmdClose" onclick="_window_close()" class="btn btn-light">Zavřít</button>
+
+    </div>
+
+<form id="form1" asp-controller="p41" asp-action="Record" method="POST">
+    <h4>Založit/naplánovat výrobní zakázky</h4>
+    
+
+    <div class="modal_record_container">
+        <div class="form-row">
+            <div class="col-12">
+                <mycombo entity="p52OrderItem" placeholder="Položka objednávky" asp-for="@Model.p52ID" selectedtext="@Model.p52Code" filter-flag="1"></mycombo>
+            </div>
+
+
+        </div>
+        <div style="padding:6px;">
+            <button type="button" class="btn btn-light btn-sm" onclick="p51_create()">Založit objednávku +</button>
+        </div>
+
+        
+
+
+
+    </div>
+</form>
+
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+        $("#cmdSave").click(function () {
+            $(this).text("Processing...");
+            $(this).attr("disabled", true);
+            form1.submit();
+        });
+
+    });
+
+    function p51_create() {
+        _edit("p51", "0", "Založit objednávku");
+
+    }
+
+    function hardrefresh(pid, flag) {
+        //zde volá modální okno otevřené z modálního okna (třetí vrstva) - to už si každá modální stránka řeší sama ve své režiji
+
+
+    }
+</script>
+

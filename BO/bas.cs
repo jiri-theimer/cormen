@@ -100,6 +100,10 @@ namespace BO
             if (d == System.DBNull.Value) return "";
             return Convert.ToDateTime(d).ToString(format);
         }
+        public static string ObjectDateTime2String(object d, string format = "dd.MM.yyyy HH:mm")
+        {
+            return ObjectDate2String(d, format);
+        }
         public static string Number2String(double n)
         {
             return string.Format("{0:#,0.00}",n);

@@ -24,6 +24,15 @@ namespace UI.Controllers
             
 
         }
+
+        public IActionResult Create(int p52id)
+        {
+            var v = new p41CreateViewModel();
+            v.lisTasks = new List<BO.p41Task>();
+
+
+            return View(v);
+        }
         public IActionResult Record(int pid, bool isclone)
         {
             if (Factory.CurrentUser.j03EnvironmentFlag == 1)
@@ -35,23 +44,11 @@ namespace UI.Controllers
                 return this.StopPageCreateEdit(true);
             }
             var v = new Models.p41RecordViewModel();
-            if (pid > 0)
+            v.Rec = Factory.p41TaskBL.Load(pid);
+            if (v.Rec == null)
             {
-                v.Rec = Factory.p41TaskBL.Load(pid);
-                if (v.Rec == null)
-                {
-                    return RecNotFound(v);
-                }
-
+                return RecNotFound(v);
             }
-            else
-            {
-                v.Rec = new BO.p41Task();
-                v.Rec.entity = "p41";
-                v.Rec.p41Code = Factory.CBL.EstimateRecordCode("p41");
-                
-            }
-
             RefreshState(v);
 
 
@@ -71,9 +68,6 @@ namespace UI.Controllers
         public IActionResult Record(Models.p41RecordViewModel v)
         {
            
-
-
-
             if (ModelState.IsValid)
             {
                 BO.p41Task c = new BO.p41Task();
@@ -89,9 +83,9 @@ namespace UI.Controllers
                 c.p41Memo = v.Rec.p41Memo;
                 c.p41StockCode = v.Rec.p41StockCode;
 
-
                 c.p41PlanStart = v.Rec.p41PlanStart;
                 c.p41PlanEnd = v.Rec.p41PlanEnd;
+                c.p41PlanUnitsCount = v.Rec.p41PlanUnitsCount;
 
 
                 v.Rec.pid = Factory.p41TaskBL.Save(c);
@@ -111,10 +105,15 @@ namespace UI.Controllers
 
         }
 
+
         private void RefreshState(p41RecordViewModel v)
         {
+            v.Toolbar = new MyToolbarViewModel(v.Rec);
 
+            v.RecP52 = Factory.p52OrderItemBL.Load(v.Rec.p52ID);
+            v.RecP51 = Factory.p51OrderBL.Load(v.RecP52.p51ID);
             v.Toolbar = new MyToolbarViewModel(v.Rec);
         }
+
     }
 }

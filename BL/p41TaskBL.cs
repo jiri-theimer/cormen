@@ -60,7 +60,7 @@ namespace BL
             //p.AddDateTime("p41RealStart", rec.p41RealStart);
             //p.AddDateTime("p41RealEnd", rec.p41RealEnd);
 
-            //p.AddDouble("p41PlanUnitsCount", rec.p41PlanUnitsCount);
+            p.AddDouble("p41PlanUnitsCount", rec.p41PlanUnitsCount);
             //p.AddDouble("p41RealUnitsCount", rec.p41RealUnitsCount);
 
             
@@ -71,9 +71,19 @@ namespace BL
 
         private bool ValidateBeforeSave(BO.p41Task rec)
         {
+            if (rec.p27ID==0 || rec.p52ID == 0)
+            {
+                _db.CurrentUser.AddMessage("Na vstupu chybí středisko nebo objednávka.");
+                return false;
+            }
+            if (rec.p41PlanStart >= rec.p41PlanEnd)
+            {
+                _db.CurrentUser.AddMessage("Zadaný rozsah plánovaného zahájení a dokončení není korektní.");
+                return false;
+            }
             if (LoadByCode(rec.p41Code, rec.pid) != null)
             {
-                _db.CurrentUser.AddMessage(string.Format("Zadaný kód nemůže být duplicitní s jiným produktem [{0}].", LoadByCode(rec.p41Code, rec.pid).p41Name));
+                _db.CurrentUser.AddMessage(string.Format("Zadaný kód nemůže být duplicitní s jinou zákazkou [{0}].", LoadByCode(rec.p41Code, rec.pid).p41Name));
                 return false;
             }
 

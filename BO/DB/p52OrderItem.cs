@@ -23,6 +23,7 @@ namespace BO
         public string p11Code { get; set; }
         public string p51Code;
         public string p20Code;
+        
         public double p11RecalcUnit2Kg;
 
         public double Recalc2Kg

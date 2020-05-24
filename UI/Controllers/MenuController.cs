@@ -62,7 +62,7 @@ namespace UI.Controllers
                     return "<p>Přístup pouze pro čtení</p>";
                 }
                 AMI("Objednávka", "javascript:_window_open('/p51/record')");
-                AMI("Zakázka", "javascript:_window_open('/p41/record')");
+                AMI("Zakázka", "javascript:_window_open('/p41/Create')");
                 DIV();
                 AMI("Dokument", "javascript:_window_open('/o23/record')");
                 AMI("Klient", "javascript:_window_open('/p28/record'");
