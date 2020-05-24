@@ -1,4 +1,5 @@
 ﻿@model MyProfileViewModel
+@inject BL.Factory _f 
 
 @{
     ViewData["Title"] = "Můj profil";
@@ -12,107 +13,128 @@
 
 
 
-<div class="modal_record_container">
-    <h4>@Model.CurrentUser.FullName</h4>
+    <div class="modal_record_container">
+        <h4>@Model.CurrentUser.FullName</h4>
 
-    <div class="form-row">
-        <label class="col-sm-1 col-md-2 col-form-label">E-mail:</label>
-        <div class="col-sm-11 col-md-10">
-            <span class="form-control bg-light">@(Model.Rec.j02Email)</span>
-            
-
-        </div>
-
-    </div>
-    @if (Model.CurrentUser != null)
-    {
         <div class="form-row">
-            <label class="col-sm-1 col-md-2 col-form-label">Uživatel:</label>
+            <label class="col-sm-1 col-md-2 col-form-label">E-mail:</label>
             <div class="col-sm-11 col-md-10">
-                
-                <span class="form-control bg-light">@(Model.CurrentUser.j03Login)</span>
-            </div>
+                <span class="form-control bg-light">@(Model.Rec.j02Email)</span>
 
-        </div>
-        <div class="form-row">
-            <label class="col-sm-1 col-md-2 col-form-label">Aplikační role:</label>
-            <div class="col-sm-11 col-md-10">
-                
-                <span class="form-control bg-light">@(Model.Rec.j04Name)</span>
 
             </div>
 
         </div>
-    }
+        @if (Model.CurrentUser != null)
+        {
+            <div class="form-row">
+                <label class="col-sm-1 col-md-2 col-form-label">Uživatel:</label>
+                <div class="col-sm-11 col-md-10">
 
-    <div class="form-row">
-        <label class="col-sm-1 col-md-2 col-form-label">Firma/Držitel licence:</label>
-        <div class="col-sm-11 col-md-10">
-            
-            <span class="form-control bg-light">@(Model.Rec.p28Name)</span>
+                    <span class="form-control bg-light">@(Model.CurrentUser.j03Login)</span>
+                </div>
+
+            </div>
+            <div class="form-row">
+                <label class="col-sm-1 col-md-2 col-form-label">Aplikační role:</label>
+                <div class="col-sm-11 col-md-10">
+
+                    <span class="form-control bg-light">@(Model.Rec.j04Name)</span>
+
+                </div>
+
+            </div>
+        }
+
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Firma/Držitel licence:</label>
+            <div class="col-sm-11 col-md-10">
+
+                <span class="form-control bg-light">@(Model.Rec.p28Name)</span>
+            </div>
+
         </div>
+        <div class="card" style="margin-top:20px;">
+            <div class="card-header">
+
+            </div>
+            <div class="card-body">
+                @if (_f.CurrentUser.j03EnvironmentFlag == 2)
+                {
+                    <p>Pracujete v režimu [CLIENT].</p>
+
+                    <p>Oprávnění CLIENT ADMIN: @_f.CurrentUser.TestPermission(BO.UserPermFlag.ClientAdmin)</p>
+                    <p>Oprávnění CLIENT READER: @_f.CurrentUser.TestPermission(BO.UserPermFlag.ClientReader)</p>
+                }
+                else
+                {
+                    <p>Pracujete v režimu [MASTER].</p>
+                    <p>Oprávnění MASTER ADMIN: @_f.CurrentUser.TestPermission(BO.UserPermFlag.MasterAdmin)</p>
+                    <p>Oprávnění MASTER READER: @_f.CurrentUser.TestPermission(BO.UserPermFlag.MasterReader)</p>
+                }
+            </div>
+        </div>
+        
+
+        <div class="card" style="margin-top:20px;">
+            <div class="card-header">
+                userAgent
+            </div>
+            <div class="card-body">
+
+                <table>
+                    <tr>
+                        <td>
+                            Device:
+                        </td>
+                        <td>
+                            <span id="infoMobile"></span> @Model.client_info.Device.Family
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            OS:
+                        </td>
+                        <td>
+                            @Model.client_info.OS.Family @Model.client_info.OS.Major
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Browser:
+                        </td>
+                        <td>
+                            @Model.client_info.UA.Family @Model.client_info.UA.Major
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            Avail resolution:
+                        </td>
+                        <td>
+                            <span id="infoAvailResolution"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Inner resolution:
+                        </td>
+                        <td>
+                            <span id="infoInnerResolution"></span>
+                        </td>
+                    </tr>
+
+                </table>
+                <hr />
+                <span>@Model.userAgent</span>
+            </div>
+        </div>
+
 
     </div>
-
-    <div class="card" style="margin-top:20px;">
-        <div class="card-header">
-            userAgent
-        </div>
-        <div class="card-body">
-
-            <table>
-                <tr>
-                    <td>
-                        Device:
-                    </td>
-                    <td>
-                        <span id="infoMobile"></span> @Model.client_info.Device.Family
-
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        OS:
-                    </td>
-                    <td>
-                        @Model.client_info.OS.Family @Model.client_info.OS.Major
-
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Browser:
-                    </td>
-                    <td>
-                        @Model.client_info.UA.Family @Model.client_info.UA.Major
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td>
-                        Avail resolution:
-                    </td>
-                    <td>
-                        <span id="infoAvailResolution"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Inner resolution:
-                    </td>
-                    <td>
-                        <span id="infoInnerResolution"></span>
-                    </td>
-                </tr>
-
-            </table>
-            <hr />
-            <span>@Model.userAgent</span>
-        </div>
-    </div>
-
-
-</div>
 
 
 <script type="text/javascript">

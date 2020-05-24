@@ -22,7 +22,7 @@
 
 
                 <div class="btn-group">
-                    <button type="submit" action="@Model.ControllorName" class="btn btn-success">Uložit změny</button>
+                    <button type="submit" id="cmdSaveMyToolbar" action="@Model.ControllorName" class="btn btn-success">Uložit změny</button>
 
                 </div>
 
@@ -83,6 +83,19 @@
         $("input, textarea").change(function () {
             _toolbar_warn2save_changes();
 
+        });
+
+
+        $("#cmdSaveMyToolbar").click(function () {
+            $(this).text("Processing...");
+            $(this).attr("disabled", true);
+            if (document.getElementById("form1")) {
+                form1.submit();
+            } else {
+                document.forms[0].submit();
+            }
+            
+            
         });
 
     })

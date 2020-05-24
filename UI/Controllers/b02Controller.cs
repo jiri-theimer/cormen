@@ -10,15 +10,11 @@ namespace UI.Controllers
 {
     public class b02Controller : BaseController
     {
-        public b02Controller(BL.Factory f)
-        {
-            this.Factory = f;
-        }
-
+     
         //WORKFLOW STAV
         public IActionResult Record(int pid, bool isclone)
         {
-            if (!this.TestIfUserEditor(true, true))
+            if (!this.TestIfUserEditor(true, false))
             {
                 return this.StopPageCreateEdit(true);
             }

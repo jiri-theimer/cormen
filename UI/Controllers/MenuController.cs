@@ -103,7 +103,7 @@ namespace UI.Controllers
                 AMI("Materiál", "javascript:_window_open('/p19/record')");
                 AMI("Měrná jednotka", "javascript:_window_open('/p20/record')");
                 AMI("Typ zařízení", "javascript:_window_open('/p25/record')");
-                AMI("Poštovní účet", "javascript:_window_open('/Mail/record_j40')");
+                AMI("Poštovní účet", "javascript:_window_open('/j40/record')");
                 AMI("Kapacitní fond", "javascript:_window_open('/p31/record')");
 
             }
@@ -117,12 +117,9 @@ namespace UI.Controllers
 
             switch (prefix)
             {
-                case "j40":
-                    AMI("Upravit (<small>vč. Archivovat a Odstranit</small>)", string.Format("javascript:_edit_full('Mail','record_j40',{0})", pid));
-                    AMI("Kopírovat", string.Format("javascript:_clone_full('Mail','record_j40',{0})", pid));
-                    break;
+               
                 case "x40":
-                    AMI("Detail odeslané zprávy", string.Format("javascript:_edit_full('Mail','Record_x40',{0})",pid));
+                    AMI("Detail odeslané zprávy", string.Format("javascript:_edit_full('Mail','Record',{0})",pid));
                     DIV();
                     AMI("Zkopírovat do nové zprávy", string.Format(string.Format("javascript: _window_open('/Mail/SendMail?x40id={0}')",pid)));
                     break;

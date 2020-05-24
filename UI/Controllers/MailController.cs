@@ -40,8 +40,7 @@ namespace UI.Controllers
 
             return View(v);
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost]        
         public IActionResult SendMail(Models.SendMailViewModel v)
         {
             if (ModelState.IsValid)
@@ -50,7 +49,8 @@ namespace UI.Controllers
                 {
                     Factory.MailBL.AddAttachment(c.FullPath,c.o27Name,c.o27ContentType);
                 }
-                
+
+                System.IO.File.AppendAllText("c:\\temp\\hovado.txt", "Try SendMessage: " + DateTime.Now.ToString()+", message: "+ v.Rec.x40Subject);
                 BO.Result r = Factory.MailBL.SendMessage(v.Rec);
                 if (v.Rec.j40ID > 0)
                 {
@@ -71,7 +71,7 @@ namespace UI.Controllers
         }
 
 
-        public IActionResult Record_x40(int pid)
+        public IActionResult Record(int pid)
         {
             var v = new Models.x40RecordViewModel();
             v.Rec = Factory.MailBL.LoadMessageByPid(pid);
@@ -85,113 +85,10 @@ namespace UI.Controllers
 
             InhaleMimeMessage(ref v, v.Rec.x40MessageGuid);
 
-            //string fullPath = Factory.App.UploadFolder + "\\" + v.Rec.x40EmlFolder + "\\" + v.Rec.x40MessageGuid + ".eml";
-            //if (System.IO.File.Exists(fullPath))
-            //{
-            //    v.MimeMessage = MimeMessage.Load(fullPath);
-            //    v.MimeAttachments = new List<BO.COM.StringPairValue>();
-
-            //    foreach (var attachment in v.MimeMessage.Attachments)
-            //    {
-            //        if (attachment is MessagePart)
-            //        {
-                        
-            //        }
-            //        else
-            //        {
-            //            var part = (MimePart)attachment;
-            //            var fileName = part.FileName;
-            //            v.MimeAttachments.Add(new BO.COM.StringPairValue() { Key = part.ContentType.MimeType, Value = fileName });
-                        
-            //            string strTempFullPath = this.Factory.App.TempFolder + "\\" +v.Rec.x40MessageGuid+"_"+ fileName;
-            //            if (System.IO.File.Exists(strTempFullPath)==false)
-            //            {
-            //                using (var fs = new FileStream(strTempFullPath, System.IO.FileMode.Create))
-            //                {
-            //                    part.Content.DecodeTo(fs);  //uložit attachment soubor do tempu
-            //                }
-            //            }
-                        
-            //        }
-
-                    
-            //    }
-            //}
-            
-
-
             return View(v);
         }
 
-        public IActionResult Record_j40(int pid, bool isclone)
-        {
-           
-            var v = new Models.j40RecordViewModel();
-            if (pid > 0)
-            {
-                v.Rec = Factory.MailBL.LoadJ40(pid);
-                if (v.Rec == null)
-                {
-                    return RecNotFound(v);
-                }
-
-            }
-            else
-            {
-                v.Rec = new BO.j40MailAccount();
-                v.Rec.entity = "j40";
-
-            }
-            
-
-
-            v.Toolbar = new MyToolbarViewModel(v.Rec);
-            if (isclone) { v.Toolbar.MakeClone(); }
-
-            return View(v);
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Record_j40(Models.j40RecordViewModel v)
-        {
-            if (ModelState.IsValid)
-            {
-                BO.j40MailAccount c = new BO.j40MailAccount();
-                if (v.Rec.pid > 0) c = Factory.MailBL.LoadJ40(v.Rec.pid);
-                c.j02ID_Owner = v.Rec.j02ID_Owner;
-                c.j40UsageFlag = v.Rec.j40UsageFlag;
-                c.j40SmtpHost = v.Rec.j40SmtpHost;
-                c.j40SmtpPort = v.Rec.j40SmtpPort;
-                c.j40SmtpName = v.Rec.j40SmtpName;
-                c.j40SmtpEmail = v.Rec.j40SmtpEmail;
-                c.j40SmtpUsePersonalReply = v.Rec.j40SmtpUsePersonalReply;
-                c.j40SmtpLogin = v.Rec.j40SmtpLogin;
-                if (String.IsNullOrEmpty(v.Rec.j40SmtpPassword) == false)
-                {
-                    c.j40SmtpPassword = v.Rec.j40SmtpPassword;
-                }
-                
-                c.j40SmtpUseDefaultCredentials = v.Rec.j40SmtpUseDefaultCredentials;
-                c.j40SmtpEnableSsl = v.Rec.j40SmtpEnableSsl;
-                c.ValidUntil = v.Toolbar.GetValidUntil(c);
-                c.ValidFrom = v.Toolbar.GetValidFrom(c);
-
-                v.Rec.pid = Factory.MailBL.SaveJ40(c);
-                if (v.Rec.pid > 0)
-                {
-                    v.SetJavascript_CallOnLoad(v.Rec.pid);
-                    return View(v);
-                }
-
-            }
-
-
-
-
-            v.Toolbar = new MyToolbarViewModel(v.Rec);
-            this.Notify_RecNotSaved();
-            return View(v);
-        }
+        
 
         public ActionResult DownloadEmlFile(string guid)
         {

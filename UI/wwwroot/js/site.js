@@ -18,11 +18,9 @@ function _edit(controller, pid, header) {
     var url = "";
     switch (controller) {
         case "x40":
-            url = "/Mail/Record_x40?pid=" + pid;
+            url = "/Mail/Record?pid=" + pid;
             break;
-        case "j40":
-            url = "/Mail/Record_j40?pid=" + pid;
-            break;
+       
         case "j90":
         case "p14":
         case "p15":

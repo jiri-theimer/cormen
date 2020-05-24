@@ -119,7 +119,7 @@ namespace BL
             rec.x40SenderName = _account.j40SmtpName;            
             if (_account.j40SmtpUsePersonalReply)
             {
-                rec.x40SenderAddress = _mother.CurrentUser.j02Email;
+                //rec.x40SenderAddress = _mother.CurrentUser.j02Email;
                 rec.x40SenderName = _mother.CurrentUser.FullName;
             }
                                     
@@ -254,7 +254,7 @@ namespace BL
                     
                     
                 }
-                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.DeliveryMethod = SmtpDeliveryMethod.Network; //nyní opravdu odeslat
                 
                 try
                 {
