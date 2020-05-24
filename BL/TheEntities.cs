@@ -57,7 +57,7 @@ namespace BL
             AE("p12ClientTpv", "Klientské receptury", "Klientská receptura", "p12ClientTpv a", "a.p12Name");
             AE("p15ClientOper", "Technologický rozpis operací", "Technologická operace", "p15ClientOper a", "a.p15RowNum", "a.p15RowNum");
 
-            AE("p41Task", "Zakázky", "Zakázka", "p41Task a", "a.p14Code DESC");
+            AE("p41Task", "Zakázky", "Zakázka", "p41Task a", "a.p41ID DESC");
             
             AE("p51Order", "Objednávky", "Objednávka", "p51Order a", "a.p51Name,a.p51Code");
             AE("p52OrderItem", "Položky objednávky", "Položka objednávky", "p52OrderItem a","a.p52Code");

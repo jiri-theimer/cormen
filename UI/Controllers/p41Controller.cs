@@ -19,6 +19,8 @@ namespace UI.Controllers
             }
             else
             {
+                v.RecP52 = Factory.p52OrderItemBL.Load(v.Rec.p52ID);
+                v.RecP51 = Factory.p51OrderBL.Load(v.RecP52.p51ID);
                 return View(v);
             }
             
