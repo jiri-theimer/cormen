@@ -48,7 +48,7 @@
     </div>
     <hr />
     <button type="button" class="btn btn-primary" onclick="p14_add_row()">Přidat řádek</button>
-    <table class="table table-sm table-hover" style="table-layout: fixed;width:100%;min-width:1000px;overflow-x:auto;">
+    <table class="table table-sm table-hover" style="table-layout: fixed;min-width:1000px;">
         <tr style="display:table-row;">
             <th style="width:70px;">Row<br />Num</th>
             <th style="width:70px;">Oper<br />Num</th>
@@ -56,7 +56,7 @@
             <th>Name</th>
             <th style="width:70px;">Oper<br />Par</th>
 
-            <th>Material</th>
+            <th>Surovina</th>
             <th style="width:70px;">Units<br />Count</th>
             <th style="width:70px;">Duration<br />PreOper</th>
             <th style="width:70px;">Duration<br />Oper</th>
@@ -108,7 +108,7 @@
                 </td>
                 <td>
                     <mynumber asp-for="@Model.lisP14[i].p14DurationPreOper" decimal-digits="0"></mynumber>
-                    
+
                 </td>
                 <td>
                     <mynumber asp-for="@Model.lisP14[i].p14DurationOper" decimal-digits="3"></mynumber>
@@ -116,7 +116,7 @@
                 </td>
                 <td>
                     <mynumber asp-for="@Model.lisP14[i].p14DurationPostOper" decimal-digits="0"></mynumber>
-                    
+
                 </td>
 
                 <td>
@@ -210,15 +210,15 @@
     }
 
     function p18id_change(p18id, index) {
-        
+
         $.post("/p13/load_p18_record", { p18id: p18id }, function (data) {
-            
+
             $("#lisP14_" + index + "__p14Name").val(data.p18Name);
             var s = "";
             if (data.p18UnitsCount > 0) {
                 s = data.p18UnitsCount.toString().replace(".", ",");
                 $("#lisP14_" + index + "__p14UnitsCount").val(s);
-                $("[for-id=lisP14_" + index + "__p14UnitsCount]").val(s);                
+                $("[for-id=lisP14_" + index + "__p14UnitsCount]").val(s);
             }
             if (data.p18DurationPreOper > 0) {
                 s = data.p18DurationPreOper.toString().replace(".", ",");
@@ -239,8 +239,8 @@
                 $("#cmdCombolisP14_" + index + "__p19ID").text(data.p19Code + " - " + data.p19Name);
                 $("#lisP14_" + index + "__p19ID").val(data.p19ID);
                 $("[data-id=text_lisP14_" + index + "__p19ID]").val(data.p19Code + " - " + data.p19Name);
-                
-                document.getElementsByName("lisP14["+index+"].Material").value = data.p19Code+" - "+data.p19Name;
+
+                document.getElementsByName("lisP14[" + index + "].Material").value = data.p19Code + " - " + data.p19Name;
             }
 
         });

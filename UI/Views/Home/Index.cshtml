@@ -1,5 +1,5 @@
 ﻿@model HomeViewModel
-
+@inject BL.RunningApp _app
 
 @{
     ViewData["Title"] = "Home Page";
@@ -10,7 +10,7 @@
 
 
 <div class="jumbotron py-4">
-    <h1 class="display-4"><strong style="color:blue;">C</strong>ormen <strong style="color:blue;">C</strong>loud [CC]</h1>
+    <h1 class="display-4">@_app.AppName <small>@_app.AppVersion</small></h1>
     <a class="btn btn-secondary" asp-action="MyProfile">Identita účtu @User.Identity.Name</a>
 </div>
 

@@ -14,85 +14,134 @@
     @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
     @Html.HiddenFor(m => m.Rec.pid)
 
-<div class="modal_record_container">
+    <div class="modal_record_container">
 
-    <div class="form-row">
-        <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
-        <div class="col-sm-9 col-md-8">
-            <input class="form-control" asp-for="Rec.p19Name" />
-            <span asp-validation-for="Rec.p19Name" class="text-danger"></span>
-        </div>
-        <div class="col-sm-2 col-md-2">
-            <input class="form-control" asp-for="Rec.p19Code" placeholder="Kód" />
-            <span asp-validation-for="Rec.p19Code" class="text-danger"></span>
-        </div>
-    </div>
-
-
-
-
-
-
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Měrná jednotka (MJ):</label>
-        <div class="col-sm-2 col-md-2">
-            <mycombo entity="p20Unit" asp-for="Rec.p20ID" selectedtext="Rec.p20Code" view-flag="2"></mycombo>
-        </div>
-    </div>
-
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Kategorie:</label>
-        <div class="col-sm-11 col-md-10">
-            <mycombo entity="o12Category" asp-for="Rec.o12ID" selectedtext="Rec.o12Name" param1="p19"></mycombo>
-        </div>
-    </div>
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Surovina na míru pro klienta:</label>
-        <div class="col-sm-11 col-md-10">
-            <mycombo entity="p28Company" asp-for="Rec.p28ID" selectedtext="Rec.p28Name" filter-flag="1"></mycombo>
-        </div>
-    </div>
-
-
-
-    <div class="form-row">
-        <textarea asp-for="Rec.p19Memo" class="form-control" placeholder="Podrobný popis"></textarea>
-        <span asp-validation-for="Rec.p19Memo" class="text-danger"></span>
-    </div>
-
-
-    <div class="card">
-        <div class="card-header">
-            Překlad do ostatních jazyků
-        </div>
-        <div class="card-body">
-            <div class="form-row">
-                <div class="col-sm-9 col-md-8">
-                    <input class="form-control" asp-for="Rec.p19Lang1" placeholder="English" />
-
-                </div>
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
+            <div class="col-sm-9 col-md-8">
+                <input class="form-control" asp-for="Rec.p19Name" />
+                <span asp-validation-for="Rec.p19Name" class="text-danger"></span>
             </div>
-            <div class="form-row">
-                <div class="col-sm-9 col-md-8">
-                    <input class="form-control" asp-for="Rec.p19Lang2" placeholder="Deutsch" />
-
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="col-sm-9 col-md-8">
-                    <input class="form-control" asp-for="Rec.p19Lang3" placeholder="Slovenčina" />
-
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="col-sm-9 col-md-8">
-                    <input class="form-control" asp-for="Rec.p19Lang4" placeholder="????" />
-
-                </div>
+            <div class="col-sm-2 col-md-2">
+                <input class="form-control" asp-for="Rec.p19Code" placeholder="Kód" />
+                <span asp-validation-for="Rec.p19Code" class="text-danger"></span>
             </div>
         </div>
+
+
+
+
+
+
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Měrná jednotka (MJ):</label>
+            <div class="col-sm-5 col-md-5">
+                <mycombo entity="p20Unit" asp-for="Rec.p20ID" selectedtext="Rec.p20Code" view-flag="2"></mycombo>
+            </div>
+        </div>
+
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Kategorie:</label>
+            <div class="col-sm-11 col-md-10">
+                <mycombo entity="o12Category" asp-for="Rec.o12ID" selectedtext="Rec.o12Name" param1="p19"></mycombo>
+            </div>
+        </div>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Surovina na míru pro klienta:</label>
+            <div class="col-sm-11 col-md-10">
+                <mycombo entity="p28Company" asp-for="Rec.p28ID" selectedtext="Rec.p28Name" filter-flag="1"></mycombo>
+            </div>
+        </div>
+
+
+
+        <div class="form-row">
+            <textarea asp-for="Rec.p19Memo" class="form-control" placeholder="Podrobný popis"></textarea>
+            <span asp-validation-for="Rec.p19Memo" class="text-danger"></span>
+        </div>
+
+        <div class="card" style="margin-top:10px;">
+            <div class="card-header">
+                Ostatní
+            </div>
+            <div class="card-body">
+                <div class="form-row">
+                    <label class="col-sm-1 col-md-2 col-form-label">Dodavatel:</label>
+                    <div class="col-sm-9 col-md-8">
+                        <input class="form-control" asp-for="Rec.p19Supplier" />
+
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label class="col-sm-1 col-md-2 col-form-label">Instrastat:</label>
+                    <div class="col-sm-9 col-md-8">
+                        <input class="form-control" asp-for="Rec.p19Intrastat" />
+
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label class="col-sm-1 col-md-2 col-form-label">Name-Alias:</label>
+                    <div class="col-sm-9 col-md-8">
+                        <input class="form-control" asp-for="Rec.p19NameAlias" />
+
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label class="col-sm-1 col-md-2 col-form-label">ITSINC:</label>
+                    <div class="col-sm-9 col-md-8">
+                        <input class="form-control" asp-for="Rec.p19ITSINC" />
+
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label class="col-sm-1 col-md-2 col-form-label">ITSCAS:</label>
+                    <div class="col-sm-9 col-md-8">
+                        <input class="form-control" asp-for="Rec.p19ITSCAS" />
+
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label class="col-sm-1 col-md-2 col-form-label">ITSEINECS:</label>
+                    <div class="col-sm-9 col-md-8">
+                        <input class="form-control" asp-for="Rec.p19ITSEINECS" />
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top:10px;">
+            <div class="card-header">
+                Překlad do ostatních jazyků
+            </div>
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="col-sm-9 col-md-8">
+                        <input class="form-control" asp-for="Rec.p19Lang1" placeholder="English" />
+
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-sm-9 col-md-8">
+                        <input class="form-control" asp-for="Rec.p19Lang2" placeholder="Deutsch" />
+
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-sm-9 col-md-8">
+                        <input class="form-control" asp-for="Rec.p19Lang3" placeholder="Slovenčina" />
+
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-sm-9 col-md-8">
+                        <input class="form-control" asp-for="Rec.p19Lang4" placeholder="????" />
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 }
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")

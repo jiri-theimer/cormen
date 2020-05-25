@@ -8,8 +8,14 @@ namespace UI.Controllers
 {
     public class TheComboController : BaseController
     {
+        private readonly BL.TheColumnsProvider _colsProvider;
 
-        public string GetHtml4TheCombo(string entity, string tableid, string param1, string pids, string filterflag, string searchstring) //Vrací HTML zdroj tabulky pro MyCombo
+        public TheComboController(BL.TheColumnsProvider cp)
+        {
+            _colsProvider = cp;
+        }
+
+        public string GetHtml4TheCombo(string entity, string tableid, string param1, string pids, string filterflag, string searchstring,string masterprefix,int masterpid) //Vrací HTML zdroj tabulky pro MyCombo
         {
             var mq = new BO.myQuery(entity);
             mq.SetPids(pids);
@@ -21,7 +27,7 @@ namespace UI.Controllers
                 mq.TopRecordsOnly = 50; //maximálně prvních 50 záznamů, které vyhovují podmínce
             }
 
-            var cols = new BL.TheColumnsProvider().getDefaultPallete(true,mq);
+            var cols = _colsProvider.getDefaultPallete(true,mq);
             mq.explicit_columns = cols;
 
             mq.explicit_orderby = BL.TheEntities.ByPrefix(mq.Prefix).SqlOrderByCombo;
@@ -38,6 +44,24 @@ namespace UI.Controllers
                     break;
 
             }
+            if (masterpid > 0)
+            {
+                switch (masterprefix)
+                {
+                    case "p51":
+                        mq.p51id = masterpid;
+                        break;
+                    case "p28":
+                        mq.p28id = masterpid;
+                        break;
+                    case "p21":
+                        mq.p21id = masterpid;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            
 
             var dt = Factory.gridBL.GetList(mq);
             var intRows = dt.Rows.Count;
@@ -73,10 +97,10 @@ namespace UI.Controllers
                     //po výběru hodnoty z comba bude SelectedText kód + název a nikoliv hodnota prvního sloupce
                     s.Append(string.Format(" data-t='{1} ## {0}'", dt.Rows[i]["a__"+mq.Entity+"__"+mq.Prefix + "Code"], dt.Rows[i]["a__" + mq.Entity + "__" + mq.Prefix + "Name"]));
                 }
-                if (mq.Prefix == "p51")
-                {
-                    s.Append(string.Format(" data-t='{0} - {1} ## {2}'", dt.Rows[i]["a__p51Order__p51Code"], dt.Rows[i]["a__p51Order__p51Name"], dt.Rows[i]["p51_p28_p28Company_p28Name"]));
-                }
+                //if (mq.Prefix == "p51")
+                //{
+                //    s.Append(string.Format(" data-t='{0} - {1} ## {2}'", dt.Rows[i]["a__p51Order__p51Code"], dt.Rows[i]["a__p51Order__p51Name"], dt.Rows[i]["p51_p28_p28Company_p28Name"]));
+                //}
 
                 s.Append(">");
                 foreach (var col in cols)

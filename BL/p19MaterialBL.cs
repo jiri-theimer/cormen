@@ -57,6 +57,13 @@ namespace BL
             p.AddString("p19Code", rec.p19Code);
             p.AddString("p19Memo", rec.p19Memo);
 
+            p.AddString("p19Supplier", rec.p19Supplier);
+            p.AddString("p19Intrastat", rec.p19Intrastat);
+            p.AddString("p19NameAlias", rec.p19NameAlias);
+            p.AddString("p19ITSINC", rec.p19ITSINC);
+            p.AddString("p19ITSCAS", rec.p19ITSCAS);
+            p.AddString("p19ITSEINECS", rec.p19ITSEINECS);
+
             p.AddString("p19Lang1", rec.p19Lang1);
             p.AddString("p19Lang2", rec.p19Lang2);
             p.AddString("p19Lang3", rec.p19Lang3);

@@ -95,6 +95,10 @@
                 _window_in_modal_close();
 
             }
+            if (e.keyCode == 13 && e.target.nodeName != "BUTTON") {                //zabránit submit formuláře po stisknutí ENTER na jakémkoliv non-submit input elementu
+                e.preventDefault();
+                return false;
+            }
         });
 
 

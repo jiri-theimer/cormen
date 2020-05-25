@@ -9,6 +9,7 @@ namespace BL
         public BO.p41Task Load(int pid);
         public IEnumerable<BO.p41Task> GetList(BO.myQuery mq);
         public int Save(BO.p41Task rec);
+        public bool ValidateBeforeSave(BO.p41Task rec);
     }
     class p41TaskBL : BaseBL, Ip41TaskBL
     {
@@ -69,7 +70,7 @@ namespace BL
             return _db.SaveRecord("p41Task", p.getDynamicDapperPars(), rec);
         }
 
-        private bool ValidateBeforeSave(BO.p41Task rec)
+        public bool ValidateBeforeSave(BO.p41Task rec)
         {
             if (String.IsNullOrEmpty(rec.p41Name) || string.IsNullOrEmpty(rec.p41Code))
             {
@@ -81,9 +82,14 @@ namespace BL
                 _db.CurrentUser.AddMessage("Na vstupu chybí středisko nebo objednávka.");
                 return false;
             }
+            if (rec.p41PlanStart==null || rec.p41PlanEnd==null)
+            {
+                _db.CurrentUser.AddMessage("Čas plánovaného zahájení a dokončení je povinné vyplnit.");
+                return false;
+            }
             if (rec.p41PlanStart >= rec.p41PlanEnd)
             {
-                _db.CurrentUser.AddMessage("Zadaný rozsah plánovaného zahájení a dokončení není korektní.");
+                _db.CurrentUser.AddMessage("Čas plánovaného zahájení musí být menší než čas dokončení.");
                 return false;
             }
             if (LoadByCode(rec.p41Code, rec.pid) != null)

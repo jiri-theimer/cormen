@@ -124,6 +124,7 @@ namespace UI.Controllers
                     AMI("Zkopírovat do nové zprávy", string.Format(string.Format("javascript: _window_open('/Mail/SendMail?x40id={0}')",pid)));
                     break;
                 case "j90":
+                case "j92":
                 case "p14":
                 case "p15":
                     AMI("Záznam bez nabídky kontextového menu", "");

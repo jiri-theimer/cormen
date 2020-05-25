@@ -20,6 +20,13 @@ namespace BO
         
         public string p19Memo { get; set; }
 
+        public string p19Supplier { get; set; }
+        public string p19Intrastat { get; set; }
+        public string p19NameAlias { get; set; }
+        public string p19ITSINC { get; set; }
+        public string p19ITSCAS { get; set; }
+        public string p19ITSEINECS { get; set; }
+
         public string p19Lang1 { get; set; }
         public string p19Lang2 { get; set; }
         public string p19Lang3 { get; set; }

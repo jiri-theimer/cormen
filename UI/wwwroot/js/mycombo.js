@@ -13,6 +13,9 @@
     var _event_after_change = c.on_after_change;
     var _filterflag = c.filterflag;
     var _searchbox_serverfiltering_timeout;
+    var _placeholder = c.placeholder;
+    var _masterprefix = c.masterprefix;
+    var _masterpid = c.masterpid;
     
     if (c.viewflag === "2") {//bez zobrazení search, ale až po otevření combonabídky
         $("#divSearch" + _controlid).css("width", "50px");
@@ -31,11 +34,12 @@
     $("#" + _dropdownid).on("show.bs.dropdown", function () {
         if (c.viewflag === "2") {//bez zobrazení search
             $("#divSearch" + _controlid).css("display", "block");
-            $(_cmdcombo).attr("tabindex","-1");
+            $(_cmdcombo).attr("tabindex", "-1");
+            
         }
         if ($("#" + _dropdownid).prop("filled") === true && _filterflag === "0") return;    //data už byla dříve načtena a filtruje se na straně klienta, protože _filterflag=0
                 
-        $.post(c.posturl, { entity: c.entity, o15flag: "", tableid: _tabid, param1: c.param1, filterflag: _filterflag, searchstring: $(_searchbox).val() }, function (data) {
+        $.post(c.posturl, { entity: c.entity, o15flag: "", tableid: _tabid, param1: c.param1, filterflag: _filterflag, searchstring: $(_searchbox).val(), masterprefix: _masterprefix,masterpid: _masterpid }, function (data) {
             $("#divData"+c.controlid).html(data);
             
             $("#"+_dropdownid).prop("filled", true);
@@ -80,11 +84,10 @@
             return;
         }
         
-
+        
         if (_current_syntetic_event === "") {
             //normální ruční klik
-
-
+            
             _current_syntetic_event = "focus_from_click";
             setTimeout(function () {
                 //focus až po 300ms
@@ -256,11 +259,22 @@
 
     $("#cmdClear" + _controlid).on("click", function () {
         
-        $(_cmdcombo).text("");
+        $(_cmdcombo).text(_placeholder);
 
         $("[data-id=value_" + _controlid + "]").val("0");
         $("[data-id=text_" + _controlid + "]").val("");
         handle_update_state();
+
+        if (_event_after_change !== "") {
+            if (_event_after_change.indexOf("#pid#") === -1) {
+                eval(_event_after_change + "('0')");
+            } else {
+
+                eval(_event_after_change.replace("#pid#", "0"));
+            }
+
+
+        }
     })
 
     function get_first_visible_rowindex(fromindex, direction) {
@@ -362,7 +376,7 @@
 
     function handle_server_filtering() {
         var s = $(_searchbox).val();
-        $.post(c.posturl, { entity: c.entity, o15flag: "", tableid: _tabid, param1: c.param1, filterflag: _filterflag, searchstring: s }, function (data) {
+        $.post(c.posturl, { entity: c.entity, o15flag: "", tableid: _tabid, param1: c.param1, filterflag: _filterflag, searchstring: s, masterprefix: _masterprefix, masterpid: _masterpid }, function (data) {
             $("#divData" + c.controlid).html(data);
           
             $("#" + _tabid + " .txz").on("click", function () {

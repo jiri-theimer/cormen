@@ -150,6 +150,14 @@ namespace BL
             AF("p19Material", "p19Code", "Kód", 1);
             AF("p19Material", "p19Name", "Název", 1);
 
+            AF("p19Material", "p19Supplier", "Dodavatel", 2);
+            AF("p19Material", "p19Intrastat", "Intrastat", 2);
+            AF("p19Material", "p19NameAlias", "NAME-ALIAS");
+            AF("p19Material", "p19ITSINC", "ITSINC");
+            AF("p19Material", "p19ITSCAS", "ITSCAS");
+            AF("p19Material", "p19ITSEINECS", "ITSEINECS");
+
+
             AF("p19Material", "p19Lang1", "Jazyk1");
             AF("p19Material", "p19Lang2", "Jazyk2");
             AF("p19Material", "p19Lang3", "Jazyk3");

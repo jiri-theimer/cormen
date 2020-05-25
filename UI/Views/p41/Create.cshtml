@@ -9,12 +9,13 @@
 @addTagHelper *, UI
 
 <div class="bg-light" style="padding:10px;">
-    <button id="cmdSave" type="submit" class="btn btn-success">Uložit</button>
+    <button id="cmdSave" type="submit" class="btn btn-success">Vygenerovat zakázky</button>
     <button id="cmdClose" onclick="_window_close()" class="btn btn-light">Zavřít</button>
 
 </div>
 
 <form id="form1" asp-controller="p41" asp-action="Record" method="POST">
+
     <div class="input-group">
         <div>
             <h4>Založit/naplánovat výrobní zakázky</h4>
@@ -23,28 +24,36 @@
             <button type="button" class="btn btn-light" onclick="p51_create()">Vytvořit objednávku +</button>
         </div>
     </div>
-    
-    
+
+
 
     <div class="modal_record_container">
         <div class="form-row">
-            <div class="col-12">
-                <mycombo entity="p52OrderItem" placeholder="Vybrat položku objednávky..." asp-for="@Model.p52ID" selectedtext="@Model.p52Code" filter-flag="1" event_after_changevalue="p52id_change"></mycombo>
+            <div class="col-10">
+                <mycombo entity="p51Order" placeholder="Vybrat objednávku..." asp-for="@Model.p51ID" selectedtext="@Model.p51Code" event_after_changevalue="p51id_change"></mycombo>
+            </div>
+            <div class="col-2">
+
+                @if (Model.RecP51 != null)
+                {
+                    <button id="cmdMore" type="button" class="btn btn-light dropdown-toggle">
+                        Info o objednávce
+                    </button>
+                }
+
+
             </div>
 
 
         </div>
-        <div style="padding:6px;">
-
-            @if (Model.RecP52 != null)
-            {
-                <button id="cmdMore" type="button" class="btn btn-light dropdown-toggle">
-                    Info o objednávce
-                </button>
-            }
+        <div class="form-row">
+            <div class="col-12">
+                <mycombo entity="p52OrderItem" placeholder="Vybrat položku objednávky..." asp-for="@Model.p52ID" selectedtext="@Model.p52Code" masterprefix="p51" masterpid="@Model.p51ID" filter-flag="0" event_after_changevalue="p52id_change"></mycombo>
+            </div>
 
 
         </div>
+        
         <div id="divOrder" style="max-width:1050px;display:none;">
             @Html.DisplayFor(m => m.RecP52, "~/Views/Shared/_p52Info.cshtml")
             <hr />
@@ -57,61 +66,87 @@
                 <mycombo entity="p26Msz" placeholder="Vybrat stroj..." asp-for="@Model.p26ID" selectedtext="@Model.p26Name" filter-flag="1" event_after_changevalue="p26id_change"></mycombo>
             </div>
         </div>
+        <div class="input-group">
+            <div style="margin-right:40px;padding:4px;">
+                <button class="btn btn-light btn-sm" type="button" onclick="append_task(0)">Přidat ručně zakázku +</button>
+            </div>
+            @foreach (var c in Model.lisP27)
+            {
+                <div style="padding:4px;">
+                    <button class="btn btn-light btn-sm" type="button" onclick="append_task(@(c.p27ID))">Přidat zakázku pro [@c.p27Name]</button>
+                </div>
+            }
+        </div>
+        
+
 
         <hr />
         <div class="input-group">
-            <div>
+            <div style="padding:4px;">
                 <button class="btn btn-primary" type="button" onclick="simulation()">Navrhnout rozpis zakázek</button>
             </div>
-            <div style="margin-left:40px;">
-                <button class="btn btn-primary" type="button" onclick="append_item()">Přidat ručně zakázku +</button>
+            <div style="padding:4px;">
+                <button class="btn btn-light" type="button" onclick="clear_all()">Vyčistit</button>
             </div>
         </div>
-        
+
         @for (var i = 0; i < Model.Tasks.Count; i++)
         {
-            <div class="form-row" style="border-top:solid 1px gray;">
-                <label class="col-sm-1 col-md-2 col-form-label" style="font-weight:bold;">Zakázka #@(i+1):</label>
-                <div class="col-sm-11 col-md-10">
-                    <input class="form-control" asp-for="Tasks[i].p41Name" pla />
-                </div>
+    <div @Html.Raw(Model.Tasks[i].CssStyleDisplay)>
+        <input type="hidden" asp-for="@Model.Tasks[i].IsTempDeleted" />
+        <div class="form-row" style="border-top:solid 1px gray;">
+            <label class="col-sm-1 col-md-2 col-form-label" style="font-weight:bold;">Zakázka #@(i+1):</label>
+            <div class="col-sm-10 col-md-9">
+                <input class="form-control" asp-for="Tasks[i].p41Name" style="background-color:lightgoldenrodyellow;" />
+            </div>
+            <div class="col-sm-1 col-md-1">
+                <button type="button" class="btn btn-light btn-sm" onclick="delete_task(@(i))">Odstranit</button>
+            </div>
+
+        </div>
+        <div class="form-row" style="margin-top:4px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Položka objednávky:</label>
+            <div class="col-sm-11 col-md-10">
+                <mycombo entity="p52OrderItem" view-flag="2" asp-for="Tasks[i].p52ID" selectedtext="Tasks[i].p52Code" masterprefix="p51" masterpid="@Model.p51ID"></mycombo>
+            </div>
+            
+        </div>
+        <div class="form-row" style="margin-top:4px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Středisko:</label>
+            <div class="col-sm-3 col-md-3">
+                <mycombo entity="p27MszUnit" view-flag="2" asp-for="Tasks[i].p27ID" selectedtext="Tasks[i].p27Name"></mycombo>
+            </div>
+            <label class="col-sm-1 col-md-1 col-form-label">Aktuální stav:</label>
+            <div class="col-sm-6 col-md-6">
+                <mycombo entity="b02Status" view-flag="2" asp-for="Tasks[i].b02ID" selectedtext="Tasks[i].b02Name" param1="p41"></mycombo>
+            </div>
+        </div>
+        <div class="form-row" style="margin-top:4px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Čas zahájení:</label>
+            <div class="col-sm-3 col-md-3">
+                <mydate asp-for="Tasks[i].p41PlanStart" include-time="true"></mydate>
+            </div>
+            <label class="col-sm-1 col-md-2 col-form-label">Čas dokončení:</label>
+            <div class="col-sm-3 col-md-3">
+                <mydate asp-for="Tasks[i].p41PlanEnd" include-time="true"></mydate>
+            </div>
+
+
+        </div>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Množství:</label>
+            <div class="col-sm-3 col-md-3">
+                <mynumber asp-for="Tasks[i].p41PlanUnitsCount"></mynumber>
+            </div>
+
+            <label class="col-sm-1 col-md-1 col-form-label">Kód skladu:</label>
+            <div class="col-sm-6 col-md-6">
+                <input class="form-control" asp-for="Tasks[i].p41StockCode" />
 
             </div>
-            <div class="form-row" style="margin-top:4px;">
-                <label class="col-sm-1 col-md-2 col-form-label">Středisko:</label>
-                <div class="col-sm-3 col-md-3">
-                    <mycombo entity="p27MszUnit" view-flag="2" asp-for="Tasks[i].p27ID" selectedtext="Tasks[i].p27Name"></mycombo>
-                </div>
-                <label class="col-sm-1 col-md-1 col-form-label">Aktuální stav:</label>
-                <div class="col-sm-5 col-md-5">
-                    <mycombo entity="b02Status" view-flag="2" asp-for="Tasks[i].b02ID" selectedtext="Tasks[i].b02Name" param1="p41"></mycombo>
-                </div>
-            </div>
-            <div class="form-row" style="margin-top:4px;">
-                <label class="col-sm-1 col-md-2 col-form-label">Čas zahájení:</label>
-                <div class="col-sm-3 col-md-3">
-                    <mydate asp-for="Tasks[i].p41PlanStart" include-time="true"></mydate>
-                </div>
-                <label class="col-sm-1 col-md-2 col-form-label">Čas dokončení:</label>
-                <div class="col-sm-3 col-md-3">
-                    <mydate asp-for="Tasks[i].p41PlanEnd" include-time="true"></mydate>
-                </div>
 
-
-            </div>
-            <div class="form-row" style="margin-top:10px;">
-                <label class="col-sm-1 col-md-2 col-form-label">Množství:</label>
-                <div class="col-sm-3 col-md-3">
-                    <mynumber asp-for="Tasks[i].p41PlanUnitsCount"></mynumber>
-                </div>
-
-                <label class="col-sm-1 col-md-1 col-form-label">Kód skladu:</label>
-                <div class="col-sm-6 col-md-6">
-                    <input class="form-control" asp-for="Tasks[i].p41StockCode" />
-
-                </div>
-
-            </div>
+        </div>
+    </div>
 
         }
 
@@ -139,8 +174,8 @@
 
     });
 
-    function append_item() {
-        form1.action = "/p41/Create?rec_oper=newitem";
+    function append_task(p27id) {
+        form1.action = "/p41/Create?rec_oper=newitem&p27id="+p27id;
         form1.submit();
     }
 
@@ -149,10 +184,26 @@
         form1.submit();
 
     }
+    function p51id_change(p51id) {
+        form1.action = "/p41/Create?rec_oper=p51id_change";
+        form1.submit();
+
+    }
     function p26id_change(p26id) {
         form1.action = "/p41/Create?rec_oper=postback";
         form1.submit();
 
+    }
+
+    function delete_task(index) {
+        $("#Tasks_" + index + "__IsTempDeleted").val("True");
+
+        form1.action = "/p41/Create?rec_oper=delete";
+        form1.submit();
+    }
+    function clear_all() {       
+        form1.action = "/p41/Create?rec_oper=clear";
+        form1.submit();
     }
 
     function simulation() {

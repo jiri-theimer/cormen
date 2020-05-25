@@ -36,9 +36,10 @@ namespace BL
 
         public int Save(BO.p13MasterTpv rec,List<BO.p14MasterOper> lisP14)
         {
-            if (rec.p25ID == 0)
+
+            if (rec.p25ID == 0 || string.IsNullOrEmpty(rec.p13Code) || string.IsNullOrEmpty(rec.p13Name))
             {
-                _mother.CurrentUser.AddMessage("Chybí vyplnit typ zařízení.");
+                _mother.CurrentUser.AddMessage("Chybí vyplnit typ zařízení, kód nebo název receptury.");
                 return 0;
             }
             var p = new DL.Params4Dapper();
@@ -73,7 +74,7 @@ namespace BL
         }
 
         private int SaveP14Rec(BO.p14MasterOper rec)
-        {
+        {            
             var p = new DL.Params4Dapper();            
             p.AddInt("pid", rec.p14ID);
             p.AddInt("p13ID", rec.p13ID, true);

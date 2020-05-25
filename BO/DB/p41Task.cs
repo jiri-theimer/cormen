@@ -42,5 +42,21 @@ namespace BO
         public string p52Code { get; set; } //get+set: kvůli mycombo
 
         public string RecordOwner;
+
+        public bool IsTempDeleted { get; set; }
+        public string CssStyleDisplay
+        {
+            get
+            {
+                if (this.IsTempDeleted == true)
+                {
+                    return "style='display:none;'";
+                }
+                else
+                {
+                    return "style='display:block'";
+                }
+            }
+        }
     }
 }

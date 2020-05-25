@@ -72,6 +72,13 @@ namespace UI.Controllers
                 c.o12ID = v.Rec.o12ID;
                 c.p28ID = v.Rec.p28ID;
 
+                c.p19Supplier = v.Rec.p19Supplier;
+                c.p19Intrastat = v.Rec.p19Intrastat;
+                c.p19NameAlias = v.Rec.p19NameAlias;
+                c.p19ITSINC = v.Rec.p19ITSINC;
+                c.p19ITSCAS = v.Rec.p19ITSCAS;
+                c.p19ITSEINECS = v.Rec.p19ITSEINECS;
+
                 c.p19Lang1 = v.Rec.p19Lang1;
                 c.p19Lang2 = v.Rec.p19Lang2;
                 c.p19Lang3 = v.Rec.p19Lang3;
