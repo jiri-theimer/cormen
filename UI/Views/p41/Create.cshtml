@@ -14,7 +14,7 @@
 
 </div>
 
-<form id="form1" asp-controller="p41" asp-action="Record" method="POST">
+<form id="form1" asp-controller="p41" asp-action="Create" method="POST">
 
     <div class="input-group">
         <div>
@@ -36,7 +36,7 @@
 
                 @if (Model.RecP51 != null)
                 {
-                    <button id="cmdMore" type="button" class="btn btn-light dropdown-toggle">
+                    <button id="cmdMoreP51" type="button" class="btn btn-light dropdown-toggle">
                         Info o objednávce
                     </button>
                 }
@@ -53,19 +53,39 @@
 
 
         </div>
-        
-        <div id="divOrder" style="max-width:1050px;display:none;">
-            @Html.DisplayFor(m => m.RecP52, "~/Views/Shared/_p52Info.cshtml")
-            <hr />
+
+        <div id="divOrder" style="max-width:1050px;display:none;">            
             @Html.DisplayFor(m => m.RecP51, "~/Views/Shared/_p51Info.cshtml")
+            <hr />
+            @Html.DisplayFor(m => m.RecP52, "~/Views/Shared/_p52Info.cshtml")
         </div>
+
 
 
         <div class="form-row">
-            <div class="col-12">
+            <div class="col-10">
                 <mycombo entity="p26Msz" placeholder="Vybrat stroj..." asp-for="@Model.p26ID" selectedtext="@Model.p26Name" filter-flag="1" event_after_changevalue="p26id_change"></mycombo>
             </div>
+            <div class="col-2">
+
+                @if (Model.RecP26 != null)
+                {
+                    <button id="cmdMoreP26" type="button" class="btn btn-light dropdown-toggle">
+                        Info o stroji
+                    </button>
+                }
+
+
+            </div>
         </div>
+        <div id="divMsz" style="max-width:1050px;display:none;">
+            @Html.DisplayFor(m => m.RecP26, "~/Views/Shared/_p26Info.cshtml")
+            @foreach (var c in Model.lisP27)
+            {
+                @Html.DisplayFor(m => c, "~/Views/Shared/_p27Info.cshtml")
+            }
+        </div>
+
         <div class="input-group">
             <div style="margin-right:40px;padding:4px;">
                 <button class="btn btn-light btn-sm" type="button" onclick="append_task(0)">Přidat ručně zakázku +</button>
@@ -77,7 +97,7 @@
                 </div>
             }
         </div>
-        
+
 
 
         <hr />
@@ -92,61 +112,49 @@
 
         @for (var i = 0; i < Model.Tasks.Count; i++)
         {
-    <div @Html.Raw(Model.Tasks[i].CssStyleDisplay)>
-        <input type="hidden" asp-for="@Model.Tasks[i].IsTempDeleted" />
-        <div class="form-row" style="border-top:solid 1px gray;">
-            <label class="col-sm-1 col-md-2 col-form-label" style="font-weight:bold;">Zakázka #@(i+1):</label>
-            <div class="col-sm-10 col-md-9">
-                <input class="form-control" asp-for="Tasks[i].p41Name" style="background-color:lightgoldenrodyellow;" />
-            </div>
-            <div class="col-sm-1 col-md-1">
-                <button type="button" class="btn btn-light btn-sm" onclick="delete_task(@(i))">Odstranit</button>
-            </div>
+            <div @Html.Raw(Model.Tasks[i].CssStyleDisplay)>
+                <input type="hidden" asp-for="@Model.Tasks[i].IsTempDeleted" />
+                <div class="form-row" style="border-top:solid 1px gray;">
+                    <label class="col-sm-1 col-md-2 col-form-label" style="font-weight:bold;">Zakázka #@(i+1):</label>
+                    <div class="col-sm-10 col-md-9">
+                        <input class="form-control" asp-for="Tasks[i].p41Name" style="background-color:lightgoldenrodyellow;" placeholder="Název zakázky umí vyplnit systém..." />
+                    </div>
+                    <div class="col-sm-1 col-md-1">
+                        <button type="button" class="btn btn-light btn-sm" onclick="delete_task(@(i))">Odstranit</button>
+                    </div>
 
-        </div>
-        <div class="form-row" style="margin-top:4px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Položka objednávky:</label>
-            <div class="col-sm-11 col-md-10">
-                <mycombo entity="p52OrderItem" view-flag="2" asp-for="Tasks[i].p52ID" selectedtext="Tasks[i].p52Code" masterprefix="p51" masterpid="@Model.p51ID"></mycombo>
-            </div>
-            
-        </div>
-        <div class="form-row" style="margin-top:4px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Středisko:</label>
-            <div class="col-sm-3 col-md-3">
-                <mycombo entity="p27MszUnit" view-flag="2" asp-for="Tasks[i].p27ID" selectedtext="Tasks[i].p27Name"></mycombo>
-            </div>
-            <label class="col-sm-1 col-md-1 col-form-label">Aktuální stav:</label>
-            <div class="col-sm-6 col-md-6">
-                <mycombo entity="b02Status" view-flag="2" asp-for="Tasks[i].b02ID" selectedtext="Tasks[i].b02Name" param1="p41"></mycombo>
-            </div>
-        </div>
-        <div class="form-row" style="margin-top:4px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Čas zahájení:</label>
-            <div class="col-sm-3 col-md-3">
-                <mydate asp-for="Tasks[i].p41PlanStart" include-time="true"></mydate>
-            </div>
-            <label class="col-sm-1 col-md-2 col-form-label">Čas dokončení:</label>
-            <div class="col-sm-3 col-md-3">
-                <mydate asp-for="Tasks[i].p41PlanEnd" include-time="true"></mydate>
-            </div>
+                </div>
+                <div class="form-row" style="margin-top:4px;">
+                    <label class="col-sm-1 col-md-2 col-form-label">Položka objednávky:</label>
+                    <div class="col-sm-11 col-md-10">
+                        <mycombo entity="p52OrderItem" view-flag="2" asp-for="Tasks[i].p52ID" selectedtext="Tasks[i].p52Code" masterprefix="p51" masterpid="@Model.p51ID"></mycombo>
+                    </div>
+
+                </div>
+                <div class="form-row" style="margin-top:4px;">
+                    <label class="col-sm-1 col-md-2 col-form-label">Středisko:</label>
+                    <div class="col-sm-3 col-md-3">
+                        <mycombo entity="p27MszUnit" view-flag="2" asp-for="Tasks[i].p27ID" selectedtext="Tasks[i].p27Name"></mycombo>
+                    </div>
+                    <label class="col-sm-1 col-md-2 col-form-label">Množství:</label>
+                    <div class="col-sm-3 col-md-3">
+                        <mynumber asp-for="Tasks[i].p41PlanUnitsCount"></mynumber>
+                    </div>
+                </div>
+                <div class="form-row" style="margin-top:4px;">
+                    <label class="col-sm-1 col-md-2 col-form-label">Plán zahájení:</label>
+                    <div class="col-sm-3 col-md-3">
+                        <mydate asp-for="Tasks[i].p41PlanStart" include-time="true"></mydate>
+                    </div>
+                    <label class="col-sm-1 col-md-2 col-form-label">Plán dokončení:</label>
+                    <div class="col-sm-3 col-md-3">
+                        <mydate asp-for="Tasks[i].p41PlanEnd" include-time="true"></mydate>
+                    </div>
 
 
-        </div>
-        <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Množství:</label>
-            <div class="col-sm-3 col-md-3">
-                <mynumber asp-for="Tasks[i].p41PlanUnitsCount"></mynumber>
+                </div>
+               
             </div>
-
-            <label class="col-sm-1 col-md-1 col-form-label">Kód skladu:</label>
-            <div class="col-sm-6 col-md-6">
-                <input class="form-control" asp-for="Tasks[i].p41StockCode" />
-
-            </div>
-
-        </div>
-    </div>
 
         }
 
@@ -162,14 +170,19 @@
     $(document).ready(function () {
 
 
-        $("#cmdSave").click(function () {
+        $("#cmdSave").click(function () {            
             $(this).text("Processing...");
             $(this).attr("disabled", true);
+            form1.action = "/p41/Create?rec_oper=save";
             form1.submit();
+            
         });
 
-        $("#cmdMore").click(function () {
+        $("#cmdMoreP51").click(function () {
             $("#divOrder").slideToggle();
+        });
+        $("#cmdMoreP26").click(function () {
+            $("#divMsz").slideToggle();
         });
 
     });
@@ -201,7 +214,7 @@
         form1.action = "/p41/Create?rec_oper=delete";
         form1.submit();
     }
-    function clear_all() {       
+    function clear_all() {
         form1.action = "/p41/Create?rec_oper=clear";
         form1.submit();
     }

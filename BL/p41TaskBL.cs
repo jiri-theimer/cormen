@@ -9,7 +9,8 @@ namespace BL
         public BO.p41Task Load(int pid);
         public IEnumerable<BO.p41Task> GetList(BO.myQuery mq);
         public int Save(BO.p41Task rec);
-        public bool ValidateBeforeSave(BO.p41Task rec);
+        public bool ValidateBeforeSave(BO.p41Task rec, string premessage = "");
+        public int SaveBatch(List<BO.p41Task> lisP41);
     }
     class p41TaskBL : BaseBL, Ip41TaskBL
     {
@@ -70,33 +71,77 @@ namespace BL
             return _db.SaveRecord("p41Task", p.getDynamicDapperPars(), rec);
         }
 
-        public bool ValidateBeforeSave(BO.p41Task rec)
+        public int SaveBatch(List<BO.p41Task> lisP41)
+        {
+            int x = 1;
+            int intErrs = 0;
+            
+            foreach(var rec in lisP41)
+            {
+                var cP52 = _mother.p52OrderItemBL.Load(rec.p52ID);
+                var mq = new BO.myQuery("p41Task");
+                var lis = GetList(mq);
+
+                if (String.IsNullOrEmpty(rec.p41Name) == true && cP52 !=null)
+                {
+                    rec.p41Name = cP52.p11Name + " [" + cP52.p11Code + "]";
+                    rec.p41Code = cP52.p52Code.Replace("R", "T") + ".";
+                }
+                if (ValidateBeforeSave(rec,string.Format("Zakázka #{0}: ",x)) == false)
+                {
+                    intErrs += 1;
+                }
+                x += 1;
+            }
+
+            if (intErrs > 0)
+            {
+                return 0;
+            }
+
+            x = 0;
+            foreach (var rec in lisP41)
+            {
+                if (Save(rec) > 0)
+                {
+                    x += 1;
+                }
+
+            }
+            return x;
+        }
+
+        public bool ValidateBeforeSave(BO.p41Task rec,string premessage="")
         {
             if (String.IsNullOrEmpty(rec.p41Name) || string.IsNullOrEmpty(rec.p41Code))
             {
-                _db.CurrentUser.AddMessage("Chybí vyplnit název nebo kód zakázky.");
+                _db.CurrentUser.AddMessage(premessage+"Chybí vyplnit název nebo kód zakázky.");
                 return false;
             }
             if (rec.p27ID==0 || rec.p52ID == 0)
             {
-                _db.CurrentUser.AddMessage("Na vstupu chybí středisko nebo objednávka.");
+                _db.CurrentUser.AddMessage(premessage+"Na vstupu chybí středisko nebo objednávka.");
                 return false;
             }
             if (rec.p41PlanStart==null || rec.p41PlanEnd==null)
             {
-                _db.CurrentUser.AddMessage("Čas plánovaného zahájení a dokončení je povinné vyplnit.");
+                _db.CurrentUser.AddMessage(premessage+"Čas plánovaného zahájení a dokončení je povinné vyplnit.");
                 return false;
             }
             if (rec.p41PlanStart >= rec.p41PlanEnd)
             {
-                _db.CurrentUser.AddMessage("Čas plánovaného zahájení musí být menší než čas dokončení.");
+                _db.CurrentUser.AddMessage(premessage+"Čas plánovaného zahájení musí být menší než čas dokončení.");
                 return false;
             }
-            if (LoadByCode(rec.p41Code, rec.pid) != null)
+            if (String.IsNullOrEmpty(rec.p41Code) == false)
             {
-                _db.CurrentUser.AddMessage(string.Format("Zadaný kód nemůže být duplicitní s jinou zákazkou [{0}].", LoadByCode(rec.p41Code, rec.pid).p41Name));
-                return false;
+                if (LoadByCode(rec.p41Code, rec.pid) != null)
+                {
+                    _db.CurrentUser.AddMessage(string.Format(premessage + "Zadaný kód nemůže být duplicitní s jinou zákazkou [{0}].", LoadByCode(rec.p41Code, rec.pid).p41Name));
+                    return false;
+                }
             }
+            
 
             return true;
         }

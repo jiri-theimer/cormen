@@ -40,6 +40,7 @@ namespace UI.Views.Shared.TagHelpers
                 case 0:
                     strStep = "";
                     strPlaceHolder = "000";
+                    strFormat = "{0:#,0}";
                     break;
                 case 1:
                     strStep = "0.1";
@@ -53,6 +54,11 @@ namespace UI.Views.Shared.TagHelpers
                     strStep = "0.001";
                     strPlaceHolder = "0,000";
                     strFormat = "{0:#,0.000}";
+                    break;
+                case 4:
+                    strStep = "0.0001";
+                    strPlaceHolder = "0,0000";
+                    strFormat = "{0:#,0.0000}";
                     break;
                 default:
                     strStep = "any";

@@ -39,16 +39,16 @@ namespace UI.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Models.p41CreateViewModel v, string rec_oper,int p27id)
         {
-            if (rec_oper== "p51id_change")
+
+            if (rec_oper == "p51id_change")
             {
                 v.p52ID = 0;
                 v.p52Code = "";
             }
             if (v.p51ID > 0)
-            {                
+            {
                 v.RecP51 = Factory.p51OrderBL.Load(v.p51ID);
-                v.p52ID = 0;
-            }            
+            }
             if (v.p52ID > 0)
             {
                 v.RecP52 = Factory.p52OrderItemBL.Load(v.p52ID);
@@ -56,6 +56,7 @@ namespace UI.Controllers
             }
             if (v.p26ID > 0)
             {
+                v.RecP26 = Factory.p26MszBL.Load(v.p26ID);
                 var mq = new BO.myQuery("p27MszUnit");
                 mq.p26id = v.p26ID;
                 v.lisP27 = Factory.p27MszUnitBL.GetList(mq).ToList();
@@ -73,8 +74,14 @@ namespace UI.Controllers
                     c.p27ID = p27id;
                     c.p27Name = Factory.p27MszUnitBL.Load(p27id).p27Name;
                 }
+                if (v.RecP52 != null)
+                {
+                    c.p52ID = v.RecP52.pid;
+                    c.p52Code = v.RecP52.p52Code;
+                    //c.p41Name = v.RecP52.p11Name + " [" + v.RecP52.p11Code + "]";
+                }
                 v.Tasks.Add(c);
-                
+
                 return View(v);
             }
             if (rec_oper == "clear")
@@ -87,7 +94,7 @@ namespace UI.Controllers
             }
             if (rec_oper == "postback")     //pouze postback
             {
-                
+
             }
             if (v.Tasks == null)
             {
@@ -96,9 +103,18 @@ namespace UI.Controllers
 
             if (ModelState.IsValid)
             {
-                
 
-                
+                if (rec_oper == "save")
+                {
+                    int x = Factory.p41TaskBL.SaveBatch(v.Tasks);
+                    if (x > 0)
+                    {
+
+                        v.SetJavascript_CallOnLoad(0, "p41");
+                        return View(v);
+                    }
+                }
+
 
 
             }

@@ -53,7 +53,7 @@
 
     <hr />
     <button type="button" class="btn btn-primary" onclick="p15_add_row()">Přidat řádek</button>
-    <table class="table table-sm table-hover" style="table-layout: fixed;width:100%;min-width:1000px;overflow-x:auto;">
+    <table class="table table-sm table-hover" style="table-layout: fixed;min-width:1000px;">
         <tr style="display:table-row;">
             <th style="width:70px;">Row<br />Num</th>
             <th style="width:70px;">Oper<br />Num</th>
@@ -62,7 +62,7 @@
             <th style="width:70px;">Oper<br />Par</th>
 
             <th>Surovina</th>
-            <th style="width:70px;">Units<br />Count</th>
+            <th style="width:80px;">Units<br />Count</th>
             <th style="width:70px;">Duration<br />PreOper</th>
             <th style="width:70px;">Duration<br />Oper</th>
             <th style="width:70px;">Duration<br />PostOper</th>
@@ -109,18 +109,18 @@
                 </td>
 
                 <td>
-                    <mynumber asp-for="@Model.lisP15[i].p15UnitsCount"></mynumber>
+                    <mynumber asp-for="@Model.lisP15[i].p15UnitsCount" decimal-digits="4"></mynumber>
                 </td>
                 <td>
                     <mynumber asp-for="@Model.lisP15[i].p15DurationPreOper" decimal-digits="0"></mynumber>
-                    
+
                 </td>
                 <td>
                     <mynumber asp-for="@Model.lisP15[i].p15DurationOper" decimal-digits="3"></mynumber>
                 </td>
                 <td>
                     <mynumber asp-for="@Model.lisP15[i].p15DurationPostOper" decimal-digits="0"></mynumber>
-                    
+
                 </td>
 
                 <td>

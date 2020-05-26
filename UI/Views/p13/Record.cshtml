@@ -57,9 +57,9 @@
             <th style="width:70px;">Oper<br />Par</th>
 
             <th>Surovina</th>
-            <th style="width:70px;">Units<br />Count</th>
+            <th style="width:80px;">Units<br />Count</th>
             <th style="width:70px;">Duration<br />PreOper</th>
-            <th style="width:70px;">Duration<br />Oper</th>
+            <th style="width:80px;">Duration<br />Oper</th>
             <th style="width:70px;">Duration<br />PostOper</th>
             <th style="width:30px;"></th>
             <th style="width:30px;"></th>
@@ -104,7 +104,7 @@
                 </td>
 
                 <td>
-                    <mynumber asp-for="@Model.lisP14[i].p14UnitsCount"></mynumber>
+                    <mynumber asp-for="@Model.lisP14[i].p14UnitsCount" decimal-digits="4"></mynumber>
                 </td>
                 <td>
                     <mynumber asp-for="@Model.lisP14[i].p14DurationPreOper" decimal-digits="0"></mynumber>

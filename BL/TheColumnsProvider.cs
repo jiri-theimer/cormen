@@ -186,7 +186,7 @@ namespace BL
 
             AF("p14MasterOper", "p14UnitsCount", "UnitsCount", 2, null, "num");
             AF("p14MasterOper", "p14DurationPreOper", "DurationPreOper", 2, null, "num0");
-            AF("p14MasterOper", "p14DurationOper", "DurationOper", 2, null, "num3");
+            AF("p14MasterOper", "p14DurationOper", "DurationOper", 2, null, "num4");
             AF("p14MasterOper", "p14DurationPostOper", "DurationPostOper", 2, null, "num0");
 
             AppendTimestamp("p14MasterOper");
