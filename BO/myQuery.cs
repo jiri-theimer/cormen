@@ -63,6 +63,7 @@ namespace BO
         public int p41id { get; set; }
         public int p13id { get; set; }
         public int p51id { get; set; }
+        public int p52id { get; set; }
         public int p25id { get; set; }
         public string query_by_entity_prefix;
 

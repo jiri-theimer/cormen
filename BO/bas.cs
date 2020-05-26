@@ -176,7 +176,16 @@ namespace BO
 
         }
 
-        
+        public static string RightString(string input, int num)
+        {
+            if (num > input.Length)
+            {
+                num = input.Length;
+            }
+            return input.Substring(input.Length - num);
+        }
+
+
 
 
     }

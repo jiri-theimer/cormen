@@ -106,6 +106,10 @@ namespace BL.DL
                 if (mq.Prefix == "p41") AQ(ref lis, "a.p52ID IN (select p52ID FROM p52OrderItem WHERE p51ID=@p51id)", "p51id", mq.p51id);
 
             }
+            if (mq.p52id > 0)
+            {
+                if (mq.Prefix == "p41") AQ(ref lis, "a.p52ID=@p52id", "p52id", mq.p52id);
+            }
 
             if (mq.Prefix == "b02" && !string.IsNullOrEmpty(mq.query_by_entity_prefix))
             {
