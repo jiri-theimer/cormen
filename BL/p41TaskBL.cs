@@ -76,25 +76,39 @@ namespace BL
         {
             int x = 1;
             int intErrs = 0;
+            int intLastP52ID = 0;
+            int intCodeIndex = 0;
             
-            foreach(var rec in lisP41.Where(p=>p.IsTempDeleted==false))
+            foreach(var rec in lisP41.Where(p => p.IsTempDeleted == false).OrderBy(p=>p.p52ID).ThenBy(p=>p.p41PlanEnd))
             {
                 var cP52 = _mother.p52OrderItemBL.Load(rec.p52ID);
-                var mq = new BO.myQuery("p41Task");
-                mq.p52id = cP52.pid;                
-                var lis = GetList(mq);
-
-                rec.p41Code = cP52.p52Code.Replace("R", "T") + "." + BO.BAS.RightString("000" + (lis.Count() + 1).ToString(), 3);
-                if (String.IsNullOrEmpty(rec.p41Name) == true && cP52 !=null)
+                if (cP52 != null)
                 {
-                    rec.p41Name = cP52.p11Name + " [" + cP52.p11Code + "]";                    
-                    
+                    if (intLastP52ID != rec.p52ID)
+                    {
+                        var mq = new BO.myQuery("p41Task");
+                        mq.p52id = cP52.pid;
+                        var lis = GetList(mq);
+                        intCodeIndex = lis.Count() + 1;
+                    }
+                    else
+                    {
+                        intCodeIndex += 1;
+                    }
+                    rec.p41Code = cP52.p52Code.Replace("R", "T") + "." + BO.BAS.RightString("000" + intCodeIndex.ToString(), 3);
+                    if (String.IsNullOrEmpty(rec.p41Name) == true && cP52 != null)
+                    {
+                        rec.p41Name = cP52.p11Name + " [" + cP52.p11Code + "]";
+
+                    }
                 }
+                
                 if (ValidateBeforeSave(rec,string.Format("Zakázka #{0}: ",x)) == false)
                 {
                     intErrs += 1;
                 }
                 x += 1;
+                intLastP52ID = rec.p52ID;
             }
 
             if (intErrs > 0)

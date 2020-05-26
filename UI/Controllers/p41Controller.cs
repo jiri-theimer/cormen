@@ -69,8 +69,16 @@ namespace UI.Controllers
             {
                 if (v.Tasks == null) v.Tasks = new List<BO.p41Task>();
                 var c = new BO.p41Task();
-                c.p41PlanStart = DateTime.Now.AddHours(1);
-                c.p41PlanEnd = DateTime.Now.AddHours(2);
+                if (v.Tasks.Where(p=>p.p41PlanEnd !=null).Count() > 0)
+                {
+                    c.p41PlanStart = v.Tasks.Where(p => p.p41PlanEnd != null).Last().p41PlanEnd;
+                }
+                else
+                {
+                    c.p41PlanStart = DateTime.Now.AddHours(1);
+                }
+                c.p41PlanEnd = Convert.ToDateTime(c.p41PlanStart).AddHours(1);
+
                 if (p27id > 0)
                 {
                     c.p27ID = p27id;
