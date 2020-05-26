@@ -37,7 +37,7 @@ namespace UI.Controllers
                 v.Rec.p51ID = p51id;
 
             }
-            v.Rec_Header = Factory.p51OrderBL.Load(v.Rec.p51ID);
+            v.RecP51 = Factory.p51OrderBL.Load(v.Rec.p51ID);
 
             v.Toolbar = new MyToolbarViewModel(v.Rec) { IsToArchive = false };
             if (isclone) { v.Toolbar.MakeClone(); }
@@ -47,8 +47,21 @@ namespace UI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Record(Models.p52RecordViewModelcs v)
+        public IActionResult Record(Models.p52RecordViewModelcs v, string rec_oper)
         {
+            if (rec_oper == "postback")
+            {
+                v.RecP51 = Factory.p51OrderBL.Load(v.Rec.p51ID);
+                if (v.Rec.p11ID > 0)
+                {
+                    var cP11 = Factory.p11ClientProductBL.Load(v.Rec.p11ID);
+                    v.Rec.p20Code = cP11.p20Code;
+                    v.Rec.p11RecalcUnit2Kg = cP11.p11RecalcUnit2Kg;
+                }
+                
+                v.Toolbar = new MyToolbarViewModel(v.Rec) { IsToArchive = false };
+                return View(v);
+            }
             if (ModelState.IsValid)
             {
                 BO.p52OrderItem c = new BO.p52OrderItem();
@@ -78,9 +91,6 @@ namespace UI.Controllers
 
         }
 
-        public BO.p11ClientProduct p11_load(int p11id)
-        {
-            return Factory.p11ClientProductBL.Load(p11id);
-        }
+      
     }
 }

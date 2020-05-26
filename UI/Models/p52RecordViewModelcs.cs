@@ -9,7 +9,7 @@ namespace UI.Models
     {
         public BO.p52OrderItem Rec { get; set; }
 
-        public BO.p51Order Rec_Header { get; set; }
+        public BO.p51Order RecP51 { get; set; }
         public MyToolbarViewModel Toolbar { get; set; }
     }
 }

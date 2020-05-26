@@ -185,9 +185,10 @@ namespace BL
             AF("p14MasterOper", "p14OperParam", "OperPar", 2, null, "num0");
 
             AF("p14MasterOper", "p14UnitsCount", "UnitsCount", 2, null, "num");
-            AF("p14MasterOper", "p14DurationPreOper", "DurationPreOper", 2, null, "num0");
-            AF("p14MasterOper", "p14DurationOper", "DurationOper", 2, null, "num4");
-            AF("p14MasterOper", "p14DurationPostOper", "DurationPostOper", 2, null, "num0");
+            AF("p14MasterOper", "p14DurationPreOper", "DurationPreOper", 2, null, "num0",true);
+            AF("p14MasterOper", "p14DurationOper", "DurationOper", 2, null, "num4",true);
+            AF("p14MasterOper", "p14DurationPostOper", "DurationPostOper", 2, null, "num0",true);
+            AF("p14MasterOper", "TotalDuration","TotalDuration 1KG",2, "isnull(a.p14DurationPreOper,0)+isnull(a.p14DurationOper,0)+isnull(a.p14DurationPostOper,0)", "num4", true);
 
             AppendTimestamp("p14MasterOper");
 
@@ -227,9 +228,10 @@ namespace BL
             //AF("p15ClientOper", "p19Name", "MaterialName", 2,"p19.p19Name");
 
             AF("p15ClientOper", "p15UnitsCount", "UnitsCount", 2, null, "num");
-            AF("p15ClientOper", "p15DurationPreOper", "DurationPreOper", 2, null, "num0");
-            AF("p15ClientOper", "p15DurationOper", "DurationOper", 2, null, "num3");
-            AF("p15ClientOper", "p15DurationPostOper", "DurationPostOper", 2, null, "num0");
+            AF("p15ClientOper", "p15DurationPreOper", "DurationPreOper", 2, null, "num0",true);
+            AF("p15ClientOper", "p15DurationOper", "DurationOper", 2, null, "num4",true);
+            AF("p15ClientOper", "p15DurationPostOper", "DurationPostOper", 2, null, "num0",true);
+            AF("p15ClientOper", "TotalDuration", "TotalDuration 1KG",2, "isnull(a.p15DurationPreOper,0)+isnull(a.p15DurationOper,0)+isnull(a.p15DurationPostOper,0)", "num4", true);
 
             AppendTimestamp("p15ClientOper");
 
@@ -264,6 +266,9 @@ namespace BL
             AF("p51Order", "p51CodeByClient", "Kód podle klienta", 0);
             AF("p51Order", "p51IsDraft", "Draft", 0, null, "bool");
 
+            AF("p51Order", "SimulateDurMinutes", "Nutná doba výroby (min)", 0, "dbo.p51_calc_duration(a.p51ID)", "num", true);
+            AF("p51Order", "SimulateDurHours", "Nutná doba výroby (hod)", 0, "dbo.p51_calc_duration(a.p51ID)/60", "num", true);
+
             AF("p51Order", "p51Memo", "Podrobný popis");
             AF("p51Order", "RecordOwner", "Vlastník záznamu", 0, "dbo.j02_show_as_owner(a.j02ID_Owner)");
 
@@ -272,7 +277,10 @@ namespace BL
             //p52 = položky objednávky
             AF("p52OrderItem", "p52Code", "Kód", 1);            
             AF("p52OrderItem", "p52UnitsCount", "Množství", 1, null, "num");            
-            AF("p52OrderItem", "Recalc2Kg", "Přepočteno na KG", 2, "p52UnitsCount * p52_p11.p11RecalcUnit2Kg", "num", true, "p52_p11");
+            AF("p52OrderItem", "Recalc2Kg", "Přepočet na KG", 0, "a.p52UnitsCount*p11RecalcUnit2Kg", "num", true, "p52_p11");
+
+            AF("p52OrderItem", "SimulateDurMinutes", "Nutná doba výroby (min)", 0, "dbo.p11_calc_duration(a.p11ID,a.p52UnitsCount)", "num", true);
+            AF("p52OrderItem", "SimulateDurHours", "Nutná doba výroby (hod)", 0, "dbo.p11_calc_duration(a.p11ID,a.p52UnitsCount)/60", "num", true);
 
             AF("p52OrderItem", "RecordOwner", "Vlastník záznamu", 0, "dbo.j02_show_as_owner(a.j02ID_Owner)");
 

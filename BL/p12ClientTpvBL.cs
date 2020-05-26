@@ -9,6 +9,7 @@ namespace BL
         public BO.p12ClientTpv Load(int pid);
         public IEnumerable<BO.p12ClientTpv> GetList(BO.myQuery mq);
         public int Save(BO.p12ClientTpv rec, List<BO.p15ClientOper> lisP15);
+        public double Simulate_Total_Duration(int p12id, double unitscount);
     }
     class p12ClientTpvBL : BaseBL, Ip12ClientTpvBL
     {
@@ -31,6 +32,11 @@ namespace BL
             DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq, _mother.CurrentUser);
             return _db.GetList<BO.p12ClientTpv>(fq.FinalSql, fq.Parameters);
 
+        }
+        
+        public double Simulate_Total_Duration(int p12id,double unitscount)
+        {
+            return _db.Load<BO.COM.GetDouble>("select dbo.p12_calc_duration(@p12id,@unitscount) as Value", new { p12id = p12id, unitscount = unitscount }).Value;
         }
 
         private bool ValidateBeforeSave(BO.p12ClientTpv rec)
@@ -85,6 +91,11 @@ namespace BL
 
                 }
             }
+            var mq = new BO.myQuery("p15ClientOper");
+            mq.p12id = intPID;
+            var lis = _mother.p15ClientOperBL.GetList(mq);
+            _db.RunSql("UPDATE p12ClientTpv SET p12TotalDuration=(SELECT sum(isnull(p15DurationPreOper,0)+isnull(p15DurationOper,0)+isnull(p15DurationPostOper,0)) FROM p15ClientOper WHERE p12ID=@pid) WHERE p12ID=@pid", new { pid = intPID });
+
 
             return intPID;
 

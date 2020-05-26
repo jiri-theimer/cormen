@@ -22,9 +22,9 @@ namespace BO
         public string p11Name { get; set; }
         public string p11Code { get; set; }
         public string p51Code;
-        public string p20Code;
-        
-        public double p11RecalcUnit2Kg;
+        public string p20Code { get; set; }//kvůli postback
+
+        public double p11RecalcUnit2Kg { get; set; }//kvůli postback
 
         public double Recalc2Kg
         {
@@ -33,5 +33,6 @@ namespace BO
                 return p52UnitsCount * p11RecalcUnit2Kg;
             }
         }
+        public double SimulateDurMinutes { get; set; }  //nutná doba výroby v minutách
     }
 }

@@ -11,5 +11,9 @@ namespace UI.Models
         public BO.p10MasterProduct RecP10 { get; set; }
         public BO.p21License RecP21 { get; set; }
 
+        public double SimulateUnitsCount { get; set; }
+        public double SimulationResult { get; set; }
+        
+
     }
 }

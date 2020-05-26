@@ -20,6 +20,8 @@ namespace BO
         [MaxLength(1000, ErrorMessage = "Maximum 1000 znaků")]
         public string p13Memo { get; set; }
 
+        public double p13TotalDuration { get; set; }
+
         public string p25Name { get; set; } //kvůli combo
     }
 }

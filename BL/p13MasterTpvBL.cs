@@ -68,6 +68,11 @@ namespace BL
                     
                 }
             }
+            var mq = new BO.myQuery("p14MasterOper");
+            mq.p13id = intPID;
+            var lis = _mother.p14MasterOperBL.GetList(mq);
+            _db.RunSql("UPDATE p13MasterTpv SET p13TotalDuration=(SELECT sum(isnull(p14DurationPreOper,0)+isnull(p14DurationOper,0)+isnull(p14DurationPostOper,0)) FROM p14MasterOper WHERE p13ID=@pid) WHERE p13ID=@pid",new { pid = intPID });
+
 
             return intPID;
 

@@ -62,3 +62,15 @@
     </div>
 
 </div>
+
+<div class="form-row" style="margin-top:10px;">
+    <label class="col-sm-1 col-md-2 col-form-label">Nutná doba výroby:</label>
+    <div class="col-sm-2 col-md-2">
+        <span class="form-control bg-light">@(BO.BAS.Number2String(Model.SimulateDurMinutes) +" min.")</span>
+    </div>
+    <div class="col-sm-2 col-md-2">
+        <span class="form-control bg-light">@(BO.BAS.Number2String(Model.SimulateDurMinutes/60)+" hod.")</span>
+    </div>
+
+
+</div>

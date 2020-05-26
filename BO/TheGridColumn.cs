@@ -60,7 +60,7 @@ namespace BO
             {
                 if (_CssClass == null)
                 {
-                    if (FieldType == "num" || FieldType == "num0" || FieldType=="num3") _CssClass = "tdn";
+                    if (FieldType == "num" || FieldType == "num0" || FieldType=="num3" || FieldType == "num4") _CssClass = "tdn";
                     if (FieldType == "bool") _CssClass = "tdb";
                 }                
                 return _CssClass;

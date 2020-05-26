@@ -9,7 +9,7 @@ namespace UI.Controllers
 {
     public class p11Controller : BaseController
     {
-        public IActionResult Index(int pid)
+        public IActionResult Index(int pid,double SimulateUnitsCount)
         {
 
             var v = new Models.p11PreviewViewModel();
@@ -17,9 +17,17 @@ namespace UI.Controllers
             if (v.Rec == null) return RecNotFound(v);
             v.RecP10 = Factory.p10MasterProductBL.Load(v.Rec.p10ID_Master);
             v.RecP21 = Factory.p21LicenseBL.Load(v.Rec.p21ID);
+
+            if (SimulateUnitsCount > 0)
+            {
+                v.SimulateUnitsCount = SimulateUnitsCount;
+                v.SimulationResult = Factory.p12ClientTpvBL.Simulate_Total_Duration(v.Rec.p12ID, v.SimulateUnitsCount);
+            }
             return View(v);
 
         }
+       
+
         public IActionResult Record(int pid, bool isclone)
         {
             if (Factory.CurrentUser.j03EnvironmentFlag == 1)

@@ -22,7 +22,7 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*," + _db.GetSQL1_Ocas("p51") + ",b02.b02Name,dbo.j02_show_as_owner(a.j02ID_Owner) as RecordOwner,p28.p28Name,p28.p28Code FROM p51Order a LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID";
+            return "SELECT a.*," + _db.GetSQL1_Ocas("p51") + ",b02.b02Name,dbo.j02_show_as_owner(a.j02ID_Owner) as RecordOwner,p28.p28Name,p28.p28Code,dbo.p51_calc_duration(a.p51ID) as SimulateDurMinutes FROM p51Order a LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID";
         }
        
         public BO.p51Order Load(int pid)

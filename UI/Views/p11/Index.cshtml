@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_LayoutSubform.cshtml";
     if (Model.Rec == null) return;
 }
+@addTagHelper *, UI
 
     <div class="modal_record_container">
 
@@ -50,7 +51,7 @@
             </div>
             <div class="col-sm-1 col-md-1">
                 <span class="form-control bg-light">@(Model.RecP21.PermFlagAlias)</span>
-                
+
             </div>
             <div class="col-sm-2 col-md-2">
                 <span class="form-control bg-light">@(Model.RecP21.p21Code)</span>
@@ -93,8 +94,29 @@
 
 
 
+        <div class="card" style="margin-top:10px;">
+            <div class="card-header">
+                Simulace doby výroby produktu
+            </div>
+            <div class="card-body input-group">
+                <label>Zadejte množství produktu v kg:</label>
+                <mynumber asp-for="@Model.SimulateUnitsCount" decimal-digits="2"></mynumber>
+                <button type="button" onclick="simulation()" class="btn btn-primary">Spočítat</button>
+                @if (Model.SimulateUnitsCount > 0)
+                {
+                    <span> = </span>
+                    <strong>@(BO.BAS.Number2String(Model.SimulationResult))</strong>
+                    <span> minut</span>
+                    <span> => </span>
+                    <strong>@(BO.BAS.Number2String(Model.SimulationResult/60))</strong>
+                    <span> hodin</span>
+                }
+
+            </div>
 
 
+
+        </div>
     </div>
 @if (Model.Rec.p11Memo != null)
 {
@@ -106,4 +128,17 @@
 }
 
 @Html.DisplayFor(m => Model.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
+
+
+
+
+
+<script type="text/javascript">
+    function simulation() {
+        var n = $("#SimulateUnitsCount").val();
+        
+        location.replace("/p11/Index?pid=@Model.Rec.pid&SimulateUnitsCount=" + n.replace(",","."));
+
+    }
+</script>
 

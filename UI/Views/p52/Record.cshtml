@@ -32,11 +32,20 @@
                 <div class="col-sm-3 col-md-2">
                     <mynumber asp-for="Rec.p52UnitsCount" decimal-digits="2"></mynumber>
                 </div>
-                <div class="col-1">
+                <div class="col-2">
                     <span id="p20Code">@Model.Rec.p20Code</span>
+                    <span> x </span>
+                    <span id="p11RecalcUnit2Kg">@Model.Rec.p11RecalcUnit2Kg</span>
+                    <span>kg</span>
+                </div>
+                
+                <div class="col-2">
+                    <span> = </span>
+                    <strong id="Recalc2Kg">@(BO.BAS.Number2String(Model.Rec.Recalc2Kg))</strong>
+                    <span>kg</span>
                 </div>
             </div>
-            @if (Model.Rec_Header != null)
+            @if (Model.RecP51 != null)
             {
                 
                 <div class="card" style="margin-top:10px;">
@@ -45,7 +54,7 @@
                         <a style="margin-left:20px;" href="/p51/Record?pid=@Model.Rec.p51ID">Upravit</a>
                     </div>
                     <div class="card-body">
-                        @Html.DisplayFor(m => m.Rec_Header, "~/Views/Shared/_p51Info.cshtml")
+                        @Html.DisplayFor(m => m.RecP51, "~/Views/Shared/_p51Info.cshtml")
                     </div>
                 </div>
             }
@@ -62,11 +71,17 @@
 
 <script type="text/javascript">
     function p11id_change(p11id) {
-       
-        $.post("@(Url.Action("p11_load"))", { p11id: p11id }, function (data) {            
-            $("#p20Code").text(data.p20Code);
+        form1.action = "/p52/Record?rec_oper=postback";
+        form1.submit();
 
-        });
         
     }
+    
+    $("[for-id=Rec_p52UnitsCount]").blur(function () {
+        
+        form1.action = "/p52/Record?rec_oper=postback";
+        form1.submit();
+    });
+
+    
 </script>

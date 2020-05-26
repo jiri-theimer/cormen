@@ -21,7 +21,7 @@ namespace BL
      
         private string GetSQL()
         {
-            return "SELECT a.*," + _db.GetSQL1_Ocas("p52") + ",dbo.j02_show_as_owner(a.j02ID_Owner) as RecordOwner,p11.p11Name,p11.p11Code,p51.p51Code,p20.p20Code,p11.p11RecalcUnit2Kg FROM p52OrderItem a INNER JOIN p51Order p51 ON a.p51ID=p51.p51ID INNER JOIN p11ClientProduct p11 ON a.p11ID=p11.p11ID LEFT OUTER JOIN p20Unit p20 ON p11.p20ID=p20.p20ID";
+            return "SELECT a.*," + _db.GetSQL1_Ocas("p52") + ",dbo.j02_show_as_owner(a.j02ID_Owner) as RecordOwner,p11.p11Name,p11.p11Code,p51.p51Code,p20.p20Code,p11.p11RecalcUnit2Kg,dbo.p12_calc_duration(p11.p12ID,a.p52UnitsCount) as SimulateDurMinutes FROM p52OrderItem a INNER JOIN p51Order p51 ON a.p51ID=p51.p51ID INNER JOIN p11ClientProduct p11 ON a.p11ID=p11.p11ID LEFT OUTER JOIN p20Unit p20 ON p11.p20ID=p20.p20ID";
         }
        
         public BO.p52OrderItem Load(int pid)
