@@ -65,12 +65,18 @@ namespace BL
             //p.AddDateTime("p41RealEnd", rec.p41RealEnd);
 
             p.AddDouble("p41PlanUnitsCount", rec.p41PlanUnitsCount);
-            //p.AddDouble("p41RealUnitsCount", rec.p41RealUnitsCount);
+            //p.AddDouble("p41RealUnitsCount", rec.p41RealUnitsCount);            
 
-            
+            int intPID= _db.SaveRecord("p41Task", p.getDynamicDapperPars(), rec);
 
+            var pars = new Dapper.DynamicParameters();
+            pars.Add("userid", _db.CurrentUser.pid);
+            pars.Add("pid", intPID, System.Data.DbType.Int32);
+            pars.Add("err_ret", "", System.Data.DbType.String, System.Data.ParameterDirection.Output);
 
-            return _db.SaveRecord("p41Task", p.getDynamicDapperPars(), rec);
+            _db.RunSp("p41_after_save", ref pars);
+
+            return intPID;
         }
 
         public int SaveBatch(List<BO.p41Task> lisP41)

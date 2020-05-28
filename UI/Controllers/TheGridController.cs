@@ -112,7 +112,10 @@ namespace UI.Controllers
                     break;
                 case "p41":
                     tabs.Add(new NavTab() { Name = "Detail", Url = "/p41/Index?pid="+ AppendPid2Url(v.go2pid) });
-                    
+                    tabs.Add(new NavTab() { Name = "Plán výrobních operací", Entity = "p44TaskOperPlan", Url = "SlaveView?prefix=p44" });
+
+                    tabs.Add(new NavTab() { Name = "Technologický rozpis operací", Entity = "p15ClientOper", Url = "SlaveView?prefix=p15" });
+
                     tabs.Add(new NavTab() { Name = "Dokumenty", Entity = "o23Doc", Url = "SlaveView?prefix=o23" });
                     
 

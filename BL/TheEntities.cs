@@ -58,7 +58,9 @@ namespace BL
             AE("p15ClientOper", "Technologický rozpis operací", "Technologická operace", "p15ClientOper a", "a.p15RowNum", "a.p15RowNum");
 
             AE("p41Task", "Zakázky", "Zakázka", "p41Task a", "a.p41ID DESC");
-            
+            AE("p44TaskOperPlan", "Plán výrobních operací", "Plán výrobních operací", "p44TaskOperPlan a", "a.p44RowNum", "a.p44RowNum");
+
+
             AE("p51Order", "Objednávky", "Objednávka", "p51Order a", "a.p51Name,a.p51Code");
             AE("p52OrderItem", "Položky objednávky", "Položka objednávky", "p52OrderItem a","a.p52Code");
 
@@ -198,6 +200,10 @@ namespace BL
                     lis.Add(getREL("p11ClientProduct", "p52_p11", "Produkt", "INNER JOIN p11ClientProduct p52_p11 ON p41_p52.p11ID = p52_p11.p11ID","p41_p52"));
                     lis.Add(getREL("p51Order", "p52_p51", "Objednávka", "INNER JOIN p51Order p52_p51 ON p41_p52.p51ID=p52_p51.p51ID","p41_p52"));
                     lis.Add(getREL("p28Company", "p51_p28", "Klient", "LEFT OUTER JOIN p28Company p51_p28 ON p52_p51.p28ID=p51_p28.p28ID", "p52_p51"));
+                    break;
+                case "p44":
+                    lis.Add(getREL("p19Material", "p44_p19", "Suroviny", "LEFT OUTER JOIN p19Material p44_p19 ON a.p19ID=p44_p19.p19ID"));
+                    lis.Add(getREL("p18OperCode", "p44_p18", "Kód operace", "LEFT OUTER JOIN p18OperCode p44_p18 ON a.p18ID=p44_p18.p18ID"));
                     break;
                 case "p51":
                     lis.Add(getREL("p28Company", "p51_p28", "Klient", "LEFT OUTER JOIN p28Company p51_p28 ON a.p28ID=p51_p28.p28ID"));

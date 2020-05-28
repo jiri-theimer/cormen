@@ -218,14 +218,9 @@ namespace BL
             //p15 = technologické operace klientské receptury
             AF("p15ClientOper", "p15RowNum", "RowNum", 1, null, "num0");
             AF("p15ClientOper", "p15OperNum", "OperNum", 2);
-            //AF("p15ClientOper", "p18Code", "OperCode", 1,"p18.p18Code");
-            //AF("p15ClientOper", "p18Name", "OperCodeName", 2, "p18.p18Name");
-
+            
             AF("p15ClientOper", "p15Name", "Name", 1);
             AF("p15ClientOper", "p15OperParam", "OperPar", 2, null, "num0");
-
-            //AF("p15ClientOper", "p19Code", "MaterialCode", 2,"p19.p19Code");
-            //AF("p15ClientOper", "p19Name", "MaterialName", 2,"p19.p19Name");
 
             AF("p15ClientOper", "p15UnitsCount", "UnitsCount", 2, null, "num");
             AF("p15ClientOper", "p15DurationPreOper", "DurationPreOper", 2, null, "num0",true);
@@ -256,6 +251,21 @@ namespace BL
             AF("p41Task", "RecordOwner", "Vlastník záznamu", 0, "dbo.j02_show_as_owner(a.j02ID_Owner)");
 
             AppendTimestamp("p41Task");
+
+            //p44 = plán výrobních operací
+            AF("p44TaskOperPlan", "p44RowNum", "RowNum", 1, null, "num0");
+            AF("p44TaskOperPlan", "p44OperNum", "OperNum", 2);
+
+            AF("p44TaskOperPlan", "p44Name", "Name", 1);
+            AF("p44TaskOperPlan", "p44OperParam", "OperPar", 2, null, "num0");
+
+            AF("p44TaskOperPlan", "p44MaterialUnitsCount", "UnitsCount", 2, null, "num");
+            AF("p44TaskOperPlan", "p44DurationPreOper", "DurationPreOper", 2, null, "num0", true);
+            AF("p44TaskOperPlan", "p44DurationOper", "DurationOper", 2, null, "num4", true);
+            AF("p44TaskOperPlan", "p44DurationPostOper", "DurationPostOper", 2, null, "num0", true);
+            AF("p44TaskOperPlan", "p44TotalDurationOperMin", "TotalDuration 1KG", 2,null, "num4", true);
+
+
 
             //p51 = objednávky
             AF("p51Order", "p51Code", "Kód", 1);

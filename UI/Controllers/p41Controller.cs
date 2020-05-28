@@ -27,19 +27,38 @@ namespace UI.Controllers
 
         }
 
-        public IActionResult Create(int p52id)
+        public IActionResult Create(int p52id, int p51id)
         {
             var v = new p41CreateViewModel();
             v.Tasks = new List<BO.p41Task>();
             v.lisP27 = new List<BO.p27MszUnit>();
+            if (p52id > 0) { v.p52ID = p52id; };
+            if (p51id > 0) { v.p51ID = p51id; };
+            if (v.p51ID > 0)
+            {
+                v.RecP51 = Factory.p51OrderBL.Load(v.p51ID);
+                v.p51Code = v.RecP51.p51Code;
+                var simul = new UI.TaskSimulation(Factory);
+                simul.Date0 = getDate0(v);
+                v.Tasks = simul.getTasksByP51(v.p51ID);
+            }
+            if (v.p52ID > 0)
+            {
+                v.RecP52 = Factory.p52OrderItemBL.Load(v.p52ID);
+                v.p52Code = v.RecP52.p52Code;
+                v.RecP51 = Factory.p51OrderBL.Load(v.RecP52.p51ID);
+                v.p51Code = v.RecP51.p51Code;
+                var simul = new UI.TaskSimulation(Factory);
+                simul.Date0 = getDate0(v);
+                v.Tasks = simul.getTasksByP52(v.p52ID);
+            }
 
             return View(v);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Models.p41CreateViewModel v, string rec_oper,int p27id)
-        {
-
+        {            
             if (rec_oper == "p51id_change")
             {
                 v.p52ID = 0;
@@ -65,6 +84,19 @@ namespace UI.Controllers
             {
                 v.lisP27 = new List<BO.p27MszUnit>();
             }
+            if (rec_oper == "simulation_p51")
+            {
+                if (v.p51ID == 0)
+                {
+                    Factory.CurrentUser.AddMessage("Musíte vybrat objednávku.");
+                }
+                else
+                {
+                    var simul = new UI.TaskSimulation(Factory);
+                    simul.Date0 = getDate0(v);                    
+                    v.Tasks = simul.getTasksByP51(v.p51ID);
+                }
+            }
             if (rec_oper== "simulation_p52")
             {
                 if (v.p52ID == 0)
@@ -74,6 +106,7 @@ namespace UI.Controllers
                 else
                 {
                     var simul = new UI.TaskSimulation(Factory);
+                    simul.Date0 = getDate0(v);
                     v.Tasks = simul.getTasksByP52(v.p52ID);
                 }                
             }
@@ -225,6 +258,19 @@ namespace UI.Controllers
             v.RecP52 = Factory.p52OrderItemBL.Load(v.Rec.p52ID);
             v.RecP51 = Factory.p51OrderBL.Load(v.RecP52.p51ID);
 
+        }
+
+
+        private DateTime getDate0(Models.p41CreateViewModel v)
+        {
+            if (v.Date0 == null)
+            {
+                return DateTime.Now;
+            }
+            else
+            {
+                return v.Date0.Value;
+            }
         }
 
     }

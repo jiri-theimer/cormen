@@ -98,6 +98,8 @@ namespace BL.DL
             if (mq.p41id > 0)
             {
                 if (mq.Prefix == "o23") AQ(ref lis, "a.o23Entity LIKE 'p41Task' AND a.o23RecordPid=@p41id", "p41id", mq.p41id);
+                if (mq.Prefix == "p15") AQ(ref lis, "a.p12ID IN (select xb.p12ID FROM p52OrderItem xa INNER JOIN p11ClientProduct xb ON xa.p11ID=xb.p11ID INNER JOIN p41Task xc ON xa.p52ID=xc.p52ID WHERE xc.p41ID=@p41id)", "p41id", mq.p41id);
+                if (mq.Prefix == "p44") AQ(ref lis, "a.p41ID=@p41id", "p41id", mq.p41id);
             }
             if (mq.p51id > 0)
             {

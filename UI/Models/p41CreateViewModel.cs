@@ -17,6 +17,8 @@ namespace UI.Models
         public string p26Name { get; set; }
         public BO.p26Msz RecP26 { get; set; }
 
+        public DateTime? Date0 { get; set; }
+
         public List<BO.p27MszUnit> lisP27 { get; set; }
 
 

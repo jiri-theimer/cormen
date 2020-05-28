@@ -127,6 +127,7 @@ namespace UI.Controllers
                 case "j92":
                 case "p14":
                 case "p15":
+                case "p44":
                     AMI("Záznam bez nabídky kontextového menu", "");
                     break;
 
@@ -148,6 +149,16 @@ namespace UI.Controllers
                 {
                     DIV();
                     AMI("Připojit dokument", string.Format("javascript:_append_doc('{0}',{1})", prefix, pid));
+                }
+                if (prefix == "p51")
+                {
+                    DIV();
+                    AMI("Z objednávky naplánovat výrobní zakázky", string.Format("javascript:_window_open('/p41/Create?p51id={0}')", pid));
+                }
+                if (prefix == "p52")
+                {
+                    DIV();
+                    AMI("Z položky objednávky naplánovat výrobní zakázky", string.Format("javascript:_window_open('/p41/Create?p52id={0}')", pid));
                 }
             }
                 

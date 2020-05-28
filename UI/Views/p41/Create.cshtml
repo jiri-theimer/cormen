@@ -29,6 +29,14 @@
 
     <div class="modal_record_container">
         <div class="form-row">
+            <label class="col-3 col-form-label">Pevný čas plánovaného začátku výroby:</label>
+            <div class="col-3">
+                <mydate asp-for="@Model.Date0" include-time="true"></mydate>
+            </div>
+
+        </div>
+
+        <div class="form-row">
             <div class="col-10">
                 <mycombo entity="p51Order" placeholder="Vybrat objednávku..." asp-for="@Model.p51ID" selectedtext="@Model.p51Code" event_after_changevalue="p51id_change"></mycombo>
             </div>
@@ -54,7 +62,7 @@
 
         </div>
 
-        <div id="divOrder" style="max-width:1050px;display:none;">            
+        <div id="divOrder" style="max-width:1050px;display:none;">
             @Html.DisplayFor(m => m.RecP51, "~/Views/Shared/_p51Info.cshtml")
             <hr />
             @Html.DisplayFor(m => m.RecP52, "~/Views/Shared/_p52Info.cshtml")
@@ -86,6 +94,7 @@
             }
         </div>
 
+
         <div class="input-group">
             <div style="margin-right:40px;padding:4px;">
                 <button class="btn btn-light btn-sm" type="button" onclick="append_task(0)">Přidat ručně zakázku +</button>
@@ -103,7 +112,10 @@
         <hr />
         <div class="input-group">
             <div style="padding:4px;">
-                <button class="btn btn-primary" type="button" onclick="simulation_p52()">Navrhnout rozpis zakázek pro vybranou položku objednávky</button>
+                <button class="btn btn-primary" type="button" onclick="simulation_p52()">Navrhnout rozpis zakázek pro položku objednávky</button>
+            </div>
+            <div style="padding:4px;">
+                <button class="btn btn-primary" type="button" onclick="simulation_p51()">Navrhnout rozpis zakázek pro celou objednávku</button>
             </div>
             <div style="padding:4px;">
                 <button class="btn btn-light" type="button" onclick="clear_all()">Vyčistit</button>
@@ -157,7 +169,7 @@
                     </div>
 
                 </div>
-               
+
             </div>
 
         }
@@ -225,6 +237,10 @@
 
     function simulation_p52() {
         form1.action = "/p41/Create?rec_oper=simulation_p52";
+        form1.submit();
+    }
+    function simulation_p51() {
+        form1.action = "/p41/Create?rec_oper=simulation_p51";
         form1.submit();
     }
 
