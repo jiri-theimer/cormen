@@ -9,7 +9,7 @@ namespace UI.Controllers
 {
     public class p11Controller : BaseController
     {
-        public IActionResult Index(int pid,double SimulateUnitsCount)
+        public IActionResult Index(int pid,double SimulateUnitsCount,int p27ID_Simulation)
         {
 
             var v = new Models.p11PreviewViewModel();
@@ -21,7 +21,9 @@ namespace UI.Controllers
             if (SimulateUnitsCount > 0)
             {
                 v.SimulateUnitsCount = SimulateUnitsCount;
-                v.SimulationResult = Factory.p12ClientTpvBL.Simulate_Total_Duration(v.Rec.p12ID, v.SimulateUnitsCount);
+                v.p27ID_Simulation = p27ID_Simulation;
+                v.p27Name_Simulation = Factory.p27MszUnitBL.Load(p27ID_Simulation).p27Name;
+                v.SimulationResult = Factory.p12ClientTpvBL.Simulate_Total_Duration(v.Rec.p12ID, v.SimulateUnitsCount*v.Rec.p11RecalcUnit2Kg,v.p27ID_Simulation);
             }
             return View(v);
 

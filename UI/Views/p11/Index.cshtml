@@ -94,29 +94,7 @@
 
 
 
-        <div class="card" style="margin-top:10px;">
-            <div class="card-header">
-                Simulace doby výroby produktu
-            </div>
-            <div class="card-body input-group">
-                <label>Zadejte množství produktu v kg:</label>
-                <mynumber asp-for="@Model.SimulateUnitsCount" decimal-digits="2"></mynumber>
-                <button type="button" onclick="simulation()" class="btn btn-primary">Spočítat</button>
-                @if (Model.SimulateUnitsCount > 0)
-                {
-                    <span> = </span>
-                    <strong>@(BO.BAS.Number2String(Model.SimulationResult))</strong>
-                    <span> minut</span>
-                    <span> => </span>
-                    <strong>@(BO.BAS.Number2String(Model.SimulationResult/60))</strong>
-                    <span> hodin</span>
-                }
-
-            </div>
-
-
-
-        </div>
+        
     </div>
 @if (Model.Rec.p11Memo != null)
 {
@@ -130,15 +108,49 @@
 @Html.DisplayFor(m => Model.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
 
 
+<div class="card" style="margin-top:10px;">
+    <div class="card-header">
+        Simulace doby výroby produktu
+    </div>
+    <div class="card-body input-group">
+        <label>Zadejte počet kusů produktu:</label>
+        <mynumber asp-for="@Model.SimulateUnitsCount" decimal-digits="2"></mynumber>
+        
+        <mycombo entity="p27MszUnit" view-flag="2" asp-for="@Model.p27ID_Simulation" selectedtext="@Model.p27Name_Simulation" placeholder="Vybrat středisko pro simulaci..."></mycombo>
+
+        <button type="button" onclick="simulation()" class="btn btn-primary">Spočítat</button>
+        @if (Model.SimulateUnitsCount > 0)
+        {
+            <span> = </span>
+            <strong>@(BO.BAS.Number2String(Model.SimulationResult))</strong>
+            <span> minut</span>
+            <span> => </span>
+            <strong>@(BO.BAS.Number2String(Model.SimulationResult/60))</strong>
+            <span> hodin</span>
+        }
+
+    </div>
+
+
+
+</div>
+
+
 
 
 
 <script type="text/javascript">
+
     function simulation() {
         var n = $("#SimulateUnitsCount").val();
-        
-        location.replace("/p11/Index?pid=@Model.Rec.pid&SimulateUnitsCount=" + n.replace(",","."));
+        var p27id = $("#p27ID_Simulation").val();
+        if (parseInt(p27id) == 0) {
+            _notify_message("Pro simulaci musíte vybrat středisko.");
+            return;
+        }
+        location.replace("/p11/Index?pid=@Model.Rec.pid&p27ID_Simulation="+p27id+"&SimulateUnitsCount=" + n.replace(",","."));
 
     }
+
 </script>
 

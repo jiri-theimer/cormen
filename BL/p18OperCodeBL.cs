@@ -54,6 +54,7 @@ namespace BL
             p.AddInt("p19ID", rec.p19ID, true);
             p.AddString("p18Name", rec.p18Name);
             p.AddString("p18Code", rec.p18Code);
+            p.AddString("p18Memo", rec.p18Memo);            
             p.AddDouble("p18UnitsCount", rec.p18UnitsCount);
             p.AddDouble("p18DurationPreOper", rec.p18DurationPreOper);
             p.AddDouble("p18DurationOper", rec.p18DurationOper);

@@ -20,6 +20,8 @@ namespace BO
         [Required(ErrorMessage = "Chybí vyplnit kód!")]        
         public string p18Code { get; set; }
 
+        public string p18Memo { get; set; }
+
         public double p18UnitsCount { get; set; }   //předvyplňovat v TPV
         public double p18DurationPreOper { get; set; }  //předvyplňovat v TPV
         public double p18DurationOper { get; set; } //předvyplňovat v TPV

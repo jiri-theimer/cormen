@@ -51,7 +51,7 @@
 
                     <th class="@c.CssClass" id="th_@c.UniqueName" title="@c.Header" columntypename="@c.FieldType" style="@strStyle">@c.Header</th>
                 }
-                
+
             </tr>
             <tr id="tr_header_query">
 
@@ -110,7 +110,7 @@
                         <input type="hidden" id="hidoper_@c.UniqueName" value="@strOper" />
                     </th>
                 }
-                
+
             </tr>
 
         </thead>
@@ -129,6 +129,7 @@
     </table>
     <div id="divPagerContainer">
         <div id="divPager">@Html.Raw(Model.firstdata.pager)</div><code id="thegrid_message">@Html.Raw(Model.firstdata.message)</code>
+
     </div>
 
 
@@ -196,6 +197,7 @@
 
     </div>
     <input type="hidden" id="tg_div_filter_field" />
+
 </div>
 
 

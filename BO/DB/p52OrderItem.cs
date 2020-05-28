@@ -33,6 +33,6 @@ namespace BO
                 return p52UnitsCount * p11RecalcUnit2Kg;
             }
         }
-        public double SimulateDurMinutes { get; set; }  //nutná doba výroby v minutách
+        
     }
 }

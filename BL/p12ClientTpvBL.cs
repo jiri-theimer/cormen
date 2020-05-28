@@ -9,7 +9,7 @@ namespace BL
         public BO.p12ClientTpv Load(int pid);
         public IEnumerable<BO.p12ClientTpv> GetList(BO.myQuery mq);
         public int Save(BO.p12ClientTpv rec, List<BO.p15ClientOper> lisP15);
-        public double Simulate_Total_Duration(int p12id, double unitscount);
+        public double Simulate_Total_Duration(int p12id, double unitscount, int p27id);
     }
     class p12ClientTpvBL : BaseBL, Ip12ClientTpvBL
     {
@@ -34,9 +34,9 @@ namespace BL
 
         }
         
-        public double Simulate_Total_Duration(int p12id,double unitscount)
+        public double Simulate_Total_Duration(int p12id,double unitscount,int p27id)
         {
-            return _db.Load<BO.COM.GetDouble>("select dbo.p12_calc_duration(@p12id,@unitscount) as Value", new { p12id = p12id, unitscount = unitscount }).Value;
+            return _db.Load<BO.COM.GetDouble>("select dbo.p12_calc_duration(@p12id,@unitscount,@p27id) as Value", new { p12id = p12id, unitscount = unitscount,p27id=p27id }).Value;
         }
 
         private bool ValidateBeforeSave(BO.p12ClientTpv rec)

@@ -1,5 +1,4 @@
-﻿var _ds;
-var _j72id;
+﻿var _j72id;
 var _tg_url_data;
 var _tg_url_handler;
 var _tg_url_filter;
@@ -11,6 +10,13 @@ var _tg_master_entity;
 var _tg_master_pid;
 var _tg_contextmenuflag;
 var _tg_dblclick;
+var _tg_tablerows;
+var _tg_drag_is_active = false;
+var _tg_drag_tbodyrows = [];
+var _tg_rowindex = 0;
+var _tg_mousedown_active = false;
+var _tg_current_pid;
+var _tg_is_enable_clipboard = true;
 
 function tg_init(c) {
     _tg_entity = c.entity;
@@ -24,9 +30,7 @@ function tg_init(c) {
     _tg_contextmenuflag = c.contextmenuflag;
     _tg_ondblclick = c.ondblclick;    
 
-    //tg_post_data(); //zatím pozastaveno - uvidíme, co dál
     
-
     $("#container_grid").scroll(function () {
         $("#container_vScroll").width($("#container_grid").width() + $("#container_grid").scrollLeft());
     });
@@ -53,6 +57,7 @@ function tg_init(c) {
     $("#tabgrid2").width(basewidth);
     
     tg_setup_selectable();  //inicializace selectable
+    
 
     if (_tg_go2pid !== null && _tg_go2pid !== 0) {  //automaticky vybrat záznam _tg_go2pid
         tg_go2pid(_tg_go2pid);
@@ -193,7 +198,7 @@ function refresh_environment_after_post(strOper,data) {
     $("#tabgrid1").width(basewidth);
     $("#tabgrid2").width(basewidth);
 
-
+    _tg_tablerows = $("#tabgrid1_tbody").find("tr");
     tg_setup_selectable();
 
     
@@ -205,55 +210,134 @@ function tg_adjust_parts_width() {
 }
 
 
-function tg_setup_selectable() {        
-    _ds = new DragSelect({
-        selectables: document.getElementsByClassName('selectable'), // node/nodes that can be selected. This is also optional, you could just add them later with .addSelectables.
-        selectedClass: "selrow",
-        area: document.getElementById("container_vScroll"), // area in which you can drag. If not provided it will be the whole document.
-        customStyles: false,  // If set to true, no styles (except for position absolute) will be applied by default.
-        multiSelectKeys: ['ctrlKey', 'shiftKey', 'metaKey'],  // special keys that allow multiselection.
-        multiSelectMode: false,  // If set to true, the multiselection behavior will be turned on by default without the need of modifier keys. Default: false
-        autoScrollSpeed: 20,  // Speed in which the area scrolls while selecting (if available). Unit is pixel per movement. Set to 0 to disable autoscrolling. Default = 1
-        onDragStart: function (element) {}, // fired when the user clicks in the area. This callback gets the event object. Executed after DragSelect function code ran, befor the setup of event listeners.
-        onDragMove: function (element) {}, // fired when the user drags. This callback gets the event object. Executed before DragSelect function code ran, after getting the current mouse position.
-        onElementSelect: function (element) { }, // fired every time an element is selected. (element) = just selected node
-        onElementUnselect: function (element) { }, // fired every time an element is de-selected. (element) = just de-selected node.
-        callback: function (elements) {
-            // fired once the user releases the mouse. (elements) = selected nodes.
-            $("#tg_selected_pids_pre").val($("#tg_selected_pids").val());
-            var pid_pre = $("#tg_selected_pid").val();
-            if (elements.length===0) {
-                return
-            }
-            var pid = elements[0].id.replace("r", "");
-            $("#tg_selected_pid").val(pid);
-            $("#tg_selected_pids").val(pid);
-            $("#tabgrid1").find("input:checkbox").prop("checked", false);
-            $("#chk" + pid).prop("checked", true);
-            
-
-            if (elements.length > 1) {
-                var pids = [];
-                for (i = 0; i < elements.length; i++) {
-                    pid = elements[i].id.replace("r", "");
-                    pids.push(pid);
-                    $("#chk" + pid).prop("checked", true);
-                }
-                $("#tg_selected_pids").val(pids.join(","));
+function tg_setup_selectable() {      
+    _tg_tablerows = $("#tabgrid1_tbody").find("tr");
 
 
-            }
-            _last_ds_selected_pids = $("#tg_selected_pids").val();
+    $(_tg_tablerows).mousedown(function (e) {
 
-            if (pid !== pid_pre) {
-                thegrid_handle_event("rowselect", pid); //povinná metoda na hostitelské stránce gridu!
-            }
-            
+        if (e.target.tagName === "INPUT" || this.className === "trgroup" || e.target.className === "link_in_grid") {
+            return; //kliknutí na checkbox nebo grid není selectable nebo kliknutí na vložený link do buňky
+        }
+
+        var pid = this.id.replace("r", "");
+        _tg_rowindex = this.rowindex;
+        _tg_current_pid = pid;
+
+        var pid_pre = $("#tg_selected_pid").val();
+
+        if (pid !== pid_pre) {
+
+            thegrid_handle_event("rowselect", pid); //povinná metoda na hostitelské stránce gridu!
+        }
+        if (e.ctrlKey) {
+
+            this.classList.add("selrow");
+            $("#" + this.id + " input:checkbox").prop("checked", true);
+            tg_save_selected_pids(null);
+        } else {
+            tg_select_one_row(this, pid);
+            tg_save_selected_pids(pid);
         }
 
 
 
+        _tg_mousedown_active = true;
+        
+        if (_tg_is_enable_clipboard === false) {   //pokud je true, pak uživatelé mohou v gridu označovat text
+            e.preventDefault(); // this prevents text selection from happening
+        }
+
+
     });
+
+    $(_tg_tablerows).mousemove(function (e) {
+        if (_tg_mousedown_active === false || this.className === "trgroup" || e.ctrlKey) {
+            return;
+        }
+
+        if (_tg_drag_is_active === false) {
+            //nastartovat drag režim
+            _tg_drag_is_active = true;
+            _tg_drag_tbodyrows = $("#tabgrid1_tbody").find("tr");
+            first_y = e.pageY;
+            first_rowindex = this.rowIndex;
+            last_rowindex = this.rowIndex;
+
+            $("#tabgrid1_tbody").find("tr.selrow").removeClass("selrow");
+            $("#tabgrid1_tbody").find("tr.highlight").removeClass("highlight");
+            $("#tabgrid1_tbody").find("input:checkbox").prop("checked", false);
+
+            $(this).addClass("highlight");
+
+        }
+        last_y = e.pageY, last_rowindex = this.rowIndex;
+
+        if (this.classList.contains("highlight") === false) {
+            this.classList.add("highlight");
+        }
+
+
+    });
+
+    $(_tg_tablerows).mouseout(function (e) {
+        $(this).css("background-color", "");    //hover řádky
+        if (_tg_drag_is_active === false || this.className === "trgroup") return;
+
+        if (first_rowindex < last_rowindex) {
+            if (e.pageY < last_y) {
+                _tg_drag_tbodyrows[last_rowindex].classList.remove("highlight");
+            }
+        }
+        if (first_rowindex > last_rowindex) {
+            if (e.pageY > last_y) {
+                _tg_drag_tbodyrows[last_rowindex].classList.remove("highlight");
+            }
+        }
+
+        //$("#tabgrid1_cmd_sel").html("<i class='fas fa-check-double fai_button'></i> " + $(".highlight").length);
+
+    });
+
+    $(_tg_tablerows).mouseover(function (e) {
+        $(this).css("background-color", "#ECECEC"); //hover řádky            
+    });
+
+    $(document).mouseup(function (ev) {
+        _tg_mousedown_active = false;
+
+        if (_tg_drag_is_active === false) return;
+
+        var rows = $("#tabgrid1_tbody").find("tr.highlight");
+
+        if (rows.length > 0) {
+            var rows_all = $("#tabgrid1_tbody").find("tr");
+            var start_index = first_rowindex, end_index = last_rowindex;
+            if (first_rowindex > last_rowindex) {
+                start_index = last_rowindex;
+                end_index = first_rowindex;
+            }
+            for (var i = start_index; i <= end_index; i++) {
+                rows_all[i].classList.add("highlight");
+            }
+            rows = $("#tabgrid1_tbody").find("tr.highlight");
+        }
+        var chks = $("#tabgrid1_tbody").find("tr.highlight input:checkbox");
+
+        $("#tabgrid1_tbody").find("tr.highlight").removeClass("highlight");
+        $("#tabgrid1_tbody").find("tr.selrow").removeClass("selrow");
+        $("#tabgrid1_tbody").find("input:checkbox").prop("checked", false);
+
+        $(chks).prop("checked", true);
+        $(rows).addClass("selrow");
+
+        tg_save_selected_pids(null);	//je třeba dodělat!
+        _tg_drag_is_active = false;
+        _tg_drag_tbodyrows = null;
+
+    });
+
+    
 }
 
 
@@ -262,32 +346,17 @@ function tg_setup_selectable() {
 
 function tg_setup_checkbox_handler() {
     $("#tabgrid1").on("change", "input:checkbox", function () {
-        //znegovat zaškrtnutí, protože selector už to předtím zaškrtl
-        var pid = this.id.replace("chk", "");
-
-        var pids = $("#tg_selected_pids_pre").val();
-        var arr = [];
-        arr = pids.split(",");
-        var x = arr.indexOf(pid);
-        if (x > -1) {
-            arr.splice(x, 1);
+                
+        var tr_row = this.parentNode.parentNode;
+        if (this.checked === true) {
+            tr_row.classList.add("selrow");            
         } else {
-            arr.push(pid);
+            tr_row.classList.remove("selrow");            
         }
 
+        tg_save_selected_pids(null);
 
-
-        _ds.clearSelection();
-
-        for (var i = 0; i < arr.length; i++) {
-            _ds.addSelection($("#r" + arr[i]));
-            $("#chk" + arr[i]).prop("checked", true);
-        }
-        $("#tg_selected_pids").val(arr.join(","));
-
-
-        $("#tg_chkAll").prop("checked", false);
-
+        
 
 
     });
@@ -295,9 +364,9 @@ function tg_setup_checkbox_handler() {
 
 function tg_go2pid(pid) {       //již musí být ze serveru odstránkováno!
     if (document.getElementById("r" + pid)) {
-        var row = document.getElementById("r" + pid);
-        _ds.addSelection(row);
-        $("#tg_selected_pids").val(pid);
+        var row = document.getElementById("r" + pid);      
+        tg_select_one_row(row, pid);
+        
         row.scrollIntoView(true);
 
         //var rowpos = $(row).position();
@@ -307,17 +376,19 @@ function tg_go2pid(pid) {       //již musí být ze serveru odstránkováno!
 }
 
 function tg_select(records_count) {     //označí prvních X (records_count) záznamů
-    var arr = [];
-    _ds.clearSelection();
+    tg_clear_selection();
+    var arr = [];    
     var rows = $("#tabgrid1_tbody tr");
     for (var i = 0; i < records_count; i++) {
+        $(rows[i]).addClass("selrow");
         var pid = rows[i].id.replace("r", "");
         arr.push(pid);
-        _ds.addSelection(rows[i]);
+        
+        $("#chk" + pid).prop("checked", true);
     }
+    tg_save_selected_pids(arr.join(","));
+    
 
-
-    $("#tg_selected_pids").val(arr.join(","));
 }
 
 function tg_pager(pageindex) {  //změna stránky
@@ -808,4 +879,55 @@ function tg_export(format,scope) {
     }
     location.replace(url);
 
+}
+
+
+
+function tg_clear_selection() {
+    $("#tabgrid1_tbody").find("tr.selrow").removeClass("selrow");
+    $("#tabgrid1_tbody").find("input:checkbox").prop("checked", false);
+
+    $("#tg_selected_pid").val("");
+    $("#tg_selected_pids").val("");
+}
+
+function tg_save_selected_pids(explicit_pids) {
+    var pids = [];
+    if (explicit_pids !== null) {
+        pids = explicit_pids.split(",");
+    } else {
+        var rows = $("#tabgrid1_tbody").find("tr.selrow");
+        if (rows.length > 0) {            
+            for (i = 0; i < rows.length; i++) {
+                pid = rows[i].id.replace("r", "");
+                pids.push(pid);
+                $("#chk" + pid).prop("checked", true);
+            }
+        }                
+    }
+
+    if (pids.length > 0) {
+        $("#tg_selected_pid").val(pids[0]);
+        $("#tg_selected_pids").val(pids.join(","));
+    } else {
+        $("#tg_selected_pid").val("");
+        $("#tg_selected_pids").val("");
+    }
+    
+
+    
+}
+
+function tg_select_one_row(ctl, pid) {
+    tg_clear_selection();
+
+    if (ctl.classList.contains("selrow") === false) {
+        ctl.classList.add("selrow");
+    }   
+
+    $("#chk" + pid).prop("checked", true);
+    //$("#tg_chkAll").prop("checked", false);
+
+    $("#tg_selected_pid").val(pid);
+    $("#tg_selected_pids").val(pid);
 }

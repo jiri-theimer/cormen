@@ -65,6 +65,18 @@ namespace UI.Controllers
             {
                 v.lisP27 = new List<BO.p27MszUnit>();
             }
+            if (rec_oper== "simulation_p52")
+            {
+                if (v.p52ID == 0)
+                {
+                    Factory.CurrentUser.AddMessage("Musíte vybrat položku objednávky.");
+                }
+                else
+                {
+                    var simul = new UI.TaskSimulation(Factory);
+                    v.Tasks = simul.getTasksByP52(v.p52ID);
+                }                
+            }
             if (rec_oper == "newitem")
             {
                 if (v.Tasks == null) v.Tasks = new List<BO.p41Task>();

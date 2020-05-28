@@ -56,6 +56,7 @@ namespace UI.Controllers
 
                 c.p18Code = v.Rec.p18Code;
                 c.p18Name = v.Rec.p18Name;
+                c.p18Memo = v.Rec.p18Memo;
                 c.p25ID = v.Rec.p25ID;
                 c.p19ID = v.Rec.p19ID;
                 c.p18UnitsCount = v.Rec.p18UnitsCount;

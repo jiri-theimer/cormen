@@ -41,12 +41,14 @@
         <div class="col-sm-3 col-md-3">
             <span class="form-control bg-light">@(Model.Rec.p41PlanEnd)</span>
         </div>
-
-
+        <label class="col-sm-1 col-md-1 col-form-label">Trvá (min):</label>
+        <div class="col-sm-1 col-md-1">
+            <span class="form-control bg-light">@(BO.BAS.Number2String(Model.Rec.DurationMinutes))</span>
+        </div>
     </div>
 
     <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Plánované množství:</label>
+        <label class="col-sm-1 col-md-2 col-form-label">Plánované množství KG:</label>
         <div class="col-sm-3 col-md-3">
             <span class="form-control bg-light">@(Model.Rec.p41PlanUnitsCount)</span>
         </div>

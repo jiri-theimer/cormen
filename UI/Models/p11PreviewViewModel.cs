@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Org.BouncyCastle.Asn1.Mozilla;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,6 +14,8 @@ namespace UI.Models
 
         public double SimulateUnitsCount { get; set; }
         public double SimulationResult { get; set; }
+        public int p27ID_Simulation { get; set; }
+        public string p27Name_Simulation { get; set; }
         
 
     }

@@ -96,8 +96,8 @@ namespace BL
 
             //p27 = středíska
             AF("p27MszUnit", "p27Name", "Název", 1);
-            AF("p27MszUnit", "p27Code", "Kód", 1);
-            AF("p27MszUnit", "p27Capacity", "Kapacita",2,null,"num0",true);
+            AF("p27MszUnit", "p27Code", "Kód", 2);
+            AF("p27MszUnit", "p27Capacity", "Kapacita",1,null,"num0",true);
             AppendTimestamp("p27MszUnit");
 
             //j02 = osoby
@@ -241,12 +241,15 @@ namespace BL
 
             AF("p41Task", "p41PlanStart", "Plán zahájení", 2, null, "datetime");
             AF("p41Task", "p41PlanEnd", "Plán dokončení", 2, null, "datetime");
-            AF("p41Task", "p41RealStart", "Reálné zahájení", 0, null, "datetime");
-            AF("p41Task", "p41RealEnd", "Reálné dokončení", 0, null, "datetime");
+            AF("p41Task", "p41PlanUnitsCount", "Plán KG", 2, null, "num",true);            
+            AF("p41Task", "DurationMinutes", "Plán trvá (min)", 2, "DATEDIFF(MINUTE,a.p41PlanStart,a.p41PlanEnd)", "num0", true);
+            AF("p41Task", "DurationHours", "Plán trvá (hod)", 0, "CONVERT(FLOAT,DATEDIFF(MINUTE,a.p41PlanStart,a.p41PlanEnd))/60", "num0", true);
 
             AF("p41Task", "p41StockCode", "Kód skladu", 0);
             AF("p41Task", "p41ActualRowNum", "Aktuální RowNum", 0, null, "num0");
-            AF("p41Task", "p41PlanUnitsCount", "Plán množství", 0, null, "num");
+
+            AF("p41Task", "p41RealStart", "Reálné zahájení", 0, null, "datetime");
+            AF("p41Task", "p41RealEnd", "Reálné dokončení", 0, null, "datetime");
             AF("p41Task", "p41RealUnitsCount", "Skutečné množství", 0, null, "num");
 
             AF("p41Task", "p41Memo", "Podrobný popis");
@@ -266,8 +269,8 @@ namespace BL
             AF("p51Order", "p51CodeByClient", "Kód podle klienta", 0);
             AF("p51Order", "p51IsDraft", "Draft", 0, null, "bool");
 
-            AF("p51Order", "SimulateDurMinutes", "Nutná doba výroby (min)", 0, "dbo.p51_calc_duration(a.p51ID)", "num", true);
-            AF("p51Order", "SimulateDurHours", "Nutná doba výroby (hod)", 0, "dbo.p51_calc_duration(a.p51ID)/60", "num", true);
+            //AF("p51Order", "SimulateDurMinutes", "Nutná doba výroby (min)", 0, "dbo.p51_calc_duration(a.p51ID)", "num", true);
+            //AF("p51Order", "SimulateDurHours", "Nutná doba výroby (hod)", 0, "dbo.p51_calc_duration(a.p51ID)/60", "num", true);
 
             AF("p51Order", "p51Memo", "Podrobný popis");
             AF("p51Order", "RecordOwner", "Vlastník záznamu", 0, "dbo.j02_show_as_owner(a.j02ID_Owner)");
@@ -279,8 +282,8 @@ namespace BL
             AF("p52OrderItem", "p52UnitsCount", "Množství", 1, null, "num");            
             AF("p52OrderItem", "Recalc2Kg", "Přepočet na KG", 0, "a.p52UnitsCount*p11RecalcUnit2Kg", "num", true, "p52_p11");
 
-            AF("p52OrderItem", "SimulateDurMinutes", "Nutná doba výroby (min)", 0, "dbo.p11_calc_duration(a.p11ID,a.p52UnitsCount)", "num", true);
-            AF("p52OrderItem", "SimulateDurHours", "Nutná doba výroby (hod)", 0, "dbo.p11_calc_duration(a.p11ID,a.p52UnitsCount)/60", "num", true);
+            //AF("p52OrderItem", "SimulateDurMinutes", "Nutná doba výroby (min)", 0, "dbo.p11_calc_duration(a.p11ID,a.p52UnitsCount)", "num", true);
+            //AF("p52OrderItem", "SimulateDurHours", "Nutná doba výroby (hod)", 0, "dbo.p11_calc_duration(a.p11ID,a.p52UnitsCount)/60", "num", true);
 
             AF("p52OrderItem", "RecordOwner", "Vlastník záznamu", 0, "dbo.j02_show_as_owner(a.j02ID_Owner)");
 
@@ -289,11 +292,12 @@ namespace BL
             //p18 = Kódy technologických operací
             AF("p18OperCode", "p18Code", "Kód", 1);
             AF("p18OperCode", "p18Name", "Název", 1);
+            AF("p18OperCode", "p18Memo", "Poznámka");
             //AF("p18OperCode", "p25Name", "Typ zařízení", 2, "p25.p25Name");
             //AF("p18OperCode", "p19Name", "Materiál", 2, "p19.p19Name");
             AF("p18OperCode", "p18UnitsCount", "UnitsCount", 2, null, "num");
             AF("p18OperCode", "p18DurationPreOper", "DurationPreOper", 2, null, "num3");
-            AF("p18OperCode", "p18DurationOper", "DurationPreOper", 2, null, "num3");
+            AF("p18OperCode", "p18DurationOper", "DurationOper", 2, null, "num3");
             AF("p18OperCode", "p18DurationPostOper", "DurationPostOper", 2, null, "num3");
 
             AF("p18OperCode", "p18Lang1", "Jazyk1");

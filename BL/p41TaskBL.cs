@@ -60,6 +60,7 @@ namespace BL
 
             p.AddDateTime("p41PlanStart", rec.p41PlanStart);
             p.AddDateTime("p41PlanEnd", rec.p41PlanEnd);
+            //p.AddDouble("p41TotalDuration", rec.p41TotalDuration);
             //p.AddDateTime("p41RealStart", rec.p41RealStart);
             //p.AddDateTime("p41RealEnd", rec.p41RealEnd);
 
@@ -144,6 +145,16 @@ namespace BL
             {
                 _db.CurrentUser.AddMessage(premessage + "Plánované množství musí být větší než NULA.");
                 return false;
+            }
+            if (rec.p41PlanUnitsCount <= 0)
+            {
+                var c = _mother.p27MszUnitBL.Load(rec.p27ID);
+                if (c.p27Capacity < rec.p41PlanUnitsCount)
+                {
+                    _db.CurrentUser.AddMessage(premessage + "Plánované množství nesmí být větší než kapacita střediska.");
+                    return false;
+                }
+                
             }
             if (rec.p41PlanStart==null || rec.p41PlanEnd==null)
             {
