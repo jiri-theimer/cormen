@@ -259,11 +259,11 @@ namespace BL
             AF("p44TaskOperPlan", "p44Name", "Name", 1);
             AF("p44TaskOperPlan", "p44OperParam", "OperPar", 2, null, "num0");
 
-            AF("p44TaskOperPlan", "p44MaterialUnitsCount", "UnitsCount", 2, null, "num");
+            AF("p44TaskOperPlan", "p44MaterialUnitsCount", "MaterialUnitsCount", 2, null, "num");
             AF("p44TaskOperPlan", "p44DurationPreOper", "DurationPreOper", 2, null, "num0", true);
             AF("p44TaskOperPlan", "p44DurationOper", "DurationOper", 2, null, "num4", true);
             AF("p44TaskOperPlan", "p44DurationPostOper", "DurationPostOper", 2, null, "num0", true);
-            AF("p44TaskOperPlan", "p44TotalDurationOperMin", "TotalDuration 1KG", 2,null, "num4", true);
+            AF("p44TaskOperPlan", "p44TotalDurationOperMin", "TotalDurationOperMin", 2,null, "num4", true);
 
 
 
@@ -433,6 +433,11 @@ namespace BL
                     
                     ret.Add(InhaleColumn4Relation("p41_p27", "p27MszUnit", "p27Name", rels, bolComboColumns));
                     ret.Add(InhaleColumn4Relation("p41_b02", "b02Status", "b02Name", rels, bolComboColumns));
+                    break;
+                case "p44":
+                    ret.Add(InhaleColumn4Relation("p44_p18", "p18OperCode", "p18Code", rels, bolComboColumns));
+                    ret.Add(InhaleColumn4Relation("p44_p19", "p19Material", "p19Code", rels, bolComboColumns));
+                    ret.Add(InhaleColumn4Relation("p44_p19", "p19Material", "p19Name", rels, bolComboColumns));
                     break;
                 case "p51":
                     ret.Add(InhaleColumn4Relation("p51_p28", "p28Company", "p28Name", rels, bolComboColumns));
