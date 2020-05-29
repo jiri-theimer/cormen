@@ -70,7 +70,7 @@ namespace UI
             var cP52 = _f.p52OrderItemBL.Load(p52id);
             var cP11 = _f.p11ClientProductBL.Load(cP52.p11ID);
 
-            double dblTotalKG = cP52.Recalc2Kg;
+            double dblTotalKG = cP52.Recalc2Kg-cP52.p52Task_Kg;
             double dblUsedKG = 0;
             DateTime dat0 = _dat0;
             int x = 1;
