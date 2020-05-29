@@ -152,7 +152,7 @@ namespace BL
                 _db.CurrentUser.AddMessage(premessage + "Plánované množství musí být větší než NULA.");
                 return false;
             }
-            if (rec.p41PlanUnitsCount <= 0)
+            if (rec.p41PlanUnitsCount > 0)
             {
                 var c = _mother.p27MszUnitBL.Load(rec.p27ID);
                 if (c.p27Capacity < rec.p41PlanUnitsCount)
@@ -160,7 +160,13 @@ namespace BL
                     _db.CurrentUser.AddMessage(premessage + "Plánované množství nesmí být větší než kapacita střediska.");
                     return false;
                 }
-                
+                double n = _db.Load<BO.COM.GetDouble>("select sum(p41PlanUnitsCount) as Value FROM p41Task WHERE p52ID=@p52id AND p41ID<>@pid", new { p52id = rec.p52ID,pid=rec.pid }).Value;
+                double limit = _mother.p52OrderItemBL.Load(rec.p52ID).Recalc2Kg;
+                if (limit < n + rec.p41PlanUnitsCount)
+                {
+                    _db.CurrentUser.AddMessage(premessage + "Plánované množství nesmí překročit množství v položce objednávky.");
+                    return false;
+                }
             }
             if (rec.p41PlanStart==null || rec.p41PlanEnd==null)
             {
