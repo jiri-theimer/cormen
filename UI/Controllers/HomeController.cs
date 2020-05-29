@@ -116,18 +116,29 @@ namespace UI.Controllers
             {
                 v.IsGridClipboard = true;
             }
+            v.EmailAddres = v.Rec.j02Email;
             return View(v);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult MyProfile(MyProfileViewModel v)
+        public IActionResult MyProfile(Models.MyProfileViewModel v)
         {
             if (ModelState.IsValid)
             {
                 BO.j02Person c = Factory.j02PersonBL.Load(Factory.CurrentUser.j02ID);
-                c.j02Email = v.Rec.j02Email;
+                c.j02Email = v.EmailAddres;
                 if (Factory.j02PersonBL.Save(c) > 0)
                 {
+                    BO.j03User cUser = Factory.j03UserBL.Load(Factory.CurrentUser.pid);
+                    if (v.IsGridClipboard == true)
+                    {
+                        cUser.j03GridSelectionModeFlag = 1;
+                    }
+                    else
+                    {
+                        cUser.j03GridSelectionModeFlag = 0;
+                    }
+                    Factory.j03UserBL.Save(cUser);
                     Factory.CurrentUser.AddMessage("Změny uloženy", "info");
                 }
 
