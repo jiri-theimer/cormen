@@ -95,7 +95,7 @@ namespace UI
                     double dur = _f.p12ClientTpvBL.Simulate_Total_Duration(cP11.p12ID, rec.p41PlanUnitsCount, kotel.pid);
                     dat0 = kotel.DateInsert;
                     rec.p41PlanStart = dat0;
-                    rec.p41PlanEnd = rec.p41PlanStart.AddMinutes(dur);
+                    rec.p41PlanEnd = rec.p41PlanStart.AddSeconds(dur*60);
                     rec.p41Code = cP52.p52Code.Replace("R", "T") + "." + BO.BAS.RightString("000" + x.ToString(), 3);
                     kotel.DateInsert = rec.p41PlanEnd.AddSeconds(1);
 

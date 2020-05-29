@@ -55,6 +55,7 @@ namespace BL
             p.AddInt("j03FontStyleFlag", rec.j03FontStyleFlag);
             p.AddInt("j03SideBarFlag", rec.j03SideBarFlag);
             p.AddInt("j03EnvironmentFlag", rec.j03EnvironmentFlag);
+            p.AddInt("j03GridSelectionModeFlag", rec.j03GridSelectionModeFlag);
             p.AddDateTime("j03LiveChatTimestamp", rec.j03LiveChatTimestamp);
             if (!String.IsNullOrEmpty(rec.j03PasswordHash))
             {

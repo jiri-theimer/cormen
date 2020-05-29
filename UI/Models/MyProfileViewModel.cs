@@ -12,6 +12,7 @@ namespace UI.Models
         public BO.j02Person Rec;
         public BO.RunningUser CurrentUser;
 
+        public bool IsGridClipboard { get; set; }
         public string userAgent { get; set; }
         public ClientInfo client_info { get; set; }
     }

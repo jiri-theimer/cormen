@@ -254,7 +254,12 @@ namespace BL
 
             //p44 = plán výrobních operací
             AF("p44TaskOperPlan", "p44RowNum", "RowNum", 1, null, "num0");
-            AF("p44TaskOperPlan", "p44OperNum", "OperNum", 2);
+            AF("p44TaskOperPlan", "p44OperNum", "OperNum", 2);            
+            AF("p44TaskOperPlan", "p44StartTime", "Start", 1, "a.p44Start", "time");
+            AF("p44TaskOperPlan", "p44EndTime", "Stop", 1, "a.p44End", "time");
+            AF("p44TaskOperPlan", "p44Start", "Start (D+T)", 0, null, "datetime");
+            AF("p44TaskOperPlan", "p44End", "Stop (D+T)", 0, null, "datetime");
+            AF("p44TaskOperPlan", "p44TotalDurationOperMin", "TotalDuration", 2, null, "num4", true);
 
             AF("p44TaskOperPlan", "p44Name", "Name", 1);
             AF("p44TaskOperPlan", "p44OperParam", "OperPar", 2, null, "num0");
@@ -263,7 +268,7 @@ namespace BL
             AF("p44TaskOperPlan", "p44DurationPreOper", "DurationPreOper", 2, null, "num0", true);
             AF("p44TaskOperPlan", "p44DurationOper", "DurationOper", 2, null, "num4", true);
             AF("p44TaskOperPlan", "p44DurationPostOper", "DurationPostOper", 2, null, "num0", true);
-            AF("p44TaskOperPlan", "p44TotalDurationOperMin", "TotalDurationOperMin", 2,null, "num4", true);
+            
 
 
 

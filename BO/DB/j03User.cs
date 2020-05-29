@@ -25,6 +25,8 @@ namespace BO
         public DateTime? j03LiveChatTimestamp { get; set; }   //na 20 minut zapnutý live-chat
         public DateTime? j03PingTimestamp { get; set; }
 
+        public int j03GridSelectionModeFlag { get; set; }
+
 
         //readonly:
         public string fullname_desc;

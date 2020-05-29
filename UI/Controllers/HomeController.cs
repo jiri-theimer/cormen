@@ -110,11 +110,32 @@ namespace UI.Controllers
             var uaParser = UAParser.Parser.GetDefault();
             v.client_info = uaParser.Parse(v.userAgent);
             
-
             v.Rec = Factory.j02PersonBL.Load(Factory.CurrentUser.j02ID);
             v.CurrentUser = Factory.CurrentUser;
+            if (v.CurrentUser.j03GridSelectionModeFlag == 1)
+            {
+                v.IsGridClipboard = true;
+            }
             return View(v);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult MyProfile(MyProfileViewModel v)
+        {
+            if (ModelState.IsValid)
+            {
+                BO.j02Person c = Factory.j02PersonBL.Load(Factory.CurrentUser.j02ID);
+                c.j02Email = v.Rec.j02Email;
+                if (Factory.j02PersonBL.Save(c) > 0)
+                {
+                    Factory.CurrentUser.AddMessage("Změny uloženy", "info");
+                }
+
+            }
+
+            return MyProfile();
+        }
+
         public IActionResult ChangePassword()
         {
             var v = new ChangePasswordViewModel();

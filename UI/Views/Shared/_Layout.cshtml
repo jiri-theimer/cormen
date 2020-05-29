@@ -19,7 +19,16 @@
 
 
     <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/css/thegrid.css" />
+    @if (_f.CurrentUser.j03GridSelectionModeFlag == 1)
+    {
+        <link rel="stylesheet" href="~/css/thegrid_clipboard.css" />
+        
+    }
+    else
+    {
+        <link rel="stylesheet" href="~/css/thegrid.css" />
+    }
+
     @if (_f.CurrentUser.j03LiveChatTimestamp != null)
     {
         <!-- Smartsupp Live Chat script -->

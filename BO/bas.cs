@@ -169,6 +169,8 @@ namespace BO
                 case "datetime":
 
                     return Convert.ToDateTime(dbRow[c.UniqueName]).ToString("dd.MM.yyyy HH:mm");
+                case "time":
+                    return Convert.ToDateTime(dbRow[c.UniqueName]).ToString("HH:mm");
                 default:
                     return dbRow[c.UniqueName].ToString();
             }

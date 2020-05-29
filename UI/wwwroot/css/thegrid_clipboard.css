@@ -1,10 +1,4 @@
-﻿/* Potlačení možnosti označovat v gridu text - hodí se kvůli selection */
-#tabgrid1 td {
-    -webkit-user-select: none; /* Safari */
-    -ms-user-select: none; /* IE 10+ and Edge */
-    user-select: none; /* Standard syntax */
-}
-
+﻿
 #container_grid {
     overflow-y: hidden;
     overflow-x: hidden;
