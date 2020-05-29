@@ -27,18 +27,23 @@
                 <td>
                     @c.p11Name
                 </td>
-                <td style="text-align:right;">
+                <td class="text-right">
                     @(BO.BAS.Number2String(c.p52UnitsCount))
+                </td>
+                <td class="text-success text-right" title="Zbývá naplánovat">
+                    @("("+BO.BAS.Number2String(c.p52UnitsCount-c.p52Task_UnitsCount)+")")
                 </td>
                 <td>
                     @c.p20Code
                 </td>
-                <td>
+                <td style="text-align:right;">
                     ->
                     @(BO.BAS.Number2String(c.Recalc2Kg))
-                    KG
+                    kg
                 </td>
-                
+                <td class="text-success text-right" title="Zbývá naplánovat kg">
+                    @("("+BO.BAS.Number2String(c.Recalc2Kg - c.p52Task_Kg)+"kg)")
+                </td>
             </tr>
             }
         </table>

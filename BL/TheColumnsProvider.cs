@@ -307,7 +307,11 @@ namespace BL
             onecol=AF("p52OrderItem", "Recalc2Kg", "Přepočet na KG", 0, "a.p52UnitsCount*p11RecalcUnit2Kg", "num", true);
             onecol.RelName = "p52_p11";
 
-           
+            AF("p52OrderItem", "p52Task_UnitsCount", "Již naplánováno", 0, null, "num");
+            AF("p52OrderItem", "ZbyvaNaplanovatUnits", "Zbývá naplánovat", 1, "a.p52UnitsCount-isnull(a.p52Task_UnitsCount,0)", "num");
+            AF("p52OrderItem", "p52Task_Kg", "Již naplánováno kg", 0, null, "num");
+            AF("p52OrderItem", "ZbyvaNaplanovatKg", "Zbývá naplánovat KG", 0, "a.p52UnitsCount*p11RecalcUnit2Kg-isnull(a.p52Task_Kg,0)", "num");
+
             AF("p52OrderItem", "RecordOwner", "Vlastník záznamu", 0, "dbo.j02_show_as_owner(a.j02ID_Owner)");
 
             AppendTimestamp("p52OrderItem");

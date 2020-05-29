@@ -33,6 +33,9 @@ namespace BO
                 return p52UnitsCount * p11RecalcUnit2Kg;
             }
         }
-        
+
+        public double p52Task_UnitsCount { get; set; }
+        public double p52Task_Kg { get; set; }
+
     }
 }

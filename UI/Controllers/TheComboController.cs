@@ -105,7 +105,15 @@ namespace UI.Controllers
                 s.Append(">");
                 foreach (var col in cols)
                 {
-                    s.Append(string.Format("<td>{0}</td>", BO.BAS.ParseCellValueFromDb(dt.Rows[i], col)));                    
+                    if (col.NormalizedTypeName == "num")
+                    {
+                        s.Append(string.Format("<td style='text-align:right;'>{0}</td>", BO.BAS.ParseCellValueFromDb(dt.Rows[i], col)));
+                    }
+                    else
+                    {
+                        s.Append(string.Format("<td>{0}</td>", BO.BAS.ParseCellValueFromDb(dt.Rows[i], col)));
+                    }
+                    
                     
                 }
                 s.Append("</tr>");

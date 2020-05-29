@@ -15,17 +15,25 @@
 
     </div>
     <div class="col-sm-1 col-md-1">
-        
-        <strong class="form-control bg-light font-weight-bold">@(BO.BAS.Number2String(Model.Recalc2Kg)+"kg")</strong>
+
+        <span class="form-control bg-light font-weight-bold" style="text-align:right;">@(BO.BAS.Number2String(Model.Recalc2Kg)+"kg")</span>
 
     </div>
 </div>
 <div class="form-row">
     <label class="col-sm-1 col-md-2 col-form-label">Položka objednávky:</label>
-    <div class="col-sm-3 col-md-3">
+    <div class="col-sm-2 col-md-2">
         <span class="form-control bg-light">@(Model.p52Code)</span>
 
     </div>
-  
+    <div class="col-sm-3 col-md-3">
+    </div>
 
+    <label class="col-sm-2 col-md-2 col-form-label">Zbývá naplánovat zakázky:</label>
+    <div class="col-sm-2 col-md-2">
+        <span class="form-control bg-light text-success" style="text-align:right;">@(BO.BAS.Number2String(Model.p52UnitsCount-Model.p52Task_UnitsCount) + " "+ @Model.p20Code)</span>
+    </div>
+    <div class="col-sm-1 col-md-1">
+        <span class="form-control bg-light font-weight-bold text-success" style="text-align:right;">@(BO.BAS.Number2String(Model.Recalc2Kg - Model.p52Task_Kg) + "kg")</span>
+    </div>
 </div>
