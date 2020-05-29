@@ -164,7 +164,7 @@ namespace BL
                 double limit = _mother.p52OrderItemBL.Load(rec.p52ID).Recalc2Kg;
                 if (limit < n + rec.p41PlanUnitsCount)
                 {
-                    _db.CurrentUser.AddMessage(premessage + "Plánované množství nesmí překročit množství v položce objednávky.");
+                    _db.CurrentUser.AddMessage(premessage + "Plánované množství zakázky nesmí překročit objednané množství.");
                     return false;
                 }
             }
