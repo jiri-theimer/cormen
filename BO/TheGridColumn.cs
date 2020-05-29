@@ -22,6 +22,7 @@ namespace BO
         public bool IsShowTotals { get; set; }
         public int FixedWidth { get; set; }
         public string EntityAlias { get; set; }
+        public bool NotShowRelInHeader { get; set; }
 
         public string RelName { get; set; } //název relace ve from klauzuly - naplní se v getSelectedPallete
         public string RelSql { get; set; }  //sql relace from klauzule - naplní se v getSelectedPallete
@@ -107,7 +108,7 @@ namespace BO
             get
             {
                 if (FieldType == "num0" || FieldType == "num" || FieldType=="num3" || FieldType=="num4") return "num";
-                if (FieldType == "date" || FieldType == "datetime") return "date";
+                if (FieldType == "date" || FieldType == "datetime" || FieldType== "datetimesec") return "date";
                 return this.FieldType;
             }
             

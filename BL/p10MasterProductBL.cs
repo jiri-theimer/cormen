@@ -65,6 +65,10 @@ namespace BL
             {
                 _db.CurrentUser.AddMessage("Chybí vyplnit měrná jednotka."); return false;
             }
+            if (rec.p10RecalcUnit2Kg == 0)
+            {
+                _db.CurrentUser.AddMessage("Přepočet MJ na KG nemůže být NULA."); return false;
+            }
             if (LoadByCode(rec.p10Code,rec.pid) != null)
             {
                 _db.CurrentUser.AddMessage(string.Format("Zadaný kód nemůže být duplicitní s jiným záznamem [{0}].", LoadByCode(rec.p10Code, rec.pid).p10Name));

@@ -9,12 +9,13 @@
         <span class="form-control bg-light">@(Model.p11Name + " [" + Model.p11Code + "]")</span>
 
     </div>
-    <label class="col-sm-2 col-md-2 col-form-label">Objednané množství:</label>
-    <div class="col-sm-1 col-md-1">
-        <span class="form-control bg-light">@(BO.BAS.Number2String(Model.p52UnitsCount))</span>
+    <label class="col-sm-1 col-md-1 col-form-label">Obj. množství:</label>
+    <div class="col-sm-2 col-md-2">
+        <span class="form-control bg-light" style="text-align:right;">@(BO.BAS.Number2String(Model.p52UnitsCount)+" "+ @Model.p20Code)</span>
 
     </div>
     <div class="col-sm-1 col-md-1">
+        
         <strong class="form-control bg-light font-weight-bold">@(BO.BAS.Number2String(Model.Recalc2Kg)+"kg")</strong>
 
     </div>

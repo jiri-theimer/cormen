@@ -77,6 +77,10 @@ namespace BL
             {
                 _db.CurrentUser.AddMessage("Chybí vyplnit [Receptura]."); return false;
             }
+            if (rec.p11RecalcUnit2Kg == 0)
+            {
+                _db.CurrentUser.AddMessage("Přepočet MJ na KG nemůže být NULA."); return false;
+            }
 
             //if (LoadByCode(rec.p11Code, rec.pid) != null)
             //{
