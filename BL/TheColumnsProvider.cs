@@ -242,7 +242,7 @@ namespace BL
 
             AF("p41Task", "p41PlanStart", "Plán zahájení", 2, null, "datetime");
             AF("p41Task", "p41PlanEnd", "Plán dokončení", 2, null, "datetime");
-            AF("p41Task", "p41PlanUnitsCount", "Plán KG", 2, null, "num", true);
+            AF("p41Task", "p41PlanUnitsCount", "Plán kg", 2, null, "num", true);
             AF("p41Task", "DurationMinutes", "Plán trvá (min)", 2, "DATEDIFF(MINUTE,a.p41PlanStart,a.p41PlanEnd)", "num0", true);
             AF("p41Task", "DurationHours", "Plán trvá (hod)", 0, "CONVERT(FLOAT,DATEDIFF(MINUTE,a.p41PlanStart,a.p41PlanEnd))/60", "num0", true);
 
@@ -309,8 +309,8 @@ namespace BL
 
             AF("p52OrderItem", "p52Task_UnitsCount", "Již naplánováno", 0, null, "num");
             AF("p52OrderItem", "ZbyvaNaplanovatUnits", "Zbývá naplánovat", 1, "a.p52UnitsCount-isnull(a.p52Task_UnitsCount,0)", "num");
-            AF("p52OrderItem", "p52Task_Kg", "Již naplánováno kg", 0, null, "num");
-            AF("p52OrderItem", "ZbyvaNaplanovatKg", "Zbývá naplánovat KG", 0, "a.p52UnitsCount*p11RecalcUnit2Kg-isnull(a.p52Task_Kg,0)", "num");
+            AF("p52OrderItem", "p52Task_Kg", "Již naplánováno kg", 0, null, "num",true);
+            AF("p52OrderItem", "ZbyvaNaplanovatKg", "Zbývá naplánovat kg", 0, "a.p52UnitsCount*p11RecalcUnit2Kg-isnull(a.p52Task_Kg,0)", "num",true);
 
             AF("p52OrderItem", "RecordOwner", "Vlastník záznamu", 0, "dbo.j02_show_as_owner(a.j02ID_Owner)");
 
