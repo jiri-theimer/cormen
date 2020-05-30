@@ -11,5 +11,9 @@ namespace UI.Models
 
         public int p26ID { get; set; }
         public string p26Name { get; set; }
+
+        public List<BO.p27MszUnit> lisP27 { get; set; }
+
+        public IEnumerable<BO.p41Task> Tasks { get; set; }
     }
 }

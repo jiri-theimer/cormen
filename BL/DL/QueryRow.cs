@@ -13,6 +13,8 @@ namespace BL.DL
         public object ParValue { get; set; }
 
         public string AndOrZleva { get; set; } = "AND";
+
+        
     }
 
    

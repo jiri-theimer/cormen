@@ -32,6 +32,10 @@ namespace BL.DL
             {
                 AQ(ref lis, "a.j04ID=@j04id", "j04id", mq.j04id);
             }
+            if (mq.DateBetween != null && mq.DateBetweenDays>0)
+            {
+                AQ(ref lis, string.Format("(a.p41PlanStart BETWEEN @d1 AND DATEADD(DAY,{0},@d1) OR a.p41PlanEnd BETWEEN @d1 AND DATEADD(DAY,{0},@d1) OR @d1 BETWEEN a.p41PlanStart AND a.p41PlanEnd OR DATEADD(DAY,{0},@d1) BETWEEN a.p41PlanStart AND a.p41PlanEnd)", mq.DateBetweenDays), "d1", mq.DateBetween.Value);
+            }
            
             if (mq.p21id >0)
             {
@@ -254,6 +258,7 @@ namespace BL.DL
             }
             lis.Add(new DL.QueryRow() { StringWhere = strWhere, ParName = strParName, ParValue = ParValue,AndOrZleva= strAndOrZleva });
         }
+        
         private static object get_param_value(string colType,string colValue)
         {
             if (String.IsNullOrEmpty(colValue)==true){

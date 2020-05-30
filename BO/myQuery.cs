@@ -71,7 +71,8 @@ namespace BO
         public int TopRecordsOnly;
 
 
-
+        public DateTime? DateBetween { get; set; }
+        public int DateBetweenDays { get; set; }
 
 
         public void SetPids(string strPids)

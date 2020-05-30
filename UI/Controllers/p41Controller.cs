@@ -22,6 +22,29 @@ namespace UI.Controllers
             {
                 v.CurrentDate = BO.BAS.String2Date(d);                
             }
+            v.p26ID = p26id;
+
+            var mq = new BO.myQuery("p26Msz");
+            mq.IsRecordValid = true;
+            if (v.p26ID == 0)
+            {
+                var lisP26 = Factory.p26MszBL.GetList(mq);
+                if (lisP26.Count()==0)
+                {
+                    return this.StopPage(false, "Číselník aktivních strojů je prázdný.");
+                }
+                v.p26ID = lisP26.First().pid;
+                v.p26Name = lisP26.First().p26Name;
+            }
+            mq = new BO.myQuery("p27MszUnit");
+            mq.IsRecordValid = true;
+            mq.p26id = v.p26ID;
+            v.lisP27 = Factory.p27MszUnitBL.GetList(mq).ToList();
+
+            mq = new BO.myQuery("p41Task");
+            mq.DateBetween = v.CurrentDate;
+            mq.DateBetweenDays = 1;
+            v.Tasks = Factory.p41TaskBL.GetList(mq);
             
             return View(v);
         }

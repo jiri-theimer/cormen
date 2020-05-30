@@ -9,35 +9,39 @@
     int _Month = Model.CurrentDate.Month;
     int _Year = Model.CurrentDate.Year;
 
-    int _colsCount = 24;
-    string strHour = "00:00";
-    string strNextHour = "00:00";
+    int _colsHours = 24;
+    int x = 0;
+    string strSlot = "00:00";
+    string strNextSlot = "00:00";
+    string strTitle = "";
+    int intColSpan = 0;
+    int intColStart = 0;
+    int intColPosun = 2;
 }
 
 <style type="text/css">
     .grid-container-header {
         display: grid;
-        grid-gap: 3px;
-        padding-left: 10px;
-        padding-right: 10px;
+        grid-gap: 0px;
+       
         background-color: transparent;
         border-bottom: solid 1px silver;
         border-top: solid 1px silver;
     }
 
         .grid-container-header > div {
-            padding-top: 10px;
-            padding-bottom: 2px;
+            height:20px;
             text-align: center;
         }
 
     .grid-container {
         display: grid;
-        padding-left: 10px;
-        padding-right: 10px;
+        
         padding-bottom: 6px;
-        grid-gap: 3px;
+        grid-gap: 0px;
+       
         border-bottom: solid 1px silver;
+        
     }
 
         .grid-container > div {
@@ -45,12 +49,32 @@
             text-align: left;
             padding-top: 2px;
             padding-bottom: 2px;
-            padding-left: 5px;
+            
             cursor: pointer;
         }
 
     .colheader {
         border-left: solid 1px silver;
+    }
+
+    div.stredisko {
+        background-color: transparent;
+        font-weight: bold;
+        color: black;
+    }
+
+    span.kapacita {
+        background-color: khaki;
+        border: solid 1px silver;
+        border-radius: 3px;
+        padding-left: 2px;
+        padding-right: 2px;
+        font-weight: normal;
+    }
+
+    div.onetask {
+        border: solid 1px green;
+        height: 30px;
     }
 </style>
 
@@ -72,25 +96,58 @@
         <button type="button" class="btn btn-light" title="Následující den" onclick="day_next()">&gt;&gt;</button>
     </div>
     <div style="min-width:250px;margin-left:20px;">
-        <mycombo entity="p26Msz" asp-for="@Model.p26ID" selectedtext="@Model.p26Name" placeholder="Stroj (MSZ)" event_after_changevalue="p26id_change" view-flag="2"></mycombo>
+        <mycombo entity="p26Msz" asp-for="@Model.p26ID" selectedtext="@Model.p26Name" placeholder="Vyberte stroj (MSZ)..." event_after_changevalue="p26id_change" view-flag="2"></mycombo>
     </div>
 
 </div>
 
 
-<div class="grid-container-header" style="grid-template-columns:150px repeat(@_colsCount,40px);">
+<div class="grid-container-header" style="grid-template-columns:150px repeat(@_colsHours,60px);">
 
     <div style="grid-column: 1/span 1;" title="Vybraný den">@(BO.BAS.ObjectDate2String(Model.CurrentDate,"dd.MM. dddd"))</div>
 
-    @for (int i = 0; i <= _colsCount-1; i++)
+    @for (int i = 0; i <= _colsHours - 1; i++)
     {
-        strHour = BO.BAS.RightString("0" + i.ToString(), 2) + ":00";
-        strNextHour = BO.BAS.RightString("0" + (i+1).ToString(), 2) + ":00";
+        strSlot = BO.BAS.RightString("0" + i.ToString(), 2) + ":00";
+        strNextSlot = BO.BAS.RightString("0" + (i + 1).ToString(), 2) + ":00";
 
-        <div class="colheader" title="@(strHour+" - "+strNextHour)" style="grid-column: @(i+2)/span 1;">@strHour</div>
+        <div class="colheader" title="@(strSlot+" - "+strNextSlot)" style="grid-column: @(i+intColPosun)/span 1;">@strSlot</div>
+    }
+</div>
+<div class="grid-container-header" style="grid-template-columns:150px repeat(@(_colsHours*6),10px);">
+
+    <div style="grid-column: 1/span 1;"></div>
+
+    @for (int i = 0; i <= _colsHours - 1; i++)
+    {
+        for (int j = 10; j <= 60; j = j + 10)
+        {
+            strSlot = BO.BAS.RightString("0" + i.ToString(), 2) + ":" + BO.BAS.RightString("0"+j.ToString(),2);            
+
+            <div class="colheader" title="@(strSlot)" style="grid-column: @(x+intColPosun)/span 1;"></div>
+
+            x += 1;
+        }
+
+
     }
 </div>
 
+
+<div class="grid-container" style="grid-template-columns:150px repeat(@(_colsHours*6),10px);">
+    @foreach (var stredisko in Model.lisP27)
+    {
+        <div class="stredisko" style="grid-column: 1/span 1;">@stredisko.p27Name <span class="kapacita">@stredisko.p27Capacity</span></div>
+        @foreach (var task in Model.Tasks.Where(p => p.p27ID == stredisko.pid))
+        {
+            intColStart = (task.p41PlanStart.Hour*60+Convert.ToInt32(task.p41PlanStart.Minute/10))/10 + intColPosun;
+            intColSpan = task.p41PlanEnd.Hour*60+ Convert.ToInt32(task.p41PlanEnd.Minute / 10) - task.p41PlanStart.Hour*60- Convert.ToInt32(task.p41PlanStart.Minute / 10) + 1;
+            strTitle = task.p41Code + ": " + BO.BAS.ObjectDateTime2String(task.p41PlanStart) + " - " + BO.BAS.ObjectDateTime2String(task.p41PlanEnd);
+
+            <div class="onetask" style="grid-column: @intColStart/span @intColSpan;" title="@strTitle"></div>
+        }
+    }
+</div>
 
 
 @section Scripts{
