@@ -10,7 +10,7 @@
 
 
     <form id="form1" asp-controller="p52" asp-action="Record" method="POST">
-        <h4>Položka objednávky</h4>
+        <h4>Položka objednávky [@Model.Rec.p52Code]</h4>
 
         @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
         @Html.HiddenFor(m => m.Rec.pid)
@@ -50,7 +50,7 @@
                 
                 <div class="card" style="margin-top:10px;">
                     <div class="card-header">
-                        Hlavička objednávky
+                        Hlavička objednávky [@Model.RecP51.p51Code]
                         <a style="margin-left:20px;" href="/p51/Record?pid=@Model.Rec.p51ID">Upravit</a>
                     </div>
                     <div class="card-body">

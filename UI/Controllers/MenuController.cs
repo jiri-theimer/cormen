@@ -144,21 +144,24 @@ namespace UI.Controllers
             }
 
             if (this.TestIfUserEditor(true, true))
-            {
-                if (prefix == "p28" || prefix == "j02" || prefix == "p10" || prefix == "p13" || prefix == "p26" || prefix == "p21" || prefix == "p51" || prefix == "p41")
-                {
-                    DIV();
-                    AMI("Připojit dokument", string.Format("javascript:_append_doc('{0}',{1})", prefix, pid));
-                }
+            {                
                 if (prefix == "p51")
                 {
                     DIV();
                     AMI("Z objednávky naplánovat výrobní zakázky", string.Format("javascript:_window_open('/p41/Create?p51id={0}')", pid));
+                    DIV();
+                    AMI("Přidat položku do objednávky", string.Format("javascript:_window_open('/p52/Record?p51id={0}')", pid));
                 }
                 if (prefix == "p52")
                 {
                     DIV();
                     AMI("Z položky objednávky naplánovat výrobní zakázky", string.Format("javascript:_window_open('/p41/Create?p52id={0}')", pid));
+                }
+
+                if (prefix == "p28" || prefix == "j02" || prefix == "p10" || prefix == "p13" || prefix == "p26" || prefix == "p21" || prefix == "p51" || prefix == "p41")
+                {
+                    DIV();
+                    AMI("Připojit dokument", string.Format("javascript:_append_doc('{0}',{1})", prefix, pid));
                 }
             }
                 

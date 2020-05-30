@@ -11,7 +11,7 @@ namespace BL
         public IEnumerable<BO.p51Order> GetList(BO.myQuery mq);
         public int Save(BO.p51Order rec, List<BO.p52OrderItem> newitems);
 
-        public void AdjustItemsCode(BO.p51Order rec);
+        //public void AdjustItemsCode(BO.p51Order rec);
     }
     class p51OrderBL : BaseBL, Ip51OrderBL
     {
@@ -88,7 +88,7 @@ namespace BL
                 }
             }
 
-            AdjustItemsCode(Load(intP51ID));
+            //AdjustItemsCode(Load(intP51ID));
 
             return intP51ID;
         }
@@ -113,11 +113,11 @@ namespace BL
 
         
 
-        public void AdjustItemsCode(BO.p51Order rec)
-        {
-            _db.RunSql("update a set p52Code=@s+'.'+convert(varchar(10),RowID) from (SELECT ROW_NUMBER() OVER(ORDER BY p52id ASC) AS RowID,* FROM p52OrderItem WHERE p51ID=@p51id) a", new { s = rec.p51Code, p51id = rec.p51ID });
+        //public void AdjustItemsCode(BO.p51Order rec)
+        //{
+        //    _db.RunSql("update a set p52Code=@s+'.'+convert(varchar(10),RowID) from (SELECT ROW_NUMBER() OVER(ORDER BY p52id ASC) AS RowID,* FROM p52OrderItem WHERE p51ID=@p51id) a", new { s = rec.p51Code, p51id = rec.p51ID });
 
-        }
+        //}
 
 
     }

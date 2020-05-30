@@ -291,6 +291,10 @@ namespace BL
             AF("p51Order", "p51DateDelivery", "Termín dodání", 2, null, "datetime",false,true);
             AF("p51Order", "p51DateDeliveryConfirmed", "Potvrzený termín dodání", 2, null, "datetime",false,true);
 
+            AF("p51Order", "p51Order_Kg", "Objednáno kg", 1, null, "num", true);
+            AF("p51Order", "p51Task_Kg", "Již naplánováno kg", 0, null, "num", true);            
+            AF("p51Order", "ZbyvaNaplanovat", "Zbývá naplánovat kg  ", 1, "a.p51Order_Kg - isnull(a.p51Task_Kg,0)", "num", true);
+
 
             AF("p51Order", "p51CodeByClient", "Kód podle klienta", 0);
             AF("p51Order", "p51IsDraft", "Draft", 0, null, "bool");

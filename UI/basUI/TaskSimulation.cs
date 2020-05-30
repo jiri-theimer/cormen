@@ -43,11 +43,16 @@ namespace UI
                 kotel.DateInsert = _dat0;
             }
             var lisP52 = _f.p52OrderItemBL.GetList(p51id);
-            foreach(var rec in lisP52)
+            foreach (var rec in lisP52)
             {
                 handle_create_by_p52(rec.pid);
-                _dat0 = _tasks.Last().p41PlanEnd.AddSeconds(1);
+                if (_tasks.Count > 0)
+                {
+                    _dat0 = _tasks.Last().p41PlanEnd;
+                }
+                
             }
+                        
             
             return _tasks;
         }

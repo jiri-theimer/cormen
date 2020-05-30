@@ -49,6 +49,23 @@
 
 </div>
 
+<div class="form-row">
+    <label class="col-sm-1 col-md-2 col-form-label">Celkem objednáno:</label>
+    <div class="col-sm-2 col-md-2">
+        <span class="form-control bg-light" style="text-align:right;">@(BO.BAS.Number2String(Model.p51Order_Kg)+"kg")</span>
+
+    </div>
+
+    <label class="col-sm-2 col-md-2 col-form-label">Již naplánováno:</label>
+    <div class="col-sm-2 col-md-2">
+        <span class="form-control bg-light text-success" style="text-align:right;">@(BO.BAS.Number2String(Model.p51Task_Kg)+"kg")</span>
+    </div>
+    <label class="col-sm-2 col-md-2 col-form-label">Zbývá naplánovat:</label>
+    <div class="col-sm-2 col-md-2">
+        <span class="form-control bg-light font-weight-bold text-success" style="text-align:right;">@(BO.BAS.Number2String(Model.p51Order_Kg - Model.p51Task_Kg)+"kg")</span>
+    </div>
+</div>
+
 <div class="form-row" style="margin-top:10px;">
     <label class="col-sm-1 col-md-2 col-form-label">Stav:</label>
     <div class="col-sm-4 col-md-4">

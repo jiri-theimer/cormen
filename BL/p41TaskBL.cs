@@ -73,7 +73,6 @@ namespace BL
             pars.Add("userid", _db.CurrentUser.pid);
             pars.Add("pid", intPID, System.Data.DbType.Int32);
             pars.Add("err_ret", "", System.Data.DbType.String, System.Data.ParameterDirection.Output);
-
             _db.RunSp("p41_after_save", ref pars);
 
             return intPID;

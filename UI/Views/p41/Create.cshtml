@@ -33,8 +33,14 @@
             <div class="col-3">
                 <mydate asp-for="@Model.Date0" include-time="true"></mydate>
             </div>
-
+            <div class="col-3">
+                <button class="btn btn-primary" type="button" onclick="simulation_p51()">Navrhnout zakázky pro celou objednávku</button>
+            </div>
+            <div class="col-3">
+                <button class="btn btn-primary" type="button" onclick="simulation_p52()">Navrhnout zakázky pro položku objednávky</button>
+            </div>
         </div>
+        <hr />
 
         <div class="form-row">
             <div class="col-10">
@@ -95,10 +101,7 @@
         </div>
 
 
-        <div class="input-group">
-            <div style="margin-right:40px;padding:4px;">
-                <button class="btn btn-light btn-sm" type="button" onclick="append_task(0)">Přidat ručně zakázku +</button>
-            </div>
+        <div class="input-group">           
             @foreach (var c in Model.lisP27)
             {
                 <div style="padding:4px;">
@@ -108,17 +111,12 @@
         </div>
 
 
-
-        <hr />
         <div class="input-group">
             <div style="padding:4px;">
-                <button class="btn btn-primary" type="button" onclick="simulation_p52()">Navrhnout rozpis zakázek pro položku objednávky</button>
+                <button class="btn btn-light" type="button" onclick="append_task(0)">Přidat zakázku ručně +</button>
             </div>
             <div style="padding:4px;">
-                <button class="btn btn-primary" type="button" onclick="simulation_p51()">Navrhnout rozpis zakázek pro celou objednávku</button>
-            </div>
-            <div style="padding:4px;">
-                <button class="btn btn-light" type="button" onclick="clear_all()">Vyčistit</button>
+                <button class="btn btn-light" type="button" onclick="clear_all()">Vyčistit zakázky</button>
             </div>
         </div>
 
@@ -162,7 +160,7 @@
                     <div class="col-sm-3 col-md-3">
                         <mydate asp-for="Tasks[i].p41PlanEnd" include-time="true"></mydate>
                     </div>
-                    <label class="col-sm-1 col-md-1 col-form-label">Trvá (min):</label>
+                    <label class="col-sm-1 col-md-1 col-form-label">Trvá minut:</label>
                     <div class="col-sm-1 col-md-1">
                         <span class="form-control bg-light">@(BO.BAS.Number2String(Model.Tasks[i].DurationMinutes))</span>
                         <input type="hidden" asp-for="@Model.Tasks[i].DurationMinutes" />

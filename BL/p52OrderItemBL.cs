@@ -53,7 +53,14 @@ namespace BL
             p.AddDouble("p52UnitsCount", rec.p52UnitsCount);
 
             int intP52ID = _db.SaveRecord("p52OrderItem", p.getDynamicDapperPars(), rec);
-            _mother.p51OrderBL.AdjustItemsCode(_mother.p51OrderBL.Load(rec.p51ID));
+
+            var pars = new Dapper.DynamicParameters();
+            pars.Add("userid", _db.CurrentUser.pid);
+            pars.Add("pid", intP52ID, System.Data.DbType.Int32);
+            pars.Add("err_ret", "", System.Data.DbType.String, System.Data.ParameterDirection.Output);
+            _db.RunSp("p52_after_save", ref pars);
+
+            //_mother.p51OrderBL.AdjustItemsCode(_mother.p51OrderBL.Load(rec.p51ID));
 
 
             return intP52ID;
