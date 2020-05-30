@@ -55,11 +55,20 @@
         <span class="form-control bg-light" style="text-align:right;">@(BO.BAS.Number2String(Model.p51Order_Kg)+"kg")</span>
 
     </div>
+    @if (Model.p51Task_Kg > 0)
+    {
+        <label class="col-sm-2 col-md-2 col-form-label">Již naplánováno:</label>
+        <div class="col-sm-2 col-md-2">
+            <span class="form-control bg-light text-primary" style="text-align:right;">@(BO.BAS.Number2String(Model.p51Task_Kg)+"kg")</span>
+        </div>
+    }
+    else
+    {
+        <div class="col-sm-4 col-md-4">
 
-    <label class="col-sm-2 col-md-2 col-form-label">Již naplánováno:</label>
-    <div class="col-sm-2 col-md-2">
-        <span class="form-control bg-light text-success" style="text-align:right;">@(BO.BAS.Number2String(Model.p51Task_Kg)+"kg")</span>
-    </div>
+        </div>
+    }
+
     <label class="col-sm-2 col-md-2 col-form-label">Zbývá naplánovat:</label>
     <div class="col-sm-2 col-md-2">
         <span class="form-control bg-light font-weight-bold text-success" style="text-align:right;">@(BO.BAS.Number2String(Model.p51Order_Kg - Model.p51Task_Kg)+"kg")</span>

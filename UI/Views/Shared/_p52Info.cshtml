@@ -26,8 +26,19 @@
         <span class="form-control bg-light">@(Model.p52Code)</span>
 
     </div>
-    <div class="col-sm-3 col-md-3">
-    </div>
+    @if (Model.p52Task_UnitsCount > 0)
+    {
+        <label class="col-sm-1 col-md-1 col-form-label">Naplánováno:</label>
+        <div class="col-sm-2 col-md-2">
+            <span class="form-control bg-light text-primary" style="text-align:right;">@(BO.BAS.Number2String(Model.p52Task_UnitsCount)+" "+ Model.p20Code)</span>
+        </div>
+    }
+    else
+    {
+        <div class="col-sm-3 col-md-3">
+        </div>
+    }
+
 
     <label class="col-sm-2 col-md-2 col-form-label">Zbývá naplánovat zakázky:</label>
     <div class="col-sm-2 col-md-2">
