@@ -199,20 +199,30 @@ function _splitter_init(splitterLayout, prefix) {    //splitterLayout 1 - horní
 
         onDragStart: function (e, $el, opt) {
             //resizeHeight: false
-            $("#splitter_panel2").html("<h6>Velikost panelu ukládám do vašeho profilu...</h6>");
+            //$("#splitter_panel2").html("<h6>Velikost panelu ukládám do vašeho profilu...</h6>");
 
             return true;
         },
         onDragEnd: function (e, $el, opt) {     //splitterLayout 1 - horní a spodní panel, 2 - levý a pravý panel
             var id = $el.attr("id");
             var panel1_size = $el.height();
-            var key = prefix + "_gridmaster-splitter-size-top";
+            var key = prefix + "_panel1_size";
 
             if (splitterLayout === "2") {
-                panel1_size = $el.width();
-                key = prefix + "_gridmaster-splitter-size-left";
+                panel1_size = $el.width();                
             }
-            _notify_message("Resize", "info");
+
+            
+            _notify_message("Velikost panelu ukládám do vašeho profilu.<hr>" + key+": "+ panel1_size+"px", "info");
+            localStorage.setItem(key, panel1_size);
+
+            if (document.getElementById("tabgrid1")) {
+                tg_adjust_for_screen("splitter_panel1");                                
+            }
+            if (document.getElementById("fra_subgrid")) {
+                document.getElementById("fra_subgrid").contentDocument.location.reload(true);
+            }
+            
             //run_postback(key, panel1_size);          //velikost panelu se uloží přes postback             
 
         }
