@@ -78,10 +78,15 @@ namespace UI
             double dblTotalKG = cP52.Recalc2Kg-cP52.p52Task_Kg;
             double dblUsedKG = 0;
             DateTime dat0 = _dat0;
+            var mq = new BO.myQuery("p41Task");
+            mq.p52id = p52id;
             int x = 1;
+            string strLastCode = "";
+            if (dblTotalKG <= 0)
+            {
+                _f.CurrentUser.AddMessage(string.Format("Položka objednávky [{0}] je již kompletně rozplánovaná.", cP52.p52Code));
+            }
             
-
-
             while (dblUsedKG < dblTotalKG)
             {
                 foreach (var kotel in _lisP27)
@@ -101,8 +106,16 @@ namespace UI
                     dat0 = kotel.DateInsert;
                     rec.p41PlanStart = dat0;
                     rec.p41PlanEnd = rec.p41PlanStart.AddSeconds(dur*60);
-                    rec.p41Code = cP52.p52Code.Replace("R", "T") + "." + BO.BAS.RightString("000" + x.ToString(), 3);
-                    kotel.DateInsert = rec.p41PlanEnd.AddSeconds(1);
+                   
+                    rec.p41Code = _f.p41TaskBL.EstimateTaskCode(cP52.p52Code,x);
+                    while(strLastCode == rec.p41Code)
+                    {
+                        x += 1;
+                        rec.p41Code = _f.p41TaskBL.EstimateTaskCode(cP52.p52Code, x);
+                    }
+                    
+                    //kotel.DateInsert = rec.p41PlanEnd.AddSeconds(1);
+                    kotel.DateInsert = rec.p41PlanEnd;
 
                     _tasks.Add(rec);
 
@@ -113,7 +126,7 @@ namespace UI
                     }
 
                     x += 1;
-
+                    strLastCode = rec.p41Code;
                 }
             }
 

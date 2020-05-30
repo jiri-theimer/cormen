@@ -8,10 +8,12 @@ namespace BL
     public interface Ip41TaskBL
     {
         public BO.p41Task Load(int pid);
+        public BO.p41Task LoadByCode(string strCode, int intExcludePID);
         public IEnumerable<BO.p41Task> GetList(BO.myQuery mq);
         public int Save(BO.p41Task rec);
         public bool ValidateBeforeSave(BO.p41Task rec, string premessage = "");
         public int SaveBatch(List<BO.p41Task> lisP41);
+        public string EstimateTaskCode(string strP52Code, int x);
     }
     class p41TaskBL : BaseBL, Ip41TaskBL
     {
@@ -23,6 +25,19 @@ namespace BL
         private string GetSQL1()
         {
             return "SELECT a.*," + _db.GetSQL1_Ocas("p41") + ",b02.b02Name,p11.p11Name,dbo.j02_show_as_owner(a.j02ID_Owner) as RecordOwner,p28.p28Name,p26.p26Name,p52.p52Code,p27.p27Name,p51.p51Code FROM p41Task a INNER JOIN p52OrderItem p52 ON a.p52ID=p52.p52ID INNER JOIN p27MszUnit p27 ON a.p27ID=p27.p27ID INNER JOIN p11ClientProduct p11 ON p52.p11ID=p11.p11ID INNER JOIN p51Order p51 ON p52.p51ID=p51.p51ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p28Company p28 ON p51.p28ID=p28.p28ID LEFT OUTER JOIN p26Msz p26 ON p27.p26ID=p26.p26ID";
+        }
+
+        public string EstimateTaskCode(string strP52Code,int x)
+        {
+            if (x == 0) x = 1;
+            string strCode= strP52Code.Replace("R", "T") + "." + BO.BAS.RightString("000" + x.ToString(), 3); 
+            while (LoadByCode(strCode, 0) != null)
+            {
+                x += 1;
+                strCode = strP52Code.Replace("R", "T") + "." + BO.BAS.RightString("000" + x.ToString(), 3);
+            }
+
+            return strCode;
         }
         public BO.p41Task Load(int pid)
         {
@@ -83,25 +98,17 @@ namespace BL
             int x = 1;
             int intErrs = 0;
             int intLastP52ID = 0;
-            int intCodeIndex = 0;
-            
+           
             foreach(var rec in lisP41.Where(p => p.IsTempDeleted == false).OrderBy(p=>p.p52ID).ThenBy(p=>p.p41PlanEnd))
             {
                 var cP52 = _mother.p52OrderItemBL.Load(rec.p52ID);
                 if (cP52 != null)
                 {
-                    if (intLastP52ID != rec.p52ID)
+                    
+                    if (string.IsNullOrEmpty(rec.p41Code) == true)
                     {
-                        var mq = new BO.myQuery("p41Task");
-                        mq.p52id = cP52.pid;
-                        var lis = GetList(mq);
-                        intCodeIndex = lis.Count() + 1;
-                    }
-                    else
-                    {
-                        intCodeIndex += 1;
-                    }
-                    rec.p41Code = cP52.p52Code.Replace("R", "T") + "." + BO.BAS.RightString("000" + intCodeIndex.ToString(), 3);
+                        rec.p41Code = EstimateTaskCode(cP52.p52Code, x);                        
+                    }                    
                     if (String.IsNullOrEmpty(rec.p41Name) == true && cP52 != null)
                     {
                         rec.p41Name = cP52.p11Name + " [" + cP52.p11Code + "]";
@@ -181,7 +188,7 @@ namespace BL
             {
                 if (LoadByCode(rec.p41Code, rec.pid) != null)
                 {
-                    _db.CurrentUser.AddMessage(string.Format(premessage + "Zadaný kód nemůže být duplicitní s jinou zákazkou [{0}].", LoadByCode(rec.p41Code, rec.pid).p41Name));
+                    _db.CurrentUser.AddMessage(string.Format(premessage + "Zadaný kód {0} nemůže být duplicitní s jinou zákazkou [{1}].",rec.p41Code, LoadByCode(rec.p41Code, rec.pid).p41Name));
                     return false;
                 }
             }

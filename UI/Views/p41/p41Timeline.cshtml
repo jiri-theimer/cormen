@@ -1,0 +1,139 @@
+﻿@model p41TimelineViewModel
+
+@addTagHelper *, UI
+
+@{
+    ViewData["Title"] = "Timeline zakázek";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int _Month = Model.CurrentDate.Month;
+    int _Year = Model.CurrentDate.Year;
+
+    int _colsCount = 24;
+    string strHour = "00:00";
+    string strNextHour = "00:00";
+}
+
+<style type="text/css">
+    .grid-container-header {
+        display: grid;
+        grid-gap: 3px;
+        padding-left: 10px;
+        padding-right: 10px;
+        background-color: transparent;
+        border-bottom: solid 1px silver;
+        border-top: solid 1px silver;
+    }
+
+        .grid-container-header > div {
+            padding-top: 10px;
+            padding-bottom: 2px;
+            text-align: center;
+        }
+
+    .grid-container {
+        display: grid;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 6px;
+        grid-gap: 3px;
+        border-bottom: solid 1px silver;
+    }
+
+        .grid-container > div {
+            background-color: #4CAF50;
+            text-align: left;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-left: 5px;
+            cursor: pointer;
+        }
+
+    .colheader {
+        border-left: solid 1px silver;
+    }
+</style>
+
+
+<div class="input-group">
+    <div style="padding-top:4px;">
+        <h4>Timeline výrobních zakázek</h4>
+    </div>
+
+    <div style="width:30px;">
+        <button type="button" class="btn btn-light" title="Předchozí den" onclick="day_prev()">&lt;&lt;</button>
+    </div>
+    <div style="width: 120px;">
+
+        <mydate asp-for="@Model.CurrentDate"></mydate>
+
+    </div>
+    <div style="width:30px;">
+        <button type="button" class="btn btn-light" title="Následující den" onclick="day_next()">&gt;&gt;</button>
+    </div>
+    <div style="min-width:250px;margin-left:20px;">
+        <mycombo entity="p26Msz" asp-for="@Model.p26ID" selectedtext="@Model.p26Name" placeholder="Stroj (MSZ)" event_after_changevalue="p26id_change" view-flag="2"></mycombo>
+    </div>
+
+</div>
+
+
+<div class="grid-container-header" style="grid-template-columns:150px repeat(@_colsCount,40px);">
+
+    <div style="grid-column: 1/span 1;" title="Vybraný den">@(BO.BAS.ObjectDate2String(Model.CurrentDate,"dd.MM. dddd"))</div>
+
+    @for (int i = 0; i <= _colsCount-1; i++)
+    {
+        strHour = BO.BAS.RightString("0" + i.ToString(), 2) + ":00";
+        strNextHour = BO.BAS.RightString("0" + (i+1).ToString(), 2) + ":00";
+
+        <div class="colheader" title="@(strHour+" - "+strNextHour)" style="grid-column: @(i+2)/span 1;">@strHour</div>
+    }
+</div>
+
+
+
+@section Scripts{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#CurrentDatehelper").change(function () {
+                var d = $(this).val();
+
+                reload(d);
+            });
+
+
+
+        _mainmenu_select("p41", "p41timeline");
+        });
+
+    function day_next() {
+        var d = "@(BO.BAS.ObjectDate2String( Model.CurrentDate.AddDays(1)))";
+        reload(d);
+    }
+    function day_prev() {
+        var d = "@(BO.BAS.ObjectDate2String( Model.CurrentDate.AddDays(-1)))";
+        reload(d);
+    }
+    function month_next() {
+        var d = "@(BO.BAS.ObjectDate2String( Model.CurrentDate.AddMonths(1)))";
+        reload(d);
+    }
+    function month_prev() {
+        var d = "@(BO.BAS.ObjectDate2String( Model.CurrentDate.AddMonths(-1)))";
+        reload(d);
+    }
+    function p26id_change(p26id) {
+        var d = "@(BO.BAS.ObjectDate2String( Model.CurrentDate))";
+        reload(d);
+        }
+
+
+    function reload(d) {
+        var p26id = $("#p26ID").val();
+        location.replace("/p41/p41Timeline?p26id=" + p26id + "&d=" + d);
+    }
+    </script>
+}

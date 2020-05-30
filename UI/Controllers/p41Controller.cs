@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Mvc;
 using UI.Models;
 
@@ -9,6 +10,21 @@ namespace UI.Controllers
 {
     public class p41Controller : BaseController
     {
+
+        public IActionResult p41Timeline(int p26id, string d)
+        {
+            var v = new Models.p41TimelineViewModel();
+            if (String.IsNullOrEmpty(d) == true)
+            {
+                v.CurrentDate = DateTime.Today;
+            }
+            else
+            {
+                v.CurrentDate = BO.BAS.String2Date(d);                
+            }
+            
+            return View(v);
+        }
         public IActionResult Index(int pid)
         {
             var v = new Models.p41PreviewViewModel();
