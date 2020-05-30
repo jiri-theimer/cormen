@@ -38,12 +38,20 @@
                     <span id="p11RecalcUnit2Kg">@Model.Rec.p11RecalcUnit2Kg</span>
                     <span>kg</span>
                 </div>
-                
+
                 <div class="col-2">
                     <span> = </span>
                     <strong id="Recalc2Kg">@(BO.BAS.Number2String(Model.Rec.Recalc2Kg))</strong>
                     <span>kg</span>
                 </div>
+                @if (Model.Rec.p52Task_UnitsCount > 0)
+                {
+                    <div class="col-2">
+                        <span>Již naplánováno:</span>
+                        <strong class="text-primary">@(BO.BAS.Number2String(Model.Rec.p52Task_UnitsCount))</strong>
+                        
+                    </div>
+                }
             </div>
             @if (Model.RecP51 != null)
             {

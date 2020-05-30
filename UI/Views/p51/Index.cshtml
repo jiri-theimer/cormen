@@ -25,13 +25,20 @@
                     @c.p11Code
                 </td>
                 <td>
-                    @c.p11Name
+                    <small>@c.p11Name</small>
                 </td>
                 <td class="text-right">
                     @(BO.BAS.Number2String(c.p52UnitsCount))
                 </td>
+                <td class="text-right text-primary" title="Již naplánováno">
+                    @(BO.BAS.Number2String(c.p52Task_UnitsCount))
+                </td>
                 <td class="text-success text-right" title="Zbývá naplánovat">
-                    @("("+BO.BAS.Number2String(c.p52UnitsCount-c.p52Task_UnitsCount)+")")
+                    @if (c.p52Task_UnitsCount > 0)
+                    {
+                        @(BO.BAS.Number2String(c.p52UnitsCount-c.p52Task_UnitsCount))
+                    }
+
                 </td>
                 <td>
                     @c.p20Code
@@ -41,8 +48,13 @@
                     @(BO.BAS.Number2String(c.Recalc2Kg))
                     kg
                 </td>
+                <td class="text-primary text-right" title="Již naplánováno kg">
+                    @(BO.BAS.Number2String(c.p52Task_Kg)+"kg")
+
+                </td>
                 <td class="text-success text-right" title="Zbývá naplánovat kg">
-                    @("("+BO.BAS.Number2String(c.Recalc2Kg - c.p52Task_Kg)+"kg)")
+                    @(BO.BAS.Number2String(c.Recalc2Kg - c.p52Task_Kg)+"kg")
+
                 </td>
             </tr>
             }
