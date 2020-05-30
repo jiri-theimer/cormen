@@ -6,128 +6,69 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    
-
-<style type="text/css">
-   
-    .split {
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-    }
 
 
+    <div class="modal_record_container">
+        <h4>O aplikaci</h4>
 
-    .gutter {
-        background-color: transparent;
-        background-repeat: no-repeat;
-        background-position: 50%;
-    }
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
+            <div class="col-sm-11 col-md-10">
+                <span class="form-control bg-light">@_app.AppName</span>
 
-        .gutter.gutter-vertical {
-            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=');
-            cursor: row-resize;
-        }
 
-        .gutter.gutter-horizontal {
-            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
-            cursor: col-resize;
-        }
-</style>
+            </div>
 
-<div class="modal_record_container">
-    <h4>O aplikaci</h4>
+        </div>
 
-    <div class="form-row">
-        <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
-        <div class="col-sm-11 col-md-10">
-            <span class="form-control bg-light">@_app.AppName</span>
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Verze:</label>
+            <div class="col-sm-11 col-md-10">
+                <span class="form-control bg-light">@(_app.AppVersion+", "+_app.AppBuild)</span>
 
+
+            </div>
+
+        </div>
+        
+
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Autor:</label>
+            <div class="col-sm-11 col-md-10">
+                <span class="form-control bg-light"><a href="mailto:pavla@elebro.cz">Rajmund Pavla</a></span>
+
+
+            </div>
+
+        </div>
+
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Vývoj:</label>
+            <div class="col-sm-11 col-md-10">
+                <span class="form-control bg-light"><a href="mailto:jiri.theimer@gmail.com">Jiří Theimer</a></span>
+
+
+            </div>
+
+        </div>
+
+        <div class="form-row" style="margin-top:20px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Technická podpora:</label>
+            <div class="col-sm-11 col-md-10">
+                @if (_f.CurrentUser.j03LiveChatTimestamp == null)
+                {
+                    <button class="btn btn-sm btn-secondary py-0 py-0" title="Zapnout LIVE CHAT-BOX" style="font-size:125%;" onclick="handle_smartsupp(1)">☊</button>
+                }
+                else
+                {
+                    <button class="btn btn-sm btn-danger py-0 py-0" title="Vypnout LIVE CHAT-BOX" style="font-size:125%;" onclick="handle_smartsupp(2)">☊</button>
+                }
+
+
+            </div>
 
         </div>
 
     </div>
 
-    <div class="form-row">
-        <label class="col-sm-1 col-md-2 col-form-label">Verze:</label>
-        <div class="col-sm-11 col-md-10">
-            <span class="form-control bg-light">@_app.AppVersion</span>
 
-
-        </div>
-
-    </div>
-
-    <div class="form-row">
-        <label class="col-sm-1 col-md-2 col-form-label">Autor:</label>
-        <div class="col-sm-11 col-md-10">
-            <span class="form-control bg-light"><a href="mailto:pavla@elebro.cz">Rajmund Pavla</a></span>
-
-
-        </div>
-
-    </div>
-
-    <div class="form-row">
-        <label class="col-sm-1 col-md-2 col-form-label">Vývoj:</label>
-        <div class="col-sm-11 col-md-10">
-            <span class="form-control bg-light"><a href="mailto:jiri.theimer@gmail.com">Jiří Theimer</a></span>
-
-
-        </div>
-
-    </div>
-
-    <div class="form-row" style="margin-top:20px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Technická podpora:</label>
-        <div class="col-sm-11 col-md-10">
-            @if (_f.CurrentUser.j03LiveChatTimestamp == null)
-            {
-                <button class="btn btn-sm btn-secondary py-0 py-0" title="Zapnout LIVE CHAT-BOX" style="font-size:125%;" onclick="handle_smartsupp(1)">☊</button>
-            }
-            else
-            {
-                <button class="btn btn-sm btn-danger py-0 py-0" title="Vypnout LIVE CHAT-BOX" style="font-size:125%;" onclick="handle_smartsupp(2)">☊</button>
-            }
-
-
-        </div>
-
-    </div>
-
-</div>
-
-<div style="height:1000px;">
-    <div id="a" style="background-color:greenyellow;">
-        <h1>
-            nahoře
-        </h1>
-    </div>
-    <div id="b" style="border-top:solid 1px gray;background-color:red;">
-        <h1>
-            dole
-        </h1>
-    </div>
-</div>
-
-
-<script src="https://unpkg.com/split.js/dist/split.min.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-
-
-        Split(['#a', '#b'], {
-            direction: 'vertical',
-            cursor: 'row-resize'
-        })
-
-    });
-
-
-
-    
-
-
-
-
-</script>

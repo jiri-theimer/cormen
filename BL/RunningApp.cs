@@ -15,6 +15,7 @@ namespace BL
 
         public string AppName { get; set; }
         public string AppVersion { get; set; }
+        public string AppBuild { get; set; }
 
        
 

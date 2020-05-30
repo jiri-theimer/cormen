@@ -100,6 +100,7 @@ namespace UI.Controllers
 
         public IActionResult About()
         {
+            
             return View();
         }
         public IActionResult MyProfile()

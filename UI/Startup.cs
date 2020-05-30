@@ -88,16 +88,19 @@ namespace UI
                 strLogFolder = System.IO.Directory.GetCurrentDirectory() + "\\Logs";
             }
 
-            
+
+            var execAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+            var versionTime = new System.IO.FileInfo(execAssembly.Location).LastWriteTime;
 
             services.AddSingleton<BL.RunningApp>(x => new BL.RunningApp() {
-                ConnectString= conf.GetSection("ConnectionStrings")["AppConnection"]
-                ,AppName=conf.GetSection("App")["Name"]
-                ,AppVersion=conf.GetSection("App")["Version"]                
+                ConnectString = conf.GetSection("ConnectionStrings")["AppConnection"]
+                , AppName = conf.GetSection("App")["Name"]
+                , AppVersion = conf.GetSection("App")["Version"]
+                ,AppBuild= "build: "+BO.BAS.ObjectDateTime2String(versionTime)                
                 ,UploadFolder = conf.GetSection("Folders")["Upload"]
-                ,TempFolder = conf.GetSection("Folders")["Temp"]                
-                ,LogFolder = strLogFolder                
-            });
+                , TempFolder = conf.GetSection("Folders")["Temp"]
+                , LogFolder = strLogFolder
+            }) ;
 
             services.AddSingleton<BL.TheColumnsProvider>();
 
