@@ -84,11 +84,14 @@ namespace BL
             {
                 foreach (var c in newitems)
                 {
-                    _db.RunSql("INSERT INTO p52OrderItem(p51ID,p11ID,p52UnitsCount) VALUES(@p51id,@p11id,@unitscount)", new { p51id = intP51ID, p11id = c.p11ID, unitscount = c.p52UnitsCount });
+                    c.p51ID = intP51ID;
+                    _mother.p52OrderItemBL.Save(c);
+
+                    //_db.RunSql("INSERT INTO p52OrderItem(p51ID,p11ID,p52UnitsCount) VALUES(@p51id,@p11id,@unitscount)", new { p51id = intP51ID, p11id = c.p11ID, unitscount = c.p52UnitsCount });
                 }
             }
 
-            //AdjustItemsCode(Load(intP51ID));
+            
 
             return intP51ID;
         }
