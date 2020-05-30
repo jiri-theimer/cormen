@@ -17,39 +17,32 @@
     int intColSpan = 0;
     int intColStart = 0;
     int intColPosun = 2;
+    string strClass = "onetask";
 }
 
 <style type="text/css">
     .grid-container-header {
         display: grid;
         grid-gap: 0px;
-       
         background-color: transparent;
         border-bottom: solid 1px silver;
         border-top: solid 1px silver;
     }
 
         .grid-container-header > div {
-            height:20px;
+            height: 20px;
             text-align: center;
         }
 
     .grid-container {
         display: grid;
-        
-        padding-bottom: 6px;
         grid-gap: 0px;
-       
-        border-bottom: solid 1px silver;
-        
     }
 
         .grid-container > div {
             background-color: #4CAF50;
             text-align: left;
-            padding-top: 2px;
-            padding-bottom: 2px;
-            
+            margin-bottom: 6px;
             cursor: pointer;
         }
 
@@ -73,8 +66,20 @@
     }
 
     div.onetask {
-        border: solid 1px green;
-        height: 30px;
+        border-left: solid 1px white;
+        border-top: solid 1px white;
+        height: 35px;
+    }
+    div.onetask_overday {
+        border-left: solid 1px white;
+        border-top: solid 1px white;
+        background-color:orange;
+        height: 35px;
+    }
+
+    div.divider {
+        height: 1px;
+        background-color: silver;
     }
 </style>
 
@@ -122,7 +127,7 @@
     {
         for (int j = 10; j <= 60; j = j + 10)
         {
-            strSlot = BO.BAS.RightString("0" + i.ToString(), 2) + ":" + BO.BAS.RightString("0"+j.ToString(),2);            
+            strSlot = BO.BAS.RightString("0" + i.ToString(), 2) + ":" + BO.BAS.RightString("0" + j.ToString(), 2);
 
             <div class="colheader" title="@(strSlot)" style="grid-column: @(x+intColPosun)/span 1;"></div>
 
@@ -137,15 +142,41 @@
 <div class="grid-container" style="grid-template-columns:150px repeat(@(_colsHours*6),10px);">
     @foreach (var stredisko in Model.lisP27)
     {
+
         <div class="stredisko" style="grid-column: 1/span 1;">@stredisko.p27Name <span class="kapacita">@stredisko.p27Capacity</span></div>
         @foreach (var task in Model.Tasks.Where(p => p.p27ID == stredisko.pid))
         {
-            intColStart = (task.p41PlanStart.Hour*60+Convert.ToInt32(task.p41PlanStart.Minute/10))/10 + intColPosun;
-            intColSpan = task.p41PlanEnd.Hour*60+ Convert.ToInt32(task.p41PlanEnd.Minute / 10) - task.p41PlanStart.Hour*60- Convert.ToInt32(task.p41PlanStart.Minute / 10) + 1;
+            strClass = "onetask";
+            intColStart = (task.p41PlanStart.Hour * 60 + task.p41PlanStart.Minute) / 10 + intColPosun;
+            intColSpan = (task.p41PlanEnd.Hour * 60 + task.p41PlanEnd.Minute - task.p41PlanStart.Hour * 60 - task.p41PlanStart.Minute) / 10;
+
+            if (task.p41PlanStart < Model.CurrentDate)
+            {
+                intColStart = intColPosun;
+                strClass = "onetask_overday";
+                intColSpan = (task.p41PlanEnd.Hour * 60 + task.p41PlanEnd.Minute) / 10;
+            }
+            if (task.p41PlanEnd > Model.CurrentDate.AddDays(1))
+            {
+                intColSpan = _colsHours * 6 - intColStart;
+                strClass = "onetask_overday";
+            }
+
+
+
+
+
+
+
+
             strTitle = task.p41Code + ": " + BO.BAS.ObjectDateTime2String(task.p41PlanStart) + " - " + BO.BAS.ObjectDateTime2String(task.p41PlanEnd);
 
-            <div class="onetask" style="grid-column: @intColStart/span @intColSpan;" title="@strTitle"></div>
+            <div class="@strClass" style="grid-column: @intColStart/span @intColSpan;" title="@strTitle"></div>
         }
+        <div class="divider" style="grid-column: 1/span @(_colsHours*6);"></div>
+
+
+
     }
 </div>
 
