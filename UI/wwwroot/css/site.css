@@ -145,6 +145,14 @@ a.cm {
         min-width:200px;
     }
 
+/*zoom okno pro zobrazení INFO detailu na click*/
+#zoom_okno {
+    padding: 1px;
+    margin: 0;
+    border: none;
+    background-color: lightsteelblue;
+    z-index:1000;
+}
 
 /* ----------------------- Kontextové MENU Zleva doprava ----------------------- */
 #cm_left2right {

@@ -164,8 +164,8 @@ namespace UI.Controllers
                     AMI("Připojit dokument", string.Format("javascript:_append_doc('{0}',{1})", prefix, pid));
                 }
             }
-                
 
+            
             return FlushResult_UL();
         }
 

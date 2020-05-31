@@ -14,9 +14,12 @@
 
         //make sure menu closes on any click
         $(document).click(function (e) {
+            if (e.target.id === "divZoomHeader") return;
             hideAll();
         });
         $(document).on("click", function (e) {
+            if (e.target.id === "divZoomHeader") return;
+
             var $ul = $(e.target).closest("ul");
             if ($ul.length === 0 || !$ul.data("menuSelector")) {
                 hideAll();
@@ -34,6 +37,14 @@
                 }
             }
         });
+        $(document).on("keydown", function (e) {
+            if (e.keyCode === 27) {
+                hideAll();  //ESCAPE klávesa
+
+            }
+            
+        });
+
 
 
         // Open context menu
@@ -93,9 +104,9 @@
                 callOnMenuHide(menu);
             });
             if (self === top) return;
-            if (window.parent.$("#site_loading1").length > 0) {
-                window.parent.$("#site_loading1").click();
-            }
+            //if (window.parent.$("#site_loading1").length > 0) {
+            //    window.parent.$("#site_loading1").click();
+            //}
 
 
 

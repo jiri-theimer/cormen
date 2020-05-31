@@ -332,7 +332,7 @@ function _mainmenu_select(prefix_caret, data_menu) {
 
 
 //vyvolání kontextového menu
-function _cm(e, entity, pid) { //otevře kontextové menu
+function _cm(e, entity, pid) {
     var ctl = e.target;
 
     var w = $(window).width();
@@ -373,9 +373,7 @@ function _cm(e, entity, pid) { //otevře kontextové menu
 
     ctl.setAttribute("menu_je_inicializovano", "1");
 
-    
-
-
+   
 }
 
 
@@ -469,5 +467,85 @@ function _load_ajax_data(strHandlerUrl, params, is_async, data_type) {
     if (is_async === false) {
         return (ret);
     }
+
+}
+
+
+//vyvolání zoom info okna
+function _zoom(e, entity, pid, wtype) {     //wtype: small (550px) nebo big (1050px), výchozí je small
+    var ctl = e.target;
+    var maxwidth = $(window).width();
+    var w = 550;
+    var h = 600;
+    
+    if (typeof wtype !== "undefined") {
+        if (wtype === "big") {
+            w = 1050;
+            h = 600;
+        }
+    }
+    if (w > maxwidth) {
+        w = maxwidth;
+    }  
+
+    
+    var menuid = "zoom_okno";
+    //if (pos_left + w >= maxwidth) menuid = "cm_right2left";
+
+    if (!document.getElementById(menuid)) {
+        //div na stránce neště existuje
+        var el = document.createElement("DIV");
+        el.id = menuid;
+        el.style.display = "none";
+        el.style.height = (h+2) + "px";
+        document.body.appendChild(el);
+    }
+    
+    var url = "/" + entity + "/Index?pid=" + pid;
+    var s = "<div id='divZoomContainer' style='width:" + w + "px;' orig_w='"+w+"' orig_h='"+h+"'>";    
+    s += "<div id='divZoomHeader' style='cursor: move;height:30px;background-color:lightsteelblue;padding:3px;' ondblclick='_zoom_toggle()'>INFO</div>";
+    s += "<div id='divZoomFrame'>";
+    s += "<iframe id='frazoom' src = '" + url + "' style = 'width:100%;height: "+(h-31)+"px;' frameborder=0></iframe >";
+    s += "</div>";
+    s += "</div>";
+    
+    $("#" + menuid).html(s);
+
+    _make_element_draggable(document.getElementById("zoom_okno"), document.getElementById("divZoomFrame")); //předávání nefunguje přes jquery
+
+    if (ctl.getAttribute("menu_je_inicializovano") === "1") {
+        
+        return; // kontextové menu bylo již u tohoto elementu inicializováno - není třeba to dělat znovu.
+    }
+    
+    
+
+    $(ctl).contextMenu({
+        menuSelector: "#" + menuid,
+        menuClicker: ctl
+
+    });
+
+    ctl.setAttribute("menu_je_inicializovano", "1");
+
+
+}
+
+function _zoom_toggle() {
+    var okno = $("#divZoomContainer");
+    var offset = $(okno).offset();
+    
+    var w = $(window).width() - offset.left-10;
+    var h = $(window).height() - offset.top - 10;
+    
+    if ($(window).width() - offset.left - $(okno).width() < 30) {
+        w = $("#divZoomContainer").attr("orig_w");
+        h = $("#divZoomContainer").attr("orig_h");
+    }
+    
+    $(okno).width(w);
+    $(okno).height(h);
+    $("#divZoomFrame").height(h - 31);
+    $("#frazoom").height(h- 31);
 
 }
