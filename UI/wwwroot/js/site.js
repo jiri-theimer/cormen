@@ -496,10 +496,12 @@ function _zoom(e, entity, pid, wtype) {     //wtype: small (600px) nebo big (105
         //div na stránce neště existuje
         var el = document.createElement("DIV");
         el.id = menuid;
-        el.style.display = "none";
-        el.style.height = (h+2) + "px";
+        el.style.display = "none";        
         document.body.appendChild(el);
     }
+
+    $("#" + menuid).width(w);
+    $("#" + menuid).height(h);    
     
     var url = "/" + entity + "/Index?pid=" + pid;
     var s = "<div id='divZoomContainer' style='width:" + w + "px;' orig_w='"+w+"' orig_h='"+h+"'>";    

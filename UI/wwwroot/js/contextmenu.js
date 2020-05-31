@@ -133,16 +133,21 @@
                 menu = $(settings.menuSelector)[direction](),   //výška menu
                 position = mouse + scroll;                      //souřadnice
 
-
-            if (direction === "width") position = position + 20;
+            
+            if (direction === "width") {
+                position = position + 20;
+                
+            }
             if (direction === "height" && menu + position > $(window).height()) {
                 position = $(window).height() - menu - 10;
+                
                 return position;
-                //alert("menu: " + menu + ", position: " + position + ", direction: " + direction);
-                //$(settings.menuSelector).height()
+        
             }
 
-            if (menu === 0 || menu === win) menu = 300;
+            if (menu === 0 || menu === win) {                
+                menu = 300;
+            }
             // opening menu would pass the side of the page
             if (mouse + menu > win && menu < mouse) {
                 position -= menu;
