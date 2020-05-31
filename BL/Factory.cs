@@ -25,6 +25,7 @@ namespace BL
         private Ij04UserRoleBL _j04;
         private Ib02StatusBL _b02;
         private Io12CategoryBL _o12;
+        private Io51TagBL _o51;
         private Io23DocBL _o23;
         private IDataGridBL _grid;
         private ICBL _cbl;
@@ -197,6 +198,14 @@ namespace BL
             {
                 if (_o12 == null) _o12 = new o12CategoryBL(this);
                 return _o12;
+            }
+        }
+        public Io51TagBL o51TagBL
+        {
+            get
+            {
+                if (_o51 == null) _o51 = new o51TagBL(this);
+                return _o51;
             }
         }
         public Io23DocBL o23DocBL

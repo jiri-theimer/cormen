@@ -75,6 +75,7 @@ namespace BL
             AE_TINY("p27MszUnit", "Střediska", "Středisko");
             AE_TINY("p28Company", "Subjekty | Klienti", "Klient");
             AE_TINY("o12Category", "Kategorie", "Kategorie");
+            AE_TINY("o51Tag", "Štítky", "Štítek");
             AE_TINY("j40MailAccount", "Poštovní účty", "Poštovní účet");
 
 

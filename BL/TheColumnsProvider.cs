@@ -151,6 +151,10 @@ namespace BL
             AF("o12Category", "o12Name", "Kategorie", 1,null,"string",false,true);
             AF("o12Category", "EntityAlias", "Vazba", 1, "dbo.getEntityAlias(a.o12Entity)");
 
+            //o51 = štítek
+            AF("o51Tag", "o51Name", "Kategorie", 1, null, "string", false, true);
+            AF("o51Tag", "EntityAlias", "Vazba", 1, "dbo.getEntityAlias(a.o51Entity)");
+
             //p19=materiál
             AF("p19Material", "p19Code", "Kód suroviny", 1,null,"string",false,true);
             

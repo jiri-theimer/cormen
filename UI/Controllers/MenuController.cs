@@ -96,6 +96,7 @@ namespace UI.Controllers
                 AMI("Středisko", "javascript:_window_open('/p27/record')");
                 DIV();
                 AMI("Workflow stav", "javascript:_window_open('/b02/record')");
+                AMI("Štítek", "javascript:_window_open('/o51/record')");
                 AMI("Kategorie", "javascript:_window_open('/o12/record')");
                 AMI("Aplikační role", "javascript:_window_open('/j04/record')");
                 DIV();

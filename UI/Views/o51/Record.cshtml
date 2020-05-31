@@ -1,0 +1,67 @@
+﻿@model o51RecordViewModel
+
+@{
+    ViewData["Title"] = "Štítek";
+    Layout = "~/Views/Shared/_LayoutModal.cshtml";
+}
+@addTagHelper *, UI
+
+
+@using (Html.BeginForm())
+{
+<h4>Štítek</h4>
+@Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
+@Html.HiddenFor(m => m.Rec.pid)
+
+<div class="modal_record_container">
+
+    <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
+        <div class="col-sm-11 col-md-10">
+            <input class="form-control" asp-for="Rec.o51Name" />
+            <span asp-validation-for="Rec.o51Name" class="text-danger"></span>
+        </div>
+    </div>
+
+
+    <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Vazba:</label>
+        <div class="col-sm-11 col-md-10">
+            <select asp-for="Rec.o51Entity" class="form-control">
+                <option value=""></option>
+                <option value="j02">Lidé</option>
+                <option value="p10">Master produkty</option>
+                <option value="o23">Dokumenty</option>
+                <option value="p19">Suroviny</option>
+                <option value="p26">Stroje</option>
+                <option value="p21">Licence</option>
+                <option value="p11">Klientské produkty</option>
+                <option value="p51">Objednávky</option>
+                <option value="p51">Zakázky</option>
+            </select>
+            <span asp-validation-for="Rec.o51Entity" class="text-danger"></span>
+        </div>
+    </div>
+
+
+    <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Kód:</label>
+        <div class="col-sm-11 col-md-10">
+            <input class="form-control" asp-for="Rec.o51Code" />
+            <span asp-validation-for="Rec.o51Code" class="text-danger"></span>
+        </div>
+    </div>
+
+
+</div>
+}
+
+@Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
+
+
+<script type="text/javascript">
+
+</script>
+
+
+
