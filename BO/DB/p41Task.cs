@@ -29,19 +29,25 @@ namespace BO
         public string p41StockCode { get; set; }
 
         public DateTime p41PlanStart { get; set; }
-        public DateTime p41PlanEnd { get; set; }
-        public double DurationMinutes
+        public double p41Duration { get; set; }
+        public DateTime p41PlanEnd {
+            get
+            {
+                return this.p41PlanStart.AddMinutes(this.p41Duration);
+            }
+        }
+        public double DurationSeconds
         {
             get
             {
-                return (this.p41PlanEnd - this.p41PlanStart).TotalMinutes;
+                return (this.p41Duration * 60);
             }
         }
         public double DurationHours
         {
             get
             {
-                return (this.p41PlanEnd - this.p41PlanStart).TotalHours;
+                return (this.p41Duration/60);
             }
         }
         public DateTime? p41RealStart { get; set; }

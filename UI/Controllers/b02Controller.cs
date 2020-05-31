@@ -59,6 +59,7 @@ namespace UI.Controllers
                 v.Rec.pid = Factory.b02StatusBL.Save(c);
                 if (v.Rec.pid > 0)
                 {
+                    
                     v.SetJavascript_CallOnLoad(v.Rec.pid);
                     return View(v);
                     

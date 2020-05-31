@@ -472,10 +472,10 @@ function _load_ajax_data(strHandlerUrl, params, is_async, data_type) {
 
 
 //vyvolání zoom info okna
-function _zoom(e, entity, pid, wtype) {     //wtype: small (550px) nebo big (1050px), výchozí je small
+function _zoom(e, entity, pid, wtype) {     //wtype: small (600px) nebo big (1050px), výchozí je small
     var ctl = e.target;
     var maxwidth = $(window).width();
-    var w = 550;
+    var w = 600;
     var h = 600;
     
     if (typeof wtype !== "undefined") {
@@ -547,5 +547,70 @@ function _zoom_toggle() {
     $(okno).height(h);
     $("#divZoomFrame").height(h - 31);
     $("#frazoom").height(h- 31);
+
+}
+
+function _string_to_date(s) {
+    s = s.trim();
+    s = s.replace(" ", ".").replace(":", ".");
+    var arr = s.split(".");
+    if (arr.length > 3) {        
+        return (new Date(parseInt(arr[2]), parseInt(arr[1])-1, parseInt(arr[0]), parseInt(arr[3]), parseInt(arr[4])));
+    }
+    if (arr.length===3) {
+        return (new Date(arr[2], arr[1], arr[0]));
+    }
+    return new Date();
+}
+
+
+function _date_add(date, interval, units) {
+    if (!(date instanceof Date))
+        return undefined;
+    var ret = new Date(date); //don't change original date
+    var checkRollover = function () { if (ret.getDate() != date.getDate()) ret.setDate(0); };
+    switch (String(interval).toLowerCase()) {
+        case 'year': ret.setFullYear(ret.getFullYear() + units); checkRollover(); break;
+        case 'quarter': ret.setMonth(ret.getMonth() + 3 * units); checkRollover(); break;
+        case 'month': ret.setMonth(ret.getMonth() + units); checkRollover(); break;
+        case 'week': ret.setDate(ret.getDate() + 7 * units); break;
+        case 'day': ret.setDate(ret.getDate() + units); break;
+        case 'hour': ret.setTime(ret.getTime() + units * 3600000); break;
+        case 'minute': ret.setTime(ret.getTime() + units * 60000); break;
+        case 'second': ret.setTime(ret.getTime() + units * 1000); break;
+        default: ret = undefined; break;
+    }
+    return ret;
+}
+
+function _format_number(val) {
+    if (val === null) {
+        return ("");
+    }
+
+    var s = val.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+    return (s);
+}
+function _format_number_int(val) {
+    if (val === null) {
+        return ("");
+    }
+    var s = val.toFixed(0).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+    return (s);
+}
+
+function _format_date(d, is_include_time) {
+    
+    var month = '' + (d.getMonth() + 1);
+    var day = '' + d.getDate();
+    var year = d.getFullYear();
+    var hour = d.getHours();
+    var minute = d.getMinutes();
+
+    if (is_include_time === true) {
+        return (day + "." + month + "." + year + " " + hour + ":" + minute);
+    } else {
+        return (day + "." + month + "." + year);
+    }
 
 }

@@ -70,7 +70,7 @@ namespace UI.Controllers
             }
 
             
-            v.Toolbar = new MyToolbarViewModel(v.Rec);            
+            v.Toolbar = new MyToolbarViewModel(v.Rec) { IsApply = true };            
             if (isclone) {
                 v.Toolbar.MakeClone();
                 v.Rec.p28Code = Factory.CBL.EstimateRecordCode("p28");
@@ -81,7 +81,7 @@ namespace UI.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Record(Models.p28RecordViewModel v)
+        public IActionResult Record(Models.p28RecordViewModel v,bool applyonly)
         {
             if (ModelState.IsValid)
             {
@@ -115,14 +115,17 @@ namespace UI.Controllers
                 v.Rec.pid = Factory.p28CompanyBL.Save(c, v.FirstPerson);
                 if (v.Rec.pid > 0)
                 {
-
+                    if (applyonly == true)
+                    {
+                        return Record(v.Rec.pid,false);
+                    }
                     v.SetJavascript_CallOnLoad(v.Rec.pid,"p28");
                     return View(v);                    
                 }
                 
                
             }
-            v.Toolbar = new MyToolbarViewModel(v.Rec);
+            v.Toolbar = new MyToolbarViewModel(v.Rec) { IsApply = true };
           
             this.Notify_RecNotSaved();
             return View(v);

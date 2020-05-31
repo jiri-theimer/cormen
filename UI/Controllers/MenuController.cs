@@ -165,7 +165,13 @@ namespace UI.Controllers
                 }
             }
 
-            
+            if (prefix == "p28" || prefix == "j02" || prefix == "p10" || prefix == "p13" || prefix == "p26" || prefix == "p21" || prefix == "p51" || prefix == "p41" || prefix=="p11" || prefix=="p12" || prefix=="o23")
+            {
+                DIV();
+                AMI("Info", string.Format("javascript:_window_open('/{0}/Index?pid={1}')", prefix, pid));
+            }
+
+
             return FlushResult_UL();
         }
 

@@ -45,11 +45,13 @@
             <div class="col-sm-3 col-md-3">
                 <mydate asp-for="Rec.p41PlanStart" include-time="true"></mydate>
             </div>
-            <label class="col-sm-1 col-md-1 col-form-label">Dokončení:</label>
-            <div class="col-sm-3 col-md-3">
-                <mydate asp-for="Rec.p41PlanEnd" include-time="true"></mydate>
+            <label class="col-sm-1 col-md-1 col-form-label">Trvá minut:</label>
+            <div class="col-sm-2 col-md-2">
+                <mynumber asp-for="Rec.p41Duration" decimal-digits="3"></mynumber>
             </div>
-
+            <div class="col-sm-2 col-md-2">
+                <span id="Rec_p41PlanEnd" class="form-control bg-light">@Model.Rec.p41PlanEnd</span>
+            </div>
 
         </div>
 
@@ -104,6 +106,16 @@
     $("#cmdMore").click(function () {
         $("#divOrder").slideToggle();
     });
+
+
+    $("[for-id=Rec_p41Duration]").blur(function () {
+        var n = $("[for-id=Rec_p41Duration]").val();
+        var d = _string_to_date($("#Rec_p41PlanStart").val());
+        d = _date_add(d, "minute", parseFloat(n));
+        $("#Rec_p41PlanEnd").text(_format_date(d,true));
+        
+    });
+
 
 
     function hardrefresh(pid, flag) {

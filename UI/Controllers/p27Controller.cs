@@ -10,7 +10,20 @@ namespace UI.Controllers
     public class p27Controller : BaseController
     {
 
-        
+        public IActionResult Index(int pid)
+        {
+            var v = new Models.p27PreviewViewModel();
+            v.Rec = Factory.p27MszUnitBL.Load(pid);
+            if (v.Rec == null)
+            {
+                return RecNotFound(v);
+            }
+            else
+            {                
+                return View(v);
+            }
+
+        }
         public IActionResult Record(int pid, bool isclone)
         {
             if (!this.TestIfUserEditor(true, true))

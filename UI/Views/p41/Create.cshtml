@@ -33,7 +33,7 @@
             <div class="col-3">
                 <mydate asp-for="@Model.Date0" include-time="true"></mydate>
             </div>
-            <div class="col-3">
+            <div class="col-3" style="display:none;">
                 <button class="btn btn-primary" type="button" onclick="simulation_p51()">Navrhnout zakázky pro celou objednávku</button>
             </div>
             <div class="col-3">
@@ -146,11 +146,11 @@
                     <div class="col-sm-3 col-md-3">
                         <mycombo entity="p27MszUnit" view-flag="2" asp-for="Tasks[i].p27ID" selectedtext="Tasks[i].p27Name"></mycombo>
                     </div>
-                    <label class="col-sm-1 col-md-2 col-form-label">Množství kg:</label>
-                    <div class="col-sm-3 col-md-3">
+                    <label class="col-sm-1 col-md-1 col-form-label">Množství kg:</label>
+                    <div class="col-sm-2 col-md-2">
                         <mynumber asp-for="Tasks[i].p41PlanUnitsCount"></mynumber>
                     </div>
-                    <div class="col-sm-2 col-md-2">
+                    <div class="col-sm-4 col-md-4">
                         <input type="text" class="form-control" asp-for="Tasks[i].p41Code" />
                     </div>
                 </div>
@@ -159,14 +159,14 @@
                     <div class="col-sm-3 col-md-3">
                         <mydate asp-for="Tasks[i].p41PlanStart" include-time="true"></mydate>
                     </div>
-                    <label class="col-sm-1 col-md-2 col-form-label">Plán dokončení:</label>
-                    <div class="col-sm-3 col-md-3">
-                        <mydate asp-for="Tasks[i].p41PlanEnd" include-time="true"></mydate>
-                    </div>
                     <label class="col-sm-1 col-md-1 col-form-label">Trvá minut:</label>
-                    <div class="col-sm-1 col-md-1">
-                        <span class="form-control bg-light">@(BO.BAS.Number2String(Model.Tasks[i].DurationMinutes))</span>
-                        <input type="hidden" asp-for="@Model.Tasks[i].DurationMinutes" />
+                    <div class="col-sm-2 col-md-2">
+                        <mynumber asp-for="Tasks[i].p41Duration" decimal-digits="3"></mynumber>
+                    </div>
+                    <label class="col-sm-2 col-md-2 col-form-label">Plán dokončení:</label>
+                    <div class="col-sm-2 col-md-2">
+                        <span class="form-control bg-light">@(BO.BAS.ObjectDateTime2String(Model.Tasks[i].p41PlanEnd))</span>
+                        
                     </div>
 
                 </div>

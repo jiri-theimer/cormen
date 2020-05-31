@@ -15,6 +15,7 @@ namespace UI.Models
         public bool IsRefresh { get; set; }
         public bool IsClose { get; set; } = true;
         public bool IsDelete { get; set; }
+        public bool IsApply { get; set; } = false;
         public bool IsNew { get; set; }
         public bool IsClone { get; set; }
         public bool IsToArchive { get; set; }

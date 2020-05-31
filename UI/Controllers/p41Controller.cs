@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -161,7 +162,7 @@ namespace UI.Controllers
                 {
                     c.p41PlanStart = DateTime.Now.AddHours(1);
                 }
-                c.p41PlanEnd = Convert.ToDateTime(c.p41PlanStart).AddHours(1);
+                c.p41Duration = 60;
 
                 if (p27id > 0)
                 {
@@ -269,7 +270,7 @@ namespace UI.Controllers
                 c.p41StockCode = v.Rec.p41StockCode;
 
                 c.p41PlanStart = v.Rec.p41PlanStart;
-                c.p41PlanEnd = v.Rec.p41PlanEnd;
+                c.p41Duration = v.Rec.p41Duration;
                 c.p41PlanUnitsCount = v.Rec.p41PlanUnitsCount;
 
 

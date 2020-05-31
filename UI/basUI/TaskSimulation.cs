@@ -105,7 +105,7 @@ namespace UI
                     double dur = _f.p12ClientTpvBL.Simulate_Total_Duration(cP11.p12ID, rec.p41PlanUnitsCount, kotel.pid);
                     dat0 = kotel.DateInsert;
                     rec.p41PlanStart = dat0;
-                    rec.p41PlanEnd = rec.p41PlanStart.AddSeconds(dur*60);
+                    rec.p41Duration = dur;
                    
                     rec.p41Code = _f.p41TaskBL.EstimateTaskCode(cP52.p52Code,x);
                     while(strLastCode == rec.p41Code)

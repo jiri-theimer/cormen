@@ -25,6 +25,14 @@
                     <button type="submit" id="cmdSaveMyToolbar" action="@Model.ControllorName" class="btn btn-success">Uložit změny</button>
 
                 </div>
+                @if (Model.IsApply)
+                {
+                    <div class="btn-group">
+                        <button type="submit" id="cmdApply" action="@Model.ControllorName" asp-route-applyonly="true" class="btn btn-success">Uložit a zůstat</button>
+
+                    </div>
+                }
+
 
                 @if (Model.IsDelete)
                 {
@@ -57,7 +65,7 @@
                         <button type="button" onclick="toolbar_handle_archive(2)" class="btn btn-warning">Obnovit z archivu</button>
                     </div>
                 }
-               
+
                 @if (Model.IsClose)
                 {
                     <div class="btn-group">

@@ -62,7 +62,7 @@ namespace UI.Controllers
             }
 
             
-            v.Toolbar = new MyToolbarViewModel(v.Rec);            
+            v.Toolbar = new MyToolbarViewModel(v.Rec) { IsApply = true };            
             if (isclone) {
                 v.Toolbar.MakeClone();
                 for (var i = 0; i < v.lisP14.Count(); i++)
@@ -86,7 +86,7 @@ namespace UI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Record(Models.p13RecordViewModel v,string rec_oper,string rec_guid)
+        public IActionResult Record(Models.p13RecordViewModel v,string rec_oper,string rec_guid, bool applyonly)
         {
             if (rec_oper != null)
             {
@@ -103,7 +103,7 @@ namespace UI.Controllers
 
                 }
 
-                v.Toolbar = new MyToolbarViewModel(v.Rec);
+                v.Toolbar = new MyToolbarViewModel(v.Rec) { IsApply = true };
 
                 return View(v);
             }
@@ -132,13 +132,17 @@ namespace UI.Controllers
                 
                 if (v.Rec.pid > 0)
                 {
+                    if (applyonly == true)
+                    {
+                        return Record(v.Rec.pid, false);
+                    }
                     v.SetJavascript_CallOnLoad(v.Rec.pid);
                     return View(v);
                 }
                 
                 
             }
-            v.Toolbar = new MyToolbarViewModel(v.Rec);
+            v.Toolbar = new MyToolbarViewModel(v.Rec) { IsApply = true };
            
             this.Notify_RecNotSaved();
             return View(v);
