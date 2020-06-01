@@ -8,14 +8,22 @@
 @addTagHelper *, UI
 
 <div class="bg-light" style="padding:10px;">
-    <button id="cmdOK" onclick="ok()" class="btn btn-success">OK</button>
-    <button id="cmdClose" onclick="_window_close()" class="btn btn-light">Zavřít</button>
+    <button type="button" onclick="ok()" class="btn btn-success">OK</button>
+    <button type="button" onclick="stitky_zoom_close()" class="btn btn-light">Zavřít</button>
 
-    <button id="cmdRestore2Factory" onclick="restore2factory()" class="btn btn-light" style="float:right;">Nahodit Grid do továrního stavu</button>
+    
 
 </div>
 
 <mycheckboxlist asp-for="@Model.SelectedO51IDs" textfield="o51Name" valuefield="pid" groupfield="o53Name" datasource="@Model.ApplicableTags"></mycheckboxlist>
 
 
+<script type="text/javascript">
+    function stitky_zoom_close(){
+        window.parent.document.getElementById("zoom_okno").style.display = "none";
+    }
+    function ok() {
 
+        stitky_zoom_close();
+    }
+</script>
