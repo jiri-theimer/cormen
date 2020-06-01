@@ -35,6 +35,8 @@ namespace BL
                     return 100;                    
                 case "num0":
                     return 75;
+                case "bool":
+                    return 75;
                 default:
                     return 0;
             }
@@ -217,7 +219,7 @@ namespace BL
             onecol=AF("p14MasterOper", "p14OperNum", "Číslo Oper", 2, "RIGHT('000'+convert(varchar(10),a.p14OperNum),3)");
             onecol.FixedWidth = 70;
 
-            AF("p14MasterOper", "p14Name", "Name", 1);
+            AF("p14MasterOper", "p14Name", "Název", 1);
             AF("p14MasterOper", "p14OperParam", "Parameter", 2, null, "num0");
 
             AF("p14MasterOper", "p14UnitsCount", "Množství kg", 2, null, "num", true);
@@ -253,7 +255,8 @@ namespace BL
 
             //p15 = technologické operace klientské receptury
             AF("p15ClientOper", "p15RowNum", "Číslo řádku", 1, null, "num0");            
-            AF("p15ClientOper", "p15OperNum", "Číslo Oper", 2, "RIGHT('000'+convert(varchar(10),a.p15OperNum),3)");
+            onecol=AF("p15ClientOper", "p15OperNum", "Číslo Oper", 2, "RIGHT('000'+convert(varchar(10),a.p15OperNum),3)");
+            onecol.FixedWidth = 70;
 
             AF("p15ClientOper", "p15Name", "Název Oper", 1);
             AF("p15ClientOper", "p15OperParam", "Parametr", 2, null, "num0");
@@ -289,8 +292,9 @@ namespace BL
             AppendTimestamp("p41Task");
 
             //p44 = plán výrobních operací
-            AF("p44TaskOperPlan", "p44RowNum", "RowNum", 1, null, "num0");
-            AF("p44TaskOperPlan", "p44OperNum", "OperNum", 2);
+            AF("p44TaskOperPlan", "p44RowNum", "Číslo řádku", 1, null, "num0");
+            onecol=AF("p44TaskOperPlan", "p44OperNum", "Číslo Oper", 2, "RIGHT('000'+convert(varchar(10),a.p44OperNum),3)");
+            onecol.FixedWidth = 70;
 
             AF("p44TaskOperPlan", "p44StartRounded", "Start", 1, "DATEADD(minute, DATEDIFF(minute, 0,DATEADD(second, 30 - DATEPART(second, a.p44Start + '00:00:30.000'),a.p44Start)), 0)", "time");
             AF("p44TaskOperPlan", "p44EndRounded", "Stop", 1, "DATEADD(minute, DATEDIFF(minute, 0,DATEADD(second, 30 - DATEPART(second, a.p44End + '00:00:30.000'),a.p44End)), 0)", "time");
@@ -300,15 +304,15 @@ namespace BL
             AF("p44TaskOperPlan", "p44End", "Stop (D+HM)", 0, null, "datetime");
             AF("p44TaskOperPlan", "p44Start", "Start (D+HMS)", 0, null, "datetimesec");
             AF("p44TaskOperPlan", "p44End", "Stop (D+HMS)", 0, null, "datetimesec");
-            AF("p44TaskOperPlan", "p44TotalDurationOperMin", "TotalDuration", 2, null, "num", true);
+            AF("p44TaskOperPlan", "p44TotalDurationOperMin", "Celk. Čas", 2, null, "num", true);
 
-            AF("p44TaskOperPlan", "p44Name", "Name", 1);
-            AF("p44TaskOperPlan", "p44OperParam", "OperPar", 2, null, "num0");
+            AF("p44TaskOperPlan", "p44Name", "Název Oper", 1);
+            AF("p44TaskOperPlan", "p44OperParam", "Parametr", 2, null, "num0");
 
-            AF("p44TaskOperPlan", "p44MaterialUnitsCount", "MaterialUnitsCount", 2, null, "num", true);
-            AF("p44TaskOperPlan", "p44DurationPreOper", "DurationPreOper", 2, null, "num0", true);
-            AF("p44TaskOperPlan", "p44DurationOper", "DurationOper", 2, null, "num4", true);
-            AF("p44TaskOperPlan", "p44DurationPostOper", "DurationPostOper", 2, null, "num0", true);
+            AF("p44TaskOperPlan", "p44MaterialUnitsCount", "Množství", 2, null, "num", true);
+            AF("p44TaskOperPlan", "p44DurationPreOper", "Před Oper. Čas", 2, null, "num0", true);
+            AF("p44TaskOperPlan", "p44DurationOper", "Oper. Čas", 2, null, "num4", true);
+            AF("p44TaskOperPlan", "p44DurationPostOper", "Po Oper. Čas", 2, null, "num0", true);
 
 
 
