@@ -24,7 +24,28 @@ namespace BL
             return _lis.Where(p => p.TableName == strTableName).First();
 
         }
-        
+        public static BO.TheEntity ByIntPrefix(int intPrefix)
+        {
+            if (intPrefix==0) return null;
+            TestPallete();
+            string s = intPrefix.ToString().Substring(0, 1);
+            string t = intPrefix.ToString().Substring(1, 2);
+            switch (s)
+            {
+                case "1":
+                    s = "j";
+                    break;
+                case "2":
+                    s = "o";
+                    break;
+                case "3":
+                    s = "p";
+                    break;
+            }
+            return ByPrefix(s + t);
+
+        }
+
 
         private static void TestPallete()
         {
@@ -68,6 +89,7 @@ namespace BL
 
             AE("x40MailQueue", "Outbox", "Poštovní zpráva", "x40MailQueue a", null,"a.x40ID DESC");
 
+          
 
             AE_TINY("j04UserRole", "Aplikační role", "Aplikační role");
             AE_TINY("b02Status", "Workflow stavy", "Workflow stav");
@@ -75,7 +97,8 @@ namespace BL
             AE_TINY("p27MszUnit", "Střediska", "Středisko");
             AE_TINY("p28Company", "Subjekty | Klienti", "Klient");
             AE_TINY("o12Category", "Kategorie", "Kategorie");
-            AE_TINY("o51Tag", "Štítky", "Štítek");
+            AE_TINY("o51Tag", "Štítky", "Štítek");            
+            AE_TINY("o53TagGroup", "Skupiny štítků", "Skupina štítků");
             AE_TINY("j40MailAccount", "Poštovní účty", "Poštovní účet");
 
 
@@ -224,6 +247,10 @@ namespace BL
                     break;
                 case "j40":
                     lis.Add(getREL("j02Person", "j40_owner", "Vlastník záznamu", getOwnerSql("j40")));
+                    break;
+                case "o51":                    
+                    lis.Add(getREL("o53TagGroup", "o51_o53", "Skupina", "LEFT OUTER JOIN o53TagGroup o51_o53 ON a.o53ID=o51_o53.o53ID"));
+                    //lis.Add(getREL("j02Person", "o51_owner", "Vlastník záznamu", getOwnerSql("o51")));
                     break;
                 default:
                     break;

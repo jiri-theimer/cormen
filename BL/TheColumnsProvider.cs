@@ -152,8 +152,11 @@ namespace BL
             AF("o12Category", "EntityAlias", "Vazba", 1, "dbo.getEntityAlias(a.o12Entity)");
 
             //o51 = štítek
-            AF("o51Tag", "o51Name", "Kategorie", 1, null, "string", false, true);
-            AF("o51Tag", "EntityAlias", "Vazba", 1, "dbo.getEntityAlias(a.o51Entity)");
+            AF("o51Tag", "o51Name", "Štítek", 1, null, "string", false, true);            
+            AF("o51Tag", "o51Entities", "Vazba", 1);
+            //AF("o51Tag", "EntityAlias", "Vazba", 1, "dbo.getEntityAlias(a.o51Entity)");
+
+            AF("o53TagGroup", "o53Name", "Skupina", 1, null, "string", false, true);
 
             //p19=materiál
             AF("p19Material", "p19Code", "Kód suroviny", 1,null,"string",false,true);
@@ -478,6 +481,9 @@ namespace BL
                     ret.Add(InhaleColumn4Relation("p51_p28", "p28Company", "p28Name", rels, bolComboColumns));
                     ret.Add(InhaleColumn4Relation("p11_p20", "p20Unit", "p20Code", rels, bolComboColumns));
                     ret.Add(InhaleColumn4Relation("p52_p51", "p51Order", "p51DateDelivery", rels, bolComboColumns));
+                    break;
+                case "o51":
+                    ret.Add(InhaleColumn4Relation("o51_o53", "o53TagGroup", "o53Name", rels, bolComboColumns));
                     break;
             }
 

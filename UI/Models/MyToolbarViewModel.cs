@@ -20,7 +20,7 @@ namespace UI.Models
         public bool IsClone { get; set; }
         public bool IsToArchive { get; set; }
         public bool IsFromArchive { get; set; }
-        public bool AllowArchive { get; set; } = true;
+        private bool _AllowArchive = true;
         public string Message { get; set; }
         public string ArchiveFlag { get; set; }
         public string BG;
@@ -34,6 +34,18 @@ namespace UI.Models
         public MyToolbarViewModel()
         {
 
+        }
+
+        public bool AllowArchive {
+            get
+            {
+                return _AllowArchive;
+            }
+            set
+            {
+                _AllowArchive = value;
+                RefreshState();
+            }
         }
 
         public void MakeClone()

@@ -37,7 +37,13 @@ namespace BO
             }
         }
 
+        public int IntPrefix
+        {
+            get
+            {
+                return BO.BAS.InInt(_Prefix.Replace("p","3").Replace("j","1").Replace("o","2"));
+            }
+        }
 
-      
     }
 }

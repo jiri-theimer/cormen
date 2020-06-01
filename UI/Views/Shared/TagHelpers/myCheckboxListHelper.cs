@@ -23,6 +23,9 @@ namespace UI.Views.Shared.TagHelpers
         [HtmlAttributeName("textfield")]
         public string TextField { get; set; }
 
+        [HtmlAttributeName("groupfield")]
+        public string GroupField { get; set; }
+
         [HtmlAttributeName("datasource")]
         public ModelExpression DataSource { get; set; }
 
@@ -38,6 +41,8 @@ namespace UI.Views.Shared.TagHelpers
             //var strControlID = this.For.Name.Replace(".", "_");
             var sb = new System.Text.StringBuilder();
             string strSeletedValues = "";
+            string strLastGroup = "";
+            int x = 0;
             if (lisModel != null)
             {
                 strSeletedValues = String.Join(",", lisModel);
@@ -47,7 +52,22 @@ namespace UI.Views.Shared.TagHelpers
             foreach (var item in lisDatasource)
             {
                 string strText = DataSource.Metadata.ElementMetadata.Properties[this.TextField].PropertyGetter(item).ToString();
-
+                string strGroup = "";
+                if (this.GroupField !=null)
+                {
+                   strGroup = DataSource.Metadata.ElementMetadata.Properties[this.GroupField].PropertyGetter(item).ToString();
+                   if (strGroup != strLastGroup)
+                    {
+                        sb.AppendLine("<li>");
+                        if (x > 0)
+                        {
+                            sb.Append("<hr style='margin-top:0px;padding-top:0px;'>");
+                        }
+                        sb.AppendLine("<strong>"+strGroup+"</strong>");
+                        sb.AppendLine("</li>");
+                    }
+                }
+                
                 int intValue = Convert.ToInt32(DataSource.Metadata.ElementMetadata.Properties[this.ValueField].PropertyGetter(item));
                 string strChecked = "";                
                 if (lisModel !=null && lisModel.Where(p => p == intValue).Count() > 0)
@@ -58,7 +78,7 @@ namespace UI.Views.Shared.TagHelpers
                 
                 sb.AppendLine("<li>");
                 sb.Append(string.Format("<input type='checkbox' id='chk{0}_{1}' onclick='mycheckboxlist_checked(this,\"{0}_{1}\",{1})' {2} />", this.For.Name, intValue,strChecked));
-                sb.Append(string.Format("<label for='chk{0}_{1}'>{2}</label>", this.For.Name, intValue, strText));
+                sb.Append(string.Format("<label style='min-width:200px;' for='chk{0}_{1}'>{2}</label>", this.For.Name, intValue, strText));
                 if (strChecked == "checked")
                 {
                     sb.Append(string.Format("<input type='hidden' id='{0}_{1}' name='{0}' value='{1}' />", this.For.Name, intValue));
@@ -73,6 +93,8 @@ namespace UI.Views.Shared.TagHelpers
                 
 
                 sb.AppendLine("</li>");
+                strLastGroup = strGroup;
+                x += 1;
             }
             sb.AppendLine("</ul>");
             

@@ -125,9 +125,7 @@ namespace UI.Controllers
                     AMI("Zkopírovat do nové zprávy", string.Format(string.Format("javascript: _window_open('/Mail/SendMail?x40id={0}')",pid)));
                     break;
                 case "j90":
-                case "j92":
-                case "p14":
-                case "p15":
+                case "j92":              
                 case "p44":
                     AMI("Záznam bez nabídky kontextového menu", "");
                     break;
@@ -158,7 +156,11 @@ namespace UI.Controllers
                     DIV();
                     AMI("Z položky objednávky naplánovat výrobní zakázky", string.Format("javascript:_window_open('/p41/Create?p52id={0}')", pid));
                 }
-
+                if (prefix == "p13")
+                {                    
+                    DIV();
+                    AMI("Přidat řádek technologické operace", string.Format("javascript:_window_open('/p14/Record?p13id={0}')", pid));
+                }
                 if (prefix == "p28" || prefix == "j02" || prefix == "p10" || prefix == "p13" || prefix == "p26" || prefix == "p21" || prefix == "p51" || prefix == "p41")
                 {
                     DIV();

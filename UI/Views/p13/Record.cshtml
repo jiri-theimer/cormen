@@ -46,132 +46,7 @@
 
 
     </div>
-    <hr />
-    <button type="button" class="btn btn-primary" onclick="p14_add_row()">Přidat řádek</button>
-    <table class="table table-sm table-hover" style="table-layout: fixed;min-width:1000px;">
-        <tr style="display:table-row;">
-            <th style="width:70px;">Row<br />Num</th>
-            <th style="width:70px;">Oper<br />Num</th>
-            <th style="width:130px;">Oper<br />Code</th>
-            <th>Name</th>
-            <th style="width:70px;">Oper<br />Par</th>
-
-            <th>Surovina</th>
-            <th style="width:80px;">Units<br />Count</th>
-            <th style="width:70px;">Duration<br />PreOper</th>
-            <th style="width:80px;">Duration<br />Oper</th>
-            <th style="width:70px;">Duration<br />PostOper</th>
-            <th style="width:30px;"></th>
-            <th style="width:30px;"></th>
-            <th style="width:30px;"></th>
-        </tr>
-        @{
-            int rowindex = -1;
-        }
-        @foreach (var c in Model.lisP14.OrderBy(p => p.p14RowNum))
-        {
-            rowindex += 1;
-            int i = 0;
-            @for (var x = 0; x < Model.lisP14.Count(); x++)
-            {
-                if (c.TempRecGuid == Model.lisP14[x].TempRecGuid)
-                {
-                    i = x;
-                }
-            }
-
-            <tr style="display:@Model.lisP14[i].TempRecDisplay">
-                <td>
-                    <input type="text" class="form-control px-1 rownum" id="rownumber_@rowindex" asp-for="@Model.lisP14[i].p14RowNum" />
-                    <input type="hidden" asp-for="@Model.lisP14[i].p14ID" />
-                    <input type="hidden" id="@Model.lisP14[i].TempRecGuid" asp-for="@Model.lisP14[i].TempRecDisplay" />
-                    <input type="hidden" asp-for="@Model.lisP14[i].TempRecGuid" />
-                </td>
-                <td>
-                    <input type="text" class="form-control px-1" asp-for="@Model.lisP14[i].p14OperNum" />
-                </td>
-                <td style="background-color:lightgoldenrodyellow;">
-                    <mycombo entity="p18OperCode" view-flag="2" asp-for="@Model.lisP14[i].p18ID" selectedtext="@Model.lisP14[i].OperCode" param1="@Model.Rec.p25ID" event_after_changevalue="p18id_change(#pid#,@(i))"></mycombo>
-                </td>
-                <td>
-                    <input type="text" class="form-control px-1" asp-for="@Model.lisP14[i].p14Name" />
-                </td>
-                <td>
-                    <input type="number" class="form-control px-1" step="0" asp-for="@Model.lisP14[i].p14OperParam" />
-                </td>
-                <td style="background-color:lightgoldenrodyellow;">
-                    <mycombo entity="p19Material" asp-for="@Model.lisP14[i].p19ID" selectedtext="@Model.lisP14[i].Material" view-flag="2"></mycombo>
-                </td>
-
-                <td>
-                    <mynumber asp-for="@Model.lisP14[i].p14UnitsCount" decimal-digits="4"></mynumber>
-                </td>
-                <td>
-                    <mynumber asp-for="@Model.lisP14[i].p14DurationPreOper" decimal-digits="0"></mynumber>
-
-                </td>
-                <td>
-                    <mynumber asp-for="@Model.lisP14[i].p14DurationOper" decimal-digits="3"></mynumber>
-
-                </td>
-                <td>
-                    <mynumber asp-for="@Model.lisP14[i].p14DurationPostOper" decimal-digits="0"></mynumber>
-
-                </td>
-
-                <td>
-                    @if (rowindex > 0)
-                    {
-                        <button type="button" class="btn btn-primary" onclick="p14_up_row(@rowindex)">
-                            ↑
-                        </button>
-                    }
-
-                </td>
-                <td>
-                    @if (rowindex < Model.lisP14.Count() - 1)
-                    {
-                        <button type="button" class="btn btn-primary" onclick="p14_down_row(@rowindex)">
-                            ↓
-                        </button>
-                    }
-
-                </td>
-                <td>
-                    <button type="button" class="btn btn-danger" onclick="p14_delete_row('@Model.lisP14[i].TempRecGuid')">x</button>
-
-                </td>
-
-            </tr>
-        }
-        <tfoot>
-            <tr>
-                <th colspan="2">
-                    <button type="button" class="btn btn-sm btn-secondary" onclick="refresh()">Obnovit</button>
-                </th>
-              
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th>
-                    @(BO.BAS.Number2String(Model.lisP14.Where(p=>p.TempRecDisplay != "none").Sum(p=>p.p14UnitsCount)))
-                </th>
-                <th>
-                    @(BO.BAS.Number2String(Model.lisP14.Where(p => p.TempRecDisplay != "none").Sum(p=>p.p14DurationPreOper)))
-                </th>
-                <th>
-                    @(BO.BAS.Number2String(Model.lisP14.Where(p => p.TempRecDisplay != "none").Sum(p=>p.p14DurationOper)))
-                </th>
-                <th>
-                    @(BO.BAS.Number2String(Model.lisP14.Where(p => p.TempRecDisplay != "none").Sum(p=>p.p14DurationPostOper)))
-                </th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-        </tfoot>
-    </table>
+    
 </form>
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
@@ -191,48 +66,7 @@
     });
 
 
-    function refresh() {
-        form1.action = "/p13/Record?rec_oper=postback";
-        form1.submit();
-
-    }
-    function p14_add_row() {
-        form1.action = "/p13/Record?rec_oper=add";
-        form1.submit();
-    }
-    function p14_delete_row(guid) {
-        $("#" + guid).val("none");
-        form1.action = "/p13/Record?rec_oper=postback";
-        form1.submit();
-    }
-    function p14_down_row(rowindex) {
-        var x = 1;
-        $(".rownum").each(function () {
-            $(this).val(x);
-            x += 1;
-        });
-
-        x = parseInt($("#rownumber_" + (rowindex + 1)).val());
-        $("#rownumber_" + rowindex).val(x);
-        $("#rownumber_" + (rowindex + 1)).val(x - 1);
-
-        form1.action = "/p13/Record?rec_oper=postback";
-        form1.submit();
-    }
-    function p14_up_row(rowindex) {
-        var x = 1;
-        $(".rownum").each(function () {
-            $(this).val(x);
-            x += 1;
-        });
-
-        x = parseInt($("#rownumber_" + (rowindex - 1)).val());
-        $("#rownumber_" + rowindex).val(x);
-        $("#rownumber_" + (rowindex - 1)).val(x + 1);
-
-        form1.action = "/p13/Record?rec_oper=postback";
-        form1.submit();
-    }
+    
 
     function p25id_change(p25id) {
         form1.action = "/p13/Record?rec_oper=postback";
@@ -240,42 +74,7 @@
 
     }
 
-    function p18id_change(p18id, index) {
-
-        $.post("/p13/load_p18_record", { p18id: p18id }, function (data) {
-
-            $("#lisP14_" + index + "__p14Name").val(data.p18Name);
-            var s = "";
-            if (data.p18UnitsCount > 0) {
-                s = data.p18UnitsCount.toString().replace(".", ",");
-                $("#lisP14_" + index + "__p14UnitsCount").val(s);
-                $("[for-id=lisP14_" + index + "__p14UnitsCount]").val(s);
-            }
-            if (data.p18DurationPreOper > 0) {
-                s = data.p18DurationPreOper.toString().replace(".", ",");
-                $("#lisP14_" + index + "__p14DurationPreOper").val(s);
-                $("[for-id=lisP14_" + index + "__p14DurationPreOper]").val(s);
-            }
-            if (data.p18DurationOper > 0) {
-                s = data.p18DurationOper.toString().replace(".", ",");
-                $("#lisP14_" + index + "__p14DurationOper").val(s);
-                $("[for-id=lisP14_" + index + "__p14DurationOper]").val(s);
-            }
-            if (data.p18DurationPostOper > 0) {
-                s = data.p18DurationPostOper.toString().replace(".", ",");
-                $("#lisP14_" + index + "__p14DurationPostOper").val(s);
-                $("[for-id=lisP14_" + index + "__p14DurationPostOper]").val(s);
-            }
-            if (data.p19ID > 0) {
-                $("#cmdCombolisP14_" + index + "__p19ID").text(data.p19Code + " - " + data.p19Name);
-                $("#lisP14_" + index + "__p19ID").val(data.p19ID);
-                $("[data-id=text_lisP14_" + index + "__p19ID]").val(data.p19Code + " - " + data.p19Name);
-
-                document.getElementsByName("lisP14[" + index + "].Material").value = data.p19Code + " - " + data.p19Name;
-            }
-
-        });
-    }
+    
 
 </script>
 

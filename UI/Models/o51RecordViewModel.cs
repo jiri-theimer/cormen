@@ -9,6 +9,9 @@ namespace UI.Models
     {
         public BO.o51Tag Rec { get; set; }
 
+        public bool IsAllEntities { get; set; }
+        public List<BO.TheEntity> ApplicableEntities { get; set; }
+        public List<int> SelectedEntities { get; set; }
         public MyToolbarViewModel Toolbar { get; set; }
     }
 }

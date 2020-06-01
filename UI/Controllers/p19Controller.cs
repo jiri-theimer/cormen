@@ -50,6 +50,8 @@ namespace UI.Controllers
                 }
 
             }
+            v.TagIds = "1,2,3";
+            v.TagNames = "první,druhý,třetí";
 
             v.Toolbar = new MyToolbarViewModel(v.Rec);
             if (isclone) { v.Toolbar.MakeClone(); v.Rec.p19Code = Factory.CBL.EstimateRecordCode("p19"); }

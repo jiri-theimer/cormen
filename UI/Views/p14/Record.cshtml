@@ -1,0 +1,134 @@
+﻿@model p14RecordViewModel
+
+@{
+    ViewData["Title"] = "Record";
+    Layout = "~/Views/Shared/_LayoutModal.cshtml";
+    if (Model.Rec == null || Model.RecP13==null) return;
+}
+
+@addTagHelper *, UI
+
+
+<form id="form1" asp-controller="p14" asp-action="Record" method="POST">
+    <h4>Technologická operace Master receptury</h4>
+    @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
+    @Html.HiddenFor(m => m.Rec.pid)
+
+    <input type="hidden" asp-for="Rec.p13ID" />
+
+    <div class="modal_record_container">
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label" title="RowNum">Číslo řádku (row-num):</label>
+            <div class="col-sm-5 col-md-4">
+                <mynumber asp-for="Rec.p14RowNum" decimal-digits="0"></mynumber>
+            </div>
+        </div>
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label" title="RowNum">Číslo operace (oper-num):</label>
+            <div class="col-sm-5 col-md-4">
+                <input type="text" class="form-control px-1" asp-for="Rec.p14OperNum" />
+            </div>
+        </div>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Kód operace (oper-code):</label>
+            <div class="col-sm-9 col-md-8">
+                <mycombo entity="p18OperCode" asp-for="Rec.p18ID" selectedtext="Rec.OperCode" param1="@Model.RecP13.p25ID" event_after_changevalue="p18id_change"></mycombo>
+            </div>
+        </div>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Název operace:</label>
+            <div class="col-sm-9 col-md-8">
+                <input class="form-control" asp-for="Rec.p14Name" />
+                <span asp-validation-for="Rec.p14Name" class="text-danger"></span>
+            </div>
+
+        </div>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label" title="RowNum">Parameter (oper-par):</label>
+            <div class="col-sm-5 col-md-4">
+                <mynumber asp-for="Rec.p14OperParam" decimal-digits="0"></mynumber>
+            </div>
+        </div>
+
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Surovina:</label>
+            <div class="col-sm-9 col-md-8">
+                <mycombo entity="p19Material" asp-for="Rec.p19ID" selectedtext="Rec.Material"></mycombo>
+            </div>
+        </div>
+
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label" title="RowNum">Počet jednotek (units-count):</label>
+            <div class="col-sm-5 col-md-4">
+                <mynumber asp-for="Rec.p14UnitsCount" decimal-digits="4"></mynumber>
+            </div>
+        </div>
+
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label" title="RowNum">Duration pre-oper:</label>
+            <div class="col-sm-5 col-md-4">
+                <mynumber asp-for="Rec.p14DurationPreOper" decimal-digits="0"></mynumber>
+            </div>
+        </div>
+
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label" title="RowNum">Duration oper:</label>
+            <div class="col-sm-5 col-md-4">
+                <mynumber asp-for="Rec.p14DurationOper" decimal-digits="3"></mynumber>
+            </div>
+        </div>
+
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label" title="RowNum">Duration post-oper:</label>
+            <div class="col-sm-5 col-md-4">
+                <mynumber asp-for="Rec.p14DurationPostOper" decimal-digits="0"></mynumber>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+@Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
+
+
+<script type="text/javascript">
+    function p18id_change(p18id) {
+
+        $.post("/p13/load_p18_record", { p18id: p18id }, function (data) {
+
+            $("#lisP14_" + index + "__p14Name").val(data.p18Name);
+            var s = "";
+            if (data.p18UnitsCount > 0) {
+                s = data.p18UnitsCount.toString().replace(".", ",");
+                $("#Rec__p14UnitsCount").val(s);
+                $("[for-id=Rec__p14UnitsCount]").val(s);
+            }
+            if (data.p18DurationPreOper > 0) {
+                s = data.p18DurationPreOper.toString().replace(".", ",");
+                $("#Rec__p14DurationPreOper").val(s);
+                $("[for-id=lisP14_" + index + "__p14DurationPreOper]").val(s);
+            }
+            if (data.p18DurationOper > 0) {
+                s = data.p18DurationOper.toString().replace(".", ",");
+                $("#Rec__p14DurationOper").val(s);
+                $("[for-id=Rec__p14DurationOper]").val(s);
+            }
+            if (data.p18DurationPostOper > 0) {
+                s = data.p18DurationPostOper.toString().replace(".", ",");
+                $("#Rec__p14DurationPostOper").val(s);
+                $("[for-id=Rec__p14DurationPostOper]").val(s);
+            }
+            if (data.p19ID > 0) {
+                $("#cmdComboRec__p19ID").text(data.p19Code + " - " + data.p19Name);
+                $("#Rec__p19ID").val(data.p19ID);
+                $("[data-id=text_Rec__p19ID]").val(data.p19Code + " - " + data.p19Name);
+
+                //document.getElementsByName("lisP14[" + index + "].Material").value = data.p19Code + " - " + data.p19Name;
+            }
+
+        });
+    }
+</script>
+
+
+

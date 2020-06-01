@@ -11,8 +11,6 @@ namespace UI.Models
 
         public MyToolbarViewModel Toolbar { get; set; }
 
-        
-      
-        public List<BO.p14MasterOper> lisP14 { get; set; }
+ 
     }
 }

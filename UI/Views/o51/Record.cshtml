@@ -24,27 +24,25 @@
     </div>
 
 
-    <div class="form-row">
-        <label class="col-sm-1 col-md-2 col-form-label">Vazba:</label>
-        <div class="col-sm-11 col-md-10">
-            <select asp-for="Rec.o51Entity" class="form-control">
-                <option value=""></option>
-                <option value="j02">Lidé</option>
-                <option value="p10">Master produkty</option>
-                <option value="o23">Dokumenty</option>
-                <option value="p19">Suroviny</option>
-                <option value="p26">Stroje</option>
-                <option value="p21">Licence</option>
-                <option value="p11">Klientské produkty</option>
-                <option value="p51">Objednávky</option>
-                <option value="p51">Zakázky</option>
-            </select>
-            <span asp-validation-for="Rec.o51Entity" class="text-danger"></span>
+
+
+    <div class="card">
+        <div class="card-header">
+            Vazba štítku na entity
+        </div>
+        <div class="card-body">
+            <mycheckboxlist asp-for="@Model.SelectedEntities" textfield="AliasPlural" valuefield="IntPrefix" datasource="@Model.ApplicableEntities"></mycheckboxlist>
         </div>
     </div>
 
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Skupina:</label>
+        <div class="col-sm-11 col-md-10">
+            <mycombo entity="o53TagGroup" asp-for="Rec.o53ID" selectedtext="Rec.o53Name" view-flag="2"></mycombo>
+        </div>
+    </div>
 
-    <div class="form-row">
+    <div class="form-row" style="display:none;">
         <label class="col-sm-1 col-md-2 col-form-label">Kód:</label>
         <div class="col-sm-11 col-md-10">
             <input class="form-control" asp-for="Rec.o51Code" />

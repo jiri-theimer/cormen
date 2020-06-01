@@ -8,7 +8,9 @@ namespace BL
     {
         public BO.p14MasterOper Load(int pid);
         public IEnumerable<BO.p14MasterOper> GetList(BO.myQuery mq);
-       
+        public int Save(BO.p14MasterOper rec);
+
+
     }
     class p14MasterOperBL : BaseBL,Ip14MasterOperBL
     {       
@@ -33,8 +35,36 @@ namespace BL
             return _db.GetList<BO.p14MasterOper>(fq.FinalSql, fq.Parameters);
 
         }
-        
 
-       
+
+
+        public int Save(BO.p14MasterOper rec)
+        {
+            var p = new DL.Params4Dapper();
+            p.AddInt("pid", rec.p14ID);
+            p.AddInt("p13ID", rec.p13ID, true);
+            p.AddInt("p19ID", rec.p19ID, true);
+            p.AddInt("p18ID", rec.p18ID, true);
+            p.AddString("p14Name", rec.p14Name);
+
+            p.AddInt("p14RowNum", -1+rec.p14RowNum * 100);
+            p.AddString("p14OperNum", rec.p14OperNum);
+            p.AddInt("p14OperParam", rec.p14OperParam);
+            p.AddDouble("p14UnitsCount", rec.p14UnitsCount);
+            p.AddDouble("p14DurationPreOper", rec.p14DurationPreOper);
+            p.AddDouble("p14DurationPostOper", rec.p14DurationPostOper);
+            p.AddDouble("p14DurationOper", rec.p14DurationOper);
+
+            var intPID= _db.SaveRecord("p14MasterOper", p.getDynamicDapperPars(), rec);
+
+            _db.RunSql("UPDATE p14MasterOper SET p14RowNum=p14RowNum*100 WHERE p13ID=@p13id AND p14ID<>@pid", new { p13id = rec.p13ID,pid=intPID });
+            //_db.RunSql("UPDATE p14MasterOper SET p14RowNum=@x+1 WHERE p14ID=@pid", new { x=rec.p14RowNum*100,pid = intPID });
+            _db.RunSql("update a set p14RowNum=RowID from (SELECT ROW_NUMBER() OVER(ORDER BY p14RowNum ASC) AS RowID,* FROM p14MasterOper WHERE p13ID=@p13id) a", new { p13id = rec.p13ID });
+
+            _db.RunSql("UPDATE p13MasterTpv SET p13TotalDuration=(SELECT sum(isnull(p14DurationPreOper,0)+isnull(p14DurationOper,0)+isnull(p14DurationPostOper,0)) FROM p14MasterOper WHERE p13ID=@pid) WHERE p13ID=@pid", new { pid = rec.p13ID });
+
+            return intPID;
+        }
+
     }
 }

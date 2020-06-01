@@ -5,13 +5,10 @@ using System.Threading.Tasks;
 
 namespace UI.Models
 {
-    public class p19RecordViewModel:BaseViewModel
+    public class p14RecordViewModel:BaseViewModel
     {
-        public BO.p19Material Rec { get; set; }
-
+        public BO.p14MasterOper Rec { get; set; }
+        public BO.p13MasterTpv RecP13 { get; set; }
         public MyToolbarViewModel Toolbar { get; set; }
-
-        public string TagIds { get; set; }
-        public string TagNames { get; set; }
     }
 }

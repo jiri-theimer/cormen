@@ -8,7 +8,7 @@ namespace BL
     {
         public BO.p13MasterTpv Load(int pid);
         public IEnumerable<BO.p13MasterTpv> GetList(BO.myQuery mq);
-        public int Save(BO.p13MasterTpv rec, List<BO.p14MasterOper> lisP14);
+        public int Save(BO.p13MasterTpv rec);
     }
     class p13MasterTpvBL : BaseBL,Ip13MasterTpvBL
     {     
@@ -34,7 +34,7 @@ namespace BL
 
         }        
 
-        public int Save(BO.p13MasterTpv rec,List<BO.p14MasterOper> lisP14)
+        public int Save(BO.p13MasterTpv rec)
         {
 
             if (rec.p25ID == 0 || string.IsNullOrEmpty(rec.p13Code) || string.IsNullOrEmpty(rec.p13Name))
@@ -51,52 +51,12 @@ namespace BL
            
             int intPID = _db.SaveRecord("p13MasterTpv", p.getDynamicDapperPars(), rec);
 
-            if (intPID > 0 && lisP14 !=null)
-            {
-                foreach (var c in lisP14)
-                {
-                    c.pid = c.p14ID;
-                    c.p13ID = intPID;
-                    if (c.TempRecDisplay == "none" && c.p14ID > 0)
-                    {
-                        _db.RunSql("DELETE FROM p14MasterOper WHERE p14ID=@p14id", new { p14id = c.p14ID });
-                    }
-                    else
-                    {
-                        SaveP14Rec(c);
-                    }
-                    
-                }
-            }
-            var mq = new BO.myQuery("p14MasterOper");
-            mq.p13id = intPID;
-            var lis = _mother.p14MasterOperBL.GetList(mq);
-            _db.RunSql("UPDATE p13MasterTpv SET p13TotalDuration=(SELECT sum(isnull(p14DurationPreOper,0)+isnull(p14DurationOper,0)+isnull(p14DurationPostOper,0)) FROM p14MasterOper WHERE p13ID=@pid) WHERE p13ID=@pid",new { pid = intPID });
-
-
+            
             return intPID;
 
         }
 
-        private int SaveP14Rec(BO.p14MasterOper rec)
-        {            
-            var p = new DL.Params4Dapper();            
-            p.AddInt("pid", rec.p14ID);
-            p.AddInt("p13ID", rec.p13ID, true);
-            p.AddInt("p19ID", rec.p19ID, true);
-            p.AddInt("p18ID", rec.p18ID, true);
-            p.AddString("p14Name", rec.p14Name);
-           
-            p.AddInt("p14RowNum", rec.p14RowNum);            
-            p.AddString("p14OperNum", rec.p14OperNum);
-            p.AddInt("p14OperParam", rec.p14OperParam);
-            p.AddDouble("p14UnitsCount", rec.p14UnitsCount);
-            p.AddDouble("p14DurationPreOper", rec.p14DurationPreOper);
-            p.AddDouble("p14DurationPostOper", rec.p14DurationPostOper);
-            p.AddDouble("p14DurationOper", rec.p14DurationOper);
-
-            return _db.SaveRecord("p14MasterOper", p.getDynamicDapperPars(), rec);
-        }
+        
 
         
     }

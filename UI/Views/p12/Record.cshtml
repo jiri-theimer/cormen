@@ -165,7 +165,7 @@
                     @(BO.BAS.Number2String(Model.lisP15.Where(p => p.TempRecDisplay != "none").Sum(p=>p.p15DurationPreOper)))
                 </th>
                 <th>
-                    @(BO.BAS.Number2String(Model.lisP15.Where(p => p.TempRecDisplay != "none").Sum(p=>p.p15DurationOper)))
+                    @(BO.BAS.Number2String(Model.lisP15.Where(p => p.TempRecDisplay != "none").Sum(p=>p.p15DurationOper*p.p15UnitsCount)))
                 </th>
                 <th>
                     @(BO.BAS.Number2String(Model.lisP15.Where(p => p.TempRecDisplay != "none").Sum(p=>p.p15DurationPostOper)))
