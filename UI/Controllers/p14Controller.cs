@@ -76,8 +76,6 @@ namespace UI.Controllers
                 c.p14DurationPreOper = v.Rec.p14DurationPreOper;
                 c.p14DurationPostOper = v.Rec.p14DurationPostOper;
 
-               
-
                 v.Rec.pid = Factory.p14MasterOperBL.Save(c);
                 if (v.Rec.pid > 0)
                 {
@@ -92,6 +90,11 @@ namespace UI.Controllers
             v.Toolbar.AllowArchive = false;
             this.Notify_RecNotSaved();
             return View(v);
+        }
+
+        public bool PrecislujOperNum(int p14id_start)
+        {
+            return Factory.p14MasterOperBL.PrecislujOperNum(p14id_start);
         }
     }
 }

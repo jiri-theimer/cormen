@@ -9,7 +9,7 @@ namespace BL
         public BO.p14MasterOper Load(int pid);
         public IEnumerable<BO.p14MasterOper> GetList(BO.myQuery mq);
         public int Save(BO.p14MasterOper rec);
-
+        public bool PrecislujOperNum(int p14id_start);
 
     }
     class p14MasterOperBL : BaseBL,Ip14MasterOperBL
@@ -37,6 +37,11 @@ namespace BL
         }
 
 
+        public bool PrecislujOperNum(int p14id_start)
+        {
+            var rec = Load(p14id_start);
+           return _db.RunSql("UPDATE p14MasterOper set p14OperNum=p14OperNum+10 WHERE p13ID=@p13id AND p14RowNum>=@rn", new { p13id = rec.p13ID,rn=rec.p14RowNum });
+        }
 
         public int Save(BO.p14MasterOper rec)
         {

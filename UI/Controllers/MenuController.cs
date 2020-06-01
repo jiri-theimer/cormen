@@ -160,6 +160,11 @@ namespace UI.Controllers
                     DIV();
                     AMI("Přidat řádek technologické operace", string.Format("javascript:_window_open('/p14/Record?p13id={0}')", pid));
                 }
+                if (prefix == "p14")
+                {
+                    DIV();
+                    AMI("Od tohoto záznamu vč. zvednout OperNum o 10", string.Format("javascript:p14_precisluj_opernum({0})", pid));
+                }
                 if (prefix == "p28" || prefix == "j02" || prefix == "p10" || prefix == "p13" || prefix == "p26" || prefix == "p21" || prefix == "p51" || prefix == "p41")
                 {
                     DIV();

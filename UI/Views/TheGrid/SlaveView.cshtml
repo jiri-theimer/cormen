@@ -20,10 +20,10 @@
 @section Scripts{
 
     <script type="text/javascript">
-  
+
     $(document).ready(function () {
 
-        
+
 
 
     });
@@ -32,7 +32,17 @@
 
         /*automaticky volaná událost z thegrid controlu*/
         function thegrid_handle_event(event_name, pid) {
-            
+
+        }
+
+
+        function p14_precisluj_opernum(p14id_start) {
+            var url = "/p14/PrecislujOperNum";
+            $.post(url, { p14id_start: p14id_start}, function (data) {
+                location.replace(location.href);
+
+
+            });
         }
 
 

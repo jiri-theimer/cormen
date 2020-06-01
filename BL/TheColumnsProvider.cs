@@ -191,17 +191,17 @@ namespace BL
             AppendTimestamp("p31CapacityFond");
 
             //p14 = technologické operace master receptury
-            AF("p14MasterOper", "p14RowNum", "RowNum", 1, null, "num0");
-            AF("p14MasterOper", "p14OperNum", "OperNum", 2, "RIGHT('000'+convert(varchar(10),a.p14OperNum),3)");
+            AF("p14MasterOper", "p14RowNum", "Číslo řádku", 1, null, "num0");
+            AF("p14MasterOper", "p14OperNum", "Číslo Oper", 2, "RIGHT('000'+convert(varchar(10),a.p14OperNum),3)");
 
             AF("p14MasterOper", "p14Name", "Name", 1);
-            AF("p14MasterOper", "p14OperParam", "OperPar", 2, null, "num0");
+            AF("p14MasterOper", "p14OperParam", "Parameter", 2, null, "num0");
 
-            AF("p14MasterOper", "p14UnitsCount", "UnitsCount", 2, null, "num", true);
-            AF("p14MasterOper", "p14DurationPreOper", "DurationPreOper", 2, null, "num0", true);
-            AF("p14MasterOper", "p14DurationOper", "DurationOper", 2, null, "num4", true);
-            AF("p14MasterOper", "p14DurationPostOper", "DurationPostOper", 2, null, "num0", true);
-            AF("p14MasterOper", "TotalDuration", "TotalDuration 1KG", 2, "isnull(a.p14DurationPreOper,0)+isnull(a.p14DurationOper,0)+isnull(a.p14DurationPostOper,0)", "num", true);
+            AF("p14MasterOper", "p14UnitsCount", "Množství kg", 2, null, "num", true);
+            AF("p14MasterOper", "p14DurationPreOper", "Před Oper. Čas", 2, null, "num0", true);
+            AF("p14MasterOper", "p14DurationOper", "Oper. Čas", 2, null, "num4", true);
+            AF("p14MasterOper", "p14DurationPostOper", "Po Oper. Čas", 2, null, "num0", true);
+            AF("p14MasterOper", "TotalDuration", "Celk.Čas", 2, "isnull(a.p14DurationPreOper,0)+isnull(a.p14DurationOper,0)+isnull(a.p14DurationPostOper,0)", "num", true);
 
             AppendTimestamp("p14MasterOper");
 
@@ -229,17 +229,17 @@ namespace BL
             AppendTimestamp("p20Unit");
 
             //p15 = technologické operace klientské receptury
-            AF("p15ClientOper", "p15RowNum", "RowNum", 1, null, "num0");            
-            AF("p15ClientOper", "p15OperNum", "OperNum", 2, "RIGHT('000'+convert(varchar(10),a.p15OperNum),3)");
+            AF("p15ClientOper", "p15RowNum", "Číslo řádku", 1, null, "num0");            
+            AF("p15ClientOper", "p15OperNum", "Číslo Oper", 2, "RIGHT('000'+convert(varchar(10),a.p15OperNum),3)");
 
-            AF("p15ClientOper", "p15Name", "Name", 1);
-            AF("p15ClientOper", "p15OperParam", "OperPar", 2, null, "num0");
+            AF("p15ClientOper", "p15Name", "Název Oper", 1);
+            AF("p15ClientOper", "p15OperParam", "Parametr", 2, null, "num0");
 
-            AF("p15ClientOper", "p15UnitsCount", "UnitsCount", 2, null, "num", true);
-            AF("p15ClientOper", "p15DurationPreOper", "DurationPreOper", 2, null, "num0", true);
-            AF("p15ClientOper", "p15DurationOper", "DurationOper", 2, null, "num4", true);
-            AF("p15ClientOper", "p15DurationPostOper", "DurationPostOper", 2, null, "num0", true);
-            AF("p15ClientOper", "TotalDuration", "TotalDuration 1KG", 2, "isnull(a.p15DurationPreOper,0)+isnull(a.p15DurationOper,0)+isnull(a.p15DurationPostOper,0)", "num", true);
+            AF("p15ClientOper", "p15UnitsCount", "Množství kg", 2, null, "num", true);
+            AF("p15ClientOper", "p15DurationPreOper", "Před Oper. Čas", 2, null, "num0", true);
+            AF("p15ClientOper", "p15DurationOper", "Oper. Čas", 2, null, "num4", true);
+            AF("p15ClientOper", "p15DurationPostOper", "Po Oper. Čas", 2, null, "num0", true);
+            AF("p15ClientOper", "TotalDuration", "Celk.Čas", 2, "isnull(a.p15DurationPreOper,0)+isnull(a.p15DurationOper,0)+isnull(a.p15DurationPostOper,0)", "num", true);
 
             AppendTimestamp("p15ClientOper");
 

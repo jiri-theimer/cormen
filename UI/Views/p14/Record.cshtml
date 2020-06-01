@@ -24,14 +24,14 @@
             </div>
         </div>
         <div class="form-row">
-            <label class="col-sm-1 col-md-2 col-form-label" title="RowNum">Číslo operace (oper-num):</label>
+            <label class="col-sm-1 col-md-2 col-form-label" title="RowNum">Číslo Oper:</label>
             <div class="col-sm-5 col-md-4">
                 <mynumber asp-for="Rec.p14OperNum" decimal-digits="0"></mynumber>
                 
             </div>
         </div>
         <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Kód operace (oper-code):</label>
+            <label class="col-sm-1 col-md-2 col-form-label">Kód Oper:</label>
             <div class="col-sm-9 col-md-8">
                 <mycombo entity="p18OperCode" asp-for="Rec.p18ID" selectedtext="Rec.OperCode" param1="@Model.RecP13.p25ID" event_after_changevalue="p18id_change"></mycombo>
             </div>
