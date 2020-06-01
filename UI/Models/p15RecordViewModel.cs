@@ -5,12 +5,10 @@ using System.Threading.Tasks;
 
 namespace UI.Models
 {
-    public class p12RecordViewModel:BaseViewModel
+    public class p15RecordViewModel:BaseViewModel
     {
-        public BO.p12ClientTpv Rec { get; set; }
-
+        public BO.p15ClientOper Rec { get; set; }
+        public BO.p12ClientTpv RecP12 { get; set; }
         public MyToolbarViewModel Toolbar { get; set; }
-
-        
     }
 }

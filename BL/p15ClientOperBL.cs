@@ -8,7 +8,9 @@ namespace BL
     {
         public BO.p15ClientOper Load(int pid);
         public IEnumerable<BO.p15ClientOper> GetList(BO.myQuery mq);
-        
+        public int Save(BO.p15ClientOper rec);
+
+
     }
     class p15ClientOperBL : BaseBL, Ip15ClientOperBL
     {
@@ -35,6 +37,30 @@ namespace BL
         }
 
 
-       
+        public int Save(BO.p15ClientOper rec)
+        {
+            var p = new DL.Params4Dapper();
+            p.AddInt("pid", rec.p15ID);
+            p.AddInt("p12ID", rec.p12ID, true);
+            p.AddInt("p19ID", rec.p19ID, true);
+            p.AddInt("p18ID", rec.p18ID, true);
+            p.AddString("p15Name", rec.p15Name);
+            p.AddInt("p15RowNum", rec.p15RowNum);
+            p.AddInt("p15OperNum", rec.p15OperNum);
+            p.AddInt("p15OperParam", rec.p15OperParam);
+            p.AddDouble("p15UnitsCount", rec.p15UnitsCount);
+            p.AddDouble("p15DurationPreOper", rec.p15DurationPreOper);
+            p.AddDouble("p15DurationPostOper", rec.p15DurationPostOper);
+            p.AddDouble("p15DurationOper", rec.p15DurationOper);
+
+            int intPID= _db.SaveRecord("p15ClientOper", p.getDynamicDapperPars(), rec);
+
+            _db.RunSql("UPDATE p15ClientOper SET p15RowNum=p15RowNum*100 WHERE p12ID=@p12id AND p15ID<>@pid", new { p12ID = rec.p12ID, pid = intPID });
+            _db.RunSql("update a set p15RowNum=RowID from (SELECT ROW_NUMBER() OVER(ORDER BY p15RowNum ASC) AS RowID,* FROM p15ClientOper WHERE p12ID=@p12id) a", new { p12ID = rec.p12ID });
+
+            _db.RunSql("UPDATE p12ClientTpv SET p12TotalDuration=(SELECT sum(isnull(p15DurationPreOper,0)+isnull(p15DurationOper,0)+isnull(p15DurationPostOper,0)) FROM p15ClientOper WHERE p12ID=@pid) WHERE p12ID=@pid", new { pid = rec.p12ID });
+
+            return intPID;
+        }
     }
 }

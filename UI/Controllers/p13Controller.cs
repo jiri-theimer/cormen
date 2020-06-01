@@ -25,6 +25,9 @@ namespace UI.Controllers
             }
             else
             {
+                var mq = new BO.myQuery("p14MasterOper");
+                mq.p13id = v.Rec.pid;
+                v.lisP14 = Factory.p14MasterOperBL.GetList(mq);
                 return View(v);
             }
            

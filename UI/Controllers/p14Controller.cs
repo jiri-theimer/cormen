@@ -29,7 +29,10 @@ namespace UI.Controllers
                 }
 
                 v.RecP13 = Factory.p13MasterTpvBL.Load(v.Rec.p13ID);
-
+                if (isclone)
+                {
+                    v.Rec.p14RowNum += 1;
+                }
 
             }
             else

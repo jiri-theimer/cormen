@@ -48,7 +48,7 @@ namespace BL
             p.AddString("p14Name", rec.p14Name);
 
             p.AddInt("p14RowNum", -1+rec.p14RowNum * 100);
-            p.AddString("p14OperNum", rec.p14OperNum);
+            p.AddInt("p14OperNum", rec.p14OperNum);
             p.AddInt("p14OperParam", rec.p14OperParam);
             p.AddDouble("p14UnitsCount", rec.p14UnitsCount);
             p.AddDouble("p14DurationPreOper", rec.p14DurationPreOper);
@@ -57,8 +57,7 @@ namespace BL
 
             var intPID= _db.SaveRecord("p14MasterOper", p.getDynamicDapperPars(), rec);
 
-            _db.RunSql("UPDATE p14MasterOper SET p14RowNum=p14RowNum*100 WHERE p13ID=@p13id AND p14ID<>@pid", new { p13id = rec.p13ID,pid=intPID });
-            //_db.RunSql("UPDATE p14MasterOper SET p14RowNum=@x+1 WHERE p14ID=@pid", new { x=rec.p14RowNum*100,pid = intPID });
+            _db.RunSql("UPDATE p14MasterOper SET p14RowNum=p14RowNum*100 WHERE p13ID=@p13id AND p14ID<>@pid", new { p13id = rec.p13ID,pid=intPID });            
             _db.RunSql("update a set p14RowNum=RowID from (SELECT ROW_NUMBER() OVER(ORDER BY p14RowNum ASC) AS RowID,* FROM p14MasterOper WHERE p13ID=@p13id) a", new { p13id = rec.p13ID });
 
             _db.RunSql("UPDATE p13MasterTpv SET p13TotalDuration=(SELECT sum(isnull(p14DurationPreOper,0)+isnull(p14DurationOper,0)+isnull(p14DurationPostOper,0)) FROM p14MasterOper WHERE p13ID=@pid) WHERE p13ID=@pid", new { pid = rec.p13ID });

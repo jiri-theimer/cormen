@@ -50,8 +50,8 @@
             <th>OperCode</th>
             <th>Name</th>
             <th>OperPar</th>
-            <th>MaterialCode</th>
-            <th>MaterialName</th>
+            <th>Material</th>
+            
             <th>UnitsCount</th>
             <th>DurationPreOper</th>
             <th>DurationOper</th>
@@ -61,6 +61,42 @@
     </thead>
 
     <tbody id="tbody1">
+        @foreach(var c in Model.lisP14)
+        {
+        <tr>
+            <td style="text-align:right;">
+                <a href="javascript:_window_open('/p14/Record?pid=@c.pid')">@c.p14RowNum</a>
+                
+            </td>
+            <td style="text-align:right;">
+                @c.p14OperNum
+            </td>
+            <td>
+                @c.OperCode
+            </td>
+            <td>
+                @c.p14Name
+            </td>
+            <td>
+                @c.p14OperParam
+            </td>
+            <td>
+                @c.Material
+            </td>
+            <td style="text-align:right;">
+                @c.p14UnitsCount
+            </td>
+            <td style="text-align:right;">
+                @c.p14DurationPreOper
+            </td>
+            <td style="text-align:right;">
+                @c.p14DurationOper
+            </td>
+            <td style="text-align:right;">
+                @c.p14DurationPostOper
+            </td>
+        </tr>
+        }
     </tbody>
 </table>
 
@@ -68,14 +104,8 @@
 
 <script type="text/javascript">
 
-$(document).ready(function () {
-    var url = "@Url.Action("GetBodyOfTale", "Common")";
-
-    $.post(url, { entity: "p14MasterOper", tableid: "tabp14", queryfield: "p13id", queryvalue:@Model.Rec.pid }, function (data) {
-
-            $("#tbody1").html(data);
-        });
-
-
+    $(document).ready(function ()
+    {
+   
         });
 </script>

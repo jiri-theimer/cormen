@@ -8,7 +8,7 @@ namespace BL
     {
         public BO.p12ClientTpv Load(int pid);
         public IEnumerable<BO.p12ClientTpv> GetList(BO.myQuery mq);
-        public int Save(BO.p12ClientTpv rec, List<BO.p15ClientOper> lisP15);
+        public int Save(BO.p12ClientTpv rec);
         public double Simulate_Total_Duration(int p12id, double unitscount, int p27id);
     }
     class p12ClientTpvBL : BaseBL, Ip12ClientTpvBL
@@ -58,7 +58,7 @@ namespace BL
             return true;
         }
 
-        public int Save(BO.p12ClientTpv rec, List<BO.p15ClientOper> lisP15)
+        public int Save(BO.p12ClientTpv rec)
         {
             if (ValidateBeforeSave(rec) == false)
             {
@@ -74,50 +74,11 @@ namespace BL
 
             int intPID = _db.SaveRecord("p12ClientTpv", p.getDynamicDapperPars(), rec);
 
-            if (intPID > 0 && lisP15 != null)
-            {
-                foreach (var c in lisP15)
-                {
-                    c.pid = c.p15ID;
-                    c.p12ID = intPID;
-                    if (c.TempRecDisplay == "none" && c.p15ID > 0)
-                    {
-                        _db.RunSql("DELETE FROM p15ClientOper WHERE p15ID=@p15id", new { p15id = c.p15ID });
-                    }
-                    else
-                    {
-                        SaveP15Rec(c);
-                    }
-
-                }
-            }
-            var mq = new BO.myQuery("p15ClientOper");
-            mq.p12id = intPID;
-            var lis = _mother.p15ClientOperBL.GetList(mq);
-            _db.RunSql("UPDATE p12ClientTpv SET p12TotalDuration=(SELECT sum(isnull(p15DurationPreOper,0)+isnull(p15DurationOper,0)+isnull(p15DurationPostOper,0)) FROM p15ClientOper WHERE p12ID=@pid) WHERE p12ID=@pid", new { pid = intPID });
-
-
+           
             return intPID;
 
         }
 
-        private int SaveP15Rec(BO.p15ClientOper rec)
-        {
-            var p = new DL.Params4Dapper();
-            p.AddInt("pid", rec.p15ID);
-            p.AddInt("p12ID", rec.p12ID, true);
-            p.AddInt("p19ID", rec.p19ID, true);
-            p.AddInt("p18ID", rec.p18ID, true);
-            p.AddString("p15Name", rec.p15Name);
-            p.AddInt("p15RowNum", rec.p15RowNum);
-            p.AddString("p15OperNum", rec.p15OperNum);
-            p.AddInt("p15OperParam", rec.p15OperParam);
-            p.AddDouble("p15UnitsCount", rec.p15UnitsCount);
-            p.AddDouble("p15DurationPreOper", rec.p15DurationPreOper);
-            p.AddDouble("p15DurationPostOper", rec.p15DurationPostOper);
-            p.AddDouble("p15DurationOper", rec.p15DurationOper);
-
-            return _db.SaveRecord("p15ClientOper", p.getDynamicDapperPars(), rec);
-        }
+        
     }
 }

@@ -31,7 +31,7 @@ namespace BL
         private ICBL _cbl;
         private IFBL _fbl;
         private Ip85TempboxBL _p85;
-        private Ip14MasterOperBL _p14;
+        private Ip14MasterOperBL _p14;        
         private Ip11ClientProductBL _p11;
         private Ip12ClientTpvBL _p12;
         private Ip15ClientOperBL _p15;

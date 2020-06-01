@@ -146,8 +146,7 @@ namespace UI.Controllers
             {                
                 if (prefix == "p51")
                 {
-                    DIV();
-                    AMI("Z objednávky naplánovat výrobní zakázky", string.Format("javascript:_window_open('/p41/Create?p51id={0}')", pid));
+                   
                     DIV();
                     AMI("Přidat položku do objednávky", string.Format("javascript:_window_open('/p52/Record?p51id={0}')", pid));
                 }

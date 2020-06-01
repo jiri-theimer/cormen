@@ -192,7 +192,7 @@ namespace BL
 
             //p14 = technologické operace master receptury
             AF("p14MasterOper", "p14RowNum", "RowNum", 1, null, "num0");
-            AF("p14MasterOper", "p14OperNum", "OperNum", 2);
+            AF("p14MasterOper", "p14OperNum", "OperNum", 2, "RIGHT('000'+convert(varchar(10),a.p14OperNum),3)");
 
             AF("p14MasterOper", "p14Name", "Name", 1);
             AF("p14MasterOper", "p14OperParam", "OperPar", 2, null, "num0");
@@ -229,8 +229,8 @@ namespace BL
             AppendTimestamp("p20Unit");
 
             //p15 = technologické operace klientské receptury
-            AF("p15ClientOper", "p15RowNum", "RowNum", 1, null, "num0");
-            AF("p15ClientOper", "p15OperNum", "OperNum", 2);
+            AF("p15ClientOper", "p15RowNum", "RowNum", 1, null, "num0");            
+            AF("p15ClientOper", "p15OperNum", "OperNum", 2, "RIGHT('000'+convert(varchar(10),a.p15OperNum),3)");
 
             AF("p15ClientOper", "p15Name", "Name", 1);
             AF("p15ClientOper", "p15OperParam", "OperPar", 2, null, "num0");
