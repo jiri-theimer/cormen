@@ -51,11 +51,20 @@ namespace UI.Views.Shared.TagHelpers
             sb.AppendLine("<ul style='list-style:none;'>");
             foreach (var item in lisDatasource)
             {
+                
                 string strText = DataSource.Metadata.ElementMetadata.Properties[this.TextField].PropertyGetter(item).ToString();
                 string strGroup = "";
                 if (this.GroupField !=null)
                 {
-                   strGroup = DataSource.Metadata.ElementMetadata.Properties[this.GroupField].PropertyGetter(item).ToString();
+                   if (DataSource.Metadata.ElementMetadata.Properties[this.GroupField].PropertyGetter(item) == null)
+                    {
+                        strGroup = "";
+                    }
+                    else
+                    {
+                        strGroup = DataSource.Metadata.ElementMetadata.Properties[this.GroupField].PropertyGetter(item).ToString();
+                    }
+                   
                    if (strGroup != strLastGroup)
                     {
                         sb.AppendLine("<li>");

@@ -177,3 +177,9 @@ function myautocomplete_init(c) {
 
 }
 
+
+function mystitky_select(event, entity, o51ids) {
+    
+    _zoom(event,null,null,"small","/o51/MultiSelect?entity=" + entity + "&o51ids=" + o51ids);
+    
+}

@@ -1,4 +1,5 @@
-﻿
+﻿@model TagsMultiSelect
+
 @{
     ViewData["Title"] = "Oštítkovat";
     Layout = "~/Views/Shared/_LayoutSubform.cshtml";
@@ -6,7 +7,15 @@
 
 @addTagHelper *, UI
 
-    <h4>Oštítkovat</h4>
+<div class="bg-light" style="padding:10px;">
+    <button id="cmdOK" onclick="ok()" class="btn btn-success">OK</button>
+    <button id="cmdClose" onclick="_window_close()" class="btn btn-light">Zavřít</button>
+
+    <button id="cmdRestore2Factory" onclick="restore2factory()" class="btn btn-light" style="float:right;">Nahodit Grid do továrního stavu</button>
+
+</div>
+
+<mycheckboxlist asp-for="@Model.SelectedO51IDs" textfield="o51Name" valuefield="pid" groupfield="o53Name" datasource="@Model.ApplicableTags"></mycheckboxlist>
 
 
-    
+

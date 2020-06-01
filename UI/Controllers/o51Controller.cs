@@ -12,6 +12,28 @@ namespace UI.Controllers
     public class o51Controller : BaseController
     {
         ///štítky
+        ///
+        public IActionResult MultiSelect(string entity,string o51ids)
+        {            
+            var v = new TagsMultiSelect();
+            v.Entity = entity;
+            string prefix = v.Entity.Substring(0, 3);
+            var mq = new BO.myQuery("o51Tag");
+            mq.IsRecordValid = true;
+            v.ApplicableTags = Factory.o51TagBL.GetList(mq).Where(p => p.o51Entities.Contains(prefix)).OrderBy(p=>p.o53Name);
+
+            v.SelectedO51IDs = BO.BAS.ConvertString2ListInt(o51ids);
+
+            //if (String.IsNullOrEmpty(o51ids) == false)
+            //{                
+            //    mq.pids = BO.BAS.ConvertString2ListInt(o51ids);
+            //    v.SelectedTags = Factory.o51TagBL.GetList(mq);
+            //}
+            
+            
+
+            return View(v);
+        }
         public IActionResult Record(int pid, bool isclone)
         {
             if (!this.TestIfUserEditor(true, false))

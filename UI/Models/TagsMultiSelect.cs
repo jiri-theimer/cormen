@@ -5,9 +5,12 @@ using System.Threading.Tasks;
 
 namespace UI.Models
 {
-    public class TagsMultiSelect
+    public class TagsMultiSelect:BaseViewModel
     {
         public string Entity { get; set; }
-        public IEnumerable<BO.o51Tag> Tags { get; set; }
+        //public IEnumerable<BO.o51Tag> SelectedTags { get; set; }
+
+        public IEnumerable<int> SelectedO51IDs { get; set; }
+        public IEnumerable<BO.o51Tag> ApplicableTags { get; set; }
     }
 }

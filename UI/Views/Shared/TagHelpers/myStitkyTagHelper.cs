@@ -31,14 +31,17 @@ namespace UI.Views.Shared.TagHelpers
             _sb = new System.Text.StringBuilder();
             string strSelectedValues = this.For.Model as string;
 
-            _sb.AppendLine("<div class='input-group'>");
+            _sb.AppendLine("<div class='input-group' style='width:100%;'>");
 
-            _sb.AppendLine("<div class='input-group-prepend'>");
+            
             _sb.AppendLine(string.Format("<input type='hidden' id='{0}' name='{0}' value='{1}' />", this.For.Name, strSelectedValues));
-            _sb.AppendLine(string.Format("<input type='text' class='form-control bg-light' id='TagNames' name='TagNames' value='{0}' />", this.SelectedTagNames));
+            _sb.AppendLine(string.Format("<input type='text' readonly class='form-control bg-light' tabindex='-1' id='TagNames' name='TagNames' value='{0}' />", this.SelectedTagNames));
+
+            _sb.AppendLine("<div class='input-group-append'>");
+            _sb.AppendLine(string.Format("<button type='button' class='btn btn-secondary' onclick='mystitky_select(event,\"{0}\",\"{1}\")'>...</button>", this.Entity, strSelectedValues));
             _sb.AppendLine("</div>");
 
-            _sb.AppendLine("<button type='button' class='btn btn-light'>...</button>");
+            
 
             _sb.AppendLine("</div>");
 
