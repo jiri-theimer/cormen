@@ -45,17 +45,18 @@
 <table id="tab1" class="table table-sm table-hover table-bordered" style="min-width:900px;">
     <thead id="thead1" style="background-color:lightgray;">
         <tr>
-            <th>RowNum</th>
-            <th>OperNum</th>
-            <th>OperCode</th>
-            <th>Name</th>
-            <th>OperPar</th>
-            <th>Material</th>
+            <th></th>
+            <th>Číslo řádku</th>
+            <th>Číslo Oper</th>
+            <th>Kód Oper</th>
+            <th>Název Oper</th>
+            <th>Parametr</th>
+            <th>Surovina</th>
             
-            <th>UnitsCount</th>
-            <th>DurationPreOper</th>
-            <th>DurationOper</th>
-            <th>DurationPostOper</th>
+            <th>Množství kg (na 1t produktu)</th>
+            <th>Před Oper. Čas</th>
+            <th>Oper. Čas (jednotkový)</th>
+            <th>Po Oper. Čas</th>
 
         </tr>
     </thead>
@@ -64,12 +65,15 @@
         @foreach(var c in Model.lisP14)
         {
         <tr>
-            <td style="text-align:right;">
-                <a href="javascript:_window_open('/p14/Record?pid=@c.pid')">@c.p14RowNum</a>
-                
+            <td>
+                <a href="javascript:_window_open('/p14/Record?pid=@c.pid')">Upravit</a>
             </td>
             <td style="text-align:right;">
-                @c.p14OperNum
+                @c.p14RowNum
+
+            </td>
+            <td style="text-align:right;">
+                @(BO.BAS.RightString("000"+c.p14OperNum.ToString(),3))
             </td>
             <td>
                 @c.OperCode

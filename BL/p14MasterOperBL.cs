@@ -1,5 +1,8 @@
-﻿using System;
+﻿using BO;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 
 namespace BL
@@ -9,7 +12,7 @@ namespace BL
         public BO.p14MasterOper Load(int pid);
         public IEnumerable<BO.p14MasterOper> GetList(BO.myQuery mq);
         public int Save(BO.p14MasterOper rec);
-        public bool PrecislujOperNum(int p14id_start);
+        public void PrecislujOperNum(int p14id_start);
 
     }
     class p14MasterOperBL : BaseBL,Ip14MasterOperBL
@@ -37,10 +40,23 @@ namespace BL
         }
 
 
-        public bool PrecislujOperNum(int p14id_start)
+        public void PrecislujOperNum(int p14id_start)
         {
             var rec = Load(p14id_start);
-           return _db.RunSql("UPDATE p14MasterOper set p14OperNum=p14OperNum+10 WHERE p13ID=@p13id AND p14RowNum>=@rn", new { p13id = rec.p13ID,rn=rec.p14RowNum });
+            var rn = rec.p14OperNum + 10;
+            var mq = new BO.myQuery("p14MasterOper");
+            mq.p13id = rec.p13ID;
+            foreach (var c in GetList(mq).OrderBy(p=>p.p14RowNum).Where(p => p.p14RowNum > rec.p14RowNum))
+            {
+                _db.RunSql("UPDATE p14MasterOper set p14OperNum=@rn WHERE p14ID=@pid", new { pid = c.pid, rn = rn });
+                rn += 10;
+            }
+
+
+
+
+
+
         }
 
         public int Save(BO.p14MasterOper rec)

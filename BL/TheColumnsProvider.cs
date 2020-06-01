@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.VisualBasic.FileIO;
 
 namespace BL
 {
@@ -20,13 +21,34 @@ namespace BL
 
         }
 
+        private int SetDefaultColWidth(string strFieldType)
+        {
+            switch (strFieldType)
+            {
+                case "date":
+                    return 90;                    
+                case "datetime":
+                    return 120;                   
+                case "num":
+                case "num4":
+                case "num3":
+                    return 100;                    
+                case "num0":
+                    return 75;
+                default:
+                    return 0;
+            }
+            
+        }
+
         private BO.TheGridColumn AF(string strEntity, string strField, string strHeader, int intDefaultFlag = 0, string strSqlSyntax = null, string strFieldType = "string", bool bolIsShowTotals = false,bool bolNotShowRelInHeader=false)
         {
             if (strEntity != _lastEntity)
             {
                 _curEntityAlias = BL.TheEntities.ByTable(strEntity).AliasSingular;
             }
-            _lis.Add(new BO.TheGridColumn() { Field = strField, Entity = strEntity, EntityAlias = _curEntityAlias, Header = strHeader, DefaultColumnFlag = intDefaultFlag, SqlSyntax = strSqlSyntax, FieldType = strFieldType, IsShowTotals = bolIsShowTotals,NotShowRelInHeader= bolNotShowRelInHeader });
+           
+            _lis.Add(new BO.TheGridColumn() { Field = strField, Entity = strEntity, EntityAlias = _curEntityAlias, Header = strHeader, DefaultColumnFlag = intDefaultFlag, SqlSyntax = strSqlSyntax, FieldType = strFieldType, IsShowTotals = bolIsShowTotals,NotShowRelInHeader= bolNotShowRelInHeader,FixedWidth= SetDefaultColWidth(strFieldType) });
             _lastEntity = strEntity;
             return _lis[_lis.Count - 1];
         }
@@ -40,7 +62,7 @@ namespace BL
             {
                 _curEntityAlias = BL.TheEntities.ByTable(strEntity).AliasSingular;
             }
-            _lis.Add(new BO.TheGridColumn() { IsTimestamp = true, Field = strField, Entity = strEntity, EntityAlias = _curEntityAlias, Header = strHeader, SqlSyntax = strSqlSyntax, FieldType = strFieldType });
+            _lis.Add(new BO.TheGridColumn() { IsTimestamp = true, Field = strField, Entity = strEntity, EntityAlias = _curEntityAlias, Header = strHeader, SqlSyntax = strSqlSyntax, FieldType = strFieldType, FixedWidth = SetDefaultColWidth(strFieldType) });
             _lastEntity = strEntity;
         }
 
@@ -192,7 +214,8 @@ namespace BL
 
             //p14 = technologické operace master receptury
             AF("p14MasterOper", "p14RowNum", "Číslo řádku", 1, null, "num0");
-            AF("p14MasterOper", "p14OperNum", "Číslo Oper", 2, "RIGHT('000'+convert(varchar(10),a.p14OperNum),3)");
+            onecol=AF("p14MasterOper", "p14OperNum", "Číslo Oper", 2, "RIGHT('000'+convert(varchar(10),a.p14OperNum),3)");
+            onecol.FixedWidth = 70;
 
             AF("p14MasterOper", "p14Name", "Name", 1);
             AF("p14MasterOper", "p14OperParam", "Parameter", 2, null, "num0");
@@ -330,7 +353,8 @@ namespace BL
             //p18 = Kódy technologických operací
             //AF("p18OperCode", "p18Code", "Kód operace", 1);
            
-            AF("p18OperCode", "p18Code", "Kód operace", 1, null, "string", false, true);
+            onecol=AF("p18OperCode", "p18Code", "Kód operace", 1, null, "string", false, true);
+            onecol.FixedWidth = 70;
             
             AF("p18OperCode", "p18Name", "Název operace",1, null, "string", false, true);
             

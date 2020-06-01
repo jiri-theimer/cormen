@@ -27,16 +27,12 @@
 
                 @{
                     string strStyle = "";
-                    //string strHeader = "";
+                    
 
                 }
                 @foreach (var c in Model.Columns)
                 {
-                    //strHeader = c.Header;
-                    //if (Model.Entity != c.Entity)
-                    //{
-                    //    strHeader = c.Header + " [" + c.EntityAlias + "]";
-                    //}
+                    
                     strStyle = "width:" + c.ColumnWidthPixels;
 
                     if (c.IsSortable)

@@ -94,7 +94,8 @@ namespace UI.Controllers
 
         public bool PrecislujOperNum(int p14id_start)
         {
-            return Factory.p14MasterOperBL.PrecislujOperNum(p14id_start);
+            Factory.p14MasterOperBL.PrecislujOperNum(p14id_start);
+            return true;
         }
     }
 }
