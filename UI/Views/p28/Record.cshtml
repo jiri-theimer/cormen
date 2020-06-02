@@ -97,6 +97,12 @@
     </div>
 
     <hr />
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Štítky:</label>
+        <div class="col-sm-11 col-md-10">
+            <mystitky entity="p28Company" asp-for="@Model.TagPids" tagnames="@Model.TagNames" taghtml="@Model.TagHtml"></mystitky>
+        </div>
+    </div>
     <div class="form-row">
         <label class="col-sm-1 col-md-2 col-form-label">Vlastník záznamu:</label>
         <div class="col-sm-11 col-md-10">
@@ -111,7 +117,7 @@
             <div class="card-header">
                 <input asp-for="@Model.IsFirstPerson" />
                 <label for="IsFirstPerson">Založit první kontaktní osobu klienta?</label>
-                
+
             </div>
             <div id="divFirstPerson" class="card-body">
                 <div class="form-row" style="margin-bottom:10px;">
@@ -157,8 +163,8 @@
 
                     </div>
                 </div>
-               
-               
+
+
             </div>
         </div>
     }

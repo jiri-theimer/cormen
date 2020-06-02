@@ -9,7 +9,7 @@ namespace BO
     {
         [Key]
         public int p19ID { get; set; }
-        public int o12ID { get; set; }
+        
         public int p20ID { get; set; }
         public int p28ID { get; set; }
         public int j02ID_Owner { get; set; }
@@ -33,7 +33,7 @@ namespace BO
         public string p19Lang4 { get; set; }
 
 
-        public string o12Name { get; set; }
+        
         public string p28Name { get; set; }
         public string p20Code { get; set; }
     }

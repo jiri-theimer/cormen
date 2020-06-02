@@ -23,5 +23,6 @@ namespace BO
         public double p13TotalDuration { get; set; }
 
         public string p25Name { get; set; } //kvůli combo
+        public string TagHtml;
     }
 }

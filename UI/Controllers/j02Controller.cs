@@ -19,6 +19,8 @@ namespace UI.Controllers
             {
                 v.UserProfile = Factory.j03UserBL.Load(v.Rec.j03ID);
             }
+            var tg = Factory.o51TagBL.GetTagging("j02", pid);           
+            v.Rec.TagHtml = tg.TagHtml;
             return View(v);
 
         }
@@ -49,8 +51,11 @@ namespace UI.Controllers
                 {
                     v.UserProfile = new BO.j03User();
                 }
-                
-                
+                var tg = Factory.o51TagBL.GetTagging("j02", pid);
+                v.TagPids = tg.TagPids;
+                v.TagNames = tg.TagNames;
+                v.TagHtml = tg.TagHtml;
+
             }
             else
             {
@@ -97,6 +102,8 @@ namespace UI.Controllers
                     v.Rec.pid = Factory.j02PersonBL.Save(c);
                     if (v.Rec.pid > 0)
                     {
+                        Factory.o51TagBL.SaveTagging("j02", v.Rec.pid, v.TagPids);
+
                         c = Factory.j02PersonBL.Load(v.Rec.pid);
                         if (v.IsUserProfile == false)
                         {

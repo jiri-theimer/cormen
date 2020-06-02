@@ -8,5 +8,6 @@ namespace UI.Models
     public class p26PreviewViewModel:BaseViewModel
     {
         public BO.p26Msz Rec { get; set; }
+        
     }
 }

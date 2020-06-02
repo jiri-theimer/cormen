@@ -9,6 +9,8 @@ namespace UI.Models
     {
         public BO.o23Doc Rec { get; set; }        
 
+        
+
         public IEnumerable<BO.o27Attachment> lisO27;
     }
 }

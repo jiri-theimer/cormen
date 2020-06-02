@@ -31,14 +31,14 @@
                 <span class="form-control bg-light">@(Model.RecP21.p21Name+" ["+Model.RecP21.p28Name+"]")</span>
             </div>
             <div class="col-sm-1 col-md-1">
-                
+
                 <span class="form-control bg-light">@(Model.RecP21.PermFlagAlias)</span>
             </div>
             <div class="col-sm-2 col-md-2">
                 <span class="form-control bg-light">@(Model.RecP21.p21Code)</span>
             </div>
         </div>
-        @if (Model.RecP13 !=null)
+        @if (Model.RecP13 != null)
         {
             <div class="form-row" style="margin-top:10px;">
                 <label class="col-sm-1 col-md-2 col-form-label">Vzorová Master receptura:</label>
@@ -60,6 +60,7 @@
 
             </div>
         }
+        @Html.DisplayFor(m => m.Rec.TagHtml, "~/Views/Shared/_TagHtml.cshtml")
 
 
 

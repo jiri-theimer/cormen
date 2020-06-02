@@ -75,7 +75,7 @@ namespace UI.Controllers
                 c.p19Name = v.Rec.p19Name;
                 c.p19Memo = v.Rec.p19Memo;
                 c.p20ID = v.Rec.p20ID;
-                c.o12ID = v.Rec.o12ID;
+                
                 c.p28ID = v.Rec.p28ID;
 
                 c.p19Supplier = v.Rec.p19Supplier;

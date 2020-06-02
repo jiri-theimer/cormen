@@ -64,6 +64,7 @@ namespace BO
         public string RecordOwner;
 
         public bool IsTempDeleted { get; set; }
+        public string TagHtml;
         public string CssStyleDisplay
         {
             get

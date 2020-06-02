@@ -41,5 +41,6 @@ namespace BO
         public string p10Code;
         public string p20Code { get; set; } //get+set: kvůli mycombo
         public string p20Name;
+        public string TagHtml;
     }
 }

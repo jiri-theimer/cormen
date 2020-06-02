@@ -15,7 +15,7 @@ namespace BO
         public int o23RecordPid { get; set; }
         [Required(ErrorMessage = "Chybí vyplnit druh entity!")]
         public string o23Entity { get; set; }
-        public int o12ID { get; set; }
+        
         public int b02ID { get; set; }
         public int j02ID_Owner { get; set; }
 
@@ -28,8 +28,7 @@ namespace BO
         public string o23Code { get; set; }
         public DateTime? o23Date { get; set; }
 
-        public string o12Name { get; set; } //get+set: kvůli mycombo
-
+        
         public string b02Name { get; set; } //get+set: kvůli mycombo
 
         public string RecordPidAlias;
@@ -41,5 +40,6 @@ namespace BO
         //    } }
 
         public string RecordOwner;
+        public string TagHtml;
     }
 }

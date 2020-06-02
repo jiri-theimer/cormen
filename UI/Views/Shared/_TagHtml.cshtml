@@ -1,0 +1,9 @@
+﻿@model string
+@{
+    if (String.IsNullOrEmpty(Model) == true) return;
+}
+
+    <div class="form-group">
+        @Html.Raw(Model)
+    </div>
+

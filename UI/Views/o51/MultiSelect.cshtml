@@ -43,8 +43,12 @@
              
         window.parent.document.getElementById("TagPids").value = selpids.join(",");
         window.parent.document.getElementById("TagNames").value = selnames.join(",");
-        window.parent.document.getElementById("TagHtml").value = selhtml.join("");
-        window.parent.document.getElementById("divTagHtml").innerHTML = selhtml.join("");
+
+        var ss = selhtml.join("");
+        window.parent.document.getElementById("TagHtml").value = ss;
+        window.parent.document.getElementById("divTagHtml").innerHTML = ss;
+              
+
         stitky_zoom_close();
     }
     function uncheckall() {

@@ -44,12 +44,8 @@
                 <span class="form-control bg-light">@(Model.Rec.b02Name)</span>
             </div>
         </div>
-        <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Kategorie/Skupina:</label>
-            <div class="col-sm-11 col-md-10">
-                <span class="form-control bg-light">@(Model.Rec.o12Name)</span>
-            </div>
-        </div>
+        @Html.DisplayFor(m => m.Rec.TagHtml, "~/Views/Shared/_TagHtml.cshtml")
+
         @if (Model.Rec.p10SwLicenseFlag > 0)
         {
             <div class="form-row" style="margin-top:10px;">

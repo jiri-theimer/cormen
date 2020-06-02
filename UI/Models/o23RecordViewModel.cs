@@ -10,8 +10,11 @@ namespace UI.Models
         public BO.o23Doc Rec { get; set; }
         public string Guid { get; set; }
         public string o27IDs4Delete { get; set; }
-        
-       
+
+        public string TagPids { get; set; }
+        public string TagNames { get; set; }
+        public string TagHtml { get; set; }
+
         public MyToolbarViewModel Toolbar { get; set; }
 
         public IEnumerable<BO.o27Attachment> lisO27;

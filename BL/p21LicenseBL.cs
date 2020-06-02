@@ -21,7 +21,7 @@ namespace BL
        
         private string GetSQL1()
         {
-            return "SELECT a.*,o12.o12Name," + _db.GetSQL1_Ocas("p21") + ",b02.b02Name,p28.p28Name FROM p21License a LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID";
+            return "SELECT a.*," + _db.GetSQL1_Ocas("p21") + ",b02.b02Name,p28.p28Name FROM p21License a LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID";
         }
         public BO.p21License Load(int pid)
         {
@@ -45,7 +45,7 @@ namespace BL
             p.AddInt("pid", rec.p21ID);
             p.AddInt("b02ID", rec.b02ID, true);
             p.AddInt("p28ID", rec.p28ID, true);
-            p.AddInt("o12ID", rec.o12ID, true);
+
             p.AddInt("p21PermissionFlag", Convert.ToInt32(rec.p21PermissionFlag));
             p.AddString("p21Name", rec.p21Name);
             p.AddString("p21Code", rec.p21Code);

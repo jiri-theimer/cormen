@@ -32,10 +32,12 @@ namespace BO
         public string RecordOwner { get; set; } //get+set: kvůli mycombo
         public string p28Name { get; set; } //get+set: kvůli mycombo
         public string p28Code;
-        //public string p26Name { get; set; } //get+set: kvůli mycombo
+        
         public string b02Name { get; set; } //get+set: kvůli mycombo
 
         public double p51Order_Kg;
         public double p51Task_Kg;
+
+        public string TagHtml;
     }
 }

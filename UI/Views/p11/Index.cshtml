@@ -69,6 +69,8 @@
 
             </div>
         </div>
+        @Html.DisplayFor(m => m.Rec.TagHtml, "~/Views/Shared/_TagHtml.cshtml")
+
         @if (Model.Rec.p10ID_Master > 0)
         {
             <div class="form-row" style="margin-top:10px;">
@@ -94,7 +96,7 @@
 
 
 
-        
+
     </div>
 @if (Model.Rec.p11Memo != null)
 {

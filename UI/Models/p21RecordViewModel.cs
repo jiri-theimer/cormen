@@ -11,8 +11,10 @@ namespace UI.Models
 
         public MyToolbarViewModel Toolbar { get; set; }
 
+        public string TagPids { get; set; }
+        public string TagNames { get; set; }
+        public string TagHtml { get; set; }
 
-       
         public int SelectedP10ID { get; set; }
         public string SelectedP10Name { get; set; }
         public string p10IDs { get; set; }

@@ -59,6 +59,8 @@ namespace UI.Controllers
             }
             else
             {
+                var tg = Factory.o51TagBL.GetTagging("p41", pid);
+                v.Rec.TagHtml = tg.TagHtml;
                 v.RecP52 = Factory.p52OrderItemBL.Load(v.Rec.p52ID);
                 v.RecP51 = Factory.p51OrderBL.Load(v.RecP52.p51ID);
                 return View(v);
@@ -235,6 +237,11 @@ namespace UI.Controllers
             {
                 return RecNotFound(v);
             }
+            var tg = Factory.o51TagBL.GetTagging("p41", pid);
+            v.TagPids = tg.TagPids;
+            v.TagNames = tg.TagNames;
+            v.TagHtml = tg.TagHtml;
+
             RefreshState_Record(v);
 
 
@@ -277,6 +284,7 @@ namespace UI.Controllers
                 v.Rec.pid = Factory.p41TaskBL.Save(c);
                 if (v.Rec.pid > 0)
                 {
+                    Factory.o51TagBL.SaveTagging("p41", v.Rec.pid, v.TagPids);
                     v.SetJavascript_CallOnLoad(v.Rec.pid);
                     return View(v);
                 }

@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_LayoutModal.cshtml";
     if (Model.Rec == null) return;
     string _displayMore = "none";
-    if (Model.Rec.o12ID > 0 || Model.Rec.o23Memo != null)
+    if (string.IsNullOrEmpty(Model.TagHtml)==false || Model.Rec.o23Memo != null)
     {
         _displayMore = "block";
     }
@@ -29,6 +29,7 @@
                     <span asp-validation-for="Rec.o23Name" class="text-danger"></span>
                 </div>
             </div>
+
 
             <div class="form-row">
                 <label class="col-sm-1 col-md-2 col-form-label">Vazba:</label>
@@ -81,9 +82,9 @@
             </button>
             <div id="divMore" style="display:@_displayMore;">
                 <div class="form-row" style="margin-top:10px;">
-                    <label class="col-sm-1 col-md-2 col-form-label">Kategorie:</label>
+                    <label class="col-sm-1 col-md-2 col-form-label">Štítky:</label>
                     <div class="col-sm-11 col-md-10">
-                        <mycombo entity="o12Category" asp-for="Rec.o12ID" selectedtext="Rec.o12Name" param1="o23"></mycombo>
+                        <mystitky entity="o23Doc" asp-for="@Model.TagPids" tagnames="@Model.TagNames" taghtml="@Model.TagHtml"></mystitky>
                     </div>
                 </div>
                 <div class="form-row" style="margin-top:10px;">

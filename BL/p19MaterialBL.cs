@@ -21,7 +21,7 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*,o12.o12Name,p28.p28Name,p20.p20Code," + _db.GetSQL1_Ocas("p19") + " FROM p19Material a INNER JOIN p20Unit p20 ON a.p20ID=p20.p20ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID LEFT OUTER JOIN o12Category o12 ON a.o12ID=o12.o12ID";
+            return "SELECT a.*,p28.p28Name,p20.p20Code," + _db.GetSQL1_Ocas("p19") + " FROM p19Material a INNER JOIN p20Unit p20 ON a.p20ID=p20.p20ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID";
         }
         public BO.p19Material Load(int pid)
         {
@@ -41,8 +41,7 @@ namespace BL
                 _db.CurrentUser.AddMessage("Chybí vyplnit měrná jednotka."); return 0;
             }
             var p = new DL.Params4Dapper();
-            p.AddInt("pid", rec.p19ID);
-            p.AddInt("o12ID", rec.o12ID, true);
+            p.AddInt("pid", rec.p19ID);            
             p.AddInt("p20ID", rec.p20ID, true);
             if (rec.j02ID_Owner == 0) rec.j02ID_Owner = _db.CurrentUser.j02ID;
             p.AddInt("j02ID_Owner", rec.j02ID_Owner, true);

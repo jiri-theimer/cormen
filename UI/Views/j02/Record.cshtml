@@ -44,6 +44,7 @@
     </div>
 
 
+
     <div class="card-header">
         <input asp-for="@Model.IsUserProfile" />
         <label for="IsUserProfile">Má uživatelský účet?</label>
@@ -87,7 +88,7 @@
     </div>
 
     <div class="card-header">
-        Kontakt
+        Další
     </div>
 
     <div class="form-row" style="margin-top:10px;">
@@ -123,6 +124,12 @@
         <div class="col-sm-10 col-md-9">
             <input class="form-control" type="text" asp-for="Rec.j02JobTitle" />
             <span asp-validation-for="Rec.j02JobTitle" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-2 col-md-3 col-form-label">Štítky:</label>
+        <div class="col-sm-10 col-md-9">
+            <mystitky entity="j02Person" asp-for="@Model.TagPids" tagnames="@Model.TagNames" taghtml="@Model.TagHtml"></mystitky>
         </div>
     </div>
 

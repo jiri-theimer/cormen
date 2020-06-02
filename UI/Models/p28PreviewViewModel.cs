@@ -9,6 +9,7 @@ namespace UI.Models
     public class p28PreviewViewModel : BaseViewModel
     {
         public BO.p28Company Rec { get; set; }
+        
 
         public bool IsPossible2SetupCloudID = false;
 

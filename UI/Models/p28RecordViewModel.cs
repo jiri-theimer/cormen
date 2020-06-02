@@ -14,6 +14,9 @@ namespace UI.Models
 
         public MyToolbarViewModel Toolbar { get; set; }
 
+        public string TagPids { get; set; }
+        public string TagNames { get; set; }
+        public string TagHtml { get; set; }
 
         public bool IsFirstPerson { get; set; }
 

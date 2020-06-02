@@ -28,6 +28,8 @@ namespace UI.Controllers
                 var mq = new BO.myQuery("p14MasterOper");
                 mq.p13id = v.Rec.pid;
                 v.lisP14 = Factory.p14MasterOperBL.GetList(mq);
+                var tg = Factory.o51TagBL.GetTagging("p13", pid);
+                v.Rec.TagHtml = tg.TagHtml;
                 return View(v);
             }
            
@@ -49,7 +51,12 @@ namespace UI.Controllers
                 }
                 var mq = new BO.myQuery("p14MasterOper");
                 mq.p13id = v.Rec.pid;
-               
+
+                var tg = Factory.o51TagBL.GetTagging("p13", pid);
+                v.TagPids = tg.TagPids;
+                v.TagNames = tg.TagNames;
+                v.TagHtml = tg.TagHtml;
+
             }
             else
             {
@@ -101,6 +108,7 @@ namespace UI.Controllers
                 
                 if (v.Rec.pid > 0)
                 {
+                    Factory.o51TagBL.SaveTagging("p13", v.Rec.pid, v.TagPids);
                     if (applyonly == true)
                     {
                         return Record(v.Rec.pid, false);

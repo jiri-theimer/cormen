@@ -19,6 +19,8 @@ namespace UI.Controllers
             }
             else
             {
+                var tg = Factory.o51TagBL.GetTagging("p21", pid);
+                v.Rec.TagHtml = tg.TagHtml;
                 v.IsPossible2UpdateClientProducts = this.TestIfUserEditor(true, false);
                 return View(v);
             }
@@ -39,6 +41,10 @@ namespace UI.Controllers
                 {
                     return RecNotFound(v);
                 }
+                var tg = Factory.o51TagBL.GetTagging("p21", pid);
+                v.TagPids = tg.TagPids;
+                v.TagNames = tg.TagNames;
+                v.TagHtml = tg.TagHtml;
 
                 var mq = new BO.myQuery("p10");
                 mq.p21id = pid;                
@@ -77,7 +83,7 @@ namespace UI.Controllers
                 c.p21Memo = v.Rec.p21Memo;
                 c.b02ID = v.Rec.b02ID;
                 c.p28ID = v.Rec.p28ID;
-                c.o12ID = v.Rec.o12ID;
+                
                 c.p21Price = v.Rec.p21Price;
                 c.p21PermissionFlag = v.Rec.p21PermissionFlag;
 
@@ -88,6 +94,7 @@ namespace UI.Controllers
                 v.Rec.pid = Factory.p21LicenseBL.Save(c,BO.BAS.ConvertString2ListInt(v.p10IDs));
                 if (v.Rec.pid > 0)
                 {
+                    Factory.o51TagBL.SaveTagging("p21", v.Rec.pid, v.TagPids);
                     v.SetJavascript_CallOnLoad(v.Rec.pid);
                     return View(v);
                 }

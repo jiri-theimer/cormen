@@ -27,6 +27,8 @@ namespace UI.Controllers
                         v.IsPossible2SetupCloudID = true;
                     }
                 }
+                var tg = Factory.o51TagBL.GetTagging("p28", pid);
+                v.Rec.TagHtml = tg.TagHtml;
                 var mq = new BO.myQuery("j02Person");
                 mq.p28id = pid;
                 v.Persons = Factory.j02PersonBL.GetList(mq);
@@ -54,7 +56,10 @@ namespace UI.Controllers
                 {
                     return this.StopPageEdit(true);
                 }
-
+                var tg = Factory.o51TagBL.GetTagging("p28", pid);
+                v.TagPids = tg.TagPids;
+                v.TagNames = tg.TagNames;
+                v.TagHtml = tg.TagHtml;
             }
             else
             {
@@ -115,6 +120,7 @@ namespace UI.Controllers
                 v.Rec.pid = Factory.p28CompanyBL.Save(c, v.FirstPerson);
                 if (v.Rec.pid > 0)
                 {
+                    Factory.o51TagBL.SaveTagging("p28", v.Rec.pid, v.TagPids);
                     if (applyonly == true)
                     {
                         return Record(v.Rec.pid,false);

@@ -27,6 +27,8 @@ namespace UI.Controllers
                     v.RecP13 = Factory.p13MasterTpvBL.Load(v.Rec.p13ID_Master);
                 }
                 v.RecP21 = Factory.p21LicenseBL.Load(v.Rec.p21ID);
+                var tg = Factory.o51TagBL.GetTagging("p12", pid);
+                v.Rec.TagHtml = tg.TagHtml;
                 return View(v);
             }
 
@@ -61,8 +63,11 @@ namespace UI.Controllers
                 {
                     return this.StopPage(true, string.Format("S licencí typu {2} [{0} - {1}]  nemáte oprávnění zakládat vlastní receptury.", cP21.p21Code,cP21.p21Name,cP21.PermFlagAlias));
                 }
+                var tg = Factory.o51TagBL.GetTagging("p12", pid);
+                v.TagPids = tg.TagPids;
+                v.TagNames = tg.TagNames;
+                v.TagHtml = tg.TagHtml;
 
-                
 
             }
             else
@@ -108,7 +113,7 @@ namespace UI.Controllers
                 v.Rec.pid = Factory.p12ClientTpvBL.Save(c);
                 if (v.Rec.pid > 0)
                 {
-                    
+                    Factory.o51TagBL.SaveTagging("p12", v.Rec.pid, v.TagPids);
                     v.SetJavascript_CallOnLoad(v.Rec.pid);
                     return View(v);
                 }

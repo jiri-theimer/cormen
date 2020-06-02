@@ -30,5 +30,6 @@ namespace BO
         public string p28Country2 { get; set; }
 
         public string RecordOwner { get; set; }
+        public string TagHtml;
     }
 }

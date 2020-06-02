@@ -158,9 +158,7 @@ namespace BL
             AF("o23Doc", "o23Name", "Název", 1);
             AF("o23Doc", "RecordPidAlias", "Vazba", 1, "dbo.getRecordAlias(a.o23Entity,a.o23RecordPid)");
             AF("o23Doc", "EntityAlias", "Druh vazby", 1, "dbo.getEntityAlias(a.o23Entity)");
-            //AF("o23Doc", "o12Name", "Kategorie", 0, "o12.o12Name");
-            //AF("o23Doc", "b02Name", "Stav", 0, "b02.b02Name");
-            //AF("o23Doc", "o12Name", "Kategorie", 0, "o12.o12Name");
+            
             AF("o23Doc", "o23Memo", "Podrobný popis");
             AF("o23Doc", "o23Date", "Datum dokumentu", 0, null, "date");
             AF("o23Doc", "RecordOwner", "Vlastník záznamu", 0, "dbo.j02_show_as_owner(a.j02ID_Owner)");
@@ -172,8 +170,8 @@ namespace BL
             AF("b02Status", "EntityAlias", "Vazba", 1, "dbo.getEntityAlias(a.b02Entity)");
 
             //o12 = kategorie
-            AF("o12Category", "o12Name", "Kategorie", 1,null,"string",false,true);
-            AF("o12Category", "EntityAlias", "Vazba", 1, "dbo.getEntityAlias(a.o12Entity)");
+            //AF("o12Category", "o12Name", "Kategorie", 1,null,"string",false,true);
+            //AF("o12Category", "EntityAlias", "Vazba", 1, "dbo.getEntityAlias(a.o12Entity)");
 
             //o51 = štítek
             AF("o51Tag", "o51Name", "Štítek", 1, null, "string", false, true);

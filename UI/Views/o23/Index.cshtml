@@ -6,90 +6,85 @@
     if (Model.Rec == null) return;
 }
 
-<div class="modal_record_container">
+    <div class="modal_record_container">
 
 
-    <div class="form-row">
-        <label class="col-sm-1 col-md-2 col-form-label">Dokument:</label>
-        <div class="col-sm-9 col-md-8">
-            <span class="form-control bg-light">@(Model.Rec.o23Name)</span>
-
-        </div>
-        <div class="col-sm-2 col-md-2">
-            <span class="form-control bg-light">@(Model.Rec.o23Code)</span>
-
-        </div>
-    </div>
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Svázaný záznam:</label>
-        <div class="col-sm-11 col-md-10">
-            <div class="btn-group" style="width:100%;">
-                <span class="form-control" style="background-color:khaki;width:200px;">@(BL.TheEntities.ByTable(Model.Rec.o23Entity).AliasSingular)</span>
-                <strong class="form-control bg-light">@Model.Rec.RecordPidAlias</strong>
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Dokument:</label>
+            <div class="col-sm-9 col-md-8">
+                <span class="form-control bg-light">@(Model.Rec.o23Name)</span>
 
             </div>
+            <div class="col-sm-2 col-md-2">
+                <span class="form-control bg-light">@(Model.Rec.o23Code)</span>
 
-
+            </div>
         </div>
-    </div>
-
-
-    @if (Model.Rec.b02ID > 0)
-    {
         <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
+            <label class="col-sm-1 col-md-2 col-form-label">Svázaný záznam:</label>
             <div class="col-sm-11 col-md-10">
-                <span class="form-control bg-light">@(Model.Rec.b02Name)</span>
+                <div class="btn-group" style="width:100%;">
+                    <span class="form-control" style="background-color:khaki;width:200px;">@(BL.TheEntities.ByTable(Model.Rec.o23Entity).AliasSingular)</span>
+                    <strong class="form-control bg-light">@Model.Rec.RecordPidAlias</strong>
+
+                </div>
+
+
             </div>
         </div>
-    }
-    @if (Model.Rec.o12ID > 0)
-    {
-        <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Kategorie/Skupina:</label>
-            <div class="col-sm-11 col-md-10">
-                <span class="form-control bg-light">@(Model.Rec.o12Name)</span>
-            </div>
-        </div>
-    }
-    <div class="form-row">
-        <label class="col-sm-1 col-md-2 col-form-label">Vlastník záznamu:</label>
-        <div class="col-sm-11 col-md-10">
-            <span class="form-control bg-light">@(Model.Rec.RecordOwner)</span>
-
-        </div>
-
-    </div>
 
 
-
-
-
-
-    <table class="table table-sm table-hover">
-        @foreach (var c in Model.lisO27)
+        @if (Model.Rec.b02ID > 0)
         {
-            <text>
-                <tr>
-                    <td style="width:30px;">
-                        <a title="Stáhnout" asp-action="FileDownload" asp-route-guid="@c.o27GUID"><i class="fas fa-download"></i></a>
-                    </td>
-                    <td style="width:60px;">
-                        <small>@BO.BAS.FormatFileSize(c.o27FileSize)</small>
-                    </td>
-                    <td>
-                        <a title="Stáhnout a otevřít v přidružené aplikaci" asp-action="FileDownloadInline" target="_blank" asp-route-guid="@c.o27GUID">@c.o27Name</a>
-                    </td>
-
-                </tr>
-            </text>
-
+            <div class="form-row" style="margin-top:10px;">
+                <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
+                <div class="col-sm-11 col-md-10">
+                    <span class="form-control bg-light">@(Model.Rec.b02Name)</span>
+                </div>
+            </div>
         }
+        @Html.DisplayFor(m => m.Rec.TagHtml, "~/Views/Shared/_TagHtml.cshtml")
 
-    </table>
 
 
-</div>
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Vlastník záznamu:</label>
+            <div class="col-sm-11 col-md-10">
+                <span class="form-control bg-light">@(Model.Rec.RecordOwner)</span>
+
+            </div>
+
+        </div>
+
+
+
+
+
+
+        <table class="table table-sm table-hover">
+            @foreach (var c in Model.lisO27)
+            {
+                <text>
+                    <tr>
+                        <td style="width:30px;">
+                            <a title="Stáhnout" asp-action="FileDownload" asp-route-guid="@c.o27GUID"><i class="fas fa-download"></i></a>
+                        </td>
+                        <td style="width:60px;">
+                            <small>@BO.BAS.FormatFileSize(c.o27FileSize)</small>
+                        </td>
+                        <td>
+                            <a title="Stáhnout a otevřít v přidružené aplikaci" asp-action="FileDownloadInline" target="_blank" asp-route-guid="@c.o27GUID">@c.o27Name</a>
+                        </td>
+
+                    </tr>
+                </text>
+
+            }
+
+        </table>
+
+
+    </div>
 @if (Model.Rec.o23Memo != null)
 {
     <hr />

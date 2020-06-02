@@ -15,6 +15,8 @@ namespace UI.Controllers
             var v = new Models.p10PreviewViewModel();
             v.Rec = Factory.p10MasterProductBL.Load(pid);
             if (v.Rec == null) return RecNotFound(v);
+            var tg = Factory.o51TagBL.GetTagging("p10", pid);
+            v.Rec.TagHtml = tg.TagHtml;
             return View(v);
 
         }
@@ -33,7 +35,10 @@ namespace UI.Controllers
                 {
                     return RecNotFound(v);
                 }
-
+                var tg = Factory.o51TagBL.GetTagging("p10", pid);
+                v.TagPids = tg.TagPids;
+                v.TagNames = tg.TagNames;
+                v.TagHtml = tg.TagHtml;
             }
             else
             {
@@ -62,7 +67,7 @@ namespace UI.Controllers
                 c.b02ID = v.Rec.b02ID;
                 c.p20ID = v.Rec.p20ID;
                 c.p13ID = v.Rec.p13ID;
-                c.o12ID = v.Rec.o12ID;
+                
                 c.p10SwLicenseFlag = v.Rec.p10SwLicenseFlag;
                 c.p10RecalcUnit2Kg = v.Rec.p10RecalcUnit2Kg;
 
@@ -72,6 +77,7 @@ namespace UI.Controllers
                 v.Rec.pid = Factory.p10MasterProductBL.Save(c);
                 if (v.Rec.pid > 0)
                 {
+                    Factory.o51TagBL.SaveTagging("p10", v.Rec.pid, v.TagPids);
                     v.SetJavascript_CallOnLoad(v.Rec.pid);
                     return View(v);
 

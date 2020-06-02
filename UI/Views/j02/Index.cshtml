@@ -17,7 +17,7 @@
         <div class="form-row">
             <label class="col-sm-1 col-md-2 col-form-label">Jméno:</label>
             <div class="col-sm-11 col-md-10">
-                <span class="form-control bg-light">@(_fullname)</span>                
+                <span class="form-control bg-light">@(_fullname)</span>
 
             </div>
 
@@ -26,18 +26,20 @@
             <label class="col-sm-1 col-md-2 col-form-label">E-mail:</label>
             <div class="col-sm-11 col-md-10">
                 <span class="form-control bg-light">@(Model.Rec.j02Email)</span>
-                
+
 
             </div>
 
         </div>
+        @Html.DisplayFor(m => m.Rec.TagHtml, "~/Views/Shared/_TagHtml.cshtml")
+
         @if (Model.UserProfile != null)
         {
             <div class="form-row">
                 <label class="col-sm-1 col-md-2 col-form-label">Uživatel:</label>
                 <div class="col-sm-11 col-md-10">
                     <span class="form-control bg-light">@(Model.UserProfile.j03Login)</span>
-                    
+
 
                 </div>
 
@@ -46,7 +48,7 @@
                 <label class="col-sm-1 col-md-2 col-form-label">Aplikační role:</label>
                 <div class="col-sm-11 col-md-10">
                     <span class="form-control bg-light">@(Model.UserProfile.j04Name)</span>
-                    
+
 
                 </div>
 
@@ -55,7 +57,7 @@
                 <label class="col-sm-1 col-md-2 col-form-label">Last Ping:</label>
                 <div class="col-sm-11 col-md-10">
                     <span class="form-control">@Model.UserProfile.j03PingTimestamp</span>
-                    
+
 
                 </div>
 
@@ -65,7 +67,7 @@
         <div class="form-row">
             <label class="col-sm-1 col-md-2 col-form-label">Firma/Subjekt:</label>
             <div class="col-sm-11 col-md-10">
-                
+
                 <span class="form-control bg-light">@(Model.Rec.p28Name)</span>
             </div>
 

@@ -9,6 +9,10 @@ namespace UI.Models
     {
         public BO.p51Order Rec { get; set; }
 
+        public string TagPids { get; set; }
+        public string TagNames { get; set; }
+        public string TagHtml { get; set; }
+
         public List<BO.p52OrderItem> NewItems { get; set; }
         public MyToolbarViewModel Toolbar { get; set; }
     }

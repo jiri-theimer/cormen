@@ -24,6 +24,8 @@ namespace UI.Controllers
             var v = new Models.o23PreviewViewModel();
             v.Rec = Factory.o23DocBL.Load(pid);
             if (v.Rec == null) return RecNotFound(v);
+            var tg = Factory.o51TagBL.GetTagging("o23", pid);
+            v.Rec.TagHtml = tg.TagHtml;
             v.lisO27 = Factory.o23DocBL.GetListO27(pid);
             return View(v);
             
@@ -47,7 +49,10 @@ namespace UI.Controllers
                 {
                     return this.StopPageEdit(true);
                 }
-
+                var tg = Factory.o51TagBL.GetTagging("o23", pid);
+                v.TagPids = tg.TagPids;
+                v.TagNames = tg.TagNames;
+                v.TagHtml = tg.TagHtml;
             }
             else
             {
@@ -113,7 +118,7 @@ namespace UI.Controllers
                 c.o23Memo = v.Rec.o23Memo;
                 c.o23Date = v.Rec.o23Date;
                 c.b02ID = v.Rec.b02ID;
-                c.o12ID = v.Rec.o12ID;
+                
                 c.j02ID_Owner = v.Rec.j02ID_Owner;
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
@@ -127,7 +132,7 @@ namespace UI.Controllers
                 v.Rec.pid = Factory.o23DocBL.Save(c,lisO27,BO.BAS.ConvertString2ListInt(v.o27IDs4Delete));
                 if (v.Rec.pid > 0)
                 {
-
+                    Factory.o51TagBL.SaveTagging("o23", v.Rec.pid, v.TagPids);
                     v.SetJavascript_CallOnLoad(v.Rec.pid);
                     return View(v);
                 }

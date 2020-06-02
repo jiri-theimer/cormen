@@ -27,9 +27,12 @@ namespace UI.Controllers
                 {
                     return RecNotFound(v);
                 }
+                var tg = Factory.o51TagBL.GetTagging("p18", pid);
+                v.TagPids = tg.TagPids;
+                v.TagNames = tg.TagNames;
+                v.TagHtml = tg.TagHtml;
 
 
-               
 
             }
             else
@@ -72,6 +75,7 @@ namespace UI.Controllers
                 v.Rec.pid = Factory.p18OperCodeBL.Save(c);
                 if (v.Rec.pid > 0)
                 {
+                    Factory.o51TagBL.SaveTagging("p18", v.Rec.pid, v.TagPids);
                     v.SetJavascript_CallOnLoad(v.Rec.pid);
                     return View(v);
                 }

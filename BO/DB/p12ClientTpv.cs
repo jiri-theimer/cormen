@@ -32,6 +32,7 @@ namespace BO
         public string p21Name { get; set; }//get+set: kvůli mycombo
         public string p21Code;
         public string p28Name;
+        public string TagHtml;
 
     }
 }

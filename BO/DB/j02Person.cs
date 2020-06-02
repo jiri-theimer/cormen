@@ -36,6 +36,7 @@ namespace BO
         public string j03Login;
         
         public string RecordOwner;
+        public string TagHtml;
 
     }
 }
