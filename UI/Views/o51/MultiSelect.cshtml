@@ -34,7 +34,7 @@
                 selpids.push(pids[i].value);
                 s = $("[for='chkSelectedO51IDs_" + pids[i].value + "']").text();
                 selnames.push(s);
-                s = $("[for='chkSelectedO51IDs_" + pids[i].value + "']").html();                
+                s = $("[for='chkSelectedO51IDs_" + pids[i].value + "']").html().replace(/\"/g,"'");                
                 selhtml.push(s);
             }
 

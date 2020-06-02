@@ -44,13 +44,13 @@ namespace UI.Views.Shared.TagHelpers
             _sb.AppendLine(string.Format("<button type='button' class='btn btn-secondary' onclick='mystitky_multiselect(event,\"{0}\")'>...</button>", this.Entity));
             _sb.AppendLine("</div>");
 
-            _sb.AppendLine(string.Format("<input type='text' id='TagHtml' name='TagHtml' value=\"{0}\" />", this.SelectedTagHtml));            
-            
+            _sb.AppendLine(string.Format("<input type='hidden' id='TagHtml' name='TagHtml' value=\"{0}\" />", this.SelectedTagHtml));            //.Replace("<","||").Replace(">","##")
+
             _sb.AppendLine("</div>");
             _sb.Append("<div id='divTagHtml' class='input-group'>");
             if (string.IsNullOrEmpty(this.SelectedTagHtml) == false)
             {                
-                _sb.Append(this.SelectedTagHtml);                
+                _sb.Append(this.SelectedTagHtml);       //.Replace("||","<").Replace("##",">")         
             }
             _sb.Append("</div>");
 
