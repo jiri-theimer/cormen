@@ -7,7 +7,7 @@ using UI.Models;
 
 namespace UI.Controllers
 {
-    public class o12Controller : BaseController
+    public class o53Controller : BaseController
     {
         ///KATEGORIE
         public IActionResult Record(int pid, bool isclone)
@@ -16,10 +16,10 @@ namespace UI.Controllers
             {
                 return this.StopPageCreateEdit(true);
             }
-            var v = new Models.o12RecordViewModel();
+            var v = new Models.o53RecordViewModel();
             if (pid > 0)
             {
-                v.Rec = Factory.o12CategoryBL.Load(pid);
+                v.Rec = Factory.o53TagGroupBL.Load(pid);
                 if (v.Rec == null)
                 {
                     return RecNotFound(v);
@@ -28,34 +28,32 @@ namespace UI.Controllers
             }
             else
             {
-                v.Rec = new BO.o12Category();
-                v.Rec.o12Code = Factory.CBL.EstimateRecordCode("o12");
-                v.Rec.entity = "o12";
+                v.Rec = new BO.o53TagGroup();                
+                v.Rec.entity = "o53";
                
             }
 
             v.Toolbar = new MyToolbarViewModel(v.Rec);            
-            if (isclone) { v.Toolbar.MakeClone(); v.Rec.o12Code = Factory.CBL.EstimateRecordCode("o12"); }
-
+           
             return View(v);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Record(Models.o12RecordViewModel v)
+        public IActionResult Record(Models.o53RecordViewModel v)
         {
             if (ModelState.IsValid)
             {
-                BO.o12Category c = new BO.o12Category();
-                if (v.Rec.pid > 0) c = Factory.o12CategoryBL.Load(v.Rec.pid);
+                BO.o53TagGroup c = new BO.o53TagGroup();
+                if (v.Rec.pid > 0) c = Factory.o53TagGroupBL.Load(v.Rec.pid);
 
-                c.o12Code = v.Rec.o12Code;
-                c.o12Name = v.Rec.o12Name;
-                c.o12Entity = v.Rec.o12Entity;
+                
+                c.o53Name = v.Rec.o53Name;
+                
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
 
-                v.Rec.pid = Factory.o12CategoryBL.Save(c);
+                v.Rec.pid = Factory.o53TagGroupBL.Save(c);
                 if (v.Rec.pid > 0)
                 {
                     v.SetJavascript_CallOnLoad(v.Rec.pid);

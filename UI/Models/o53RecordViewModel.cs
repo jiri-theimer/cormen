@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace UI.Models
 {
-    public class o12RecordViewModel:BaseViewModel
+    public class o53RecordViewModel:BaseViewModel
     {
-        public BO.o12Category Rec { get; set; }
+        public BO.o53TagGroup Rec { get; set; }
 
         public MyToolbarViewModel Toolbar { get; set; }
 
