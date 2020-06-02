@@ -33,8 +33,8 @@ namespace UI.Controllers
                
             }
 
-            v.Toolbar = new MyToolbarViewModel(v.Rec);            
-           
+            v.Toolbar = new MyToolbarViewModel(v.Rec);
+            if (isclone) { v.Toolbar.MakeClone(); }
             return View(v);
         }
         [HttpPost]
