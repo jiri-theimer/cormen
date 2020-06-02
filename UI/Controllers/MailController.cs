@@ -130,7 +130,7 @@ namespace UI.Controllers
             }
 
             v.MimeMessage = MimeMessage.Load(fullPath);
-            v.MimeAttachments = new List<BO.COM.StringPairValue>();
+            v.MimeAttachments = new List<BO.StringPair>();
 
             foreach (var attachment in v.MimeMessage.Attachments)
             {
@@ -142,7 +142,7 @@ namespace UI.Controllers
                 {
                     var part = (MimePart)attachment;
                     var fileName = part.FileName;
-                    v.MimeAttachments.Add(new BO.COM.StringPairValue() { Key = part.ContentType.MimeType, Value = fileName });
+                    v.MimeAttachments.Add(new BO.StringPair() { Key = part.ContentType.MimeType, Value = fileName });
 
                     string strTempFullPath = this.Factory.App.TempFolder + "\\" + strDestGUID + "_" + fileName;
                     if (System.IO.File.Exists(strTempFullPath) == false)

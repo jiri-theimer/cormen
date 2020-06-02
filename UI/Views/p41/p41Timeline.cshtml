@@ -143,7 +143,7 @@
     @foreach (var stredisko in Model.lisP27)
     {
 
-        <div class="stredisko" style="grid-column: 1/span 1;">@stredisko.p27Name <span class="kapacita">@stredisko.p27Capacity</span><a onclick="_zoom(event,'p27',@stredisko.pid)">?</a></div>
+        <div class="stredisko" style="grid-column: 1/span 1;">@stredisko.p27Name <span class="kapacita">@stredisko.p27Capacity</span><a onclick="_zoom(event,'p27',@stredisko.pid,'small','Středisko')">?</a></div>
         @foreach (var task in Model.Tasks.Where(p => p.p27ID == stredisko.pid))
         {
             strClass = "onetask";
@@ -171,7 +171,7 @@
 
             strTitle = task.p41Code + ": " + BO.BAS.ObjectDateTime2String(task.p41PlanStart) + " - " + BO.BAS.ObjectDateTime2String(task.p41PlanEnd);
 
-            <div class="@strClass" style="grid-column: @intColStart/span @intColSpan;" title="@strTitle"><a onclick="_zoom(event,'p41',@task.pid,'big')">?</a></div>
+            <div class="@strClass" style="grid-column: @intColStart/span @intColSpan;" title="@strTitle"><a onclick="_zoom(event,'p41',@task.pid,'big','Zakázka')">?</a></div>
         }
         <div class="divider" style="grid-column: 1/span @(_colsHours*6);"></div>
 

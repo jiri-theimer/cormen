@@ -24,12 +24,12 @@ namespace BO
         public DateTime? j03PingTimestamp { get; set; }
 
 
-        public List<BO.COM.StringPairValue> Messages4Notify { get; set; }
+        public List<BO.StringPair> Messages4Notify { get; set; }
 
         public void AddMessage(string strMessage,string strTemplate="error")
         {
-            if (Messages4Notify == null) { Messages4Notify = new List<BO.COM.StringPairValue>(); };
-            Messages4Notify.Add(new BO.COM.StringPairValue() { Key = strTemplate, Value = strMessage }); ;
+            if (Messages4Notify == null) { Messages4Notify = new List<BO.StringPair>(); };
+            Messages4Notify.Add(new BO.StringPair() { Key = strTemplate, Value = strMessage }); ;
         }
 
         public string getFontStyle()

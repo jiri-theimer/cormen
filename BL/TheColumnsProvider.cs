@@ -176,11 +176,18 @@ namespace BL
             AF("o12Category", "EntityAlias", "Vazba", 1, "dbo.getEntityAlias(a.o12Entity)");
 
             //o51 = štítek
-            AF("o51Tag", "o51Name", "Štítek", 1, null, "string", false, true);            
+            AF("o51Tag", "o51Name", "Štítek", 1, null, "string", false, true);
             AF("o51Tag", "o51Entities", "Vazba", 1);
-            //AF("o51Tag", "EntityAlias", "Vazba", 1, "dbo.getEntityAlias(a.o51Entity)");
+            AF("o51Tag", "o51IsColor", "Má barvu", 1, null, "bool");
+            AF("o51Tag", "o51ForeColor", "Barva písma",1, "'<div style=\"background-color:'+a.o51ForeColor+';\">písmo</div>'");
+            AF("o51Tag", "o51BackColor", "Barva pozadí", 1, "'<div style=\"background-color:'+a.o51BackColor+';\">pozadí</div>'");
+
 
             AF("o53TagGroup", "o53Name", "Skupina", 1, null, "string", false, true);
+
+            AF("o54TagBindingInline", "o54InlineHtml", "Štítky", 1, null, "string", false, true);
+            AF("o54TagBindingInline", "o54InlineText", "Štítky (pouze text)",1, null, "string", false, true);
+            
 
             //p19=materiál
             AF("p19Material", "p19Code", "Kód suroviny", 1,null,"string",false,true);

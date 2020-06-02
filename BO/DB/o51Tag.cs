@@ -15,10 +15,39 @@ namespace BO
         [Required(ErrorMessage = "Chybí vyplnit název!")]
         public string o51Name { get; set; }
 
-        
+
+        public bool o51IsColor { get; set; }
+        public string o51BackColor { get; set; }
+        public string o51ForeColor { get; set; }
+
+
+
         public string o51Entities { get; set; }
         public string o51Code { get; set; }
 
         public string o53Name { get; set; }
+
+        public string HtmlText { get
+            {
+                if (this.o51IsColor == false)
+                {
+                    return string.Format("<div class='tagbox'>{0}</div>", this.o51Name);
+                }
+                else
+                {
+                    return string.Format("<div class='tagbox' style='background-color:{0};color:{1};'>{2}</div>",this.o51BackColor,this.o51ForeColor, this.o51Name);
+                }
+
+                
+            }
+        }
+    }
+
+    public class TaggingHelper
+    {
+        public string TagPids { get; set; }
+        public string TagNames { get; set; }
+        public string TagHtml { get; set; }
+        public IEnumerable<BO.o51Tag> Tags { get; set; }
     }
 }

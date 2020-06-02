@@ -72,9 +72,13 @@ input[type="checkbox"] {
     input[type="checkbox"] + label {
         cursor: pointer;
     }
-    input[type="checkbox"] + label:hover {
-        background-color:aliceblue;
-    }
+        input[type="checkbox"] + label:hover {
+            background-color: aliceblue;
+        }
+
+input:checked + label {
+    color:blue;
+}
 
 
 tr.selrow {
@@ -634,3 +638,22 @@ a.nav-link:hover {
         height: 100%;
     }
 
+
+
+/*box MT štítku (o51)*/
+.tagbox {
+    display: inline-block;
+    min-width: 50px;
+    padding: 3px;
+    font-weight: normal;
+    line-height: 1;
+    text-align: center;
+    border: solid;
+    border-width: 1px;
+    border-color: gray;
+    vertical-align: middle;
+    border-radius: 4px;
+    background-color: khaki;
+    color: black;
+    margin-left: 2px;
+}

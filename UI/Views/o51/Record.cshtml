@@ -42,9 +42,34 @@
         </div>
     </div>
 
+
+    <div class="form-row">
+        <input asp-for="@Model.Rec.o51IsColor" />
+        <label for="Rec_o51IsColor">Štítek má vlastní barvu?</label>
+    </div>
+    
+    <table id="tabColor">
+        <tr>
+            <td>
+                Barva písma:
+            </td>
+            <td>
+                <input type="color" asp-for="Rec.o51ForeColor" />
+            </td>
+            <td>
+                Barva pozadí:
+            </td>
+            <td>
+                <input type="color" asp-for="Rec.o51BackColor" />
+            </td>
+            
+        </tr>
+    </table>
+    
+
     <div class="form-row" style="display:none;">
         <label class="col-sm-1 col-md-2 col-form-label">Kód:</label>
-        <div class="col-sm-11 col-md-10">
+        <div class="col-sm-4 col-md-4">
             <input class="form-control" asp-for="Rec.o51Code" />
             <span asp-validation-for="Rec.o51Code" class="text-danger"></span>
         </div>
@@ -58,6 +83,29 @@
 
 
 <script type="text/javascript">
+    $(document).ready(function () {
+        handle_barva();
+
+
+        $("#Rec_o51IsColor").on("click", function () {
+            handle_barva();
+        });
+
+    });
+
+    
+
+
+    function handle_barva() {
+        if ($("#Rec_o51IsColor").prop("checked") == true) {
+            $("#tabColor").css("display", "block");
+            
+           
+        } else {
+            $("#tabColor").css("display", "none");
+            
+        }
+    }
 
 </script>
 

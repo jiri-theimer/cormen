@@ -470,7 +470,7 @@ function _load_ajax_data(strHandlerUrl, params, is_async, data_type) {
 
 
 //vyvolání zoom info okna
-function _zoom(e, entity, pid, wtype,url) {     //wtype: small (600px) nebo big (1050px), výchozí je small
+function _zoom(e, entity, pid, wtype, header, url) {     //wtype: small (600px) nebo big (1050px), výchozí je small
     var ctl = e.target;
     var maxwidth = $(window).width();
     var w = 600;
@@ -487,6 +487,9 @@ function _zoom(e, entity, pid, wtype,url) {     //wtype: small (600px) nebo big 
     }  
     if (typeof url === "undefined") {
         url = "/" + entity + "/Index?pid=" + pid;
+    }
+    if (typeof header === "undefined") {
+        header = "INFO";
     }
     
     var menuid = "zoom_okno";
@@ -505,7 +508,7 @@ function _zoom(e, entity, pid, wtype,url) {     //wtype: small (600px) nebo big 
     
     
     var s = "<div id='divZoomContainer' style='width:" + w + "px;' orig_w='"+w+"' orig_h='"+h+"'>";    
-    s += "<div id='divZoomHeader' style='cursor: move;height:30px;background-color:lightsteelblue;padding:3px;' ondblclick='_zoom_toggle()'>INFO</div>";
+    s += "<div id='divZoomHeader' style='cursor: move;height:30px;background-color:lightsteelblue;padding:3px;' ondblclick='_zoom_toggle()'>"+header+"</div>";
     s += "<div id='divZoomFrame'>";
     s += "<iframe id='frazoom' src = '" + url + "' style = 'width:100%;height: "+(h-31)+"px;' frameborder=0></iframe >";
     s += "</div>";

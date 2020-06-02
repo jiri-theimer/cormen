@@ -21,17 +21,21 @@ namespace UI.Controllers
                 return this.StopPageCreateEdit(true);
             }
             var v = new Models.p19RecordViewModel();
-            
+
             if (pid > 0)
             {
                 v.Rec = Factory.p19MaterialBL.Load(pid);
-               
+
                 if (v.Rec == null)
                 {
                     return RecNotFound(v);
                 }
-                
-                
+                var tg = Factory.o51TagBL.GetTagging("p19", pid);
+                v.TagPids = tg.TagPids;
+                v.TagNames = tg.TagNames;
+                v.TagHtml = tg.TagHtml;
+
+
                 if (Factory.CurrentUser.j03EnvironmentFlag == 2 && v.Rec.p28ID != Factory.CurrentUser.p28ID)
                 {
                     return this.StopPage(true, "V režimu [CLIENT] nemáte oprávnění editovat tuto kartu materiálu");
@@ -48,10 +52,10 @@ namespace UI.Controllers
                     v.Rec.p28ID = Factory.CurrentUser.p28ID;
                     v.Rec.p28Name = Factory.CurrentUser.p28Name;
                 }
+                
 
             }
-            v.TagIds = "1,2,3";
-            v.TagNames = "první,druhý,třetí";
+
 
             v.Toolbar = new MyToolbarViewModel(v.Rec);
             if (isclone) { v.Toolbar.MakeClone(); v.Rec.p19Code = Factory.CBL.EstimateRecordCode("p19"); }
@@ -92,6 +96,8 @@ namespace UI.Controllers
                 v.Rec.pid = Factory.p19MaterialBL.Save(c);
                 if (v.Rec.pid > 0)
                 {
+                    Factory.o51TagBL.SaveTagging("p19", v.Rec.pid, v.TagPids);
+
                     v.SetJavascript_CallOnLoad(v.Rec.pid);
                     return View(v);
                 }

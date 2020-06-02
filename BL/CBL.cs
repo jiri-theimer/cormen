@@ -21,7 +21,7 @@ namespace BL
            
         }
       
-        private IEnumerable<BO.COM.StringPairValue> _userparams = null;
+        private IEnumerable<BO.StringPair> _userparams = null;
         public string DeleteRecord(string entity,int pid)
         {
             var pars = new Dapper.DynamicParameters();
@@ -69,7 +69,7 @@ namespace BL
         {     
             if (_userparams == null)
             {
-                _userparams= _db.GetList<BO.COM.StringPairValue>("SELECT x36Key as [Key],x36Value as [Value] FROM x36UserParam WHERE j03ID=@j03id", new { j03id = _db.CurrentUser.pid });
+                _userparams= _db.GetList<BO.StringPair>("SELECT x36Key as [Key],x36Value as [Value] FROM x36UserParam WHERE j03ID=@j03id", new { j03id = _db.CurrentUser.pid });
             }
 
             if (_userparams.Where(p => p.Key == strKey).Count() > 0)

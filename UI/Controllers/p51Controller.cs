@@ -103,6 +103,7 @@ namespace UI.Controllers
                 c.j02ID_Owner = v.Rec.j02ID_Owner;
                 c.p51CodeByClient = v.Rec.p51CodeByClient;
                 
+                
                 c.p51Date = v.Rec.p51Date;
                 c.p51DateDelivery = v.Rec.p51DateDelivery;
                 c.p51DateDeliveryConfirmed = v.Rec.p51DateDeliveryConfirmed;

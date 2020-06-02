@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BO.COM
+namespace BO
 {
-    public class StringPairValue
+    public class StringPair
     {
         public string Key { get; set; }
         public string Value { get; set; }

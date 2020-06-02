@@ -13,7 +13,7 @@ namespace UI.Models
 
         public MimeMessage MimeMessage { get; set; }
 
-        public List<BO.COM.StringPairValue> MimeAttachments { get; set; }
+        public List<BO.StringPair> MimeAttachments { get; set; }
 
     }
 }

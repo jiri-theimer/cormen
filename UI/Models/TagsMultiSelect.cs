@@ -12,5 +12,7 @@ namespace UI.Models
 
         public IEnumerable<int> SelectedO51IDs { get; set; }
         public IEnumerable<BO.o51Tag> ApplicableTags { get; set; }
+
+        
     }
 }

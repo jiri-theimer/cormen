@@ -17,6 +17,7 @@ namespace UI.Controllers
         {            
             var v = new TagsMultiSelect();
             v.Entity = entity;
+            
             string prefix = v.Entity.Substring(0, 3);
             var mq = new BO.myQuery("o51Tag");
             mq.IsRecordValid = true;
@@ -87,6 +88,9 @@ namespace UI.Controllers
                     prefixes.Add(TheEntities.ByIntPrefix(x).Prefix);
                 }
                 c.o51Entities = String.Join(",", prefixes);
+                c.o51IsColor = v.Rec.o51IsColor;
+                c.o51BackColor = v.Rec.o51BackColor;
+                c.o51ForeColor = v.Rec.o51ForeColor;
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
@@ -119,6 +123,8 @@ namespace UI.Controllers
             v.ApplicableEntities.Add(BL.TheEntities.ByPrefix("o23"));
             v.ApplicableEntities.Add(BL.TheEntities.ByPrefix("p19"));
             v.ApplicableEntities.Add(BL.TheEntities.ByPrefix("p18"));
+            v.ApplicableEntities.Add(BL.TheEntities.ByPrefix("p13"));
+            v.ApplicableEntities.Add(BL.TheEntities.ByPrefix("p12"));
 
 
 
