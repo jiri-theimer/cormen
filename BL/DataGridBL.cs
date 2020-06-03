@@ -10,7 +10,7 @@ namespace BL
     {
         public DataTable GetList(BO.myQuery mq, bool bolGetTotalsRow = false);
         public BO.j72TheGridState LoadTheGridState(int intJ72ID);
-        public BO.j72TheGridState LoadTheGridState(string strEntity,int intJ02ID,string strMasterEntity);
+        public BO.j72TheGridState LoadTheGridState(string strEntity,int intJ03ID, string strMasterEntity);
         public int SaveTheGridState(BO.j72TheGridState rec);
 
     }

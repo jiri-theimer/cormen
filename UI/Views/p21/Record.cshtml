@@ -179,7 +179,7 @@
             $("#divP10").html("");
             return;
         }
-        $.post(url, { entity: "p10", tableid: "tabP10IDs", pids: pids, delete_function: "handle_delete_product" }, function (data) {
+        $.post(url, { entity: "p10MasterProduct", tableid: "tabP10IDs", pids: pids, delete_function: "handle_delete_product" }, function (data) {
             $("#divP10").html(data);
 
         });

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Asn1.Pkcs;
 using UI.Models;
 
 namespace UI.Controllers
@@ -75,40 +76,63 @@ namespace UI.Controllers
             }
             return s.ToString();
         }
-        public string GetWorkTable(string entity, string tableid, string param1, string pids,string delete_function,string queryfield,string queryvalue)
+        public string GetWorkTable(string entity, string tableid, string param1, string pids,string delete_function,string queryfield,string queryvalue,string master_entity)
         {                
             var mq = new BO.myQuery(entity);
             mq.SetPids(pids);
+
+            var grid = Factory.gridBL.LoadTheGridState(entity, Factory.CurrentUser.pid, master_entity);
+
+            if (grid == null)
+            {
+                mq.explicit_columns = _colsProvider.getDefaultPallete(false, mq);
+            }
+            else
+            {
+                mq.explicit_columns = _colsProvider.ParseTheGridColumns(mq.Prefix, grid.j72Columns);
+                mq.explicit_orderby = grid.j72SortDataField;
+                if (grid.j72SortDataField !=null && grid.j72SortOrder != null)
+                {
+                    mq.explicit_orderby += " " + grid.j72SortOrder;
+                }
+
+            }            
+
             if (string.IsNullOrEmpty(queryfield) == false)
             {
                 BO.Reflexe.SetPropertyValue(mq, queryfield, queryvalue);
             }
-            
-            mq.explicit_columns = _colsProvider.getDefaultPallete(false,mq);
 
+            
             var dt = Factory.gridBL.GetList(mq);
             var intRows = dt.Rows.Count;
 
-            var s = new System.Text.StringBuilder();
-           
-            s.Append(string.Format("<table id='{0}' class='table table-sm table-hover'>", tableid));
-
+            var sb = new System.Text.StringBuilder();
+            sb.Append(string.Format("<table id='{0}' class='table table-sm table-hover'>", tableid));
+            sb.Append("<thead><tr>");
+            foreach(var c in mq.explicit_columns)
+            {
+                sb.Append(string.Format("<th>{0}</th>", c.Header));
+            }
+            sb.Append("</tr></thead>");
+            sb.Append("<tbody>");
             for (int i = 0; i < intRows; i++)
             {
-                s.Append(string.Format("<tr data-v='{0}'>", dt.Rows[i]["pid"]));
+                sb.Append(string.Format("<tr data-v='{0}'>", dt.Rows[i]["pid"]));
                 foreach (var col in mq.explicit_columns)
                 {
-                    s.Append(string.Format("<td>{0}</td>", BO.BAS.ParseCellValueFromDb(dt.Rows[i],col)));
+                    sb.Append(string.Format("<td>{0}</td>", BO.BAS.ParseCellValueFromDb(dt.Rows[i],col)));
                 }
                 if (delete_function != null)
                 {
-                    s.Append(string.Format("<td><button type='button' class='btn btn-sm btn-danger' title='Odstranit řádek' onclick='{0}({1})'>&times;</button></td>", delete_function, dt.Rows[i]["pid"]));
+                    sb.Append(string.Format("<td><button type='button' class='btn btn-sm btn-danger' title='Odstranit řádek' onclick='{0}({1})'>&times;</button></td>", delete_function, dt.Rows[i]["pid"]));
                 }
-                s.Append("</tr>");
+                sb.Append("</tr>");
             }
-            s.Append("</table>");
+            sb.Append("</tbody>");
+            sb.Append("</table>");
 
-            return s.ToString();
+            return sb.ToString();
         }
         
         public string GetAutoCompleteHtmlItems(int o15flag, string tableid) //Vrací HTML zdroj tabulky pro MyAutoComplete
