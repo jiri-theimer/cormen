@@ -176,9 +176,9 @@ namespace BL
 
             //o51 = štítek
             AF("o51Tag", "o51Name", "Položka kategorie", 1, null, "string", false, true);            
-            AF("o51Tag", "o51IsColor", "Má barvu", 1, null, "bool");
-            AF("o51Tag", "o51ForeColor", "Barva písma",1, "'<div style=\"background-color:'+a.o51ForeColor+';\">písmo</div>'");
-            AF("o51Tag", "o51BackColor", "Barva pozadí", 1, "'<div style=\"background-color:'+a.o51BackColor+';\">pozadí</div>'");
+            AF("o51Tag", "o51IsColor", "Má barvu", 2, null, "bool");
+            AF("o51Tag", "o51ForeColor", "Barva písma",2, "'<div style=\"background-color:'+a.o51ForeColor+';\">písmo</div>'");
+            AF("o51Tag", "o51BackColor", "Barva pozadí", 2, "'<div style=\"background-color:'+a.o51BackColor+';\">pozadí</div>'");
 
 
             AF("o53TagGroup", "o53Name", "Skupina", 1, null, "string", false, true);

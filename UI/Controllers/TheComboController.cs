@@ -54,6 +54,9 @@ namespace UI.Controllers
                     case "p28":
                         mq.p28id = masterpid;
                         break;
+                    case "o53":
+                        mq.o53id = masterpid;
+                        break;
                     case "p21":
                         mq.p21id = masterpid;
                         break;

@@ -27,7 +27,8 @@ namespace BO
         public string o51Code { get; set; }
 
         public string o53Name { get; set; }
-        public string o53Entities { get; set; }
+        public string o53Entities;
+        public bool o53IsMultiSelect;
 
         public string HtmlText { get
             {

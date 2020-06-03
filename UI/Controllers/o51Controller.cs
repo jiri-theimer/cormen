@@ -18,12 +18,25 @@ namespace UI.Controllers
         {            
             var v = new TagsMultiSelect();
             v.Entity = entity;
-            
             string prefix = v.Entity.Substring(0, 3);
-            var mq = new BO.myQuery("o51Tag");
-            mq.IsRecordValid = true;
-            v.ApplicableTags = Factory.o51TagBL.GetList(mq).Where(p => p.o53Entities == null || p.o53Entities.Contains(prefix)).OrderBy(p=>p.o53Name).ThenBy(p=>p.o51Ordinary).ThenBy(p=>p.o51Name);
 
+            var mq = new BO.myQuery("o53TagGroup");
+            var lisGroups = Factory.o53TagGroupBL.GetList(mq).Where(p =>p.o53IsMultiSelect==false && ( p.o53Entities == null || p.o53Entities.Contains(prefix))).ToList();
+            v.SingleCombos = new List<SingleSelectCombo>();
+            foreach (var group in lisGroups)
+            {
+                v.SingleCombos.Add(new SingleSelectCombo() { o53ID = group.pid, o53Name = group.o53Name });
+            }
+            
+            mq = new BO.myQuery("o51Tag");
+            mq.IsRecordValid = true;
+            IEnumerable<BO.o51Tag> lis = Factory.o51TagBL.GetList(mq).OrderBy(p => p.o53Name).ThenBy(p => p.o51Ordinary).ThenBy(p => p.o51Name);
+            v.ApplicableTags_Multi = lis.Where(p => p.o53IsMultiSelect==true && ( p.o53Entities == null || p.o53Entities.Contains(prefix)));
+            v.ApplicableTags_Single = lis.Where(p => p.o53IsMultiSelect==false && (p.o53Entities == null || p.o53Entities.Contains(prefix)));
+
+            
+
+            v.CheckedO51IDs = BO.BAS.ConvertString2ListInt(o51ids);
             v.SelectedO51IDs = BO.BAS.ConvertString2ListInt(o51ids);
 
             //if (String.IsNullOrEmpty(o51ids) == false)

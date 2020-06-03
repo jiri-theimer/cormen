@@ -24,7 +24,7 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*,o51_o53.o53Name,o51_o53.o53Entities," + _db.GetSQL1_Ocas("o51") + " FROM o51Tag a LEFT OUTER JOIN o53TagGroup o51_o53 ON a.o53ID=o51_o53.o53ID";
+            return "SELECT a.*,o51_o53.o53Name,o51_o53.o53Entities,o51_o53.o53IsMultiSelect," + _db.GetSQL1_Ocas("o51") + " FROM o51Tag a LEFT OUTER JOIN o53TagGroup o51_o53 ON a.o53ID=o51_o53.o53ID";
         }
         public BO.o51Tag Load(int pid)
         {

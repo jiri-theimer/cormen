@@ -7,24 +7,35 @@
 
 @addTagHelper *, UI
 
-    <div class="bg-light" style="padding:10px;">
-        <button type="button" onclick="ok()" class="btn btn-success">OK</button>
-        <button type="button" onclick="uncheckall()" class="btn btn-light">Odškrtnout vše</button>
-        <button type="button" onclick="stitky_zoom_close()" class="btn btn-light">Zavřít</button>
+<div class="bg-light" style="padding:10px;">
+    <button type="button" onclick="ok()" class="btn btn-success">OK</button>
+    <button type="button" onclick="uncheckall()" class="btn btn-light">Odškrtnout vše</button>
+    <button type="button" onclick="stitky_zoom_close()" class="btn btn-light">Zavřít</button>
 
 
 
+</div>
+
+@for(var i=0;i<Model.SingleCombos.Count();i++)
+{
+    <div class="form-row">
+        <label class="col-sm-2 col-md-3 col-form-label" for="">@(Model.SingleCombos[i].o53Name+":")</label>
+        <div class="col-sm-10 col-md-11">
+            <mycombo entity="o51Tag" asp-for="@Model.SingleCombos[i].o51ID" selectedtext="@Model.SingleCombos[i].o51Name" view-flag="2" masterprefix="o53" masterpid="@Model.SingleCombos[i].o53ID"></mycombo>
+            
+        </div>
     </div>
+}
 
-<mycheckboxlist asp-for="@Model.SelectedO51IDs" textfield="HtmlText" valuefield="pid" groupfield="o53Name" datasource="@Model.ApplicableTags"></mycheckboxlist>
+<mycheckboxlist asp-for="@Model.CheckedO51IDs" textfield="HtmlText" valuefield="pid" groupfield="o53Name" datasource="@Model.ApplicableTags_Multi"></mycheckboxlist>
 
 
 <script type="text/javascript">
-    function stitky_zoom_close(){
+    function stitky_zoom_close() {
         window.parent.document.getElementById("zoom_okno").style.display = "none";
     }
     function ok() {
-        var pids = document.getElementsByName("SelectedO51IDs");
+        var pids = document.getElementsByName("CheckedO51IDs");
         var selpids = [];
         var selnames = [];
         var selhtml = [];
@@ -32,35 +43,35 @@
         for (var i = 0; i <= pids.length - 1; i++) {
             if (pids[i].value != "0") {
                 selpids.push(pids[i].value);
-                s = $("[for='chkSelectedO51IDs_" + pids[i].value + "']").text();
+                s = $("[for='chkCheckedO51IDs_" + pids[i].value + "']").text();
                 selnames.push(s);
-                s = $("[for='chkSelectedO51IDs_" + pids[i].value + "']").html().replace(/\"/g,"'");                
+                s = $("[for='chkCheckedO51IDs_" + pids[i].value + "']").html().replace(/\"/g, "'");
                 selhtml.push(s);
             }
 
         }
 
-             
+
         window.parent.document.getElementById("TagPids").value = selpids.join(",");
         window.parent.document.getElementById("TagNames").value = selnames.join(",");
 
         var ss = selhtml.join("");
         window.parent.document.getElementById("TagHtml").value = ss;
         window.parent.document.getElementById("divTagHtml").innerHTML = ss;
-              
+
 
         stitky_zoom_close();
     }
     function uncheckall() {
-        var pids = document.getElementsByName("SelectedO51IDs");
-        
+        var pids = document.getElementsByName("CheckedO51IDs");
+
         for (var i = 0; i <= pids.length - 1; i++) {
-            if (pids[i].value != "0") {                
-                $("#chkSelectedO51IDs_" + pids[i].value).prop("checked", false);
-                
+            if (pids[i].value != "0") {
+                $("#chkCheckedO51IDs_" + pids[i].value).prop("checked", false);
+
                 pids[i].value = "0";
             }
-            
+
         }
     }
 </script>

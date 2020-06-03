@@ -117,6 +117,10 @@ namespace BL.DL
             {
                 if (mq.Prefix == "p41") AQ(ref lis, "a.p52ID=@p52id", "p52id", mq.p52id);
             }
+            if (mq.o53id > 0)
+            {
+                if (mq.Prefix == "o51") AQ(ref lis, "a.o53ID=@o53id", "o53id", mq.o53id);
+            }
 
             if (mq.Prefix == "b02" && !string.IsNullOrEmpty(mq.query_by_entity_prefix))
             {

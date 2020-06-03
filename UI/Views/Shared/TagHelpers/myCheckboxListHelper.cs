@@ -72,7 +72,7 @@ namespace UI.Views.Shared.TagHelpers
                         {
                             sb.Append("<hr class='hr-mini'>");
                         }
-                        sb.AppendLine("<strong>"+strGroup+"</strong>");
+                        sb.AppendLine("<div style='font-weight:bold;background-color:#ADD8E6;'>" + strGroup+"</div>");
                         sb.AppendLine("</li>");
                     }
                 }
