@@ -19,13 +19,15 @@ namespace BO
         public bool o51IsColor { get; set; }
         public string o51BackColor { get; set; }
         public string o51ForeColor { get; set; }
+        public int o51Ordinary { get; set; }
 
 
 
-        public string o51Entities { get; set; }
+
         public string o51Code { get; set; }
 
         public string o53Name { get; set; }
+        public string o53Entities { get; set; }
 
         public string HtmlText { get
             {

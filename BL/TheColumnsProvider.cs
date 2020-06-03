@@ -175,17 +175,19 @@ namespace BL
             //AF("o12Category", "EntityAlias", "Vazba", 1, "dbo.getEntityAlias(a.o12Entity)");
 
             //o51 = štítek
-            AF("o51Tag", "o51Name", "Štítek", 1, null, "string", false, true);
-            AF("o51Tag", "o51Entities", "Vazba", 1);
+            AF("o51Tag", "o51Name", "Položka kategorie", 1, null, "string", false, true);            
             AF("o51Tag", "o51IsColor", "Má barvu", 1, null, "bool");
             AF("o51Tag", "o51ForeColor", "Barva písma",1, "'<div style=\"background-color:'+a.o51ForeColor+';\">písmo</div>'");
             AF("o51Tag", "o51BackColor", "Barva pozadí", 1, "'<div style=\"background-color:'+a.o51BackColor+';\">pozadí</div>'");
 
 
             AF("o53TagGroup", "o53Name", "Skupina", 1, null, "string", false, true);
+            
+            AF("o53TagGroup", "o53IsMultiSelect", "Multi-Select",0,null,"bool");
+            AF("o53TagGroup", "o53Entities", "Vazba", 1, "dbo.getEntityAlias_Multi(a.o53Entities)");
 
-            AF("o54TagBindingInline", "o54InlineHtml", "Štítky", 1, null, "string", false, true);
-            AF("o54TagBindingInline", "o54InlineText", "Štítky (pouze text)",1, null, "string", false, true);
+            AF("o54TagBindingInline", "o54InlineHtml", "Kategorie", 1, null, "string", false, true);
+            AF("o54TagBindingInline", "o54InlineText", "Kategorie (pouze text)",1, null, "string", false, true);
             
 
             //p19=materiál

@@ -1,7 +1,7 @@
 ﻿@model o51RecordViewModel
 
 @{
-    ViewData["Title"] = "Štítek";
+    ViewData["Title"] = "Položka kategorie";
     Layout = "~/Views/Shared/_LayoutModal.cshtml";
 }
 @addTagHelper *, UI
@@ -9,7 +9,7 @@
 
 @using (Html.BeginForm())
 {
-<h4>Štítek</h4>
+<h4>Položka kategorie</h4>
 @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
 @Html.HiddenFor(m => m.Rec.pid)
 
@@ -26,14 +26,7 @@
 
 
 
-    <div class="card">
-        <div class="card-header">
-            Vazba štítku na entity
-        </div>
-        <div class="card-body">
-            <mycheckboxlist asp-for="@Model.SelectedEntities" textfield="AliasPlural" valuefield="IntPrefix" datasource="@Model.ApplicableEntities"></mycheckboxlist>
-        </div>
-    </div>
+
 
     <div class="form-row" style="margin-top:10px;">
         <label class="col-sm-1 col-md-2 col-form-label">Skupina:</label>
@@ -42,12 +35,19 @@
         </div>
     </div>
 
+    <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Pořadí v rámci skupiny:</label>
+        <div class="col-sm-11 col-md-10">
+            <mynumber asp-for="Rec.o51Ordinary" decimal-digits="0"></mynumber>
+        </div>
+    </div>
+
 
     <div class="form-row">
         <input asp-for="@Model.Rec.o51IsColor" />
         <label for="Rec_o51IsColor">Štítek má vlastní barvu?</label>
     </div>
-    
+
     <table id="tabColor">
         <tr>
             <td>
@@ -62,10 +62,10 @@
             <td>
                 <input type="color" asp-for="Rec.o51BackColor" />
             </td>
-            
+
         </tr>
     </table>
-    
+
 
     <div class="form-row" style="display:none;">
         <label class="col-sm-1 col-md-2 col-form-label">Kód:</label>

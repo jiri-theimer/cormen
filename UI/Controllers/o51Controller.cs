@@ -22,7 +22,7 @@ namespace UI.Controllers
             string prefix = v.Entity.Substring(0, 3);
             var mq = new BO.myQuery("o51Tag");
             mq.IsRecordValid = true;
-            v.ApplicableTags = Factory.o51TagBL.GetList(mq).Where(p => p.o51Entities.Contains(prefix)).OrderBy(p=>p.o53Name);
+            v.ApplicableTags = Factory.o51TagBL.GetList(mq).Where(p => p.o53Entities == null || p.o53Entities.Contains(prefix)).OrderBy(p=>p.o53Name).ThenBy(p=>p.o51Ordinary).ThenBy(p=>p.o51Name);
 
             v.SelectedO51IDs = BO.BAS.ConvertString2ListInt(o51ids);
 
@@ -46,14 +46,7 @@ namespace UI.Controllers
             if (pid > 0)
             {
                 v.Rec = Factory.o51TagBL.Load(pid);
-                if (v.Rec.o51Entities != null)
-                {
-                    v.SelectedEntities = new List<int>();
-                    foreach(var s in BO.BAS.ConvertString2List(v.Rec.o51Entities))
-                    {
-                        v.SelectedEntities.Add(BL.TheEntities.ByPrefix(s).IntPrefix);
-                    }
-                }
+                
                 if (v.Rec == null)
                 {
                     return RecNotFound(v);
@@ -83,12 +76,7 @@ namespace UI.Controllers
                 c.o53ID = v.Rec.o53ID;
                 c.o51Code = v.Rec.o51Code;
                 c.o51Name = v.Rec.o51Name;
-                var prefixes = new List<string>();
-                foreach(var x in v.SelectedEntities.Where(p=>p>0))
-                {
-                    prefixes.Add(TheEntities.ByIntPrefix(x).Prefix);
-                }
-                c.o51Entities = String.Join(",", prefixes);
+                c.o51Ordinary = v.Rec.o51Ordinary;
                 c.o51IsColor = v.Rec.o51IsColor;
                 c.o51BackColor = v.Rec.o51BackColor;
                 c.o51ForeColor = v.Rec.o51ForeColor;
@@ -194,34 +182,16 @@ namespace UI.Controllers
             string prefix = v.Record_Entity.Substring(0, 3);
             var mq = new BO.myQuery("o51Tag");
             mq.IsRecordValid = true;
-            v.ApplicableTags = Factory.o51TagBL.GetList(mq).Where(p => p.o51Entities.Contains(prefix)).OrderBy(p => p.o53Name);
+            v.ApplicableTags = Factory.o51TagBL.GetList(mq).Where(p => p.o53Entities.Contains(prefix) || p.o53Entities==null).OrderBy(p => p.o53Name).ThenBy(p=>p.o51Ordinary).ThenBy(p=>p.o51Name);
         }
 
         private void RefreshState(ref o51RecordViewModel v)
         {
-            v.ApplicableEntities = GetApplicableEntities();
             
             v.Toolbar = new MyToolbarViewModel(v.Rec);
         }
 
-        private List<TheEntity> GetApplicableEntities()
-        {
-            var lis = new List<TheEntity>();
-            lis.Add(BL.TheEntities.ByPrefix("p41"));
-            lis.Add(BL.TheEntities.ByPrefix("j02"));
-            lis.Add(BL.TheEntities.ByPrefix("p28"));
-            lis.Add(BL.TheEntities.ByPrefix("p51"));
-            lis.Add(BL.TheEntities.ByPrefix("p21"));
-            lis.Add(BL.TheEntities.ByPrefix("p11"));
-            lis.Add(BL.TheEntities.ByPrefix("p10"));
-            lis.Add(BL.TheEntities.ByPrefix("p26"));
-            lis.Add(BL.TheEntities.ByPrefix("o23"));
-            lis.Add(BL.TheEntities.ByPrefix("p19"));
-            lis.Add(BL.TheEntities.ByPrefix("p18"));
-            lis.Add(BL.TheEntities.ByPrefix("p13"));
-            lis.Add(BL.TheEntities.ByPrefix("p12"));
-            return lis;
-        }
+        
     }
 
     

@@ -36,13 +36,19 @@ namespace BL
 
         public int Save(BO.o53TagGroup rec)
         {
+            if (String.IsNullOrEmpty(rec.o53Entities)==true)
+            {
+                _mother.CurrentUser.AddMessage("Chybí vazba na entity.");
+                return 0;
+            }
             var p = new DL.Params4Dapper();
          
             p.AddInt("pid", rec.o53ID);
             p.AddString("o53Name", rec.o53Name);
             if (rec.j02ID_Owner == 0) rec.j02ID_Owner = _db.CurrentUser.j02ID;
             p.AddInt("j02ID_Owner", rec.j02ID_Owner, true);
-
+            p.AddString("o53Entities", rec.o53Entities);
+            p.AddBool("o53IsMultiSelect", rec.o53IsMultiSelect);
 
             return _db.SaveRecord("o53TagGroup", p.getDynamicDapperPars(), rec);
         }

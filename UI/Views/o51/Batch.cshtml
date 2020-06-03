@@ -1,7 +1,7 @@
 ﻿@model TagsBatch
 
 @{
-    ViewData["Title"] = "Oštítkovat hromadně";
+    ViewData["Title"] = "Kategorizovat hromadně";
     Layout = "~/Views/Shared/_LayoutModal.cshtml";
 }
 
@@ -14,13 +14,13 @@
     <form id="form1" asp-controller="o51" asp-action="Batch" method="POST">
 
         <div class="bg-light" style="padding:10px;">
-            <button type="submit" class="btn btn-success" asp-route-oper="append">Záznamům přidat vybrané štítky</button>
+            <button type="submit" class="btn btn-success" asp-route-oper="append">Záznamům přidat vybrané kategorie</button>
 
-            <button type="submit" class="btn btn-primary" asp-route-oper="replace">V záznamech nahradit štítky vybranými</button>
+            <button type="submit" class="btn btn-primary" asp-route-oper="replace">V záznamech nahradit kategorie vybranými</button>
 
-            <button type="submit" class="btn btn-warning" asp-route-oper="remove">V záznamech vyjmout vybrané štítky</button>
+            <button type="submit" class="btn btn-warning" asp-route-oper="remove">V záznamech vyjmout vybrané kategorie</button>
 
-            <button type="submit" class="btn btn-danger" asp-route-oper="clear">V záznamech vyčistit štítky</button>
+            <button type="submit" class="btn btn-danger" asp-route-oper="clear">V záznamech vyčistit kategorie</button>
 
             <button type="button" onclick="_window_close()" class="btn btn-light">Zavřít</button>
 

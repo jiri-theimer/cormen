@@ -12,9 +12,7 @@ namespace UI.Models
         public string TagNames { get; set; }
         public string TagHtml { get; set; }
 
-        public bool IsAllEntities { get; set; }
-        public List<BO.TheEntity> ApplicableEntities { get; set; }
-        public List<int> SelectedEntities { get; set; }
+        
         public MyToolbarViewModel Toolbar { get; set; }
     }
 }

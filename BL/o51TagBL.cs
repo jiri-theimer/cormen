@@ -24,7 +24,7 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*,o51_o53.o53Name," + _db.GetSQL1_Ocas("o51") + " FROM o51Tag a LEFT OUTER JOIN o53TagGroup o51_o53 ON a.o53ID=o51_o53.o53ID";
+            return "SELECT a.*,o51_o53.o53Name,o51_o53.o53Entities," + _db.GetSQL1_Ocas("o51") + " FROM o51Tag a LEFT OUTER JOIN o53TagGroup o51_o53 ON a.o53ID=o51_o53.o53ID";
         }
         public BO.o51Tag Load(int pid)
         {
@@ -83,7 +83,7 @@ namespace BL
         {
             if (rec.o51Name.Contains(","))
             {
-                _mother.CurrentUser.AddMessage("Název štítku nesmí obsahovat čárku.");
+                _mother.CurrentUser.AddMessage("Název kategorie nesmí obsahovat čárku.");
                 return 0;
             }
 
@@ -101,7 +101,8 @@ namespace BL
             p.AddInt("o53ID", rec.o53ID, true);
             p.AddString("o51Name", rec.o51Name);
             p.AddString("o51Code", rec.o51Code);
-            p.AddString("o51Entities", rec.o51Entities);
+            p.AddInt("o51Ordinary", rec.o51Ordinary);
+            
             p.AddBool("o51IsColor", rec.o51IsColor);
             if (rec.o51IsColor == false)
             {

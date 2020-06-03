@@ -13,5 +13,7 @@ namespace BO
 
         [Required(ErrorMessage = "Chybí vyplnit název!")]
         public string o53Name { get; set; }
+        public string o53Entities { get; set; }
+        public bool o53IsMultiSelect { get; set; }
     }
 }
