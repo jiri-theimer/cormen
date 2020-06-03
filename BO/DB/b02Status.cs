@@ -12,6 +12,7 @@ namespace BO
         
         [Required(ErrorMessage = "Chybí vyplnit název!")]
         public string b02Name { get; set; }
+        public int b02Ordinary { get; set; }
 
         [Required(ErrorMessage = "Chybí vyplnit druh entity!")]
         public string b02Entity { get; set; }

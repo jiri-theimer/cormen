@@ -168,6 +168,7 @@ namespace BL
             //b02 = workflow stavy
             AF("b02Status", "b02Name", "Stav", 1,null,"string",false,true);
             AF("b02Status", "EntityAlias", "Vazba", 1, "dbo.getEntityAlias(a.b02Entity)");
+            AF("b02Status", "b02Ordinary", "#", 0, null, "num0");
 
             //o12 = kategorie
             //AF("o12Category", "o12Name", "Kategorie", 1,null,"string",false,true);

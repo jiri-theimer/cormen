@@ -42,7 +42,7 @@ namespace UI.Controllers
                         return "<p>Na vstupu chybí vybrat typ zařízení.</p>";
                     }
                     break;
-
+                
             }
             if (masterpid > 0)
             {

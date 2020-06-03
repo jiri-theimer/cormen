@@ -88,11 +88,11 @@ namespace BL
             AE("o23Doc", "Dokumenty", "Dokument", "o23Doc a", null);
 
             AE("x40MailQueue", "Outbox", "Poštovní zpráva", "x40MailQueue a", null,"a.x40ID DESC");
+            AE("b02Status", "Workflow stavy", "Workflow stav", "b02Status a", "a.b02Ordinary,a.b02Name", "a.b02Ordinary,a.b02Name");
 
-          
 
-            AE_TINY("j04UserRole", "Aplikační role", "Aplikační role");
-            AE_TINY("b02Status", "Workflow stavy", "Workflow stav");
+
+            AE_TINY("j04UserRole", "Aplikační role", "Aplikační role");            
             AE_TINY("p25MszType", "Typy zařízení", "Typ zařízení");
             AE_TINY("p27MszUnit", "Střediska", "Středisko");
             AE_TINY("p28Company", "Subjekty | Klienti", "Klient");

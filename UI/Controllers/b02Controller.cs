@@ -52,6 +52,7 @@ namespace UI.Controllers
                 c.b02Code = v.Rec.b02Code;
                 c.b02Name = v.Rec.b02Name;
                 c.b02Entity = v.Rec.b02Entity;
+                c.b02Ordinary = v.Rec.b02Ordinary;
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);

@@ -34,14 +34,14 @@ namespace BL
 
         public int Save(BO.b02Status rec)
         {
-            var p = new Dapper.DynamicParameters();
-            p.Add("pid", rec.b02ID);         
-            p.Add("b02Name", rec.b02Name);
-            p.Add("b02Code", rec.b02Code);
-            p.Add("b02Entity", rec.b02Entity);
+            var p = new DL.Params4Dapper();
+            p.AddInt("pid", rec.b02ID);         
+            p.AddString("b02Name", rec.b02Name);
+            p.AddString("b02Code", rec.b02Code);
+            p.AddString("b02Entity", rec.b02Entity);
+            p.AddInt("b02Ordinary", rec.b02Ordinary);
 
-
-            return _db.SaveRecord("b02Status", p, rec);
+            return _db.SaveRecord("b02Status", p.getDynamicDapperPars(), rec);
         }
     }
 }
