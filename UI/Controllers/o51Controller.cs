@@ -182,7 +182,7 @@ namespace UI.Controllers
             string prefix = v.Record_Entity.Substring(0, 3);
             var mq = new BO.myQuery("o51Tag");
             mq.IsRecordValid = true;
-            v.ApplicableTags = Factory.o51TagBL.GetList(mq).Where(p => p.o53Entities.Contains(prefix) || p.o53Entities==null).OrderBy(p => p.o53Name).ThenBy(p=>p.o51Ordinary).ThenBy(p=>p.o51Name);
+            v.ApplicableTags = Factory.o51TagBL.GetList(mq).Where(p => p.o53Entities == null || p.o53Entities.Contains(prefix)).OrderBy(p => p.o53Name).ThenBy(p=>p.o51Ordinary).ThenBy(p=>p.o51Name);
         }
 
         private void RefreshState(ref o51RecordViewModel v)

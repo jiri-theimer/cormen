@@ -766,7 +766,7 @@ namespace UI.Controllers
             if ("j02,p51,p41,p10,p11,p12,p13,p18,p19,p26,p28,p21,o23".Contains(c.j72Entity.Substring(0,3)))
             {
                 sb.AppendLine("<hr class='hr-mini' />");
-                sb.AppendLine("<a class='nav-link' href='javascript:tg_tagging();'>Oštítkovat</a>");
+                sb.AppendLine("<a class='nav-link' href='javascript:tg_tagging();'>Zatřídit do kategorií</a>");
                
             }
             

@@ -888,7 +888,7 @@ function tg_tagging() {
         return;
     }
     url = url + "&pids=" + pids;
-    _window_open(url,2, "Oštítkovat");
+    _window_open(url,2, "Zatřídit do kategorií");
    
 }
 
