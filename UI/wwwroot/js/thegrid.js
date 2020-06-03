@@ -880,6 +880,17 @@ function tg_export(format,scope) {
     location.replace(url);
 
 }
+function tg_tagging() {
+    var url = "/o51/Batch?j72id=" + _j72id;
+    var pids = $("#tg_selected_pids").val();
+    if (pids === "") {
+        _notify_message("Musíte vybrat minimálně jeden záznam.");
+        return;
+    }
+    url = url + "&pids=" + pids;
+    _window_open(url,2, "Oštítkovat");
+   
+}
 
 
 

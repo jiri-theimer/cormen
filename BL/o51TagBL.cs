@@ -38,6 +38,7 @@ namespace BL
         }
         public BO.TaggingHelper GetTagging(string record_entity, int record_pid)
         {
+            record_entity = record_entity.Substring(0, 3);
             IEnumerable<BO.o51Tag> lis = GetList(record_entity, record_pid);
             string s = String.Join(",", lis.Select(p => p.pid));
 
@@ -60,6 +61,7 @@ namespace BL
 
         public int SaveTagging(string record_entity, int record_pid, string o51ids)
         {
+            record_entity = record_entity.Substring(0, 3);
             _db.RunSql("DELETE FROM o52TagBinding WHERE o52RecordPid=@pid AND o52RecordEntity=@entity", new { pid = record_pid, entity = record_entity });
             if (String.IsNullOrEmpty(o51ids) == false)
             {

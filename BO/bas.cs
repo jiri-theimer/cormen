@@ -54,6 +54,16 @@ namespace BO
             
             return lis;
         }
+        public static string RemoveValueFromDelimitedString(string s,string sremove, string strDelimiter = ",")
+        {
+            List<string> lis = ConvertString2List(s, strDelimiter);
+            if (lis.Contains(sremove))
+            {
+                lis.Remove(sremove);
+            }
+            
+            return String.Join(strDelimiter, lis);
+        }
 
         public static int? TestIntAsDbKey(int intPID)
         {

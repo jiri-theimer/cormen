@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BL;
 using BO;
 using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Bcpg.OpenPgp;
 using UI.Models;
 
 namespace UI.Controllers
@@ -109,27 +110,117 @@ namespace UI.Controllers
             return View(v);
         }
 
+
+        public IActionResult Batch(int j72id, string pids)
+        {
+            if (!this.TestIfUserEditor(true, true))
+            {
+                return this.StopPageCreateEdit(true);
+            }
+            var v = new Models.TagsBatch();
+            RefreshState_Batch(ref v, j72id, pids);
+
+            return View(v);
+        }
+        [HttpPost]
+        public IActionResult Batch(Models.TagsBatch v,string oper)
+        {            
+            if (ModelState.IsValid)
+            {
+                List<int> o51ids = v.SelectedO51IDs.Where(p => p > 0).ToList();
+                List<int> pids = BO.BAS.ConvertString2ListInt(v.Record_Pids);
+
+                if (o51ids.Count > 0 || oper=="clear")
+                {
+                    string strO51IDs = string.Join(",", o51ids);
+                    foreach (int pid in pids)
+                    {
+                        switch (oper)
+                        {
+                            case "replace":
+                                Factory.o51TagBL.SaveTagging(v.Record_Entity, pid, strO51IDs);
+                                break;
+                            case "clear":
+                                Factory.o51TagBL.SaveTagging(v.Record_Entity, pid, "");
+                                break;
+                            case "append":
+                                var c = Factory.o51TagBL.GetTagging(v.Record_Entity, pid);
+                                if (c.TagPids == null)
+                                {
+                                    c.TagPids = strO51IDs;
+                                }
+                                else
+                                {
+                                    c.TagPids += ","+strO51IDs;
+                                }
+                                Factory.o51TagBL.SaveTagging(v.Record_Entity, pid, c.TagPids);
+
+                                break;
+                            case "remove":
+                                var d = Factory.o51TagBL.GetTagging(v.Record_Entity, pid);
+                                if (d.TagPids != null)
+                                {
+                                    foreach(int o51id in o51ids)
+                                    {
+                                        d.TagPids = BO.BAS.RemoveValueFromDelimitedString(d.TagPids, o51id.ToString());
+                                    }
+                                    Factory.o51TagBL.SaveTagging(v.Record_Entity, pid, d.TagPids);
+                                }
+                                break;
+                        }
+                        
+                    }
+                    v.SetJavascript_CallOnLoad(v.j72ID);
+                    return View(v);
+                }
+                else
+                {
+                    Factory.CurrentUser.AddMessage("Musíte zaškrtnout minimálně jeden štítek.");
+                }
+                
+            }
+            
+            RefreshState_Batch(ref v, v.j72ID, v.Record_Pids);
+           
+            return View(v);
+        }
+        
+        private void RefreshState_Batch(ref TagsBatch v,int j72id,string pids)
+        {
+            BO.j72TheGridState c = Factory.gridBL.LoadTheGridState(j72id);            
+            v.j72ID = j72id;
+            v.Record_Entity = c.j72Entity;
+            v.Record_Pids = pids;
+            string prefix = v.Record_Entity.Substring(0, 3);
+            var mq = new BO.myQuery("o51Tag");
+            mq.IsRecordValid = true;
+            v.ApplicableTags = Factory.o51TagBL.GetList(mq).Where(p => p.o51Entities.Contains(prefix)).OrderBy(p => p.o53Name);
+        }
+
         private void RefreshState(ref o51RecordViewModel v)
         {
-            v.ApplicableEntities = new List<TheEntity>();
-            v.ApplicableEntities.Add(BL.TheEntities.ByPrefix("p41"));
-            v.ApplicableEntities.Add(BL.TheEntities.ByPrefix("j02"));
-            v.ApplicableEntities.Add(BL.TheEntities.ByPrefix("p28"));
-            v.ApplicableEntities.Add(BL.TheEntities.ByPrefix("p51"));
-            v.ApplicableEntities.Add(BL.TheEntities.ByPrefix("p21"));
-            v.ApplicableEntities.Add(BL.TheEntities.ByPrefix("p11"));
-            v.ApplicableEntities.Add(BL.TheEntities.ByPrefix("p10"));
-            v.ApplicableEntities.Add(BL.TheEntities.ByPrefix("p26"));
-            v.ApplicableEntities.Add(BL.TheEntities.ByPrefix("o23"));
-            v.ApplicableEntities.Add(BL.TheEntities.ByPrefix("p19"));
-            v.ApplicableEntities.Add(BL.TheEntities.ByPrefix("p18"));
-            v.ApplicableEntities.Add(BL.TheEntities.ByPrefix("p13"));
-            v.ApplicableEntities.Add(BL.TheEntities.ByPrefix("p12"));
-
-
-
-
+            v.ApplicableEntities = GetApplicableEntities();
+            
             v.Toolbar = new MyToolbarViewModel(v.Rec);
+        }
+
+        private List<TheEntity> GetApplicableEntities()
+        {
+            var lis = new List<TheEntity>();
+            lis.Add(BL.TheEntities.ByPrefix("p41"));
+            lis.Add(BL.TheEntities.ByPrefix("j02"));
+            lis.Add(BL.TheEntities.ByPrefix("p28"));
+            lis.Add(BL.TheEntities.ByPrefix("p51"));
+            lis.Add(BL.TheEntities.ByPrefix("p21"));
+            lis.Add(BL.TheEntities.ByPrefix("p11"));
+            lis.Add(BL.TheEntities.ByPrefix("p10"));
+            lis.Add(BL.TheEntities.ByPrefix("p26"));
+            lis.Add(BL.TheEntities.ByPrefix("o23"));
+            lis.Add(BL.TheEntities.ByPrefix("p19"));
+            lis.Add(BL.TheEntities.ByPrefix("p18"));
+            lis.Add(BL.TheEntities.ByPrefix("p13"));
+            lis.Add(BL.TheEntities.ByPrefix("p12"));
+            return lis;
         }
     }
 
