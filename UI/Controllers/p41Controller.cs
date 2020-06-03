@@ -203,7 +203,7 @@ namespace UI.Controllers
 
                 if (rec_oper == "save")
                 {
-                    int x = Factory.p41TaskBL.SaveBatch(v.Tasks);
+                    int x = Factory.p41TaskBL.SaveBatch(v.Tasks.Where(p=>p.IsTempDeleted==false).ToList());
                     if (x > 0)
                     {
 

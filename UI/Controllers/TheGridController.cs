@@ -757,7 +757,7 @@ namespace UI.Controllers
             var sb = new System.Text.StringBuilder();
             BO.j72TheGridState c = Factory.gridBL.LoadTheGridState(j72id);
                    
-            sb.AppendLine("<div style='background-color:#ADD8E6;padding-left:10px;'>VYBRANÉ (zaškrtlé) záznamy</div>");
+            sb.AppendLine("<div style='background-color:#ADD8E6;padding-left:10px;font-weight:bold;'>VYBRANÉ (zaškrtlé) záznamy</div>");
             sb.AppendLine("<div style='padding-left:10px;'>");
             sb.AppendLine(string.Format("<a href='javascript:tg_export(\"xlsx\",\"selected\")'>MS-EXCEL Export</a>", j72id));
             sb.AppendLine(string.Format("<a style='margin-left:20px;' href='javascript:tg_export(\"csv\",\"selected\")'>CSV Export</a>", j72id));
@@ -765,7 +765,7 @@ namespace UI.Controllers
 
             if ("j02,p51,p41,p10,p11,p12,p13,p18,p19,p26,p28,p21,o23".Contains(c.j72Entity.Substring(0,3)))
             {
-                sb.AppendLine("<hr />");
+                sb.AppendLine("<hr class='hr-mini' />");
                 sb.AppendLine("<a class='nav-link' href='javascript:tg_tagging();'>Oštítkovat</a>");
                
             }
@@ -773,10 +773,10 @@ namespace UI.Controllers
             
             //sb.AppendLine("<hr />");
 
-            sb.AppendLine(string.Format("<div style='background-color:#ADD8E6;padding-left:10px;margin-top:20px;'>GRID <kbd>{0}</kbd></div>", BL.TheEntities.ByTable(c.j72Entity).AliasPlural));
+            sb.AppendLine(string.Format("<div style='margin-top:20px;background-color:#ADD8E6;padding-left:10px;font-weight:bold;'>GRID <kbd>{0}</kbd></div>", BL.TheEntities.ByTable(c.j72Entity).AliasPlural));
 
             sb.AppendLine(string.Format("<a class='nav-link' href='javascript:_window_open(\"/TheGrid/Designer?j72id={0}\");'>Návrhář sloupců</a>",j72id));
-            sb.AppendLine("<hr />");
+            sb.AppendLine("<hr class='hr-mini' />");
 
             sb.AppendLine("<div style='padding-left:10px;'>");
             sb.AppendLine(string.Format("<a href='javascript:tg_export(\"xlsx\")'>MS-EXCEL Export (vše)</a>", j72id));
@@ -785,7 +785,7 @@ namespace UI.Controllers
 
           
 
-            sb.AppendLine("<hr />");
+            sb.AppendLine("<hr class='hr-mini' />");
             sb.AppendLine("<a class='nav-link' href='javascript:tg_select(20)'>Vybrat prvních 20</a>");
             sb.AppendLine("<a class='nav-link' href='javascript:tg_select(50)'>Vybrat prvních 50</a>");
             sb.AppendLine("<a class='nav-link' href='javascript:tg_select(100)'>Vybrat prvních 100</a>");

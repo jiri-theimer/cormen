@@ -100,7 +100,7 @@ namespace BL
             int intErrs = 0;
             int intLastP52ID = 0;
            
-            foreach(var rec in lisP41.Where(p => p.IsTempDeleted == false).OrderBy(p=>p.p52ID).ThenBy(p=>p.p41PlanEnd))
+            foreach(var rec in lisP41.OrderBy(p=>p.p52ID).ThenBy(p=>p.p41PlanEnd))
             {
                 var cP52 = _mother.p52OrderItemBL.Load(rec.p52ID);
                 if (cP52 != null)

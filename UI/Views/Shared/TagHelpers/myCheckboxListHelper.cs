@@ -70,7 +70,7 @@ namespace UI.Views.Shared.TagHelpers
                         sb.AppendLine("<li>");
                         if (x > 0)
                         {
-                            sb.Append("<hr style='margin-top:0px;padding-top:0px;'>");
+                            sb.Append("<hr class='hr-mini'>");
                         }
                         sb.AppendLine("<strong>"+strGroup+"</strong>");
                         sb.AppendLine("</li>");

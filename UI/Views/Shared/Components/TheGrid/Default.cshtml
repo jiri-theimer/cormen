@@ -16,7 +16,7 @@
                                 &#9752;
                                 &#9776;
                             </button>
-                            <div id="divGridMenu" class="dropdown-menu" aria-labelledby="cmdTheGridBatchSelect" style="width:350px;">
+                            <div id="divGridMenu" class="dropdown-menu" aria-labelledby="cmdTheGridBatchSelect" style="padding:0px;width:350px;background-color:aliceblue;">
 
                             </div>
 
@@ -226,8 +226,15 @@
         $("#cmdTheGridBatchSelect").click(function () {
             if (_gridMenuFilled == true) return;
 
-            $.post("/TheGrid/getHTML_ContextMenu", {j72id:@Model.GridState.pid}, function (data) {
+            $.post("/TheGrid/getHTML_ContextMenu", { j72id:@Model.GridState.pid}, function (data) {
+                if (_device.innerHeight <= 300) {
+                    data = data.replace(/nav-link/g, "nav-link-mini");                    
+                    
+                    $("#divGridMenu").css("width", "700px");
+                }
+                
                 $("#divGridMenu").html(data);
+                
                 _gridMenuFilled = true;
             });
 

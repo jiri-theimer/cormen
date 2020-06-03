@@ -638,8 +638,13 @@ a.nav-link:hover {
         height: 100%;
     }
 
-
-
+a.nav-link-mini{/*context menu link pro velmi nízké okna pod 300px*/
+    margin-left:6px;
+}
+hr.hr-mini {    /*používá se v kontextovém menu*/
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
 /*box MT štítku (o51)*/
 .tagbox {
     display: inline-block;
