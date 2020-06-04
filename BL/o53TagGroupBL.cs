@@ -29,7 +29,8 @@ namespace BL
         }
         public IEnumerable<BO.o53TagGroup> GetList(BO.myQuery mq)
         {
-            DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq, _mother.CurrentUser);
+            mq.explicit_orderby = "a.o53Ordinary,a.o53Name";
+            DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq, _mother.CurrentUser) ;
             return _db.GetList<BO.o53TagGroup>(fq.FinalSql, fq.Parameters);
 
         }
@@ -48,6 +49,7 @@ namespace BL
             if (rec.j02ID_Owner == 0) rec.j02ID_Owner = _db.CurrentUser.j02ID;
             p.AddInt("j02ID_Owner", rec.j02ID_Owner, true);
             p.AddString("o53Entities", rec.o53Entities);
+            p.AddInt("o53Ordinary", rec.o53Ordinary);
             p.AddBool("o53IsMultiSelect", rec.o53IsMultiSelect);
 
             return _db.SaveRecord("o53TagGroup", p.getDynamicDapperPars(), rec);

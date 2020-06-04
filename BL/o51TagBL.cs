@@ -24,7 +24,7 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*,o51_o53.o53Name,o51_o53.o53Entities,o51_o53.o53IsMultiSelect," + _db.GetSQL1_Ocas("o51") + " FROM o51Tag a LEFT OUTER JOIN o53TagGroup o51_o53 ON a.o53ID=o51_o53.o53ID";
+            return "SELECT a.*,o51_o53.o53Name,o51_o53.o53Entities,o51_o53.o53IsMultiSelect,o51_o53.o53Ordinary," + _db.GetSQL1_Ocas("o51") + " FROM o51Tag a LEFT OUTER JOIN o53TagGroup o51_o53 ON a.o53ID=o51_o53.o53ID";
         }
         public BO.o51Tag Load(int pid)
         {
@@ -32,8 +32,16 @@ namespace BL
         }
         public IEnumerable<BO.o51Tag> GetList(BO.myQuery mq)
         {
+            mq.explicit_orderby = "o51_o53.o53Ordinary,o51_o53.o53Name,a.o51Ordinary,a.o51Name";
             DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq, _mother.CurrentUser);
             return _db.GetList<BO.o51Tag>(fq.FinalSql, fq.Parameters);
+
+        }
+        
+        public IEnumerable<BO.o51Tag> GetList(string record_entity,int record_pid)
+        {
+
+            return _db.GetList<BO.o51Tag>(GetSQL1()+ " INNER JOIN o52TagBinding o52 ON a.o51ID=o52.o51ID WHERE o52.o52RecordPid=@pid AND o52.o52RecordEntity=@entity ORDER BY o51_o53.o53Ordinary,o51_o53.o53Name,a.o51Ordinary,a.o51Name", new { pid = record_pid, entity = record_entity });
 
         }
         public BO.TaggingHelper GetTagging(string record_entity, int record_pid)
@@ -44,19 +52,33 @@ namespace BL
 
             var ret = new BO.TaggingHelper() { Tags = lis };
             if (lis.Count() > 0)
-            {                
-                ret.TagPids = String.Join(",", lis.Select(p => p.pid));
-                ret.TagNames = String.Join(",", lis.Select(p => p.o51Name));
-                ret.TagHtml = String.Join("", lis.Select(p => p.HtmlText));
+            {
+                ret.TagPids = String.Join(",", lis.Select(p => p.pid));                
+                int intLastGroup = 0;
+                ret.TagHtml = "";
+                ret.TagNames = "";
+                foreach (BO.o51Tag c in lis)
+                {
+                    if (intLastGroup != c.o53ID)
+                    {
+                        if (ret.TagHtml == null)
+                        {
+                            ret.TagHtml = "<div class='taggroup'>★" + c.o53Name + ":</div>";
+                            ret.TagNames = c.o53Name + ": ";
+                        }
+                        else
+                        {
+                            ret.TagHtml += "<div class='taggroup'>★" + c.o53Name + ":</div>";
+                            ret.TagNames += " ★" + c.o53Name + ": ";
+                        }                        
+                    }
+                    ret.TagHtml += c.HtmlText;
+                    ret.TagNames += c.o51Name;
+                    intLastGroup = c.o53ID;
+                }
             }
-            
+
             return ret;
-        }
-        public IEnumerable<BO.o51Tag> GetList(string record_entity,int record_pid)
-        {
-
-            return _db.GetList<BO.o51Tag>(GetSQL1()+ " INNER JOIN o52TagBinding o52 ON a.o51ID=o52.o51ID WHERE o52.o52RecordPid=@pid AND o52.o52RecordEntity=@entity", new { pid = record_pid, entity = record_entity });
-
         }
 
         public int SaveTagging(string record_entity, int record_pid, string o51ids)

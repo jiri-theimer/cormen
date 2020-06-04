@@ -66,6 +66,7 @@ namespace UI.Controllers
                 }
                 c.o53Entities = String.Join(",", prefixes);
                 c.o53IsMultiSelect = v.Rec.o53IsMultiSelect;
+                c.o53Ordinary = v.Rec.o53Ordinary;
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
 

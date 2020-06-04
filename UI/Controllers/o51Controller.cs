@@ -30,7 +30,7 @@ namespace UI.Controllers
             
             mq = new BO.myQuery("o51Tag");
             mq.IsRecordValid = true;
-            IEnumerable<BO.o51Tag> lis = Factory.o51TagBL.GetList(mq).OrderBy(p => p.o53Name).ThenBy(p => p.o51Ordinary).ThenBy(p => p.o51Name);
+            IEnumerable<BO.o51Tag> lis = Factory.o51TagBL.GetList(mq);
             v.ApplicableTags_Multi = lis.Where(p => p.o53IsMultiSelect==true && ( p.o53Entities == null || p.o53Entities.Contains(prefix)));
             v.ApplicableTags_Single = lis.Where(p => p.o53IsMultiSelect==false && (p.o53Entities == null || p.o53Entities.Contains(prefix)));
 
@@ -195,7 +195,7 @@ namespace UI.Controllers
             string prefix = v.Record_Entity.Substring(0, 3);
             var mq = new BO.myQuery("o51Tag");
             mq.IsRecordValid = true;
-            v.ApplicableTags = Factory.o51TagBL.GetList(mq).Where(p => p.o53Entities == null || p.o53Entities.Contains(prefix)).OrderBy(p => p.o53Name).ThenBy(p=>p.o51Ordinary).ThenBy(p=>p.o51Name);
+            v.ApplicableTags = Factory.o51TagBL.GetList(mq).Where(p => p.o53Entities == null || p.o53Entities.Contains(prefix));     //.OrderBy(p => p.o53Ordinary).ThenBy(p=>p.o51Ordinary).ThenBy(p=>p.o51Name);
         }
 
         private void RefreshState(ref o51RecordViewModel v)

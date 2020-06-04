@@ -168,23 +168,25 @@ namespace BL
             //b02 = workflow stavy
             AF("b02Status", "b02Name", "Stav", 1,null,"string",false,true);
             AF("b02Status", "EntityAlias", "Vazba", 1, "dbo.getEntityAlias(a.b02Entity)");
-            AF("b02Status", "b02Ordinary", "#", 0, null, "num0");
+            AF("b02Status", "b02Ordinary", "Pořadí", 0, null, "num0");
 
             //o12 = kategorie
             //AF("o12Category", "o12Name", "Kategorie", 1,null,"string",false,true);
             //AF("o12Category", "EntityAlias", "Vazba", 1, "dbo.getEntityAlias(a.o12Entity)");
 
-            //o51 = štítek
+            //o51 = položka kategorie
             AF("o51Tag", "o51Name", "Položka kategorie", 1, null, "string", false, true);            
             AF("o51Tag", "o51IsColor", "Má barvu", 2, null, "bool");
             AF("o51Tag", "o51ForeColor", "Barva písma",2, "'<div style=\"background-color:'+a.o51ForeColor+';\">písmo</div>'");
             AF("o51Tag", "o51BackColor", "Barva pozadí", 2, "'<div style=\"background-color:'+a.o51BackColor+';\">pozadí</div>'");
+            AF("o51Tag", "o51Ordinary", "Pořadí", 0, null, "num0");
 
 
-            AF("o53TagGroup", "o53Name", "Skupina", 1, null, "string", false, true);
-            
+            //o53 = kategorie (skupiny položek kategorie)
+            AF("o53TagGroup", "o53Name", "Název kategorie", 1, null, "string", false, true);            
             AF("o53TagGroup", "o53IsMultiSelect", "Multi-Select",0,null,"bool");
-            AF("o53TagGroup", "o53Entities", "Vazba", 1, "dbo.getEntityAlias_Multi(a.o53Entities)");
+            AF("o53TagGroup", "o53Entities", "Vazby", 1, "dbo.getEntityAlias_Multi(a.o53Entities)");
+            AF("o53TagGroup", "o53Ordinary", "Pořadí", 0, null, "num0");
 
             AF("o54TagBindingInline", "o54InlineHtml", "Kategorie", 1, null, "string", false, true);
             AF("o54TagBindingInline", "o54InlineText", "Kategorie (pouze text)",1, null, "string", false, true);

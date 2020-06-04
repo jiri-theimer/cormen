@@ -662,5 +662,16 @@ hr.hr-mini {    /*používá se v kontextovém menu*/
     color: black;
     margin-left: 2px;
 }
+.taggroup {
+    display: inline-block;    
+    padding:3px;
+    font-weight: normal;
+    line-height: 1;
+    text-align: right;
+    border:none;
+    vertical-align: middle;        
+    color: black;
+    margin-left: 2px;
+}
 
 
