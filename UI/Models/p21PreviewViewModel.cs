@@ -11,8 +11,7 @@ namespace UI.Models
         public BO.p21License Rec { get; set; }
 
         
-        public bool IsPossible2UpdateClientProducts { get; set; }
-
+        
 
     }
 }

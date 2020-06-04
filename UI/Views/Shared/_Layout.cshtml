@@ -102,7 +102,7 @@
                 <span style="color:white;">MASTER [@_f.CurrentUser.p28Name]</span>
             </div>
         }
-        @if (_f.CurrentUser.TestPermission(BO.UserPermFlag.MasterReader) || _f.CurrentUser.TestPermission(BO.UserPermFlag.MasterAdmin))
+        @if ((_f.CurrentUser.TestPermission(BO.UserPermFlag.MasterAdmin) && _f.CurrentUser.j03EnvironmentFlag==2) || _f.CurrentUser.j03Login.Contains("marktime"))
         {
             <div style="text-align:center;">
                 @if (_f.CurrentUser.j03EnvironmentFlag == 1)

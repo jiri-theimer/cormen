@@ -25,6 +25,12 @@ namespace BL
 
         }
 
+        public void Refresh()
+        {
+            _lis = new List<BO.TheGridColumn>();
+            SetupPallete();
+        }
+
         private int SetDefaultColWidth(string strFieldType)
         {
             switch (strFieldType)

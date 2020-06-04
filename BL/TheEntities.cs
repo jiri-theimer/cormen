@@ -105,7 +105,7 @@ namespace BL
             AE_TINY("j90LoginAccessLog", "LOGIN Log", "LOGIN Log");
             AE_TINY("j92PingLog", "PING Log", "PING Log");
 
-            AE_TINY("o54TagBindingInline", "Oštítkování", "Oštítkování");
+            AE_TINY("o54TagBindingInline", "Kategorizace", "Kategorizace");
 
 
         }
@@ -237,7 +237,7 @@ namespace BL
                     lis.Add(getREL("p11ClientProduct", "p52_p11", "Produkt", "INNER JOIN p11ClientProduct p52_p11 ON p41_p52.p11ID = p52_p11.p11ID","p41_p52"));
                     lis.Add(getREL("p51Order", "p52_p51", "Objednávka", "INNER JOIN p51Order p52_p51 ON p41_p52.p51ID=p52_p51.p51ID","p41_p52"));
                     lis.Add(getREL("p28Company", "p51_p28", "Klient", "LEFT OUTER JOIN p28Company p51_p28 ON p52_p51.p28ID=p51_p28.p28ID", "p52_p51"));
-                    lis.Add(getREL("o54TagBindingInline", "p41_o54", "Štítky", "LEFT OUTER JOIN (SELECT * FROM o54TagBindingInline WHERE o54RecordEntity='p41') p41_o54 ON a.p41ID=p41_o54.o54RecordPid"));
+                    lis.Add(getREL("o54TagBindingInline", "p41_o54", "Kategorie", "LEFT OUTER JOIN (SELECT * FROM o54TagBindingInline WHERE o54RecordEntity='p41') p41_o54 ON a.p41ID=p41_o54.o54RecordPid"));
                     break;
                 case "p44":
                     lis.Add(getREL("p19Material", "p44_p19", "Suroviny", "LEFT OUTER JOIN p19Material p44_p19 ON a.p19ID=p44_p19.p19ID"));

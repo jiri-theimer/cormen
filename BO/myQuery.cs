@@ -88,6 +88,51 @@ namespace BO
             _pkfield = "a." + _Entity.Substring(0, 3) + "ID";
         }
 
-      
+        public void InhaleMasterEntityQuery(string master_entity, int master_pid)
+        {
+            if (master_pid == 0 || master_entity==null)
+            {
+                return;
+            }
+            switch (master_entity.Substring(0, 3))
+            {
+                case "p28":
+                    this.p28id = master_pid;
+                    break;
+                case "p10":
+                    this.p10id = master_pid;
+                    break;
+                case "p13":
+                    this.p13id = master_pid;
+                    break;
+                case "p21":
+                    this.p21id = master_pid;
+                    break;
+                case "p26":
+                    this.p26id = master_pid;
+                    break;
+                case "j02":
+                    this.j02id = master_pid;
+                    break;
+                case "p11":
+                    this.p11id = master_pid;
+                    break;
+                case "p12":
+                    this.p12id = master_pid;
+                    break;
+                case "p41":
+                    this.p41id = master_pid;
+                    break;               
+                case "p51":
+                    this.p51id = master_pid;
+                    break;                
+                case "o53":
+                    this.o53id = master_pid;
+                    break;               
+                default:
+                    break;
+            }
+
+        }
     }
 }

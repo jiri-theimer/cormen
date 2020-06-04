@@ -10,7 +10,13 @@ using UI.Models;
 namespace UI.Controllers
 {
     public class o53Controller : BaseController
+        
     {
+        private readonly BL.TheColumnsProvider _cp;
+        public o53Controller(BL.TheColumnsProvider cp)
+        {
+            _cp = cp;
+        }
         ///KATEGORIE
         public IActionResult Record(int pid, bool isclone)
         {
@@ -73,6 +79,8 @@ namespace UI.Controllers
                 v.Rec.pid = Factory.o53TagGroupBL.Save(c);
                 if (v.Rec.pid > 0)
                 {
+                    _cp.Refresh();   //obnovit názvy sloupců kategorií
+
                     v.SetJavascript_CallOnLoad(v.Rec.pid);
                     return View(v);
                 }

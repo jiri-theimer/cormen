@@ -376,48 +376,48 @@ namespace UI.Controllers
             {
                 mq.TheGridFilter = _colsProvider.ParseAdhocFilterFromString(cJ72.j72Filter, mq.explicit_columns);
             }
-            CompleteGridMyQuery(ref mq, cJ72);
+            mq.InhaleMasterEntityQuery(cJ72.j72MasterEntity, cJ72.j72MasterPID);
 
             return Factory.gridBL.GetList(mq);
         }
-        private void CompleteGridMyQuery(ref BO.myQuery mq, BO.j72TheGridState cJ72)
-        {
-            switch (cJ72.j72MasterEntity)
-            {
-                case "p28Company":
-                    mq.p28id = cJ72.j72MasterPID;
-                    break;
-                case "p10MasterProduct":
-                    mq.p10id = cJ72.j72MasterPID;
-                    break;
-                case "p13MasterTpv":
-                    mq.p13id = cJ72.j72MasterPID;
-                    break;
-                case "p21License":
-                    mq.p21id = cJ72.j72MasterPID;
-                    break;
-                case "p26Msz":
-                    mq.p26id = cJ72.j72MasterPID;
-                    break;
-                case "j02Person":
-                    mq.j02id = cJ72.j72MasterPID;
-                    break;
-                case "p11ClientProduct":
-                    mq.p11id = cJ72.j72MasterPID;
-                    break;
-                case "p12ClientTpv":
-                    mq.p12id = cJ72.j72MasterPID;
-                    break;
-                case "p41Task":
-                    mq.p41id = cJ72.j72MasterPID;
-                    break;
-                case "p51Order":
-                    mq.p51id = cJ72.j72MasterPID;
-                    break;
-                default:
-                    break;
-            }
-        }
+        //private void CompleteGridMyQuery(ref BO.myQuery mq, BO.j72TheGridState cJ72)
+        //{
+        //    switch (cJ72.j72MasterEntity)
+        //    {
+        //        case "p28Company":
+        //            mq.p28id = cJ72.j72MasterPID;
+        //            break;
+        //        case "p10MasterProduct":
+        //            mq.p10id = cJ72.j72MasterPID;
+        //            break;
+        //        case "p13MasterTpv":
+        //            mq.p13id = cJ72.j72MasterPID;
+        //            break;
+        //        case "p21License":
+        //            mq.p21id = cJ72.j72MasterPID;
+        //            break;
+        //        case "p26Msz":
+        //            mq.p26id = cJ72.j72MasterPID;
+        //            break;
+        //        case "j02Person":
+        //            mq.j02id = cJ72.j72MasterPID;
+        //            break;
+        //        case "p11ClientProduct":
+        //            mq.p11id = cJ72.j72MasterPID;
+        //            break;
+        //        case "p12ClientTpv":
+        //            mq.p12id = cJ72.j72MasterPID;
+        //            break;
+        //        case "p41Task":
+        //            mq.p41id = cJ72.j72MasterPID;
+        //            break;
+        //        case "p51Order":
+        //            mq.p51id = cJ72.j72MasterPID;
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //}
         public TheGridOutput render_thegrid_html(BO.j72TheGridState cJ72)
         {
             var ret = new TheGridOutput();
@@ -438,8 +438,8 @@ namespace UI.Controllers
             {
                 mq.TheGridFilter = _colsProvider.ParseAdhocFilterFromString(cJ72.j72Filter, mq.explicit_columns);
             }
-
-            CompleteGridMyQuery(ref mq, cJ72);
+            mq.InhaleMasterEntityQuery(cJ72.j72MasterEntity, cJ72.j72MasterPID);
+            
             
             var dtFooter = Factory.gridBL.GetList(mq, true);
             int intVirtualRowsCount = Convert.ToInt32(dtFooter.Rows[0]["RowsCount"]);

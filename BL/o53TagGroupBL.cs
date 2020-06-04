@@ -7,6 +7,7 @@ namespace BL
 {
     public interface Io53TagGroupBL
     {
+        
         public BO.o53TagGroup Load(int pid);
         public IEnumerable<BO.o53TagGroup> GetList(BO.myQuery mq);
         public int Save(BO.o53TagGroup rec);
@@ -66,7 +67,11 @@ namespace BL
             p.AddBool("o53IsMultiSelect", rec.o53IsMultiSelect);
             p.AddString("o53Field", rec.o53Field);
 
+            
+
             return _db.SaveRecord("o53TagGroup", p.getDynamicDapperPars(), rec);
+
+            
         }
     }
 }

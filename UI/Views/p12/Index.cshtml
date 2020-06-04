@@ -79,42 +79,30 @@
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
 
-<table id="tab1" class="table table-sm table-hover table-bordered" style="min-width:900px;">
-    <thead id="thead1" style="background-color:lightgray;">
-        <tr>
-            <th>RowNum</th>
-            <th>OperNum</th>
-            <th>OperCode</th>
-            <th>Name</th>
-            <th>OperPar</th>
-            <th>MaterialCode</th>
-            <th>MaterialName</th>
-            <th>UnitsCount</th>
-            <th>DurationPreOper</th>
-            <th>DurationOper</th>
-            <th>DurationPostOper</th>
 
-        </tr>
-    </thead>
-
-    <tbody id="tbody1">
-    </tbody>
-</table>
-
+<div id="divP15Table"></div>
 
 
 <script type="text/javascript">
+    $(document).ready(function ()
+    {
 
-$(document).ready(function () {
-    var url = "@Url.Action("GetBodyOfTale", "Common")";
 
-    $.post(url, { entity: "p15ClientOper", tableid: "tabp14", queryfield: "p12id", queryvalue:@Model.Rec.pid }, function (data) {
-
-            $("#tbody1").html(data);
-        });
-
+        $.post("/Common/GetWorkTable", { entity: "p15ClientOper", edit_function: "p15_edit", master_entity: "p12ClientTpv", master_pid:@Model.Rec.pid }, function (data) {
+            $("#divP15Table").html(data);
 
         });
+
+
+    });
+
+
+    function p15_edit(pid) {
+        _window_open("/p15/Record?pid=" + pid);
+    }
+
+
+
 </script>
 
 

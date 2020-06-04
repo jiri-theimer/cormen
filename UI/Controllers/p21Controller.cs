@@ -21,7 +21,7 @@ namespace UI.Controllers
             {
                 var tg = Factory.o51TagBL.GetTagging("p21", pid);
                 v.Rec.TagHtml = tg.TagHtml;
-                v.IsPossible2UpdateClientProducts = this.TestIfUserEditor(true, false);
+                
                 return View(v);
             }
 

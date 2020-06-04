@@ -47,36 +47,36 @@ namespace UI.Controllers
         }
 
 
-        public string GetBodyOfTale(string entity, string queryfield, string queryvalue)
-        {           
-            var mq = new BO.myQuery(entity);
-            if (string.IsNullOrEmpty(queryfield) == false)
-            {
-                BO.Reflexe.SetPropertyValue(mq, queryfield, queryvalue);
-            }
-            mq.explicit_columns = _colsProvider.getDefaultPallete(false,mq);
-            var dt = Factory.gridBL.GetList(mq);
-            var intRows = dt.Rows.Count;
+        //public string GetBodyOfTale(string entity, string queryfield, string queryvalue)
+        //{           
+        //    var mq = new BO.myQuery(entity);
+        //    if (string.IsNullOrEmpty(queryfield) == false)
+        //    {
+        //        BO.Reflexe.SetPropertyValue(mq, queryfield, queryvalue);
+        //    }
+        //    mq.explicit_columns = _colsProvider.getDefaultPallete(false,mq);
+        //    var dt = Factory.gridBL.GetList(mq);
+        //    var intRows = dt.Rows.Count;
             
-            var s = new System.Text.StringBuilder();
-            foreach(var col in mq.explicit_columns)
-            {
+        //    var s = new System.Text.StringBuilder();
+        //    foreach(var col in mq.explicit_columns)
+        //    {
 
-            }
-            for (int i = 0; i < intRows; i++)
-            {
-                s.Append(string.Format("<tr data-v='{0}'>", dt.Rows[i]["pid"]));
-                foreach (var col in mq.explicit_columns)
-                {
-                    s.Append(string.Format("<td>{0}</td>", BO.BAS.ParseCellValueFromDb(dt.Rows[i],col)));
-                }
-                s.Append("</tr>");
+        //    }
+        //    for (int i = 0; i < intRows; i++)
+        //    {
+        //        s.Append(string.Format("<tr data-v='{0}'>", dt.Rows[i]["pid"]));
+        //        foreach (var col in mq.explicit_columns)
+        //        {
+        //            s.Append(string.Format("<td>{0}</td>", BO.BAS.ParseCellValueFromDb(dt.Rows[i],col)));
+        //        }
+        //        s.Append("</tr>");
 
                
-            }
-            return s.ToString();
-        }
-        public string GetWorkTable(string entity, string tableid, string param1, string pids,string delete_function,string queryfield,string queryvalue,string master_entity)
+        //    }
+        //    return s.ToString();
+        //}
+        public string GetWorkTable(string entity, string tableid, string param1, string pids,string delete_function,string edit_function,string queryfield,string queryvalue,string master_entity, int master_pid)
         {                
             var mq = new BO.myQuery(entity);
             mq.SetPids(pids);
@@ -96,7 +96,8 @@ namespace UI.Controllers
                     mq.explicit_orderby += " " + grid.j72SortOrder;
                 }
 
-            }            
+            }
+            mq.InhaleMasterEntityQuery(master_entity, master_pid);
 
             if (string.IsNullOrEmpty(queryfield) == false)
             {
@@ -110,18 +111,46 @@ namespace UI.Controllers
             var sb = new System.Text.StringBuilder();
             sb.Append(string.Format("<table id='{0}' class='table table-sm table-hover'>", tableid));
             sb.Append("<thead><tr>");
-            foreach(var c in mq.explicit_columns)
+            if (edit_function != null)
             {
-                sb.Append(string.Format("<th>{0}</th>", c.Header));
+                sb.Append(("<th></th>"));
+            }
+            foreach (var c in mq.explicit_columns)
+            {
+                if (c.NormalizedTypeName == "num")
+                {
+                    sb.Append(string.Format("<th style='text-align:right;'>{0}</th>", c.Header));
+                }
+                else
+                {
+                    sb.Append(string.Format("<th>{0}</th>", c.Header));
+                }
+                    
+            }
+            if (delete_function != null)
+            {
+                sb.Append(("<th></th>"));
             }
             sb.Append("</tr></thead>");
             sb.Append("<tbody>");
             for (int i = 0; i < intRows; i++)
             {
                 sb.Append(string.Format("<tr data-v='{0}'>", dt.Rows[i]["pid"]));
+                if (edit_function != null)
+                {
+                    sb.Append(string.Format("<td><button type='button' class='btn btn-sm btn-light' onclick='{0}({1})'>Upravit</button></td>", edit_function, dt.Rows[i]["pid"]));
+                }
                 foreach (var col in mq.explicit_columns)
                 {
-                    sb.Append(string.Format("<td>{0}</td>", BO.BAS.ParseCellValueFromDb(dt.Rows[i],col)));
+                    if (col.NormalizedTypeName == "num")
+                    {
+                        sb.Append(string.Format("<td style='text-align: right;'>{0}</td>", BO.BAS.ParseCellValueFromDb(dt.Rows[i], col)));
+                    }
+                    else
+                    {
+                        sb.Append(string.Format("<td>{0}</td>", BO.BAS.ParseCellValueFromDb(dt.Rows[i], col)));
+                    }
+                    
                 }
                 if (delete_function != null)
                 {

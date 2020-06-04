@@ -14,15 +14,15 @@ if (screen.availHeight > screen.availWidth || screen.width < 800 || screen.heigh
 }
 
 function _edit(controller, pid, header) {
-    
+
     var url = "";
     switch (controller) {
         case "x40":
             url = "/Mail/Record?pid=" + pid;
             break;
-       
-        case "j90":      
-           
+
+        case "j90":
+
             _notify_message("Pro tento záznam neexistuje stránka detailu.", "info");
             return;
         default:
@@ -31,7 +31,7 @@ function _edit(controller, pid, header) {
     }
 
     _window_open(url, 1, header);
-    
+
 }
 
 function _clone(controller, pid, header) {
@@ -207,20 +207,20 @@ function _splitter_init(splitterLayout, prefix) {    //splitterLayout 1 - horní
             var key = prefix + "_panel1_size";
 
             if (splitterLayout === "2") {
-                panel1_size = $el.width();                
+                panel1_size = $el.width();
             }
 
-            
-            _notify_message("Velikost panelu ukládám do vašeho profilu.<hr>" + key+": "+ panel1_size+"px", "info");
+
+            _notify_message("Velikost panelu ukládám do vašeho profilu.<hr>" + key + ": " + panel1_size + "px", "info");
             localStorage.setItem(key, panel1_size);
 
             if (document.getElementById("tabgrid1")) {
-                tg_adjust_for_screen("splitter_panel1");                                
+                tg_adjust_for_screen("splitter_panel1");
             }
             if (document.getElementById("fra_subgrid")) {
                 document.getElementById("fra_subgrid").contentDocument.location.reload(true);
             }
-            
+
             //run_postback(key, panel1_size);          //velikost panelu se uloží přes postback             
 
         }
@@ -347,7 +347,7 @@ function _cm(e, entity, pid) {
         document.body.appendChild(el);
     }
 
-       
+
     if (ctl.getAttribute("menu_je_inicializovano") === "1") {
         return; // kontextové menu bylo již u tohoto elementu inicializováno - není třeba to dělat znovu.
     }
@@ -371,7 +371,7 @@ function _cm(e, entity, pid) {
 
     ctl.setAttribute("menu_je_inicializovano", "1");
 
-   
+
 }
 
 
@@ -405,13 +405,13 @@ function _removeUrlParam(key, sourceURL) {
 }
 
 
-function _update_user_ping() {    
+function _update_user_ping() {
 
     var devicetype = "Desktop";
     if (screen.availHeight > screen.availWidth || screen.width < 800 || screen.height < 600) {   //mobilní zařízení výšku vyšší než šířku
         devicetype = "Phone";
     }
-    
+
     var log = {
         j92BrowserUserAgent: navigator.userAgent,
         j92BrowserAvailWidth: screen.availWidth,
@@ -422,7 +422,7 @@ function _update_user_ping() {
         j92RequestURL: location.href.replace(location.host, "").replace(location.protocol, "").replace("///", "")
     }
 
-    
+
     $.post("/Home/UpdateCurrentUserPing", { c: log }, function (data) {
         //ping aktualizován
     });
@@ -475,7 +475,7 @@ function _zoom(e, entity, pid, wtype, header, url) {     //wtype: small (600px) 
     var maxwidth = $(window).width();
     var w = 600;
     var h = 600;
-    
+
     if (typeof wtype !== "undefined") {
         if (wtype === "big") {
             w = 1050;
@@ -484,14 +484,14 @@ function _zoom(e, entity, pid, wtype, header, url) {     //wtype: small (600px) 
     }
     if (w > maxwidth) {
         w = maxwidth;
-    }  
+    }
     if (typeof url === "undefined") {
         url = "/" + entity + "/Index?pid=" + pid;
     }
     if (typeof header === "undefined") {
         header = "INFO";
     }
-    
+
     var menuid = "zoom_okno";
     //if (pos_left + w >= maxwidth) menuid = "cm_right2left";
 
@@ -499,31 +499,31 @@ function _zoom(e, entity, pid, wtype, header, url) {     //wtype: small (600px) 
         //div na stránce neště existuje
         var el = document.createElement("DIV");
         el.id = menuid;
-        el.style.display = "none";        
+        el.style.display = "none";
         document.body.appendChild(el);
     }
 
     $("#" + menuid).width(w);
-    $("#" + menuid).height(h);    
-    
-    
-    var s = "<div id='divZoomContainer' style='width:" + w + "px;' orig_w='"+w+"' orig_h='"+h+"'>";    
-    s += "<div id='divZoomHeader' style='cursor: move;height:30px;background-color:lightsteelblue;padding:3px;' ondblclick='_zoom_toggle()'>"+header+"</div>";
+    $("#" + menuid).height(h);
+
+
+    var s = "<div id='divZoomContainer' style='width:" + w + "px;' orig_w='" + w + "' orig_h='" + h + "'>";
+    s += "<div id='divZoomHeader' style='cursor: move;height:30px;background-color:lightsteelblue;padding:3px;' ondblclick='_zoom_toggle()'>" + header + "</div>";
     s += "<div id='divZoomFrame'>";
-    s += "<iframe id='frazoom' src = '" + url + "' style = 'width:100%;height: "+(h-31)+"px;' frameborder=0></iframe >";
+    s += "<iframe id='frazoom' src = '" + url + "' style = 'width:100%;height: " + (h - 31) + "px;' frameborder=0></iframe >";
     s += "</div>";
     s += "</div>";
-    
+
     $("#" + menuid).html(s);
 
     _make_element_draggable(document.getElementById("zoom_okno"), document.getElementById("divZoomFrame")); //předávání nefunguje přes jquery
 
     if (ctl.getAttribute("menu_je_inicializovano") === "1") {
-        
+
         return; // kontextové menu bylo již u tohoto elementu inicializováno - není třeba to dělat znovu.
     }
-    
-    
+
+
 
     $(ctl).contextMenu({
         menuSelector: "#" + menuid,
@@ -537,19 +537,19 @@ function _zoom(e, entity, pid, wtype, header, url) {     //wtype: small (600px) 
 function _zoom_toggle() {
     var okno = $("#divZoomContainer");
     var offset = $(okno).offset();
-    
-    var w = $(window).width() - offset.left-10;
+
+    var w = $(window).width() - offset.left - 10;
     var h = $(window).height() - offset.top - 10;
-    
+
     if ($(window).width() - offset.left - $(okno).width() < 30) {
         w = $("#divZoomContainer").attr("orig_w");
         h = $("#divZoomContainer").attr("orig_h");
     }
-    
+
     $(okno).width(w);
     $(okno).height(h);
     $("#divZoomFrame").height(h - 31);
-    $("#frazoom").height(h- 31);
+    $("#frazoom").height(h - 31);
 
 }
 
@@ -557,10 +557,10 @@ function _string_to_date(s) {
     s = s.trim();
     s = s.replace(" ", ".").replace(":", ".");
     var arr = s.split(".");
-    if (arr.length > 3) {        
-        return (new Date(parseInt(arr[2]), parseInt(arr[1])-1, parseInt(arr[0]), parseInt(arr[3]), parseInt(arr[4])));
+    if (arr.length > 3) {
+        return (new Date(parseInt(arr[2]), parseInt(arr[1]) - 1, parseInt(arr[0]), parseInt(arr[3]), parseInt(arr[4])));
     }
-    if (arr.length===3) {
+    if (arr.length === 3) {
         return (new Date(arr[2], arr[1], arr[0]));
     }
     return new Date();
@@ -603,7 +603,7 @@ function _format_number_int(val) {
 }
 
 function _format_date(d, is_include_time) {
-    
+
     var month = '' + (d.getMonth() + 1);
     var day = '' + d.getDate();
     var year = d.getFullYear();
@@ -614,6 +614,20 @@ function _format_date(d, is_include_time) {
         return (day + "." + month + "." + year + " " + hour + ":" + minute);
     } else {
         return (day + "." + month + "." + year);
+    }
+
+}
+
+
+function p21_handle_create_client_products(p21id) {
+    
+    if (confirm("Chcete zaktualizovat klientské produkty a receptury podle vzoru vybraných Master produktů v licenci?") === true) {
+        
+        $.post("/p21/CreateClientProducts", { p21id: p21id }, function (data) {
+            _notify_message(data.message,"info");
+
+
+        });
     }
 
 }

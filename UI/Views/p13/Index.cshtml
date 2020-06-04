@@ -42,67 +42,9 @@
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
 
-<table id="tab1" class="table table-sm table-hover table-bordered" style="min-width:900px;">
-    <thead id="thead1" style="background-color:lightgray;">
-        <tr>
-            <th></th>
-            <th>Číslo řádku</th>
-            <th>Číslo Oper</th>
-            <th>Kód Oper</th>
-            <th>Název Oper</th>
-            <th>Parametr</th>
-            <th>Surovina</th>
-            
-            <th>Množství kg (na 1t produktu)</th>
-            <th>Před Oper. Čas</th>
-            <th>Oper. Čas (jednotkový)</th>
-            <th>Po Oper. Čas</th>
+<div id="divP14Table">
 
-        </tr>
-    </thead>
-
-    <tbody id="tbody1">
-        @foreach(var c in Model.lisP14)
-        {
-        <tr>
-            <td>
-                <a href="javascript:_window_open('/p14/Record?pid=@c.pid')">Upravit</a>
-            </td>
-            <td style="text-align:right;">
-                @c.p14RowNum
-
-            </td>
-            <td style="text-align:right;">
-                @(BO.BAS.RightString("000"+c.p14OperNum.ToString(),3))
-            </td>
-            <td>
-                @c.OperCode
-            </td>
-            <td>
-                @c.p14Name
-            </td>
-            <td>
-                @c.p14OperParam
-            </td>
-            <td>
-                @c.Material
-            </td>
-            <td style="text-align:right;">
-                @c.p14UnitsCount
-            </td>
-            <td style="text-align:right;">
-                @c.p14DurationPreOper
-            </td>
-            <td style="text-align:right;">
-                @c.p14DurationOper
-            </td>
-            <td style="text-align:right;">
-                @c.p14DurationPostOper
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+</div>
 
 
 
@@ -110,6 +52,18 @@
 
     $(document).ready(function ()
     {
-   
+
+        
+        $.post("/Common/GetWorkTable", { entity: "p14MasterOper", edit_function: "p14_edit", master_entity: "p13MasterTpv", master_pid:@Model.Rec.pid }, function (data) {
+            $("#divP14Table").html(data);
+
         });
+
+
+    });
+
+
+    function p14_edit(pid) {
+        _window_open("/p14/Record?pid=" + pid);
+    }
 </script>

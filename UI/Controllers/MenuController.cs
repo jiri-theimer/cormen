@@ -124,6 +124,7 @@ namespace UI.Controllers
                     DIV();
                     AMI("Zkopírovat do nové zprávy", string.Format(string.Format("javascript: _window_open('/Mail/SendMail?x40id={0}')",pid)));
                     break;
+                
                 case "j90":
                 case "j92":              
                 case "p44":
@@ -169,6 +170,12 @@ namespace UI.Controllers
                 {
                     DIV();
                     AMI("Připojit dokument", string.Format("javascript:_append_doc('{0}',{1})", prefix, pid));
+                }
+                if (prefix == "p21" && this.TestIfUserEditor(true, false)==true)
+                {                    
+                    DIV();
+                    AMI("Aktualizovat klientovi jeho produkty a receptury podle licence", string.Format("javascript:p21_handle_create_client_products({0})", pid));
+                    
                 }
             }
 

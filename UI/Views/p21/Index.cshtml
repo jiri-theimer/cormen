@@ -8,62 +8,55 @@
 
 
 
-    <div class="modal_record_container">
-        @if (Model.IsPossible2UpdateClientProducts)
-        {
+<div class="modal_record_container">
 
-            <div class="form-group">
-                <button type="button" class="btn btn-primary" onclick="handle_create_client_products()">Aktualizovat klientovi jeho produkty a receptury podle licence</button>
-            </div>
+    <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Licence:</label>
+        <div class="col-sm-6 col-md-6">
+            <span class="form-control bg-light">@(Model.Rec.p21Name)</span>
 
-        }
-        <div class="form-row">
-            <label class="col-sm-1 col-md-2 col-form-label">Licence:</label>
-            <div class="col-sm-6 col-md-6">
-                <span class="form-control bg-light">@(Model.Rec.p21Name)</span>
-
-            </div>
-            <div class="col-sm-5 col-md-4">
-                <span class="form-control bg-light">@(Model.Rec.p21Code)</span>
-
-            </div>
         </div>
+        <div class="col-sm-5 col-md-4">
+            <span class="form-control bg-light">@(Model.Rec.p21Code)</span>
 
-        <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Klient:</label>
-            <div class="col-sm-6 col-md-5">
-                <span class="form-control bg-light">@(Model.Rec.p28Name)</span>
-            </div>
-            <label class="col-sm-1 col-md-1 col-form-label">Typ licence:</label>
-            <div class="col-sm-4 col-md-4">
-                <span class="form-control bg-light">@(Model.Rec.PermFlagAlias)</span>
-            </div>
         </div>
+    </div>
 
-        <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Platnost:</label>
-            <div class="col-sm-6 col-md-5">
-                <div class="btn-group">
-                    <span class="form-control bg-light">@(BO.BAS.ObjectDate2String(@Model.Rec.ValidFrom)+" - "+ BO.BAS.ObjectDate2String(@Model.Rec.ValidUntil))</span>
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Klient:</label>
+        <div class="col-sm-6 col-md-5">
+            <span class="form-control bg-light">@(Model.Rec.p28Name)</span>
+        </div>
+        <label class="col-sm-1 col-md-1 col-form-label">Typ licence:</label>
+        <div class="col-sm-4 col-md-4">
+            <span class="form-control bg-light">@(Model.Rec.PermFlagAlias)</span>
+        </div>
+    </div>
 
-
-                </div>
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Platnost:</label>
+        <div class="col-sm-6 col-md-5">
+            <div class="btn-group">
+                <span class="form-control bg-light">@(BO.BAS.ObjectDate2String(@Model.Rec.ValidFrom)+" - "+ BO.BAS.ObjectDate2String(@Model.Rec.ValidUntil))</span>
 
 
             </div>
-            <label class="col-sm-1 col-md-1 col-form-label">Stav:</label>
-            <div class="col-sm-4 col-md-4">
-                <span class="form-control bg-light">@(Model.Rec.b02Name)</span>
-            </div>
-
 
 
         </div>
+        <label class="col-sm-1 col-md-1 col-form-label">Stav:</label>
+        <div class="col-sm-4 col-md-4">
+            <span class="form-control bg-light">@(Model.Rec.b02Name)</span>
+        </div>
 
-        @Html.DisplayFor(m => m.Rec.TagHtml, "~/Views/Shared/_TagHtml.cshtml")
 
 
     </div>
+
+    @Html.DisplayFor(m => m.Rec.TagHtml, "~/Views/Shared/_TagHtml.cshtml")
+
+
+</div>
 @if (Model.Rec.p21Memo != null)
 {
     <hr />
@@ -76,31 +69,23 @@
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
 
+<div id="divP10Table"></div>
+
+
+
+
 <script type="text/javascript">
     $(document).ready(function () {
-        @*var url = "@Url.Action("GetWorkTable", "Common")";
 
-        $.post(url, { entity: "p10", tableid: "tabp10", queryfield:"p21id", queryvalue:@Model.Rec.pid }, function (data) {
-                $("#divP10").html(data);
-            });*@
+        $.post("/Common/GetWorkTable", { entity: "p10MasterProduct", master_entity: "p21License", master_pid:@Model.Rec.pid }, function (data) {
+            $("#divP10Table").html(data);
 
+        });
 
     });
 
 
-    function handle_create_client_products() {
 
-
-        if (confirm("Chcete zaktualizovat klientské produkty a receptury podle vzoru vybraných Master produktů v licenci?") == true) {
-            var url = "@Url.Action("CreateClientProducts", "p21")";
-            $.post(url, { p21id:@Model.Rec.pid}, function (data) {
-                alert(data.message);
-
-
-            });
-        }
-
-    }
 </script>
 
 
