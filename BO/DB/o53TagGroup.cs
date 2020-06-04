@@ -16,5 +16,6 @@ namespace BO
         public string o53Entities { get; set; }
         public int o53Ordinary { get; set; }
         public bool o53IsMultiSelect { get; set; }
+        public string o53Field { get; set; }
     }
 }

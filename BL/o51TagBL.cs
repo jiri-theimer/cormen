@@ -86,12 +86,12 @@ namespace BL
                         sb.Append("<div class='col-sm-11 col-md-10'>");
                         if (ret.TagNames == "")
                         {
-                            //ret.TagHtml = "<div class='taggroup'>★" + c.o53Name + ":</div>";
+                            
                             ret.TagNames = c.o53Name + ": ";
                         }
                         else
                         {
-                            //ret.TagHtml += "<br><div class='taggroup'>★" + c.o53Name + ":</div>";
+                            
                             ret.TagNames += " ★" + c.o53Name + ": ";
                         }
                         ret.TagNames += c.o51Name;
@@ -100,7 +100,7 @@ namespace BL
                     {
                         ret.TagNames += ", " + c.o51Name;
                     }
-                    //ret.TagHtml += c.HtmlText;
+                    
                     sb.Append(c.HtmlText);
 
                     x += 1;
@@ -146,9 +146,9 @@ namespace BL
                 _mother.CurrentUser.AddMessage("Název položky kategorie nesmí obsahovat čárku.");
                 return 0;
             }
-            if (rec.o51Name.Length>20)
+            if (rec.o51Name.Length>30)
             {
-                _mother.CurrentUser.AddMessage("V názvu položky kategorie může být maximálně 20 znaků.");
+                _mother.CurrentUser.AddMessage("V názvu položky kategorie může být maximálně 30 znaků.");
                 return 0;
             }
 

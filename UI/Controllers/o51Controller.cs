@@ -26,9 +26,13 @@ namespace UI.Controllers
             v.ApplicableTags_Multi = lisTags.Where(p => p.o53IsMultiSelect == true && (p.o53Entities == null || p.o53Entities.Contains(prefix)));
             v.ApplicableTags_Single = lisTags.Where(p => p.o53IsMultiSelect == false && (p.o53Entities == null || p.o53Entities.Contains(prefix)));
 
-            mq = new BO.myQuery("o51Tag");
-            mq.SetPids(o51ids);
-            lisTags = Factory.o51TagBL.GetList(mq);
+            if (String.IsNullOrEmpty(o51ids) == false)
+            {
+                mq = new BO.myQuery("o51Tag");
+                mq.SetPids(o51ids);
+                lisTags = Factory.o51TagBL.GetList(mq);
+            }
+            
 
             mq = new BO.myQuery("o53TagGroup");
             var lisGroups = Factory.o53TagGroupBL.GetList(mq).Where(p =>p.o53IsMultiSelect==false && ( p.o53Entities == null || p.o53Entities.Contains(prefix))).ToList();
@@ -36,11 +40,15 @@ namespace UI.Controllers
             foreach (var group in lisGroups)
             {
                 var c = new SingleSelectCombo() { o53ID = group.pid, o53Name = group.o53Name };
-                if (lisTags.Where(p => p.o53ID == group.pid).Count()>0)
+                if (String.IsNullOrEmpty(o51ids) == false)
                 {
-                    c.o51ID = lisTags.Where(p => p.o53ID == group.pid).First().pid;
-                    c.o51Name = lisTags.Where(p => p.o53ID == group.pid).First().o51Name;
+                    if (lisTags.Where(p => p.o53ID == group.pid).Count() > 0)
+                    {
+                        c.o51ID = lisTags.Where(p => p.o53ID == group.pid).First().pid;
+                        c.o51Name = lisTags.Where(p => p.o53ID == group.pid).First().o51Name;
+                    }
                 }
+                    
                 v.SingleCombos.Add(c);
             }
             

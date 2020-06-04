@@ -9,13 +9,17 @@ namespace BL
 {
     public class TheColumnsProvider
     {
+        private readonly BL.RunningApp _app;
+        //private readonly BL.Factory _f;
         private List<BO.TheGridColumn> _lis;
         //private BO.myQuery _mq;
         private string _lastEntity;
         private string _curEntityAlias;
-
-        public TheColumnsProvider()
+        
+        public TheColumnsProvider(BL.RunningApp runningapp)
         {
+            _app = runningapp;
+            //_f = f;
             _lis = new List<BO.TheGridColumn>();
             SetupPallete();
 
@@ -170,10 +174,7 @@ namespace BL
             AF("b02Status", "EntityAlias", "Vazba", 1, "dbo.getEntityAlias(a.b02Entity)");
             AF("b02Status", "b02Ordinary", "Pořadí", 0, null, "num0");
 
-            //o12 = kategorie
-            //AF("o12Category", "o12Name", "Kategorie", 1,null,"string",false,true);
-            //AF("o12Category", "EntityAlias", "Vazba", 1, "dbo.getEntityAlias(a.o12Entity)");
-
+           
             //o51 = položka kategorie
             AF("o51Tag", "o51Name", "Položka kategorie", 1, null, "string", false, true);            
             AF("o51Tag", "o51IsColor", "Má barvu", 2, null, "bool");
@@ -190,7 +191,18 @@ namespace BL
 
             AF("o54TagBindingInline", "o54InlineHtml", "Kategorie", 1, null, "string", false, true);
             AF("o54TagBindingInline", "o54InlineText", "Kategorie (pouze text)",1, null, "string", false, true);
+
+            //zatím provizorně v rámci SINGLETON režimu této třídy:
+            DL.DbHandler db = new DL.DbHandler(_app.ConnectString, new BO.RunningUser(), _app.LogFolder);
+            var dt = db.GetDataTable("select * from o53TagGroup WHERE o53Field IS NOT NULL AND o53Entities IS NOT NULL ORDER BY o53Ordinary");
+            foreach(System.Data.DataRow dbrow in dt.Rows)
+            {
+                
+               onecol= AF("o54TagBindingInline", dbrow["o53Field"].ToString(), dbrow["o53Name"].ToString(), 0, null, "string", false, true);
+               onecol.VisibleWithinEntityOnly = dbrow["o53Entities"].ToString();
+            }
             
+
 
             //p19=materiál
             AF("p19Material", "p19Code", "Kód suroviny", 1,null,"string",false,true);
@@ -432,6 +444,7 @@ namespace BL
 
         }
 
+        
         public List<BO.TheGridColumn> getDefaultPallete(bool bolComboColumns, BO.myQuery mq)
         {
             int intDefaultFlag1 = 1; int intDefaultFlag2 = 2;

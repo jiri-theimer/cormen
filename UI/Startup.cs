@@ -106,7 +106,9 @@ namespace UI
 
             services.AddScoped<BO.RunningUser, BO.RunningUser>();            
             services.AddScoped<BL.Factory,BL.Factory>();
-            
+
+
+            //services.AddScoped<BL.TheColumnsProvider, BL.TheColumnsProvider>();
 
 
             services.AddHostedService<UI.TheRobot>();

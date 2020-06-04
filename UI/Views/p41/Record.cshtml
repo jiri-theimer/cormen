@@ -69,12 +69,7 @@
 
     </div>
 
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Štítky:</label>
-        <div class="col-sm-11 col-md-10">
-            <mystitky entity="p41Task" asp-for="@Model.TagPids" tagnames="@Model.TagNames" taghtml="@Model.TagHtml"></mystitky>
-        </div>
-    </div>
+    <mystitky entity="p41Task" asp-for="@Model.TagPids" tagnames="@Model.TagNames" taghtml="@Model.TagHtml"></mystitky>
 
     <div class="form-row" style="margin-top:10px;">
         <textarea asp-for="Rec.p41Memo" class="form-control" style="height:150px;" placeholder="Podrobný popis"></textarea>

@@ -28,6 +28,8 @@ namespace BO
         public string RelSql { get; set; }  //sql relace from klauzule - naplní se v getSelectedPallete
         public string RelSqlDependOn { get; set; } //sql relace na které je závislá RelSql
 
+        public string VisibleWithinEntityOnly { get; set; } //aplikovatelné pouze pro kategorie
+
         public string Entity
         {
             get

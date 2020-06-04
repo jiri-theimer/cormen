@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_LayoutModal.cshtml";
     if (Model.Rec == null) return;
     string _displayMore = "none";
-    if (string.IsNullOrEmpty(Model.TagHtml)==false || Model.Rec.o23Memo != null)
+    if (Model.Rec.o23Date !=null || Model.Rec.o23Memo != null || Model.Rec.b02ID>0)
     {
         _displayMore = "block";
     }
@@ -21,21 +21,21 @@
         @Html.HiddenFor(m => m.Rec.pid)
 
 
-        <div class="modal_record_container">
-            <div class="form-row">
-                <label class="col-sm-1 col-md-2 col-form-label">Název dokumentu:</label>
-                <div class="col-sm-11 col-md-10">
-                    <input class="form-control" asp-for="Rec.o23Name" />
-                    <span asp-validation-for="Rec.o23Name" class="text-danger"></span>
-                </div>
+    <div class="modal_record_container">
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Název dokumentu:</label>
+            <div class="col-sm-11 col-md-10">
+                <input class="form-control" asp-for="Rec.o23Name" />
+                <span asp-validation-for="Rec.o23Name" class="text-danger"></span>
             </div>
+        </div>
 
 
-            <div class="form-row">
-                <label class="col-sm-1 col-md-2 col-form-label">Vazba:</label>
-                <div class="col-sm-11 col-md-10">
-                    @if (_f.CurrentUser.j03EnvironmentFlag == 1)
-                    {
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Vazba:</label>
+            <div class="col-sm-11 col-md-10">
+                @if (_f.CurrentUser.j03EnvironmentFlag == 1)
+                {
                     <select asp-for="Rec.o23Entity" class="form-control" style="background-color:khaki;">
                         <option value="p28Company">Klient | Subjekt</option>
                         <option value="p26Msz">Stroj | MSZ</option>
@@ -46,118 +46,113 @@
                         <option value="p51Order">Objednávka</option>
                         <option value="p41Task">Výrobní zakázka</option>
                     </select>
-                    }
-                    else
-                    {
-                <select asp-for="Rec.o23Entity" class="form-control" style="background-color:khaki;">
-                    <option value="p41Task">Výrobní zakázka</option>
-                    <option value="p51Order">Objednávka</option>
-                    <option value="p28Company">Klient | Subjekt</option>
-                    <option value="p26Msz">Stroj | MSZ</option>
-                    <option value="p11ClientProduct">Klientský produkt</option>
-                    <option value="p12ClientTpv">Klientská receptura</option>
-                    <option value="p21License">Licence</option>
-                    <option value="j02Person">Osoba | Uživatel</option>
+                }
+                else
+                {
+                    <select asp-for="Rec.o23Entity" class="form-control" style="background-color:khaki;">
+                        <option value="p41Task">Výrobní zakázka</option>
+                        <option value="p51Order">Objednávka</option>
+                        <option value="p28Company">Klient | Subjekt</option>
+                        <option value="p26Msz">Stroj | MSZ</option>
+                        <option value="p11ClientProduct">Klientský produkt</option>
+                        <option value="p12ClientTpv">Klientská receptura</option>
+                        <option value="p21License">Licence</option>
+                        <option value="j02Person">Osoba | Uživatel</option>
 
-                </select>
-                    }
+                    </select>
+                }
 
-                    <span asp-validation-for="Rec.o23Entity" class="text-danger"></span>
+                <span asp-validation-for="Rec.o23Entity" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Svázaný záznam:</label>
+            <div class="col-sm-11 col-md-10">
+                <mycombo entity="@Model.Rec.o23Entity" asp-for="Rec.o23RecordPid" selectedtext="Rec.RecordPidAlias"></mycombo>
+
+            </div>
+        </div>
+
+
+        <mystitky entity="o23Doc" asp-for="@Model.TagPids" tagnames="@Model.TagNames" taghtml="@Model.TagHtml"></mystitky>
+
+        <button id="cmdMore" type="button" class="btn btn-light" style="width:100px;">
+            <i class="fas fa-caret-down"></i>
+            Více
+        </button>
+        <div id="divMore" style="display:@_displayMore;">
+
+            <div class="form-row" style="margin-top:10px;">
+                <label class="col-sm-1 col-md-2 col-form-label">Datum:</label>
+                <div class="col-sm-4 col-md-4">
+                    <mydate asp-for="Rec.o23Date" include-time="true"></mydate>
+                </div>
+            </div>
+            <div class="form-row" style="margin-top:10px;">
+                <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
+                <div class="col-sm-11 col-md-10">
+                    <mycombo entity="b02Status" asp-for="Rec.b02ID" selectedtext="Rec.b02Name" param1="o23"></mycombo>
                 </div>
             </div>
             <div class="form-row">
-                <label class="col-sm-1 col-md-2 col-form-label">Svázaný záznam:</label>
+                <label class="col-sm-1 col-md-2 col-form-label">Kód:</label>
+                <div class="col-sm-4 col-md-4">
+                    <input class="form-control" asp-for="Rec.o23Code" />
+                    <span asp-validation-for="Rec.o23Code" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label class="col-sm-1 col-md-2 col-form-label">Vlastník záznamu:</label>
                 <div class="col-sm-11 col-md-10">
-                    <mycombo entity="@Model.Rec.o23Entity" asp-for="Rec.o23RecordPid" selectedtext="Rec.RecordPidAlias"></mycombo>
-
+                    <mycombo entity="j02Person" asp-for="Rec.j02ID_Owner" selectedtext="Rec.RecordOwner"></mycombo>
                 </div>
             </div>
 
 
-
-
-            <button id="cmdMore" type="button" class="btn btn-light" style="width:100px;">
-                <i class="fas fa-caret-down"></i>
-                Více
-            </button>
-            <div id="divMore" style="display:@_displayMore;">
-                <div class="form-row" style="margin-top:10px;">
-                    <label class="col-sm-1 col-md-2 col-form-label">Štítky:</label>
-                    <div class="col-sm-11 col-md-10">
-                        <mystitky entity="o23Doc" asp-for="@Model.TagPids" tagnames="@Model.TagNames" taghtml="@Model.TagHtml"></mystitky>
-                    </div>
-                </div>
-                <div class="form-row" style="margin-top:10px;">
-                    <label class="col-sm-1 col-md-2 col-form-label">Datum:</label>
-                    <div class="col-sm-4 col-md-4">
-                        <mydate asp-for="Rec.o23Date" include-time="true"></mydate>
-                    </div>
-                </div>
-                <div class="form-row" style="margin-top:10px;">
-                    <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
-                    <div class="col-sm-11 col-md-10">
-                        <mycombo entity="b02Status" asp-for="Rec.b02ID" selectedtext="Rec.b02Name" param1="o23"></mycombo>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <label class="col-sm-1 col-md-2 col-form-label">Kód:</label>
-                    <div class="col-sm-4 col-md-4">
-                        <input class="form-control" asp-for="Rec.o23Code" />
-                        <span asp-validation-for="Rec.o23Code" class="text-danger"></span>
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <label class="col-sm-1 col-md-2 col-form-label">Vlastník záznamu:</label>
-                    <div class="col-sm-11 col-md-10">
-                        <mycombo entity="j02Person" asp-for="Rec.j02ID_Owner" selectedtext="Rec.RecordOwner"></mycombo>
-                    </div>
-                </div>
-
-
-                <div class="form-row">
-                    <textarea asp-for="Rec.o23Memo" class="form-control" placeholder="Podrobný popis" style="height:150px;"></textarea>
-                    <span asp-validation-for="Rec.o23Memo" class="text-danger"></span>
-                </div>
+            <div class="form-row">
+                <textarea asp-for="Rec.o23Memo" class="form-control" placeholder="Podrobný popis" style="height:150px;"></textarea>
+                <span asp-validation-for="Rec.o23Memo" class="text-danger"></span>
             </div>
-            @if (Model.lisO27 != null)
-            {
-                <div class="card" style="margin-top:10px;">
-                    <div class="card-header">
-                        Přílohy/soubory k dokumentu
-                    </div>
-                    <div class="card-body">
-                        <table class="table table-sm table-hover">
-
-                            @foreach (var c in Model.lisO27)
-                            {
-                                <text>
-                                    <tr id="@("tr"+@c.pid)">
-                                        <td style="width:30px;">
-                                            <a title="Stáhnout" asp-action="FileDownload" asp-route-guid="@c.o27GUID"><i class="fas fa-download"></i></a>
-                                        </td>
-                                        <td style="width:60px;">
-                                            <small>@BO.BAS.FormatFileSize(c.o27FileSize)</small>
-                                        </td>
-                                        <td>
-                                            <a title="Stáhnout a otevřít v přidružené aplikaci" asp-action="FileDownloadInline" target="_blank" asp-route-guid="@c.o27GUID">@c.o27Name</a>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-sm" onclick="remove(@c.pid)" title="Odstranit soubor z dokumentu"><i class="fas fa-trash-alt"></i></button>
-                                        </td>
-                                    </tr>
-                                </text>
-
-                            }
-
-                        </table>
-                    </div>
-                </div>
-            }
-
-
-
         </div>
+        @if (Model.lisO27 != null)
+        {
+            <div class="card" style="margin-top:10px;">
+                <div class="card-header">
+                    Přílohy/soubory k dokumentu
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm table-hover">
+
+                        @foreach (var c in Model.lisO27)
+                        {
+                            <text>
+                                <tr id="@("tr"+@c.pid)">
+                                    <td style="width:30px;">
+                                        <a title="Stáhnout" asp-action="FileDownload" asp-route-guid="@c.o27GUID"><i class="fas fa-download"></i></a>
+                                    </td>
+                                    <td style="width:60px;">
+                                        <small>@BO.BAS.FormatFileSize(c.o27FileSize)</small>
+                                    </td>
+                                    <td>
+                                        <a title="Stáhnout a otevřít v přidružené aplikaci" asp-action="FileDownloadInline" target="_blank" asp-route-guid="@c.o27GUID">@c.o27Name</a>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm" onclick="remove(@c.pid)" title="Odstranit soubor z dokumentu"><i class="fas fa-trash-alt"></i></button>
+                                    </td>
+                                </tr>
+                            </text>
+
+                        }
+
+                    </table>
+                </div>
+            </div>
+        }
+
+
+
+    </div>
 
         <input type="hidden" asp-for="Guid" />
         <input type="hidden" asp-for="o27IDs4Delete" />

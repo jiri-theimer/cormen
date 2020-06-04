@@ -68,12 +68,7 @@
         </div>
 
     </div>
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Štítky:</label>
-        <div class="col-sm-11 col-md-10">
-            <mystitky entity="p21License" asp-for="@Model.TagPids" tagnames="@Model.TagNames" taghtml="@Model.TagHtml"></mystitky>
-        </div>
-    </div>
+    <mystitky entity="p21License" asp-for="@Model.TagPids" tagnames="@Model.TagNames" taghtml="@Model.TagHtml"></mystitky>
 
 
 

@@ -12,6 +12,7 @@ namespace BL
     {                
         public BO.RunningUser CurrentUser { get; set; }
         public BL.RunningApp App { get; set; }
+        
 
         private Ij02PersonBL _j02;
         private Ij03UserBL _j03;
@@ -49,7 +50,7 @@ namespace BL
                         
             this.CurrentUser = c;
             this.App = runningapp;
-
+            
             if (c.pid == 0 && string.IsNullOrEmpty(c.j03Login)==false)
             {
                 InhaleUserByLogin(c.j03Login);

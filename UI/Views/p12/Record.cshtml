@@ -42,12 +42,7 @@
             <mycombo entity="p25MszType" asp-for="Rec.p25ID" selectedtext="Rec.p25Name" view-flag="2" event_after_changevalue="p25id_change"></mycombo>
         </div>
     </div>
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Štítky:</label>
-        <div class="col-sm-11 col-md-10">
-            <mystitky entity="p12ClientTpv" asp-for="@Model.TagPids" tagnames="@Model.TagNames" taghtml="@Model.TagHtml"></mystitky>
-        </div>
-    </div>
+    <mystitky entity="p12ClientTpv" asp-for="@Model.TagPids" tagnames="@Model.TagNames" taghtml="@Model.TagHtml"></mystitky>
 
 
     <div class="form-row">

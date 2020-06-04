@@ -48,7 +48,7 @@ namespace UI.Views.Shared.TagHelpers
                 strSeletedValues = String.Join(",", lisModel);
             }
 
-            sb.AppendLine("<ul style='list-style:none;'>");
+            sb.AppendLine("<ul style='list-style:none;padding-left:0px;'>");
             foreach (var item in lisDatasource)
             {
                 
@@ -68,11 +68,8 @@ namespace UI.Views.Shared.TagHelpers
                    if (strGroup != strLastGroup)
                     {
                         sb.AppendLine("<li>");
-                        if (x > 0)
-                        {
-                            sb.Append("<hr class='hr-mini'>");
-                        }
-                        sb.AppendLine("<div style='font-weight:bold;background-color:#ADD8E6;'>" + strGroup+"</div>");
+                        
+                        sb.AppendLine("<div style='font-weight:bold;background-color:#ADD8E6;'><span style='padding-left:10px;'>" + strGroup+"</span></div>");
                         sb.AppendLine("</li>");
                     }
                 }

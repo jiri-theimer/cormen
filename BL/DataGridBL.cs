@@ -16,10 +16,10 @@ namespace BL
     }
     class DataGridBL:BaseBL,IDataGridBL
     {
-      
+        
         public DataGridBL(BL.Factory mother):base(mother)
-        {            
-           
+        {
+            
         }
 
         public BO.j72TheGridState LoadTheGridState(int intJ72ID)
@@ -64,7 +64,8 @@ namespace BL
 
             if (mq.explicit_columns == null || mq.explicit_columns.Count()==0)
             {
-                mq.explicit_columns = new BL.TheColumnsProvider().getDefaultPallete(false,mq);    //na vstupu není přesný výčet sloupců -> pracovat s default sadou
+                
+                mq.explicit_columns = new BL.TheColumnsProvider(_mother.App).getDefaultPallete(false,mq);    //na vstupu není přesný výčet sloupců -> pracovat s default sadou
             }
             if (bolGetTotalsRow)
             {

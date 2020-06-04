@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BL
@@ -43,6 +44,18 @@ namespace BL
                 return 0;
             }
             var p = new DL.Params4Dapper();
+
+            if (rec.o53Field == null)//najít volné pole pro grid
+            {
+                var lis = GetList(new BO.myQuery("o53TagGroup")).Where(p => p.o53Field != null).OrderByDescending(p=>p.o53Field);
+                int intFieldIndex = 1;
+                if (lis.Count() > 0)
+                {
+                    intFieldIndex = 1+Convert.ToInt32(BO.BAS.RightString(lis.First().o53Field, 2));
+                }
+                rec.o53Field = "o54Group" + BO.BAS.RightString("0" + intFieldIndex.ToString(), 2);
+
+            }
          
             p.AddInt("pid", rec.o53ID);
             p.AddString("o53Name", rec.o53Name);
@@ -51,6 +64,7 @@ namespace BL
             p.AddString("o53Entities", rec.o53Entities);
             p.AddInt("o53Ordinary", rec.o53Ordinary);
             p.AddBool("o53IsMultiSelect", rec.o53IsMultiSelect);
+            p.AddString("o53Field", rec.o53Field);
 
             return _db.SaveRecord("o53TagGroup", p.getDynamicDapperPars(), rec);
         }
