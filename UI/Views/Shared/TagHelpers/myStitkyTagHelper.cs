@@ -38,8 +38,14 @@ namespace UI.Views.Shared.TagHelpers
 
             
             _sb.AppendLine(string.Format("<input type='hidden' id='TagPids' name='TagPids' value='{0}' />", strSelectedValues));
-            _sb.AppendLine(string.Format("<input type='text' ondblclick='cmdTagging.click()' readonly class='form-control bg-light' tabindex='-1' id='TagNames' name='TagNames' value='{0}' />", this.SelectedTagNames));
-            
+            //_sb.AppendLine(string.Format("<input type='text' ondblclick='cmdTagging.click()' readonly class='form-control bg-light' tabindex='-1' id='TagNames' name='TagNames' value='{0}' />", this.SelectedTagNames));
+            _sb.Append("<div id='divTagHtml'>");
+            if (string.IsNullOrEmpty(this.SelectedTagHtml) == false)
+            {
+                _sb.Append(this.SelectedTagHtml);       //.Replace("||","<").Replace("##",">")         
+            }
+
+            _sb.Append("</div>");
             _sb.AppendLine("<div class='input-group-append'>");
             _sb.AppendLine(string.Format("<button id='cmdTagging' type='button' class='btn btn-secondary' onclick='mystitky_multiselect(event,\"{0}\")'>Zatřídit do kategorií...</button>", this.Entity));
             _sb.AppendLine("</div>");
@@ -47,13 +53,13 @@ namespace UI.Views.Shared.TagHelpers
             _sb.AppendLine(string.Format("<input type='hidden' id='TagHtml' name='TagHtml' value=\"{0}\" />", this.SelectedTagHtml));            //.Replace("<","||").Replace(">","##")
 
             _sb.AppendLine("</div>");
-            _sb.Append("<div id='divTagHtml' class='input-group'>");
-            if (string.IsNullOrEmpty(this.SelectedTagHtml) == false)
-            {                
-                _sb.Append(this.SelectedTagHtml);       //.Replace("||","<").Replace("##",">")         
-            }
+            //_sb.Append("<div id='divTagHtml' class='input-group'>");
+            //if (string.IsNullOrEmpty(this.SelectedTagHtml) == false)
+            //{                
+            //    _sb.Append(this.SelectedTagHtml);       //.Replace("||","<").Replace("##",">")         
+            //}
             
-            _sb.Append("</div>");
+            //_sb.Append("</div>");
 
             output.Content.AppendHtml(_sb.ToString());
         }

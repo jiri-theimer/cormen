@@ -1,16 +1,15 @@
 ﻿function mycheckboxlist_checked(chk, hidden_id,value) {
     
     if (chk.checked === true) {
-        //$("#" + chklist_name + "_" + chk.value).attr("name", chklist_name) //set element name
+        
         $("#" + hidden_id).val(value);
        
     } else {
-        //$("#" + chklist_name+"_"+chk.value).attr("name", "xxx")   //reset element name
+        
         $("#" + hidden_id).val("0");
     }
 
-    var s = document.getElementsByName(chklist_name)[0].value;
-    alert(s);
+    
 }
 function mynumber_blur(ctl, decimaldigits) {
     var num = 0;

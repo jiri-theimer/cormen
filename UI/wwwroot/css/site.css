@@ -655,23 +655,23 @@ hr.hr-mini {    /*používá se v kontextovém menu*/
     text-align: center;
     border: solid;
     border-width: 1px;
-    border-color: gray;
+    border-color: #CED4DA;
     vertical-align: middle;
     border-radius: 4px;
-    background-color: khaki;
     color: black;
     margin-left: 2px;
 }
 .taggroup {
     display: inline-block;    
-    padding:3px;
+    overflow:hidden;
+    width:80px;
     font-weight: normal;
     line-height: 1;
-    text-align: right;
+    text-align: left;
     border:none;
-    vertical-align: middle;        
+          
     color: black;
-    margin-left: 2px;
+    
 }
 
 

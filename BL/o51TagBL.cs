@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -69,18 +70,28 @@ namespace BL
                 int intLastGroup = 0;
                 ret.TagHtml = "";
                 ret.TagNames = "";
+                var sb = new System.Text.StringBuilder();
+                int x = 0;
                 foreach (BO.o51Tag c in lis)
                 {
                     if (intLastGroup != c.o53ID)
                     {
-                        if (ret.TagHtml == null)
+                        if (x > 0)
                         {
-                            ret.TagHtml = "<div class='taggroup'>★" + c.o53Name + ":</div>";
+                            sb.Append("</div>");
+                            sb.Append("</div>");
+                        }
+                        sb.Append("<div class='form-row'>");
+                        sb.Append(string.Format("<label class='col-sm-1 col-md-2 col-form-label'>{0}★:</label>", c.o53Name));
+                        sb.Append("<div class='col-sm-11 col-md-10'>");
+                        if (ret.TagNames == "")
+                        {
+                            //ret.TagHtml = "<div class='taggroup'>★" + c.o53Name + ":</div>";
                             ret.TagNames = c.o53Name + ": ";
                         }
                         else
                         {
-                            ret.TagHtml += "<div class='taggroup'>★" + c.o53Name + ":</div>";
+                            //ret.TagHtml += "<br><div class='taggroup'>★" + c.o53Name + ":</div>";
                             ret.TagNames += " ★" + c.o53Name + ": ";
                         }
                         ret.TagNames += c.o51Name;
@@ -89,12 +100,20 @@ namespace BL
                     {
                         ret.TagNames += ", " + c.o51Name;
                     }
-                    ret.TagHtml += c.HtmlText;
+                    //ret.TagHtml += c.HtmlText;
+                    sb.Append(c.HtmlText);
 
-
+                    x += 1;
                     intLastGroup = c.o53ID;
                 }
+                if (x > 0)
+                {
+                    sb.Append("</div>");
+                    sb.Append("</div>");
+                }
+                ret.TagHtml = sb.ToString();
             }
+            
 
             return ret;
         }
@@ -124,13 +143,18 @@ namespace BL
         {
             if (rec.o51Name.Contains(","))
             {
-                _mother.CurrentUser.AddMessage("Název kategorie nesmí obsahovat čárku.");
+                _mother.CurrentUser.AddMessage("Název položky kategorie nesmí obsahovat čárku.");
+                return 0;
+            }
+            if (rec.o51Name.Length>20)
+            {
+                _mother.CurrentUser.AddMessage("V názvu položky kategorie může být maximálně 20 znaků.");
                 return 0;
             }
 
             if (GetList(new BO.myQuery("o51Tag")).Where(p=>p.pid !=rec.pid && p.o51Name.ToLower() == rec.o51Name.Trim().ToLower()).Count()>0)
             {
-                _mother.CurrentUser.AddMessage("Štítek s tímto názvem již existuje.");
+                _mother.CurrentUser.AddMessage("Položka kategorie s tímto názvem již existuje.");
                 return 0;
             }
 

@@ -39,9 +39,25 @@
         var arr = [];
         for (var i = 0; i <= allpids.length - 1; i++) {
             if (allpids[i].value != "0") {
-                arr.push(allpids[i].value);               
+                arr.push(allpids[i].value);
             }
         }
+        var combo_value = "";
+        var combo_o51id = "";
+        @for(var i = 0; i < Model.SingleCombos.Count(); i++)
+        {
+            <text>
+        
+        combo_value = $("#SingleCombos_@(i)__o51ID").val();
+        if (combo_value != "" && combo_value != "0") {
+            arr.push(combo_value);
+        }
+        
+            </text>
+        }
+
+
+
         var s = arr.join(",");
 
         $.post("/o51/GetTagHtml", { o51ids: s }, function (data) {
@@ -51,7 +67,7 @@
         });
 
         window.parent.document.getElementById("TagPids").value = s;
-        
+
 
         stitky_zoom_close();
     }

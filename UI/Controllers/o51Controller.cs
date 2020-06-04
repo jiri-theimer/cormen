@@ -20,20 +20,32 @@ namespace UI.Controllers
             v.Entity = entity;
             string prefix = v.Entity.Substring(0, 3);
 
-            var mq = new BO.myQuery("o53TagGroup");
+            var mq = new BO.myQuery("o51Tag");
+            mq.IsRecordValid = true;
+            IEnumerable<BO.o51Tag> lisTags = Factory.o51TagBL.GetList(mq);
+            v.ApplicableTags_Multi = lisTags.Where(p => p.o53IsMultiSelect == true && (p.o53Entities == null || p.o53Entities.Contains(prefix)));
+            v.ApplicableTags_Single = lisTags.Where(p => p.o53IsMultiSelect == false && (p.o53Entities == null || p.o53Entities.Contains(prefix)));
+
+            mq = new BO.myQuery("o51Tag");
+            mq.SetPids(o51ids);
+            lisTags = Factory.o51TagBL.GetList(mq);
+
+            mq = new BO.myQuery("o53TagGroup");
             var lisGroups = Factory.o53TagGroupBL.GetList(mq).Where(p =>p.o53IsMultiSelect==false && ( p.o53Entities == null || p.o53Entities.Contains(prefix))).ToList();
             v.SingleCombos = new List<SingleSelectCombo>();
             foreach (var group in lisGroups)
             {
-                v.SingleCombos.Add(new SingleSelectCombo() { o53ID = group.pid, o53Name = group.o53Name });
+                var c = new SingleSelectCombo() { o53ID = group.pid, o53Name = group.o53Name };
+                if (lisTags.Where(p => p.o53ID == group.pid).Count()>0)
+                {
+                    c.o51ID = lisTags.Where(p => p.o53ID == group.pid).First().pid;
+                    c.o51Name = lisTags.Where(p => p.o53ID == group.pid).First().o51Name;
+                }
+                v.SingleCombos.Add(c);
             }
             
-            mq = new BO.myQuery("o51Tag");
-            mq.IsRecordValid = true;
-            IEnumerable<BO.o51Tag> lis = Factory.o51TagBL.GetList(mq);
-            v.ApplicableTags_Multi = lis.Where(p => p.o53IsMultiSelect==true && ( p.o53Entities == null || p.o53Entities.Contains(prefix)));
-            v.ApplicableTags_Single = lis.Where(p => p.o53IsMultiSelect==false && (p.o53Entities == null || p.o53Entities.Contains(prefix)));
-
+            
+            
             
 
             v.CheckedO51IDs = BO.BAS.ConvertString2ListInt(o51ids);
@@ -206,6 +218,10 @@ namespace UI.Controllers
 
         public string GetTagHtml(string o51ids)
         {
+            if (String.IsNullOrEmpty(o51ids) == true)
+            {
+                return "";
+            }
             List<int> lis = BO.BAS.ConvertString2ListInt(o51ids);
             return Factory.o51TagBL.GetTagging(lis).TagHtml;
         }
