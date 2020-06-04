@@ -50,7 +50,7 @@
 
         </div>
 
-        @Html.DisplayFor(m => m.Rec.TagHtml, "~/Views/Shared/_TagHtml.cshtml")
+        @Html.Raw(Model.Rec.TagHtml)
 
 
     </div>

@@ -22,12 +22,14 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*," + _db.GetSQL1_Ocas("p51") + ",b02.b02Name,dbo.j02_show_as_owner(a.j02ID_Owner) as RecordOwner,p28.p28Name,p28.p28Code,dbo.o51_get_tags_inline_html('p51',a.p51ID) as TagHtml FROM p51Order a LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID";
+            return "SELECT a.*," + _db.GetSQL1_Ocas("p51") + ",b02.b02Name,dbo.j02_show_as_owner(a.j02ID_Owner) as RecordOwner,p28.p28Name,p28.p28Code FROM p51Order a LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p28Company p28 ON a.p28ID=p28.p28ID";
         }
        
         public BO.p51Order Load(int pid)
         {
-            return _db.Load<BO.p51Order>(string.Format("{0} WHERE a.p51ID=@pid", GetSQL1()), new { pid = pid });
+            BO.p51Order c= _db.Load<BO.p51Order>(string.Format("{0} WHERE a.p51ID=@pid", GetSQL1()), new { pid = pid });
+            c.TagHtml = _mother.o51TagBL.GetTagging("p51Order", pid).TagHtml;
+            return c;
         }
         public BO.p51Order LoadByCode(string strCode, int intExcludePID)
         {

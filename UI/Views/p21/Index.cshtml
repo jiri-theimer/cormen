@@ -52,9 +52,9 @@
 
 
     </div>
+    @Html.Raw(Model.Rec.TagHtml)
 
-    @Html.DisplayFor(m => m.Rec.TagHtml, "~/Views/Shared/_TagHtml.cshtml")
-
+    
 
 </div>
 @if (Model.Rec.p21Memo != null)
