@@ -11,6 +11,7 @@ namespace BL
         public IEnumerable<BO.o51Tag> GetList(BO.myQuery mq);
         public IEnumerable<BO.o51Tag> GetList(string record_entity, int record_pid);
         public BO.TaggingHelper GetTagging(string record_entity, int record_pid);
+        public BO.TaggingHelper GetTagging(List<int> o51ids);
         public int Save(BO.o51Tag rec);
         public int SaveTagging(string record_entity, int record_pid, string o51ids);
     }
@@ -44,16 +45,27 @@ namespace BL
             return _db.GetList<BO.o51Tag>(GetSQL1()+ " INNER JOIN o52TagBinding o52 ON a.o51ID=o52.o51ID WHERE o52.o52RecordPid=@pid AND o52.o52RecordEntity=@entity ORDER BY o51_o53.o53Ordinary,o51_o53.o53Name,a.o51Ordinary,a.o51Name", new { pid = record_pid, entity = record_entity });
 
         }
+
+
         public BO.TaggingHelper GetTagging(string record_entity, int record_pid)
         {
             record_entity = record_entity.Substring(0, 3);
-            IEnumerable<BO.o51Tag> lis = GetList(record_entity, record_pid);
+            return handle_tagging(GetList(record_entity, record_pid));
+        }
+        public BO.TaggingHelper GetTagging(List<int> o51ids)
+        {
+            var mq = new BO.myQuery("o51Tag");
+            mq.pids = o51ids;
+            return handle_tagging(GetList(mq));
+        }
+        private BO.TaggingHelper handle_tagging(IEnumerable<BO.o51Tag> lis)
+        {
             string s = String.Join(",", lis.Select(p => p.pid));
 
             var ret = new BO.TaggingHelper() { Tags = lis };
             if (lis.Count() > 0)
             {
-                ret.TagPids = String.Join(",", lis.Select(p => p.pid));                
+                ret.TagPids = String.Join(",", lis.Select(p => p.pid));
                 int intLastGroup = 0;
                 ret.TagHtml = "";
                 ret.TagNames = "";
@@ -70,16 +82,23 @@ namespace BL
                         {
                             ret.TagHtml += "<div class='taggroup'>★" + c.o53Name + ":</div>";
                             ret.TagNames += " ★" + c.o53Name + ": ";
-                        }                        
+                        }
+                        ret.TagNames += c.o51Name;
+                    }
+                    else
+                    {
+                        ret.TagNames += ", " + c.o51Name;
                     }
                     ret.TagHtml += c.HtmlText;
-                    ret.TagNames += c.o51Name;
+
+
                     intLastGroup = c.o53ID;
                 }
             }
 
             return ret;
         }
+        
 
         public int SaveTagging(string record_entity, int record_pid, string o51ids)
         {

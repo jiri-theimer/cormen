@@ -35,6 +35,27 @@
         window.parent.document.getElementById("zoom_okno").style.display = "none";
     }
     function ok() {
+        var allpids = document.getElementsByName("CheckedO51IDs");
+        var arr = [];
+        for (var i = 0; i <= allpids.length - 1; i++) {
+            if (allpids[i].value != "0") {
+                arr.push(allpids[i].value);               
+            }
+        }
+        var s = arr.join(",");
+
+        $.post("/o51/GetTagHtml", { o51ids: s }, function (data) {
+            window.parent.document.getElementById("TagHtml").value = data;
+            window.parent.document.getElementById("divTagHtml").innerHTML = data;
+
+        });
+
+        window.parent.document.getElementById("TagPids").value = s;
+        
+
+        stitky_zoom_close();
+    }
+    function ok_old() {
         var pids = document.getElementsByName("CheckedO51IDs");
         var selpids = [];
         var selnames = [];

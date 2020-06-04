@@ -204,6 +204,12 @@ namespace UI.Controllers
             v.Toolbar = new MyToolbarViewModel(v.Rec);
         }
 
+        public string GetTagHtml(string o51ids)
+        {
+            List<int> lis = BO.BAS.ConvertString2ListInt(o51ids);
+            return Factory.o51TagBL.GetTagging(lis).TagHtml;
+        }
+
         
     }
 
