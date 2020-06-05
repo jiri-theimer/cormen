@@ -764,14 +764,14 @@ namespace UI.Controllers
             sb.AppendLine(string.Format("<a style='margin-left:20px;' href='javascript:tg_export(\"csv\",\"selected\")'>CSV Export</a>", j72id));
             sb.AppendLine("</div>");
 
-            //if ("j02,p51,p41,p10,p11,p12,p13,p18,p19,p26,p28,p21,o23".Contains(c.j72Entity.Substring(0,3)))
-            //{
-            //    sb.AppendLine("<hr class='hr-mini' />");
-            //    sb.AppendLine("<a class='nav-link' href='javascript:tg_tagging();'>Zatřídit do kategorií</a>");
-               
-            //}
-            
-            
+            if ("j02,p51,p41,p10,p11,p12,p13,p18,p19,p26,p28,p21,o23".Contains(c.j72Entity.Substring(0, 3)))
+            {
+                sb.AppendLine("<hr class='hr-mini' />");
+                sb.AppendLine("<a class='nav-link' href='javascript:tg_tagging();'>Hromadná kategorizace záznamů★</a>");
+
+            }
+
+
             //sb.AppendLine("<hr />");
 
             sb.AppendLine(string.Format("<div style='margin-top:20px;background-color:#ADD8E6;padding-left:10px;font-weight:bold;'>GRID <kbd>{0}</kbd></div>", BL.TheEntities.ByTable(c.j72Entity).AliasPlural));

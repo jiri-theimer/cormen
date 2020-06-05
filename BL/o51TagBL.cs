@@ -14,7 +14,7 @@ namespace BL
         public BO.TaggingHelper GetTagging(string record_entity, int record_pid);
         public BO.TaggingHelper GetTagging(List<int> o51ids);
         public int Save(BO.o51Tag rec);
-        public int SaveTagging(string record_entity, int record_pid, string o51ids);
+        public int SaveTagging(string record_entity, int record_pid, string o51ids, int only_o53id = 0);
     }
     class o51TagBL : BaseBL, Io51TagBL
     {
@@ -119,14 +119,26 @@ namespace BL
         }
         
 
-        public int SaveTagging(string record_entity, int record_pid, string o51ids)
+        public int SaveTagging(string record_entity, int record_pid, string o51ids,int only_one_o53id=0)
         {
             record_entity = record_entity.Substring(0, 3);
-            _db.RunSql("DELETE FROM o52TagBinding WHERE o52RecordPid=@pid AND o52RecordEntity=@entity", new { pid = record_pid, entity = record_entity });
-            if (String.IsNullOrEmpty(o51ids) == false)
+            if (only_one_o53id == 0)
             {
-                _db.RunSql("INSERT INTO o52TagBinding(o52RecordEntity,o52RecordPid,o51ID) SELECT @entity,@pid,o51ID FROM o51Tag WHERE o51ID IN (" + o51ids + ")", new { pid = record_pid, entity = record_entity });
+                _db.RunSql("DELETE FROM o52TagBinding WHERE o52RecordPid=@pid AND o52RecordEntity=@entity", new { pid = record_pid, entity = record_entity });
+                if (String.IsNullOrEmpty(o51ids) == false)
+                {
+                    _db.RunSql("INSERT INTO o52TagBinding(o52RecordEntity,o52RecordPid,o51ID) SELECT @entity,@pid,o51ID FROM o51Tag WHERE o51ID IN (" + o51ids + ")", new { pid = record_pid, entity = record_entity });
+                }
             }
+            else
+            {
+                _db.RunSql("DELETE FROM o52TagBinding WHERE o52RecordPid=@pid AND o52RecordEntity=@entity AND o51ID IN (select o51ID FROM o51Tag WHERE o53ID=@o53id)", new { pid = record_pid, entity = record_entity,o53id= only_one_o53id });
+                if (String.IsNullOrEmpty(o51ids) == false)
+                {
+                    _db.RunSql("INSERT INTO o52TagBinding(o52RecordEntity,o52RecordPid,o51ID) SELECT @entity,@pid,o51ID FROM o51Tag WHERE o53ID=@o53id AND o51ID IN (" + o51ids + ")", new { pid = record_pid, entity = record_entity, o53id = only_one_o53id });
+                }
+            }
+            
             
             var pars = new Dapper.DynamicParameters();
             pars.Add("userid", _db.CurrentUser.pid);

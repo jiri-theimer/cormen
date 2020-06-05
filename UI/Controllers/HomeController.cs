@@ -118,6 +118,7 @@ namespace UI.Controllers
                 v.IsGridClipboard = true;
             }
             v.EmailAddres = v.Rec.j02Email;
+            
             return View(v);
         }
         [HttpPost]
@@ -126,6 +127,11 @@ namespace UI.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (string.IsNullOrEmpty(v.EmailAddres) == true)
+                {
+                    this.AddMessage("Chybí e-mail adresa.");
+                    return MyProfile();
+                }
                 BO.j02Person c = Factory.j02PersonBL.Load(Factory.CurrentUser.j02ID);
                 c.j02Email = v.EmailAddres;
                 if (Factory.j02PersonBL.Save(c) > 0)

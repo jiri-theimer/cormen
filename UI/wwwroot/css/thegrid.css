@@ -8,7 +8,7 @@
 #container_grid {
     overflow-y: hidden;
     overflow-x: hidden;
-    width: 100%;
+    width: 100%;    
     border-right: solid 1px #CCCCCC;
     -webkit-overflow-scrolling: touch !important;
 }
@@ -17,8 +17,8 @@
         border-collapse: collapse;
         table-layout: fixed;
         width: 100%;
-        min-width:600px;
-        border: solid 1px #CCCCCC;
+        min-width: 900px;
+        border: solid 1px #CCCCCC;        
     }
 
 
@@ -48,8 +48,9 @@
 #container_vScroll {
     overflow-y: auto;
     overflow-x: hidden;
-    
 }
+
+
 
 #filter_container {
     border: solid 1px #CCCCCC;
@@ -347,4 +348,13 @@ button.tgp {
     color:green;
     text-decoration:underline;
 
+}
+
+
+@media only screen and (max-width: 1000px) {
+
+    #container_vScroll {
+        overflow-y: auto;
+        overflow-x: auto;
+    }
 }

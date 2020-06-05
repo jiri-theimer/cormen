@@ -17,5 +17,7 @@ namespace UI.Models
         public bool IsGridClipboard { get; set; }
         public string userAgent { get; set; }
         public ClientInfo client_info { get; set; }
+
+        
     }
 }

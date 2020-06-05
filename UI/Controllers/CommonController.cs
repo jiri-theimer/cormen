@@ -47,35 +47,7 @@ namespace UI.Controllers
         }
 
 
-        //public string GetBodyOfTale(string entity, string queryfield, string queryvalue)
-        //{           
-        //    var mq = new BO.myQuery(entity);
-        //    if (string.IsNullOrEmpty(queryfield) == false)
-        //    {
-        //        BO.Reflexe.SetPropertyValue(mq, queryfield, queryvalue);
-        //    }
-        //    mq.explicit_columns = _colsProvider.getDefaultPallete(false,mq);
-        //    var dt = Factory.gridBL.GetList(mq);
-        //    var intRows = dt.Rows.Count;
-            
-        //    var s = new System.Text.StringBuilder();
-        //    foreach(var col in mq.explicit_columns)
-        //    {
-
-        //    }
-        //    for (int i = 0; i < intRows; i++)
-        //    {
-        //        s.Append(string.Format("<tr data-v='{0}'>", dt.Rows[i]["pid"]));
-        //        foreach (var col in mq.explicit_columns)
-        //        {
-        //            s.Append(string.Format("<td>{0}</td>", BO.BAS.ParseCellValueFromDb(dt.Rows[i],col)));
-        //        }
-        //        s.Append("</tr>");
-
-               
-        //    }
-        //    return s.ToString();
-        //}
+       
         public string GetWorkTable(string entity, string tableid, string param1, string pids,string delete_function,string edit_function,string queryfield,string queryvalue,string master_entity, int master_pid)
         {                
             var mq = new BO.myQuery(entity);
@@ -110,7 +82,7 @@ namespace UI.Controllers
 
             var sb = new System.Text.StringBuilder();
             sb.Append(string.Format("<table id='{0}' class='table table-sm table-hover'>", tableid));
-            sb.Append("<thead><tr>");
+            sb.Append("<thead><tr class='bg-light'>");
             if (edit_function != null)
             {
                 sb.Append(("<th></th>"));

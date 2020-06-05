@@ -11,6 +11,13 @@
 
     
 }
+function myradiolist_checked(hidden_id, value, event_after_changevalue) {
+    $("#" + hidden_id).val(value);
+
+    if (event_after_changevalue !== "") {
+        eval(event_after_changevalue + "('" + value+"')");
+    }
+}
 function mynumber_blur(ctl, decimaldigits) {
     var num = 0;
     if (ctl.getAttribute("type") === "text") {

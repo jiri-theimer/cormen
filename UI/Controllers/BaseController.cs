@@ -144,6 +144,12 @@ namespace UI.Controllers
         {
             Factory.CurrentUser.AddMessage("Záznam zatím nebyl uložen.", "warning");
         }
+
+        public void AddMessage(string strMessage,string template="error")
+        {
+            
+            Factory.CurrentUser.AddMessage(strMessage, template);
+        }
         
     }
 }

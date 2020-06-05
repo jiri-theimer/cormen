@@ -11,7 +11,7 @@
         border-collapse: collapse;
         table-layout: fixed;
         width: 100%;
-        min-width:600px;
+        min-width: 900px;
         border: solid 1px #CCCCCC;
     }
 
@@ -341,4 +341,12 @@ button.tgp {
     color:green;
     text-decoration:underline;
 
+}
+
+@media only screen and (max-width: 1000px) {
+
+    #container_vScroll {
+        overflow-y: auto;
+        overflow-x: auto;
+    }
 }

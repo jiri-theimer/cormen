@@ -63,6 +63,18 @@ textarea {
     border-color: blue;
 }
 
+input[type="radio"] {
+    margin-right: 3px;
+    margin-left: 3px;
+    cursor: pointer;
+}
+
+    input[type="radio"] + label {
+        cursor: pointer;
+    }
+
+       
+
 input[type="checkbox"] {
     margin-right: 3px;
     margin-left: 3px;
