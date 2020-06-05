@@ -48,7 +48,7 @@ namespace BL
             mq.p13id = rec.p13ID;
             foreach (var c in GetList(mq).OrderBy(p => p.p14RowNum).Where(p => p.p14RowNum > rec.p14RowNum))
             {
-                if (c.p14OperNum != rec.p14OperNum)
+                if (c.p18ID != rec.p18ID)
                 {
                     _db.RunSql("UPDATE p14MasterOper set p14OperNum=@rn WHERE p14ID=@pid", new { pid = c.pid, rn = rn });
                     rn += 10;

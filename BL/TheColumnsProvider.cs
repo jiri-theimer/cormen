@@ -394,10 +394,10 @@ namespace BL
             AF("p18OperCode", "p18Memo", "Poznámka");
             //AF("p18OperCode", "p25Name", "Typ zařízení", 2, "p25.p25Name");
             //AF("p18OperCode", "p19Name", "Materiál", 2, "p19.p19Name");
-            AF("p18OperCode", "p18UnitsCount", "UnitsCount", 2, null, "num");
-            AF("p18OperCode", "p18DurationPreOper", "DurationPreOper", 2, null, "num3");
-            AF("p18OperCode", "p18DurationOper", "DurationOper", 2, null, "num3");
-            AF("p18OperCode", "p18DurationPostOper", "DurationPostOper", 2, null, "num3");
+            AF("p18OperCode", "p18UnitsCount", "Množství", 2, null, "num5");
+            AF("p18OperCode", "p18DurationPreOper", "Před Oper. Čas", 2, null, "num0");
+            AF("p18OperCode", "p18DurationOper", "Oper. Čas", 2, null, "num4");
+            AF("p18OperCode", "p18DurationPostOper", "Po Oper. Čas", 2, null, "num0");
 
             AF("p18OperCode", "p18Lang1", "Jazyk1");
             AF("p18OperCode", "p18Lang2", "Jazyk2");
