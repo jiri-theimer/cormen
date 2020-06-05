@@ -60,6 +60,11 @@ namespace UI.Views.Shared.TagHelpers
                     strPlaceHolder = "0,0000";
                     strFormat = "{0:#,0.0000}";
                     break;
+                case 5:
+                    strStep = "0.00001";
+                    strPlaceHolder = "0,00000";
+                    strFormat = "{0:#,0.00000}";
+                    break;
                 default:
                     strStep = "any";
                     strPlaceHolder = "0,00";                    

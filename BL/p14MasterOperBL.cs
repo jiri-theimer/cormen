@@ -46,11 +46,20 @@ namespace BL
             var rn = rec.p14OperNum + 10;
             var mq = new BO.myQuery("p14MasterOper");
             mq.p13id = rec.p13ID;
-            foreach (var c in GetList(mq).OrderBy(p=>p.p14RowNum).Where(p => p.p14RowNum > rec.p14RowNum))
+            foreach (var c in GetList(mq).OrderBy(p => p.p14RowNum).Where(p => p.p14RowNum > rec.p14RowNum))
             {
-                _db.RunSql("UPDATE p14MasterOper set p14OperNum=@rn WHERE p14ID=@pid", new { pid = c.pid, rn = rn });
-                rn += 10;
+                if (c.p14OperNum != rec.p14OperNum)
+                {
+                    _db.RunSql("UPDATE p14MasterOper set p14OperNum=@rn WHERE p14ID=@pid", new { pid = c.pid, rn = rn });
+                    rn += 10;
+                }
+                
             }
+            //foreach (var c in GetList(mq).OrderBy(p=>p.p14RowNum).Where(p => p.p14RowNum > rec.p14RowNum))
+            //{
+            //    _db.RunSql("UPDATE p14MasterOper set p14OperNum=@rn WHERE p14ID=@pid", new { pid = c.pid, rn = rn });
+            //    rn += 10;
+            //}
 
 
 

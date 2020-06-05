@@ -8,7 +8,7 @@ namespace BL
     {
         public BO.p13MasterTpv Load(int pid);
         public IEnumerable<BO.p13MasterTpv> GetList(BO.myQuery mq);
-        public int Save(BO.p13MasterTpv rec);
+        public int Save(BO.p13MasterTpv rec,int intP13ID_CloneP14Recs);
     }
     class p13MasterTpvBL : BaseBL,Ip13MasterTpvBL
     {     
@@ -34,7 +34,7 @@ namespace BL
 
         }        
 
-        public int Save(BO.p13MasterTpv rec)
+        public int Save(BO.p13MasterTpv rec, int intP13ID_CloneP14Recs)
         {
 
             if (rec.p25ID == 0 || string.IsNullOrEmpty(rec.p13Code) || string.IsNullOrEmpty(rec.p13Name))
@@ -51,6 +51,19 @@ namespace BL
            
             int intPID = _db.SaveRecord("p13MasterTpv", p.getDynamicDapperPars(), rec);
 
+            if (intP13ID_CloneP14Recs>0 && rec.pid == 0)
+            {
+                var mq = new BO.myQuery("p14MasterOper");
+                mq.p13id = intP13ID_CloneP14Recs;
+                var lis = _mother.p14MasterOperBL.GetList(mq);
+                foreach(var c in lis)
+                {
+                    c.pid = 0;
+                    c.p13ID = intPID;
+                    _mother.p14MasterOperBL.Save(c);
+                }
+            }
+            
             
             return intPID;
 

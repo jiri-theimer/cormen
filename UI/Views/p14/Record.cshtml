@@ -61,7 +61,7 @@
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label" title="RowNum">Množství kg (na 1t produktu):</label>
             <div class="col-sm-5 col-md-4">
-                <mynumber asp-for="Rec.p14UnitsCount" decimal-digits="4"></mynumber>
+                <mynumber asp-for="Rec.p14UnitsCount" decimal-digits="5"></mynumber>
             </div>
         </div>
 
@@ -126,6 +126,7 @@
             }
             if (data.p18DurationPostOper > 0) {
                 s = data.p18DurationPostOper.toString().replace(".", ",");
+                
                 $("#Rec_p14DurationPostOper").val(s);
                 $("[for-id=Rec_p14DurationPostOper]").val(s);
             }

@@ -14,7 +14,8 @@ namespace UI.Models
         public string TagHtml { get; set; }
 
         public MyToolbarViewModel Toolbar { get; set; }
-
+        public bool IsCloneP14Records { get; set; }
+        public int p13ID_CloneSource { get; set; }
  
     }
 }

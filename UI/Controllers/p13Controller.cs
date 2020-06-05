@@ -68,6 +68,7 @@ namespace UI.Controllers
             
             v.Toolbar = new MyToolbarViewModel(v.Rec);            
             if (isclone) {
+                v.p13ID_CloneSource = v.Rec.pid;
                 v.Toolbar.MakeClone();
                
             }
@@ -91,8 +92,13 @@ namespace UI.Controllers
             
             if (ModelState.IsValid)
             {
+               
                 BO.p13MasterTpv c = new BO.p13MasterTpv();
-                if (v.Rec.pid > 0) c = Factory.p13MasterTpvBL.Load(v.Rec.pid);
+                if (v.Rec.pid > 0)
+                {
+                    c = Factory.p13MasterTpvBL.Load(v.Rec.pid);
+                }
+               
 
                 c.p25ID = v.Rec.p25ID;
                 c.p13Code = v.Rec.p13Code;
@@ -103,11 +109,19 @@ namespace UI.Controllers
                 //c.ValidFrom = v.Toolbar.GetValidFrom(c);
                 
 
-
-                v.Rec.pid = Factory.p13MasterTpvBL.Save(c);
+                if (v.p13ID_CloneSource>0 && v.IsCloneP14Records)
+                {
+                    v.Rec.pid = Factory.p13MasterTpvBL.Save(c, v.p13ID_CloneSource);
+                }
+                else
+                {
+                    v.Rec.pid = Factory.p13MasterTpvBL.Save(c, 0);
+                }
+                
                 
                 if (v.Rec.pid > 0)
                 {
+                    
                     Factory.o51TagBL.SaveTagging("p13", v.Rec.pid, v.TagPids);
                     if (applyonly == true)
                     {

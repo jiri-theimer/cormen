@@ -18,6 +18,15 @@
 
 
 <div class="modal_record_container">
+    <input type="hidden" asp-for="@Model.p13ID_CloneSource" />
+    @if (Model.p13ID_CloneSource>0)
+    {
+        <div class="form-row" id="divClone">
+            <input asp-for="@Model.IsCloneP14Records" checked="checked" />
+            <label for="IsCloneP14Records">Zkopírovat do nové receptury i kompletní technologický rozpis operací?</label>
+        </div>
+    }
+
     <div class="form-row">
         <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
         <div class="col-sm-9 col-md-8">
@@ -47,7 +56,7 @@
 
 
 </div>
-    
+
 </form>
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")

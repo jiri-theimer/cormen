@@ -63,7 +63,7 @@ namespace BO
             {
                 if (_CssClass == null)
                 {
-                    if (FieldType == "num" || FieldType == "num0" || FieldType=="num3" || FieldType == "num4") _CssClass = "tdn";
+                    if (FieldType == "num" || FieldType == "num0" || FieldType=="num3" || FieldType == "num4" || FieldType=="num5") _CssClass = "tdn";
                     if (FieldType == "bool") _CssClass = "tdb";
                 }                
                 return _CssClass;
@@ -109,7 +109,7 @@ namespace BO
         {
             get
             {
-                if (FieldType == "num0" || FieldType == "num" || FieldType=="num3" || FieldType=="num4") return "num";
+                if (FieldType == "num0" || FieldType == "num" || FieldType=="num3" || FieldType=="num4" || FieldType=="num5") return "num";
                 if (FieldType == "date" || FieldType == "datetime" || FieldType== "datetimesec") return "date";
                 return this.FieldType;
             }
