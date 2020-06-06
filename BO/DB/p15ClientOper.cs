@@ -13,8 +13,7 @@ namespace BO
         public int p19ID { get; set; }
         public int p18ID { get; set; }
 
-        public string p15Name { get; set; }
-
+        
         public int p15RowNum { get; set; }              
         public int p15OperNum { get; set; }
         public int p15OperParam { get; set; }
@@ -28,5 +27,6 @@ namespace BO
 
         public string Material { get; set; }
         public string OperCode { get; set; }
+        public string OperCodePlusName { get; set; }
     }
 }

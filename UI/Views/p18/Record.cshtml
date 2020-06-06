@@ -15,8 +15,17 @@
     @Html.HiddenFor(m => m.Rec.pid)
 
 <div class="modal_record_container">
-
     <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Využití operace:</label>
+        <div class="col-sm-4 col-md-4">
+            <select asp-for="Rec.p18Flag" class="form-control" style="background-color:khaki;">
+                <option value="0">Technologická operace (TO)</option>
+                <option value="1">Pouze časový posun zakázek</option>
+
+            </select>
+        </div>
+    </div>
+    <div class="form-row" style="margin-top:10px;">
         <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
         <div class="col-sm-9 col-md-8">
             <input class="form-control" asp-for="Rec.p18Name" />

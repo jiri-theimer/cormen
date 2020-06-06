@@ -248,7 +248,7 @@ namespace BL
             onecol=AF("p14MasterOper", "p14OperNum", "Číslo Oper", 2, "RIGHT('000'+convert(varchar(10),a.p14OperNum),3)");
             onecol.FixedWidth = 70;
 
-            AF("p14MasterOper", "p14Name", "Název", 1);
+            
             AF("p14MasterOper", "p14OperParam", "Parameter", 2, null, "num0");
 
             AF("p14MasterOper", "p14UnitsCount", "Množství kg", 2, null, "num5", true);
@@ -287,7 +287,7 @@ namespace BL
             onecol=AF("p15ClientOper", "p15OperNum", "Číslo Oper", 2, "RIGHT('000'+convert(varchar(10),a.p15OperNum),3)");
             onecol.FixedWidth = 70;
 
-            AF("p15ClientOper", "p15Name", "Název Oper", 1);
+            
             AF("p15ClientOper", "p15OperParam", "Parametr", 2, null, "num0");
 
             AF("p15ClientOper", "p15UnitsCount", "Množství kg", 2, null, "num5", true);
@@ -335,7 +335,7 @@ namespace BL
             AF("p44TaskOperPlan", "p44End", "Stop (D+HMS)", 0, null, "datetimesec");
             AF("p44TaskOperPlan", "p44TotalDurationOperMin", "Celk. Čas", 2, null, "num", true);
 
-            AF("p44TaskOperPlan", "p44Name", "Název Oper", 1);
+            
             AF("p44TaskOperPlan", "p44OperParam", "Parametr", 2, null, "num0");
 
             AF("p44TaskOperPlan", "p44MaterialUnitsCount", "Množství", 2, null, "num5", true);
@@ -390,7 +390,8 @@ namespace BL
             onecol.FixedWidth = 70;
             
             AF("p18OperCode", "p18Name", "Název operace",1, null, "string", false, true);
-            
+            AF("p18OperCode", "p18Flag", "Využití operace", 2, "case a.p18Flag when 0 then 'TO' when 1 then 'Posun zakázek' end", "string", false, true);
+
             AF("p18OperCode", "p18Memo", "Poznámka");
             //AF("p18OperCode", "p25Name", "Typ zařízení", 2, "p25.p25Name");
             //AF("p18OperCode", "p19Name", "Materiál", 2, "p19.p19Name");
@@ -498,11 +499,13 @@ namespace BL
                     break;
                 case "p14":
                     ret.Add(InhaleColumn4Relation("p14_p18", "p18OperCode", "p18Code", rels, bolComboColumns));
+                    ret.Add(InhaleColumn4Relation("p14_p18", "p18OperCode", "p18Name", rels, bolComboColumns));
                     ret.Add(InhaleColumn4Relation("p14_p19", "p19Material", "p19Code", rels, bolComboColumns));
                     ret.Add(InhaleColumn4Relation("p14_p19", "p19Material", "p19Name", rels, bolComboColumns));
                     break;
                 case "p15":
                     ret.Add(InhaleColumn4Relation("p15_p18", "p18OperCode", "p18Code", rels, bolComboColumns));
+                    ret.Add(InhaleColumn4Relation("p15_p18", "p18OperCode", "p18Name", rels, bolComboColumns));
                     ret.Add(InhaleColumn4Relation("p15_p19", "p19Material", "p19Code", rels, bolComboColumns));
                     ret.Add(InhaleColumn4Relation("p15_p19", "p19Material", "p19Name", rels, bolComboColumns));
                     break;
@@ -526,6 +529,7 @@ namespace BL
                     break;
                 case "p44":
                     ret.Add(InhaleColumn4Relation("p44_p18", "p18OperCode", "p18Code", rels, bolComboColumns));
+                    ret.Add(InhaleColumn4Relation("p44_p18", "p18OperCode", "p18Name", rels, bolComboColumns));
                     ret.Add(InhaleColumn4Relation("p44_p19", "p19Material", "p19Code", rels, bolComboColumns));
                     ret.Add(InhaleColumn4Relation("p44_p19", "p19Material", "p19Name", rels, bolComboColumns));
                     break;

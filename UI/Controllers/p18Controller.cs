@@ -62,6 +62,7 @@ namespace UI.Controllers
                 c.p18Memo = v.Rec.p18Memo;
                 c.p25ID = v.Rec.p25ID;
                 c.p19ID = v.Rec.p19ID;
+                c.p18Flag = v.Rec.p18Flag;
                 c.p18UnitsCount = v.Rec.p18UnitsCount;
                 c.p18DurationPreOper = v.Rec.p18DurationPreOper;
                 c.p18DurationOper = v.Rec.p18DurationOper;

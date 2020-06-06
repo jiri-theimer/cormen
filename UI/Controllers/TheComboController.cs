@@ -45,27 +45,7 @@ namespace UI.Controllers
                 
             }
             mq.InhaleMasterEntityQuery(masterprefix, masterpid);
-            //if (masterpid > 0)
-            //{
-            //    switch (masterprefix)
-            //    {
-            //        case "p51":
-            //            mq.p51id = masterpid;
-            //            break;
-            //        case "p28":
-            //            mq.p28id = masterpid;
-            //            break;
-            //        case "o53":
-            //            mq.o53id = masterpid;
-            //            break;
-            //        case "p21":
-            //            mq.p21id = masterpid;
-            //            break;
-            //        default:
-            //            break;
-            //    }
-            //}
-            
+          
 
             var dt = Factory.gridBL.GetList(mq);
             var intRows = dt.Rows.Count;
@@ -96,10 +76,10 @@ namespace UI.Controllers
             for (int i = 0; i < intRows; i++)
             {
                 s.Append(string.Format("<tr class='txz' data-v='{0}'", dt.Rows[i]["pid"]));
-                if (mq.Prefix == "p19" || mq.Prefix == "p21" || mq.Prefix == "p26" || mq.Prefix == "p10" || mq.Prefix == "p13" || mq.Prefix == "p12" || mq.Prefix == "p11")
+                if (mq.Prefix=="p18" || mq.Prefix == "p19" || mq.Prefix == "p21" || mq.Prefix == "p26" || mq.Prefix == "p10" || mq.Prefix == "p13" || mq.Prefix == "p12" || mq.Prefix == "p11")
                 {
                     //po výběru hodnoty z comba bude SelectedText kód + název a nikoliv hodnota prvního sloupce
-                    s.Append(string.Format(" data-t='{1} ## {0}'", dt.Rows[i]["a__"+mq.Entity+"__"+mq.Prefix + "Code"], dt.Rows[i]["a__" + mq.Entity + "__" + mq.Prefix + "Name"]));
+                    s.Append(string.Format(" data-t='{0} - {1}'", dt.Rows[i]["a__"+mq.Entity+"__"+mq.Prefix + "Code"], dt.Rows[i]["a__" + mq.Entity + "__" + mq.Prefix + "Name"]));
                 }
                 //if (mq.Prefix == "p51")
                 //{

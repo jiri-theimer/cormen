@@ -14,6 +14,8 @@ namespace BO
         public int p25ID { get; set; }        
         public int p19ID { get; set; }  //předvyplňovat materiál v TPV
 
+        public int p18Flag { get; set; }    //0: technologická operace, 1: operace mimo technologii, tedy pouze pro zakázky
+
         [Required(ErrorMessage = "Chybí vyplnit název!")]
         public string p18Name { get; set; }
 

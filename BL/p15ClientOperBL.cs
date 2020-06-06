@@ -22,7 +22,7 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*,p19.p19Code,p19.p19Name,p19.p19Code+' - '+p19.p19Name as Material,p18.p18Code as OperCode," + _db.GetSQL1_Ocas("p15") + " FROM p15ClientOper a LEFT OUTER JOIN p19Material p19 ON a.p19ID=p19.p19ID LEFT OUTER JOIN p18OperCode p18 ON a.p18ID=p18.p18ID";
+            return "SELECT a.*,p19.p19Code,p19.p19Name,p19.p19Code+' - '+p19.p19Name as Material,p18.p18Code as OperCode,p18.p18Code+isnull(' - '+p18.p18Name,'') as OperCodePlusName," + _db.GetSQL1_Ocas("p15") + " FROM p15ClientOper a LEFT OUTER JOIN p19Material p19 ON a.p19ID=p19.p19ID LEFT OUTER JOIN p18OperCode p18 ON a.p18ID=p18.p18ID";
         }
         public BO.p15ClientOper Load(int pid)
         {
@@ -44,7 +44,7 @@ namespace BL
             p.AddInt("p12ID", rec.p12ID, true);
             p.AddInt("p19ID", rec.p19ID, true);
             p.AddInt("p18ID", rec.p18ID, true);
-            p.AddString("p15Name", rec.p15Name);
+            
             p.AddInt("p15RowNum", rec.p15RowNum);
             p.AddInt("p15OperNum", rec.p15OperNum);
             p.AddInt("p15OperParam", rec.p15OperParam);

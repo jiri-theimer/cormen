@@ -71,7 +71,7 @@ namespace UI.Controllers
                 c.p14OperParam = v.Rec.p14OperParam;
                 c.p14OperNum = v.Rec.p14OperNum;
                 c.p14UnitsCount = v.Rec.p14UnitsCount;
-                c.p14Name = v.Rec.p14Name;
+                
                 c.p14DurationOper = v.Rec.p14DurationOper;
                 c.p14DurationPreOper = v.Rec.p14DurationPreOper;
                 c.p14DurationPostOper = v.Rec.p14DurationPostOper;

@@ -25,7 +25,7 @@ namespace BL
         
         private string GetSQL1()
         {
-            return "SELECT a.*,p19.p19Code,p19.p19Name,p19.p19Code+' - '+p19.p19Name as Material,p18.p18Code as OperCode," + _db.GetSQL1_Ocas("p14") + " FROM p14MasterOper a LEFT OUTER JOIN p19Material p19 ON a.p19ID=p19.p19ID LEFT OUTER JOIN p18OperCode p18 ON a.p18ID=p18.p18ID";
+            return "SELECT a.*,p19.p19Code,p19.p19Name,p19.p19Code+' - '+p19.p19Name as Material,p18.p18Code as OperCode,p18.p18Code+isnull(' - '+p18.p18Name,'') as OperCodePlusName," + _db.GetSQL1_Ocas("p14") + " FROM p14MasterOper a LEFT OUTER JOIN p19Material p19 ON a.p19ID=p19.p19ID LEFT OUTER JOIN p18OperCode p18 ON a.p18ID=p18.p18ID";
         }
         public BO.p14MasterOper Load(int pid)
         {
@@ -46,14 +46,15 @@ namespace BL
             var rn = rec.p14OperNum + 10;
             var mq = new BO.myQuery("p14MasterOper");
             mq.p13id = rec.p13ID;
+            BO.p14MasterOper cLast = rec;
             foreach (var c in GetList(mq).OrderBy(p => p.p14RowNum).Where(p => p.p14RowNum > rec.p14RowNum))
             {
-                if (c.p18ID != rec.p18ID)
+                if (c.p18ID != cLast.p18ID)
                 {
                     _db.RunSql("UPDATE p14MasterOper set p14OperNum=@rn WHERE p14ID=@pid", new { pid = c.pid, rn = rn });
                     rn += 10;
                 }
-                
+                cLast = c;
             }
             //foreach (var c in GetList(mq).OrderBy(p=>p.p14RowNum).Where(p => p.p14RowNum > rec.p14RowNum))
             //{
@@ -75,8 +76,7 @@ namespace BL
             p.AddInt("p13ID", rec.p13ID, true);
             p.AddInt("p19ID", rec.p19ID, true);
             p.AddInt("p18ID", rec.p18ID, true);
-            p.AddString("p14Name", rec.p14Name);
-
+           
             p.AddInt("p14RowNum", -1+rec.p14RowNum * 100);
             p.AddInt("p14OperNum", rec.p14OperNum);
             p.AddInt("p14OperParam", rec.p14OperParam);

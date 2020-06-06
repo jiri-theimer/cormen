@@ -90,7 +90,8 @@ namespace BL.DL
             }
             if (mq.p25id > 0)
             {
-                if (mq.Prefix == "p18" || mq.Prefix=="p26") AQ(ref lis, "a.p25ID=@p25id", "p25id", mq.p25id);
+                if (mq.Prefix=="p26") AQ(ref lis, "a.p25ID=@p25id", "p25id", mq.p25id);
+                if (mq.Prefix == "p18") AQ(ref lis, "a.p25ID=@p25id AND a.p18Flag=0", "p25id", mq.p25id);
                 if (mq.Prefix == "p27") AQ(ref lis, "a.p26ID IN (select p26ID FROM p26Msz WHERE p25ID=@p25id)", "p25id", mq.p25id);
                 
             }
