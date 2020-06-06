@@ -43,25 +43,26 @@ namespace BL
         public void PrecislujOperNum(int p14id_start)
         {
             var rec = Load(p14id_start);
-            var rn = rec.p14OperNum + 10;
+            var rn = rec.p14OperNum;
             var mq = new BO.myQuery("p14MasterOper");
             mq.p13id = rec.p13ID;
             BO.p14MasterOper cLast = rec;
             foreach (var c in GetList(mq).OrderBy(p => p.p14RowNum).Where(p => p.p14RowNum > rec.p14RowNum))
             {
-                if (c.p18ID != cLast.p18ID)
+                if (c.OperCode != cLast.OperCode)
                 {
-                    _db.RunSql("UPDATE p14MasterOper set p14OperNum=@rn WHERE p14ID=@pid", new { pid = c.pid, rn = rn });
-                    rn += 10;
+                    rn=cLast.p14OperNum+10;
+                    _db.RunSql("UPDATE p14MasterOper set p14OperNum=@opernum WHERE p14ID=@pid", new { pid = c.pid, opernum = rn });
+                    c.p14OperNum = rn;
+                }
+                else
+                {
+                    _db.RunSql("UPDATE p14MasterOper set p14OperNum=@opernum WHERE p14ID=@pid", new { pid = c.pid, opernum = cLast.p14OperNum });
+                    c.p14OperNum = cLast.p14OperNum;
                 }
                 cLast = c;
             }
-            //foreach (var c in GetList(mq).OrderBy(p=>p.p14RowNum).Where(p => p.p14RowNum > rec.p14RowNum))
-            //{
-            //    _db.RunSql("UPDATE p14MasterOper set p14OperNum=@rn WHERE p14ID=@pid", new { pid = c.pid, rn = rn });
-            //    rn += 10;
-            //}
-
+          
 
 
 

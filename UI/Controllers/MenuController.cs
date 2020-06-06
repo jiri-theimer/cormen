@@ -161,7 +161,8 @@ namespace UI.Controllers
                 if (prefix == "p41")
                 {
                     DIV();
-                    AMI("Přidat do zakázky plánovací operaci", string.Format("javascript:_window_open('/p44/Record?p41id={0}')", pid));
+                    AMI("Přidat do zakázky plánovací operaci PRE", string.Format("javascript:_window_open('/p44/Record?p18flag=2&p41id={0}')", pid));
+                    AMI("Přidat do zakázky plánovací operaci POST", string.Format("javascript:_window_open('/p44/Record?p18flag=3&p41id={0}')", pid));
                 }
                 if (prefix == "p14")
                 {

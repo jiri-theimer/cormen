@@ -70,10 +70,11 @@
         border-top: solid 1px white;
         height: 35px;
     }
+
     div.onetask_overday {
         border-left: solid 1px white;
         border-top: solid 1px white;
-        background-color:orange;
+        background-color: orange;
         height: 35px;
     }
 
@@ -143,7 +144,7 @@
     @foreach (var stredisko in Model.lisP27)
     {
 
-        <div class="stredisko" style="grid-column: 1/span 1;">@stredisko.p27Name <span class="kapacita">@stredisko.p27Capacity</span><a onclick="_zoom(event,'p27',@stredisko.pid,'small','Středisko')">?</a></div>
+        <div class="stredisko" style="grid-column: 1/span 1;">@stredisko.p27Name <span class="kapacita">@stredisko.p27Capacity</span><a onclick="_zoom(event,'p27',@stredisko.pid,'small','Středisko')">🔍</a></div>
         @foreach (var task in Model.Tasks.Where(p => p.p27ID == stredisko.pid))
         {
             strClass = "onetask";
@@ -169,9 +170,9 @@
 
 
 
-            strTitle = task.p41Code + ": " + BO.BAS.ObjectDateTime2String(task.p41PlanStart) + " - " + BO.BAS.ObjectDateTime2String(task.p41PlanEnd);
+            strTitle = task.p41Code + ": " + task.p41Name;
 
-            <div class="@strClass" style="grid-column: @intColStart/span @intColSpan;" title="@strTitle"><a onclick="_zoom(event,'p41',@task.pid,'big','Zakázka')">?</a></div>
+            <div class="@strClass" style="grid-column: @intColStart/span @intColSpan;" title="@strTitle" ondragover="allowDrop(event)"><a onclick="_zoom(event,'p41',@task.pid,'big','Zakázka')">🔍</a></div>
         }
         <div class="divider" style="grid-column: 1/span @(_colsHours*6);"></div>
 
@@ -222,6 +223,20 @@
     function reload(d) {
         var p26id = $("#p26ID").val();
         location.replace("/p41/p41Timeline?p26id=" + p26id + "&d=" + d);
-    }
+        }
+
+
+        function allowDrop(e) {
+            e.preventDefault();
+        }
+        function drag(e) {
+            e.dataTransfer.setData("Zakázka se pohybuje...", e.target.id);
+        }
+        function drop(e) {
+            e.preventDefault();
+            var data = e.dataTransfer.getData("text");
+            _notify_message(document.getElementById(data).innerHTML);
+            //e.target.appendChild(document.getElementById(data));
+        }
     </script>
 }

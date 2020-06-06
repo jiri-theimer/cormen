@@ -12,6 +12,8 @@ namespace UI.Models
         public BO.p18OperCode RecP18 { get; set; }
 
         public BO.p27MszUnit RecP27 { get; set; }
+
+        public int p18flag { get; set; }
         public MyToolbarViewModel Toolbar { get; set; }
     }
 }

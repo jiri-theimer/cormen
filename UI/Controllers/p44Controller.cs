@@ -9,7 +9,7 @@ namespace UI.Controllers
 {
     public class p44Controller : BaseController
     {
-        public IActionResult Record(int pid, int p41id, bool isclone)
+        public IActionResult Record(int pid, int p41id,int p18flag, bool isclone)
         {
             if (!this.TestIfUserEditor(false, true))
             {
@@ -18,6 +18,7 @@ namespace UI.Controllers
 
 
             var v = new Models.p44RecordViewModel();
+            
 
             if (pid > 0)
             {
@@ -30,6 +31,7 @@ namespace UI.Controllers
                 
                
                 v.RecP18 = Factory.p18OperCodeBL.Load(v.Rec.p18ID);
+                v.p18flag = v.RecP18.p18Flag;
                 if (v.RecP18.p18Flag == 1)
                 {
                     return this.StopPage(true, "Technologické operace nelze v plánu upravovat.");
@@ -45,7 +47,7 @@ namespace UI.Controllers
             {
                 v.Rec = new BO.p44TaskOperPlan();
                 v.RecP18 = new BO.p18OperCode();
-               
+                v.p18flag = p18flag;
                 v.Rec.p41ID = p41id;
                 v.Rec.entity = "p44";
 
@@ -121,6 +123,7 @@ namespace UI.Controllers
             var ret = new BO.p44TaskOperPlan() { p41ID = p41id, p18ID = p18id };
             var recP18= Factory.p18OperCodeBL.Load(p18id);
             var recP41 = Factory.p41TaskBL.Load(p41id);
+            ret.p44OperNum = BO.BAS.InInt(recP18.p18Code);
             ret.p44MaterialUnitsCount = recP18.p18UnitsCount;
             ret.p44TotalDurationOperMin = recP18.p18DurationPreOper + recP18.p18DurationPostOper + ret.p44MaterialUnitsCount*recP41.p41PlanUnitsCount*recP18.p18DurationOper;
             ret.p19ID = recP18.p19ID;
