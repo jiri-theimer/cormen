@@ -74,8 +74,8 @@ namespace BL
             p.AddString("p41StockCode", rec.p41StockCode);
 
             p.AddDateTime("p41PlanStart", rec.p41PlanStart);
-            p.AddDouble("p41Duration", rec.p41Duration);
-            p.AddDateTime("p41PlanEnd", rec.p41PlanStart.AddMinutes(rec.p41Duration));
+            //p.AddDouble("p41Duration", rec.p41Duration);
+            //p.AddDateTime("p41PlanEnd", rec.p41PlanStart.AddMinutes(rec.p41Duration));
             //p.AddDouble("p41TotalDuration", rec.p41TotalDuration);
             //p.AddDateTime("p41RealStart", rec.p41RealStart);
             //p.AddDateTime("p41RealEnd", rec.p41RealEnd);

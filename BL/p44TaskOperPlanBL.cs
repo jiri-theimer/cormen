@@ -52,7 +52,7 @@ namespace BL
             }
             var p = new DL.Params4Dapper();
             p.AddInt("pid", rec.p44ID);
-            p.AddInt("p41ID", rec.p41ID, true);
+            p.AddInt("p41ID", rec.p41ID, true);           
             p.AddInt("p19ID", rec.p19ID, true);
             p.AddInt("p18ID", rec.p18ID, true);
 

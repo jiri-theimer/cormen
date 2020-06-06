@@ -277,7 +277,7 @@ namespace UI.Controllers
                 c.p41StockCode = v.Rec.p41StockCode;
 
                 c.p41PlanStart = v.Rec.p41PlanStart;
-                c.p41Duration = v.Rec.p41Duration;
+                //c.p41Duration = v.Rec.p41Duration;
                 c.p41PlanUnitsCount = v.Rec.p41PlanUnitsCount;
 
 

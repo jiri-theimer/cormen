@@ -20,5 +20,6 @@ namespace BO
         public double p27Capacity { get; set; }
 
         public string p26Name { get; set; }//kvůli combo
+        public int p25ID;    //dotaženo ze stroje
     }
 }

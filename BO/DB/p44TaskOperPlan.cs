@@ -9,6 +9,7 @@ namespace BO
     {
         public int p44ID { get; set; }
         public int p41ID { get; set; }
+        
         public int p19ID { get; set; }
         public int p18ID { get; set; }
 

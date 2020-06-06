@@ -47,7 +47,7 @@
         </div>
         <label class="col-sm-1 col-md-1 col-form-label">Trvá minut:</label>
         <div class="col-sm-2 col-md-2">
-            <mynumber asp-for="Rec.p41Duration" decimal-digits="3"></mynumber>
+            <span class="form-control bg-light">@Model.Rec.p41Duration</span>
         </div>
         <div class="col-sm-2 col-md-2">
             <span id="Rec_p41PlanEnd" class="form-control bg-light">@Model.Rec.p41PlanEnd</span>

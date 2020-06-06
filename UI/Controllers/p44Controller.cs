@@ -28,16 +28,13 @@ namespace UI.Controllers
                     return RecNotFound(v);
                 }
                 
-                //v.Rec.p44RowNum = 0;
-                //this.AddMessage("Číslo řádku bylo vyčištěno, doplňte ho ručně.", "info");
-
+               
                 v.RecP18 = Factory.p18OperCodeBL.Load(v.Rec.p18ID);
                 if (v.RecP18.p18Flag == 1)
                 {
                     return this.StopPage(true, "Technologické operace nelze v plánu upravovat.");
                 }
-                v.RecP41 = Factory.p41TaskBL.Load(v.Rec.p41ID);
-                
+               
                 if (isclone)
                 {
                     v.Rec.p44RowNum += 1;
@@ -48,15 +45,15 @@ namespace UI.Controllers
             {
                 v.Rec = new BO.p44TaskOperPlan();
                 v.RecP18 = new BO.p18OperCode();
-                v.RecP41 = Factory.p41TaskBL.Load(p41id);                
+               
                 v.Rec.p41ID = p41id;
                 v.Rec.entity = "p44";
 
 
             }
 
-            v.Toolbar = new MyToolbarViewModel(v.Rec);
-            v.Toolbar.AllowArchive = false;
+            RefreshState(ref v);
+
             if (isclone)
             {
                 v.Toolbar.MakeClone();
@@ -94,9 +91,8 @@ namespace UI.Controllers
                 }
 
             }
-
-            v.RecP41 = Factory.p41TaskBL.Load(v.Rec.p41ID);
-            
+            RefreshState(ref v);
+           
             if (v.Rec.p18ID > 0)
             {
                 v.RecP18 = Factory.p18OperCodeBL.Load(v.Rec.p18ID);
@@ -105,10 +101,34 @@ namespace UI.Controllers
             {
                 v.RecP18 = new BO.p18OperCode();
             }
-            v.Toolbar = new MyToolbarViewModel(v.Rec);
-            v.Toolbar.AllowArchive = false;
+           
             this.Notify_RecNotSaved();
             return View(v);
+        }
+
+        private void RefreshState(ref p44RecordViewModel v)
+        {
+            v.RecP41 = Factory.p41TaskBL.Load(v.Rec.p41ID);
+            v.RecP27 = Factory.p27MszUnitBL.Load(v.RecP41.p27ID);
+
+            v.Toolbar = new MyToolbarViewModel(v.Rec);
+            v.Toolbar.AllowArchive = false;
+        }
+
+
+        public BO.p44TaskOperPlan inhale_p44_record(int p18id,int p41id)
+        {
+            var ret = new BO.p44TaskOperPlan() { p41ID = p41id, p18ID = p18id };
+            var recP18= Factory.p18OperCodeBL.Load(p18id);
+            var recP41 = Factory.p41TaskBL.Load(p41id);
+            ret.p44MaterialUnitsCount = recP18.p18UnitsCount;
+            ret.p44TotalDurationOperMin = recP18.p18DurationPreOper + recP18.p18DurationPostOper + ret.p44MaterialUnitsCount*recP41.p41PlanUnitsCount*recP18.p18DurationOper;
+            ret.p19ID = recP18.p19ID;
+            ret.Material = recP18.p19Name;
+            
+
+
+            return ret;
         }
     }
 }
