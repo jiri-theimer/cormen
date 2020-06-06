@@ -159,7 +159,12 @@ namespace UI.Controllers
                 if (prefix == "p13")
                 {                    
                     DIV();
-                    AMI("Přidat řádek technologické operace", string.Format("javascript:_window_open('/p14/Record?p13id={0}')", pid));
+                    AMI("Přidat do receptury technologickou operaci", string.Format("javascript:_window_open('/p14/Record?p13id={0}')", pid));
+                }
+                if (prefix == "p41")
+                {
+                    DIV();
+                    AMI("Přidat do zakázky plánovací operaci", string.Format("javascript:_window_open('/p44/Record?p41id={0}')", pid));
                 }
                 if (prefix == "p14")
                 {

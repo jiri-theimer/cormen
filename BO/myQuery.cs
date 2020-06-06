@@ -65,6 +65,7 @@ namespace BO
         public int p51id { get; set; }
         public int p52id { get; set; }
         public int p25id { get; set; }
+        public int p18flag { get; set; }
         public int o53id { get; set; }
         public string query_by_entity_prefix;
 
@@ -119,6 +120,9 @@ namespace BO
                     break;
                 case "p12":
                     this.p12id = master_pid;
+                    break;
+                case "p25":
+                    this.p25id = master_pid;
                     break;
                 case "p41":
                     this.p41id = master_pid;

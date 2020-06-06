@@ -21,7 +21,10 @@ namespace BO
         public int p44OperParam { get; set; }
         public double p44MaterialUnitsCount { get; set; }
         public double p44TotalDurationOperMin { get; set; }
-               
-       
+
+
+        public string Material { get; set; }
+        public string OperCode { get; set; }
+        public string OperCodePlusName { get; set; }
     }
 }

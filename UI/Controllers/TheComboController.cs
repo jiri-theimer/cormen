@@ -35,12 +35,12 @@ namespace UI.Controllers
             switch (mq.Prefix) 
             {                
                 case "p18":
-                    mq.explicit_orderby = "a.p18Code";
-                    mq.p25id = BO.BAS.InInt(param1);    //kódy operací je povinné zobrazovat v kontextu k typu zařízení
-                    if (mq.p25id == 0)
-                    {
+                    mq.explicit_orderby = "a.p18Code";                    
+                    if (masterprefix == "p25" && masterpid==0)  //v recepturách je kódy operací povinné zobrazovat v kontextu k typu zařízení
+                    {                      
                         return "<p>Na vstupu chybí vybrat typ zařízení.</p>";
                     }
+                    mq.p18flag = BO.BAS.InInt(param1);
                     break;
                 
             }
