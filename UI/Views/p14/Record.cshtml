@@ -117,10 +117,18 @@
             s = data.p18DurationPostOper.toString().replace(".", ",");
             $("#Rec_p14DurationPostOper").val(s);
             $("[for-id=Rec_p14DurationPostOper]").val(s);
+            
+            if (data.p19ID == 0) {
+                $("#cmdComboRec_p19ID").text("");
+                $("#Rec_p19ID").val("0");
+                $("[data-id=text_Rec_p19ID]").val("");
 
-            $("#cmdComboRec_p19ID").text(data.p19Code + " - " + data.p19Name);
-            $("#Rec_p19ID").val(data.p19ID);
-            $("[data-id=text_Rec_p19ID]").val(data.p19Code + " - " + data.p19Name);
+            } else {
+                $("#cmdComboRec_p19ID").text(data.p19Code + " - " + data.p19Name);
+                $("#Rec_p19ID").val(data.p19ID);
+                $("[data-id=text_Rec_p19ID]").val(data.p19Code + " - " + data.p19Name);
+            }
+            
 
         });
     }

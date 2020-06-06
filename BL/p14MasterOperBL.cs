@@ -71,6 +71,11 @@ namespace BL
 
         public int Save(BO.p14MasterOper rec)
         {
+            if (rec.p18ID == 0)
+            {
+                _mother.CurrentUser.AddMessage("Chybí vazba na číselník [Kód operace].");
+                return 0;
+            }
             var p = new DL.Params4Dapper();
             p.AddInt("pid", rec.p14ID);
             p.AddInt("p13ID", rec.p13ID, true);

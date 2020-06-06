@@ -44,7 +44,10 @@ namespace UI.Controllers
             }
 
             v.Toolbar = new MyToolbarViewModel(v.Rec);
-            if (isclone) { v.Toolbar.MakeClone(); v.Rec.p18Code = Factory.CBL.EstimateRecordCode("p18"); }
+            if (isclone) {
+                v.Toolbar.MakeClone();
+                v.Rec.p18Code = Factory.CBL.EstimateRecordCode("p18");
+            }
 
             return View(v);
         }

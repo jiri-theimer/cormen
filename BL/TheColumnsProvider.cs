@@ -338,7 +338,7 @@ namespace BL
             
             AF("p44TaskOperPlan", "p44OperParam", "Parametr", 2, null, "num0");
 
-            AF("p44TaskOperPlan", "p44MaterialUnitsCount", "Množství", 2, null, "num5", true);
+            AF("p44TaskOperPlan", "p44MaterialUnitsCount", "Množství ∑", 2, null, "num5", true);
             AF("p44TaskOperPlan", "p44DurationPreOper", "Před Oper. Čas", 2, null, "num0", true);
             AF("p44TaskOperPlan", "p44DurationOper", "Oper. Čas", 2, null, "num4", true);
             AF("p44TaskOperPlan", "p44DurationPostOper", "Po Oper. Čas", 2, null, "num0", true);
@@ -390,7 +390,7 @@ namespace BL
             onecol.FixedWidth = 70;
             
             AF("p18OperCode", "p18Name", "Název operace",1, null, "string", false, true);
-            AF("p18OperCode", "p18Flag", "Využití operace", 2, "case a.p18Flag when 0 then 'TO' when 1 then 'Posun zakázek' end", "string", false, true);
+            AF("p18OperCode", "p18Flag", "Využití operace", 2, "case a.p18Flag when 0 then 'TO' when 1 then 'PO' end", "string", false, true);
 
             AF("p18OperCode", "p18Memo", "Poznámka");
             //AF("p18OperCode", "p25Name", "Typ zařízení", 2, "p25.p25Name");

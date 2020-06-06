@@ -24,9 +24,7 @@ namespace BO
         public double p14DurationPreOper { get; set; }
         public double p14DurationPostOper { get; set; }
         public double p14DurationOper { get; set; }
-        public string TempRecDisplay { get; set; }   //pomocník pro editaci v repeateru
-        public string TempRecGuid { get; set; }    //pomocník pro editaci v repeater
-
+      
 
         public string Material { get; set; }
         public string OperCode { get; set; }

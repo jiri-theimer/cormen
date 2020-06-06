@@ -20,7 +20,7 @@
         <div class="col-sm-4 col-md-4">
             <select asp-for="Rec.p18Flag" class="form-control" style="background-color:khaki;">
                 <option value="0">Technologická operace (TO)</option>
-                <option value="1">Pouze časový posun zakázek</option>
+                <option value="1">Plánovací operace (PO)</option>
 
             </select>
         </div>
@@ -62,25 +62,25 @@
 
 
             <div class="form-row">
-                <label class="col-sm-1 col-md-2 col-form-label">UnitsCount:</label>
+                <label class="col-sm-1 col-md-2 col-form-label">Množství:</label>
                 <div class="col-sm-9 col-md-8">
                     <mynumber asp-for="Rec.p18UnitsCount" decimal-digits="5"></mynumber>
                 </div>
             </div>
             <div class="form-row">
-                <label class="col-sm-1 col-md-2 col-form-label">DurationPreOper:</label>
+                <label class="col-sm-1 col-md-2 col-form-label">Před Oper. Čas:</label>
                 <div class="col-sm-9 col-md-8">
                     <mynumber asp-for="Rec.p18DurationPreOper" decimal-digits="0"></mynumber>
                 </div>
             </div>
             <div class="form-row">
-                <label class="col-sm-1 col-md-2 col-form-label">DurationOper:</label>
+                <label class="col-sm-1 col-md-2 col-form-label">Oper. Čas:</label>
                 <div class="col-sm-9 col-md-8">
                     <mynumber asp-for="Rec.p18DurationOper" decimal-digits="4"></mynumber>
                 </div>
             </div>
             <div class="form-row">
-                <label class="col-sm-1 col-md-2 col-form-label">DurationPostOper:</label>
+                <label class="col-sm-1 col-md-2 col-form-label">Po Oper. Čas:</label>
                 <div class="col-sm-9 col-md-8">
                     <mynumber asp-for="Rec.p18DurationPostOper" decimal-digits="0"></mynumber>
                 </div>
