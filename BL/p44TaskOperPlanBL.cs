@@ -60,9 +60,9 @@ namespace BL
             p.AddInt("p44OperNum", rec.p44OperNum);
             p.AddInt("p44OperParam", rec.p44OperParam);
             p.AddDouble("p44MaterialUnitsCount", rec.p44MaterialUnitsCount);
-            p.AddDateTime("p44Start", rec.p44Start);
+            //p.AddDateTime("p44Start", rec.p44Start);
             p.AddDouble("p44TotalDurationOperMin", rec.p44TotalDurationOperMin);
-            p.AddDateTime("p44End", rec.p44Start.AddMinutes(rec.p44TotalDurationOperMin));
+            //p.AddDateTime("p44End", rec.p44Start.AddMinutes(rec.p44TotalDurationOperMin));
 
             var intPID = _db.SaveRecord("p44TaskOperPlan", p.getDynamicDapperPars(), rec);
             if (intPID > 0)
@@ -70,6 +70,11 @@ namespace BL
                 _db.RunSql("UPDATE p44TaskOperPlan SET p44RowNum=p14RowNum*100 WHERE p41ID=@p41id AND p44ID<>@pid", new { p41id = rec.p41ID, pid = intPID });
                 _db.RunSql("update a set p44RowNum=RowID from (SELECT ROW_NUMBER() OVER(ORDER BY p44RowNum ASC) AS RowID,* FROM p44TaskOperPlan WHERE p41ID=@p41id) a", new { p41id = rec.p41ID });
 
+                var pars = new Dapper.DynamicParameters();
+                pars.Add("userid", _db.CurrentUser.pid);
+                pars.Add("pid", rec.p41ID, System.Data.DbType.Int32);
+                pars.Add("err_ret", "", System.Data.DbType.String, System.Data.ParameterDirection.Output);
+                _db.RunSp("p41_after_save", ref pars);
             }
 
             return intPID;

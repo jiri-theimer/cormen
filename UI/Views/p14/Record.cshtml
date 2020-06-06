@@ -33,7 +33,7 @@
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Kód Oper:</label>
             <div class="col-sm-9 col-md-8">
-                <mycombo entity="p18OperCode" asp-for="Rec.p18ID" selectedtext="Rec.OperCodePlusName" masterprefix="p25" masterpid="@Model.RecP13.p25ID" event_after_changevalue="p18id_change"></mycombo>
+                <mycombo entity="p18OperCode" asp-for="Rec.p18ID" selectedtext="Rec.OperCodePlusName" param1="1" masterprefix="p25" masterpid="@Model.RecP13.p25ID" event_after_changevalue="p18id_change"></mycombo>
             </div>
         </div>
        

@@ -127,10 +127,7 @@ namespace UI.Controllers
                 
                 case "j90":
                 case "j92":              
-                case "p44":
-                    AMI("Záznam bez nabídky kontextového menu", "");
-                    break;
-
+                
                 default:
                     if (this.TestIfUserEditor(true, true))
                     {
