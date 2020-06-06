@@ -391,6 +391,7 @@ namespace BL
             
             AF("p18OperCode", "p18Name", "Název operace",1, null, "string", false, true);
             AF("p18OperCode", "p18Flag", "Atribut pro plánování", 2, "case a.p18Flag when 1 then 'TO' when 2 then 'PO' end", "string", false, true);
+            
 
             AF("p18OperCode", "p18Memo", "Poznámka");
             //AF("p18OperCode", "p25Name", "Typ zařízení", 2, "p25.p25Name");

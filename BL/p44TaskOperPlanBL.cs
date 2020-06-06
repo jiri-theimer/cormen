@@ -67,7 +67,7 @@ namespace BL
             var intPID = _db.SaveRecord("p44TaskOperPlan", p.getDynamicDapperPars(), rec);
             if (intPID > 0)
             {
-                _db.RunSql("UPDATE p44TaskOperPlan SET p44RowNum=p14RowNum*100 WHERE p41ID=@p41id AND p44ID<>@pid", new { p41id = rec.p41ID, pid = intPID });
+                _db.RunSql("UPDATE p44TaskOperPlan SET p44RowNum=p44RowNum*100 WHERE p41ID=@p41id AND p44ID<>@pid", new { p41id = rec.p41ID, pid = intPID });
                 _db.RunSql("update a set p44RowNum=RowID from (SELECT ROW_NUMBER() OVER(ORDER BY p44RowNum ASC) AS RowID,* FROM p44TaskOperPlan WHERE p41ID=@p41id) a", new { p41id = rec.p41ID });
 
                 var pars = new Dapper.DynamicParameters();

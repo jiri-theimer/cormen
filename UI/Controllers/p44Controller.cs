@@ -27,6 +27,10 @@ namespace UI.Controllers
                 {
                     return RecNotFound(v);
                 }
+                
+                //v.Rec.p44RowNum = 0;
+                //this.AddMessage("Číslo řádku bylo vyčištěno, doplňte ho ručně.", "info");
+
                 v.RecP18 = Factory.p18OperCodeBL.Load(v.Rec.p18ID);
                 if (v.RecP18.p18Flag == 1)
                 {
