@@ -7,6 +7,17 @@ namespace BO
 {
     public static class BAS
     {
+        public static string OM2(string s,int maxlen)
+        {
+            if (s.Length > maxlen)
+            {
+                return s.Substring(0, maxlen - 1) + "...";
+            }
+            else
+            {
+                return s;
+            }
+        }
         public static int InInt(string s)
         {
             if (int.TryParse(s, out int x))

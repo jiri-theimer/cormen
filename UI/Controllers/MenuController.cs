@@ -191,6 +191,11 @@ namespace UI.Controllers
                 DIV();
                 AMI("Info", string.Format("javascript:_window_open('/{0}/Index?pid={1}')", prefix, pid));
             }
+            if (prefix == "p41")
+            {
+               
+                AMI("Plán výrobních operací", string.Format("javascript:_window_open('/p41/p44List?pid={1}',2,'Plán výrobních operací zakázky')", prefix, pid));
+            }
 
 
             return FlushResult_UL();

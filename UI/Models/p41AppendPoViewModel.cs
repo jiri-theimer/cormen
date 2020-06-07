@@ -9,6 +9,7 @@ namespace UI.Models
     {
 
         public IEnumerable<BO.p18OperCode> lisP18 { get; set; }
+        public int p41ID { get; set; }
         public List<int> SelectedP18IDs { get; set; }
 
         public BO.p41Task RecP41 { get; set; }

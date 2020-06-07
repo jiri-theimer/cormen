@@ -13,21 +13,32 @@
     <form id="form1" asp-controller="p41" asp-action="p41AppendPo" method="POST">
 
         <div class="bg-light" style="padding:10px;">
-            <button id="cmdSave" type="submit" class="btn btn-success">Uložit změny</button>
+            <button id="cmdSave" type="submit" class="btn btn-success" asp-route-oper="save">Potvrdit</button>
+            @if (Model.p18flag == 2)
+            {
+                <button id="cmdClear" type="submit" class="btn btn-warning" asp-route-oper="clear">Vyčistit PRE operace v zakázce</button>
+            }
+            @if (Model.p18flag == 3)
+            {
+                <button id="cmdClear" type="submit" class="btn btn-warning" asp-route-oper="clear">Vyčistit POST operace v zakázce</button>
+            }
+
             <button id="cmdClose" onclick="_window_close()" class="btn btn-light">Zavřít</button>
 
         </div>
+        <input type="hidden" asp-for="@Model.p41ID" />
+        <input type="hidden" asp-for="@Model.p18flag" />
 
         <div class="card">
             <div class="card-header">
-                Zaškrtněte operace...
+                Zaškrtněte operace, které se mají vložit/aktualizovat do plánu zakázky...
             </div>
             <div class="card-body">
                 <mycheckboxlist asp-for="@Model.SelectedP18IDs" textfield="CodePlusName" valuefield="pid" datasource="@Model.lisP18"></mycheckboxlist>
             </div>
         </div>
 
-        
+
 
     </form>
 

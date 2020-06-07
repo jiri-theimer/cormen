@@ -15,37 +15,56 @@ namespace UI.Controllers
         public IActionResult p41AppendPo(int p41id,int p18flag)
         {
             var v = new Models.p41AppendPoViewModel();
+            v.p41ID = p41id;
+            v.p18flag = p18flag;
             v.SelectedP18IDs = new List<int>();
-            v.RecP41 = Factory.p41TaskBL.Load(p41id);
-            var recP27 = Factory.p27MszUnitBL.Load(v.RecP41.p27ID);
-            var mq = new BO.myQuery("p18OperCode");
-            mq.p25id = recP27.p25ID;
-            mq.p18flag = p18flag;
-            v.lisP18 = Factory.p18OperCodeBL.GetList(mq);
+            RefreshState_p41AppendPo(ref v);           
 
             return View(v);
            
         }
         [HttpPost]        
-        public IActionResult p41AppendPo(Models.p41AppendPoViewModel v)
+        public IActionResult p41AppendPo(Models.p41AppendPoViewModel v,string oper)
         {
+            RefreshState_p41AppendPo(ref v);
+
             if (ModelState.IsValid)
             {
+                if (oper=="save" && v.SelectedP18IDs.Where(p => p > 0).Count() == 0)
+                {
+                    this.AddMessage("Musíte zaškrtnout minimálně jednu operaci.");
+                    return View(v);
+                }
+                var mq = new BO.myQuery("p18OperCode");
+                mq.pids = v.SelectedP18IDs.Where(p=>p !=0).ToList();
+                var lis = new List<BO.p18OperCode>();
+                if (mq.pids.Count() > 0 && oper=="save")
+                {
+                    lis = Factory.p18OperCodeBL.GetList(mq).ToList();
+                }
 
-                int x = Factory.p41TaskBL.SaveBatch(v.Tasks.Where(p => p.IsTempDeleted == false).ToList());
+                int x = Factory.p41TaskBL.AppendPos(v.RecP41, lis, v.p18flag);
                 if (x > 0)
                 {
 
                     v.SetJavascript_CallOnLoad(0, "p41");
                     return View(v);
-                }
-
+                }                
 
 
             }
-
+            
 
             return View(v);
+        }
+        private void RefreshState_p41AppendPo(ref p41AppendPoViewModel v)
+        {
+            v.RecP41 = Factory.p41TaskBL.Load(v.p41ID);
+            var recP27 = Factory.p27MszUnitBL.Load(v.RecP41.p27ID);
+            var mq = new BO.myQuery("p18OperCode");
+            mq.p25id = recP27.p25ID;
+            mq.p18flag = v.p18flag;
+            v.lisP18 = Factory.p18OperCodeBL.GetList(mq);
         }
 
         public IActionResult p41Timeline(int p26id, string d)
@@ -105,6 +124,22 @@ namespace UI.Controllers
                 return View(v);
             }
             
+
+        }
+
+        public IActionResult p44List(int pid)
+        {
+            var v = new Models.p41PreviewViewModel();
+            v.Rec = Factory.p41TaskBL.Load(pid);
+            if (v.Rec == null)
+            {
+                return RecNotFound(v);
+            }
+            else
+            {                
+                return View(v);
+            }
+
 
         }
 

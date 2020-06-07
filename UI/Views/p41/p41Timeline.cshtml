@@ -14,6 +14,8 @@
     string strSlot = "00:00";
     string strNextSlot = "00:00";
     string strTitle = "";
+    string strTitlePre = "";
+    string strTitlePost = "";
     int intColSpan = 0;
     int intColStart = 0;
     int intColPosun = 2;
@@ -200,6 +202,7 @@
 
     <div class="grid-container" style="grid-template-columns:150px repeat(@(_colsHours*6),10px);border-bottom: dashed 1px silver;margin-bottom: 3px;">
         <div class="stredisko" style="grid-column: 1/span 1;">
+            <div style="margin-left:16px;">@stredisko.p26Name</div>            
             <a class="cm" onclick="_cm(event,'p27',@stredisko.pid)">☰</a>
             @stredisko.p27Name <span class="kapacita">
                 @stredisko.p27Capacity
@@ -246,6 +249,7 @@
                 }
                 intColStart = intColStart + intColSpanPre;
                 intColSpan = intColSpan - intColSpanPre;
+                strTitlePre = task.p41Code+": "+BO.BAS.ObjectDateTime2String(task.p41PlanStart, "HH:mm") + " - "+BO.BAS.ObjectDateTime2String(task.p41PlanStart.AddMinutes(task.p41DurationPoPre), "HH:mm");
             }
             intColSpanPost = 0;
             intColStartPost = 0;
@@ -254,21 +258,22 @@
                 intColSpanPost = Convert.ToInt32(task.p41DurationPoPost / 10);
                 intColStartPost = intColStart + intColSpan - intColSpanPost;
                 intColSpan = intColSpan - intColSpanPost;
+                strTitlePost = task.p41Code + ": " + BO.BAS.ObjectDateTime2String(task.p41PlanEnd.AddMinutes(-1*task.p41DurationPoPost), "HH:mm")+" - "+ BO.BAS.ObjectDateTime2String(task.p41PlanEnd, "HH:mm");
             }
 
 
-            strTitle = task.p41Code + ": " + task.p41Name;
+            strTitle = task.p41Code + ": " +BO.BAS.ObjectDateTime2String(task.p41PlanStart,"HH:mm")+" - "+BO.BAS.ObjectDateTime2String(task.p41PlanEnd,"HH:mm")+": "+ BO.BAS.OM2(task.p41Name,30);
 
             if (intColStartPre > 0)
             {
-                <div class="popre" title="PO-PRE: @(task.p41Code+" "+BO.BAS.Number2String(task.p41DurationPoPre)+" minut")" style="grid-column: @intColStartPre/span @intColSpanPre;"></div>
+                <div class="popre" title="PO-PRE: @(strTitlePre)" style="grid-column: @intColStartPre/span @intColSpanPre;"></div>
             }
 
             <div class="@strClass" style="grid-column: @intColStart/span @intColSpan;" title="@strTitle"><a class="cm" title="menu" onclick="_cm(event,'p41',@task.pid)">☰</a></div>
 
             if (intColStartPost > 0)
             {
-                <div class="popost" title="PO-POST: @(task.p41Code+" "+BO.BAS.Number2String(task.p41DurationPoPost)+" minut")" style="grid-column: @intColStartPost/span @intColSpanPost;"></div>
+                <div class="popost" title="PO-POST: @(strTitlePost)" style="grid-column: @intColStartPost/span @intColSpanPost;"></div>
             }
 
 
