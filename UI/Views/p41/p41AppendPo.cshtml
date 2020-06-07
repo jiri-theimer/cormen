@@ -1,0 +1,45 @@
+﻿@model p41AppendPoViewModel
+
+@{
+    ViewData["Title"] = "Přidat do plánu PRE/POST plánovací operace";
+    Layout = "~/Views/Shared/_LayoutModal.cshtml";
+}
+
+@addTagHelper *, UI
+
+
+
+
+    <form id="form1" asp-controller="p41" asp-action="p41AppendPo" method="POST">
+
+        <div class="bg-light" style="padding:10px;">
+            <button id="cmdSave" type="submit" class="btn btn-success">Potvrdit</button>
+            <button id="cmdClose" onclick="_window_close()" class="btn btn-light">Zavřít</button>
+
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                Zaškrtněte operace...
+            </div>
+            <div class="card-body">
+                <mycheckboxlist asp-for="@Model.SelectedP18IDs" textfield="CodePlusName" valuefield="pid" datasource="@Model.lisP18"></mycheckboxlist>
+            </div>
+        </div>
+
+        
+
+    </form>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+
+
+
+
+        });
+
+
+    </script>
+

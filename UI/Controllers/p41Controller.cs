@@ -12,6 +12,42 @@ namespace UI.Controllers
     public class p41Controller : BaseController
     {
 
+        public IActionResult p41AppendPo(int p41id,int p18flag)
+        {
+            var v = new Models.p41AppendPoViewModel();
+            v.SelectedP18IDs = new List<int>();
+            v.RecP41 = Factory.p41TaskBL.Load(p41id);
+            var recP27 = Factory.p27MszUnitBL.Load(v.RecP41.p27ID);
+            var mq = new BO.myQuery("p18OperCode");
+            mq.p25id = recP27.p25ID;
+            mq.p18flag = p18flag;
+            v.lisP18 = Factory.p18OperCodeBL.GetList(mq);
+
+            return View(v);
+           
+        }
+        [HttpPost]        
+        public IActionResult p41AppendPo(Models.p41AppendPoViewModel v)
+        {
+            if (ModelState.IsValid)
+            {
+
+                int x = Factory.p41TaskBL.SaveBatch(v.Tasks.Where(p => p.IsTempDeleted == false).ToList());
+                if (x > 0)
+                {
+
+                    v.SetJavascript_CallOnLoad(0, "p41");
+                    return View(v);
+                }
+
+
+
+            }
+
+
+            return View(v);
+        }
+
         public IActionResult p41Timeline(int p26id, string d)
         {
             var v = new Models.p41TimelineViewModel();
@@ -45,7 +81,8 @@ namespace UI.Controllers
             mq = new BO.myQuery("p41Task");
             mq.DateBetween = v.CurrentDate;
             mq.DateBetweenDays = 1;
-            v.Tasks = Factory.p41TaskBL.GetList(mq).OrderBy(p=>p.p41PlanStart);
+            mq.explicit_orderby = "a.p41PlanStart"; //je důležité setřídit zakázky podle času-od, aby se v grid matici načítali postupně po řádcích!
+            v.Tasks = Factory.p41TaskBL.GetList(mq);     //.OrderBy(p=>p.p41PlanStart); 
 
             v.lisFond = Factory.p31CapacityFondBL.GetCells(v.CurrentDate, v.CurrentDate);
             

@@ -59,11 +59,9 @@ namespace BL
             p.AddInt("p44RowNum", -1 + rec.p44RowNum * 100);
             p.AddInt("p44OperNum", rec.p44OperNum);
             p.AddInt("p44OperParam", rec.p44OperParam);
-            p.AddDouble("p44MaterialUnitsCount", rec.p44MaterialUnitsCount);
-            //p.AddDateTime("p44Start", rec.p44Start);
+            p.AddDouble("p44MaterialUnitsCount", rec.p44MaterialUnitsCount);            
             p.AddDouble("p44TotalDurationOperMin", rec.p44TotalDurationOperMin);
-            //p.AddDateTime("p44End", rec.p44Start.AddMinutes(rec.p44TotalDurationOperMin));
-
+           
             var intPID = _db.SaveRecord("p44TaskOperPlan", p.getDynamicDapperPars(), rec);
             if (intPID > 0)
             {
