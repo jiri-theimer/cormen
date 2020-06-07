@@ -45,7 +45,7 @@ namespace UI.Controllers
             mq = new BO.myQuery("p41Task");
             mq.DateBetween = v.CurrentDate;
             mq.DateBetweenDays = 1;
-            v.Tasks = Factory.p41TaskBL.GetList(mq);
+            v.Tasks = Factory.p41TaskBL.GetList(mq).OrderBy(p=>p.p41PlanStart);
 
             v.lisFond = Factory.p31CapacityFondBL.GetCells(v.CurrentDate, v.CurrentDate);
             

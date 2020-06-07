@@ -18,6 +18,7 @@
     int intColStart = 0;
     int intColPosun = 2;
     int intColSpanPre = 0;
+    int intColStartPre = 0;
     int intColSpanPost = 0;
     int intColStartPost = 0;
     string strClass = "onetask";
@@ -41,7 +42,7 @@
     .grid-container {
         display: grid;
         grid-gap: 0px;
-        grid-auto-flow: column;
+        grid-auto-flow:row;
     }
 
         .grid-container > div {
@@ -71,19 +72,20 @@
 
     div.popre {
         border-top: solid 1px white;
-        background-color: #66cc66;
-        height: 50px;
+        background-color:lawngreen;
+        height: 35px;
+        border-left: solid 1px white;
     }
 
     div.popost {
         border-top: solid 1px white;
-        background-color: #39ac39;
-        height: 50px;
+        background-color:lightgreen;
+        height: 35px;
     }
 
     div.onetask {
-        background-color: #40bf40;
-        border-left: solid 1px white;
+        background-color:darkseagreen;
+        
         border-top: solid 1px white;
         height: 50px;
     }
@@ -111,7 +113,7 @@
 
 
 <div class="input-group">
-    <div style="padding-top:4px;">
+    <div style="padding-top: 4px;">
         <h4>Timeline výrobních zakázek</h4>
     </div>
 
@@ -207,7 +209,16 @@
         {
             strClass = "onetask";
             intColStart = (task.p41PlanStart.Hour * 60 + task.p41PlanStart.Minute) / 10 + intColPosun;
-            intColSpan = (task.p41PlanEnd.Hour * 60 + task.p41PlanEnd.Minute - task.p41PlanStart.Hour * 60 - task.p41PlanStart.Minute) / 10;
+            intColSpan = (task.p41PlanEnd.Hour * 60 + task.p41PlanEnd.Minute - task.p41PlanStart.Hour * 60 - task.p41PlanStart.Minute);
+            if (intColSpan % 10>0){
+                intColSpan = intColSpan / 10;
+                intColSpan = intColSpan + 1;
+            }
+            else
+            {
+                intColSpan = intColSpan / 10;
+            }
+            intColSpan = intColSpan + 1;
 
 
 
@@ -223,12 +234,24 @@
                 strClass = "onetask_overday";
             }
 
-
+            intColSpanPre = 0;
+            intColStartPre = 0;
+            if (task.p41DurationPoPre > 0)
+            {
+                intColStartPre = intColStart;
+                intColSpanPre = Convert.ToInt32(task.p41DurationPoPre / 10);
+                if (intColSpanPre == 0)
+                {
+                    intColSpanPre = 1;
+                }
+                intColStart = intColStart + intColSpanPre;
+                intColSpan = intColSpan - intColSpanPre;
+            }
             intColSpanPost = 0;
             intColStartPost = 0;
             if (task.p41DurationPoPost > 0)
             {
-                intColSpanPost = intColSpan - Convert.ToInt32(task.p41DurationPoPost / 10);
+                intColSpanPost = Convert.ToInt32(task.p41DurationPoPost / 10);
                 intColStartPost = intColStart + intColSpan - intColSpanPost;
                 intColSpan = intColSpan - intColSpanPost;
             }
@@ -236,12 +259,16 @@
 
             strTitle = task.p41Code + ": " + task.p41Name;
 
+            if (intColStartPre > 0)
+            {
+                <div class="popre" title="PO-PRE: @(task.p41Code+" "+BO.BAS.Number2String(task.p41DurationPoPre)+" minut")" style="grid-column: @intColStartPre/span @intColSpanPre;"></div>
+            }
 
             <div class="@strClass" style="grid-column: @intColStart/span @intColSpan;" title="@strTitle"><a class="cm" title="menu" onclick="_cm(event,'p41',@task.pid)">☰</a></div>
 
             if (intColStartPost > 0)
             {
-            <div class="popost" title="PO-POST: @(BO.BAS.Number2String(task.p41DurationPoPost)+" minut")" style="grid-column: @intColStartPost/span @intColSpanPost;"></div>
+                <div class="popost" title="PO-POST: @(task.p41Code+" "+BO.BAS.Number2String(task.p41DurationPoPost)+" minut")" style="grid-column: @intColStartPost/span @intColSpanPost;"></div>
             }
 
 
