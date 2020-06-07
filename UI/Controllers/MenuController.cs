@@ -164,8 +164,7 @@ namespace UI.Controllers
                     AMI("Přidat/Aktualizovat plánovací PRE operace", string.Format("javascript:_window_open('/p41/p41AppendPo?p18flag=2&p41id={0}')", pid));
                     AMI("Přidat/Aktualizovat plánovací POST operace", string.Format("javascript:_window_open('/p41/p41AppendPo?p18flag=3&p41id={0}')", pid));
 
-                    //AMI("Přidat do zakázky plánovací operaci PRE", string.Format("javascript:_window_open('/p44/Record?p18flag=2&p41id={0}')", pid));
-                    //AMI("Přidat do zakázky plánovací operaci POST", string.Format("javascript:_window_open('/p44/Record?p18flag=3&p41id={0}')", pid));
+                    
                 }
                 if (prefix == "p14")
                 {

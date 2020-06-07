@@ -32,11 +32,11 @@
     <div class="form-row" style="margin-top:10px;">
         <label class="col-sm-1 col-md-2 col-form-label">Středisko:</label>
         <div class="col-sm-3 col-md-3">
-            <mycombo entity="p27MszUnit" view-flag="2" asp-for="Rec.p27ID" selectedtext="Rec.p27Name"></mycombo>
+            <mycombo entity="p27MszUnit" view-flag="2" asp-for="Rec.p27ID" selectedtext="Rec.p27Name" masterprefix="p41" masterpid="@Model.Rec.pid"></mycombo>
         </div>
         <label class="col-sm-1 col-md-1 col-form-label">Aktuální stav:</label>
         <div class="col-sm-5 col-md-5">
-            <mycombo entity="b02Status" view-flag="2" asp-for="Rec.b02ID" selectedtext="Rec.b02Name" param1="p41"></mycombo>
+            <mycombo entity="b02Status" view-flag="2" asp-for="Rec.b02ID" selectedtext="Rec.b02Name" param1="p41" masterprefix="p41" masterpid="@Model.Rec.pid"></mycombo>
         </div>
     </div>
 
@@ -47,7 +47,7 @@
         </div>
         <label class="col-sm-1 col-md-1 col-form-label">Trvá minut:</label>
         <div class="col-sm-2 col-md-2">
-            <span class="form-control bg-light">@Model.Rec.p41Duration</span>
+            <span class="form-control bg-light">@BO.BAS.Number2String(Model.Rec.p41Duration)</span>
         </div>
         <div class="col-sm-2 col-md-2">
             <span id="Rec_p41PlanEnd" class="form-control bg-light">@Model.Rec.p41PlanEnd</span>

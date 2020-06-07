@@ -341,7 +341,7 @@ namespace BL
             
             AF("p44TaskOperPlan", "p44OperParam", "Parametr", 2, null, "num0");
 
-            AF("p44TaskOperPlan", "p44MaterialUnitsCount", "Množství ∑", 2, null, "num5", true);
+            AF("p44TaskOperPlan", "p44MaterialUnitsCount", "Množství ∑", 2, null, "num1", true);
             AF("p44TaskOperPlan", "p44DurationPreOper", "Před Oper. Čas", 2, null, "num0", true);
             AF("p44TaskOperPlan", "p44DurationOper", "Oper. Čas", 2, null, "num4", true);
             AF("p44TaskOperPlan", "p44DurationPostOper", "Po Oper. Čas", 2, null, "num0", true);

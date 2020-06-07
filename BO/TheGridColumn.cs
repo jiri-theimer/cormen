@@ -109,7 +109,7 @@ namespace BO
         {
             get
             {
-                if (FieldType == "num0" || FieldType == "num" || FieldType=="num3" || FieldType=="num4" || FieldType=="num5") return "num";
+                if (FieldType == "num0" || FieldType == "num" || FieldType=="num3" || FieldType=="num4" || FieldType=="num5" || FieldType=="num1") return "num";
                 if (FieldType == "date" || FieldType == "datetime" || FieldType== "datetimesec") return "date";
                 return this.FieldType;
             }

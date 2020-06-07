@@ -86,17 +86,15 @@
     }
 
     div.onetask {
-        background-color:darkseagreen;
-        
+        background-color:darkseagreen;        
         border-top: solid 1px white;
         height: 50px;
     }
 
-    div.onetask_overday {
-        border-left: solid 1px white;
+    div.onetask_overday {        
         border-top: solid 1px white;
         background-color: orange;
-        height: 35px;
+        height: 50px;
     }
 
 
@@ -130,7 +128,7 @@
     <div style="width:30px;">
         <button type="button" class="btn btn-light" title="Následující den" onclick="day_next()">&gt;&gt;</button>
     </div>
-    <div style=" min-width: 250px; margin-left: 20px;display:none;">
+    <div style=" min-width: 250px; margin-left: 20px; display: none;">
         <mycombo entity="p26Msz" asp-for="@Model.p26ID" selectedtext="@Model.p26Name" placeholder="Vyberte stroj (MSZ)..." event_after_changevalue="p26id_change" view-flag="2"></mycombo>
     </div>
 
@@ -262,7 +260,7 @@
             }
 
 
-            strTitle = task.p41Code + ": " +BO.BAS.ObjectDateTime2String(task.p41PlanStart,"HH:mm")+" - "+BO.BAS.ObjectDateTime2String(task.p41PlanEnd,"HH:mm")+": "+ BO.BAS.OM2(task.p41Name,30);
+            strTitle = task.p41Code + ": " +BO.BAS.ObjectDateTime2String(task.p41PlanStart.AddMinutes(task.p41DurationPoPre),"HH:mm")+" - "+BO.BAS.ObjectDateTime2String(task.p41PlanEnd.AddMinutes(-1*task.p41DurationPoPost),"HH:mm")+": "+ BO.BAS.OM2(task.p41Name,30);
 
             if (intColStartPre > 0)
             {

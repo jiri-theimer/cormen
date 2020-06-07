@@ -67,7 +67,7 @@ namespace BL
             AE("p21License", "Licence", "Licence", "p21License a", "p28.p28Name,a.p21Name");
             AE("p31CapacityFond", "Kapacitní fondy", "Kapacitní fond", "p31CapacityFond a", "a.p31Name");
 
-            AE("p18OperCode", "Kódy operací", "Kód operace", "p18OperCode a", "a.p18Code");
+            AE("p18OperCode", "Kódy operací", "Kód operace", "p18OperCode a", "a.p18Code", "a.p18Code");
             AE("p19Material", "Suroviny", "Surovina", "p19Material a", "a.p19Name");
             AE("p20Unit", "Měrné jednotky", "Měrná jednotka", "p20Unit a","a.p20Name");
             AE("p10MasterProduct", "Master produkty", "Master produkt", "p10MasterProduct a", "a.p10Name");

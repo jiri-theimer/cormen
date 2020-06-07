@@ -18,7 +18,18 @@ namespace UI.Controllers
             v.p41ID = p41id;
             v.p18flag = p18flag;
             v.SelectedP18IDs = new List<int>();
-            RefreshState_p41AppendPo(ref v);           
+            RefreshState_p41AppendPo(ref v);
+
+            var mq = new BO.myQuery("p44TaskOperPlan");
+            mq.p41id = p41id;
+            var lisP44 = Factory.p44TaskOperPlanBL.GetList(mq);
+            foreach(var c in lisP44)
+            {
+                if (v.lisP18.Where(p => p.p18ID == c.p18ID).Count() > 0)
+                {
+                    v.SelectedP18IDs.Add(c.p18ID);
+                }
+            }
 
             return View(v);
            
@@ -36,7 +47,7 @@ namespace UI.Controllers
                     return View(v);
                 }
                 var mq = new BO.myQuery("p18OperCode");
-                mq.pids = v.SelectedP18IDs.Where(p=>p !=0).ToList();
+                mq.pids = v.SelectedP18IDs.Where(p=>p !=0).ToList();                
                 var lis = new List<BO.p18OperCode>();
                 if (mq.pids.Count() > 0 && oper=="save")
                 {
@@ -64,6 +75,7 @@ namespace UI.Controllers
             var mq = new BO.myQuery("p18OperCode");
             mq.p25id = recP27.p25ID;
             mq.p18flag = v.p18flag;
+            mq.explicit_orderby = "a.p18Code";  //nutno setřídit podle kódu/pořadí operace
             v.lisP18 = Factory.p18OperCodeBL.GetList(mq);
         }
 

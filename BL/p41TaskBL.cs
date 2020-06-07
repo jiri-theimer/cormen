@@ -211,7 +211,7 @@ namespace BL
             }
 
             _db.RunSql("DELETE FROM p44TaskOperPlan WHERE p41ID=@p41id AND p18ID IN (select p18ID FROM p18OperCode WHERE p18flag=@p18flag)", new { p41id = recP41.pid, p18flag = p18flag });
-
+            
             int x = 0;
             if (p18flag == 3)
             {   //u POST operace zjistit poslední použité OperNum z TO operací a poté ho navyšovat o 10
@@ -249,6 +249,10 @@ namespace BL
                     rets += 1;
                 }
 
+            }
+            if (lisP18.Count() == 0)
+            {
+                rets= 1;   //pouze vyčištění
             }
             _db.RunSql("update a set p44RowNum=RowID from (SELECT ROW_NUMBER() OVER(ORDER BY p44RowNum ASC) AS RowID,* FROM p44TaskOperPlan WHERE p41ID=@p41id) a", new { p41id = recP41.pid });
 
