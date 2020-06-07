@@ -64,6 +64,7 @@ namespace BO
         public string p52Code { get; set; } //get+set: kvůli mycombo
 
         public string RecordOwner;
+        public int p11ID;
 
         public bool IsTempDeleted { get; set; }
         public string TagHtml;

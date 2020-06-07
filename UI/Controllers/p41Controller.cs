@@ -392,6 +392,10 @@ namespace UI.Controllers
             v.RecP52 = Factory.p52OrderItemBL.Load(v.Rec.p52ID);
             v.RecP51 = Factory.p51OrderBL.Load(v.RecP52.p51ID);
 
+            BO.p11ClientProduct cP11 = Factory.p11ClientProductBL.Load(v.RecP52.p11ID);
+            v.RecP10 = Factory.p10MasterProductBL.Load(cP11.p10ID_Master);
+            
+           
         }
 
 

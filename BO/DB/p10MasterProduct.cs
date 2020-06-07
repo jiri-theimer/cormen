@@ -33,5 +33,6 @@ namespace BO
         public string p20Code { get; set; }
         public string p20Name;
         public string TagHtml;
+        public int p25ID;
     }
 }
