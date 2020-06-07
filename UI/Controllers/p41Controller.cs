@@ -39,13 +39,15 @@ namespace UI.Controllers
             }
             mq = new BO.myQuery("p27MszUnit");
             mq.IsRecordValid = true;
-            mq.p26id = v.p26ID;
+            //mq.p26id = v.p26ID;
             v.lisP27 = Factory.p27MszUnitBL.GetList(mq).ToList();
 
             mq = new BO.myQuery("p41Task");
             mq.DateBetween = v.CurrentDate;
             mq.DateBetweenDays = 1;
             v.Tasks = Factory.p41TaskBL.GetList(mq);
+
+            v.lisFond = Factory.p31CapacityFondBL.GetCells(v.CurrentDate, v.CurrentDate);
             
             return View(v);
         }

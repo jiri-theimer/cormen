@@ -307,6 +307,9 @@ namespace BL
             AF("p41Task", "p41PlanUnitsCount", "Plán kg", 2, null, "num", true);
             AF("p41Task", "p41Duration", "Plán trvá (min)", 2, null, "num", true);
             AF("p41Task", "DurationHours", "Plán trvá (hod)", 0, "a.p41Duration/60", "num", true);
+            AF("p41Task", "p41DurationPoPre", "Plán PO-PRE trvá (min)", 2, null, "num", true);
+            AF("p41Task", "p41DurationPoPost", "Plán PO-POST trvá (min)", 2, null, "num", true);
+
 
             AF("p41Task", "p41StockCode", "Kód skladu", 0);
             AF("p41Task", "p41ActualRowNum", "Aktuální RowNum", 0, null, "num0");

@@ -22,7 +22,7 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*,p26.p26Name,p26.p25ID," + _db.GetSQL1_Ocas("p27") + " FROM p27MszUnit a INNER JOIN p26Msz p26 ON a.p26ID=p26.p26ID";
+            return "SELECT a.*,p26.p26Name,p26.p25ID,p26.p31ID," + _db.GetSQL1_Ocas("p27") + " FROM p27MszUnit a INNER JOIN p26Msz p26 ON a.p26ID=p26.p26ID";
         }
         public BO.p27MszUnit Load(int pid)
         {

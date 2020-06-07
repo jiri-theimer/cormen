@@ -103,6 +103,9 @@ tr.selrow {
 a.cm {
     cursor: pointer;
 }
+    a.cm:hover {
+        background-color: #ADD8E6;
+    }
 
 
 /*---------------HLAVNÍ MENU v postranní SIDEBAR--------------------------*/
@@ -174,39 +177,39 @@ a.cm {
 }
 
 /* ----------------------- Kontextové MENU Zleva doprava ----------------------- */
-#cm_left2right {
+.cm_left2right {
     padding: 6px;
     margin: 0;
     border: none;
     background-color: aliceblue;
 }
 
-    #cm_left2right ul, #cm_left2right li {
+    .cm_left2right ul, .cm_left2right li {
         list-style: none;
         margin: 0;
         padding: 0;
     }
 
-    #cm_left2right ul {
+    .cm_left2right ul {
         position: relative;
         z-index: 597;
         float: left;
     }
 
-        #cm_left2right ul li {
+        .cm_left2right ul li {
             float: left;
             min-height: 1px;
             line-height: 1.7em;
             vertical-align: middle;
         }
 
-            #cm_left2right ul li.hover, #cm_left2right ul li:hover {
+            .cm_left2right ul li.hover, .cm_left2right ul li:hover {
                 position: relative;
                 z-index: 599;
                 cursor: default;
             }
 
-        #cm_left2right ul ul {
+        .cm_left2right ul ul {
             visibility: hidden;
             position: absolute;
             top: 100%;
@@ -215,86 +218,86 @@ a.cm {
             width: 100%;
         }
 
-            #cm_left2right ul ul li {
+            .cm_left2right ul ul li {
                 float: none;
             }
 
-            #cm_left2right ul ul, #cm_left2right ul ul ul {
+            .cm_left2right ul ul, .cm_left2right ul ul ul {
                 top: -1px;
                 left: 99%;
             }
 
-        #cm_left2right ul li:hover > ul {
+        .cm_left2right ul li:hover > ul {
             visibility: visible;
         }
 
-        #cm_left2right ul li {
+        .cm_left2right ul li {
             float: none;
         }
 
-    #cm_left2right a {
+    .cm_left2right a {
         display: block;
     }
     /* Custom CSS Styles */
 
 
-    #cm_left2right:after, #cm_left2right ul:after {
+    .cm_left2right:after, .cm_left2right ul:after {
         content: '';
         display: block;
         clear: both;
     }
 
-    #cm_left2right ul {
+    .cm_left2right ul {
         background-color: aliceblue;
         border: 1px solid #AAAAAA;
         padding: 4px;
         width: 300px;
     }
 
-        #cm_left2right ul li {
+        .cm_left2right ul li {
             color: #000;
             position: relative;
         }
 
-            #cm_left2right ul li.hover, #cm_left2right ul li:hover {
+            .cm_left2right ul li.hover, .cm_left2right ul li:hover {
                 background: #E5E5E5;
                 color: #FFF;
             }
 
-                #cm_left2right ul li.hover > a, #cm_left2right ul li:hover > a {
+                .cm_left2right ul li.hover > a, .cm_left2right ul li:hover > a {
                     color: #2D89EF;
                     background: #E5E5E5;
                     border: 1px solid silver;
                 }
 
-        #cm_left2right ul ul {
+        .cm_left2right ul ul {
             width: 260px;
         }
 
-    #cm_left2right a {
+    .cm_left2right a {
         border: 1px solid transparent;
         padding: 3px 10px;
     }
 
-        #cm_left2right a:link, #cm_left2right a:visited {
+        .cm_left2right a:link, .cm_left2right a:visited {
             color: #000;
             text-decoration: none;
         }
 
-        #cm_left2right a:hover {
+        .cm_left2right a:hover {
             background: #E5E5E5;
             color: #2D89EF;
         }
 
-        #cm_left2right a:active {
+        .cm_left2right a:active {
             color: #ffa500;
         }
 
-    #cm_left2right .has-sub:hover > a:after, #cm_left2right .has-sub.hover > a:after {
+    .cm_left2right .has-sub:hover > a:after, .cm_left2right .has-sub.hover > a:after {
         border-color: transparent transparent transparent #FFF;
     }
 
-    #cm_left2right .has-sub > a:after {
+    .cm_left2right .has-sub > a:after {
         content: '';
         width: 0px;
         height: 0px;
@@ -329,27 +332,27 @@ a.cm {
 
 
 /*Kontextové MENU zprava do leva*/
-#cm_right2left {
+.cm_right2left {
     padding: 6px;
     margin: 0;
     border: none;
     background-color: aliceblue;
 }
 
-    #cm_right2left ul,
-    #cm_right2left li {
+    .cm_right2left ul,
+    .cm_right2left li {
         list-style: none;
         margin: 0;
         padding: 0;
     }
 
-    #cm_right2left ul {
+    .cm_right2left ul {
         position: relative;
         z-index: 597;
         float: right;
     }
 
-        #cm_right2left ul li {
+        .cm_right2left ul li {
             float: right;
             min-height: 1px;
             line-height: 1.5em;
@@ -357,14 +360,14 @@ a.cm {
             text-align: right;
         }
 
-            #cm_right2left ul li.hover,
-            #cm_right2left ul li:hover {
+            .cm_right2left ul li.hover,
+            .cm_right2left ul li:hover {
                 position: relative;
                 z-index: 599;
                 cursor: default;
             }
 
-        #cm_right2left ul ul {
+        .cm_right2left ul ul {
             visibility: hidden;
             position: absolute;
             top: 100%;
@@ -373,92 +376,92 @@ a.cm {
             width: 100%;
         }
 
-            #cm_right2left ul ul li {
+            .cm_right2left ul ul li {
                 float: none;
             }
 
-            #cm_right2left ul ul,
-            #cm_right2left ul ul ul {
+            .cm_right2left ul ul,
+            .cm_right2left ul ul ul {
                 top: -1px;
                 right: 99%;
             }
 
-        #cm_right2left ul li:hover > ul {
+        .cm_right2left ul li:hover > ul {
             visibility: visible;
         }
 
-        #cm_right2left ul li {
+        .cm_right2left ul li {
             float: none;
         }
 
-    #cm_right2left a {
+    .cm_right2left a {
         display: block;
     }
 
 
     /* Custom CSS Styles */
 
-    #cm_right2left:after,
-    #cm_right2left ul:after {
+    .cm_right2left:after,
+    .cm_right2left ul:after {
         content: '';
         display: block;
         clear: both;
     }
 
-    #cm_right2left ul {
+    .cm_right2left ul {
         background-color: aliceblue;
         border: 1px solid silver;
         padding: 4px;
         width: 300px;
     }
 
-        #cm_right2left ul li {
+        .cm_right2left ul li {
             color: #000;
             position: relative;
         }
 
-            #cm_right2left ul li.hover,
-            #cm_right2left ul li:hover {
+            .cm_right2left ul li.hover,
+            .cm_right2left ul li:hover {
                 background: #E5E5E5;
                 color: #FFF;
             }
 
-                #cm_right2left ul li.hover > a,
-                #cm_right2left ul li:hover > a {
+                .cm_right2left ul li.hover > a,
+                .cm_right2left ul li:hover > a {
                     color: #2D89EF;
                     border: 1px solid silver;
                 }
 
-        #cm_right2left ul ul {
+        .cm_right2left ul ul {
             width: 260px;
         }
 
-    #cm_right2left a {
+    .cm_right2left a {
         border: 1px solid transparent;
         padding: 3px 10px;
     }
 
-        #cm_right2left a:link,
-        #cm_right2left a:visited {
+        .cm_right2left a:link,
+        .cm_right2left a:visited {
             color: #000;
             text-decoration: none;
         }
 
-        #cm_right2left a:hover {
+        .cm_right2left a:hover {
             background: #E5E5E5;
             color: #2D89EF;
         }
 
-        #cm_right2left a:active {
+        .cm_right2left a:active {
             color: #ffa500;
         }
 
-    #cm_right2left .has-sub:hover > a:after,
-    #cm_right2left .has-sub.hover > a:after {
+    .cm_right2left .has-sub:hover > a:after,
+    .cm_right2left .has-sub.hover > a:after {
         border-color: transparent transparent transparent #FFF;
     }
 
-    #cm_right2left .has-sub > a:after {
+    .cm_right2left .has-sub > a:after {
         content: '';
         width: 0px;
         height: 0px;

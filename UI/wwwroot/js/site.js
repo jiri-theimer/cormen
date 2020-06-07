@@ -331,18 +331,21 @@ function _mainmenu_select(prefix_caret, data_menu) {
 
 //vyvolání kontextového menu
 function _cm(e, entity, pid) {
+    
     var ctl = e.target;
 
     var w = $(window).width();
     var pos_left = e.clientX + $(window).scrollLeft();
 
-    var menuid = "cm_left2right";
-    if (pos_left + 300 >= w) menuid = "cm_right2left";
-
+    var cssname = "cm_left2right";
+    if (pos_left + 300 >= w) cssname = "cm_right2left";
+    var menuid = "cm_" + entity + "_"+pid;
+    
     if (!document.getElementById(menuid)) {
         //div na stránce neště existuje
         var el = document.createElement("DIV");
         el.id = menuid;
+        el.className = cssname;
         el.style.display = "none";
         document.body.appendChild(el);
     }

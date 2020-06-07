@@ -30,6 +30,8 @@ namespace BO
 
         public DateTime p41PlanStart { get; set; }
         public double p41Duration { get; set; }
+        public double p41DurationPoPre;
+        public double p41DurationPoPost;
         public DateTime p41PlanEnd {
             get
             {

@@ -12,6 +12,7 @@ namespace BL
         public int SaveCells(List<BO.p33CapacityTimeline> cells);
         public int ClearCells(List<BO.p33CapacityTimeline> cells);
         public IEnumerable<BO.p33CapacityTimeline> GetCells(int p31id, DateTime d1, DateTime d2);
+        public IEnumerable<BO.p33CapacityTimeline> GetCells(DateTime d1, DateTime d2);
     }
     class p31CapacityFondBL : BaseBL, Ip31CapacityFondBL
     {
@@ -40,6 +41,12 @@ namespace BL
         {
             
             return _db.GetList<BO.p33CapacityTimeline>("select * from p33CapacityTimeline WHERE p31ID=@p31id AND p33Date BETWEEN @d1 AND @d2", new {p31id=p31id, d1 = d1, d2 = d2 });
+
+        }
+        public IEnumerable<BO.p33CapacityTimeline> GetCells(DateTime d1, DateTime d2)
+        {
+
+            return _db.GetList<BO.p33CapacityTimeline>("select * from p33CapacityTimeline WHERE p33Date BETWEEN @d1 AND @d2", new { d1 = d1, d2 = d2 });
 
         }
 

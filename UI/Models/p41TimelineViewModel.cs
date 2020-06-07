@@ -15,5 +15,7 @@ namespace UI.Models
         public List<BO.p27MszUnit> lisP27 { get; set; }
 
         public IEnumerable<BO.p41Task> Tasks { get; set; }
+
+        public IEnumerable<BO.p33CapacityTimeline> lisFond { get; set; }
     }
 }

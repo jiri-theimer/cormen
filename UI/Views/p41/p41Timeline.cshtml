@@ -17,7 +17,11 @@
     int intColSpan = 0;
     int intColStart = 0;
     int intColPosun = 2;
+    int intColSpanPre = 0;
+    int intColSpanPost = 0;
+    int intColStartPost = 0;
     string strClass = "onetask";
+
 }
 
 <style type="text/css">
@@ -37,13 +41,13 @@
     .grid-container {
         display: grid;
         grid-gap: 0px;
+        grid-auto-flow: column;
     }
 
         .grid-container > div {
-            background-color: #4CAF50;
+            
             text-align: left;
-            margin-bottom: 6px;
-            cursor: pointer;
+            margin-bottom: 1px;
         }
 
     .colheader {
@@ -65,10 +69,23 @@
         font-weight: normal;
     }
 
+    div.popre {
+        border-top: solid 1px white;
+        background-color: #66cc66;
+        height: 50px;
+    }
+
+    div.popost {
+        border-top: solid 1px white;
+        background-color: #39ac39;
+        height: 50px;
+    }
+
     div.onetask {
+        background-color: #40bf40;
         border-left: solid 1px white;
         border-top: solid 1px white;
-        height: 35px;
+        height: 50px;
     }
 
     div.onetask_overday {
@@ -78,9 +95,17 @@
         height: 35px;
     }
 
-    div.divider {
-        height: 1px;
-        background-color: silver;
+
+
+    div.fondin {
+        border-left: solid 1px white;
+        background-color: #B0C4DE;
+        height: 20px;
+    }
+    div.fondout {
+        border-left: solid 1px silver;
+        background-color: #FFF0F7;
+        height: 20px;
     }
 </style>
 
@@ -101,7 +126,7 @@
     <div style="width:30px;">
         <button type="button" class="btn btn-light" title="Následující den" onclick="day_next()">&gt;&gt;</button>
     </div>
-    <div style="min-width:250px;margin-left:20px;">
+    <div style=" min-width: 250px; margin-left: 20px;display:none;">
         <mycombo entity="p26Msz" asp-for="@Model.p26ID" selectedtext="@Model.p26Name" placeholder="Vyberte stroj (MSZ)..." event_after_changevalue="p26id_change" view-flag="2"></mycombo>
     </div>
 
@@ -140,16 +165,51 @@
 </div>
 
 
-<div class="grid-container" style="grid-template-columns:150px repeat(@(_colsHours*6),10px);">
-    @foreach (var stredisko in Model.lisP27)
-    {
 
-        <div class="stredisko" style="grid-column: 1/span 1;">@stredisko.p27Name <span class="kapacita">@stredisko.p27Capacity</span><a onclick="_zoom(event,'p27',@stredisko.pid,'small','Středisko')">🔍</a></div>
+@foreach (var stredisko in Model.lisP27)
+{
+    x = 0;
+    <div class="grid-container" style="grid-template-columns:150px repeat(@(_colsHours*6),10px);">
+        <div class="stredisko" style="grid-column: 1/span 1;"></div>
+        @for (int i = 0; i <= _colsHours - 1; i++)
+        {
+            for (int j = 10; j <= 60; j = j + 10)
+            {
+                if (Model.lisFond.Where(p => p.p33Hour == i + 1 && j >= p.p33Minute).Count() > 0)
+                {
+                    
+
+                    <div class="fondin" style="grid-column: @(x+intColPosun)/span 1;"></div>
+                }
+                else
+                {
+                    <div class="fondout" style="grid-column: @(x+intColPosun)/span 1;"></div>
+                }
+
+                x += 1;
+
+            }
+
+
+        }
+
+
+    </div>
+
+    <div class="grid-container" style="grid-template-columns:150px repeat(@(_colsHours*6),10px);border-bottom: dashed 1px silver;margin-bottom: 3px;">
+        <div class="stredisko" style="grid-column: 1/span 1;">
+            <a class="cm" onclick="_cm(event,'p27',@stredisko.pid)">☰</a>
+            @stredisko.p27Name <span class="kapacita">
+                @stredisko.p27Capacity
+            </span>
+        </div>
         @foreach (var task in Model.Tasks.Where(p => p.p27ID == stredisko.pid))
         {
             strClass = "onetask";
             intColStart = (task.p41PlanStart.Hour * 60 + task.p41PlanStart.Minute) / 10 + intColPosun;
             intColSpan = (task.p41PlanEnd.Hour * 60 + task.p41PlanEnd.Minute - task.p41PlanStart.Hour * 60 - task.p41PlanStart.Minute) / 10;
+
+
 
             if (task.p41PlanStart < Model.CurrentDate)
             {
@@ -164,22 +224,36 @@
             }
 
 
-
-
-
-
+            intColSpanPost = 0;
+            intColStartPost = 0;
+            if (task.p41DurationPoPost > 0)
+            {
+                intColSpanPost = intColSpan - Convert.ToInt32(task.p41DurationPoPost / 10);
+                intColStartPost = intColStart + intColSpan - intColSpanPost;
+                intColSpan = intColSpan - intColSpanPost;
+            }
 
 
             strTitle = task.p41Code + ": " + task.p41Name;
 
-            <div class="@strClass" style="grid-column: @intColStart/span @intColSpan;" title="@strTitle" ondragover="allowDrop(event)"><a onclick="_zoom(event,'p41',@task.pid,'big','Zakázka')">🔍</a></div>
+
+            <div class="@strClass" style="grid-column: @intColStart/span @intColSpan;" title="@strTitle"><a class="cm" title="menu" onclick="_cm(event,'p41',@task.pid)">☰</a></div>
+
+            if (intColStartPost > 0)
+            {
+            <div class="popost" title="PO-POST: @(BO.BAS.Number2String(task.p41DurationPoPost)+" minut")" style="grid-column: @intColStartPost/span @intColSpanPost;"></div>
+            }
+
+
         }
-        <div class="divider" style="grid-column: 1/span @(_colsHours*6);"></div>
 
 
 
-    }
-</div>
+
+
+    </div>
+}
+
 
 
 @section Scripts{
