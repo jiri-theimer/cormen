@@ -17,5 +17,7 @@ namespace UI.Models
         public IEnumerable<BO.p41Task> Tasks { get; set; }
 
         public IEnumerable<BO.p33CapacityTimeline> lisFond { get; set; }
+
+        public UI.Models.p41TimelineQuery localQuery { get; set; }
     }
 }

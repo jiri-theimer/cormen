@@ -11,41 +11,14 @@
 
 <div class="jumbotron py-4">
     <h1 class="display-4">@_app.AppName <small>@_app.AppVersion</small></h1>
-    <a class="btn btn-secondary" asp-action="MyProfile">Identita účtu @User.Identity.Name</a>
+    
+</div>
+<div style="padding:20px;">
+    <h4>Vítej, uživateli [<a href="/Home/MyProfile">@(User.Identity.Name)</a>]!</h4>
 </div>
 
 
 
-<div class="alert alert-primary" role="alert">
-
-    <ul>
-        <li>
-            <kbd>Vývoj na straně serveru</kbd> ASP.NET CORE 3.1 | C#
-            <br />
-            <small><i>Bez povinné vazby na Window Server, lze nasadit i na LINUXu, byť to dělat nikdy nebudeme.</i></small>
-        </li>
-        <li>
-            <kbd>UI (html/javascript)</kbd> BOOTSTRAP | JQUERY | DATATABLES
-            <br />
-            <small>Zatím bez využití komerčních knihoven, to až později.</small>
-            <br />
-            <small><i>Responsivní stránky, mělo by fungovat i v prohlížeči tabletů a mobilních telefonů.</i></small>
-            <br />
-            <small style="color:red;">Na Apple (Safari) nebude pravděpodobně zatím funkční date-time picker.</small>
-        </li>
-        <li><kbd>Databázový server</kbd> MS SQL 2017 Standard Edition</li>
-    </ul>
-</div>
-
-
-<div class="card">
-    <div class="card-header">Odkazy</div>
-    <div class="card-body">
-        <a href="https://marktime.cz/cormen5" target="_blank">Fyzický datový model</a>
-        <br />
-        <a href="https://github.com/jiri-theimer/cormen" target="_blank">GITHUB: Zdrojové kódy</a>
-    </div>
-</div>
 
 
 

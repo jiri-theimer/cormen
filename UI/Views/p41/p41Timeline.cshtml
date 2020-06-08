@@ -44,11 +44,10 @@
     .grid-container {
         display: grid;
         grid-gap: 0px;
-        grid-auto-flow:row;
+        grid-auto-flow: row;
     }
 
         .grid-container > div {
-            
             text-align: left;
             margin-bottom: 1px;
         }
@@ -74,24 +73,24 @@
 
     div.popre {
         border-top: solid 1px white;
-        background-color:lawngreen;
+        background-color: lawngreen;
         height: 35px;
         border-left: solid 1px white;
     }
 
     div.popost {
         border-top: solid 1px white;
-        background-color:lightgreen;
+        background-color: lightgreen;
         height: 35px;
     }
 
     div.onetask {
-        background-color:darkseagreen;        
+        background-color: darkseagreen;
         border-top: solid 1px white;
         height: 50px;
     }
 
-    div.onetask_overday {        
+    div.onetask_overday {
         border-top: solid 1px white;
         background-color: orange;
         height: 50px;
@@ -104,6 +103,7 @@
         background-color: #B0C4DE;
         height: 20px;
     }
+
     div.fondout {
         border-left: solid 1px silver;
         background-color: #FFF0F7;
@@ -114,7 +114,7 @@
 
 <div class="input-group">
     <div style="padding-top: 4px;">
-        <h4>Timeline výrobních zakázek</h4>
+        <h4>Timeline zakázek</h4>
     </div>
 
     <div style="width:30px;">
@@ -131,6 +131,30 @@
     <div style=" min-width: 250px; margin-left: 20px; display: none;">
         <mycombo entity="p26Msz" asp-for="@Model.p26ID" selectedtext="@Model.p26Name" placeholder="Vyberte stroj (MSZ)..." event_after_changevalue="p26id_change" view-flag="2"></mycombo>
     </div>
+
+    <button id="cmdView" type="button" class="btn btn-info dropdown-toggle" style="margin-left:10px;display:none;">
+
+        Filtr v zobrazení
+    </button>
+
+</div>
+<div id="divView" style="max-width:1050px;display:none;background-color:aliceblue;">
+    <div style="padding:20px;">
+        <h4>Filtr v Timeline zobrazení</h4>
+        <div>
+            <input type="checkbox" asp-for="@Model.localQuery.IsPoPre" />
+            <label for="localQuery_IsPoPre">Zobrazovat plán [PO-PRE] operací</label>
+        </div>
+        <div>
+            <input type="checkbox" asp-for="@Model.localQuery.IsPoPost" />
+            <label for="localQuery_IsPoPost">Zobrazovat plán [PO-POST] operací</label>
+        </div>
+        <div>
+            <input type="checkbox" asp-for="@Model.localQuery.IsTo" />
+            <label for="localQuery_IsTo">Zobrazovat plán [TO] operací</label>
+        </div>
+    </div>
+    
 
 </div>
 
@@ -179,7 +203,7 @@
             {
                 if (Model.lisFond.Where(p => p.p33Hour == i + 1 && j >= p.p33Minute).Count() > 0)
                 {
-                    
+
 
                     <div class="fondin" style="grid-column: @(x+intColPosun)/span 1;"></div>
                 }
@@ -200,7 +224,7 @@
 
     <div class="grid-container" style="grid-template-columns:150px repeat(@(_colsHours*6),10px);border-bottom: dashed 1px silver;margin-bottom: 3px;">
         <div class="stredisko" style="grid-column: 1/span 1;">
-            <div style="margin-left:16px;">@stredisko.p26Name</div>            
+            <div style="margin-left:16px;">@stredisko.p26Name</div>
             <a class="cm" onclick="_cm(event,'p27',@stredisko.pid)">☰</a>
             @stredisko.p27Name <span class="kapacita">
                 @stredisko.p27Capacity
@@ -211,7 +235,8 @@
             strClass = "onetask";
             intColStart = (task.p41PlanStart.Hour * 60 + task.p41PlanStart.Minute) / 10 + intColPosun;
             intColSpan = (task.p41PlanEnd.Hour * 60 + task.p41PlanEnd.Minute - task.p41PlanStart.Hour * 60 - task.p41PlanStart.Minute);
-            if (intColSpan % 10>0){
+            if (intColSpan % 10 > 0)
+            {
                 intColSpan = intColSpan / 10;
                 intColSpan = intColSpan + 1;
             }
@@ -247,7 +272,7 @@
                 }
                 intColStart = intColStart + intColSpanPre;
                 intColSpan = intColSpan - intColSpanPre;
-                strTitlePre = task.p41Code+": "+BO.BAS.ObjectDateTime2String(task.p41PlanStart, "HH:mm") + " - "+BO.BAS.ObjectDateTime2String(task.p41PlanStart.AddMinutes(task.p41DurationPoPre), "HH:mm");
+                strTitlePre = task.p41Code + ": " + BO.BAS.ObjectDateTime2String(task.p41PlanStart, "HH:mm") + " - " + BO.BAS.ObjectDateTime2String(task.p41PlanStart.AddMinutes(task.p41DurationPoPre), "HH:mm");
             }
             intColSpanPost = 0;
             intColStartPost = 0;
@@ -256,11 +281,11 @@
                 intColSpanPost = Convert.ToInt32(task.p41DurationPoPost / 10);
                 intColStartPost = intColStart + intColSpan - intColSpanPost;
                 intColSpan = intColSpan - intColSpanPost;
-                strTitlePost = task.p41Code + ": " + BO.BAS.ObjectDateTime2String(task.p41PlanEnd.AddMinutes(-1*task.p41DurationPoPost), "HH:mm")+" - "+ BO.BAS.ObjectDateTime2String(task.p41PlanEnd, "HH:mm");
+                strTitlePost = task.p41Code + ": " + BO.BAS.ObjectDateTime2String(task.p41PlanEnd.AddMinutes(-1 * task.p41DurationPoPost), "HH:mm") + " - " + BO.BAS.ObjectDateTime2String(task.p41PlanEnd, "HH:mm");
             }
 
 
-            strTitle = task.p41Code + ": " +BO.BAS.ObjectDateTime2String(task.p41PlanStart.AddMinutes(task.p41DurationPoPre),"HH:mm")+" - "+BO.BAS.ObjectDateTime2String(task.p41PlanEnd.AddMinutes(-1*task.p41DurationPoPost),"HH:mm")+": "+ BO.BAS.OM2(task.p41Name,30);
+            strTitle = task.p41Code + ": " + BO.BAS.ObjectDateTime2String(task.p41PlanStart.AddMinutes(task.p41DurationPoPre), "HH:mm") + " - " + BO.BAS.ObjectDateTime2String(task.p41PlanEnd.AddMinutes(-1 * task.p41DurationPoPost), "HH:mm") + ": " + BO.BAS.OM2(task.p41Name, 30);
 
             if (intColStartPre > 0)
             {
@@ -290,6 +315,9 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
+            $("#cmdView").click(function () {
+                $("#divView").slideToggle();
+            });
 
             $("#CurrentDatehelper").change(function () {
                 var d = $(this).val();

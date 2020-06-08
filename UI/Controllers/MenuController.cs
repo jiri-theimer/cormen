@@ -126,8 +126,10 @@ namespace UI.Controllers
                     break;
                 
                 case "j90":
-                case "j92":              
-                
+                case "j92":
+                case "p44":
+                    AMI("Záznam bez menu nabídky", "javascript:_notify_message('nic')");
+                    break; 
                 default:
                     if (this.TestIfUserEditor(true, true))
                     {

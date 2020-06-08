@@ -90,6 +90,7 @@ namespace UI.Controllers
             {
                 v.CurrentDate = BO.BAS.String2Date(d);                
             }
+            v.localQuery = new p41TimelineQuery();
             v.p26ID = p26id;
 
             var mq = new BO.myQuery("p26Msz");
@@ -390,12 +391,23 @@ namespace UI.Controllers
         {
             v.Toolbar = new MyToolbarViewModel(v.Rec);
             v.RecP52 = Factory.p52OrderItemBL.Load(v.Rec.p52ID);
-            v.RecP51 = Factory.p51OrderBL.Load(v.RecP52.p51ID);
-
+            v.RecP51 = Factory.p51OrderBL.Load(v.RecP52.p51ID); 
             BO.p11ClientProduct cP11 = Factory.p11ClientProductBL.Load(v.RecP52.p11ID);
-            v.RecP10 = Factory.p10MasterProductBL.Load(cP11.p10ID_Master);
+            if (cP11.p10ID_Master > 0)
+            {
+                v.p25ID = Factory.p10MasterProductBL.Load(cP11.p10ID_Master).p25ID; //z RecP10 se bere typ zařízení pro combo nabídku středisek
+            }
+            else
+            {
+                if (cP11.p12ID > 0)
+                {
+                    v.p25ID = Factory.p12ClientTpvBL.Load(cP11.p12ID).p25ID;    //vlastní klientská receptura
+                }
+            }
             
-           
+
+
+
         }
 
 
