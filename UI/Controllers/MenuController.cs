@@ -65,7 +65,7 @@ namespace UI.Controllers
                 AMI("Zakázka", "javascript:_window_open('/p41/Create',2,'Vytvořit zakázky')");
                 DIV();
                 AMI("Dokument", "javascript:_window_open('/o23/record')");
-                AMI("Klient", "javascript:_window_open('/p28/record'");
+                AMI("Klient", "javascript:_window_open('/p28/record')");
                 AMI("Osoba (kontakt nebo uživatel)", "javascript:_window_open('/j02/record')");
                 DIV();
                 AMI("Produkt [Client]", "javascript:_window_open('/p11/record')");

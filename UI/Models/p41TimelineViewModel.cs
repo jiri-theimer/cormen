@@ -19,5 +19,8 @@ namespace UI.Models
         public IEnumerable<BO.p33CapacityTimeline> lisFond { get; set; }
 
         public UI.Models.p41TimelineQuery localQuery { get; set; }
+
+        public string SelectedP27IDs { get; set; }
+        public string SelectedP27Names { get; set; }
     }
 }

@@ -128,14 +128,13 @@
     <div style="width:30px;">
         <button type="button" class="btn btn-light" title="Následující den" onclick="day_next()">&gt;&gt;</button>
     </div>
-    <div style=" min-width: 250px; margin-left: 20px; display: none;">
-        <mycombo entity="p26Msz" asp-for="@Model.p26ID" selectedtext="@Model.p26Name" placeholder="Vyberte stroj (MSZ)..." event_after_changevalue="p26id_change" view-flag="2"></mycombo>
-    </div>
 
-    <button id="cmdView" type="button" class="btn btn-info dropdown-toggle" style="margin-left:10px;display:none;">
+    <button id="cmdView" type="button" class="btn btn-info dropdown-toggle" style="margin-left:10px;">
 
         Filtr v zobrazení
     </button>
+    
+
 
 </div>
 <div id="divView" style="max-width:1050px;display:none;background-color:aliceblue;">
@@ -153,6 +152,11 @@
             <input type="checkbox" asp-for="@Model.localQuery.IsTo" />
             <label for="localQuery_IsTo">Zobrazovat plán [TO] operací</label>
         </div>
+        <div>
+            <mycombochecklist asp-for="@Model.SelectedP27IDs" placeholder="Vyberte střediska k zobrazení..."></mycombochecklist>
+        </div>
+        
+        
     </div>
     
 
@@ -315,6 +319,9 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
+            
+           
+            
             $("#cmdView").click(function () {
                 $("#divView").slideToggle();
             });
@@ -346,14 +353,11 @@
         var d = "@(BO.BAS.ObjectDate2String( Model.CurrentDate.AddMonths(-1)))";
         reload(d);
     }
-    function p26id_change(p26id) {
-        var d = "@(BO.BAS.ObjectDate2String( Model.CurrentDate))";
-        reload(d);
-        }
+    
 
 
     function reload(d) {
-        var p26id = $("#p26ID").val();
+        var p26id = "";
         location.replace("/p41/p41Timeline?p26id=" + p26id + "&d=" + d);
         }
 

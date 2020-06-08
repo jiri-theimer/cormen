@@ -35,7 +35,7 @@ namespace UI.Views.Shared.TagHelpers
             
             sb(string.Format("<div class='input-group' id='{0}_Dropdown'>",strControlID));
             sb("<div class='input-group-prepend'>");
-            //sb(string.Format("<div id='{0}_Dropdown' class='dropdown input-group'>", strControlID));
+            
             sb(string.Format("<button class='btn btn-light dropdown-toggle' type='button' id='{0}_cmdCombo' tabindex='-1' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' style='text-align:left;'>",strControlID));
             sb("</button>");
             sb(string.Format("<div class='dropdown-menu' aria-labelledby='{0}_cmdCombo' >", strControlID));
