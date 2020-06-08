@@ -251,7 +251,7 @@ namespace BL
             
             AF("p14MasterOper", "p14OperParam", "Parameter", 2, null, "num0");
 
-            AF("p14MasterOper", "p14UnitsCount", "Množství kg", 2, null, "num5", true);
+            AF("p14MasterOper", "p14UnitsCount", "Množství na 1kg", 2, null, "num5", true);
             AF("p14MasterOper", "p14DurationPreOper", "Před Oper. Čas", 2, null, "num0", true);
             AF("p14MasterOper", "p14DurationOper", "Oper. Čas", 2, null, "num4", true);
             AF("p14MasterOper", "p14DurationPostOper", "Po Oper. Čas", 2, null, "num0", true);
@@ -290,7 +290,7 @@ namespace BL
             
             AF("p15ClientOper", "p15OperParam", "Parametr", 2, null, "num0");
 
-            AF("p15ClientOper", "p15UnitsCount", "Množství kg", 2, null, "num5", true);
+            AF("p15ClientOper", "p15UnitsCount", "Množství na kg", 2, null, "num5", true);
             AF("p15ClientOper", "p15DurationPreOper", "Před Oper. Čas", 2, null, "num0", true);
             AF("p15ClientOper", "p15DurationOper", "Oper. Čas", 2, null, "num4", true);
             AF("p15ClientOper", "p15DurationPostOper", "Po Oper. Čas", 2, null, "num0", true);

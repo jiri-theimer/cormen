@@ -33,8 +33,16 @@ function mynumber_blur(ctl, decimaldigits) {
     var forid = $(ctl).attr("for-id");   //hidden id prvku pro spojení s hostitelským view   
     $("#" + forid).val(val.replace(".",","));    //pro uložení na server v rámci hostitelského view, je třeba předávat desetinnou čárku a nikoliv tečku!
 
-    //dále pro zformátování čísla navenek
-    val = val.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    //dále pro zformátování čísla navenek    
+    if (val.indexOf(".") > 0) {
+        arr = val.split(".");
+        arr[0] = arr[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        val = arr[0] + "," + arr[1];
+    } else {       
+        val = val.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    }
+   
+    
     val = val.replace(/[.]/g, ',');
 
     ctl.setAttribute("type", "text");
@@ -44,6 +52,10 @@ function mynumber_blur(ctl, decimaldigits) {
     
 
 
+}
+
+function formatNumber(num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
 }
 
 
