@@ -12,6 +12,7 @@ namespace UI.Models
         public List<BO.p27MszUnit> lisP27 { get; set; }
 
         public IEnumerable<BO.p41Task> Tasks { get; set; }
+        public List<Slot> Slots { get; set; }
 
         public IEnumerable<BO.p33CapacityTimeline> lisFond { get; set; }
 
@@ -38,5 +39,44 @@ namespace UI.Models
 
 
 
+    }
+
+
+    public class Slot
+    {
+        public DateTime Start { get; set; }
+        public DateTime End { get; set; }
+        public string Title { get; set; }
+        public int p41ID { get; set; }
+        public int p27ID { get; set; }
+        public string CssName { get; set; }
+        public int ColSpanKorekce { get; set; } = 0;
+        
+
+        public int ColStart { get; set; }
+        
+        public int ColSpan
+        {
+            get
+            {
+                int intColSpan= (this.End.Hour * 60 + this.End.Minute - this.Start.Hour * 60 - this.Start.Minute);
+                if (intColSpan % 10 > 0)
+                {
+                    intColSpan = intColSpan / 10;
+                    intColSpan = intColSpan + 1;
+                }
+                else
+                {
+                    intColSpan = intColSpan / 10;
+                }
+                //intColSpan = intColSpan + 1;
+                //if (this.CssName == "popre")
+                //{
+                //    intColSpan = intColSpan - 1;
+                //}
+
+                return intColSpan+ ColSpanKorekce;
+            }
+        }
     }
 }

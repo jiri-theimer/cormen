@@ -105,6 +105,7 @@ namespace BL.DL
             }
             if (mq.p26id > 0)
             {
+                if (mq.Prefix == "o23") AQ(ref lis, "a.o23Entity LIKE 'p26Msz' AND a.o23RecordPid=@p26id", "p26id", mq.p26id);
                 if (mq.Prefix == "p27") AQ(ref lis, "a.p26ID=@p26id", "p26id", mq.p26id);
                 if (mq.Prefix == "p41") AQ(ref lis, "a.p27ID IN (select p27ID FROM p27MszUnit WHERE p26ID=@p26id)", "p26id", mq.p26id);
 

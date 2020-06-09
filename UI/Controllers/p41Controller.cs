@@ -102,9 +102,12 @@ namespace UI.Controllers
            
             var mq = new BO.myQuery("p27MszUnit");
             mq.IsRecordValid = true;
-            mq.SetPids(v.localQuery.SelectedP27IDs);            
+            if (v.localQuery.SelectedP27IDs != "")
+            {
+                mq.SetPids(v.localQuery.SelectedP27IDs);
+            }                        
             v.lisP27 = Factory.p27MszUnitBL.GetList(mq).ToList();
-            v.localQuery.SelectedP27Names = string.Join(",", v.lisP27.Select(p => p.p27Name));
+            v.localQuery.SelectedP27Names = string.Join(",", v.lisP27.Select(p => p.StrediskoPlusStroj));
 
             mq = new BO.myQuery("p41Task");
             mq.DateBetween = v.CurrentDate;
@@ -116,9 +119,65 @@ namespace UI.Controllers
 
             mq.explicit_orderby = "a.p41PlanStart"; //je důležité setřídit zakázky podle času-od, aby se v grid matici načítali postupně po řádcích!
             v.Tasks = Factory.p41TaskBL.GetList(mq).Where(p=>(p.p41PlanStart >= v.CurrentDT1 && p.p41PlanStart <= v.CurrentDT2) || (p.p41PlanEnd >= v.CurrentDT1 && p.p41PlanEnd <= v.CurrentDT2));     //.OrderBy(p=>p.p41PlanStart); 
+            v.Slots = new List<Slot>();
+            Slot lastSlot = null;
+            foreach(BO.p41Task task in v.Tasks)
+            {
+                var slot = new Slot() { p41ID = task.pid,p27ID=task.p27ID,Start=task.p41PlanStart.AddMinutes(task.p41DurationPoPre),End=task.p41PlanEnd.AddMinutes(-1*task.p41DurationPoPost),CssName="onetask" };
+                slot.Title = task.p41Code + ": " + BO.BAS.ObjectDateTime2String(slot.Start, "HH:mm") + " - " + BO.BAS.ObjectDateTime2String(slot.End, "HH:mm") + ": " + BO.BAS.OM2(task.p41Name, 30);
+                
+                if (slot.Start < v.CurrentDT1)
+                {
+                    slot.Start = v.CurrentDT1;
+                    slot.CssName = "onetask_overday";
+                }
+                if (slot.End > v.CurrentDT2)
+                {
+                    slot.End = v.CurrentDT2;
+                    slot.CssName = "onetask_overday";
+                }
+                slot.ColStart = (slot.Start.Hour * 60 + slot.Start.Minute) / 10;
+                lastSlot = slot;
+
+                v.Slots.Add(slot);
+                if (task.p41DurationPoPre > 0 && task.p41PlanStart>=v.CurrentDT1)
+                {
+                    slot = new Slot() { p41ID = task.pid, p27ID = task.p27ID, Start = task.p41PlanStart, End = task.p41PlanStart.AddMinutes(task.p41DurationPoPre), CssName = "popre" };
+                    
+                    slot.Title = "PO-PRE: " + task.p41Code + ": " + BO.BAS.ObjectDateTime2String(slot.Start, "HH:mm") + " - " + BO.BAS.ObjectDateTime2String(slot.End, "HH:mm");
+                    if (slot.End > v.CurrentDT2)
+                    {
+                        slot.End = v.CurrentDT2;                        
+                    }
+                    slot.ColStart = (slot.Start.Hour * 60 + slot.Start.Minute) / 10;
+                    if (slot.ColStart + slot.ColSpan > lastSlot.ColStart)
+                    {
+                        slot.ColSpanKorekce = -1;
+                    }
+                    
+                    v.Slots.Add(slot);
+                }
+                if (task.p41DurationPoPost > 0 && task.p41PlanEnd.AddMinutes(-1*task.p41DurationPoPost)<v.CurrentDT2)
+                {
+                    slot = new Slot() { p41ID = task.pid, p27ID = task.p27ID, Start = task.p41PlanEnd.AddMinutes(-1*task.p41DurationPoPost), End = task.p41PlanEnd, CssName = "popost" };
+                    slot.Title = "PO-POST: " + task.p41Code + ": " + BO.BAS.ObjectDateTime2String(slot.Start, "HH:mm") + " - " + BO.BAS.ObjectDateTime2String(slot.End, "HH:mm");
+                    if (slot.End > v.CurrentDT2)
+                    {
+                        slot.End = v.CurrentDT2;
+                    }
+                    slot.ColStart = (slot.Start.Hour * 60 + slot.Start.Minute) / 10;
+                    if (slot.ColStart  < lastSlot.ColStart+lastSlot.ColSpan)
+                    {
+                        slot.ColStart += 1;
+                    }
+                    v.Slots.Add(slot);
+                }
+            }
+
+
 
             v.lisFond = Factory.p31CapacityFondBL.GetCells(v.CurrentDate, v.CurrentDate);
-            
+
             return View(v);
         }
         public IActionResult Index(int pid)

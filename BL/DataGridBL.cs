@@ -76,6 +76,9 @@ namespace BL
                 sb.Append(string.Join(",", mq.explicit_columns.Select(p => p.getFinalSqlSyntax_SELECT())));    //grid sloupce               
             }
             sb.Append("," + GetSQL_SELECT_Ocas(mq.Prefix, bolGetTotalsRow));  //konstantní pole jako pid,isclosed
+            if (mq.explicit_selectsql != null){
+                sb.Append("," + mq.explicit_selectsql);
+            }
 
             sb.Append(" FROM ");
             BO.TheEntity ce = BL.TheEntities.ByPrefix(mq.Prefix);

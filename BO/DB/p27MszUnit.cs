@@ -22,5 +22,6 @@ namespace BO
         public string p26Name { get; set; }//kvůli combo
         public int p25ID;    //dotaženo ze stroje
         public int p31ID;   //dotaženo ze stroje
+        public string StrediskoPlusStroj;
     }
 }

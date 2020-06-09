@@ -13,6 +13,7 @@ namespace UI.Models
 
         public string SelectedP27IDs { get; set; }
         public string SelectedP27Names { get; set; }
-
+        public int ColStart { get; set; }
+        public int ColSpan { get; set; }
     }
 }

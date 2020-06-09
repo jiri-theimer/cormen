@@ -48,6 +48,7 @@ namespace BO
         public List<int> pids;
         public IEnumerable<BO.TheGridColumn> explicit_columns { get; set; }
         public string explicit_orderby { get; set; }
+        public string explicit_selectsql { get; set; }
 
         public bool? IsRecordValid;
 
