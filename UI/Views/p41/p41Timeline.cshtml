@@ -27,6 +27,10 @@
     int intColSpanPost = 0;
     int intColStartPost = 0;
     string strClass = "onetask";
+    DateTime d = Model.CurrentDate;
+    int intZpetPosunHourFrom = Model.HourFrom*60/10;  //posun kvůli nastavené časové ose od-do
+    //int intCOlPosunUntil = (24 - Model.HourUntil) * 60 / 10;
+
 
 }
 
@@ -176,15 +180,15 @@
         </div>
         <div>
             <input type="checkbox" asp-for="@Model.localQuery.IsPoPre" />
-            <label for="localQuery_IsPoPre">Zobrazovat plán [PO-PRE] operací</label>
+            <label for="localQuery_IsPoPre">Zobrazovat zakázky s [PO-PRE] operacemi</label>
         </div>
         <div>
             <input type="checkbox" asp-for="@Model.localQuery.IsPoPost" />
-            <label for="localQuery_IsPoPost">Zobrazovat plán [PO-POST] operací</label>
+            <label for="localQuery_IsPoPost">Zobrazovat zakázky s [PO-POST] operacemi</label>
         </div>
         <div>
             <input type="checkbox" asp-for="@Model.localQuery.IsTo" />
-            <label for="localQuery_IsTo">Zobrazovat plán [TO] operací</label>
+            <label for="localQuery_IsTo">Zobrazovat zakázky s [TO] operacemi</label>
         </div>
         <div>
             <mycombochecklist asp-for="@Model.localQuery.SelectedP27IDs" entity="p27MszUnit" selectedtext="@Model.localQuery.SelectedP27Names" placeholder="Vyberte střediska k zobrazení..."></mycombochecklist>
@@ -255,7 +259,8 @@
         {
             for (int j = 0; j < 60; j = j + 10)
             {
-                if (Model.lisFond.Where(p => (p.p33Hour == i && p.p33Minute==30 && j<=30) || (p.p33Hour==i+1 && p.p33Minute==0 && j>30)).Count() > 0)
+                d = Model.CurrentDate.AddHours(i).AddMinutes(j);
+                if (Model.lisFond.Where(p => (d >= p.p33DateTime && d <= p.p33DateTimeUntil)).Count() > 0)
                 {
 
 
@@ -288,7 +293,7 @@
         @foreach (var task in Model.Tasks.Where(p => p.p27ID == stredisko.pid))
         {
             strClass = "onetask";
-            intColStart = (task.p41PlanStart.Hour * 60 + task.p41PlanStart.Minute) / 10 + intColPosun;
+            intColStart = (task.p41PlanStart.Hour * 60 + task.p41PlanStart.Minute) / 10 + intColPosun-intZpetPosunHourFrom;
 
 
             intColSpan = (task.p41PlanEnd.Hour * 60 + task.p41PlanEnd.Minute - task.p41PlanStart.Hour * 60 - task.p41PlanStart.Minute);
@@ -305,18 +310,23 @@
 
 
 
-
-            if (task.p41PlanStart < Model.CurrentDate)
+            if (task.p41PlanStart < Model.CurrentDT1)
             {
                 intColStart = intColPosun;
                 strClass = "onetask_overday";
-                intColSpan = (task.p41PlanEnd.Hour * 60 + task.p41PlanEnd.Minute) / 10;
+                intColSpan = 1;
+                if (task.p41PlanEnd > Model.CurrentDT1)
+                {
+                    intColSpan = (task.p41PlanEnd.Hour * 60 + task.p41PlanEnd.Minute - Model.CurrentDT1.Hour * 60 - Model.CurrentDT1.Minute)/10;
+                }
             }
-            if (task.p41PlanEnd > Model.CurrentDate.AddDays(1))
+            if (task.p41PlanEnd > Model.CurrentDT2)
             {
-                intColSpan = _colsHours * 6;
                 strClass = "onetask_overday";
+                intColStart = (task.p41PlanStart.Hour * 60 + task.p41PlanStart.Minute) / 10 +intColPosun - intZpetPosunHourFrom;
+                intColSpan = 1+(Model.CurrentDT2.Hour * 60 + Model.CurrentDT2.Minute - task.p41PlanStart.Hour * 60 - task.p41PlanStart.Minute) / 10;
             }
+
 
             intColSpanPre = 0;
             intColStartPre = 0;
@@ -428,6 +438,24 @@
             vals.push($("#HourFrom").val());
             keys.push("p41Timeline-houruntil");
             vals.push($("#HourUntil").val());
+            keys.push("p41Timeline-ispopre");
+            if ($("#localQuery_IsPoPre").prop("checked") == true) {
+                vals.push("1");
+            }else {
+                vals.push("0");
+            }
+            keys.push("p41Timeline-isto");
+            if ($("#localQuery_IsTo").prop("checked") == true) {
+                vals.push("1");
+            } else {
+                vals.push("0");
+            }
+            keys.push("p41Timeline-ispopost");
+            if ($("#localQuery_IsPoPost").prop("checked") == true) {
+                vals.push("1");
+            } else {
+                vals.push("0");
+            }
 
             $.post("/Common/SetUserParams", { keys: keys,values:vals }, function (data) {
 

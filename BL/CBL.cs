@@ -10,6 +10,7 @@ namespace BL
         public string DeleteRecord(string prefix, int pid);
         public string LoadUserParam(string strKey,string strDefault="");
         public int LoadUserParamInt(string strKey, int intDefault =0);
+        public bool LoadUserParamBool(string strKey, bool bolDefault);
         public bool SetUserParam(string strKey, string strValue);
         public string EstimateRecordCode(string entity);
         public string GetRecordAlias(string entity, int pid);
@@ -92,6 +93,25 @@ namespace BL
             else
             {
                 return BO.BAS.InInt(s);
+            }
+        }
+        public bool LoadUserParamBool(string strKey, bool bolDefault)
+        {
+            string s = LoadUserParam(strKey);
+            if (String.IsNullOrEmpty(s) == true)
+            {
+                return bolDefault;
+            }
+            else
+            {
+                if (s == "1")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
         public bool SetUserParam(string strKey,string strValue)

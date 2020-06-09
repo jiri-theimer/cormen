@@ -95,11 +95,12 @@ namespace UI.Controllers
             v.localQuery = new p41TimelineQuery();            
             v.localQuery.SelectedP27IDs = Factory.CBL.LoadUserParam("p41Timeline-p27ids");
             v.localQuery.SelectedP27Names = Factory.CBL.LoadUserParam("p41Timeline-p27names");
-            
-            var mq = new BO.myQuery("p26Msz");
-            mq.IsRecordValid = true;
-            
-            mq = new BO.myQuery("p27MszUnit");
+            v.localQuery.IsPoPre = Factory.CBL.LoadUserParamBool("p41Timeline-ispopre",true);
+            v.localQuery.IsTo = Factory.CBL.LoadUserParamBool("p41Timeline-isto", true);
+            v.localQuery.IsPoPost = Factory.CBL.LoadUserParamBool("p41Timeline-ispopost", true);
+
+           
+            var mq = new BO.myQuery("p27MszUnit");
             mq.IsRecordValid = true;
             mq.SetPids(v.localQuery.SelectedP27IDs);            
             v.lisP27 = Factory.p27MszUnitBL.GetList(mq).ToList();
@@ -108,8 +109,13 @@ namespace UI.Controllers
             mq = new BO.myQuery("p41Task");
             mq.DateBetween = v.CurrentDate;
             mq.DateBetweenDays = 1;
+            mq.p18flags = new List<int>() {999 };
+            if (v.localQuery.IsPoPre) mq.p18flags.Add(2);
+            if (v.localQuery.IsTo) mq.p18flags.Add(1);
+            if (v.localQuery.IsPoPost) mq.p18flags.Add(3);
+
             mq.explicit_orderby = "a.p41PlanStart"; //je důležité setřídit zakázky podle času-od, aby se v grid matici načítali postupně po řádcích!
-            v.Tasks = Factory.p41TaskBL.GetList(mq);     //.OrderBy(p=>p.p41PlanStart); 
+            v.Tasks = Factory.p41TaskBL.GetList(mq).Where(p=>(p.p41PlanStart >= v.CurrentDT1 && p.p41PlanStart <= v.CurrentDT2) || (p.p41PlanEnd >= v.CurrentDT1 && p.p41PlanEnd <= v.CurrentDT2));     //.OrderBy(p=>p.p41PlanStart); 
 
             v.lisFond = Factory.p31CapacityFondBL.GetCells(v.CurrentDate, v.CurrentDate);
             

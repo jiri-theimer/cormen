@@ -91,10 +91,10 @@
                 </th>
                 @for (var i = Model.RecP31.p31DayHour1; i <= Model.RecP31.p31DayHour2; i++)
                 {
-                    <th>
+                    <th title="@(format_hour(i)):00 - @(format_hour(i)):30">
                         @(format_hour(i)):00
                     </th>
-                    <th>
+                    <th title="@(format_hour(i)):30 - @(format_hour(i+1)):00">
                         <small>@(format_hour(i)):30</small>
                     </th>
                 }

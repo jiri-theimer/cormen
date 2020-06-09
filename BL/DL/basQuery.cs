@@ -98,6 +98,11 @@ namespace BL.DL
             {
                 if (mq.Prefix == "p18") AQ(ref lis, "a.p18Flag=@p18flag", "p18flag",mq.p18flag);
             }
+            if (mq.p18flags !=null && mq.p18flags.Count()>0)
+            {
+                if (mq.Prefix == "p18") AQ(ref lis, "a.p18Flag IN ("+string.Join(",",mq.p18flags)+")", "",null);
+                if (mq.Prefix == "p41") AQ(ref lis, "a.p41ID IN (select xa.p41ID FROM p44TaskOperPlan xa INNER JOIN p18OperCode xb ON xa.p18ID=xb.p18ID WHERE xb.p18Flag IN ("+string.Join(",",mq.p18flags)+"))", "", null);
+            }
             if (mq.p26id > 0)
             {
                 if (mq.Prefix == "p27") AQ(ref lis, "a.p26ID=@p26id", "p26id", mq.p26id);

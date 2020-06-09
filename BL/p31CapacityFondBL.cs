@@ -78,9 +78,11 @@ namespace BL
                 p.AddInt("p31ID", rec.p31ID, true);
                 p.AddDateTime("p33Date", rec.p33Date);
                 p.AddDateTime("p33DateTime", rec.p33DateTime);
+                
                 p.AddInt("p33Day", rec.p33Day);
                 p.AddInt("p33Hour", rec.p33Hour);
                 p.AddInt("p33Minute", rec.p33Minute);
+                
 
 
                 if ( _db.SaveRecord("p33CapacityTimeline", p.getDynamicDapperPars(), rec) > 0)

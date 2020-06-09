@@ -8,9 +8,7 @@ namespace UI.Models
     public class p41TimelineViewModel:BaseViewModel
     {
         public DateTime CurrentDate { get; set; }
-
         
-
         public List<BO.p27MszUnit> lisP27 { get; set; }
 
         public IEnumerable<BO.p41Task> Tasks { get; set; }
@@ -22,6 +20,23 @@ namespace UI.Models
         public int HourFrom { get; set; }
         public int HourUntil { get; set; }
 
-        
+
+        public DateTime CurrentDT1
+        {
+            get
+            {
+                return this.CurrentDate.AddHours(this.HourFrom);
+            }
+        }
+        public DateTime CurrentDT2
+        {
+            get
+            {
+                return this.CurrentDate.AddHours(this.HourUntil).AddSeconds(-1);
+            }
+        }
+
+
+
     }
 }

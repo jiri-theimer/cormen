@@ -14,8 +14,20 @@ namespace BO
         public int p33Day { get; set; }
         public int p33Hour { get; set; }
         public int p33Minute { get; set; }
-
+       
         public DateTime p33Date { get; set; }
         public DateTime p33DateTime { get; set; }
+        public DateTime p33DateTimeUntil {
+            get {
+                return this.p33DateTime.AddMinutes(30).AddSeconds(-1);
+            } 
+        }
+        public int p33MinuteUntil
+        {
+            get
+            {
+                return this.p33Minute + 30;
+            }
+        }
     }
 }
