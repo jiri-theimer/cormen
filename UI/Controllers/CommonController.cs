@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Org.BouncyCastle.Asn1.Pkcs;
@@ -40,6 +41,18 @@ namespace UI.Controllers
                 return new BO.Result(true);
             }
                        
+        }
+        public BO.Result SetUserParams(List<String> keys, List<string> values)
+        {
+            for(int i = 0; i < keys.Count; i++)
+            {
+                if (String.IsNullOrEmpty(keys[i]) == false)
+                {
+                    Factory.CBL.SetUserParam(keys[i], values[i]);
+                }
+            }
+            return new BO.Result(false);
+
         }
         public string LoadUserParam(string key)
         {

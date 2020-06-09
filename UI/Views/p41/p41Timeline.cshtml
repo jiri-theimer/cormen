@@ -10,6 +10,9 @@
     int _Year = Model.CurrentDate.Year;
 
     int _colsHours = 24;
+    //_colsHours = _colsHours - (Model.HourFrom-1);
+    //_colsHours = _colsHours - (24-Model.HourUntil);
+
     int x = 0;
     string strSlot = "00:00";
     string strNextSlot = "00:00";
@@ -129,17 +132,48 @@
         <button type="button" class="btn btn-light" title="Následující den" onclick="day_next()">&gt;&gt;</button>
     </div>
 
-    <button id="cmdView" type="button" class="btn btn-info dropdown-toggle" style="margin-left:10px;">
+    <button id="cmdView" type="button" class="btn btn-light dropdown-toggle" style="margin-left:10px;">
 
-        Filtr v zobrazení
+        Nastavit zobrazení
     </button>
-    
+
 
 
 </div>
 <div id="divView" style="max-width:1050px;display:none;background-color:aliceblue;">
     <div style="padding:20px;">
-        <h4>Filtr v Timeline zobrazení</h4>
+        <h4>Nastavit Timeline zobrazení</h4>
+        <div class="input-group">
+            <label>Hodina od:</label>
+            <select asp-for="@Model.HourFrom">
+                <option value="0">00:00</option>
+                <option value="1">01:00</option>
+                <option value="2">02:00</option>
+                <option value="3">03:00</option>
+                <option value="4">04:00</option>
+                <option value="5">05:00</option>
+                <option value="6">06:00</option>
+                <option value="7">07:00</option>
+                <option value="8">08:00</option>
+                <option value="9">09:00</option>
+                <option value="10">10:00</option>
+                <option value="11">11:00</option>
+            </select>
+            <label>Hodina do:</label>
+            <select asp-for="@Model.HourUntil">
+                <option value="15">15:00</option>
+                <option value="16">16:00</option>
+                <option value="17">17:00</option>
+                <option value="18">18:00</option>
+                <option value="19">19:00</option>
+                <option value="20">20:00</option>
+                <option value="21">21:00</option>
+                <option value="22">22:00</option>
+                <option value="23">23:00</option>
+                <option value="24">24:00</option>
+
+            </select>
+        </div>
         <div>
             <input type="checkbox" asp-for="@Model.localQuery.IsPoPre" />
             <label for="localQuery_IsPoPre">Zobrazovat plán [PO-PRE] operací</label>
@@ -155,10 +189,10 @@
         <div>
             <mycombochecklist asp-for="@Model.localQuery.SelectedP27IDs" entity="p27MszUnit" selectedtext="@Model.localQuery.SelectedP27Names" placeholder="Vyberte střediska k zobrazení..."></mycombochecklist>
         </div>
-        
-        
+
+        <button type="button" class="btn btn-primary" onclick="localquery_submit()">Uložit Timeline nastavení</button>
     </div>
-    
+
 
 </div>
 
@@ -167,25 +201,41 @@
 
     <div style="grid-column: 1/span 1;" title="Vybraný den">@(BO.BAS.ObjectDate2String(Model.CurrentDate,"dd.MM. dddd"))</div>
 
-    @for (int i = 0; i <= _colsHours - 1; i++)
+    @for (int i = Model.HourFrom; i < Model.HourUntil; i++)
     {
+
         strSlot = BO.BAS.RightString("0" + i.ToString(), 2) + ":00";
         strNextSlot = BO.BAS.RightString("0" + (i + 1).ToString(), 2) + ":00";
 
-        <div class="colheader" title="@(strSlot+" - "+strNextSlot)" style="grid-column: @(i+intColPosun)/span 1;">@strSlot</div>
+        <div class="colheader" title="@(strSlot+" - "+strNextSlot)" style="grid-column: @(x+intColPosun)/span 1;">@strSlot</div>
+        x += 1;
+
     }
+
 </div>
+@{
+    x = 0;
+}
 <div class="grid-container-header" style="grid-template-columns:150px repeat(@(_colsHours*6),10px);">
 
     <div style="grid-column: 1/span 1;"></div>
 
-    @for (int i = 0; i <= _colsHours - 1; i++)
+    @for (int i = Model.HourFrom; i < Model.HourUntil; i++)
     {
-        for (int j = 10; j <= 60; j = j + 10)
+        for (int j = 0; j < 60; j = j + 10)
         {
             strSlot = BO.BAS.RightString("0" + i.ToString(), 2) + ":" + BO.BAS.RightString("0" + j.ToString(), 2);
+            if (j < 50)
+            {
+                strNextSlot = BO.BAS.RightString("0" + i.ToString(), 2) + ":" + BO.BAS.RightString("0" + (j + 10).ToString(), 2);
+            }
+            else
+            {
+                strNextSlot = BO.BAS.RightString("0" + (i + 1).ToString(), 2) + ":00";
+            }
 
-            <div class="colheader" title="@(strSlot)" style="grid-column: @(x+intColPosun)/span 1;"></div>
+
+            <div class="colheader" title="@(strSlot+" - "+strNextSlot)" style="grid-column: @(x+intColPosun)/span 1;"></div>
 
             x += 1;
         }
@@ -201,11 +251,11 @@
     x = 0;
     <div class="grid-container" style="grid-template-columns:150px repeat(@(_colsHours*6),10px);">
         <div class="stredisko" style="grid-column: 1/span 1;"></div>
-        @for (int i = 0; i <= _colsHours - 1; i++)
+        @for (int i = Model.HourFrom; i < Model.HourUntil; i++)
         {
-            for (int j = 10; j <= 60; j = j + 10)
+            for (int j = 0; j < 60; j = j + 10)
             {
-                if (Model.lisFond.Where(p => p.p33Hour == i + 1 && j >= p.p33Minute).Count() > 0)
+                if (Model.lisFond.Where(p => (p.p33Hour == i && p.p33Minute==30 && j<=30) || (p.p33Hour==i+1 && p.p33Minute==0 && j>30)).Count() > 0)
                 {
 
 
@@ -219,6 +269,7 @@
                 x += 1;
 
             }
+
 
 
         }
@@ -238,6 +289,8 @@
         {
             strClass = "onetask";
             intColStart = (task.p41PlanStart.Hour * 60 + task.p41PlanStart.Minute) / 10 + intColPosun;
+
+
             intColSpan = (task.p41PlanEnd.Hour * 60 + task.p41PlanEnd.Minute - task.p41PlanStart.Hour * 60 - task.p41PlanStart.Minute);
             if (intColSpan % 10 > 0)
             {
@@ -249,6 +302,7 @@
                 intColSpan = intColSpan / 10;
             }
             intColSpan = intColSpan + 1;
+
 
 
 
@@ -319,9 +373,9 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-            
-           
-            
+
+
+
             $("#cmdView").click(function () {
                 $("#divView").slideToggle();
             });
@@ -353,26 +407,36 @@
         var d = "@(BO.BAS.ObjectDate2String( Model.CurrentDate.AddMonths(-1)))";
         reload(d);
     }
-    
+
 
 
     function reload(d) {
-        var p26id = "";
-        location.replace("/p41/p41Timeline?p26id=" + p26id + "&d=" + d);
+
+        location.replace("/p41/p41Timeline?d=" + d);
         }
 
 
-        function allowDrop(e) {
-            e.preventDefault();
+        function localquery_submit() {
+            var keys = [];
+            var vals = [];
+
+            keys.push("p41Timeline-p27ids");
+            vals.push($("#localQuery_SelectedP27IDs").val());
+            keys.push("p41Timeline-p27names");
+            vals.push($("#value_alias_localQuery_SelectedP27IDs").val());
+            keys.push("p41Timeline-hourfrom");
+            vals.push($("#HourFrom").val());
+            keys.push("p41Timeline-houruntil");
+            vals.push($("#HourUntil").val());
+
+            $.post("/Common/SetUserParams", { keys: keys,values:vals }, function (data) {
+
+                var d = "@(BO.BAS.ObjectDate2String( Model.CurrentDate))";
+                reload(d);
+
+
+            });
         }
-        function drag(e) {
-            e.dataTransfer.setData("Zakázka se pohybuje...", e.target.id);
-        }
-        function drop(e) {
-            e.preventDefault();
-            var data = e.dataTransfer.getData("text");
-            _notify_message(document.getElementById(data).innerHTML);
-            //e.target.appendChild(document.getElementById(data));
-        }
+
     </script>
 }

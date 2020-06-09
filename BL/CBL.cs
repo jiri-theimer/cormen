@@ -8,7 +8,8 @@ namespace BL
     public interface ICBL
     {
         public string DeleteRecord(string prefix, int pid);
-        public string LoadUserParam(string strKey);
+        public string LoadUserParam(string strKey,string strDefault="");
+        public int LoadUserParamInt(string strKey, int intDefault =0);
         public bool SetUserParam(string strKey, string strValue);
         public string EstimateRecordCode(string entity);
         public string GetRecordAlias(string entity, int pid);
@@ -65,7 +66,7 @@ namespace BL
             
             return c.Value;
         }
-        public string LoadUserParam(string strKey)
+        public string LoadUserParam(string strKey, string strDefault = "")
         {     
             if (_userparams == null)
             {
@@ -78,8 +79,20 @@ namespace BL
             }
             else
             {
-                return "";
+                return strDefault;
             }            
+        }
+        public int LoadUserParamInt(string strKey, int intDefault)
+        {
+            string s = LoadUserParam(strKey);
+            if (String.IsNullOrEmpty(s) == true)
+            {
+                return intDefault;
+            }
+            else
+            {
+                return BO.BAS.InInt(s);
+            }
         }
         public bool SetUserParam(string strKey,string strValue)
         {

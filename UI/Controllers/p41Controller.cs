@@ -90,18 +90,20 @@ namespace UI.Controllers
             {
                 v.CurrentDate = BO.BAS.String2Date(d);                
             }
-            v.localQuery = new p41TimelineQuery();
-            
+            v.HourFrom = Factory.CBL.LoadUserParamInt("p41Timeline-hourfrom", 6) ;
+            v.HourUntil = Factory.CBL.LoadUserParamInt("p41Timeline-houruntil", 20);
+            v.localQuery = new p41TimelineQuery();            
             v.localQuery.SelectedP27IDs = Factory.CBL.LoadUserParam("p41Timeline-p27ids");
-            v.localQuery.SelectedP27Names = "hovado,debil";
-
+            v.localQuery.SelectedP27Names = Factory.CBL.LoadUserParam("p41Timeline-p27names");
+            
             var mq = new BO.myQuery("p26Msz");
             mq.IsRecordValid = true;
             
             mq = new BO.myQuery("p27MszUnit");
             mq.IsRecordValid = true;
-            
+            mq.SetPids(v.localQuery.SelectedP27IDs);            
             v.lisP27 = Factory.p27MszUnitBL.GetList(mq).ToList();
+            v.localQuery.SelectedP27Names = string.Join(",", v.lisP27.Select(p => p.p27Name));
 
             mq = new BO.myQuery("p41Task");
             mq.DateBetween = v.CurrentDate;

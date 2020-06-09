@@ -19,6 +19,9 @@ namespace UI.Models
 
         public UI.Models.p41TimelineQuery localQuery { get; set; }
 
+        public int HourFrom { get; set; }
+        public int HourUntil { get; set; }
+
         
     }
 }
