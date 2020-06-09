@@ -17,5 +17,6 @@ namespace BO
         [Required(ErrorMessage = "Chybí vyplnit druh entity!")]
         public string b02Entity { get; set; }
         public string b02Code { get; set; }
+        public string b02Memo { get; set; }
     }
 }

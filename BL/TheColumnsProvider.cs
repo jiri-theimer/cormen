@@ -180,8 +180,8 @@ namespace BL
             AF("b02Status", "b02Name", "Stav", 1,null,"string",false,true);
             AF("b02Status", "EntityAlias", "Vazba", 1, "dbo.getEntityAlias(a.b02Entity)");
             AF("b02Status", "b02Ordinary", "Pořadí", 0, null, "num0");
+            AF("b02Status", "b02Memo", "Poznámka");
 
-           
             //o51 = položka kategorie
             AF("o51Tag", "o51Name", "Položka kategorie", 1, null, "string", false, true);            
             AF("o51Tag", "o51IsColor", "Má barvu", 2, null, "bool");

@@ -15,49 +15,52 @@
 
     @addTagHelper *, UI
 
-    <div class="modal_record_container">
+<div class="modal_record_container">
 
-        <div class="form-row">
-            <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
-            <div class="col-sm-11 col-md-10">
-                <input class="form-control" asp-for="Rec.b02Name" />
-                <span asp-validation-for="Rec.b02Name" class="text-danger"></span>
-            </div>
+    <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
+        <div class="col-sm-11 col-md-10">
+            <input class="form-control" asp-for="Rec.b02Name" />
+            <span asp-validation-for="Rec.b02Name" class="text-danger"></span>
         </div>
-        <div class="form-row">
-            <label class="col-sm-1 col-md-2 col-form-label">Kód:</label>
-            <div class="col-sm-11 col-md-10">
-                <input class="form-control" asp-for="Rec.b02Code" />
-                <span asp-validation-for="Rec.b02Code" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-row">
-            <label class="col-sm-1 col-md-2 col-form-label">Index pořadí:</label>
-            <div class="col-sm-11 col-md-10">
-                <mynumber asp-for="Rec.b02Ordinary" decimal-digits="0"></mynumber>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <label class="col-sm-1 col-md-2 col-form-label">Vazba:</label>
-            <div class="col-sm-11 col-md-10">
-                <select asp-for="Rec.b02Entity" class="form-control">
-                    <option value=""></option>
-                    <option value="p21">Licence</option>
-                    <option value="p26">Stroj (msz)</option>
-                    <option value="p10">Master produkt</option>
-                    <option value="o23">Dokument</option>
-                    <option value="p51">Objednávka</option>
-                    <option value="p41">Zakázka</option>
-                </select>
-                <span asp-validation-for="Rec.b02Entity" class="text-danger"></span>
-            </div>
-        </div>
-
-
-
-
     </div>
+    <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Kód:</label>
+        <div class="col-sm-11 col-md-10">
+            <input class="form-control" asp-for="Rec.b02Code" />
+            <span asp-validation-for="Rec.b02Code" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Index pořadí:</label>
+        <div class="col-sm-11 col-md-10">
+            <mynumber asp-for="Rec.b02Ordinary" decimal-digits="0"></mynumber>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Vazba:</label>
+        <div class="col-sm-11 col-md-10">
+            <select asp-for="Rec.b02Entity" class="form-control">
+                <option value=""></option>
+                <option value="p21">Licence</option>
+                <option value="p26">Stroj (msz)</option>
+                <option value="p10">Master produkt</option>
+                <option value="o23">Dokument</option>
+                <option value="p51">Objednávka</option>
+                <option value="p41">Zakázka</option>
+            </select>
+            <span asp-validation-for="Rec.b02Entity" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <textarea asp-for="Rec.b02Memo" class="form-control" placeholder="Podrobný popis"></textarea>
+        <span asp-validation-for="Rec.b02Memo" class="text-danger"></span>
+    </div>
+
+
+</div>
 }
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")

@@ -40,6 +40,7 @@ namespace BL
             p.AddString("b02Code", rec.b02Code);
             p.AddString("b02Entity", rec.b02Entity);
             p.AddInt("b02Ordinary", rec.b02Ordinary);
+            p.AddString("b02Memo", rec.b02Memo);
 
             return _db.SaveRecord("b02Status", p.getDynamicDapperPars(), rec);
         }
