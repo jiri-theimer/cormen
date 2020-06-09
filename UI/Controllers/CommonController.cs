@@ -152,50 +152,7 @@ namespace UI.Controllers
         }
 
 
-        public string GetSearchBoxHtml(string expr)
-        {
-            //Vrací HTML zdroj tabulky pro searchbox
-            if (expr.TrimEnd().Length <= 1)
-            {
-                return "<tr><td>Je třeba zadat minimálně 2 znaky.</td></tr>";
-            }
-            var mq = new BO.myQuery("p28Company");
-            mq.SearchString = expr;
-
-            var s = new System.Text.StringBuilder();
-            s.Append("<div style='background-color:silver;'><button type='button' onclick='searchbox1_destroy()' class='btn btn-secondary py-0'>Zavřít</button></div>");
-            s.Append("<table class='table table-sm table-hover' onclick='searchbox1_destroy()'>");
-            var dt = Factory.gridBL.GetList(mq);
-            var intRows = dt.Rows.Count;
-            if (intRows > 20) intRows = 20;
-
-            for (int i = 0; i <= intRows-1; i++){
-                s.Append(string.Format("<tr class='table-primary'><td><a href='/p28/?pid={0}'>{1}</a></td><td>{2}</td><td>Klient</td></tr>",dt.Rows[i]["pid"],dt.Rows[i]["p28Name"], dt.Rows[i]["p28Code"]));
-            }
-
-            mq.Entity = "p10MasterProduct";
-            dt = Factory.gridBL.GetList(mq);
-            intRows = dt.Rows.Count;
-            if (intRows > 20) intRows = 20;
-            for (int i = 0; i <= intRows - 1; i++)
-            {
-                s.Append(string.Format("<tr class='table-success'><td><a href='/p10/?pid={0}'>{1}</a></td><td>{2}</td><td>Master produkt</td></tr>", dt.Rows[i]["pid"], dt.Rows[i]["p10Name"], dt.Rows[i]["p10Code"]));
-            }
-
-            mq.Entity = "o23Document";
-            dt = Factory.gridBL.GetList(mq);
-            intRows = dt.Rows.Count;
-            if (intRows > 20) intRows = 20;
-            for (int i = 0; i <= intRows - 1; i++)
-            {
-                s.Append(string.Format("<tr class='table-warning'><td><a href='/o23/?pid={0}'>{1}</a></td><td>{2}</td><td>Dokument</td></tr>", dt.Rows[i]["pid"], dt.Rows[i]["o23Name"], dt.Rows[i]["RecordUrlName"]));
-            }
-
-
-            s.Append("</table>");
-
-            return s.ToString();
-        }
+        
 
         public BO.p85Tempbox Save2Temp(int p85id,string guid,string prefix,int recpid,string fieldname,string fieldvalue)
         {
@@ -221,9 +178,13 @@ namespace UI.Controllers
             return rec;
 
         }
+
+        
+
     }
 
    
+
 
     
     

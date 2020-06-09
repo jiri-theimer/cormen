@@ -109,5 +109,76 @@ namespace UI.Controllers
             return s.ToString();
         }
 
+
+
+        //zdroj checkboxů pro taghelper mycombochecklist:
+        public string GetHtml4Checkboxlist(string controlid,string entity, string selectedvalues, string masterprefix, int masterpid, string param1) //Vrací HTML seznam checkboxů pro taghelper: mycombochecklist
+        {
+            var mq = new BO.myQuery(entity);            
+            mq.query_by_entity_prefix = param1;            
+            mq.explicit_columns = _colsProvider.getDefaultPallete(false, mq);
+            mq.IsRecordValid = true;    //v combo nabídce pouze časově platné záznamy
+            mq.InhaleMasterEntityQuery(masterprefix, masterpid);
+
+            List<int> selpids = null;
+            if (String.IsNullOrEmpty(selectedvalues) == false)
+            {
+                selpids=BO.BAS.ConvertString2ListInt(selectedvalues);
+            }
+
+            string strTextField = "a__"+entity+"__"+mq.Prefix+"Name";
+            string strGroupField = null;
+            string strLastGroup = null;
+            string strGroup = null;
+            string strChecked = "";            
+            int intValue = 0;
+            string strText = "";
+            var dt = Factory.gridBL.GetList(mq);
+            var intRows = dt.Rows.Count;
+
+            var sb = new System.Text.StringBuilder();
+            sb.AppendLine("<ul style='list-style:none;padding-left:0px;'>");
+
+
+            for (int i = 0; i < intRows; i++)
+            {
+                intValue = Convert.ToInt32(dt.Rows[i]["pid"]);
+                strText = Convert.ToString(dt.Rows[i][strTextField]);
+                strChecked = "";
+                if (strGroupField != null)
+                {
+                    if (dt.Rows[i][strGroupField] == null)
+                    {
+                        strGroup = null;
+                    }
+                    else
+                    {
+                        strGroup = Convert.ToString(dt.Rows[i][strGroupField]);
+                    }
+                    if (strGroup != strLastGroup)
+                    {
+                        sb.AppendLine("<li>");
+                        sb.AppendLine("<div style='font-weight:bold;background-color:#ADD8E6;'><span style='padding-left:10px;'>" + strGroup + "</span></div>");
+                        sb.AppendLine("</li>");
+                    }
+
+                }
+                if (selpids != null && selpids.Where(p => p == intValue).Count() > 0)
+                {
+                    strChecked = "checked";
+                }
+
+                sb.AppendLine("<li>");
+                sb.Append(string.Format("<input type='checkbox' id='chk{0}_{1}' name='chk{0}' value='{1}' {2} />", controlid, intValue, strChecked));
+                sb.Append(string.Format("<label style='min-width:200px;' for='chk{0}_{1}'>{2}</label>", controlid, intValue, strText));
+
+                sb.AppendLine("</li>");
+            }
+               
+
+
+            sb.AppendLine("</ul>");
+            return sb.ToString();
+        }
     }
 }

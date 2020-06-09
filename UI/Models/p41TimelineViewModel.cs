@@ -9,8 +9,7 @@ namespace UI.Models
     {
         public DateTime CurrentDate { get; set; }
 
-        public int p26ID { get; set; }
-        public string p26Name { get; set; }
+        
 
         public List<BO.p27MszUnit> lisP27 { get; set; }
 
@@ -20,7 +19,6 @@ namespace UI.Models
 
         public UI.Models.p41TimelineQuery localQuery { get; set; }
 
-        public string SelectedP27IDs { get; set; }
-        public string SelectedP27Names { get; set; }
+        
     }
 }

@@ -201,3 +201,59 @@ function mystitky_multiselect(event, entity) {
     _zoom(event, null, null, "small", "★Zatřídit do kategorií...", "/o51/MultiSelect?entity=" + entity + "&o51ids=" + o51ids);
     
 }
+
+
+/*taghelper mycombochecklist*/
+function mycombochecklist_init(c) {
+    
+    $("#divDropdown" + c.controlid).on("click.bs.dropdown", function (e) {
+        e.stopPropagation();                                    //click na dropdown oblast nemá zavírat dropdown div
+    });
+
+    $("#value_alias_" + c.controlid).click(function () {
+        $("#cmdCombo" + c.controlid).dropdown("toggle");        //click na textbox se má chovat stejně jako click na tlačítko cmdCombo
+    });
+    
+    $("#divDropdownContainer" + c.controlid).on("show.bs.dropdown", function (e) {
+
+        $("#divDropdown" + c.controlid).css("margin-left", 25 + $("#divDropdown" + c.controlid).width() * -1);      //šírka dropdown oblasti má být zleva 100% jako celý usercontrol
+
+
+        if ($("#divDropdown" + c.controlid).prop("filled") === true) return;    //combo už bylo dříve otevřeno
+        
+        $.post(c.posturl, {controlid: c.controlid, entity: c.entity, selectedvalues: c.selectedvalues,masterprefix: c.masterprefix, masterpid: c.masterpid }, function (data) {
+            
+            $("#divData" + c.controlid).html(data);
+
+            $("#divDropdown" + c.controlid).prop("filled", true);
+
+            $("input:checkbox[name='chk"+c.controlid+"']").click(function () {
+                var checked = $(this).prop("checked");
+
+                var vals = [];
+                var lbls = [];
+                var strLabel = "";
+                $("input:checkbox[name=chk"+c.controlid+"]:checked").each(function () {
+                    vals.push($(this).val());
+                    strLabel = $("label[for=" + $(this).attr("id") + "]").text();
+                    lbls.push(strLabel);
+                    
+                });
+                var s = vals.join(",");
+
+                $("#" + c.controlid).val(s);
+
+                s = lbls.join(",");
+                $("#value_alias_" + c.controlid).val(s);
+            });
+
+
+
+        });
+
+
+    });
+
+    
+
+}

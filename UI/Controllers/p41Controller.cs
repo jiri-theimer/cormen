@@ -79,7 +79,7 @@ namespace UI.Controllers
             v.lisP18 = Factory.p18OperCodeBL.GetList(mq);
         }
 
-        public IActionResult p41Timeline(int p26id, string d)
+        public IActionResult p41Timeline(string d)
         {
             var v = new Models.p41TimelineViewModel();
             if (String.IsNullOrEmpty(d) == true)
@@ -91,23 +91,16 @@ namespace UI.Controllers
                 v.CurrentDate = BO.BAS.String2Date(d);                
             }
             v.localQuery = new p41TimelineQuery();
-            v.p26ID = p26id;
+            
+            v.localQuery.SelectedP27IDs = Factory.CBL.LoadUserParam("p41Timeline-p27ids");
+            v.localQuery.SelectedP27Names = "hovado,debil";
 
             var mq = new BO.myQuery("p26Msz");
             mq.IsRecordValid = true;
-            if (v.p26ID == 0)
-            {
-                var lisP26 = Factory.p26MszBL.GetList(mq);
-                if (lisP26.Count()==0)
-                {
-                    return this.StopPage(false, "Číselník aktivních strojů je prázdný.");
-                }
-                v.p26ID = lisP26.First().pid;
-                v.p26Name = lisP26.First().p26Name;
-            }
+            
             mq = new BO.myQuery("p27MszUnit");
             mq.IsRecordValid = true;
-            //mq.p26id = v.p26ID;
+            
             v.lisP27 = Factory.p27MszUnitBL.GetList(mq).ToList();
 
             mq = new BO.myQuery("p41Task");

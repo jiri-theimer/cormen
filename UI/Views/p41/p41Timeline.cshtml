@@ -153,7 +153,7 @@
             <label for="localQuery_IsTo">Zobrazovat plán [TO] operací</label>
         </div>
         <div>
-            <mycombochecklist asp-for="@Model.SelectedP27IDs" placeholder="Vyberte střediska k zobrazení..."></mycombochecklist>
+            <mycombochecklist asp-for="@Model.localQuery.SelectedP27IDs" entity="p27MszUnit" selectedtext="@Model.localQuery.SelectedP27Names" placeholder="Vyberte střediska k zobrazení..."></mycombochecklist>
         </div>
         
         

@@ -11,5 +11,8 @@ namespace UI.Models
         public bool IsPoPost { get; set; } = true;
         public bool IsTo { get; set; } = true;
 
+        public string SelectedP27IDs { get; set; }
+        public string SelectedP27Names { get; set; }
+
     }
 }
