@@ -28,6 +28,10 @@ namespace BL.DL
             {
                 AQ(ref lis, "a.b02ID=@b02id", "b02id", mq.b02id);
             }
+            if (mq.b02ids != null && mq.b02ids.Count() > 0)
+            {
+                AQ(ref lis, "a.b02ID IN (select b02ID FROM b02Status WHERE b02ID IN (" + string.Join(",", mq.b02ids) + "))", "", null);               
+            }
             if (mq.j04id > 0)
             {
                 AQ(ref lis, "a.j04ID=@j04id", "j04id", mq.j04id);

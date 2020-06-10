@@ -56,7 +56,7 @@ namespace BO
         {
             var lis = new List<int>();
 
-            if (s == null)
+            if (String.IsNullOrEmpty(s) == true)
                 return lis;
             foreach(var ss in s.Split(strDelimiter))
             {

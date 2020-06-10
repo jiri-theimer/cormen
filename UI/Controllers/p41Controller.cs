@@ -95,6 +95,8 @@ namespace UI.Controllers
             v.localQuery = new p41TimelineQuery();            
             v.localQuery.SelectedP27IDs = Factory.CBL.LoadUserParam("p41Timeline-p27ids");
             v.localQuery.SelectedP27Names = Factory.CBL.LoadUserParam("p41Timeline-p27names");
+            v.localQuery.SelectedB02IDs = Factory.CBL.LoadUserParam("p41Timeline-b02ids");
+            v.localQuery.SelectedB02Names = Factory.CBL.LoadUserParam("p41Timeline-b02names");
             v.localQuery.IsPoPre = Factory.CBL.LoadUserParamBool("p41Timeline-ispopre",true);
             v.localQuery.IsTo = Factory.CBL.LoadUserParamBool("p41Timeline-isto", true);
             v.localQuery.IsPoPost = Factory.CBL.LoadUserParamBool("p41Timeline-ispopost", true);
@@ -116,6 +118,7 @@ namespace UI.Controllers
             if (v.localQuery.IsPoPre) mq.p18flags.Add(2);
             if (v.localQuery.IsTo) mq.p18flags.Add(1);
             if (v.localQuery.IsPoPost) mq.p18flags.Add(3);
+            mq.b02ids = BO.BAS.ConvertString2ListInt(v.localQuery.SelectedB02IDs);
 
             mq.explicit_orderby = "a.p41PlanStart"; //je důležité setřídit zakázky podle času-od, aby se v grid matici načítali postupně po řádcích!
             v.Tasks = Factory.p41TaskBL.GetList(mq).Where(p=>(p.p41PlanStart >= v.CurrentDT1 && p.p41PlanStart <= v.CurrentDT2) || (p.p41PlanEnd >= v.CurrentDT1 && p.p41PlanEnd <= v.CurrentDT2));     //.OrderBy(p=>p.p41PlanStart); 

@@ -54,6 +54,7 @@ namespace BO
 
         public int j04id { get; set; }
         public int b02id { get; set; }
+        public List<int> b02ids { get; set; }
         public int p28id { get; set; }
         public int p21id { get; set; }
         public int p10id { get; set; }

@@ -135,7 +135,10 @@
 </div>
 <div id="divView" style="max-width:1050px;display:none;background-color:aliceblue;">
     <div style="padding:20px;">
-        <h4>Nastavit Timeline zobrazení</h4>
+        <h4>
+            Nastavit Timeline zobrazení
+            <button type="button" class="btn btn-primary" onclick="localquery_submit()">Uložit Timeline nastavení</button>
+        </h4>
         <div class="input-group">
             <label>Hodina od:</label>
             <select asp-for="@Model.HourFrom">
@@ -180,10 +183,12 @@
             <label for="localQuery_IsTo">Zobrazovat zakázky s [TO] operacemi</label>
         </div>
         <div>
-            <mycombochecklist asp-for="@Model.localQuery.SelectedP27IDs" entity="p27MszUnit" selectedtext="@Model.localQuery.SelectedP27Names" placeholder="Vyberte střediska k zobrazení..."></mycombochecklist>
+            <mycombochecklist asp-for="@Model.localQuery.SelectedP27IDs" entity="p27MszUnit" selectedtext="@Model.localQuery.SelectedP27Names" placeholder="Střediska zakázek..."></mycombochecklist>
         </div>
-
-        <button type="button" class="btn btn-primary" onclick="localquery_submit()">Uložit Timeline nastavení</button>
+        <div>
+            <mycombochecklist asp-for="@Model.localQuery.SelectedB02IDs" entity="b02Status" param1="p41" selectedtext="@Model.localQuery.SelectedB02Names" placeholder="Stavy zakázek..."></mycombochecklist>
+        </div>
+        
     </div>
 
 
@@ -359,6 +364,10 @@
             vals.push($("#localQuery_SelectedP27IDs").val());
             keys.push("p41Timeline-p27names");
             vals.push($("#value_alias_localQuery_SelectedP27IDs").val());
+            keys.push("p41Timeline-b02ids");
+            vals.push($("#localQuery_SelectedB02IDs").val());
+            keys.push("p41Timeline-b02names");
+            vals.push($("#value_alias_localQuery_SelectedB02IDs").val());
             keys.push("p41Timeline-hourfrom");
             vals.push($("#HourFrom").val());
             keys.push("p41Timeline-houruntil");

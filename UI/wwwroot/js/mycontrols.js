@@ -221,7 +221,7 @@ function mycombochecklist_init(c) {
 
         if ($("#divDropdown" + c.controlid).prop("filled") === true) return;    //combo už bylo dříve otevřeno
         
-        $.post(c.posturl, {controlid: c.controlid, entity: c.entity, selectedvalues: c.selectedvalues,masterprefix: c.masterprefix, masterpid: c.masterpid }, function (data) {
+        $.post(c.posturl, { controlid: c.controlid, entity: c.entity, selectedvalues: c.selectedvalues, masterprefix: c.masterprefix, masterpid: c.masterpid, param1:c.param1 }, function (data) {
             
             $("#divData" + c.controlid).html(data);
 
@@ -245,8 +245,34 @@ function mycombochecklist_init(c) {
 
                 s = lbls.join(",");
                 $("#value_alias_" + c.controlid).val(s);
+
+                
             });
 
+            $("#cmdCheckAll" + c.controlid).click(function () {
+                var vals = [];
+                var lbls = [];
+                var strLabel = "";
+                $("input:checkbox[name=chk" + c.controlid + "]").each(function () {
+                    $(this).prop("checked", true);
+                    vals.push($(this).val());
+                    strLabel = $("label[for=" + $(this).attr("id") + "]").text();
+                    lbls.push(strLabel);
+                });
+                var s = vals.join(",");
+                $("#" + c.controlid).val(s);
+                s = lbls.join(",");
+                $("#value_alias_" + c.controlid).val(s);
+            });
+
+            $("#cmdUnCheckAll" + c.controlid).click(function () {
+                $("input:checkbox[name=chk" + c.controlid + "]").each(function () {
+                    $(this).prop("checked", false);
+
+                });
+                $("#" + c.controlid).val("");
+                $("#value_alias_" + c.controlid).val("");
+            });
 
 
         });
