@@ -68,6 +68,15 @@ namespace BO
 
         public bool IsTempDeleted { get; set; }
         public string TagHtml;
+
+        public DateTime PlanStartClear  //čas bez úvodních PRE operací
+        {
+            get
+            {
+                return this.p41PlanStart.AddMinutes(this.p41DurationPoPre);
+            }
+        }
+        
         public string CssStyleDisplay
         {
             get

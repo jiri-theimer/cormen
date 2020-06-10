@@ -36,7 +36,7 @@ namespace UI
             //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
             //    .AddEntityFrameworkStores<ApplicationDbContext>();
             
-            services.AddRazorPages();
+            //services.AddRazorPages();     //zjt: tohle nevím, zda nebude chybìt!!!!
             //services.AddHttpContextAccessor();
             //services.AddSingleton<UI.Models.GlobalHelper>();
             //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -163,10 +163,12 @@ namespace UI
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
+                    pattern: "{controller=Home}/{action=Index}/{id?}");                
+                //endpoints.MapRazorPages();
+
             });
 
             //loggerFactory.AddFile(Configuration.GetSection("Logging"));
