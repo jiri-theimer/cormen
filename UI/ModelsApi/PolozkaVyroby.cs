@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace API.Models
+namespace UI.ModelsApi
 {
     public class PolozkaVyroby
     {

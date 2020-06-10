@@ -11,7 +11,84 @@ namespace UI.Controllers
 {
     public class p41Controller : BaseController
     {
-        
+        public IActionResult p41CreateChild(int p41id, int p18flag)
+        {
+            var v = new Models.p41CreateChildViewModel();
+            v.MasterID = p41id;
+            v.p18flag = p18flag;
+            v.SelectedP18IDs = new List<int>();
+            RefreshState_p41CreateChild(ref v);
+            if (p18flag == 2 && Factory.p41TaskBL.LoadSuccessor(p41id) != null)
+            {
+                return this.StopPage(true, "Pro tuto zakázku již existuje PRE zakázka (předchůdce).");
+            }
+            if (p18flag == 3 && v.RecMasterP41.p41SuccessorID>0)
+            {
+                return this.StopPage(true, "Pro tuto zakázku již existuje POST zakázka (následovník).");
+            }
+
+            v.p41Name = v.RecMasterP41.p41Name;
+            
+
+            return View(v);
+
+        }
+        [HttpPost]
+        public IActionResult p41CreateChild(Models.p41CreateChildViewModel v, string oper)
+        {
+            RefreshState_p41CreateChild(ref v);
+            
+            if (ModelState.IsValid)
+            {
+                if (oper == "postback")
+                {
+                    return View(v);
+                }
+                if (oper == "save" && (v.SelectedP18IDs==null || v.SelectedP18IDs.Count() == 0))
+                {
+                    this.AddMessage("Musíte zaškrtnout minimálně jednu operaci.");
+                    return View(v);
+                }
+                var mq = new BO.myQuery("p18OperCode");
+                mq.pids = v.SelectedP18IDs.Where(p => p != 0).ToList();
+                var lis = new List<BO.p18OperCode>();
+                if (mq.pids.Count() > 0 && oper == "save")
+                {
+                    lis = Factory.p18OperCodeBL.GetList(mq).ToList();
+                }
+                var c = new BO.p41Task() { p41Name = v.p41Name, p27ID = v.SelectedP27ID };
+                int x = Factory.p41TaskBL.CreateChild(c, v.RecMasterP41, lis, v.p18flag);
+                if (x > 0)
+                {
+
+                    v.SetJavascript_CallOnLoad(0, "p41");
+                    return View(v);
+                }
+
+
+            }
+
+
+            return View(v);
+        }
+        private void RefreshState_p41CreateChild(ref p41CreateChildViewModel v)
+        {
+            v.RecMasterP41 = Factory.p41TaskBL.Load(v.MasterID);
+            if (v.SelectedP27ID > 0)
+            {
+                var recP27 = Factory.p27MszUnitBL.Load(v.SelectedP27ID);
+                var mq = new BO.myQuery("p18OperCode");
+                mq.p25id = recP27.p25ID;
+                mq.p18flag = v.p18flag;
+                mq.explicit_orderby = "a.p18Code";  //nutno setřídit podle kódu/pořadí operace
+                v.lisP18 = Factory.p18OperCodeBL.GetList(mq);
+            }
+           
+
+
+
+        }
+
         public IActionResult p41AppendPo(int p41id,int p18flag)
         {
             var v = new Models.p41AppendPoViewModel();
@@ -195,8 +272,12 @@ namespace UI.Controllers
             {
                 var tg = Factory.o51TagBL.GetTagging("p41", pid);
                 v.Rec.TagHtml = tg.TagHtml;
-                v.RecP52 = Factory.p52OrderItemBL.Load(v.Rec.p52ID);
-                v.RecP51 = Factory.p51OrderBL.Load(v.RecP52.p51ID);
+                if (v.Rec.p52ID > 0)
+                {
+                    v.RecP52 = Factory.p52OrderItemBL.Load(v.Rec.p52ID);
+                    v.RecP51 = Factory.p51OrderBL.Load(v.RecP52.p51ID);
+                }
+                
                 return View(v);
             }
             
@@ -453,20 +534,24 @@ namespace UI.Controllers
         private void RefreshState_Record(p41RecordViewModel v)
         {
             v.Toolbar = new MyToolbarViewModel(v.Rec);
-            v.RecP52 = Factory.p52OrderItemBL.Load(v.Rec.p52ID);
-            v.RecP51 = Factory.p51OrderBL.Load(v.RecP52.p51ID); 
-            BO.p11ClientProduct cP11 = Factory.p11ClientProductBL.Load(v.RecP52.p11ID);
-            if (cP11.p10ID_Master > 0)
+            if (v.Rec.p52ID > 0)
             {
-                v.p25ID = Factory.p10MasterProductBL.Load(cP11.p10ID_Master).p25ID; //z RecP10 se bere typ zařízení pro combo nabídku středisek
-            }
-            else
-            {
-                if (cP11.p12ID > 0)
+                v.RecP52 = Factory.p52OrderItemBL.Load(v.Rec.p52ID);
+                v.RecP51 = Factory.p51OrderBL.Load(v.RecP52.p51ID);
+                BO.p11ClientProduct cP11 = Factory.p11ClientProductBL.Load(v.RecP52.p11ID);
+                if (cP11.p10ID_Master > 0)
                 {
-                    v.p25ID = Factory.p12ClientTpvBL.Load(cP11.p12ID).p25ID;    //vlastní klientská receptura
+                    v.p25ID = Factory.p10MasterProductBL.Load(cP11.p10ID_Master).p25ID; //z RecP10 se bere typ zařízení pro combo nabídku středisek
+                }
+                else
+                {
+                    if (cP11.p12ID > 0)
+                    {
+                        v.p25ID = Factory.p12ClientTpvBL.Load(cP11.p12ID).p25ID;    //vlastní klientská receptura
+                    }
                 }
             }
+            
             
 
 

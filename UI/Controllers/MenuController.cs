@@ -162,11 +162,24 @@ namespace UI.Controllers
                 }
                 if (prefix == "p41")
                 {
-                    DIV();
-                    AMI("Přidat/Aktualizovat plánovací PRE operace", string.Format("javascript:_window_open('/p41/p41AppendPo?p18flag=2&p41id={0}')", pid));
-                    AMI("Přidat/Aktualizovat plánovací POST operace", string.Format("javascript:_window_open('/p41/p41AppendPo?p18flag=3&p41id={0}')", pid));
-
+                    var rec = Factory.p41TaskBL.Load(pid);
+                    if (rec.p41MasterID == 0 || rec.p41SuccessorID>0)
+                    {
+                        DIV();
+                        AMI("Přidat/Aktualizovat plánovací PRE operace", string.Format("javascript:_window_open('/p41/p41AppendPo?p18flag=2&p41id={0}')", pid));                        
+                    }
+                    if (rec.p41MasterID==0 || rec.p41SuccessorID == 0)
+                    {
+                        AMI("Přidat/Aktualizovat plánovací POST operace", string.Format("javascript:_window_open('/p41/p41AppendPo?p18flag=3&p41id={0}')", pid));
+                        DIV();
+                    }
+                    if (rec.p41MasterID == 0)
+                    {
+                        AMI("Založit PRE zakázku (předchůdce)", string.Format("javascript:_window_open('/p41/p41CreateChild?p18flag=2&p41id={0}')", pid));
+                        AMI("Založit POST zakázku (následovníka)", string.Format("javascript:_window_open('/p41/p41CreateChild?p18flag=3&p41id={0}')", pid));
+                    }
                     
+
                 }
                 if (prefix == "p14")
                 {

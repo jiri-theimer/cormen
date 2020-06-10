@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Zakázka";
     Layout = "~/Views/Shared/_LayoutModal.cshtml";
-    if (Model.Rec == null || Model.RecP52 == null) return;
+    if (Model.Rec == null) return;
 }
 
 @addTagHelper *, UI
@@ -40,20 +40,24 @@
         </div>
     </div>
 
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Plán zahájení:</label>
-        <div class="col-sm-3 col-md-3">
-            <mydate asp-for="Rec.p41PlanStart" include-time="true"></mydate>
-        </div>
-        <label class="col-sm-1 col-md-1 col-form-label">Trvá minut:</label>
-        <div class="col-sm-2 col-md-2">
-            <span class="form-control bg-light">@BO.BAS.Number2String(Model.Rec.p41Duration)</span>
-        </div>
-        <div class="col-sm-2 col-md-2">
-            <span id="Rec_p41PlanEnd" class="form-control bg-light">@Model.Rec.p41PlanEnd</span>
-        </div>
+    @if (Model.Rec.p41MasterID == 0)
+    {
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Plán zahájení:</label>
+            <div class="col-sm-3 col-md-3">
+                <mydate asp-for="Rec.p41PlanStart" include-time="true"></mydate>
+            </div>
+            <label class="col-sm-1 col-md-1 col-form-label">Trvá minut:</label>
+            <div class="col-sm-2 col-md-2">
+                <span class="form-control bg-light">@BO.BAS.Number2String(Model.Rec.p41Duration)</span>
+            </div>
+            <div class="col-sm-2 col-md-2">
+                <span id="Rec_p41PlanEnd" class="form-control bg-light">@Model.Rec.p41PlanEnd</span>
+            </div>
 
-    </div>
+        </div>
+    }
+
 
     <div class="form-row" style="margin-top:10px;">
         <label class="col-sm-1 col-md-2 col-form-label">Plánované množství kg:</label>
@@ -85,15 +89,19 @@
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
 
-<button id="cmdMore" type="button" class="btn btn-secondary dropdown-toggle">
-    
-    Info o objednávce
-</button>
-<div id="divOrder" style="max-width:1050px;display:none;">
-    @Html.DisplayFor(m => m.RecP52, "~/Views/Shared/_p52Info.cshtml")
-    <hr />
-    @Html.DisplayFor(m => m.RecP51, "~/Views/Shared/_p51Info.cshtml")
-</div>
+@if (Model.RecP52 != null)
+{
+    <button id="cmdMore" type="button" class="btn btn-secondary dropdown-toggle">
+
+        Info o objednávce
+    </button>
+    <div id="divOrder" style="max-width:1050px;display:none;">
+        @Html.DisplayFor(m => m.RecP52, "~/Views/Shared/_p52Info.cshtml")
+        <hr />
+        @Html.DisplayFor(m => m.RecP51, "~/Views/Shared/_p51Info.cshtml")
+    </div>
+}
+
 
 
 
@@ -114,8 +122,8 @@
         var n = $("[for-id=Rec_p41Duration]").val();
         var d = _string_to_date($("#Rec_p41PlanStart").val());
         d = _date_add(d, "minute", parseFloat(n));
-        $("#Rec_p41PlanEnd").text(_format_date(d,true));
-        
+        $("#Rec_p41PlanEnd").text(_format_date(d, true));
+
     });
 
 

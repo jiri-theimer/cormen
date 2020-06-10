@@ -13,8 +13,10 @@ namespace BO
         public int p52ID { get; set; }
         public int p27ID { get; set; }      
         public int j02ID_Owner { get; set; }
-
         public int b02ID { get; set; }
+        public int p41MasterID { get; set; }        //hlavní zakázka
+        public int p41SuccessorID { get; set; }     //následník
+
         //[Required(ErrorMessage = "Chybí vyplnit název!")]
         [MaxLength(100, ErrorMessage = "Maximum 100 znaků")]
         public string p41Name { get; set; }

@@ -1,0 +1,88 @@
+﻿@model p41CreateChildViewModel
+
+@{
+    ViewData["Title"] = "AddChildTask";
+    Layout = "~/Views/Shared/_LayoutModal.cshtml";
+}
+
+@addTagHelper *, UI
+
+    <form id="form1" asp-controller="p41" asp-action="p41CreateChildViewModel" method="POST">
+
+        <div class="bg-light" style="padding:10px;">
+            <button id="cmdSave" type="submit" class="btn btn-success" asp-route-oper="save">Potvrdit</button>
+
+            <button id="cmdClose" onclick="_window_close()" class="btn btn-light">Zavřít</button>
+
+        </div>
+
+        <div class="modal_record_container">
+            <input type="hidden" asp-for="@Model.MasterID" />
+
+            
+            <div class="form-row">
+                <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
+                <div class="col-sm-9 col-md-8">
+                    <input class="form-control" asp-for="@Model.p41Name" placeholder="Název zakázky" />
+
+                </div>
+                
+                <div class="col-sm-2 col-md-2">
+                    <select asp-for="@Model.p18flag" class="form-control" onchange="p18flag_change(this)">
+                        <option value="2">PRE zakázka</option>
+                        <option value="3">POST zakázka</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row" style="margin-top:10px;">
+                <label class="col-sm-1 col-md-2 col-form-label">Středisko:</label>
+                <div class="col-sm-11 col-md-10">
+                    
+                    <mycombo entity="p27MszUnit" asp-for="@Model.SelectedP27ID" selectedtext="@Model.SelectedP27Name" view-flag="2" event_after_changevalue="p27_change"></mycombo>
+                </div>
+               
+            </div>
+
+            
+
+            <div class="card">
+                <div class="card-header">
+                    Zaškrtněte operace, které se mají vložit do zakázky:
+                </div>
+                <div class="card-body">
+                    <mycheckboxlist asp-for="@Model.SelectedP18IDs" textfield="CodePlusName" valuefield="pid" datasource="@Model.lisP18"></mycheckboxlist>
+                </div>
+            </div>
+        </div>
+
+            
+
+
+
+    </form>
+
+<script type="text/javascript">
+        $(document).ready(function () {
+
+
+
+
+
+        });
+
+
+    function p18flag_change() {
+        //var p18flag = ctl.value;
+        form1.action = "/p41/p41CreateChild?oper=postback";
+        form1.submit();
+
+    }
+    function p27_change(p27id) {
+        form1.action = "/p41/p41CreateChild?oper=postback";
+        form1.submit();
+    }
+
+</script>
+
+
+

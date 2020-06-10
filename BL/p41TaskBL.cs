@@ -10,12 +10,14 @@ namespace BL
     {
         public BO.p41Task Load(int pid);
         public BO.p41Task LoadByCode(string strCode, int intExcludePID);
+        public BO.p41Task LoadSuccessor(int pid);
         public IEnumerable<BO.p41Task> GetList(BO.myQuery mq);
         public int Save(BO.p41Task rec);
         public bool ValidateBeforeSave(BO.p41Task rec, string premessage = "");
         public int SaveBatch(List<BO.p41Task> lisP41);
         public string EstimateTaskCode(string strP52Code, int x);
         public int AppendPos(BO.p41Task recP41, List<BO.p18OperCode> lisP18, int p18flag);
+        public int CreateChild(BO.p41Task rec, BO.p41Task recMaster, List<BO.p18OperCode> lisP18, int p18flag);
     }
     class p41TaskBL : BaseBL, Ip41TaskBL
     {
@@ -26,7 +28,7 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*," + _db.GetSQL1_Ocas("p41") + ",b02.b02Name,p11.p11Name,dbo.j02_show_as_owner(a.j02ID_Owner) as RecordOwner,p28.p28Name,p26.p26Name,p52.p52Code,p27.p27Name,p51.p51Code,p52.p11ID FROM p41Task a INNER JOIN p52OrderItem p52 ON a.p52ID=p52.p52ID INNER JOIN p27MszUnit p27 ON a.p27ID=p27.p27ID INNER JOIN p11ClientProduct p11 ON p52.p11ID=p11.p11ID INNER JOIN p51Order p51 ON p52.p51ID=p51.p51ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p28Company p28 ON p51.p28ID=p28.p28ID LEFT OUTER JOIN p26Msz p26 ON p27.p26ID=p26.p26ID";
+            return "SELECT a.*," + _db.GetSQL1_Ocas("p41") + ",b02.b02Name,p11.p11Name,dbo.j02_show_as_owner(a.j02ID_Owner) as RecordOwner,p28.p28Name,p26.p26Name,p52.p52Code,p27.p27Name,p51.p51Code,p52.p11ID FROM p41Task a INNER JOIN p27MszUnit p27 ON a.p27ID=p27.p27ID LEFT OUTER JOIN p52OrderItem p52 ON a.p52ID=p52.p52ID LEFT OUTER JOIN p11ClientProduct p11 ON p52.p11ID=p11.p11ID LEFT OUTER JOIN p51Order p51 ON p52.p51ID=p51.p51ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p28Company p28 ON p51.p28ID=p28.p28ID LEFT OUTER JOIN p26Msz p26 ON p27.p26ID=p26.p26ID";
         }
 
         public string EstimateTaskCode(string strP52Code, int x)
@@ -49,6 +51,10 @@ namespace BL
         {
             return _db.Load<BO.p41Task>(string.Format("{0} WHERE a.p41Code LIKE @code AND a.p41ID<>@exclude", GetSQL1()), new { code = strCode, exclude = intExcludePID });
         }
+        public BO.p41Task LoadSuccessor(int pid)    //najít zakázku jejímž následníkem je zakázka pid
+        {
+            return _db.Load<BO.p41Task>(string.Format("{0} WHERE a.p41SuccessorID=@pid", GetSQL1()), new { pid = pid });
+        }
         public IEnumerable<BO.p41Task> GetList(BO.myQuery mq)
         {
             DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq, _mother.CurrentUser);
@@ -69,13 +75,19 @@ namespace BL
             p.AddInt("p27ID", rec.p27ID, true);
             p.AddInt("p52ID", rec.p52ID, true);
             p.AddInt("b02ID", rec.b02ID, true);
+            p.AddInt("p41MasterID", rec.p41MasterID, true);         //ID master zakázky
+            p.AddInt("p41SuccessorID", rec.p41SuccessorID, true);   //ID následníka
             p.AddBool("p41IsDraft", rec.p41IsDraft);
             p.AddString("p41Name", rec.p41Name);
             p.AddString("p41Code", rec.p41Code);
             p.AddString("p41Memo", rec.p41Memo);
             p.AddString("p41StockCode", rec.p41StockCode);
 
-            p.AddDateTime("p41PlanStart", rec.p41PlanStart);
+            if (rec.p41PlanStart.Year>1900)
+            {
+                p.AddDateTime("p41PlanStart", rec.p41PlanStart);
+            }
+            
             //p.AddDouble("p41Duration", rec.p41Duration);
             //p.AddDateTime("p41PlanEnd", rec.p41PlanStart.AddMinutes(rec.p41Duration));
             //p.AddDouble("p41TotalDuration", rec.p41TotalDuration);
@@ -151,17 +163,22 @@ namespace BL
                 _db.CurrentUser.AddMessage(premessage + "Chybí vyplnit název nebo kód zakázky.");
                 return false;
             }
-            if (rec.p27ID == 0 || rec.p52ID == 0)
+            if (rec.p27ID == 0)
             {
-                _db.CurrentUser.AddMessage(premessage + "Na vstupu chybí středisko nebo objednávka.");
+                _db.CurrentUser.AddMessage(premessage + "Chybí vyplnit středisko.");
                 return false;
             }
-            if (rec.p41PlanUnitsCount <= 0)
+            if (rec.p41MasterID==0 && rec.p52ID == 0)
+            {
+                _db.CurrentUser.AddMessage(premessage + "Chybí vazba na položku objednávky.");
+                return false;
+            }
+            if (rec.p41MasterID==0 && rec.p41PlanUnitsCount <= 0)
             {
                 _db.CurrentUser.AddMessage(premessage + "Plánované množství musí být větší než NULA.");
                 return false;
             }
-            if (rec.p41PlanUnitsCount > 0)
+            if (rec.p41MasterID==0 && rec.p41PlanUnitsCount > 0)
             {
                 var c = _mother.p27MszUnitBL.Load(rec.p27ID);
                 if (c.p27Capacity < rec.p41PlanUnitsCount)
@@ -177,7 +194,7 @@ namespace BL
                     return false;
                 }
             }
-            if (rec.p41PlanStart == null)
+            if (rec.p41MasterID==0 && rec.p41PlanStart == null)
             {
                 _db.CurrentUser.AddMessage(premessage + "Chybí vyplnit čas plánovaného zahájení.");
                 return false;
@@ -264,6 +281,71 @@ namespace BL
             _db.RunSp("p41_after_save", ref pars);
 
             return rets;
+
+        }
+
+        public int CreateChild(BO.p41Task rec, BO.p41Task recMaster, List<BO.p18OperCode> lisP18, int p18flag)
+        {
+            if (p18flag==2 && LoadSuccessor(recMaster.pid) !=null)
+            {
+                _mother.CurrentUser.AddMessage("K této zakázce již byl založen předchůdce.");
+                return 0;
+            }
+            if (p18flag == 3 && recMaster.p41SuccessorID>0)
+            {
+                _mother.CurrentUser.AddMessage("Tato zakázka již má založeného následníka.");
+                return 0;
+            }
+            if (lisP18.Count == 0)
+            {
+                _mother.CurrentUser.AddMessage("Musíte zaškrtnout minimálně jednu operaci.");
+                return 0;
+            }
+            if (rec.p27ID == 0 || String.IsNullOrEmpty(rec.p41Name)==true)
+            {
+                _mother.CurrentUser.AddMessage("Středisko a název jsou povinné informace.");
+                return 0;
+            }
+            var p = new DL.Params4Dapper();                        
+            p.AddInt("j02ID_Owner", _db.CurrentUser.j02ID, true);
+            p.AddInt("p27ID", rec.p27ID, true);          
+            p.AddInt("b02ID", rec.b02ID, true);
+            p.AddInt("p41MasterID", recMaster.pid, true);         //ID master zakázky
+            if (p18flag == 2)
+            {
+                p.AddInt("p41SuccessorID", recMaster.pid, true);   //ID následníka pro PRE zakázku
+            }
+            
+
+            p.AddString("p41Name", rec.p41Name);
+            p.AddBool("p41IsDraft", rec.p41IsDraft);
+            if (p18flag == 2)
+            {
+                p.AddString("p41Code", recMaster.p41Code.Replace("T", "PRE"));
+                
+            }
+            if (p18flag == 3)
+            {
+                p.AddString("p41Code", recMaster.p41Code.Replace("T", "POST"));
+            }
+            p.AddString("p41Memo", rec.p41Memo);
+            p.AddString("p41StockCode", rec.p41StockCode);
+
+            
+
+            int intPID = _db.SaveRecord("p41Task", p.getDynamicDapperPars(), rec);
+
+            if (p18flag == 3)   //pro POST zakázku je následník MASTER zakázka
+            {
+                _db.RunSql("UPDATE p41Task set p41SuccessorID=@pid WHERE p41ID=@masterpid", new { pid = intPID, masterpid = recMaster.pid });
+            }
+
+            rec = Load(intPID);
+            AppendPos(rec, lisP18, p18flag);
+
+           
+
+            return intPID;
 
         }
     }

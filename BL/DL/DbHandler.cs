@@ -310,6 +310,10 @@ namespace BL.DL
                     {
                         strVal = pars.Get<dynamic>(strP).ToString();
                     }
+                    else
+                    {
+                        strVal = "NULL";
+                    }
                     System.IO.File.AppendAllLines(strPath, new List<string>() { "PARAM: " + strP + ", VALUE: " + strVal });
 
                 }
