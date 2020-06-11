@@ -46,7 +46,11 @@ namespace UI.Models
     {
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
+        public string p41Code { get; set; }
         public string Title { get; set; }
+        public string TitlePre { get; set; }
+        public string TitlePost { get; set; }
+        public string TitleClear { get; set; }
         public int p41ID { get; set; }
         public int p27ID { get; set; }
         public string CssName { get; set; }
@@ -56,6 +60,8 @@ namespace UI.Models
         public int ColEndPre { get; set; }
 
         public int ColStart { get; set; }
+
+        
         
         public int ColSpan
         {

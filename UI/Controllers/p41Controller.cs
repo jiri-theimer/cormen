@@ -131,7 +131,7 @@ namespace UI.Controllers
                     lis = Factory.p18OperCodeBL.GetList(mq).ToList();
                 }
 
-                int x = Factory.p41TaskBL.AppendPos(v.RecP41, lis, v.p18flag);
+                int x = Factory.p41TaskBL.AppendPos(v.RecP41, lis, v.p18flag,true);
                 if (x > 0)
                 {
 
@@ -204,8 +204,12 @@ namespace UI.Controllers
             foreach(BO.p41Task task in v.Tasks)
             {
                 //var slot = new Slot() { p41ID = task.pid,p27ID=task.p27ID,Start=task.p41PlanStart.AddMinutes(task.p41DurationPoPre),End=task.p41PlanEnd.AddMinutes(-1*task.p41DurationPoPost),CssName="onetask" };
-                var slot = new Slot() { p41ID = task.pid, p27ID = task.p27ID, Start = task.p41PlanStart, End = task.p41PlanEnd, CssName = "onetask" };
+                var slot = new Slot() { p41ID = task.pid, p27ID = task.p27ID, Start = task.p41PlanStart, End = task.p41PlanEnd, CssName = "onetask",p41Code=task.p41Code };
                 slot.Title = task.p41Code + ": " + BO.BAS.ObjectDateTime2String(slot.Start, "HH:mm") + " - " + BO.BAS.ObjectDateTime2String(slot.End, "HH:mm") + ": " + BO.BAS.OM2(task.p41Name, 30);
+                if (task.p41Duration>task.p41DurationPoPre+task.p41DurationPoPost)
+                {
+                    slot.TitleClear = BO.BAS.ObjectDateTime2String(task.p41PlanStart.AddMinutes(task.p41DurationPoPre), "HH:mm") + " - " + BO.BAS.ObjectDateTime2String(task.p41PlanEnd.AddMinutes(-1 * task.p41DurationPoPost), "HH:mm");
+                }
                 
                 if (slot.Start < v.CurrentDT1)
                 {
@@ -238,24 +242,27 @@ namespace UI.Controllers
 
                 if (task.p41DurationPoPre > 0 && task.p41PlanStart >= v.CurrentDT1)
                 {
-                    
+                    slot.TitlePre = "PO-PRE: " + BO.BAS.ObjectDateTime2String(task.p41PlanStart, "HH:mm") + " - " + BO.BAS.ObjectDateTime2String(task.p41PlanStart.AddMinutes(task.p41DurationPoPre), "HH:mm");
                     if (task.p41Duration == task.p41DurationPoPre)
                     {
-                        slot.ColEndPre = slot.ColSpan+ slot.ColSpanKorekce;
+                        slot.ColEndPre = slot.ColSpan;
                     }
                     else
                     {
+                        
                         slot.ColEndPre = Convert.ToInt32(task.p41DurationPoPre) / 10;
                     }
                 }
                 if (task.p41DurationPoPost > 0 && task.p41PlanEnd.AddMinutes(-1 * task.p41DurationPoPost) < v.CurrentDT2)
                 {
+                    slot.TitlePost = "PO-POST: " + BO.BAS.ObjectDateTime2String(task.p41PlanEnd.AddMinutes(-1 * task.p41DurationPoPost), "HH:mm") + " - " + BO.BAS.ObjectDateTime2String(task.p41PlanEnd, "HH:mm");
                     if (task.p41Duration == task.p41DurationPoPost)
                     {
                         slot.ColStartPost = 1;
                     }
                     else
                     {
+                        
                         slot.ColStartPost = Convert.ToInt32(task.p41Duration - task.p41DurationPoPost) / 10;
                     }
                     

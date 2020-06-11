@@ -16,7 +16,7 @@ namespace BL
         public bool ValidateBeforeSave(BO.p41Task rec, string premessage = "");
         public int SaveBatch(List<BO.p41Task> lisP41);
         public string EstimateTaskCode(string strP52Code, int x);
-        public int AppendPos(BO.p41Task recP41, List<BO.p18OperCode> lisP18, int p18flag);
+        public int AppendPos(BO.p41Task recP41, List<BO.p18OperCode> lisP18, int p18flag,bool bolRunSpAfter);
         public int CreateChild(BO.p41Task rec, BO.p41Task recMaster, List<BO.p18OperCode> lisP18, int p18flag);
     }
     class p41TaskBL : BaseBL, Ip41TaskBL
@@ -93,11 +93,7 @@ namespace BL
             
             int intPID = _db.SaveRecord("p41Task", p.getDynamicDapperPars(), rec);
 
-            var pars = new Dapper.DynamicParameters();
-            pars.Add("userid", _db.CurrentUser.pid);
-            pars.Add("pid", intPID, System.Data.DbType.Int32);
-            pars.Add("err_ret", "", System.Data.DbType.String, System.Data.ParameterDirection.Output);
-            _db.RunSp("p41_after_save", ref pars);
+            run_p41_after_save(intPID);
 
             return intPID;
         }
@@ -208,7 +204,7 @@ namespace BL
         }
 
 
-        public int AppendPos(BO.p41Task recP41, List<BO.p18OperCode> lisP18, int p18flag)   //uložit do plánu PO operace p18flag>1
+        public int AppendPos(BO.p41Task recP41, List<BO.p18OperCode> lisP18, int p18flag,bool bolRunSpAfter)   //uložit do plánu PO operace p18flag>1
         {
             if (recP41 == null)
             {
@@ -267,15 +263,24 @@ namespace BL
             }
             _db.RunSql("update a set p44RowNum=RowID from (SELECT ROW_NUMBER() OVER(ORDER BY p44RowNum ASC) AS RowID,* FROM p44TaskOperPlan WHERE p41ID=@p41id) a", new { p41id = recP41.pid });
 
-
-            var pars = new Dapper.DynamicParameters();
-            pars.Add("userid", _db.CurrentUser.pid);
-            pars.Add("pid", recP41.pid, System.Data.DbType.Int32);
-            pars.Add("err_ret", "", System.Data.DbType.String, System.Data.ParameterDirection.Output);
-            _db.RunSp("p41_after_save", ref pars);
+            if (bolRunSpAfter)
+            {
+                run_p41_after_save(recP41.pid);
+            }
+            
+           
 
             return rets;
 
+        }
+
+        private void run_p41_after_save(int p41id)
+        {
+            var pars = new Dapper.DynamicParameters();
+            pars.Add("userid", _db.CurrentUser.pid);
+            pars.Add("pid", p41id, System.Data.DbType.Int32);
+            pars.Add("err_ret", "", System.Data.DbType.String, System.Data.ParameterDirection.Output);
+            _db.RunSp("p41_after_save", ref pars);
         }
 
         public int CreateChild(BO.p41Task rec, BO.p41Task recMaster, List<BO.p18OperCode> lisP18, int p18flag)
@@ -307,6 +312,7 @@ namespace BL
             p.AddInt("p41MasterID", recMaster.pid, true);         //ID master zakázky
             if (p18flag == 2)
             {
+               
                 p.AddInt("p41SuccessorID", recMaster.pid, true);   //ID následníka pro PRE zakázku
             }
             
@@ -335,9 +341,18 @@ namespace BL
             }
 
             rec = Load(intPID);
-            AppendPos(rec, lisP18, p18flag);
+            AppendPos(rec, lisP18, p18flag,false);  //bez volání SP p41_after_save
 
-           
+            if (p18flag == 2)   //spočítat p41PlanStart
+            {
+                _db.RunSql("UPDATE p41Task set p41Duration=dbo.p44_calc_duration(@pid),p41PlanStart=DATEADD(MINUTE,-1*dbo.p44_calc_duration(@pid),@d0) WHERE p41ID=@pid", new { pid = intPID, masterpid = recMaster.pid,d0=recMaster.p41PlanStart });
+            }
+            if (p18flag == 3)
+            {
+                _db.RunSql("UPDATE p41Task set p41Duration=dbo.p44_calc_duration(@pid),p41PlanStart=@d0 WHERE p41ID=@pid", new { pid = intPID, d0 = recMaster.p41PlanEnd });
+            }
+
+            run_p41_after_save(intPID);
 
             return intPID;
 

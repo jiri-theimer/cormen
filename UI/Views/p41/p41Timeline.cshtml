@@ -21,6 +21,7 @@
                                                           //int intCOlPosunUntil = (24 - Model.HourUntil) * 60 / 10;
 
     string strClass = "";
+    string strTitle = "";
 }
 
 <style type="text/css">
@@ -296,19 +297,26 @@
         {
             <div class="@slot.CssName" style="grid-column: @(slot.ColStart+intColPosun-intZpetPosunHourFrom)/span @slot.ColSpan;" title="@slot.Title">
                 <a class="cm" title="menu" onclick="_cm(event,'p41',@slot.p41ID)">☰</a>
+                @if (slot.ColSpan > 6)
+                {
+                    <small>@slot.p41Code</small>
+                }
                 @if (slot.ColEndPre > 0 || slot.ColStartPost > 0)
                 {
-                    <div class="grid-container-header" style="grid-template-columns:repeat(@(slot.ColSpan),10px);">
+                    <div class="grid-container-header" style="grid-template-columns:repeat(@(slot.ColSpan),10px);" title="@slot.TitlePre ☆ @slot.TitleClear ☆ @slot.TitlePost">
                         @for (int i = 1; i <= slot.ColSpan; i++)
                         {
                             strClass = "colheader";
+                           
                             if (slot.ColEndPre > 0 && slot.ColEndPre >= i)
                             {
                                 strClass += " popre";
+                                
                             }
                             if (slot.ColStartPost > 0 && slot.ColStartPost <= i)
                             {
                                 strClass += " popost";
+                                
                             }
                             <div class="@strClass" style="grid-column: @(i)/span 1;"></div>
                         }
