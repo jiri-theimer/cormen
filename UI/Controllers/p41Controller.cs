@@ -203,7 +203,8 @@ namespace UI.Controllers
             Slot lastSlot = null;
             foreach(BO.p41Task task in v.Tasks)
             {
-                var slot = new Slot() { p41ID = task.pid,p27ID=task.p27ID,Start=task.p41PlanStart.AddMinutes(task.p41DurationPoPre),End=task.p41PlanEnd.AddMinutes(-1*task.p41DurationPoPost),CssName="onetask" };
+                //var slot = new Slot() { p41ID = task.pid,p27ID=task.p27ID,Start=task.p41PlanStart.AddMinutes(task.p41DurationPoPre),End=task.p41PlanEnd.AddMinutes(-1*task.p41DurationPoPost),CssName="onetask" };
+                var slot = new Slot() { p41ID = task.pid, p27ID = task.p27ID, Start = task.p41PlanStart, End = task.p41PlanEnd, CssName = "onetask" };
                 slot.Title = task.p41Code + ": " + BO.BAS.ObjectDateTime2String(slot.Start, "HH:mm") + " - " + BO.BAS.ObjectDateTime2String(slot.End, "HH:mm") + ": " + BO.BAS.OM2(task.p41Name, 30);
                 
                 if (slot.Start < v.CurrentDT1)
@@ -217,41 +218,84 @@ namespace UI.Controllers
                     slot.CssName = "onetask_overday";
                 }
                 slot.ColStart = (slot.Start.Hour * 60 + slot.Start.Minute) / 10;
-                lastSlot = slot;
 
-                v.Slots.Add(slot);
-                if (task.p41DurationPoPre > 0 && task.p41PlanStart>=v.CurrentDT1)
+                if (task.p41Code.Contains("PRE"))
                 {
-                    slot = new Slot() { p41ID = task.pid, p27ID = task.p27ID, Start = task.p41PlanStart, End = task.p41PlanStart.AddMinutes(task.p41DurationPoPre), CssName = "popre" };
-                    
-                    slot.Title = "PO-PRE: " + task.p41Code + ": " + BO.BAS.ObjectDateTime2String(slot.Start, "HH:mm") + " - " + BO.BAS.ObjectDateTime2String(slot.End, "HH:mm");
-                    if (slot.End > v.CurrentDT2)
-                    {
-                        slot.End = v.CurrentDT2;                        
-                    }
-                    slot.ColStart = (slot.Start.Hour * 60 + slot.Start.Minute) / 10;
-                    if (slot.ColStart + slot.ColSpan > lastSlot.ColStart)
+                    slot.CssName = "pretask";
+                    if (lastSlot !=null && (slot.ColStart + slot.ColSpan > lastSlot.ColStart))
                     {
                         slot.ColSpanKorekce = -1;
                     }
-                    
-                    v.Slots.Add(slot);
                 }
-                if (task.p41DurationPoPost > 0 && task.p41PlanEnd.AddMinutes(-1*task.p41DurationPoPost)<v.CurrentDT2)
+                if (task.p41Code.Contains("POST"))
                 {
-                    slot = new Slot() { p41ID = task.pid, p27ID = task.p27ID, Start = task.p41PlanEnd.AddMinutes(-1*task.p41DurationPoPost), End = task.p41PlanEnd, CssName = "popost" };
-                    slot.Title = "PO-POST: " + task.p41Code + ": " + BO.BAS.ObjectDateTime2String(slot.Start, "HH:mm") + " - " + BO.BAS.ObjectDateTime2String(slot.End, "HH:mm");
-                    if (slot.End > v.CurrentDT2)
-                    {
-                        slot.End = v.CurrentDT2;
-                    }
-                    slot.ColStart = (slot.Start.Hour * 60 + slot.Start.Minute) / 10;
-                    if (slot.ColStart  < lastSlot.ColStart+lastSlot.ColSpan)
+                    slot.CssName = "posttask";
+                    if (lastSlot !=null && (slot.ColStart < lastSlot.ColStart + lastSlot.ColSpan))
                     {
                         slot.ColStart += 1;
                     }
-                    v.Slots.Add(slot);
                 }
+
+                if (task.p41DurationPoPre > 0 && task.p41PlanStart >= v.CurrentDT1)
+                {
+                    
+                    if (task.p41Duration == task.p41DurationPoPre)
+                    {
+                        slot.ColEndPre = slot.ColSpan+ slot.ColSpanKorekce;
+                    }
+                    else
+                    {
+                        slot.ColEndPre = Convert.ToInt32(task.p41DurationPoPre) / 10;
+                    }
+                }
+                if (task.p41DurationPoPost > 0 && task.p41PlanEnd.AddMinutes(-1 * task.p41DurationPoPost) < v.CurrentDT2)
+                {
+                    if (task.p41Duration == task.p41DurationPoPost)
+                    {
+                        slot.ColStartPost = 1;
+                    }
+                    else
+                    {
+                        slot.ColStartPost = Convert.ToInt32(task.p41Duration - task.p41DurationPoPost) / 10;
+                    }
+                    
+                }
+
+                lastSlot = slot;
+
+                v.Slots.Add(slot);
+                //if (task.p41MasterID==0 && task.p41DurationPoPre > 0 && task.p41PlanStart >= v.CurrentDT1)
+                //{
+                //    slot = new Slot() { p41ID = task.pid, p27ID = task.p27ID, Start = task.p41PlanStart, End = task.p41PlanStart.AddMinutes(task.p41DurationPoPre), CssName = "popre" };
+
+                //    slot.Title = "PO-PRE: " + task.p41Code + ": " + BO.BAS.ObjectDateTime2String(slot.Start, "HH:mm") + " - " + BO.BAS.ObjectDateTime2String(slot.End, "HH:mm");
+                //    if (slot.End > v.CurrentDT2)
+                //    {
+                //        slot.End = v.CurrentDT2;
+                //    }
+                //    slot.ColStart = (slot.Start.Hour * 60 + slot.Start.Minute) / 10;
+                //    if (slot.ColStart + slot.ColSpan > lastSlot.ColStart)
+                //    {
+                //        slot.ColSpanKorekce = -1;
+                //    }
+
+                //    v.Slots.Add(slot);
+                //}
+                //if (task.p41MasterID==0 && task.p41DurationPoPost > 0 && task.p41PlanEnd.AddMinutes(-1 * task.p41DurationPoPost) < v.CurrentDT2)
+                //{
+                //    slot = new Slot() { p41ID = task.pid, p27ID = task.p27ID, Start = task.p41PlanEnd.AddMinutes(-1 * task.p41DurationPoPost), End = task.p41PlanEnd, CssName = "popost" };
+                //    slot.Title = "PO-POST: " + task.p41Code + ": " + BO.BAS.ObjectDateTime2String(slot.Start, "HH:mm") + " - " + BO.BAS.ObjectDateTime2String(slot.End, "HH:mm");
+                //    if (slot.End > v.CurrentDT2)
+                //    {
+                //        slot.End = v.CurrentDT2;
+                //    }
+                //    slot.ColStart = (slot.Start.Hour * 60 + slot.Start.Minute) / 10;
+                //    if (slot.ColStart < lastSlot.ColStart + lastSlot.ColSpan)
+                //    {
+                //        slot.ColStart += 1;
+                //    }
+                //    v.Slots.Add(slot);
+                //}
             }
 
 
@@ -277,6 +321,13 @@ namespace UI.Controllers
                     v.RecP52 = Factory.p52OrderItemBL.Load(v.Rec.p52ID);
                     v.RecP51 = Factory.p51OrderBL.Load(v.RecP52.p51ID);
                 }
+                
+                if (v.Rec.p41SuccessorID > 0)
+                {
+                    v.RecSuccessor = Factory.p41TaskBL.Load(v.Rec.p41SuccessorID);
+                }
+                v.RecPredecessor = Factory.p41TaskBL.LoadSuccessor(pid);
+                
                 
                 return View(v);
             }

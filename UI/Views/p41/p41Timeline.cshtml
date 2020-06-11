@@ -10,17 +10,17 @@
     int _Year = Model.CurrentDate.Year;
 
     int _colsHours = 24;
-    
+
     int x = 0;
     string strSlot = "00:00";
     string strNextSlot = "00:00";
-  
-    int intColPosun = 2;   
+
+    int intColPosun = 2;
     DateTime d = Model.CurrentDate;
     int intZpetPosunHourFrom = Model.HourFrom * 60 / 10;  //posun kvůli nastavené časové ose od-do
                                                           //int intCOlPosunUntil = (24 - Model.HourUntil) * 60 / 10;
 
-
+    string strClass = "";
 }
 
 <style type="text/css">
@@ -52,6 +52,7 @@
         border-left: solid 1px silver;
     }
 
+
     div.stredisko {
         background-color: transparent;
         font-weight: bold;
@@ -68,16 +69,23 @@
     }
 
     div.popre {
-        border-top: solid 1px white;
         background-color: lawngreen;
-        height: 35px;
-        border-left: solid 1px white;
     }
 
     div.popost {
-        border-top: solid 1px white;
         background-color: lightgreen;
-        height: 35px;
+    }
+
+    div.pretask {
+        background-color: khaki;
+        border-top: solid 1px white;
+        height: 50px;
+    }
+
+    div.posttask {
+        background-color: darkkhaki;
+        border-top: solid 1px white;
+        height: 50px;
     }
 
     div.onetask {
@@ -188,7 +196,7 @@
         <div>
             <mycombochecklist asp-for="@Model.localQuery.SelectedB02IDs" entity="b02Status" param1="p41" selectedtext="@Model.localQuery.SelectedB02Names" placeholder="Stavy zakázek..."></mycombochecklist>
         </div>
-        
+
     </div>
 
 
@@ -284,17 +292,32 @@
                 @stredisko.p27Capacity
             </span>
         </div>
-        @foreach (var slot in Model.Slots.Where(p => p.p27ID == stredisko.pid).OrderBy(p=>p.Start))
+        @foreach (var slot in Model.Slots.Where(p => p.p27ID == stredisko.pid).OrderBy(p => p.Start))
         {
+            <div class="@slot.CssName" style="grid-column: @(slot.ColStart+intColPosun-intZpetPosunHourFrom)/span @slot.ColSpan;" title="@slot.Title">
+                <a class="cm" title="menu" onclick="_cm(event,'p41',@slot.p41ID)">☰</a>
+                @if (slot.ColEndPre > 0 || slot.ColStartPost > 0)
+                {
+                    <div class="grid-container-header" style="grid-template-columns:repeat(@(slot.ColSpan),10px);">
+                        @for (int i = 1; i <= slot.ColSpan; i++)
+                        {
+                            strClass = "colheader";
+                            if (slot.ColEndPre > 0 && slot.ColEndPre >= i)
+                            {
+                                strClass += " popre";
+                            }
+                            if (slot.ColStartPost > 0 && slot.ColStartPost <= i)
+                            {
+                                strClass += " popost";
+                            }
+                            <div class="@strClass" style="grid-column: @(i)/span 1;"></div>
+                        }
+                    </div>
+                }
 
-            if (slot.CssName == "popre" || slot.CssName == "popost")
-            {
-                <div class="@slot.CssName" title="@(slot.Title)" style="grid-column: @(slot.ColStart+intColPosun-intZpetPosunHourFrom)/span @slot.ColSpan;"></div>
-            }
-            else
-            {
-                <div class="@slot.CssName" style="grid-column: @(slot.ColStart+intColPosun-intZpetPosunHourFrom)/span @slot.ColSpan;" title="@slot.Title"><a class="cm" title="menu" onclick="_cm(event,'p41',@slot.p41ID)">☰</a></div>
-            }
+            </div>
+
+
 
 
 

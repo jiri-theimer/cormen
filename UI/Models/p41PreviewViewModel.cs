@@ -12,5 +12,8 @@ namespace UI.Models
         
         public BO.p52OrderItem RecP52 { get; set; }
         public BO.p51Order RecP51 { get; set; }
+
+        public BO.p41Task RecSuccessor { get; set; }
+        public BO.p41Task RecPredecessor { get; set; }
     }
 }

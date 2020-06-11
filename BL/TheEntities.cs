@@ -238,6 +238,10 @@ namespace BL
                     lis.Add(getREL("p51Order", "p52_p51", "Objednávka", "INNER JOIN p51Order p52_p51 ON p41_p52.p51ID=p52_p51.p51ID","p41_p52"));
                     lis.Add(getREL("p28Company", "p51_p28", "Klient", "LEFT OUTER JOIN p28Company p51_p28 ON p52_p51.p28ID=p51_p28.p28ID", "p52_p51"));
                     lis.Add(getREL("o54TagBindingInline", "p41_o54", "Kategorie", "LEFT OUTER JOIN (SELECT * FROM o54TagBindingInline WHERE o54RecordEntity='p41') p41_o54 ON a.p41ID=p41_o54.o54RecordPid"));
+
+                    lis.Add(getREL("p41Task", "p41_successor", "Následovník", "LEFT OUTER JOIN p41Task p41_successor ON a.p41SuccessorID = p41_successor.p41ID"));
+                    lis.Add(getREL("p41Task", "p41_predecessor", "Předchůdce", "LEFT OUTER JOIN (select * from p41Task where p41SuccessorID IS NOT NULL) p41_predecessor ON a.p41ID = p41_predecessor.p41SuccessorID"));
+
                     break;
                 case "p44":
                     lis.Add(getREL("p19Material", "p44_p19", "Suroviny", "LEFT OUTER JOIN p19Material p44_p19 ON a.p19ID=p44_p19.p19ID"));

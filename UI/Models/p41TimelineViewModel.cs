@@ -52,6 +52,8 @@ namespace UI.Models
         public string CssName { get; set; }
         public int ColSpanKorekce { get; set; } = 0;
         
+        public int ColStartPost { get; set; }
+        public int ColEndPre { get; set; }
 
         public int ColStart { get; set; }
         

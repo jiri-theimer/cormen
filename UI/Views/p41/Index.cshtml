@@ -20,7 +20,34 @@
 
             </div>
         </div>
+        @if (Model.RecSuccessor != null)
+        {
+            <div class="form-row" style="margin-top:10px;">
+                <label class="col-sm-1 col-md-2 col-form-label">Následovník:</label>
+                <div class="col-sm-8 col-md-7">
 
+                    <span class="form-control bg-light">@(Model.RecSuccessor.p41Name)</span>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <span class="form-control bg-light">@(Model.RecSuccessor.p41Code)</span>
+
+                </div>
+            </div>
+        }
+        @if (Model.RecPredecessor != null)
+        {
+            <div class="form-row" style="margin-top:10px;">
+                <label class="col-sm-1 col-md-2 col-form-label">Předchůdce:</label>
+                <div class="col-sm-8 col-md-7">
+
+                    <span class="form-control bg-light">@(Model.RecPredecessor.p41Name)</span>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <span class="form-control bg-light">@(Model.RecPredecessor.p41Code)</span>
+
+                </div>
+            </div>
+        }
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Středisko:</label>
             <div class="col-sm-3 col-md-3">
