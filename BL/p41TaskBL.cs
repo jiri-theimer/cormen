@@ -18,6 +18,9 @@ namespace BL
         public string EstimateTaskCode(string strP52Code, int x);
         public int AppendPos(BO.p41Task recP41, List<BO.p18OperCode> lisP18, int p18flag,bool bolRunSpAfter);
         public int CreateChild(BO.p41Task rec, BO.p41Task recMaster, List<BO.p18OperCode> lisP18, int p18flag);
+        public BO.Result MoveStatus(string p41code, string b02code);
+
+
     }
     class p41TaskBL : BaseBL, Ip41TaskBL
     {
@@ -42,6 +45,26 @@ namespace BL
             }
 
             return strCode;
+        }
+        public BO.Result MoveStatus(string p41code,string b02code)
+        {            
+            BO.b02Status c = _mother.b02StatusBL.LoadByCode(b02code);
+            if (c == null)
+            {                
+                return new BO.Result(true,"Status s tímto kódem nelze načíst.");
+            }
+            BO.p41Task rec = LoadByCode(p41code,0);
+            if (rec == null)
+            {
+                return new BO.Result(true, "Zakázka s tímto kódem nelze načíst.");
+            }
+            if (_db.RunSql("UPDATE p41Task set b02ID=@b02id WHERE p41ID=@pid", new { b02id = c.pid, pid = rec.pid })){
+                return new BO.Result(false, "Status nahozen.");
+            }
+            else
+            {
+                return new BO.Result(true, "Chyba");
+            }
         }
         public BO.p41Task Load(int pid)
         {

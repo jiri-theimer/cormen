@@ -178,6 +178,7 @@ namespace BL
 
             //b02 = workflow stavy
             AF("b02Status", "b02Name", "Stav", 1,null,"string",false,true);
+            AF("b02Status", "b02Code", "Kód",1);
             AF("b02Status", "EntityAlias", "Vazba", 1, "dbo.getEntityAlias(a.b02Entity)");
             AF("b02Status", "b02Ordinary", "Pořadí", 0, null, "num0");
             AF("b02Status", "b02StartFlag", "Start", 0, "case when a.b02StartFlag=1 then 'ANO' end");

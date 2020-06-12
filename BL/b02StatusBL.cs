@@ -7,6 +7,7 @@ namespace BL
     public interface Ib02StatusBL
     {
         public BO.b02Status Load(int pid);
+        public BO.b02Status LoadByCode(string b02code);
         public int LoadStartStatusPID(string entityprefix,int defaultB02ID);
         public IEnumerable<BO.b02Status> GetList(BO.myQuery mq);
         public int Save(BO.b02Status rec);
@@ -25,6 +26,10 @@ namespace BL
         public BO.b02Status Load(int pid)
         {
             return _db.Load<BO.b02Status>(string.Format("{0} WHERE a.b02ID=@pid", GetSQL1()), new { pid = pid });
+        }
+        public BO.b02Status LoadByCode(string b02code)
+        {
+            return _db.Load<BO.b02Status>(string.Format("{0} WHERE a.b02Code LIKE @code", GetSQL1()), new { code = b02code });
         }
         public int LoadStartStatusPID(string entityprefix, int defaultB02ID)
         {
@@ -65,5 +70,7 @@ namespace BL
             }
             return intPID;
         }
+
+
     }
 }

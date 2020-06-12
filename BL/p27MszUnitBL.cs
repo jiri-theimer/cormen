@@ -7,6 +7,7 @@ namespace BL
     public interface Ip27MszUnitBL
     {
         public BO.p27MszUnit Load(int pid);
+        public BO.p27MszUnit LoadByCode(string strCode, int intExcludePID);
         public IEnumerable<BO.p27MszUnit> GetList(BO.myQuery mq);
         public int Save(BO.p27MszUnit rec);
         
@@ -27,6 +28,10 @@ namespace BL
         public BO.p27MszUnit Load(int pid)
         {
             return _db.Load<BO.p27MszUnit>(string.Format("{0} WHERE a.p27ID=@pid", GetSQL1()), new { pid = pid });
+        }
+        public BO.p27MszUnit LoadByCode(string strCode, int intExcludePID)
+        {
+            return _db.Load<BO.p27MszUnit>(string.Format("{0} WHERE a.p27Code LIKE @code AND a.p27ID<>@exclude", GetSQL1()), new { code = strCode, exclude = intExcludePID });
         }
         public IEnumerable<BO.p27MszUnit> GetList(BO.myQuery mq)
         {

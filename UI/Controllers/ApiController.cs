@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using UI.ModelsApi;
+using BL;
 
 namespace UI.Controllers
 {
@@ -50,14 +51,14 @@ namespace UI.Controllers
 
 
         [HttpGet]
-        [Route("trload/{p41id:int}")]
+        [Route("technologicky_rozpis_load/{p41id:int}")]
         public TechnologickyRozpis LoadByPid(int p41id)
         {
             var c = _f.p41TaskBL.Load(p41id);
             return handle_one_rozpis(c);
         }
         [HttpGet]
-        [Route("trload/{p41code}")]
+        [Route("technologicky_rozpis_load/{p41code}")]
         public TechnologickyRozpis LoadByCode(string p41code)
         {
             var c = _f.p41TaskBL.LoadByCode(p41code, 0);
@@ -104,6 +105,39 @@ namespace UI.Controllers
         }
 
 
+        [HttpGet]
+        //[Route("movetaskstatus/{p41code}/{b02code}")]
+        [Route("move_task_status")]
+        public BO.Result MoveTaskStatus(string p41code, string b02code)
+        {
+            return _f.p41TaskBL.MoveStatus(p41code, b02code);
+        }
+
+        [HttpGet]
+        //[Route("movetaskstatus/{p41code}/{b02code}")]
+        [Route("technologicky_rozpis_load_by_b02_and_p27")]
+        public TechnologickyRozpis LoadByStatusAndUnit(string b02code,string p27code)
+        {            
+            var recB02 = _f.b02StatusBL.LoadByCode(b02code);
+            if (recB02 == null)
+            {
+                return new TechnologickyRozpis() { ErrorMessage = "Nelze načíst status s tímto kódem." };
+            }
+            var recP27 = _f.p27MszUnitBL.LoadByCode(p27code,0);
+            if (recP27 == null)
+            {
+                return new TechnologickyRozpis() { ErrorMessage = "Nelze načíst středisko s tímto kódem." };
+            }
+            var mq = new BO.myQuery("p41Task");
+            var lis = _f.p41TaskBL.GetList(mq).Where(p => p.b02ID == recB02.pid && p.p27ID == recP27.pid).OrderBy(p => p.p41PlanStart);
+            if (lis.Count() == 0)
+            {
+                return new TechnologickyRozpis() { ErrorMessage = "0 zakázek s tímto filtrem" };
+            }
+
+            
+            return handle_one_rozpis(lis.ToList()[0]);
+        }
 
 
     }

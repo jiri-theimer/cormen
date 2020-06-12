@@ -17,5 +17,7 @@ namespace UI.ModelsApi
         public int AktualniPolozka { get; set; }
 
         public List<PolozkaVyroby> Polozky { get; set; }
+
+        public string ErrorMessage { get; set; }
     }
 }
