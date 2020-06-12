@@ -7,6 +7,7 @@ namespace BL
     public interface Ib02StatusBL
     {
         public BO.b02Status Load(int pid);
+        public int LoadStartStatusPID(string entityprefix,int defaultB02ID);
         public IEnumerable<BO.b02Status> GetList(BO.myQuery mq);
         public int Save(BO.b02Status rec);
     }
@@ -25,6 +26,18 @@ namespace BL
         {
             return _db.Load<BO.b02Status>(string.Format("{0} WHERE a.b02ID=@pid", GetSQL1()), new { pid = pid });
         }
+        public int LoadStartStatusPID(string entityprefix, int defaultB02ID)
+        {
+            int intB02ID= _db.Load<BO.COM.GetInteger>("SELECT b02ID as Value FROM b02Status WHERE b02StartFlag=1 AND b02Entity like @prefix", new { prefix= entityprefix }).Value;
+            if (intB02ID == 0)
+            {
+                return defaultB02ID;
+            }
+            else
+            {
+                return intB02ID;
+            }
+        }
         public IEnumerable<BO.b02Status> GetList(BO.myQuery mq)
         {
             DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq, _mother.CurrentUser);
@@ -41,8 +54,16 @@ namespace BL
             p.AddString("b02Entity", rec.b02Entity);
             p.AddInt("b02Ordinary", rec.b02Ordinary);
             p.AddString("b02Memo", rec.b02Memo);
+            p.AddEnumInt("b02StartFlag", rec.b02StartFlag);
+            p.AddEnumInt("b02MoveFlag", rec.b02MoveFlag);
+            p.AddString("b02MoveBySql", rec.b02MoveBySql);
 
-            return _db.SaveRecord("b02Status", p.getDynamicDapperPars(), rec);
+            int intPID= _db.SaveRecord("b02Status", p.getDynamicDapperPars(), rec);
+            if (rec.b02StartFlag == BO.b02StartFlagENUM.DefaultStatus)
+            {
+                _db.RunSql("UPDATE b02Status SET b02StartFlag=0 WHERE b02Entity LIKE @entity AND b02ID<>@pid", new {entity=rec.b02Entity, pid = intPID });
+            }
+            return intPID;
         }
     }
 }

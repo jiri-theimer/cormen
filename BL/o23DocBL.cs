@@ -56,7 +56,10 @@ namespace BL
             p.AddInt("j02ID_Owner", rec.j02ID_Owner,true);
             p.AddInt("o23RecordPid", rec.o23RecordPid,true);
             p.AddString("o23Entity", rec.o23Entity);
-            
+            if (rec.pid == 0)
+            {
+                rec.b02ID = _mother.b02StatusBL.LoadStartStatusPID("o23", rec.b02ID);  //startovací workflow stav
+            }
             p.AddInt("b02ID", rec.b02ID,true);
             p.AddDateTime("o23Date", rec.o23Date);
             p.AddString("o23Name", rec.o23Name);

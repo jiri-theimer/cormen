@@ -54,6 +54,9 @@ namespace UI.Controllers
                 c.b02Entity = v.Rec.b02Entity;
                 c.b02Ordinary = v.Rec.b02Ordinary;
                 c.b02Memo = v.Rec.b02Memo;
+                c.b02MoveFlag = v.Rec.b02MoveFlag;
+                c.b02StartFlag = v.Rec.b02StartFlag;
+                c.b02MoveBySql = v.Rec.b02MoveBySql;
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);

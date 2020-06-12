@@ -74,6 +74,10 @@ namespace BL
             p.AddInt("j02ID_Owner", rec.j02ID_Owner, true);
             p.AddInt("p27ID", rec.p27ID, true);
             p.AddInt("p52ID", rec.p52ID, true);
+            if (rec.pid == 0)
+            {
+                rec.b02ID = _mother.b02StatusBL.LoadStartStatusPID("p41", rec.b02ID);  //startovací workflow stav
+            }
             p.AddInt("b02ID", rec.b02ID, true);
             p.AddInt("p41MasterID", rec.p41MasterID, true);         //ID master zakázky
             p.AddInt("p41SuccessorID", rec.p41SuccessorID, true);   //ID následníka

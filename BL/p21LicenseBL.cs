@@ -43,6 +43,10 @@ namespace BL
         {
             var p = new DL.Params4Dapper();
             p.AddInt("pid", rec.p21ID);
+            if (rec.pid == 0)
+            {
+                rec.b02ID = _mother.b02StatusBL.LoadStartStatusPID("p21", rec.b02ID);  //startovací workflow stav
+            }
             p.AddInt("b02ID", rec.b02ID, true);
             p.AddInt("p28ID", rec.p28ID, true);
 

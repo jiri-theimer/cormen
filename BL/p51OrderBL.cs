@@ -68,7 +68,10 @@ namespace BL
             if (rec.j02ID_Owner == 0) rec.j02ID_Owner = _db.CurrentUser.j02ID;
             p.AddInt("j02ID_Owner", rec.j02ID_Owner, true);            
             p.AddInt("p28ID", rec.p28ID, true);
-            //p.AddInt("p26ID", rec.p26ID, true);
+            if (rec.pid == 0)
+            {
+                rec.b02ID = _mother.b02StatusBL.LoadStartStatusPID("p51", rec.b02ID);  //startovací workflow stav
+            }
             p.AddInt("b02ID", rec.b02ID, true);
             p.AddBool("p51IsDraft", rec.p51IsDraft);
             p.AddString("p51Name", rec.p51Name);

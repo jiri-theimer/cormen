@@ -180,6 +180,8 @@ namespace BL
             AF("b02Status", "b02Name", "Stav", 1,null,"string",false,true);
             AF("b02Status", "EntityAlias", "Vazba", 1, "dbo.getEntityAlias(a.b02Entity)");
             AF("b02Status", "b02Ordinary", "Pořadí", 0, null, "num0");
+            AF("b02Status", "b02StartFlag", "Start", 0, "case when a.b02StartFlag=1 then 'ANO' end");
+            AF("b02Status", "b02MoveFlag", "Pohyb", 0, "case a.b02MoveFlag when 1 then 'Uživatel' when 2 then 'Systém' end");
             AF("b02Status", "b02Memo", "Poznámka");
 
             //o51 = položka kategorie

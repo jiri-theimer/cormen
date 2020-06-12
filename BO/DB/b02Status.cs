@@ -5,6 +5,18 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BO
 {
+    public enum b02StartFlagENUM
+    {
+        _None=0,
+       DefaultStatus=1
+    }
+    public enum b02MoveFlagENUM
+    {
+        _None = 0,
+        User = 1,
+        System=2,
+        
+    }
     public class b02Status: BaseBO
     {
         [Key]
@@ -18,5 +30,9 @@ namespace BO
         public string b02Entity { get; set; }
         public string b02Code { get; set; }
         public string b02Memo { get; set; }
+
+        public b02StartFlagENUM b02StartFlag { get; set; }
+        public b02MoveFlagENUM b02MoveFlag { get; set; }
+        public string b02MoveBySql { get; set; }
     }
 }

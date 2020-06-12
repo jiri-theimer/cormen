@@ -18,6 +18,25 @@
 <div class="modal_record_container">
 
     <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Startovací stav:</label>
+        <div class="col-sm-1 col-md-1">
+            <select asp-for="Rec.b02StartFlag" class="form-control">
+                <option value="0">Ne</option>
+                <option value="1">ANO - pro nový záznam</option>
+
+            </select>
+        </div>
+        <label class="col-sm-3 col-md-4 col-form-label">Kdo posouvá záznam z tohoto stavu do další stavu:</label>
+        <div class="col-sm-2 col-md-2">
+            <select asp-for="Rec.b02MoveFlag" class="form-control">
+                <option value="1">Uživatel (ručně)</option>
+                <option value="2">Systém</option>
+
+
+            </select>
+        </div>
+    </div>
+    <div class="form-row" style="margin-top:10px;">
         <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
         <div class="col-sm-11 col-md-10">
             <input class="form-control" asp-for="Rec.b02Name" />
@@ -54,10 +73,20 @@
         </div>
     </div>
 
+    <div class="card">
+        <div class="card-header">
+            SQL podmínka, která nahodí záznam do tohoto stavu...
+        </div>
+        <div class="card-body">
+            <textarea asp-for="Rec.b02MoveBySql" class="form-control" placeholder="SQL syntaxe"></textarea>
+        </div>
+    </div>
     <div class="form-row">
         <textarea asp-for="Rec.b02Memo" class="form-control" placeholder="Podrobný popis"></textarea>
         <span asp-validation-for="Rec.b02Memo" class="text-danger"></span>
     </div>
+
+
 
 
 </div>
