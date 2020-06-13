@@ -65,6 +65,8 @@ namespace BL.DL
                 
             }
         }
+
+        
         public  T Load<T>(string strSQL, object param)
         {
             using (SqlConnection con = new SqlConnection(_conString))

@@ -33,15 +33,12 @@ namespace BL
         }
         public int LoadStartStatusPID(string entityprefix, int defaultB02ID)
         {
-            int intB02ID= _db.Load<BO.COM.GetInteger>("SELECT b02ID as Value FROM b02Status WHERE b02StartFlag=1 AND b02Entity like @prefix", new { prefix= entityprefix }).Value;
-            if (intB02ID == 0)
+            BO.COM.GetInteger c = _db.Load<BO.COM.GetInteger>("SELECT b02ID as Value FROM b02Status WHERE b02StartFlag=1 AND b02Entity like @prefix", new { prefix = entityprefix });
+            if (c == null || c.Value==0)
             {
                 return defaultB02ID;
             }
-            else
-            {
-                return intB02ID;
-            }
+            return c.Value;
         }
         public IEnumerable<BO.b02Status> GetList(BO.myQuery mq)
         {
