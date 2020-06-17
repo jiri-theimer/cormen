@@ -58,9 +58,31 @@ namespace BL
             p.AddString("p10Memo", rec.p10Memo);
             p.AddEnumInt("p10SwLicenseFlag", rec.p10SwLicenseFlag);
             p.AddDouble("p10RecalcUnit2Kg", rec.p10RecalcUnit2Kg);
+            p.AddEnumInt("p10TypeFlag", rec.p10TypeFlag);
 
-
-            return _db.SaveRecord("p10MasterProduct", p.getDynamicDapperPars(), rec);
+            int intPID= _db.SaveRecord("p10MasterProduct", p.getDynamicDapperPars(), rec);
+            var recP19 = _mother.p19MaterialBL.LoadByMasterP10ID(intPID);
+            if (rec.p10TypeFlag == BO.ProductTypeEnum.Polotovar)    //zkopírovat polotovar do surovin p19
+            {                
+                if (recP19 == null)
+                {
+                    recP19 = new BO.p19Material();
+                }
+                recP19.p10ID_Master = intPID;
+                recP19.p19Name = rec.p10Name;
+                recP19.p19Code = rec.p10Code;
+                recP19.p20ID = rec.p20ID;
+                recP19.p19Memo = rec.p10Memo;
+                _mother.p19MaterialBL.Save(recP19);
+            }
+            else
+            {
+                if (recP19 != null)
+                {
+                    _mother.CBL.DeleteRecord("p19", recP19.pid);
+                }
+            }
+            return intPID;
         }
 
         private bool ValidateBeforeSave(BO.p10MasterProduct rec)

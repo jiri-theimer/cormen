@@ -114,8 +114,9 @@ namespace BL
             AppendTimestamp("p28Company");
 
             //p10 = master produkty
-            AF("p10MasterProduct", "p10Name", "Název", 1);
+            AF("p10MasterProduct", "p10Name", "Master produkt", 1,null,"string",false,true);
             AF("p10MasterProduct", "p10Code", "Kód produktu", 1);
+            AF("p10MasterProduct", "p10TypeFlag", "Typ produktu", 1, "case a.p10TypeFlag when 1 then 'Polotovar' when 2 then 'Výrobek' when 3 then 'Plnění' end");
             AF("p10MasterProduct", "p10Memo", "Podrobný popis");
             AF("p10MasterProduct", "p10SwLicenseFlag", "SW licence", 0, "case when a.p10SwLicenseFlag>0 then 'SW licence '+convert(varchar(10),a.p10SwLicenseFlag) else null end");
             AF("p10MasterProduct", "p10RecalcUnit2Kg", "Přepočet MJ na KG", 0, null, "num3");

@@ -12,6 +12,12 @@ namespace BO
         TypeB=2,
         TypeC=3
     }
+    public enum ProductTypeEnum
+    {
+        Polotovar = 1,
+        Vyrobek = 2,
+        Plneni = 3
+    }
     public class p10MasterProduct:BaseBO
     {
         [Key]
@@ -41,5 +47,7 @@ namespace BO
         public string p20Name;
         public string TagHtml;
         public int p25ID;
+
+        public ProductTypeEnum p10TypeFlag { get; set; }
     }
 }

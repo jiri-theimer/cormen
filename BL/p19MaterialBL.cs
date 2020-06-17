@@ -7,6 +7,7 @@ namespace BL
     public interface Ip19MaterialBL
     {
         public BO.p19Material Load(int pid);
+        public BO.p19Material LoadByMasterP10ID(int p10id);
         public IEnumerable<BO.p19Material> GetList(BO.myQuery mq);
         public int Save(BO.p19Material rec);
     }
@@ -26,6 +27,10 @@ namespace BL
         public BO.p19Material Load(int pid)
         {
             return _db.Load<BO.p19Material>(string.Format("{0} WHERE a.p19ID=@pid", GetSQL1()), new { pid = pid });
+        }
+        public BO.p19Material LoadByMasterP10ID(int p10id)
+        {
+            return _db.Load<BO.p19Material>(string.Format("{0} WHERE a.p10ID_Master=@p10id", GetSQL1()), new { p10id = p10id });
         }
         public IEnumerable<BO.p19Material> GetList(BO.myQuery mq)
         {
@@ -51,7 +56,7 @@ namespace BL
                 _db.CurrentUser.AddMessage("V klientském režimu se pořizuje materiál na míru klienta. Musíte záznam svázat s klientem s vazbou na váš profil.");
                 return 0;
             }
-
+            p.AddInt("p10ID_Master", rec.p10ID_Master, true);
             p.AddString("p19Name", rec.p19Name);
             p.AddString("p19Code", rec.p19Code);
             p.AddString("p19Memo", rec.p19Memo);

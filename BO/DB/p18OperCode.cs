@@ -5,6 +5,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BO
 {
+    //public enum p18FlagEnum
+    //{
+    //    TO=1,
+    //    PRE=2,
+    //    POST=3
+    //}
+    
     public class p18OperCode:BaseBO
     {
         [Key]
@@ -14,7 +21,7 @@ namespace BO
         public int p25ID { get; set; }        
         public int p19ID { get; set; }  //předvyplňovat materiál v TPV
 
-        public int p18Flag { get; set; }    //0: technologická operace, 1: operace mimo technologii, tedy pouze pro zakázky
+        public int p18Flag { get; set; }    //1,2,3
 
         [Required(ErrorMessage = "Chybí vyplnit název!")]
         public string p18Name { get; set; }
@@ -39,5 +46,7 @@ namespace BO
         public string p25Name { get; set; } //kvůli combo
         public string p19Name { get; set; } //kvůli combo
         public string p19Code { get; set; }
+
+        
     }
 }

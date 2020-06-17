@@ -28,10 +28,20 @@
             <span asp-validation-for="Rec.p10Code" class="text-danger"></span>
         </div>
     </div>
+    
 
     <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
-        <div class="col-sm-11 col-md-10">
+        <label class="col-sm-1 col-md-2 col-form-label">Typ produktu:</label>
+        <div class="col-sm-4 col-md-4">
+            <select asp-for="Rec.p10TypeFlag" class="form-control">
+                <option value="1">Polotovar</option>
+                <option value="2">Výrobek</option>
+                <option value="3">Plnění</option>
+
+            </select>
+        </div>
+        <label class="col-sm-1 col-md-1 col-form-label">Aktuální stav:</label>
+        <div class="col-sm-6 col-md-5">
             <mycombo entity="b02Status" asp-for="Rec.b02ID" selectedtext="Rec.b02Name" param1="p10"></mycombo>
         </div>
     </div>
