@@ -2,7 +2,7 @@
 
 
 @{
-    ViewData["Title"] = "Stroj | MSZ";
+    ViewData["Title"] = "Skupina zařízení";
     Layout = "~/Views/Shared/_LayoutModal.cshtml";
     if (Model.Rec == null) return;
 }
@@ -12,7 +12,7 @@
 
 
 <form id="form1" asp-controller="p26" asp-action="Record" method="POST">
-    <h4>Stroj | MSZ</h4>
+    <h4>Skupina zařízení</h4>
     @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
     @Html.HiddenFor(m => m.Rec.pid)
 

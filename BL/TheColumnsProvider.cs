@@ -128,8 +128,8 @@ namespace BL
             AF("p21License", "p21Price", "Cena", 0, null, "num", true);
             AppendTimestamp("p21License");
 
-            //p26 = stroje
-            AF("p26Msz", "p26Name", "Stroj (MSZ)", 1,null,"string",false,true);
+            //p26 = skupina zařízení
+            AF("p26Msz", "p26Name", "Skupina zařízení", 1,null,"string",false,true);
             AF("p26Msz", "p26Code", "Kód", 1);
             AF("p26Msz", "p26Memo", "Podrobný popis");
             AppendTimestamp("p26Msz");

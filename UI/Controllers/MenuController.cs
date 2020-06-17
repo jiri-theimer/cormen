@@ -92,7 +92,7 @@ namespace UI.Controllers
                 AMI("Receptura [Master]", "javascript:_window_open('/p13/record')");
                 AMI("Licence", "javascript:_window_open('/p21/record')");
                 DIV();                
-                AMI("Stroj", "javascript:_window_open('/p26/record')");
+                AMI("Skupina zařízení", "javascript:_window_open('/p26/record')");
                 AMI("Středisko", "javascript:_window_open('/p27/record')");
                 DIV();
                 AMI("Workflow stav", "javascript:_window_open('/b02/record')");

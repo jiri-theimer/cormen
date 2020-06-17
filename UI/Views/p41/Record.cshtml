@@ -34,10 +34,14 @@
         <div class="col-sm-3 col-md-3">
             <mycombo entity="p27MszUnit" view-flag="2" asp-for="Rec.p27ID" selectedtext="Rec.p27Name" masterprefix="p25" masterpid="@Model.p25ID"></mycombo>
         </div>
-        <label class="col-sm-1 col-md-1 col-form-label">Aktuální stav:</label>
-        <div class="col-sm-5 col-md-5">
-            <mycombo entity="b02Status" view-flag="2" asp-for="Rec.b02ID" selectedtext="Rec.b02Name" param1="p41" masterprefix="p41" masterpid="@Model.Rec.pid"></mycombo>
-        </div>
+        @if (Model.Rec.p41MasterID == 0)
+        {
+            <label class="col-sm-1 col-md-1 col-form-label">Aktuální stav:</label>
+            <div class="col-sm-5 col-md-5">
+                <mycombo entity="b02Status" view-flag="2" asp-for="Rec.b02ID" selectedtext="Rec.b02Name" param1="p41" masterprefix="p41" masterpid="@Model.Rec.pid"></mycombo>
+            </div>
+        }
+
     </div>
 
     @if (Model.Rec.p41MasterID == 0)
