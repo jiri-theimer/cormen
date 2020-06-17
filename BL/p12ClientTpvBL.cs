@@ -50,9 +50,9 @@ namespace BL
                 _db.CurrentUser.AddMessage("Chybí vyplnit [Typ zařízení]."); return false;
             }
             BO.p21License cP21 = _mother.p21LicenseBL.Load(rec.p21ID);
-            if (cP21.p21PermissionFlag != BO.p21PermENUM.Independent2Master)
+            if (cP21.p21PermissionFlag != BO.p21PermENUM.Full)
             {
-                _db.CurrentUser.AddMessage(string.Format("Ve zvolené licenci [{1} - {0}] nelze zakládat/upravovat vlastní receptury.",cP21.p21Name,cP21.p21Code)); return false;
+                _db.CurrentUser.AddMessage(string.Format("Ve vaší licenci [{1} - {0}] nelze zakládat/upravovat vlastní receptury.",cP21.p21Name,cP21.p21Code)); return false;
             }
 
             return true;

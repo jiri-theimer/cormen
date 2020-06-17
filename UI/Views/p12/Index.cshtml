@@ -15,12 +15,12 @@
         <div class="form-row">
             <label class="col-sm-1 col-md-2 col-form-label">Receptura:</label>
             <div class="col-sm-9 col-md-8">
-                <span class="form-control bg-light">@(Model.Rec.p12Name)</span>
+                <span class="val-readonly">@(Model.Rec.p12Name)</span>
 
 
             </div>
             <div class="col-sm-2 col-md-2">
-                <span class="form-control bg-light">@(Model.Rec.p12Code)</span>
+                <span class="val-readonly">@(Model.Rec.p12Code)</span>
 
 
             </div>
@@ -28,14 +28,14 @@
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Licence:</label>
             <div class="col-sm-8 col-md-7">
-                <span class="form-control bg-light">@(Model.RecP21.p21Name+" ["+Model.RecP21.p28Name+"]")</span>
+                <span class="val-readonly">@(Model.RecP21.p21Name+" ["+Model.RecP21.p28Name+"]")</span>
             </div>
             <div class="col-sm-1 col-md-1">
 
-                <span class="form-control bg-light">@(Model.RecP21.PermFlagAlias)</span>
+                <span class="val-readonly">@(Model.RecP21.PermFlagAlias)</span>
             </div>
             <div class="col-sm-2 col-md-2">
-                <span class="form-control bg-light">@(Model.RecP21.p21Code)</span>
+                <span class="val-readonly">@(Model.RecP21.p21Code)</span>
             </div>
         </div>
         @if (Model.RecP13 != null)
@@ -43,17 +43,17 @@
             <div class="form-row" style="margin-top:10px;">
                 <label class="col-sm-1 col-md-2 col-form-label">Vzorová Master receptura:</label>
                 <div class="col-sm-5 col-md-4">
-                    <span class="form-control bg-light">@(Model.RecP13.p13Name)</span>
+                    <span class="val-readonly">@(Model.RecP13.p13Name)</span>
 
 
                 </div>
                 <div class="col-sm-4 col-md-4">
-                    <span class="form-control bg-light">@(Model.RecP13.p25Name)</span>
+                    <span class="val-readonly">@(Model.RecP13.p25Name)</span>
 
 
                 </div>
                 <div class="col-sm-2 col-md-2">
-                    <span class="form-control bg-light">@(Model.RecP13.p13Code)</span>
+                    <span class="val-readonly">@(Model.RecP13.p13Code)</span>
 
 
                 </div>
@@ -72,7 +72,7 @@
 {
     <hr />
 
-    <pre>@Html.DisplayFor(m => m.Rec.p12Memo, new { @class = "form-control" });</pre>
+    <pre>@Html.DisplayFor(m => m.Rec.p12Memo, new { @class = "val-readonly-wrap" });</pre>
 
 
 }

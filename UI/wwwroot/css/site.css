@@ -678,3 +678,56 @@ hr.hr-mini {    /*používá se v kontextovém menu*/
 }
 
 
+@media screen and (max-width: 600px) {
+
+    .nonmobile {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+
+    .nontablet {
+        display: none;
+    }
+}
+
+
+button.cmdDropdown {
+    border-radius: 0px;
+    border-top: solid 1px #C8C8C8;
+    border-right: solid 1px #C8C8C8;
+    border-bottom: solid 1px #C8C8C8;
+    border-left: none;
+}
+
+.val-readonly {
+    display: block;
+    width: 100%;
+    min-height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.5;
+    background-color: #F8F9FA;
+    background-clip: padding-box;
+    border: 1px solid #E5E5E5; /*původní barva byla: #ced4da*/
+    border-radius: 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.val-readonly-wrap {
+    display: block;
+    width: 100%;
+    min-height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.5;
+    background-color: #F8F9FA;
+    background-clip: padding-box;
+    border: 1px solid #E5E5E5; /*původní barva byla: #ced4da*/
+    border-radius: 0.25rem;
+}

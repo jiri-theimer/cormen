@@ -19,7 +19,7 @@ namespace BO
         
         
         public int p14OperNum { get; set; }    
-        public int p14OperParam { get; set; }
+        public double p14OperParam { get; set; }
         public double p14UnitsCount { get; set; }
         public double p14DurationPreOper { get; set; }
         public double p14DurationPostOper { get; set; }

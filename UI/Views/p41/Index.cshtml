@@ -13,10 +13,10 @@
             <label class="col-sm-1 col-md-2 col-form-label">Zakázka:</label>
             <div class="col-sm-8 col-md-7">
 
-                <span class="form-control bg-light">@(Model.Rec.p41Name)</span>
+                <span class="val-readonly">@(Model.Rec.p41Name)</span>
             </div>
             <div class="col-sm-3 col-md-3">
-                <span class="form-control bg-light">@(Model.Rec.p41Code)</span>
+                <span class="val-readonly">@(Model.Rec.p41Code)</span>
 
             </div>
         </div>
@@ -26,10 +26,10 @@
                 <label class="col-sm-1 col-md-2 col-form-label">Následovník:</label>
                 <div class="col-sm-8 col-md-7">
 
-                    <span class="form-control bg-light">@(Model.RecSuccessor.p41Name)</span>
+                    <span class="val-readonly">@(Model.RecSuccessor.p41Name)</span>
                 </div>
                 <div class="col-sm-3 col-md-3">
-                    <span class="form-control bg-light">@(Model.RecSuccessor.p41Code)</span>
+                    <span class="val-readonly">@(Model.RecSuccessor.p41Code)</span>
 
                 </div>
             </div>
@@ -40,10 +40,10 @@
                 <label class="col-sm-1 col-md-2 col-form-label">Předchůdce:</label>
                 <div class="col-sm-8 col-md-7">
 
-                    <span class="form-control bg-light">@(Model.RecPredecessor.p41Name)</span>
+                    <span class="val-readonly">@(Model.RecPredecessor.p41Name)</span>
                 </div>
                 <div class="col-sm-3 col-md-3">
-                    <span class="form-control bg-light">@(Model.RecPredecessor.p41Code)</span>
+                    <span class="val-readonly">@(Model.RecPredecessor.p41Code)</span>
 
                 </div>
             </div>
@@ -51,38 +51,38 @@
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Středisko:</label>
             <div class="col-sm-3 col-md-3">
-                <span class="form-control bg-light">@(Model.Rec.p27Name)</span>
+                <span class="val-readonly">@(Model.Rec.p27Name)</span>
             </div>
             <label class="col-sm-1 col-md-1 col-form-label">Aktuální stav:</label>
             <div class="col-sm-5 col-md-5">
-                <span class="form-control bg-light">@(Model.Rec.b02Name)</span>
+                <span class="val-readonly">@(Model.Rec.b02Name)</span>
             </div>
         </div>
 
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Plán zahájení:</label>
             <div class="col-sm-3 col-md-3">
-                <span class="form-control bg-light">@(Model.Rec.p41PlanStart)</span>
+                <span class="val-readonly">@(Model.Rec.p41PlanStart)</span>
             </div>
             <label class="col-sm-1 col-md-1 col-form-label">Dokončení:</label>
             <div class="col-sm-3 col-md-3">
-                <span class="form-control bg-light">@(Model.Rec.p41PlanEnd)</span>
+                <span class="val-readonly">@(Model.Rec.p41PlanEnd)</span>
             </div>
             <label class="col-sm-1 col-md-1 col-form-label">Trvá (min):</label>
             <div class="col-sm-1 col-md-1">
-                <span class="form-control bg-light">@(BO.BAS.Number2String(Model.Rec.p41Duration))</span>
+                <span class="val-readonly">@(BO.BAS.Number2String(Model.Rec.p41Duration))</span>
             </div>
         </div>
 
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Plánované množství KG:</label>
             <div class="col-sm-3 col-md-3">
-                <span class="form-control bg-light">@(Model.Rec.p41PlanUnitsCount)</span>
+                <span class="val-readonly">@(Model.Rec.p41PlanUnitsCount)</span>
             </div>
 
             <label class="col-sm-1 col-md-1 col-form-label">Kód skladu:</label>
             <div class="col-sm-6 col-md-6">
-                <span class="form-control bg-light">@(Model.Rec.p41StockCode)</span>
+                <span class="val-readonly">@(Model.Rec.p41StockCode)</span>
             </div>
 
         </div>
@@ -95,7 +95,7 @@
 {
     <hr />
 
-    <pre>@Html.DisplayFor(m => m.Rec.p41Memo, new { @class = "form-control" });</pre>
+    <pre>@Html.DisplayFor(m => m.Rec.p41Memo, new { @class = "val-readonly-wrap" });</pre>
 
 
 }

@@ -54,17 +54,7 @@
 
     </div>
 
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Produkt slouží pro SW licenci:</label>
-        <div class="col-sm-11 col-md-10">
-            <select class="form-control" asp-for="Rec.p10SwLicenseFlag">
-                <option value="0"></option>
-                <option value="1">Základní verze [1]</option>
-                <option value="2">Verze Cybertruck [2]</option>
-                <option value="3">Verze Me 262 [3]</option>
-            </select>
-        </div>
-    </div>
+
 
     <mystitky entity="p10MasterProduct" asp-for="@Model.TagPids" tagnames="@Model.TagNames" taghtml="@Model.TagHtml"></mystitky>
 
@@ -72,6 +62,18 @@
     <div class="form-row">
         <textarea asp-for="Rec.p10Memo" class="form-control" placeholder="Podrobný popis"></textarea>
         <span asp-validation-for="Rec.p10Memo" class="text-danger"></span>
+    </div>
+
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-2 col-md-3 col-form-label">Produkt slouží pro řízení uživatelské SW licence:</label>
+        <div class="col-sm-10 col-md-9">
+            <select class="form-control" asp-for="Rec.p10SwLicenseFlag">
+                <option value="0"></option>
+                <option value="1">SW režim 1 [1]</option>
+                <option value="2">SW režim 1 [2]</option>
+
+            </select>
+        </div>
     </div>
 
 

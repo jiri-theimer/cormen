@@ -48,6 +48,11 @@ namespace BL.DL
                 if (mq.Prefix == "p11" || mq.Prefix=="p12") AQ(ref lis, "a.p21ID=@p21id", "p21id", mq.p21id);
                 if (mq.Prefix == "o23") AQ(ref lis, "a.o23Entity LIKE 'p21License' AND a.o23RecordPid=@p21id", "p21id", mq.p21id);
             }
+            if (mq.p21id_missing > 0)
+            {
+                if (mq.Prefix == "p10") AQ(ref lis, "a.p10ID NOT IN (select p10ID FROM p22LicenseBinding WHERE p21ID=@p21id)", "p21id", mq.p21id_missing);
+                
+            }
             if (mq.p10id > 0)
             {
                 if (mq.Prefix == "p21") AQ(ref lis, "a.p21ID IN (select p21ID FROM p22LicenseBinding WHERE p10ID=@p10id)", "p10id", mq.p10id);

@@ -45,6 +45,7 @@ namespace UI.Views.Shared.TagHelpers
                 case 1:
                     strStep = "0.1";
                     strPlaceHolder = "0,0";
+                    strFormat = "{0:#,0.0}";
                     break;
                 case 2:
                     strStep = "0.01";

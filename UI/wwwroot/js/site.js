@@ -15,23 +15,25 @@ if (screen.availHeight > screen.availWidth || screen.width < 800 || screen.heigh
 
 function _edit(controller, pid, header) {
 
-    var url = "";
+    var url = "/" + controller + "/record?pid=" + pid;
+    var flag = 1;
     switch (controller) {
         case "x40":
             url = "/Mail/Record?pid=" + pid;
             break;
-
+        case "p21":
+            flag = 2;
+            break;
         case "j90":
         case "j92":
         case "p44":
             _notify_message("Pro tento záznam neexistuje stránka detailu.", "info");
             return;
-        default:
-            url = "/" + controller + "/record?pid=" + pid;
+        default:            
             break;
     }
 
-    _window_open(url, 1, header);
+    _window_open(url, flag, header);
 
 }
 

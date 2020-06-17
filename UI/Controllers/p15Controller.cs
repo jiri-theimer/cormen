@@ -19,9 +19,9 @@ namespace UI.Controllers
 
             var v = new Models.p15RecordViewModel();
 
-            if (Factory.p21LicenseBL.GetList(new BO.myQuery("p21License")).Where(p => p.p21PermissionFlag == BO.p21PermENUM.Independent2Master).Count() == 0)
+            if (Factory.p21LicenseBL.GetList(new BO.myQuery("p21License")).Where(p => p.p21PermissionFlag == BO.p21PermENUM.Extend || p.p21PermissionFlag == BO.p21PermENUM.Full).Count() == 0)
             {
-                return this.StopPage(true,"Systém nepovolí uložit vlastní recepturu, protože ani jedna z vašich licencí k tomu nemá oprávnění.");
+                return this.StopPage(true,"Systém nepovolí uložit vlastní produkt, protože ani jedna z vašich licencí k tomu nemá oprávnění.");
             }
 
             if (pid > 0)

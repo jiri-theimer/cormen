@@ -55,6 +55,7 @@ namespace BL.DL
             DL.Param4DT c = new DL.Param4DT() { ParamType = "int", ParName = name, ParValue = Convert.ToInt32(value) };
             _lis.Add(c);
         }
+        
         public void AddBool(string name, bool value)
         {
             DL.Param4DT c = new DL.Param4DT() { ParamType = "bool", ParName = name, ParValue = value };

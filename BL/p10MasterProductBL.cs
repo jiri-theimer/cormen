@@ -56,7 +56,7 @@ namespace BL
             p.AddString("p10Name", rec.p10Name);
             p.AddString("p10Code", rec.p10Code);
             p.AddString("p10Memo", rec.p10Memo);
-            p.AddInt("p10SwLicenseFlag", rec.p10SwLicenseFlag);
+            p.AddEnumInt("p10SwLicenseFlag", rec.p10SwLicenseFlag);
             p.AddDouble("p10RecalcUnit2Kg", rec.p10RecalcUnit2Kg);
 
 

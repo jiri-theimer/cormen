@@ -50,7 +50,7 @@ namespace BL
             p.AddInt("b02ID", rec.b02ID, true);
             p.AddInt("p28ID", rec.p28ID, true);
 
-            p.AddInt("p21PermissionFlag", Convert.ToInt32(rec.p21PermissionFlag));
+            p.AddEnumInt("p21PermissionFlag", rec.p21PermissionFlag);
             p.AddString("p21Name", rec.p21Name);
             p.AddString("p21Code", rec.p21Code);
             p.AddString("p21Memo", rec.p21Memo);

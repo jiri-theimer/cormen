@@ -85,7 +85,7 @@ namespace BL
            
             p.AddInt("p14RowNum", -1+rec.p14RowNum * 100);
             p.AddInt("p14OperNum", rec.p14OperNum);
-            p.AddInt("p14OperParam", rec.p14OperParam);
+            p.AddDouble("p14OperParam", rec.p14OperParam);
             p.AddDouble("p14UnitsCount", rec.p14UnitsCount);
             p.AddDouble("p14DurationPreOper", rec.p14DurationPreOper);
             p.AddDouble("p14DurationPostOper", rec.p14DurationPostOper);

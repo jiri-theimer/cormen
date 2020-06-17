@@ -5,6 +5,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BO
 {
+    public enum SwLicenseEnum
+    {
+        None=0,
+        TypeA=1,
+        TypeB=2,
+        TypeC=3
+    }
     public class p10MasterProduct:BaseBO
     {
         [Key]
@@ -23,7 +30,7 @@ namespace BO
 
         [Required(ErrorMessage = "Chybí vyplnit kód!")]
         public string p10Code { get; set; }
-        public int p10SwLicenseFlag { get; set; }   //1 - oprávnění používat cloud sw, další hodnoty rezerva pro rozlišení různých verzí sw
+        public SwLicenseEnum p10SwLicenseFlag { get; set; }   //1/2/3
 
         public double p10RecalcUnit2Kg { get; set; }
         public string p13Name { get; set; } //get+set: kvůli mycombo

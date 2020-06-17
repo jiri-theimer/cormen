@@ -15,15 +15,15 @@
         <div class="form-row">
 
             <div class="col-sm-6 col-md-6">
-                <span class="form-control bg-light">@(Model.Rec.p13Name)</span>
+                <span class="val-readonly">@(Model.Rec.p13Name)</span>
 
             </div>
             <div class="col-sm-4 col-md-4">
-                <span class="form-control bg-light">@(Model.Rec.p25Name)</span>
+                <span class="val-readonly">@(Model.Rec.p25Name)</span>
 
             </div>
             <div class="col-sm-2 col-md-2">
-                <span class="form-control bg-light">@(Model.Rec.p13Code)</span>
+                <span class="val-readonly">@(Model.Rec.p13Code)</span>
 
             </div>
         </div>
@@ -35,7 +35,7 @@
 {
     <hr />
 
-    <pre>@Html.DisplayFor(m => m.Rec.p13Memo, new { @class = "form-control" });</pre>
+    <pre>@Html.DisplayFor(m => m.Rec.p13Memo, new { @class = "val-readonly-wrap" });</pre>
 
 
 }

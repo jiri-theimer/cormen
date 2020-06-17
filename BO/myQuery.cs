@@ -57,6 +57,7 @@ namespace BO
         public List<int> b02ids { get; set; }
         public int p28id { get; set; }
         public int p21id { get; set; }
+        public int p21id_missing { get; set; }
         public int p10id { get; set; }
         public int p26id { get; set; }
         public int j02id {get;set;}
@@ -111,6 +112,9 @@ namespace BO
                     break;
                 case "p21":
                     this.p21id = master_pid;
+                    break;
+                case "21p":
+                    this.p21id_missing = master_pid;    //pro zobrazení produktů, které ještě nejsou v licenci
                     break;
                 case "p26":
                     this.p26id = master_pid;

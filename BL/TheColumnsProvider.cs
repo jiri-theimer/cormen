@@ -124,7 +124,7 @@ namespace BL
             //p21 = licence
             AF("p21License", "p21Name", "Licence", 1,null,"string",false,true);
             AF("p21License", "p21Code", "Kód", 1);
-            AF("p21License", "p21PermissionFlag", "Typ licence", 1, "case a.p21PermissionFlag when 1 then 'Standard' when 2 then 'Cyber' else '???' end","string",false,true);
+            AF("p21License", "p21PermissionFlag", "Typ licence", 1, "case a.p21PermissionFlag when 1 then 'Standard' when 2 then 'Extend' when 3 then 'Full' else '???' end","string",false,true);
             AF("p21License", "p21Price", "Cena", 0, null, "num", true);
             AppendTimestamp("p21License");
 
@@ -252,7 +252,7 @@ namespace BL
             onecol.FixedWidth = 70;
 
             
-            AF("p14MasterOper", "p14OperParam", "Parameter", 2, null, "num0");
+            AF("p14MasterOper", "p14OperParam", "Parameter", 2, null, "num1");
 
             AF("p14MasterOper", "p14UnitsCount", "Množství na 1kg", 2, null, "num5", true);
             AF("p14MasterOper", "p14DurationPreOper", "Před Oper. Čas", 2, null, "num0", true);
@@ -291,7 +291,7 @@ namespace BL
             onecol.FixedWidth = 70;
 
             
-            AF("p15ClientOper", "p15OperParam", "Parametr", 2, null, "num0");
+            AF("p15ClientOper", "p15OperParam", "Parametr", 2, null, "num1");
 
             AF("p15ClientOper", "p15UnitsCount", "Množství na kg", 2, null, "num5", true);
             AF("p15ClientOper", "p15DurationPreOper", "Před Oper. Čas", 2, null, "num0", true);

@@ -59,7 +59,7 @@ namespace UI.Controllers
                 {
                     return this.StopPage(true, "Recepturu s Master vzorem nelze upravovat.<hr>Zkopírujte si ji do nové receptury, kterou můžete upravovat.");
                 }
-                if (cP21.p21PermissionFlag != BO.p21PermENUM.Independent2Master)
+                if (cP21.p21PermissionFlag != BO.p21PermENUM.Full)
                 {
                     return this.StopPage(true, string.Format("S licencí typu {2} [{0} - {1}]  nemáte oprávnění zakládat vlastní receptury.", cP21.p21Code,cP21.p21Name,cP21.PermFlagAlias));
                 }
@@ -75,7 +75,7 @@ namespace UI.Controllers
                 
                 v.Rec = new BO.p12ClientTpv();
                 v.Rec.entity = "p12";
-                if (Factory.p21LicenseBL.GetList(new BO.myQuery("p21License")).Where(p => p.p21PermissionFlag == BO.p21PermENUM.Independent2Master).Count() == 0)
+                if (Factory.p21LicenseBL.GetList(new BO.myQuery("p21License")).Where(p => p.p21PermissionFlag == BO.p21PermENUM.Full).Count() == 0)
                 {
                     Factory.CurrentUser.AddMessage("Systém nepovolí uložit vlastní recepturu, protože ani jedna z vašich licencí k tomu nemá oprávnění.", "warning");
                 }

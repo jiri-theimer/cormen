@@ -56,7 +56,7 @@ namespace UI.Controllers
                 v.Rec.ValidFrom = DateTime.Today;
                 v.Rec.ValidUntil = new DateTime(3000, 1, 1);
                 v.Rec.p21Code = Factory.CBL.EstimateRecordCode("p21");
-                v.Rec.p21PermissionFlag = BO.p21PermENUM.Default;
+                v.Rec.p21PermissionFlag = BO.p21PermENUM.Standard;
                 v.Rec.entity = "p21";
             }
 
@@ -72,7 +72,7 @@ namespace UI.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Record(Models.p21RecordViewModel v)
-        {
+        {            
             if (ModelState.IsValid)
             {
                 BO.p21License c = new BO.p21License();
@@ -112,7 +112,11 @@ namespace UI.Controllers
 
 
         
-
+        public string GetAllP10IDs()
+        {
+            string s = string.Join(",", Factory.p10MasterProductBL.GetList(new BO.myQuery("p10MasterProduct")).Select(p => p.pid));
+            return s;
+        }
 
         public BO.Result CreateClientProducts(int p21id)
         {

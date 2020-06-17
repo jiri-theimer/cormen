@@ -47,7 +47,7 @@ namespace BL
             
             p.AddInt("p15RowNum", rec.p15RowNum);
             p.AddInt("p15OperNum", rec.p15OperNum);
-            p.AddInt("p15OperParam", rec.p15OperParam);
+            p.AddDouble("p15OperParam", rec.p15OperParam);
             p.AddDouble("p15UnitsCount", rec.p15UnitsCount);
             p.AddDouble("p15DurationPreOper", rec.p15DurationPreOper);
             p.AddDouble("p15DurationPostOper", rec.p15DurationPostOper);

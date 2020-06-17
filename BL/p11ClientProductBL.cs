@@ -105,9 +105,9 @@ namespace BL
             else
             {
                 BO.p21License cP21 = _mother.p21LicenseBL.Load(rec.p21ID);
-                if (cP21.p21PermissionFlag != BO.p21PermENUM.Independent2Master)
+                if (cP21.p21PermissionFlag == BO.p21PermENUM.Standard)
                 {
-                    _db.CurrentUser.AddMessage(string.Format("Ve zvolené licenci [{1} - {0}] nelze zakládat produkty s vlastní recepturou.", cP21.p21Name, cP21.p21Code)); return false;
+                    _db.CurrentUser.AddMessage(string.Format("Licence [{1} - {0}] je typu [Standard], kde nelze zakládat produkty s vlastní recepturou.", cP21.p21Name, cP21.p21Code)); return false;
                 }
             }
             

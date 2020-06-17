@@ -10,82 +10,83 @@
 
 @addTagHelper *, UI
 
-@using (Html.BeginForm())
-{
+<form id="form1" asp-controller="p21" asp-action="Record" method="POST">
     <h4>Licence</h4>
     @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
     @Html.HiddenFor(m => m.Rec.pid)
 
-<div class="modal_record_container">
+    <div class="modal_record_container">
 
-    <div class="form-row">
-        <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
-        <div class="col-sm-8 col-md-7">
-            <input class="form-control" asp-for="Rec.p21Name" />
-            <span asp-validation-for="Rec.p21Name" class="text-danger"></span>
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
+            <div class="col-sm-8 col-md-7">
+                <input class="form-control" asp-for="Rec.p21Name" />
+                <span asp-validation-for="Rec.p21Name" class="text-danger"></span>
+            </div>
+            <div class="col-sm-3 col-md-3">
+                <input class="form-control" asp-for="Rec.p21Code" placeholder="Kód" />
+                <span asp-validation-for="Rec.p21Code" class="text-danger"></span>
+            </div>
         </div>
-        <div class="col-sm-3 col-md-3">
-            <input class="form-control" asp-for="Rec.p21Code" placeholder="Kód" />
-            <span asp-validation-for="Rec.p21Code" class="text-danger"></span>
+
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Klient:</label>
+            <div class="col-sm-11 col-md-10">
+                <mycombo entity="p28Company" asp-for="Rec.p28ID" selectedtext="Rec.p28Name" filter-flag="1"></mycombo>
+            </div>
+
+
         </div>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Typ licence:</label>
+            <div class="col-sm-11 col-md-10">
+                <select asp-for="Rec.p21PermissionFlag" class="form-control">
+                    <option value="1">Standard (Bez možnosti vytvářet vlastní produkty a receptury)</option>
+                    <option value="2">Extend (Možnost vytvářet produkty na Master recepturách)</option>
+                    <option value="3">Full (Možnost vytvářet produkty na vlastních recepturách)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Rozsah platnosti:</label>
+            <div class="col-sm-3 col-md-3">
+                <mydate asp-for="Rec.ValidFrom"></mydate>
+            </div>
+            <div class="col-sm-3 col-md-3">
+                <mydate asp-for="Rec.ValidUntil"></mydate>
+            </div>
+            <label class="col-sm-1 col-md-1 col-form-label">Stav:</label>
+            <div class="col-sm-4 col-md-3">
+                <mycombo entity="b02Status" asp-for="Rec.b02ID" selectedtext="Rec.b02Name" param1="p21" view-flag="2"></mycombo>
+            </div>
+        </div>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Cena:</label>
+            <div class="col-sm-3 col-md-2">
+                <mynumber asp-for="Rec.p21Price" decimal-digits="2"></mynumber>
+            </div>
+
+        </div>
+        <mystitky entity="p21License" asp-for="@Model.TagPids" tagnames="@Model.TagNames" taghtml="@Model.TagHtml"></mystitky>
+
+
+
+
+
     </div>
-
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Klient:</label>
-        <div class="col-sm-11 col-md-10">
-            <mycombo entity="p28Company" asp-for="Rec.p28ID" selectedtext="Rec.p28Name" filter-flag="1"></mycombo>
-        </div>
-
-
-    </div>
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Typ licence:</label>
-        <div class="col-sm-11 col-md-10">
-            <select asp-for="Rec.p21PermissionFlag" class="form-control">
-                <option value="1">Produktová - Standard (Bez možnosti vytvářet produkty na vlastních recepturách)</option>
-                <option value="2">Produktová - Extend (Možnost vytvářet produkty na vlastních recepturách)</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Rozsah platnosti:</label>
-        <div class="col-sm-3 col-md-3">
-            <mydate asp-for="Rec.ValidFrom"></mydate>
-        </div>
-        <div class="col-sm-3 col-md-3">
-            <mydate asp-for="Rec.ValidUntil"></mydate>
-        </div>
-        <label class="col-sm-1 col-md-1 col-form-label">Stav:</label>
-        <div class="col-sm-4 col-md-3">
-            <mycombo entity="b02Status" asp-for="Rec.b02ID" selectedtext="Rec.b02Name" param1="p21" view-flag="2"></mycombo>
-        </div>
-    </div>
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Cena:</label>
-        <div class="col-sm-3 col-md-2">
-            <mynumber asp-for="Rec.p21Price" decimal-digits="2"></mynumber>
-        </div>
-
-    </div>
-    <mystitky entity="p21License" asp-for="@Model.TagPids" tagnames="@Model.TagNames" taghtml="@Model.TagHtml"></mystitky>
-
-
-
-
-
-</div>
 
 
 
     <div class="card">
         <div class="card-header">
             Master produkty v licenci
-
+            <button type="button" class="btn btn-danger btn-sm float-right" onclick="clear_all_products()">Vyčistit vše</button>
+            <button type="button" class="btn btn-secondary btn-sm float-right" onclick="append_all_products()">Doplnit všechny chybějící produkty</button>
         </div>
         <div class="card-body">
             <div style="width:100%;">
-                <mycombo entity="p10MasterProduct" asp-for="@Model.SelectedP10ID" selectedtext="@Model.SelectedP10Name" event_after_changevalue="handle_append_product" placeholder="Vybrat Master produkty do licence..."></mycombo>
+                <mycombo entity="p10MasterProduct" asp-for="@Model.SelectedP10ID" selectedtext="@Model.SelectedP10Name" masterprefix="21p" masterpid="@Model.Rec.pid" event_after_changevalue="handle_append_product" placeholder="Vybrat Master produkty do licence..."></mycombo>
 
             </div>
             <div id="divP10" style="margin-top:20px;"></div>
@@ -103,7 +104,7 @@
 
 
 
-}
+</form>
 
 
 
@@ -178,6 +179,20 @@
             $("#divP10").html(data);
 
         });
+    }
+
+    function append_all_products() {
+        $.post("/p21/GetAllP10IDs", function (data) {
+            $("#hidP10IDs").val(data);
+            refresh_p10_table();
+            _toolbar_warn2save_changes();
+        });
+        
+    }
+    function clear_all_products() {
+        $("#hidP10IDs").val("");
+        refresh_p10_table();
+        _toolbar_warn2save_changes();
     }
 
 

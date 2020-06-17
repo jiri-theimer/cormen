@@ -12,7 +12,7 @@
         <div class="form-row">
             <label class="col-sm-1 col-md-2 col-form-label">Dokument:</label>
             <div class="col-sm-9 col-md-8">
-                <span class="form-control bg-light">@(Model.Rec.o23Name)</span>
+                <span class="val-readonly">@(Model.Rec.o23Name)</span>
 
             </div>
             <div class="col-sm-2 col-md-2">
@@ -24,8 +24,8 @@
             <label class="col-sm-1 col-md-2 col-form-label">Svázaný záznam:</label>
             <div class="col-sm-11 col-md-10">
                 <div class="btn-group" style="width:100%;">
-                    <span class="form-control" style="background-color:khaki;width:200px;">@(BL.TheEntities.ByTable(Model.Rec.o23Entity).AliasSingular)</span>
-                    <strong class="form-control bg-light">@Model.Rec.RecordPidAlias</strong>
+                    <span class="val-readonly" style="background-color:khaki;width:200px;">@(BL.TheEntities.ByTable(Model.Rec.o23Entity).AliasSingular)</span>
+                    <strong class="val-readonly">@Model.Rec.RecordPidAlias</strong>
 
                 </div>
 
@@ -39,7 +39,7 @@
             <div class="form-row" style="margin-top:10px;">
                 <label class="col-sm-1 col-md-2 col-form-label">Aktuální stav:</label>
                 <div class="col-sm-11 col-md-10">
-                    <span class="form-control bg-light">@(Model.Rec.b02Name)</span>
+                    <span class="val-readonly">@(Model.Rec.b02Name)</span>
                 </div>
             </div>
         }
@@ -50,7 +50,7 @@
         <div class="form-row">
             <label class="col-sm-1 col-md-2 col-form-label">Vlastník záznamu:</label>
             <div class="col-sm-11 col-md-10">
-                <span class="form-control bg-light">@(Model.Rec.RecordOwner)</span>
+                <span class="val-readonly">@(Model.Rec.RecordOwner)</span>
 
             </div>
 
@@ -89,7 +89,7 @@
 {
     <hr />
 
-    <pre>@Html.DisplayFor(m => m.Rec.o23Memo, new { @class = "form-control" });</pre>
+    <pre>@Html.DisplayFor(m => m.Rec.o23Memo, new { @class = "val-readonly-wrap" });</pre>
 
 
 }

@@ -7,9 +7,10 @@ namespace BO
 {
     public enum p21PermENUM
     {
-        Default=1,
-        Independent2Master=2
-        
+        Standard=1,
+        Extend=2,
+        Full = 3
+
     }
     public class p21License: BO.BaseBO
     {
@@ -37,9 +38,17 @@ namespace BO
         public string PermFlagAlias
         {
             get
-            {                
-                if (this.p21PermissionFlag == BO.p21PermENUM.Independent2Master) return "Cyber";
-                return "Standard";
+            {
+                switch (this.p21PermissionFlag)
+                {                    
+                    case p21PermENUM.Extend:
+                        return "Extend";
+                    case p21PermENUM.Full:
+                        return "Full";
+                    default:
+                        return "Standard";
+                }
+                
             }
         }
     }

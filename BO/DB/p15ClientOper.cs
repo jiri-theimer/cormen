@@ -16,7 +16,7 @@ namespace BO
         
         public int p15RowNum { get; set; }              
         public int p15OperNum { get; set; }
-        public int p15OperParam { get; set; }
+        public double p15OperParam { get; set; }
         public double p15UnitsCount { get; set; }
         public double p15DurationPreOper { get; set; }
         public double p15DurationPostOper { get; set; }
