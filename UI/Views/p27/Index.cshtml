@@ -6,39 +6,46 @@
     if (Model.Rec == null) return;
 }
 
-<div class="modal_record_container">
+    <div class="modal_record_container">
 
 
-    <div class="form-row">
-        <label class="col-sm-1 col-md-2 col-form-label">Středisko:</label>
-        <div class="col-sm-6 col-md-6">
-            <span class="val-readonly">@(Model.Rec.p27Name)</span>
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Středisko:</label>
+            <div class="col-sm-6 col-md-6">
+                <span class="val-readonly">@(Model.Rec.p27Name)</span>
+
+            </div>
+            <div class="col-sm-5 col-md-4">
+                <span class="val-readonly">@(Model.Rec.p27Code)</span>
+
+            </div>
+        </div>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Typ zařízení:</label>
+            <div class="col-sm-11 col-md-10">
+                <span class="val-readonly">@(Model.Rec.p25Name)</span>
+            </div>
 
         </div>
-        <div class="col-sm-5 col-md-4">
-            <span class="val-readonly">@(Model.Rec.p27Code)</span>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Časový fond:</label>
+            <div class="col-sm-11 col-md-10">
+                <span class="val-readonly">@(Model.Rec.p31Name)</span>
+            </div>
 
         </div>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Kapacita výroby:</label>
+            <div class="col-sm-11 col-md-10">
+                <span class="val-readonly">@(Model.Rec.p27Capacity)</span>
+            </div>
+
+        </div>
+
+
+
+
     </div>
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Stroj (MSZ):</label>
-        <div class="col-sm-11 col-md-10">
-            <span class="val-readonly">@(Model.Rec.p26Name)</span>
-        </div>
-
-    </div>
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Kapacita:</label>
-        <div class="col-sm-11 col-md-10">
-            <span class="val-readonly">@(Model.Rec.p27Capacity)</span>
-        </div>
-
-    </div>
-    
-    
-
-
-</div>
 
 
 

@@ -241,7 +241,7 @@ namespace BL
             AF("p25MszType", "p25Name", "Typ zařízení", 1,null,"string",false,true);
 
             //p31 = kapacitní fondy
-            AF("p31CapacityFond", "p31Name", "Kapacitní fond", 1,null,"string",false,true);
+            AF("p31CapacityFond", "p31Name", "Časový fond", 1,null,"string",false,true);
             AF("p31CapacityFond", "p31DayHour1", "První hodina", 0, null, "num0");
             AF("p31CapacityFond", "p31DayHour2", "Poslední hodina", 0, null, "num0");
             AF("p31CapacityFond", "RecordOwner", "Vlastník záznamu", 0, "dbo.j02_show_as_owner(a.j02ID_Owner)");
@@ -525,10 +525,12 @@ namespace BL
                     ret.Add(InhaleColumn4Relation("p19_p28", "p28Company", "p28Name", rels, bolComboColumns));
                     break;
                 case "p26":
-                    ret.Add(InhaleColumn4Relation("p26_p31", "p31CapacityFond", "p31Name", rels, bolComboColumns));
+                    
                     break;
                 case "p27":
-                    ret.Add(InhaleColumn4Relation("p27_p26", "p26Msz", "p26Name", rels, bolComboColumns));
+                    ret.Add(InhaleColumn4Relation("p27_p25", "p25MszType", "p25Name", rels, bolComboColumns));
+                    ret.Add(InhaleColumn4Relation("p27_p31", "p31CapacityFond", "p31Name", rels, bolComboColumns));
+                    
                     break;
                 case "p41":
 

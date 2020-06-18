@@ -45,12 +45,18 @@ namespace UI.Controllers
                 v.TagNames = tg.TagNames;
                 v.TagHtml = tg.TagHtml;
 
+                var mq = new BO.myQuery("p27MszUnit");
+                mq.p26id = pid;
+                var lisP27 = Factory.p27MszUnitBL.GetList(mq);
+                v.SelectedP27IDs = string.Join(",", lisP27.Select(p => p.pid));
+                v.SelectedP27Names = string.Join(",", lisP27.Select(p => p.p27Name));
             }
             else
             {
                 v.Rec = new BO.p26Msz();
                 v.Rec.entity = "p26";
                 v.Rec.p26Code = Factory.CBL.EstimateRecordCode("p26");
+                
             }
 
             RefreshState(v);
@@ -73,18 +79,15 @@ namespace UI.Controllers
 
                 c.p26Code = v.Rec.p26Code;
                 c.p26Name = v.Rec.p26Name;
-                c.p26Memo = v.Rec.p26Memo;
-                c.p25ID = v.Rec.p25ID;
+                c.p26Memo = v.Rec.p26Memo;                
                 c.b02ID = v.Rec.b02ID;
                 c.p28ID = v.Rec.p28ID;
-                
-                c.p31ID = v.Rec.p31ID;
                 
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
 
-                v.Rec.pid = Factory.p26MszBL.Save(c);
+                v.Rec.pid = Factory.p26MszBL.Save(c,BO.BAS.ConvertString2ListInt(v.SelectedP27IDs));
                 if (v.Rec.pid > 0)
                 {
                     Factory.o51TagBL.SaveTagging("p26", v.Rec.pid, v.TagPids);
@@ -105,7 +108,7 @@ namespace UI.Controllers
         private void RefreshState(p26RecordViewModel v)
         {
             v.Toolbar = new MyToolbarViewModel(v.Rec);
-           
+            v.ApplicableUnits = Factory.p27MszUnitBL.GetList(new BO.myQuery("p27MszUnit")).ToList();
 
         }
     }

@@ -106,6 +106,7 @@ namespace UI.Controllers
             lis.Add(BL.TheEntities.ByPrefix("p11"));
             lis.Add(BL.TheEntities.ByPrefix("p10"));
             lis.Add(BL.TheEntities.ByPrefix("p26"));
+            lis.Add(BL.TheEntities.ByPrefix("p27"));
             lis.Add(BL.TheEntities.ByPrefix("o23"));
             lis.Add(BL.TheEntities.ByPrefix("p19"));
             lis.Add(BL.TheEntities.ByPrefix("p18"));

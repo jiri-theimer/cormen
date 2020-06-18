@@ -10,6 +10,7 @@ namespace UI.Models
         public DateTime CurrentDate { get; set; }
         
         public List<BO.p27MszUnit> lisP27 { get; set; }
+        public List<BO.p26Msz> lisP26 { get; set; }
 
         public IEnumerable<BO.p41Task> Tasks { get; set; }
         public List<Slot> Slots { get; set; }

@@ -119,7 +119,11 @@ namespace UI.Controllers
             mq.explicit_columns = _colsProvider.getDefaultPallete(false, mq);
             
             mq.IsRecordValid = true;    //v combo nabídce pouze časově platné záznamy
-            mq.InhaleMasterEntityQuery(masterprefix, masterpid);
+            if (masterpid > 0)
+            {
+                mq.InhaleMasterEntityQuery(masterprefix, masterpid);
+            }
+            
 
             List<int> selpids = null;
             if (String.IsNullOrEmpty(selectedvalues) == false)
@@ -127,11 +131,11 @@ namespace UI.Controllers
                 selpids=BO.BAS.ConvertString2ListInt(selectedvalues);
             }
 
-            string strTextField = "a__"+entity+"__"+mq.Prefix+"Name";    
+            string strTextField = "a__"+entity+"__"+mq.Prefix+"Name";
             if (mq.Prefix == "p27")
             {
-                mq.explicit_selectsql = "p27Name+' ('+p26Name+')' as StrediskoPlusStroj";
-                strTextField = "StrediskoPlusStroj";
+                mq.explicit_selectsql = "p27Name+' ('+p27Code+')' as NamePlusCode";
+                strTextField = "NamePlusCode";
             }
             string strGroupField = null;
             string strLastGroup = null;

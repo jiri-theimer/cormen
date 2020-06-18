@@ -9,7 +9,8 @@ namespace BO
     {
         [Key]
         public int p27ID { get; set; }
-        public int p26ID { get; set; }
+        public int p25ID { get; set; }
+        public int p31ID { get; set; }
 
         [Required(ErrorMessage = "Chybí vyplnit název!")]
         public string p27Name { get; set; }
@@ -18,10 +19,11 @@ namespace BO
         public string p27Code { get; set; }
 
         public double p27Capacity { get; set; }
+        
+        public string p25Name { get; set; } //get+set: kvůli mycombo
+        public string p31Name { get; set; } //get+set: kvůli mycombo
 
-        public string p26Name { get; set; }//kvůli combo
-        public int p25ID;    //dotaženo ze stroje
-        public int p31ID;   //dotaženo ze stroje
-        public string StrediskoPlusStroj;
+        public string TagHtml;
+        public string NamePlusCode;
     }
 }

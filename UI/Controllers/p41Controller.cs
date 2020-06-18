@@ -169,24 +169,47 @@ namespace UI.Controllers
             }
             v.HourFrom = Factory.CBL.LoadUserParamInt("p41Timeline-hourfrom", 6) ;
             v.HourUntil = Factory.CBL.LoadUserParamInt("p41Timeline-houruntil", 20);
-            v.localQuery = new p41TimelineQuery();            
+            v.localQuery = new p41TimelineQuery();
+            v.localQuery.SelectedP26IDs = Factory.CBL.LoadUserParam("p41Timeline-p26ids");
+            //v.localQuery.SelectedP26Names = Factory.CBL.LoadUserParam("p41Timeline-p26names");
             v.localQuery.SelectedP27IDs = Factory.CBL.LoadUserParam("p41Timeline-p27ids");
-            v.localQuery.SelectedP27Names = Factory.CBL.LoadUserParam("p41Timeline-p27names");
+            //v.localQuery.SelectedP27Names = Factory.CBL.LoadUserParam("p41Timeline-p27names");
             v.localQuery.SelectedB02IDs = Factory.CBL.LoadUserParam("p41Timeline-b02ids");
             v.localQuery.SelectedB02Names = Factory.CBL.LoadUserParam("p41Timeline-b02names");
             v.localQuery.IsPoPre = Factory.CBL.LoadUserParamBool("p41Timeline-ispopre",true);
             v.localQuery.IsTo = Factory.CBL.LoadUserParamBool("p41Timeline-isto", true);
             v.localQuery.IsPoPost = Factory.CBL.LoadUserParamBool("p41Timeline-ispopost", true);
 
-           
-            var mq = new BO.myQuery("p27MszUnit");
+            var mq = new BO.myQuery("p26Msz");
             mq.IsRecordValid = true;
-            if (v.localQuery.SelectedP27IDs != "")
+            if (v.localQuery.SelectedP26IDs != "")
+            {
+                mq.SetPids(v.localQuery.SelectedP26IDs);
+            }
+            v.lisP26 = Factory.p26MszBL.GetList(mq).ToList();
+            if (string.IsNullOrEmpty(v.localQuery.SelectedP26IDs)==false)
+            {
+                v.localQuery.SelectedP26Names = string.Join(",", v.lisP26.Select(p => p.p26Name));
+            }
+                
+            mq = new BO.myQuery("p27MszUnit");
+            mq.IsRecordValid = true;
+            if (string.IsNullOrEmpty(v.localQuery.SelectedP26IDs)==false)
+            {
+                mq.p26ids = BO.BAS.ConvertString2ListInt(v.localQuery.SelectedP26IDs);
+            }
+            if (string.IsNullOrEmpty(v.localQuery.SelectedP27IDs)==false)
             {
                 mq.SetPids(v.localQuery.SelectedP27IDs);
             }                        
             v.lisP27 = Factory.p27MszUnitBL.GetList(mq).ToList();
-            v.localQuery.SelectedP27Names = string.Join(",", v.lisP27.Select(p => p.StrediskoPlusStroj));
+            if (string.IsNullOrEmpty(v.localQuery.SelectedP27IDs)==false)
+            {
+                v.localQuery.SelectedP27Names = string.Join(",", v.lisP27.Select(p => p.p27Name));
+            }
+                
+
+            
 
             mq = new BO.myQuery("p41Task");
             mq.DateBetween = v.CurrentDate;
@@ -196,6 +219,8 @@ namespace UI.Controllers
             if (v.localQuery.IsTo) mq.p18flags.Add(1);
             if (v.localQuery.IsPoPost) mq.p18flags.Add(3);
             mq.b02ids = BO.BAS.ConvertString2ListInt(v.localQuery.SelectedB02IDs);
+            mq.p26ids = BO.BAS.ConvertString2ListInt(v.localQuery.SelectedP26IDs);
+            mq.p27ids = BO.BAS.ConvertString2ListInt(v.localQuery.SelectedP27IDs);
 
             mq.explicit_orderby = "a.p41PlanStart"; //je důležité setřídit zakázky podle času-od, aby se v grid matici načítali postupně po řádcích!
             v.Tasks = Factory.p41TaskBL.GetList(mq).Where(p=>(p.p41PlanStart >= v.CurrentDT1 && p.p41PlanStart <= v.CurrentDT2) || (p.p41PlanEnd >= v.CurrentDT1 && p.p41PlanEnd <= v.CurrentDT2));     //.OrderBy(p=>p.p41PlanStart); 
@@ -271,38 +296,7 @@ namespace UI.Controllers
                 lastSlot = slot;
 
                 v.Slots.Add(slot);
-                //if (task.p41MasterID==0 && task.p41DurationPoPre > 0 && task.p41PlanStart >= v.CurrentDT1)
-                //{
-                //    slot = new Slot() { p41ID = task.pid, p27ID = task.p27ID, Start = task.p41PlanStart, End = task.p41PlanStart.AddMinutes(task.p41DurationPoPre), CssName = "popre" };
-
-                //    slot.Title = "PO-PRE: " + task.p41Code + ": " + BO.BAS.ObjectDateTime2String(slot.Start, "HH:mm") + " - " + BO.BAS.ObjectDateTime2String(slot.End, "HH:mm");
-                //    if (slot.End > v.CurrentDT2)
-                //    {
-                //        slot.End = v.CurrentDT2;
-                //    }
-                //    slot.ColStart = (slot.Start.Hour * 60 + slot.Start.Minute) / 10;
-                //    if (slot.ColStart + slot.ColSpan > lastSlot.ColStart)
-                //    {
-                //        slot.ColSpanKorekce = -1;
-                //    }
-
-                //    v.Slots.Add(slot);
-                //}
-                //if (task.p41MasterID==0 && task.p41DurationPoPost > 0 && task.p41PlanEnd.AddMinutes(-1 * task.p41DurationPoPost) < v.CurrentDT2)
-                //{
-                //    slot = new Slot() { p41ID = task.pid, p27ID = task.p27ID, Start = task.p41PlanEnd.AddMinutes(-1 * task.p41DurationPoPost), End = task.p41PlanEnd, CssName = "popost" };
-                //    slot.Title = "PO-POST: " + task.p41Code + ": " + BO.BAS.ObjectDateTime2String(slot.Start, "HH:mm") + " - " + BO.BAS.ObjectDateTime2String(slot.End, "HH:mm");
-                //    if (slot.End > v.CurrentDT2)
-                //    {
-                //        slot.End = v.CurrentDT2;
-                //    }
-                //    slot.ColStart = (slot.Start.Hour * 60 + slot.Start.Minute) / 10;
-                //    if (slot.ColStart < lastSlot.ColStart + lastSlot.ColSpan)
-                //    {
-                //        slot.ColStart += 1;
-                //    }
-                //    v.Slots.Add(slot);
-                //}
+                
             }
 
 

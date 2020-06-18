@@ -65,7 +65,7 @@ namespace BL
             
             AE("p26Msz", "Skupiny zařízení", "Skupina zařízení", "p26Msz a", "a.p26Name");
             AE("p21License", "Licence", "Licence", "p21License a", "p28.p28Name,a.p21Name");
-            AE("p31CapacityFond", "Kapacitní fondy", "Kapacitní fond", "p31CapacityFond a", "a.p31Name");
+            AE("p31CapacityFond", "Časové fondy", "Časový fond", "p31CapacityFond a", "a.p31Name");
 
             AE("p18OperCode", "Kódy operací", "Kód operace", "p18OperCode a", "a.p18Code", "a.p18Code");
             AE("p19Material", "Suroviny", "Surovina", "p19Material a", "a.p19Name");
@@ -210,16 +210,17 @@ namespace BL
                     
                     lis.Add(getREL("o54TagBindingInline", "p21_o54", "Kategorie", "LEFT OUTER JOIN (SELECT * FROM o54TagBindingInline WHERE o54RecordEntity='p21') p21_o54 ON a.p21ID=p21_o54.o54RecordPid"));
                     break;
-                case "p26":
-                    //lis.Add(getREL("p28Company", "p26_p28", "Klient stroje", "LEFT OUTER JOIN p28Company p26_p28 ON a.p28ID=p26_p28.p28ID"));
-                    lis.Add(getREL("p25MszType", "p26_p25", "Typ zařízení", "INNER JOIN p25MszType p26_p25 ON a.p25ID=p26_p25.p25ID"));                    
-                    lis.Add(getREL("p31CapacityFond", "p26_p31", "Kapacitní fond", "LEFT OUTER JOIN p31CapacityFond p26_p31 ON a.p31ID=p26_p31.p31ID"));
+                case "p26":                                                            
                     lis.Add(getREL("b02Status", "p26_b02", "Workflow stav skupiny", "LEFT OUTER JOIN b02Status p26_b02 ON a.b02ID = p26_b02.b02ID"));
-                    
+                    lis.Add(getREL("p28Company", "p26_p28", "Klient stroje", "LEFT OUTER JOIN p28Company p26_p28 ON a.p28ID=p26_p28.p28ID"));
+
                     lis.Add(getREL("o54TagBindingInline", "p26_o54", "Kategorie", "LEFT OUTER JOIN (SELECT * FROM o54TagBindingInline WHERE o54RecordEntity='p26') p26_o54 ON a.p26ID=p26_o54.o54RecordPid"));
                     break;
                 case "p27":
-                    lis.Add(getREL("p26Msz", "p27_p26", "Skupina zařízení", "INNER JOIN p26Msz p27_p26 ON a.p26ID=p27_p26.p26ID"));
+                    lis.Add(getREL("p25MszType", "p27_p25", "Typ zařízení", "INNER JOIN p25MszType p27_p25 ON a.p25ID=p27_p25.p25ID"));
+                    lis.Add(getREL("p31CapacityFond", "p27_p31", "Časový fond", "LEFT OUTER JOIN p31CapacityFond p27_p31 ON a.p31ID=p27_p31.p31ID"));
+
+                    lis.Add(getREL("o54TagBindingInline", "p27_o54", "Kategorie", "LEFT OUTER JOIN (SELECT * FROM o54TagBindingInline WHERE o54RecordEntity='p27') p27_o54 ON a.p27ID=p27_o54.o54RecordPid"));
                     break;
                 case "p28":
                     lis.Add(getREL("j02Person", "p28_owner", "Vlastník záznamu", getOwnerSql("p28")));

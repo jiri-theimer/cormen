@@ -19,7 +19,9 @@ namespace UI.Controllers
                 return RecNotFound(v);
             }
             else
-            {                
+            {
+                var tg = Factory.o51TagBL.GetTagging("p27", pid);
+                v.Rec.TagHtml = tg.TagHtml;
                 return View(v);
             }
 
@@ -38,7 +40,10 @@ namespace UI.Controllers
                 {
                     return RecNotFound(v);
                 }
-
+                var tg = Factory.o51TagBL.GetTagging("p27", pid);
+                v.TagPids = tg.TagPids;
+                v.TagNames = tg.TagNames;
+                v.TagHtml = tg.TagHtml;
             }
             else
             {
@@ -68,8 +73,9 @@ namespace UI.Controllers
                 c.p27Code = v.Rec.p27Code;
                 c.p27Name = v.Rec.p27Name;
                 c.p27Capacity = v.Rec.p27Capacity;
-                c.p26ID = v.Rec.p26ID;
-                
+                c.p25ID = v.Rec.p25ID;
+                c.p31ID = v.Rec.p31ID;
+
 
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
@@ -78,6 +84,7 @@ namespace UI.Controllers
                 v.Rec.pid = Factory.p27MszUnitBL.Save(c);
                 if (v.Rec.pid > 0)
                 {
+                    Factory.o51TagBL.SaveTagging("p27", v.Rec.pid, v.TagPids);
                     v.SetJavascript_CallOnLoad(v.Rec.pid);
                     return View(v);
                 }

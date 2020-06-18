@@ -191,8 +191,12 @@
             <input type="checkbox" asp-for="@Model.localQuery.IsTo" />
             <label for="localQuery_IsTo">Zobrazovat zakázky s [TO] operacemi</label>
         </div>
+
         <div>
-            <mycombochecklist asp-for="@Model.localQuery.SelectedP27IDs" entity="p27MszUnit" selectedtext="@Model.localQuery.SelectedP27Names" placeholder="Střediska zakázek..."></mycombochecklist>
+            <mycombochecklist asp-for="@Model.localQuery.SelectedP26IDs" entity="p26Msz" selectedtext="@Model.localQuery.SelectedP26Names" placeholder="Skupiny zařízení..."></mycombochecklist>
+        </div>
+        <div>
+            <mycombochecklist asp-for="@Model.localQuery.SelectedP27IDs" entity="p27MszUnit" selectedtext="@Model.localQuery.SelectedP27Names" placeholder="Střediska..."></mycombochecklist>
         </div>
         <div>
             <mycombochecklist asp-for="@Model.localQuery.SelectedB02IDs" entity="b02Status" param1="p41" selectedtext="@Model.localQuery.SelectedB02Names" placeholder="Stavy zakázek..."></mycombochecklist>
@@ -287,7 +291,7 @@
 
     <div class="grid-container" style="grid-template-columns:150px repeat(@(_colsHours*6),10px);border-bottom: dashed 1px silver;margin-bottom: 3px;">
         <div class="stredisko" style="grid-column: 1/span 1;">
-            <div style="margin-left:16px;">@stredisko.p26Name</div>
+            <div style="margin-left:16px;">@stredisko.p27Code</div>
             <a class="cm" onclick="_cm(event,'p27',@stredisko.pid)">☰</a>
             @stredisko.p27Name <span class="kapacita">
                 @stredisko.p27Capacity
@@ -395,6 +399,12 @@
             vals.push($("#localQuery_SelectedP27IDs").val());
             keys.push("p41Timeline-p27names");
             vals.push($("#value_alias_localQuery_SelectedP27IDs").val());
+
+            keys.push("p41Timeline-p26ids");
+            vals.push($("#localQuery_SelectedP26IDs").val());
+            keys.push("p41Timeline-p26names");
+            vals.push($("#value_alias_localQuery_SelectedP26IDs").val());
+
             keys.push("p41Timeline-b02ids");
             vals.push($("#localQuery_SelectedB02IDs").val());
             keys.push("p41Timeline-b02names");

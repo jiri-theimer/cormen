@@ -54,14 +54,14 @@ namespace UI.Views.Shared.TagHelpers
             var strControlID = this.For.Name.Replace(".", "_").Replace("[", "_").Replace("]", "_");
 
 
-            sb(string.Format("<div id='divDropdownContainer{0}' class='dropdown input-group' style='border:solid 1px #C8C8C8;border-radius:3px;width:100%;'>", strControlID));
+            sb(string.Format("<div id='divDropdownContainer{0}' class='dropdown input-group' style='border-radius:3px;width:100%;'>", strControlID));
 
 
             
             sb(string.Format("<input type='text' id='value_alias_{0}' name='{1}' class='form-control bg-light' value='{2}' style='cursor:pointer' readonly='readonly' placeholder='{3}'/>", strControlID, this.SelectedText.Name, this.SelectedText.Model,this.PlaceHolder));
 
             //sb("<div class='input-group-append'>");
-            sb(string.Format("<button type='button' id='cmdCombo{0}' class='btn btn-light dropdown-toggle' style='border-radius:0px;' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'></button>", strControlID));
+            sb(string.Format("<button type='button' id='cmdCombo{0}' class='btn btn-light dropdown-toggle' style='border:solid 1px #C8C8C8;border-radius:0px;' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'></button>", strControlID));
 
             sb(string.Format("<div id='divDropdown{0}' class='dropdown-menu' aria-labelledby='cmdCombo{0}' style='width:100%;' tabindex='-1'>", strControlID));
             sb(string.Format("<div id='divData{0}' style='height:{1};overflow:auto;width:100%;min-width:200px;'>", strControlID,this.dropdown_height));

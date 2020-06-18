@@ -14,47 +14,50 @@
     @Html.EditorFor(m => m.Toolbar, "~/Views/Shared/_MyToolbar.cshtml")
     @Html.HiddenFor(m => m.Rec.pid)
 
-    <div class="modal_record_container">
+<div class="modal_record_container">
 
-        <div class="form-row">
-            <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
-            <div class="col-sm-8 col-md-7">
-                <input class="form-control" asp-for="Rec.p27Name" />
-                <span asp-validation-for="Rec.p27Name" class="text-danger"></span>
-            </div>
-            <div class="col-sm-3 col-md-3">
-                <input class="form-control" asp-for="Rec.p27Code" />
-                <span asp-validation-for="Rec.p27Code" class="text-danger"></span>
-            </div>
+    <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
+        <div class="col-sm-8 col-md-7">
+            <input class="form-control" asp-for="Rec.p27Name" />
+            <span asp-validation-for="Rec.p27Name" class="text-danger"></span>
         </div>
-        <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Skupina zařízení:</label>
-            <div class="col-sm-11 col-md-10">
-                <mycombo entity="p26Msz" asp-for="Rec.p26ID" selectedtext="Rec.p26Name" view-flag="2"></mycombo>
-            </div>
-            
+        <div class="col-sm-3 col-md-3">
+            <input class="form-control" asp-for="Rec.p27Code" />
+            <span asp-validation-for="Rec.p27Code" class="text-danger"></span>
         </div>
-        <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Kapacita:</label>
-            <div class="col-sm-3 col-md-2">
-                <mynumber asp-for="Rec.p27Capacity" decimal-digits="2"></mynumber>
-                KG
-            </div>
-            
+    </div>
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Typ zařízení:</label>
+        <div class="col-sm-5 col-md-4">
+            <mycombo entity="p25MszType" asp-for="Rec.p25ID" selectedtext="Rec.p25Name" view-flag="2"></mycombo>
         </div>
+        <label class="col-sm-2 col-md-2 col-form-label">Časový fond:</label>
+        <div class="col-sm-4 col-md-4">
+            <mycombo entity="p31CapacityFond" asp-for="Rec.p31ID" selectedtext="Rec.p31Name" view-flag="2"></mycombo>
+        </div>
+    </div>
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Kapacita výroby (KG):</label>
+        <div class="col-sm-3 col-md-2">
+            <mynumber asp-for="Rec.p27Capacity" decimal-digits="2"></mynumber>
 
-        
-
-
-
-
-        
-
-
-
-
+        </div>
 
     </div>
+
+
+
+    <mystitky entity="p27MszUnit" asp-for="@Model.TagPids" tagnames="@Model.TagNames" taghtml="@Model.TagHtml"></mystitky>
+
+
+
+
+
+
+
+
+</div>
 
 
 </form>

@@ -14,9 +14,11 @@ namespace UI.Models
         public string TagHtml { get; set; }
         public MyToolbarViewModel Toolbar { get; set; }
 
+        public List<BO.p27MszUnit> ApplicableUnits { get; set; }
 
-      
-      
+        public string SelectedP27IDs { get; set; }
+        public string SelectedP27Names { get; set; }
+
 
     }
 }
