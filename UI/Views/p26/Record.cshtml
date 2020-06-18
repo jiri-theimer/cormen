@@ -29,15 +29,21 @@
             <span asp-validation-for="Rec.p26Code" class="text-danger"></span>
         </div>
     </div>
-
     <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Střediska ve skupině:</label>
+        <label class="col-sm-1 col-md-2 col-form-label">Typ zařízení:</label>
+        <div class="col-sm-5 col-md-4">
+            <mycombo entity="p25MszType" asp-for="Rec.p25ID" selectedtext="Rec.p25Name" view-flag="2"></mycombo>
+        </div>
+        
+    </div>
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Zařízení ve skupině:</label>
         <div class="col-sm-11 col-md-10">
-            <mycombochecklist asp-for="@Model.SelectedP27IDs" entity="p27MszUnit" selectedtext="@Model.SelectedP27Names" placeholder="Vybrat střediska..."></mycombochecklist>
+            <mycombochecklist asp-for="@Model.SelectedP27IDs" entity="p27MszUnit" selectedtext="@Model.SelectedP27Names" placeholder="Vybrat zařízení..."></mycombochecklist>
         </div>
     </div>
 
-    
+
 
     <div class="form-row" style="margin-top:10px;">
         <label class="col-sm-1 col-md-2 col-form-label">Klient stroje:</label>
@@ -46,7 +52,7 @@
         </div>
     </div>
 
-   
+
 
     <mystitky entity="p26Msz" asp-for="@Model.TagPids" tagnames="@Model.TagNames" taghtml="@Model.TagHtml"></mystitky>
 

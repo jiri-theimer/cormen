@@ -99,10 +99,16 @@ namespace BL.DL
             }
             if (mq.p25id > 0)
             {
-                if (mq.Prefix=="p27") AQ(ref lis, "a.p25ID=@p25id", "p25id", mq.p25id);
+                if (mq.Prefix=="p26") AQ(ref lis, "a.p25ID=@p25id", "p25id", mq.p25id);
                 if (mq.Prefix == "p18") AQ(ref lis, "a.p25ID=@p25id", "p25id", mq.p25id);
-                if (mq.Prefix == "p26") AQ(ref lis, "a.p26ID IN (select xa.p26ID FROM p29MszUnitBinding xa INNER JOIN p27MszUnit xb ON xa.p27ID=xb.p27ID WHERE xb.p25ID=@p25id)", "p25id", mq.p25id);
+                if (mq.Prefix == "p27") AQ(ref lis, "a.p27ID IN (select xa.p27ID FROM p29MszUnitBinding xa INNER JOIN p26Msz xb ON xa.p26ID=xb.p26ID WHERE xb.p25ID=@p25id)", "p25id", mq.p25id);
             }
+            //if (mq.p25ids !=null && mq.p25ids.Count > 0)
+            //{
+            //    if (mq.Prefix == "p26") AQ(ref lis, "a.p25ID IN (" + string.Join(",", mq.p25ids) + ")", "", null);
+            //    if (mq.Prefix == "p18") AQ(ref lis, "a.p25ID IN (" + string.Join(",", mq.p25ids) + ")", "", null);
+            //    if (mq.Prefix == "p27") AQ(ref lis, "a.p27ID IN (select xa.p27ID FROM p29MszUnitBinding xa INNER JOIN p26Msz xb ON xa.p26ID=xb.p26ID WHERE xb.p25ID IN (" + string.Join(",", mq.p25ids) + "))", "", null);
+            //}
             if (mq.p18flag>0)
             {
                 if (mq.Prefix == "p18") AQ(ref lis, "a.p18Flag=@p18flag", "p18flag",mq.p18flag);
@@ -124,6 +130,10 @@ namespace BL.DL
                 if (mq.Prefix == "p41") AQ(ref lis, "a.p27ID IN (select p27ID FROM p29MszUnitBinding WHERE p26ID IN (" + string.Join(",", mq.p26ids) + "))", "", null);
                 if (mq.Prefix == "p27") AQ(ref lis, "a.p27ID IN (select p27ID FROM p29MszUnitBinding WHERE p26ID IN (" + string.Join(",", mq.p26ids) + "))", "", null);
             }
+            if (mq.p27id > 0)
+            {
+                if (mq.Prefix == "p18") AQ(ref lis, "a.p25ID IN (select xa.p25ID FROM p26Msz xa INNER JOIN p29MszUnitBinding xb ON xa.p26ID=xb.p26ID INNER JOIN p27MszUnit xc ON xb.p27ID=xc.p27ID WHERE xc.p27ID=@p27id)", "p27id", mq.p27id);
+            }
             if (mq.p27ids != null && mq.p27ids.Count() > 0)
             {
                 if (mq.Prefix == "p41") AQ(ref lis, "a.p27ID IN (" + string.Join(",", mq.p27ids) + ")", "", null);
@@ -134,7 +144,7 @@ namespace BL.DL
                 if (mq.Prefix == "o23") AQ(ref lis, "a.o23Entity LIKE 'p41Task' AND a.o23RecordPid=@p41id", "p41id", mq.p41id);
                 if (mq.Prefix == "p15") AQ(ref lis, "a.p12ID IN (select xb.p12ID FROM p52OrderItem xa INNER JOIN p11ClientProduct xb ON xa.p11ID=xb.p11ID INNER JOIN p41Task xc ON xa.p52ID=xc.p52ID WHERE xc.p41ID=@p41id)", "p41id", mq.p41id);
                 if (mq.Prefix == "p44") AQ(ref lis, "a.p41ID=@p41id", "p41id", mq.p41id);
-                
+                if (mq.Prefix == "p18") AQ(ref lis, "a.p25ID IN (select xa.p25ID FROM p26Msz xa INNER JOIN p29MszUnitBinding xb ON xa.p26ID=xb.p26ID INNER JOIN p27MszUnit xc ON xb.p27ID=xc.p27ID INNER JOIN p41Task xd ON xc.p27ID=xd.p27ID WHERE xd.p41ID=@p41id)", "p41id", mq.p41id);
             }
             if (mq.p51id > 0)
             {
@@ -195,7 +205,7 @@ namespace BL.DL
                 }
                 if (mq.Prefix == "p25")
                 {
-                    AQ(ref lis, "a.p25ID IN (select xa.p25ID FROM p27MszUnit xa INNER JOIN p29MszUnitBinding xb ON xa.p27ID=xb.p27ID INNER JOIN p26Msz xc ON xb.p26ID=xc.p26ID WHERE xc.p28ID=@p28id)", "p28id", ru.p28ID);    //pouze typy zařízení za klientovi stroje
+                    AQ(ref lis, "a.p25ID IN (select p25ID FROM p26Msz WHERE p28ID=@p28id)", "p28id", ru.p28ID);    //pouze typy zařízení za klientovi stroje
                 }
                 if (mq.Prefix == "p27")
                 {

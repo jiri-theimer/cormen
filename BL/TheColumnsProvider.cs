@@ -135,9 +135,9 @@ namespace BL
             AF("p26Msz", "p26Memo", "Podrobný popis");
             AppendTimestamp("p26Msz");
 
-            //p27 = středíska
-            AF("p27MszUnit", "p27Name", "Středisko", 1,null,"string",false,true);
-            AF("p27MszUnit", "p27Code", "Kód", 2);
+            //p27 = zařízení
+            AF("p27MszUnit", "p27Name", "Zařízení", 1,null,"string",false,true);
+            AF("p27MszUnit", "p27Code", "Kód zařízení", 2);
             AF("p27MszUnit", "p27Capacity", "Kapacita", 1, null, "num0", true);
             AppendTimestamp("p27MszUnit");
 
@@ -525,10 +525,10 @@ namespace BL
                     ret.Add(InhaleColumn4Relation("p19_p28", "p28Company", "p28Name", rels, bolComboColumns));
                     break;
                 case "p26":
-                    
+                    ret.Add(InhaleColumn4Relation("p26_p25", "p25MszType", "p25Name", rels, bolComboColumns));
                     break;
                 case "p27":
-                    ret.Add(InhaleColumn4Relation("p27_p25", "p25MszType", "p25Name", rels, bolComboColumns));
+                    
                     ret.Add(InhaleColumn4Relation("p27_p31", "p31CapacityFond", "p31Name", rels, bolComboColumns));
                     
                     break;

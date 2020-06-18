@@ -9,7 +9,7 @@ namespace BO
     {
         [Key]
         public int p27ID { get; set; }
-        public int p25ID { get; set; }
+        
         public int p31ID { get; set; }
 
         [Required(ErrorMessage = "Chybí vyplnit název!")]
@@ -20,7 +20,7 @@ namespace BO
 
         public double p27Capacity { get; set; }
         
-        public string p25Name { get; set; } //get+set: kvůli mycombo
+        
         public string p31Name { get; set; } //get+set: kvůli mycombo
 
         public string TagHtml;

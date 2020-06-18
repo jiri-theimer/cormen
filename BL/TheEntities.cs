@@ -94,7 +94,7 @@ namespace BL
 
             AE_TINY("j04UserRole", "Aplikační role", "Aplikační role");            
             AE_TINY("p25MszType", "Typy zařízení", "Typ zařízení");
-            AE_TINY("p27MszUnit", "Střediska", "Středisko");
+            AE_TINY("p27MszUnit", "Zařízení", "Zařízení");
             AE_TINY("p28Company", "Subjekty | Klienti", "Klient");
             
             AE_TINY("o51Tag", "Položky kategorií", "Položka kategorie");            
@@ -210,14 +210,15 @@ namespace BL
                     
                     lis.Add(getREL("o54TagBindingInline", "p21_o54", "Kategorie", "LEFT OUTER JOIN (SELECT * FROM o54TagBindingInline WHERE o54RecordEntity='p21') p21_o54 ON a.p21ID=p21_o54.o54RecordPid"));
                     break;
-                case "p26":                                                            
+                case "p26":
+                    lis.Add(getREL("p25MszType", "p26_p25", "Typ zařízení", "INNER JOIN p25MszType p26_p25 ON a.p25ID=p26_p25.p25ID"));
                     lis.Add(getREL("b02Status", "p26_b02", "Workflow stav skupiny", "LEFT OUTER JOIN b02Status p26_b02 ON a.b02ID = p26_b02.b02ID"));
                     lis.Add(getREL("p28Company", "p26_p28", "Klient stroje", "LEFT OUTER JOIN p28Company p26_p28 ON a.p28ID=p26_p28.p28ID"));
 
                     lis.Add(getREL("o54TagBindingInline", "p26_o54", "Kategorie", "LEFT OUTER JOIN (SELECT * FROM o54TagBindingInline WHERE o54RecordEntity='p26') p26_o54 ON a.p26ID=p26_o54.o54RecordPid"));
                     break;
                 case "p27":
-                    lis.Add(getREL("p25MszType", "p27_p25", "Typ zařízení", "INNER JOIN p25MszType p27_p25 ON a.p25ID=p27_p25.p25ID"));
+                    
                     lis.Add(getREL("p31CapacityFond", "p27_p31", "Časový fond", "LEFT OUTER JOIN p31CapacityFond p27_p31 ON a.p31ID=p27_p31.p31ID"));
 
                     lis.Add(getREL("o54TagBindingInline", "p27_o54", "Kategorie", "LEFT OUTER JOIN (SELECT * FROM o54TagBindingInline WHERE o54RecordEntity='p27') p27_o54 ON a.p27ID=p27_o54.o54RecordPid"));
@@ -231,7 +232,7 @@ namespace BL
                     lis.Add(getREL("j02Person", "p31_owner", "Vlastník záznamu", getOwnerSql("p31")));
                     break;
                 case "p41":
-                    lis.Add(getREL("p27MszUnit", "p41_p27", "Středisko", "LEFT OUTER JOIN p27MszUnit p41_p27 ON a.p27ID=p41_p27.p27ID"));
+                    lis.Add(getREL("p27MszUnit", "p41_p27", "Zařízení", "LEFT OUTER JOIN p27MszUnit p41_p27 ON a.p27ID=p41_p27.p27ID"));
                     lis.Add(getREL("b02Status", "p41_b02", "Workflow stav", "LEFT OUTER JOIN b02Status p41_b02 ON a.b02ID = p41_b02.b02ID"));
 
                     lis.Add(getREL("p52OrderItem", "p41_p52", "Položka objednávky", "INNER JOIN p52OrderItem p41_p52 ON a.p52ID=p41_p52.p52ID"));

@@ -196,7 +196,7 @@
             <mycombochecklist asp-for="@Model.localQuery.SelectedP26IDs" entity="p26Msz" selectedtext="@Model.localQuery.SelectedP26Names" placeholder="Skupiny zařízení..."></mycombochecklist>
         </div>
         <div>
-            <mycombochecklist asp-for="@Model.localQuery.SelectedP27IDs" entity="p27MszUnit" selectedtext="@Model.localQuery.SelectedP27Names" placeholder="Střediska..."></mycombochecklist>
+            <mycombochecklist asp-for="@Model.localQuery.SelectedP27IDs" entity="p27MszUnit" selectedtext="@Model.localQuery.SelectedP27Names" placeholder="Zařízení..."></mycombochecklist>
         </div>
         <div>
             <mycombochecklist asp-for="@Model.localQuery.SelectedB02IDs" entity="b02Status" param1="p41" selectedtext="@Model.localQuery.SelectedB02Names" placeholder="Stavy zakázek..."></mycombochecklist>
@@ -267,7 +267,7 @@
             for (int j = 0; j < 60; j = j + 10)
             {
                 d = Model.CurrentDate.AddHours(i).AddMinutes(j);
-                if (Model.lisFond.Where(p => (d >= p.p33DateTime && d <= p.p33DateTimeUntil)).Count() > 0)
+                if (Model.lisFond.Where(p => (p.p31ID==stredisko.p31ID && d >= p.p33DateTime && d <= p.p33DateTimeUntil)).Count() > 0)
                 {
 
 

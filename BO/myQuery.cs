@@ -56,6 +56,7 @@ namespace BO
         public int b02id { get; set; }
         public List<int> b02ids { get; set; }
         public List<int> p27ids { get; set; }
+        public int p27id { get; set; }
         public List<int> p26ids { get; set; }
         public int p28id { get; set; }
         public int p21id { get; set; }
@@ -70,6 +71,7 @@ namespace BO
         public int p51id { get; set; }
         public int p52id { get; set; }
         public int p25id { get; set; }
+        public List<int> p25ids { get; set; }
         public int p18flag { get; set; }
         public List<int> p18flags { get; set; }
         public int o53id { get; set; }

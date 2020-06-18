@@ -20,7 +20,13 @@
 
             </div>
         </div>
-        
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Typ zařízení:</label>
+            <div class="col-sm-11 col-md-10">
+                <span class="val-readonly">@(Model.Rec.p25Name)</span>
+            </div>
+
+        </div>
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Klient:</label>
             <div class="col-sm-11 col-md-10">
@@ -52,7 +58,7 @@
 
 
 @Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
-<kbd>Svázaná střediska:</kbd>
+<kbd>Zařízení ve skupině:</kbd>
 <div id="divP27Table"></div>
 
 

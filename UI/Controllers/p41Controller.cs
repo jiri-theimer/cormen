@@ -75,15 +75,32 @@ namespace UI.Controllers
         {
             v.RecMasterP41 = Factory.p41TaskBL.Load(v.MasterID);
             if (v.SelectedP27ID > 0)
-            {
-                var recP27 = Factory.p27MszUnitBL.Load(v.SelectedP27ID);
+            {                
                 var mq = new BO.myQuery("p18OperCode");
-                mq.p25id = recP27.p25ID;
+                mq.p27id = v.SelectedP27ID;
                 mq.p18flag = v.p18flag;
                 mq.explicit_orderby = "a.p18Code";  //nutno setřídit podle kódu/pořadí operace
                 v.lisP18 = Factory.p18OperCodeBL.GetList(mq);
             }
-           
+
+
+            
+            if (v.RecMasterP41.p52ID > 0)
+            {
+                var recP52 = Factory.p52OrderItemBL.Load(v.RecMasterP41.p52ID);                
+                BO.p11ClientProduct cP11 = Factory.p11ClientProductBL.Load(recP52.p11ID);
+                if (cP11.p10ID_Master > 0)
+                {
+                    v.p25ID = Factory.p10MasterProductBL.Load(cP11.p10ID_Master).p25ID; //z RecP10 se bere typ zařízení pro combo nabídku zařízení
+                }
+                else
+                {
+                    if (cP11.p12ID > 0)
+                    {
+                        v.p25ID = Factory.p12ClientTpvBL.Load(cP11.p12ID).p25ID;    //vlastní klientská receptura
+                    }
+                }
+            }
 
 
 
@@ -147,10 +164,9 @@ namespace UI.Controllers
         }
         private void RefreshState_p41AppendPo(ref p41AppendPoViewModel v)
         {
-            v.RecP41 = Factory.p41TaskBL.Load(v.p41ID);
-            var recP27 = Factory.p27MszUnitBL.Load(v.RecP41.p27ID);
+            v.RecP41 = Factory.p41TaskBL.Load(v.p41ID);            
             var mq = new BO.myQuery("p18OperCode");
-            mq.p25id = recP27.p25ID;
+            mq.p41id = v.p41ID;
             mq.p18flag = v.p18flag;
             mq.explicit_orderby = "a.p18Code";  //nutno setřídit podle kódu/pořadí operace
             v.lisP18 = Factory.p18OperCodeBL.GetList(mq);
@@ -585,7 +601,12 @@ namespace UI.Controllers
 
         private void RefreshState_Record(p41RecordViewModel v)
         {
-            v.Toolbar = new MyToolbarViewModel(v.Rec);
+            v.Toolbar = new MyToolbarViewModel(v.Rec);           
+            if (v.Rec.p41MasterID>0 && v.Rec.p52ID == 0)
+            {
+                var c = Factory.p41TaskBL.Load(v.Rec.p41MasterID);
+                v.Rec.p52ID = c.p52ID;  //zjistit ID objednávky master zakázky
+            }
             if (v.Rec.p52ID > 0)
             {
                 v.RecP52 = Factory.p52OrderItemBL.Load(v.Rec.p52ID);
@@ -593,7 +614,7 @@ namespace UI.Controllers
                 BO.p11ClientProduct cP11 = Factory.p11ClientProductBL.Load(v.RecP52.p11ID);
                 if (cP11.p10ID_Master > 0)
                 {
-                    v.p25ID = Factory.p10MasterProductBL.Load(cP11.p10ID_Master).p25ID; //z RecP10 se bere typ zařízení pro combo nabídku středisek
+                    v.p25ID = Factory.p10MasterProductBL.Load(cP11.p10ID_Master).p25ID; //z RecP10 se bere typ zařízení pro combo nabídku zařízení
                 }
                 else
                 {
