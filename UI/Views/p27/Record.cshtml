@@ -28,7 +28,14 @@
         </div>
     </div>
     <div class="form-row" style="margin-top:10px;">
-        
+        <label class="col-sm-1 col-md-2 col-form-label">Kmenový typ zařízení:</label>
+        <div class="col-sm-5 col-md-4">
+            <mycombo entity="p25MszType" asp-for="Rec.p25ID_HW" selectedtext="Rec.p25Name_HW" view-flag="2"></mycombo>
+        </div>
+
+    </div>
+    <div class="form-row" style="margin-top:10px;">
+
         <label class="col-sm-1 col-md-2 col-form-label">Časový fond:</label>
         <div class="col-sm-5 col-md-5">
             <mycombo entity="p31CapacityFond" asp-for="Rec.p31ID" selectedtext="Rec.p31Name" view-flag="2"></mycombo>

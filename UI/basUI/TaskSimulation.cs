@@ -30,9 +30,34 @@ namespace UI
             _f = f;
             _tasks = new List<BO.p41Task>();
 
+            
+        }
+
+        private void InhaleListP27(int p52id,int p27id)
+        {
             var mq = new BO.myQuery("p27MszUnit");
             mq.IsRecordValid = true;
+
+            BO.p52OrderItem cP52 = _f.p52OrderItemBL.Load(p52id);
+            BO.p11ClientProduct cP11 = _f.p11ClientProductBL.Load(cP52.p11ID);
+            if (cP11.p10ID_Master > 0)
+            {
+                mq.p25id = _f.p10MasterProductBL.Load(cP11.p10ID_Master).p25ID; //z RecP10 se bere typ zařízení pro combo nabídku zařízení
+            }
+            else
+            {
+                if (cP11.p12ID > 0)
+                {
+                    mq.p25id = _f.p12ClientTpvBL.Load(cP11.p12ID).p25ID;    //vlastní klientská receptura
+                }
+            }
+            
             _lisP27 = _f.p27MszUnitBL.GetList(mq).ToList();
+
+            if (p27id > 0)
+            {
+                _lisP27 = _lisP27.Where(p => p.pid == p27id).ToList();
+            }
         }
 
         
@@ -56,8 +81,13 @@ namespace UI
             
             return _tasks;
         }
-        public List<BO.p41Task> getTasksByP52(int p52id)
+        public List<BO.p41Task> getTasksByP52(int p52id,int p27id)
         {
+            if (_lisP27 == null)
+            {
+                InhaleListP27(p52id,p27id);
+            }
+            
             foreach (var kotel in _lisP27)
             {
                 kotel.DateInsert = _dat0;

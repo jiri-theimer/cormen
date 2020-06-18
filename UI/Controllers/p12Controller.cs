@@ -77,7 +77,8 @@ namespace UI.Controllers
                 v.Rec.entity = "p12";
                 if (Factory.p21LicenseBL.GetList(new BO.myQuery("p21License")).Where(p => p.p21PermissionFlag == BO.p21PermENUM.Full).Count() == 0)
                 {
-                    Factory.CurrentUser.AddMessage("Systém nepovolí uložit vlastní recepturu, protože ani jedna z vašich licencí k tomu nemá oprávnění.", "warning");
+                    //Factory.CurrentUser.AddMessage("Systém nepovolí uložit vlastní recepturu, protože ani jedna z vašich licencí k tomu nemá oprávnění.", "warning");
+                    return this.StopPage(true,"Systém nepovolí uložit vlastní recepturu, protože ani jedna z vašich licencí k tomu nemá oprávnění.");
                 }
 
             }

@@ -23,7 +23,7 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*,p31.p31Name,p27Name+' ('+p27Code+')' as NamePlusCode," + _db.GetSQL1_Ocas("p27") + " FROM p27MszUnit a LEFT OUTER JOIN p31CapacityFond p31 ON a.p31ID=p31.p31ID";
+            return "SELECT a.*,p31.p31Name,p27Name+' ('+p27Code+')' as NamePlusCode,p25.p25Name as p25Name_HW," + _db.GetSQL1_Ocas("p27") + " FROM p27MszUnit a INNER JOIN p25MszType p25 ON a.p25ID_HW=p25.p25ID LEFT OUTER JOIN p31CapacityFond p31 ON a.p31ID=p31.p31ID";
         }
         public BO.p27MszUnit Load(int pid)
         {
@@ -42,12 +42,17 @@ namespace BL
 
         public int Save(BO.p27MszUnit rec)
         {
-            
+            if (rec.p25ID_HW == 0)
+            {
+                _mother.CurrentUser.AddMessage("Chybí vyplnit Kmenový typ zařízení.");
+                return 0;
+            }
             var p = new DL.Params4Dapper();
 
             p.AddInt("pid", rec.p27ID);
             
             p.AddInt("p31ID", rec.p31ID, true);
+            p.AddInt("p25ID_HW", rec.p25ID_HW, true);
             p.AddString("p27Name", rec.p27Name);
             p.AddString("p27Code", rec.p27Code);
             p.AddDouble("p27Capacity", rec.p27Capacity);

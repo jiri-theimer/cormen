@@ -85,22 +85,22 @@ namespace UI.Controllers
 
 
             
-            if (v.RecMasterP41.p52ID > 0)
-            {
-                var recP52 = Factory.p52OrderItemBL.Load(v.RecMasterP41.p52ID);                
-                BO.p11ClientProduct cP11 = Factory.p11ClientProductBL.Load(recP52.p11ID);
-                if (cP11.p10ID_Master > 0)
-                {
-                    v.p25ID = Factory.p10MasterProductBL.Load(cP11.p10ID_Master).p25ID; //z RecP10 se bere typ zařízení pro combo nabídku zařízení
-                }
-                else
-                {
-                    if (cP11.p12ID > 0)
-                    {
-                        v.p25ID = Factory.p12ClientTpvBL.Load(cP11.p12ID).p25ID;    //vlastní klientská receptura
-                    }
-                }
-            }
+            //if (v.RecMasterP41.p52ID > 0)
+            //{
+            //    var recP52 = Factory.p52OrderItemBL.Load(v.RecMasterP41.p52ID);                
+            //    BO.p11ClientProduct cP11 = Factory.p11ClientProductBL.Load(recP52.p11ID);
+            //    if (cP11.p10ID_Master > 0)
+            //    {
+            //        v.p25ID = Factory.p10MasterProductBL.Load(cP11.p10ID_Master).p25ID; //z RecP10 se bere typ zařízení pro combo nabídku zařízení
+            //    }
+            //    else
+            //    {
+            //        if (cP11.p12ID > 0)
+            //        {
+            //            v.p25ID = Factory.p12ClientTpvBL.Load(cP11.p12ID).p25ID;    //vlastní klientská receptura
+            //        }
+            //    }
+            //}
 
 
 
@@ -379,9 +379,9 @@ namespace UI.Controllers
             {
                 v.RecP51 = Factory.p51OrderBL.Load(v.p51ID);
                 v.p51Code = v.RecP51.p51Code;
-                var simul = new UI.TaskSimulation(Factory);
-                simul.Date0 = getDate0(v);
-                v.Tasks = simul.getTasksByP51(v.p51ID);
+                //var simul = new UI.TaskSimulation(Factory);
+                //simul.Date0 = getDate0(v);
+                //v.Tasks = simul.getTasksByP51(v.p51ID);
             }
             if (v.p52ID > 0)
             {
@@ -389,9 +389,9 @@ namespace UI.Controllers
                 v.p52Code = v.RecP52.p52Code;
                 v.RecP51 = Factory.p51OrderBL.Load(v.RecP52.p51ID);
                 v.p51Code = v.RecP51.p51Code;
-                var simul = new UI.TaskSimulation(Factory);
-                simul.Date0 = getDate0(v);
-                v.Tasks = simul.getTasksByP52(v.p52ID);
+                //var simul = new UI.TaskSimulation(Factory);
+                //simul.Date0 = getDate0(v);
+                //v.Tasks = simul.getTasksByP52(v.p52ID,v.p27ID);
             }
 
             return View(v);
@@ -414,17 +414,9 @@ namespace UI.Controllers
                 v.RecP52 = Factory.p52OrderItemBL.Load(v.p52ID);
                 v.RecP51 = Factory.p51OrderBL.Load(v.RecP52.p51ID);
             }
-            if (v.p26ID > 0)
-            {
-                v.RecP26 = Factory.p26MszBL.Load(v.p26ID);
-                var mq = new BO.myQuery("p27MszUnit");
-                mq.p26id = v.p26ID;
-                v.lisP27 = Factory.p27MszUnitBL.GetList(mq).ToList();
-            }
-            else
-            {
-                v.lisP27 = new List<BO.p27MszUnit>();
-            }
+            
+            
+
             if (rec_oper == "simulation_p51")
             {
                 if (v.p51ID == 0)
@@ -448,7 +440,7 @@ namespace UI.Controllers
                 {
                     var simul = new UI.TaskSimulation(Factory);
                     simul.Date0 = getDate0(v);
-                    v.Tasks = simul.getTasksByP52(v.p52ID);
+                    v.Tasks = simul.getTasksByP52(v.p52ID,v.p27ID);
                 }                
             }
             if (rec_oper == "newitem")
@@ -515,7 +507,28 @@ namespace UI.Controllers
 
             }
 
+            if (v.RecP52 != null)
+            {
+                BO.p11ClientProduct cP11 = Factory.p11ClientProductBL.Load(v.RecP52.p11ID);
+                if (cP11.p10ID_Master > 0)
+                {
+                    v.p25ID = Factory.p10MasterProductBL.Load(cP11.p10ID_Master).p25ID; //z RecP10 se bere typ zařízení pro combo nabídku zařízení
+                }
+                else
+                {
+                    if (cP11.p12ID > 0)
+                    {
+                        v.p25ID = Factory.p12ClientTpvBL.Load(cP11.p12ID).p25ID;    //vlastní klientská receptura
+                    }
+                }
+                var mq = new BO.myQuery("p27MszUnit");
+                mq.p25id = v.p25ID;
+                v.lisP27 = Factory.p27MszUnitBL.GetList(mq).ToList();
+            }
             
+
+
+
             return View(v);
 
         }

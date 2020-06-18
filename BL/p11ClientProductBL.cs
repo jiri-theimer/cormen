@@ -58,9 +58,10 @@ namespace BL
             p.AddString("p11Memo", rec.p11Memo);
             p.AddDouble("p11UnitPrice", rec.p11UnitPrice);
             p.AddDouble("p11RecalcUnit2Kg", rec.p11RecalcUnit2Kg);
+            p.AddEnumInt("p11TypeFlag", rec.p11TypeFlag);
 
-
-            return _db.SaveRecord("p11ClientProduct", p.getDynamicDapperPars(), rec);
+            int intPID= _db.SaveRecord("p11ClientProduct", p.getDynamicDapperPars(), rec);
+            return intPID;
         }
 
         private bool ValidateBeforeSave(BO.p11ClientProduct rec)

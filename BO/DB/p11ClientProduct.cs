@@ -30,6 +30,7 @@ namespace BO
         public double p11UnitPrice { get; set; }
         public int p20ID { get; set; }
 
+        public ProductTypeEnum p11TypeFlag { get; set; }
 
         public string p12Name { get; set; } //get+set: kvůli mycombo
         public string p12Code;

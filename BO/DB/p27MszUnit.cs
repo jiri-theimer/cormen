@@ -11,6 +11,7 @@ namespace BO
         public int p27ID { get; set; }
         
         public int p31ID { get; set; }
+        public int p25ID_HW { get; set; }
 
         [Required(ErrorMessage = "Chybí vyplnit název!")]
         public string p27Name { get; set; }
@@ -22,6 +23,7 @@ namespace BO
         
         
         public string p31Name { get; set; } //get+set: kvůli mycombo
+        public string p25Name_HW { get; set; }  //get+set kvůli mycombo
 
         public string TagHtml;
         public string NamePlusCode;

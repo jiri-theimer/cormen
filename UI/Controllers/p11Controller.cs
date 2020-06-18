@@ -64,10 +64,7 @@ namespace UI.Controllers
 
                 v.Rec = new BO.p11ClientProduct();
                 v.Rec.entity = "p11";
-                if (Factory.p21LicenseBL.GetList(new BO.myQuery("p21License")).Where(p => p.p21PermissionFlag == BO.p21PermENUM.Extend || p.p21PermissionFlag==BO.p21PermENUM.Full).Count() == 0)
-                {
-                    Factory.CurrentUser.AddMessage("Systém nepovolí uložit produkt bez vazby na vzorový Master produkt, protože ani jedna z vašich licencí k tomu nemá oprávnění.", "warning");
-                }
+                
             }
             v.Toolbar = new MyToolbarViewModel(v.Rec);
 
@@ -75,6 +72,15 @@ namespace UI.Controllers
             if (isclone) {
                 v.Toolbar.MakeClone();
                 v.Rec.p11Code += "-COPY";
+            }
+
+            if (v.Rec.pid == 0)
+            {
+                if (Factory.p21LicenseBL.GetList(new BO.myQuery("p21License")).Where(p => p.p21PermissionFlag == BO.p21PermENUM.Extend || p.p21PermissionFlag == BO.p21PermENUM.Full).Count() == 0)
+                {
+                    return this.StopPage(true, "Systém nepovolí uložit produkt bez vazby na vzorový Master produkt, protože ani jedna z vašich licencí k tomu nemá oprávnění.");
+                    //Factory.CurrentUser.AddMessage("Systém nepovolí uložit produkt bez vazby na vzorový Master produkt, protože ani jedna z vašich licencí k tomu nemá oprávnění.", "warning");
+                }
             }
 
 

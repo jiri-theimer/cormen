@@ -218,7 +218,7 @@ namespace BL
                     lis.Add(getREL("o54TagBindingInline", "p26_o54", "Kategorie", "LEFT OUTER JOIN (SELECT * FROM o54TagBindingInline WHERE o54RecordEntity='p26') p26_o54 ON a.p26ID=p26_o54.o54RecordPid"));
                     break;
                 case "p27":
-                    
+                    lis.Add(getREL("p25MszType", "p27_p25", "Kmenový typ zařízení", "INNER JOIN p25MszType p27_p25 ON a.p25ID_HW=p27_p25.p25ID"));
                     lis.Add(getREL("p31CapacityFond", "p27_p31", "Časový fond", "LEFT OUTER JOIN p31CapacityFond p27_p31 ON a.p31ID=p27_p31.p31ID"));
 
                     lis.Add(getREL("o54TagBindingInline", "p27_o54", "Kategorie", "LEFT OUTER JOIN (SELECT * FROM o54TagBindingInline WHERE o54RecordEntity='p27') p27_o54 ON a.p27ID=p27_o54.o54RecordPid"));

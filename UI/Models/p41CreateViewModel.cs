@@ -13,9 +13,9 @@ namespace UI.Models
         public int p52ID { get; set; }
         public string p52Code { get; set; }
 
-        public int p26ID { get; set; }
-        public string p26Name { get; set; }
-        public BO.p26Msz RecP26 { get; set; }
+        public int p27ID { get; set; }
+        public string p27Name { get; set; }
+        //public BO.p26Msz RecP26 { get; set; }
 
         public DateTime? Date0 { get; set; }
 
@@ -28,6 +28,7 @@ namespace UI.Models
         public List<BO.p41Task> Tasks { get; set; }
 
         public int DeleteIndex { get; set; } = -1;
-        
+
+        public int p25ID { get; set; }  //typ zařízení pro combo středisek
     }
 }

@@ -8,8 +8,7 @@ namespace UI.Models
 {
     public class p41CreateChildViewModel:BaseViewModel
     {
-        public IEnumerable<BO.p18OperCode> lisP18 { get; set; }
-        public int p25ID { get; set; }  //typ zařízení pro combo středisek
+        public IEnumerable<BO.p18OperCode> lisP18 { get; set; }        
         public int MasterID { get; set; }
         public List<int> SelectedP18IDs { get; set; }
 

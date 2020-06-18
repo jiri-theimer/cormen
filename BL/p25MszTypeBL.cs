@@ -50,8 +50,8 @@ namespace BL
 
         public bool Copy_p18OperCode(int p25id_dest,int p25id_source)
         {
-            string s = "INSERT INTO p18OperCode(p25ID, p18Code, p18Name, p19ID, p18UnitsCount, p18DurationPreOper, p18DurationOper, p18DurationPostOper, p18Lang1, p18Lang2, p18Lang3, p18Lang4)";
-            s += " SELECT @p25id_dest,p18Code, p18Name, p19ID, p18UnitsCount, p18DurationPreOper, p18DurationOper, p18DurationPostOper, p18Lang1, p18Lang2, p18Lang3, p18Lang4";
+            string s = "INSERT INTO p18OperCode(p25ID, p18Code, p18Name, p19ID, p18UnitsCount, p18DurationPreOper, p18DurationOper, p18DurationPostOper, p18Lang1, p18Lang2, p18Lang3, p18Lang4,p18Memo,p18Flag)";
+            s += " SELECT @p25id_dest,p18Code, p18Name, p19ID, p18UnitsCount, p18DurationPreOper, p18DurationOper, p18DurationPostOper, p18Lang1, p18Lang2, p18Lang3, p18Lang4,p18Memo,p18Flag";
             s += " FROM p18OperCode WHERE p25ID=@p25id_source";
             s += " AND p18Code NOT IN (select p18Code FROM p18OperCode WHERE p25ID=@p25id_dest)";
             return _db.RunSql(s, new { p25id_dest = p25id_dest, p25id_source = p25id_source });

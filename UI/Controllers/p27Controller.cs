@@ -73,7 +73,7 @@ namespace UI.Controllers
                 c.p27Code = v.Rec.p27Code;
                 c.p27Name = v.Rec.p27Name;
                 c.p27Capacity = v.Rec.p27Capacity;
-                
+                c.p25ID_HW = v.Rec.p25ID_HW;
                 c.p31ID = v.Rec.p31ID;
 
 

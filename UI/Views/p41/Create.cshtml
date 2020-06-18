@@ -75,40 +75,21 @@
         </div>
 
 
-
-        <div class="form-row" style="display:none;">
-            <div class="col-10">
-                <mycombo entity="p26Msz" placeholder="Vybrat stroj..." asp-for="@Model.p26ID" selectedtext="@Model.p26Name" filter-flag="1" event_after_changevalue="p26id_change"></mycombo>
-            </div>
-            <div class="col-2">
-
-                @if (Model.RecP26 != null)
-                {
-                    <button id="cmdMoreP26" type="button" class="btn btn-light dropdown-toggle">
-                        Info o stroji
-                    </button>
-                }
-
-
-            </div>
-        </div>
-        <div id="divMsz" style="max-width:1050px;display:none;">
-            @Html.DisplayFor(m => m.RecP26, "~/Views/Shared/_p26Info.cshtml")
-            @foreach (var c in Model.lisP27)
-            {
-                @Html.DisplayFor(m => c, "~/Views/Shared/_p27Info.cshtml")
-            }
-        </div>
-
-
-        <div class="input-group">           
-            @foreach (var c in Model.lisP27)
-            {
-                <div style="padding:4px;">
-                    <button class="btn btn-light btn-sm" type="button" onclick="append_task(@(c.p27ID))">Přidat zakázku pro [@c.p27Name]</button>
+        @if (Model.p52ID > 0 && 1==2)
+        {
+            <div class="form-row">
+                <div class="col-10">
+                    <mycombo entity="p27MszUnit" placeholder="Vybrat pouze jedno zařízení..." asp-for="@Model.p27ID" selectedtext="@Model.p27Name" masterprefix="p25" masterpid="@Model.p25ID" event_after_changevalue="p27id_change"></mycombo>
                 </div>
-            }
-        </div>
+
+
+            </div>
+        }
+
+
+
+
+
 
 
         <div class="input-group">
@@ -144,7 +125,7 @@
                 <div class="form-row" style="margin-top:4px;">
                     <label class="col-sm-1 col-md-2 col-form-label">Zařízení:</label>
                     <div class="col-sm-3 col-md-3">
-                        <mycombo entity="p27MszUnit" view-flag="2" asp-for="Tasks[i].p27ID" selectedtext="Tasks[i].p27Name"></mycombo>
+                        <mycombo entity="p27MszUnit" view-flag="2" asp-for="Tasks[i].p27ID" selectedtext="Tasks[i].p27Name" masterprefix="p25" masterpid="@Model.p25ID"></mycombo>
                     </div>
                     <label class="col-sm-1 col-md-1 col-form-label">Množství kg:</label>
                     <div class="col-sm-2 col-md-2">
@@ -166,7 +147,7 @@
                     <label class="col-sm-2 col-md-2 col-form-label">Plán dokončení:</label>
                     <div class="col-sm-2 col-md-2">
                         <span class="form-control bg-light">@(BO.BAS.ObjectDateTime2String(Model.Tasks[i].p41PlanEnd))</span>
-                        
+
                     </div>
 
                 </div>
@@ -219,7 +200,7 @@
         form1.submit();
 
     }
-    function p26id_change(p26id) {
+    function p27id_change(p27id) {
         form1.action = "/p41/Create?rec_oper=postback";
         form1.submit();
 
