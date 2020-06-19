@@ -177,10 +177,11 @@ namespace BL
 
             AppendTimestamp("o23Doc");
 
-            //b02 = workflow stavy
+            //b02 = workflow stavy            
             AF("b02Status", "b02Name", "Stav", 1,null,"string",false,true);
+            AF("b02Status", "b02Color", "🚩", 1, "case when a.b02Color IS NOT NULL then '<div style='+char(34)+'background-color:'+a.b02Color+';'+char(34)+'>&nbsp;</div>' end");
             AF("b02Status", "b02Code", "Kód",1);
-            AF("b02Status", "EntityAlias", "Vazba", 1, "dbo.getEntityAlias(a.b02Entity)");
+            AF("b02Status", "EntityAlias", "Vazba", 1, "dbo.getEntityAlias(a.b02Entity)");            
             AF("b02Status", "b02Ordinary", "Pořadí", 0, null, "num0");
             AF("b02Status", "b02StartFlag", "Start", 0, "case when a.b02StartFlag=1 then 'ANO' end");
             AF("b02Status", "b02MoveFlag", "Pohyb", 0, "case a.b02MoveFlag when 1 then 'Uživatel' when 2 then 'Systém' end");
@@ -269,6 +270,7 @@ namespace BL
 
             AF("p11ClientProduct", "p11Memo", "Podrobný popis");
             AF("p11ClientProduct", "p11UnitPrice", "Jedn.cena", 0, null, "num");
+            AF("p11ClientProduct", "p11TypeFlag", "Typ produktu", 1, "case a.p11TypeFlag when 1 then 'Polotovar' when 2 then 'Výrobek' when 3 then 'Plnění' end");
 
             AF("p11ClientProduct", "p11RecalcUnit2Kg", "Přepočet MJ na KG", 0, null, "num3");
 

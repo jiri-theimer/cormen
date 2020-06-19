@@ -533,8 +533,15 @@ namespace UI.Controllers
                     _s.Append("<td class='td0' style='width:20px;'></td>");
                 }
                 
-
-                _s.Append("<td class='td1' style='width:20px;'></td>");
+                if (dbRow["bgcolor"] == System.DBNull.Value)
+                {
+                    _s.Append("<td class='td1' style='width:20px;'></td>");
+                }
+                else
+                {
+                    _s.Append(string.Format("<td class='td1' style='width:20px;background-color:{0}'></td>", dbRow["bgcolor"]));
+                }
+                
                 if (_grid.GridState.j72ContextMenuFlag > 0)
                 {
                     _s.Append(string.Format("<td class='td2' style='width:20px;'><a class='cm' onclick='tg_cm(event)'>&#9776;</a></td>"));      //hamburger menu

@@ -31,7 +31,7 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*," + _db.GetSQL1_Ocas("p41") + ",b02.b02Name,p11.p11Name,dbo.j02_show_as_owner(a.j02ID_Owner) as RecordOwner,p28.p28Name,p52.p52Code,p27.p27Name,p51.p51Code,p52.p11ID FROM p41Task a INNER JOIN p27MszUnit p27 ON a.p27ID=p27.p27ID LEFT OUTER JOIN p52OrderItem p52 ON a.p52ID=p52.p52ID LEFT OUTER JOIN p11ClientProduct p11 ON p52.p11ID=p11.p11ID LEFT OUTER JOIN p51Order p51 ON p52.p51ID=p51.p51ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p28Company p28 ON p51.p28ID=p28.p28ID";
+            return "SELECT a.*," + _db.GetSQL1_Ocas("p41") + ",b02.b02Name,b02.b02Color,p11.p11Name,dbo.j02_show_as_owner(a.j02ID_Owner) as RecordOwner,p28.p28Name,p52.p52Code,p27.p27Name,p51.p51Code,p52.p11ID FROM p41Task a INNER JOIN p27MszUnit p27 ON a.p27ID=p27.p27ID LEFT OUTER JOIN p52OrderItem p52 ON a.p52ID=p52.p52ID LEFT OUTER JOIN p11ClientProduct p11 ON p52.p11ID=p11.p11ID LEFT OUTER JOIN p51Order p51 ON p52.p51ID=p51.p51ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p28Company p28 ON p51.p28ID=p28.p28ID";
         }
 
         public string EstimateTaskCode(string strP52Code, int x)

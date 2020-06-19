@@ -62,6 +62,7 @@ namespace BO
 
         public string p27Name { get; set; } //get+set: kvůli mycombo
         public string b02Name { get; set; } //get+set: kvůli mycombo
+        public string b02Color;
         public string p52Name { get; set; } //get+set: kvůli mycombo
         public string p52Code { get; set; } //get+set: kvůli mycombo
 

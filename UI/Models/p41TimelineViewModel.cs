@@ -48,6 +48,8 @@ namespace UI.Models
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
         public string p41Code { get; set; }
+        public string b02Color { get; set; }
+        public string b02Name { get; set; }
         public string Title { get; set; }
         public string TitlePre { get; set; }
         public string TitlePost { get; set; }

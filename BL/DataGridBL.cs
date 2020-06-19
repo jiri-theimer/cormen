@@ -41,8 +41,7 @@ namespace BL
 
 
         private string GetSQL_SELECT_Ocas(string strPrefix, bool bolGetTotalsRow)
-        {
-            //return string.Format("a.{0}ID as pid,CASE WHEN GETDATE() BETWEEN a.ValidFrom AND a.ValidUntil THEN 0 ELSE 1 end as isclosed,'{0}' as entity,'{0}/?pid='+convert(varchar(10),a.{0}ID) as {0}", strPrefix);
+        {            
             if (bolGetTotalsRow)
             {
                 return string.Format("COUNT(a.{0}ID) as RowsCount", strPrefix);
@@ -76,6 +75,14 @@ namespace BL
                 sb.Append(string.Join(",", mq.explicit_columns.Select(p => p.getFinalSqlSyntax_SELECT())));    //grid sloupce               
             }
             sb.Append("," + GetSQL_SELECT_Ocas(mq.Prefix, bolGetTotalsRow));  //konstantní pole jako pid,isclosed
+            if (bolGetTotalsRow==false && (mq.Prefix == "p21" || mq.Prefix == "p41" || mq.Prefix=="o23" || mq.Prefix=="p51" || mq.Prefix=="p10" || mq.Prefix=="p26"))
+            {
+                sb.Append(",bc.b02Color as bgcolor");
+            }
+            else
+            {
+                sb.Append(",NULL as bgcolor");
+            }
             if (mq.explicit_selectsql != null){
                 sb.Append("," + mq.explicit_selectsql);
             }

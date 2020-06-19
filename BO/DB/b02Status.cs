@@ -34,5 +34,7 @@ namespace BO
         public b02StartFlagENUM b02StartFlag { get; set; }
         public b02MoveFlagENUM b02MoveFlag { get; set; }
         public string b02MoveBySql { get; set; }
+
+        public string b02Color { get; set; }
     }
 }

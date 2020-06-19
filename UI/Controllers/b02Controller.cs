@@ -57,7 +57,11 @@ namespace UI.Controllers
                 c.b02MoveFlag = v.Rec.b02MoveFlag;
                 c.b02StartFlag = v.Rec.b02StartFlag;
                 c.b02MoveBySql = v.Rec.b02MoveBySql;
-
+                if (v.Rec.b02Color== "#000000")
+                {
+                    v.Rec.b02Color = "";
+                }
+                c.b02Color = v.Rec.b02Color;
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
 

@@ -59,6 +59,7 @@ namespace BL
             p.AddEnumInt("b02StartFlag", rec.b02StartFlag);
             p.AddEnumInt("b02MoveFlag", rec.b02MoveFlag);
             p.AddString("b02MoveBySql", rec.b02MoveBySql);
+            p.AddString("b02Color", rec.b02Color);
 
             int intPID= _db.SaveRecord("b02Status", p.getDynamicDapperPars(), rec);
             if (rec.b02StartFlag == BO.b02StartFlagENUM.DefaultStatus)

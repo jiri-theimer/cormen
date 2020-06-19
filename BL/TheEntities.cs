@@ -63,14 +63,14 @@ namespace BL
 
             AE("j03User", "Uživatelé", "Uživatel", "j03User a INNER JOIN j04UserRole j03_j04 ON a.j04ID=j03_j04.j04ID", "a.j03Login");
             
-            AE("p26Msz", "Skupiny zařízení", "Skupina zařízení", "p26Msz a", "a.p26Name");
-            AE("p21License", "Licence", "Licence", "p21License a", "p28.p28Name,a.p21Name");
+            AE("p26Msz", "Skupiny zařízení", "Skupina zařízení", "p26Msz a LEFT OUTER JOIN b02Status bc ON a.b02ID=bc.b02ID", "a.p26Name");
+            AE("p21License", "Licence", "Licence", "p21License a LEFT OUTER JOIN b02Status bc ON a.b02ID=bc.b02ID", "p28.p28Name,a.p21Name");
             AE("p31CapacityFond", "Časové fondy", "Časový fond", "p31CapacityFond a", "a.p31Name");
 
             AE("p18OperCode", "Kódy operací", "Kód operace", "p18OperCode a", "a.p18Code", "a.p18Code");
             AE("p19Material", "Suroviny", "Surovina", "p19Material a", "a.p19Name");
             AE("p20Unit", "Měrné jednotky", "Měrná jednotka", "p20Unit a","a.p20Name");
-            AE("p10MasterProduct", "Master produkty", "Master produkt", "p10MasterProduct a", "a.p10Name");
+            AE("p10MasterProduct", "Master produkty", "Master produkt", "p10MasterProduct a LEFT OUTER JOIN b02Status bc ON a.b02ID=bc.b02ID", "a.p10Name");
             AE("p13MasterTpv", "Master receptury", "Master receptura", "p13MasterTpv a", "a.p13Name");
             AE("p14MasterOper", "Technologický rozpis operací", "Technologická operace", "p14MasterOper a", "a.p14RowNum", "a.p14RowNum");
 
@@ -78,14 +78,14 @@ namespace BL
             AE("p12ClientTpv", "Klientské receptury", "Klientská receptura", "p12ClientTpv a", "a.p12Name");
             AE("p15ClientOper", "Technologický rozpis operací", "Technologická operace", "p15ClientOper a", "a.p15RowNum", "a.p15RowNum");
 
-            AE("p41Task", "Zakázky", "Zakázka", "p41Task a", "a.p41ID DESC");
+            AE("p41Task", "Zakázky", "Zakázka", "p41Task a LEFT OUTER JOIN b02Status bc ON a.b02ID=bc.b02ID", "a.p41ID DESC");
             AE("p44TaskOperPlan", "Plán výrobních operací", "Plán výrobních operací", "p44TaskOperPlan a", "a.p44RowNum", "a.p44RowNum");
 
 
-            AE("p51Order", "Objednávky", "Objednávka", "p51Order a", "a.p51Name,a.p51Code");
+            AE("p51Order", "Objednávky", "Objednávka", "p51Order a LEFT OUTER JOIN b02Status bc ON a.b02ID=bc.b02ID", "a.p51Name,a.p51Code");
             AE("p52OrderItem", "Položky objednávky", "Položka objednávky", "p52OrderItem a","a.p52Code");
 
-            AE("o23Doc", "Dokumenty", "Dokument", "o23Doc a", null);
+            AE("o23Doc", "Dokumenty", "Dokument", "o23Doc a LEFT OUTER JOIN b02Status bc ON a.b02ID=bc.b02ID", null);
 
             AE("x40MailQueue", "Outbox", "Poštovní zpráva", "x40MailQueue a", null,"a.x40ID DESC");
             AE("b02Status", "Workflow stavy", "Workflow stav", "b02Status a", "a.b02Ordinary,a.b02Name", "a.b02Ordinary,a.b02Name");
