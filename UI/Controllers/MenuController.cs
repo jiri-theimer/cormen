@@ -177,8 +177,17 @@ namespace UI.Controllers
                     {
                         AMI("Založit PRE zakázku (předchůdce)", string.Format("javascript:_window_open('/p41/p41CreateChild?p18flag=2&p41id={0}')", pid));
                         AMI("Založit POST zakázku (následovníka)", string.Format("javascript:_window_open('/p41/p41CreateChild?p18flag=3&p41id={0}')", pid));
+                        
+                        
+                        
                     }
-                    
+                    var recP11 = Factory.p11ClientProductBL.Load(rec.p11ID);
+                    if (recP11 != null)
+                    {
+                        AMI(string.Format("Obnovit plán výroby podle receptury: [{0} - {1}]",recP11.p12Code,recP11.p12Name), string.Format("javascript:_p41_record_recovery({0})", pid));
+                    }
+
+
 
                 }
                 if (prefix == "p14")

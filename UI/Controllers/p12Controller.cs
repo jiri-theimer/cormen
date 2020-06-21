@@ -55,10 +55,10 @@ namespace UI.Controllers
                     return RecNotFound(v);
                 }
                 BO.p21License cP21 = Factory.p21LicenseBL.Load(v.Rec.p21ID);
-                if (isclone == false && v.Rec.p13ID_Master>0)
-                {
-                    return this.StopPage(true, "Recepturu s Master vzorem nelze upravovat.<hr>Zkopírujte si ji do nové receptury, kterou můžete upravovat.");
-                }
+                //if (isclone == false && v.Rec.p13ID_Master>0)
+                //{
+                //    return this.StopPage(true, "Recepturu s Master vzorem nelze upravovat.<hr>Zkopírujte si ji do nové receptury, kterou můžete upravovat.");
+                //}
                 if (cP21.p21PermissionFlag != BO.p21PermENUM.Full)
                 {
                     return this.StopPage(true, string.Format("S licencí typu {2} [{0} - {1}]  nemáte oprávnění zakládat vlastní receptury.", cP21.p21Code,cP21.p21Name,cP21.PermFlagAlias));

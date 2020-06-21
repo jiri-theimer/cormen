@@ -19,7 +19,7 @@ namespace BL
         public int AppendPos(BO.p41Task recP41, List<BO.p18OperCode> lisP18, int p18flag,bool bolRunSpAfter);
         public int CreateChild(BO.p41Task rec, BO.p41Task recMaster, List<BO.p18OperCode> lisP18, int p18flag);
         public BO.Result MoveStatus(string p41code, string b02code);
-
+        public void RecoveryPlanInTask(int p41id);
 
     }
     class p41TaskBL : BaseBL, Ip41TaskBL
@@ -298,6 +298,16 @@ namespace BL
            
 
             return rets;
+
+        }
+
+        public void RecoveryPlanInTask(int p41id)
+        {            
+            var pars = new Dapper.DynamicParameters();
+            pars.Add("userid", _db.CurrentUser.pid);
+            pars.Add("pid", p41id, System.Data.DbType.Int32);
+            pars.Add("err_ret", "", System.Data.DbType.String, System.Data.ParameterDirection.Output);
+            _db.RunSp("p41_recovery_plan", ref pars);
 
         }
 

@@ -637,3 +637,11 @@ function p21_handle_create_client_products(p21id) {
     }
 
 }
+
+function _p41_record_recovery(p41id) {
+    $.post("/p41/RecoveryPlanInTask", { p41id: p41id }, function (data) {
+        _notify_message("Došlo k obnovení plánu výroby zakázky.", "info");
+
+
+    });
+}

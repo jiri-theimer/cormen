@@ -11,6 +11,11 @@ namespace UI.Controllers
 {
     public class p41Controller : BaseController
     {
+        public BO.Result RecoveryPlanInTask(int p41id)
+        {
+            Factory.p41TaskBL.RecoveryPlanInTask(p41id);            
+            return new BO.Result(false);
+        }
         public IActionResult p41CreateChild(int p41id, int p18flag)
         {
             var v = new Models.p41CreateChildViewModel();
