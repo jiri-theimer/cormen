@@ -44,6 +44,14 @@
 
             });
         }
+        function p15_precisluj_opernum(p15id_start) {
+            var url = "/p15/PrecislujOperNum";
+            $.post(url, { p15id_start: p15id_start }, function (data) {
+                location.replace(location.href);
+
+
+            });
+        }
 
 
     </script>

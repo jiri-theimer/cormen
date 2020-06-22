@@ -196,6 +196,12 @@ namespace UI.Controllers
                     //AMI("Od následujího záznamu nahodit OperNum postupku", string.Format("javascript:p14_precisluj_opernum({0})", pid));
                     AMI("Přečíslovat všechny následující operace", string.Format("javascript:p14_precisluj_opernum({0})", pid));
                 }
+                if (prefix == "p15")
+                {
+                    DIV();
+                    //AMI("Od následujího záznamu nahodit OperNum postupku", string.Format("javascript:p14_precisluj_opernum({0})", pid));
+                    AMI("Přečíslovat všechny následující operace", string.Format("javascript:p15_precisluj_opernum({0})", pid));
+                }
                 if (prefix == "p28" || prefix == "j02" || prefix == "p10" || prefix == "p13" || prefix == "p26" || prefix == "p21" || prefix == "p51" || prefix == "p41")
                 {
                     DIV();

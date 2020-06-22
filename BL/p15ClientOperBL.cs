@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BL
@@ -9,7 +10,7 @@ namespace BL
         public BO.p15ClientOper Load(int pid);
         public IEnumerable<BO.p15ClientOper> GetList(BO.myQuery mq);
         public int Save(BO.p15ClientOper rec);
-
+        public void PrecislujOperNum(int p15id_start);
 
     }
     class p15ClientOperBL : BaseBL, Ip15ClientOperBL
@@ -45,7 +46,7 @@ namespace BL
             p.AddInt("p19ID", rec.p19ID, true);
             p.AddInt("p18ID", rec.p18ID, true);
             
-            p.AddInt("p15RowNum", rec.p15RowNum);
+            p.AddInt("p15RowNum", -1 + rec.p15RowNum * 100);
             p.AddInt("p15OperNum", rec.p15OperNum);
             p.AddDouble("p15OperParam", rec.p15OperParam);
             p.AddDouble("p15UnitsCount", rec.p15UnitsCount);
@@ -61,6 +62,32 @@ namespace BL
             _db.RunSql("UPDATE p12ClientTpv SET p12TotalDuration=(SELECT sum(isnull(p15DurationPreOper,0)+isnull(p15DurationOper,0)+isnull(p15DurationPostOper,0)) FROM p15ClientOper WHERE p12ID=@pid) WHERE p12ID=@pid", new { pid = rec.p12ID });
 
             return intPID;
+        }
+
+
+        public void PrecislujOperNum(int p15id_start)
+        {
+            var rec = Load(p15id_start);
+            var rn = rec.p15OperNum;
+            var mq = new BO.myQuery("p15ClientOper");
+            mq.p12id = rec.p12ID;
+            BO.p15ClientOper cLast = rec;
+            foreach (var c in GetList(mq).OrderBy(p => p.p15RowNum).Where(p => p.p15RowNum > rec.p15RowNum))
+            {
+                if (c.OperCode != cLast.OperCode)
+                {
+                    rn = cLast.p15OperNum + 10;
+                    _db.RunSql("UPDATE p15ClientOper set p15OperNum=@opernum WHERE p15ID=@pid", new { pid = c.pid, opernum = rn });
+                    c.p15OperNum = rn;
+                }
+                else
+                {
+                    _db.RunSql("UPDATE p15ClientOper set p15OperNum=@opernum WHERE p15ID=@pid", new { pid = c.pid, opernum = cLast.p15OperNum });
+                    c.p15OperNum = cLast.p15OperNum;
+                }
+                cLast = c;
+            }
+
         }
     }
 }

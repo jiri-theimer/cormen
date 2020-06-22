@@ -99,5 +99,11 @@ namespace UI.Controllers
             this.Notify_RecNotSaved();
             return View(v);
         }
+
+        public bool PrecislujOperNum(int p15id_start)
+        {
+            Factory.p15ClientOperBL.PrecislujOperNum(p15id_start);
+            return true;
+        }
     }
 }

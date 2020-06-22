@@ -61,12 +61,7 @@ namespace BL
                     c.p14OperNum = cLast.p14OperNum;
                 }
                 cLast = c;
-            }
-          
-
-
-
-
+            }          
 
         }
 
