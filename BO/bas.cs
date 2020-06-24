@@ -183,6 +183,8 @@ namespace BO
                     return string.Format("{0:#,0.0000}", dbRow[c.UniqueName]);
                 case "num5":
                     return string.Format("{0:#,0.00000}", dbRow[c.UniqueName]);
+                case "num6":
+                    return string.Format("{0:#,0.000000}", dbRow[c.UniqueName]);
                 case "num1":
                     return string.Format("{0:#,0.0}", dbRow[c.UniqueName]);
 

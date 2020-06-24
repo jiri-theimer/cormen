@@ -12,7 +12,7 @@ namespace UI.ModelsApi
         public DateTime Stop { get; set; }
         public int CisloOperace { get; set; }
         public string Popis { get; set; }
-        public int Parametr { get; set; }
+        public double Parametr { get; set; }
         public string MaterialKod { get; set; }
         public string MaterialNazev { get; set; }
         public int MaterialSarze { get; set; }

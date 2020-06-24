@@ -41,9 +41,11 @@ namespace BL
                     return 120;                   
                 case "num":
                 case "num4":
-                case "num5":
+                case "num5":                
                 case "num3":
-                    return 100;                    
+                    return 100;
+                case "num6":
+                    return 110;
                 case "num0":
                     return 75;
                 case "bool":
@@ -256,7 +258,7 @@ namespace BL
             
             AF("p14MasterOper", "p14OperParam", "Parameter", 2, null, "num1");
 
-            AF("p14MasterOper", "p14UnitsCount", "Množství na 1kg", 2, null, "num5", true);
+            AF("p14MasterOper", "p14UnitsCount", "Množství na 1kg", 2, null, "num6", true);
             AF("p14MasterOper", "p14DurationPreOper", "Před Oper. Čas", 2, null, "num0", true);
             AF("p14MasterOper", "p14DurationOper", "Oper. Čas", 2, null, "num4", true);
             AF("p14MasterOper", "p14DurationPostOper", "Po Oper. Čas", 2, null, "num0", true);
@@ -296,7 +298,7 @@ namespace BL
             
             AF("p15ClientOper", "p15OperParam", "Parametr", 2, null, "num1");
 
-            AF("p15ClientOper", "p15UnitsCount", "Množství na kg", 2, null, "num5", true);
+            AF("p15ClientOper", "p15UnitsCount", "Množství na kg", 2, null, "num6", true);
             AF("p15ClientOper", "p15DurationPreOper", "Před Oper. Čas", 2, null, "num0", true);
             AF("p15ClientOper", "p15DurationOper", "Oper. Čas", 2, null, "num4", true);
             AF("p15ClientOper", "p15DurationPostOper", "Po Oper. Čas", 2, null, "num0", true);
@@ -347,7 +349,7 @@ namespace BL
             
             AF("p44TaskOperPlan", "p44OperParam", "Parametr", 2, null, "num0");
 
-            AF("p44TaskOperPlan", "p44MaterialUnitsCount", "Množství ∑", 2, null, "num1", true);
+            AF("p44TaskOperPlan", "p44MaterialUnitsCount", "Množství ∑", 2, null, "num", true);
             AF("p44TaskOperPlan", "p44DurationPreOper", "Před Oper. Čas", 2, null, "num0", true);
             AF("p44TaskOperPlan", "p44DurationOper", "Oper. Čas", 2, null, "num4", true);
             AF("p44TaskOperPlan", "p44DurationPostOper", "Po Oper. Čas", 2, null, "num0", true);
@@ -405,7 +407,7 @@ namespace BL
             AF("p18OperCode", "p18Memo", "Poznámka");
             //AF("p18OperCode", "p25Name", "Typ zařízení", 2, "p25.p25Name");
             //AF("p18OperCode", "p19Name", "Materiál", 2, "p19.p19Name");
-            AF("p18OperCode", "p18UnitsCount", "Množství", 2, null, "num5");
+            AF("p18OperCode", "p18UnitsCount", "Množství", 2, null, "num6");
             AF("p18OperCode", "p18DurationPreOper", "Před Oper. Čas", 2, null, "num0");
             AF("p18OperCode", "p18DurationOper", "Oper. Čas", 2, null, "num4");
             AF("p18OperCode", "p18DurationPostOper", "Po Oper. Čas", 2, null, "num0");
