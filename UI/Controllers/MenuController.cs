@@ -128,6 +128,7 @@ namespace UI.Controllers
                 case "j90":
                 case "j92":
                 case "p44":
+                case "p45":
                     AMI("Záznam bez menu nabídky", "javascript:_notify_message('nic')");
                     break; 
                 default:
@@ -221,9 +222,14 @@ namespace UI.Controllers
                 AMI("Info", string.Format("javascript:_window_open('/{0}/Index?pid={1}')", prefix, pid));
             }
             if (prefix == "p41")
-            {
-               
+            {               
                 AMI("Plán výrobních operací", string.Format("javascript:_window_open('/p41/p44List?pid={1}',2,'Plán výrobních operací zakázky')", prefix, pid));
+                var mq = new BO.myQuery("p45TaskOperReal");
+                mq.p41id = pid;
+                if (Factory.p45TaskOperRealBL.GetList(mq).Count() > 0)
+                {
+                    AMI("Skutečná výroba", string.Format("javascript:_window_open('/p41/p45List?pid={1}',2,'Skutečná výroba zakázky')", prefix, pid));
+                }
             }
 
 

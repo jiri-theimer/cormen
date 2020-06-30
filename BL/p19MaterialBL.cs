@@ -7,6 +7,7 @@ namespace BL
     public interface Ip19MaterialBL
     {
         public BO.p19Material Load(int pid);
+        public BO.p19Material LoadByCode(string strCode, int intExcludePID);
         public BO.p19Material LoadByMasterP10ID(int p10id);
         public IEnumerable<BO.p19Material> GetList(BO.myQuery mq);
         public int Save(BO.p19Material rec);
@@ -27,6 +28,10 @@ namespace BL
         public BO.p19Material Load(int pid)
         {
             return _db.Load<BO.p19Material>(string.Format("{0} WHERE a.p19ID=@pid", GetSQL1()), new { pid = pid });
+        }
+        public BO.p19Material LoadByCode(string strCode, int intExcludePID)
+        {
+            return _db.Load<BO.p19Material>(string.Format("{0} WHERE a.p19Code LIKE @code AND a.p19ID<>@excludepid", GetSQL1()), new { code = strCode, excludepid = intExcludePID });
         }
         public BO.p19Material LoadByMasterP10ID(int p10id)
         {

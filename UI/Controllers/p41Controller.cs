@@ -372,6 +372,21 @@ namespace UI.Controllers
 
 
         }
+        public IActionResult p45List(int pid)
+        {
+            var v = new Models.p41PreviewViewModel();
+            v.Rec = Factory.p41TaskBL.Load(pid);
+            if (v.Rec == null)
+            {
+                return RecNotFound(v);
+            }
+            else
+            {
+                return View(v);
+            }
+
+
+        }
 
         public IActionResult Create(int p52id, int p51id)
         {

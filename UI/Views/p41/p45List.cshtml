@@ -1,0 +1,31 @@
+﻿@model p41PreviewViewModel
+
+@{
+    ViewData["Title"] = "Zakázka, skutečná výroba";
+    Layout = "~/Views/Shared/_LayoutSubform.cshtml";
+    if (Model.Rec == null) return;
+}
+
+@addTagHelper *,UI
+
+<vc:the-grid entity="p45TaskOperReal" j72id="0" go2pid="0" master_entity="p41Task" master_pid="@Model.Rec.pid" contextmenuflag="0" ondblclick=""></vc:the-grid>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+
+    });
+
+
+    /*automaticky volaná událost z thegrid controlu*/
+    function thegrid_handle_event(event_name, pid) {
+
+    }
+
+
+    
+
+</script>
+

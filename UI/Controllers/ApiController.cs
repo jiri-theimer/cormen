@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using UI.ModelsApi;
 using BL;
+using DocumentFormat.OpenXml.Drawing;
 
 namespace UI.Controllers
 {
@@ -137,6 +138,81 @@ namespace UI.Controllers
 
             
             return handle_one_rozpis(lis.ToList()[0]);
+        }
+
+        [HttpGet]
+        //[Route("movetaskstatus/{p41code}/{b02code}")]
+        [Route("skutecna_vyroba_save")]
+        public BO.Result skutecna_vyroba_save(string p41Code,string p45OperCode,string p45MaterialCode,string p45MaterialBattch,double p45MaterialUnitsCount,double p45TotalDurationOperMin,DateTime p45Start, DateTime p45End,string p45OperStatus,int p45OperNum,double p45OperParam,string p45Operator)
+        {
+            var c = new SkutecnaVyroba() {
+                p41Code = p41Code, p45OperCode= p45OperCode, p45MaterialCode= p45MaterialCode
+                , p45MaterialBattch= p45MaterialBattch, p45MaterialUnitsCount= p45MaterialUnitsCount, p45TotalDurationOperMin= p45TotalDurationOperMin                
+                ,p45Start= p45Start
+                ,p45End= p45End
+                ,p45OperStatus= p45OperStatus                
+                ,p45OperNum= p45OperNum
+                ,p45OperParam= p45OperParam
+                ,p45Operator= p45Operator
+            };
+
+            var recP41 = _f.p41TaskBL.LoadByCode(c.p41Code,0);
+            if (recP41 == null)
+            {
+                return new BO.Result(true,string.Format("Nelze načíst zakázku s kódem: {0}.", c.p41Code));
+            }
+            if (string.IsNullOrEmpty(c.p45OperCode) == true)
+            {
+                return new BO.Result(true, "Na vstupu chybí kód operace: p45OperCode.");
+            }
+
+            var ret = new BO.p45TaskOperReal() { p41ID = recP41.pid };
+
+            if (string.IsNullOrEmpty(c.p45MaterialCode) == false)
+            {
+                var recP19 = _f.p19MaterialBL.LoadByCode(c.p45MaterialCode,0);
+                if (recP19 == null)
+                {
+                    return new BO.Result(true, string.Format("Nelze načíst materiál s kódem: {0}.", c.p45MaterialCode));
+                }
+                ret.p45MaterialCode = c.p45MaterialCode;                
+                ret.p45MaterialBattch = c.p45MaterialBattch;                
+                ret.p19ID = recP19.pid;
+            }
+            var recP27 = _f.p27MszUnitBL.Load(recP41.p27ID);
+            var recP18 = _f.p18OperCodeBL.LoadByCode(c.p45OperCode, recP27.p25ID_HW, 0);
+            if (recP18 == null)
+            {
+                return new BO.Result(true, string.Format("Nelze načíst operaci s kódem: {0}.", c.p45OperCode));
+            }
+            ret.p18ID = recP18.pid;
+            ret.p45Name = recP18.p18Name;
+            ret.p45OperCode = c.p45OperCode;
+            
+            ret.p45MaterialUnitsCount = c.p45MaterialUnitsCount;
+            ret.p45TotalDurationOperMin = c.p45TotalDurationOperMin;
+            ret.p45Start = c.p45Start;
+            ret.p45End = c.p45End;
+            ret.p45OperStatus = c.p45OperStatus;
+            ret.p45OperNum = c.p45OperNum;
+            ret.p45OperParam = c.p45OperParam;
+           
+
+            ret.p45Operator = c.p45Operator;
+
+            int intP45ID = _f.p45TaskOperRealBL.Save(ret);
+            
+            if (intP45ID > 0)
+            {
+                return new BO.Result(false, "Uloženo");
+            }
+            else
+            {
+                string strErrs = string.Join(" ** ", _f.CurrentUser.Messages4Notify.Select(p => p.Value));
+                return new BO.Result(true, strErrs);
+            }
+
+            
         }
 
 

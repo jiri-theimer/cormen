@@ -120,6 +120,8 @@ namespace UI.Controllers
 
                     tabs.Add(new NavTab() { Name = "Technologický rozpis operací", Entity = "p15ClientOper", Url = "SlaveView?prefix=p15" });
 
+                    tabs.Add(new NavTab() { Name = "Skutečná výroba", Entity = "p45TaskOperReal", Url = "SlaveView?prefix=p45" });
+
                     tabs.Add(new NavTab() { Name = "Dokumenty", Entity = "o23Doc", Url = "SlaveView?prefix=o23" });
                     
 

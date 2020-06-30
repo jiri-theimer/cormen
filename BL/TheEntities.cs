@@ -80,6 +80,7 @@ namespace BL
 
             AE("p41Task", "Zakázky", "Zakázka", "p41Task a LEFT OUTER JOIN b02Status bc ON a.b02ID=bc.b02ID", "a.p41ID DESC");
             AE("p44TaskOperPlan", "Plán výrobních operací", "Plán výrobních operací", "p44TaskOperPlan a", "a.p44RowNum", "a.p44RowNum");
+            AE("p45TaskOperReal", "Skutečná výroba", "Skutečná výroba", "p45TaskOperReal a", "a.p45RowNum", "a.p45RowNum");
 
 
             AE("p51Order", "Objednávky", "Objednávka", "p51Order a LEFT OUTER JOIN b02Status bc ON a.b02ID=bc.b02ID", "a.p51Name,a.p51Code");
@@ -248,6 +249,10 @@ namespace BL
                 case "p44":
                     lis.Add(getREL("p19Material", "p44_p19", "Suroviny", "LEFT OUTER JOIN p19Material p44_p19 ON a.p19ID=p44_p19.p19ID"));
                     lis.Add(getREL("p18OperCode", "p44_p18", "Kód operace", "LEFT OUTER JOIN p18OperCode p44_p18 ON a.p18ID=p44_p18.p18ID"));
+                    break;
+                case "p45":
+                    lis.Add(getREL("p19Material", "p45_p19", "Suroviny", "LEFT OUTER JOIN p19Material p45_p19 ON a.p19ID=p45_p19.p19ID"));
+                    lis.Add(getREL("p18OperCode", "p45_p18", "Kód operace", "LEFT OUTER JOIN p18OperCode p45_p18 ON a.p18ID=p45_p18.p18ID"));
                     break;
                 case "p51":
                     lis.Add(getREL("p28Company", "p51_p28", "Klient", "LEFT OUTER JOIN p28Company p51_p28 ON a.p28ID=p51_p28.p28ID"));

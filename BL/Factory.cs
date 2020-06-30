@@ -38,6 +38,7 @@ namespace BL
         private Ip15ClientOperBL _p15;
         private Ip41TaskBL _p41;
         private Ip44TaskOperPlanBL _p44;
+        private Ip45TaskOperRealBL _p45;
         private Ip51OrderBL _p51;
         private Ip52OrderItemBL _p52;
         private Ip19MaterialBL _p19;
@@ -280,6 +281,14 @@ namespace BL
             {
                 if (_p44 == null) _p44 = new p44TaskOperPlanBL(this);
                 return _p44;
+            }
+        }
+        public Ip45TaskOperRealBL p45TaskOperRealBL
+        {
+            get
+            {
+                if (_p45 == null) _p45 = new p45TaskOperRealBL(this);
+                return _p45;
             }
         }
         public Ip51OrderBL p51OrderBL

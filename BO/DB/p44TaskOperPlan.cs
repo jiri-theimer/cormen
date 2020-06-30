@@ -19,7 +19,7 @@ namespace BO
 
         public int p44RowNum { get; set; }
         public int p44OperNum { get; set; }
-        public int p44OperParam { get; set; }
+        public double p44OperParam { get; set; }
         public double p44MaterialUnitsCount { get; set; }
         public double p44TotalDurationOperMin { get; set; }
 
