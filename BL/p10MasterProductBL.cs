@@ -56,7 +56,7 @@ namespace BL
             p.AddString("p10Name", rec.p10Name);
             p.AddString("p10Code", rec.p10Code);
             p.AddString("p10Memo", rec.p10Memo);
-            p.AddEnumInt("p10SwLicenseFlag", rec.p10SwLicenseFlag);
+            
             p.AddDouble("p10RecalcUnit2Kg", rec.p10RecalcUnit2Kg);
             p.AddEnumInt("p10TypeFlag", rec.p10TypeFlag);
 
@@ -91,15 +91,11 @@ namespace BL
             {
                 _db.CurrentUser.AddMessage("Chybí vyplnit měrná jednotka."); return false;
             }
-            if (rec.p10SwLicenseFlag == 0)
+            if (rec.p10RecalcUnit2Kg == 0)
             {
-                
-                if (rec.p10RecalcUnit2Kg == 0)
-                {
-                    _db.CurrentUser.AddMessage("Přepočet MJ na KG nemůže být NULA."); return false;
-                }
+                _db.CurrentUser.AddMessage("Přepočet MJ na KG nemůže být NULA."); return false;
             }
-            
+
             if (LoadByCode(rec.p10Code,rec.pid) != null)
             {
                 _db.CurrentUser.AddMessage(string.Format("Zadaný kód nemůže být duplicitní s jiným záznamem [{0}].", LoadByCode(rec.p10Code, rec.pid).p10Name));

@@ -73,5 +73,14 @@ namespace BO
             }
             return true;
         }
+
+        public bool IsGURU()
+        {
+            if (this.j03Login== "treti @marktime.cz")
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

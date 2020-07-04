@@ -60,6 +60,7 @@ namespace BL
             p.AddDouble("p18DurationPreOper", rec.p18DurationPreOper);
             p.AddDouble("p18DurationOper", rec.p18DurationOper);
             p.AddDouble("p18DurationPostOper", rec.p18DurationPostOper);
+            p.AddDouble("p18OperParam", rec.p18OperParam);
             p.AddString("p18Lang1", rec.p18Lang1);
             p.AddString("p18Lang2", rec.p18Lang2);
             p.AddString("p18Lang3", rec.p18Lang3);

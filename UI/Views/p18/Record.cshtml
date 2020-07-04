@@ -87,6 +87,12 @@
                     <mynumber asp-for="Rec.p18DurationPostOper" decimal-digits="0"></mynumber>
                 </div>
             </div>
+            <div class="form-row" style="margin-top:10px;">
+                <label class="col-sm-1 col-md-2 col-form-label">Parameter (oper-par):</label>
+                <div class="col-sm-5 col-md-4">
+                    <mynumber asp-for="Rec.p18OperParam" decimal-digits="1"></mynumber>
+                </div>
+            </div>
         </div>
     </div>
     <mystitky entity="p18OperCode" asp-for="@Model.TagPids" tagnames="@Model.TagNames" taghtml="@Model.TagHtml"></mystitky>

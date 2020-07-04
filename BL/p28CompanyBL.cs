@@ -8,8 +8,7 @@ namespace BL
     {
         public BO.p28Company Load(int pid);
         public IEnumerable<BO.p28Company> GetList(BO.myQuery mq);
-        public int Save(BO.p28Company rec, BO.j02Person recFirstPerson);
-        public BO.p10MasterProduct LoadValidSwLicense(int intP28ID);
+        public int Save(BO.p28Company rec, BO.j02Person recFirstPerson);        
         public bool UpdateCloudID(int intP28ID, string strCloudID);
     }
     class p28CompanyBL : BaseBL,Ip28CompanyBL
@@ -28,10 +27,7 @@ namespace BL
         {
             return _db.Load<BO.p28Company>(string.Format("{0} WHERE a.p28ID=@pid", GetSQL1()),new { pid = pid });
         }
-        public BO.p10MasterProduct LoadValidSwLicense(int intP28ID)
-        {
-            return _db.Load<BO.p10MasterProduct>("select TOP 1 a.* from p10MasterProduct a INNER JOIN p22LicenseBinding b ON a.p10ID=b.p10ID INNER JOIN p21License c ON b.p21ID=c.p21ID WHERE a.p10SwLicenseFlag>0 AND c.p28ID=@p28id AND GETDATE() BETWEEN c.ValidFrom AND c.ValidUntil", new { p28id = intP28ID });
-        }
+        
         public IEnumerable<BO.p28Company> GetList(BO.myQuery mq)
         {
             DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq, _mother.CurrentUser);

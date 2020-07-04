@@ -5,13 +5,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BO
 {
-    public enum SwLicenseEnum
-    {
-        None=0,
-        TypeA=1,
-        TypeB=2,
-        TypeC=3
-    }
+    //public enum SwLicenseEnum
+    //{
+    //    None=0,
+    //    TypeA=1,
+    //    TypeB=2,
+    //    TypeC=3
+    //}
     public enum ProductTypeEnum
     {
         Polotovar = 1,
@@ -36,7 +36,7 @@ namespace BO
 
         [Required(ErrorMessage = "Chybí vyplnit kód!")]
         public string p10Code { get; set; }
-        public SwLicenseEnum p10SwLicenseFlag { get; set; }   //1/2/3
+        //public SwLicenseEnum p10SwLicenseFlag { get; set; }   //1/2/3
 
         public double p10RecalcUnit2Kg { get; set; }
         public string p13Name { get; set; } //get+set: kvůli mycombo

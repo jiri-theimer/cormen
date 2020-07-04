@@ -75,6 +75,7 @@ namespace UI.Controllers
                 c.p18Lang2 = v.Rec.p18Lang2;
                 c.p18Lang3 = v.Rec.p18Lang3;
                 c.p18Lang4 = v.Rec.p18Lang4;
+                c.p18OperParam = v.Rec.p18OperParam;
 
                 v.Rec.pid = Factory.p18OperCodeBL.Save(c);
                 if (v.Rec.pid > 0)

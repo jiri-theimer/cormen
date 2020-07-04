@@ -67,8 +67,7 @@ namespace UI.Controllers
                 c.b02ID = v.Rec.b02ID;
                 c.p20ID = v.Rec.p20ID;
                 c.p13ID = v.Rec.p13ID;
-                c.p10TypeFlag = v.Rec.p10TypeFlag;
-                c.p10SwLicenseFlag = v.Rec.p10SwLicenseFlag;
+                c.p10TypeFlag = v.Rec.p10TypeFlag;                
                 c.p10RecalcUnit2Kg = v.Rec.p10RecalcUnit2Kg;
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);

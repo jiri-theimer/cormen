@@ -10,6 +10,7 @@ namespace BL
         public IEnumerable<BO.p21License> GetList(BO.myQuery mq);
         public int Save(BO.p21License rec, List<int> p10ids = null);
         BO.Result CreateClientProducts(int intP21ID);
+        public bool HasClientValidLicense(int p28id);
     }
     class p21LicenseBL:BaseBL,Ip21LicenseBL
     {
@@ -36,6 +37,18 @@ namespace BL
             DL.FinalSqlCommand fq = DL.basQuery.ParseFinalSql(GetSQL1(), mq, _mother.CurrentUser);
             return _db.GetList<BO.p21License>(fq.FinalSql, fq.Parameters);
             
+        }
+
+        public bool HasClientValidLicense(int p28id)
+        {
+            int intP21ID=_db.Load<BO.COM.GetInteger>("SELECT top 1 a.p21ID as Value FROM p21License a WHERE a.p28ID=@p28id AND GETDATE() BETWEEN a.ValidFrom AND a.ValidUntil", new { p28id = p28id }).Value;
+            if (intP21ID > 0)
+            {
+                return true;
+            }else
+            {
+                return false;
+            }
         }
         
 

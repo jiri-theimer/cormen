@@ -22,9 +22,9 @@ namespace UI.Controllers
             {
                 if (Factory.CurrentUser.j03EnvironmentFlag == 1)
                 {
-                    if (v.Rec.p28CloudID != null || Factory.p28CompanyBL.LoadValidSwLicense(pid) != null)
+                    if (v.Rec.p28CloudID != null)
                     {
-                        v.IsPossible2SetupCloudID = true;
+                        v.IsPossible2SetupCloudID = Factory.p21LicenseBL.HasClientValidLicense(pid);
                     }
                 }
                 var tg = Factory.o51TagBL.GetTagging("p28", pid);

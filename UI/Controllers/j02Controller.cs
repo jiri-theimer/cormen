@@ -193,7 +193,7 @@ namespace UI.Controllers
                     Factory.CurrentUser.AddMessage("Pro nového uživatele musíte definovat výchozí heslo.");return false;
                     
                 }
-                if (c.p28ID == 0  || Factory.p28CompanyBL.LoadValidSwLicense(c.p28ID) ==null)
+                if (c.p28ID == 0  || Factory.p21LicenseBL.HasClientValidLicense(c.p28ID) ==false)
                 {
                     Factory.CurrentUser.AddMessage("Osoba s uživatelským účtem musí mít vazbu na subjekt (firmu) s platnou licencí užívat tento software.");
                     return false;

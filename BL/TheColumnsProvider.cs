@@ -433,6 +433,7 @@ namespace BL
             AF("p18OperCode", "p18DurationPreOper", "Před Oper. Čas", 2, null, "num0");
             AF("p18OperCode", "p18DurationOper", "Oper. Čas", 2, null, "num4");
             AF("p18OperCode", "p18DurationPostOper", "Po Oper. Čas", 2, null, "num0");
+            AF("p18OperCode", "p18OperParam", "Parametr", 2, null, "num1");
 
             AF("p18OperCode", "p18Lang1", "Jazyk1");
             AF("p18OperCode", "p18Lang2", "Jazyk2");

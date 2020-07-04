@@ -47,6 +47,9 @@ namespace BO
         public string p19Name { get; set; } //kvůli combo
         public string p19Code { get; set; }
 
-        
+        public double p18OperParam { get; set; }
+
+
+
     }
 }

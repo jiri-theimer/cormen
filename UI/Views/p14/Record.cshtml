@@ -99,7 +99,6 @@
     function p18id_change(p18id) {
 
         $.post("/p13/load_p18_record", { p18id: p18id }, function (data) {
-
            
             var s = "";
             s = data.p18UnitsCount.toString().replace(".", ",");
@@ -117,6 +116,10 @@
             s = data.p18DurationPostOper.toString().replace(".", ",");
             $("#Rec_p14DurationPostOper").val(s);
             $("[for-id=Rec_p14DurationPostOper]").val(s);
+
+            s = data.p18OperParam.toString().replace(".", ",");
+            $("#Rec_p14OperParam").val(s);
+            $("[for-id=Rec_p14OperParam]").val(s);
             
             if (data.p19ID == 0) {
                 $("#cmdComboRec_p19ID").text("");

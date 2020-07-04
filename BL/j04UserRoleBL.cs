@@ -33,8 +33,35 @@ namespace BL
             return _db.GetList<BO.j04UserRole>(fq.FinalSql, fq.Parameters);
         }
 
-        public int Save(BO.j04UserRole rec)
+        private bool TestOnePerm(BO.UserPermFlag oneperm, BO.j04UserRole rec)
         {
+            int x = (int)oneperm;
+            int y = x & rec.j04PermissionValue;
+            if (y == x)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public int Save(BO.j04UserRole rec)
+        {           
+            if (!_mother.CurrentUser.IsGURU())
+            {
+                if (rec.j04IsClientRole && (TestOnePerm(BO.UserPermFlag.MasterAdmin, rec) || TestOnePerm(BO.UserPermFlag.MasterReader, rec)))
+                {
+                    _db.CurrentUser.AddMessage("U [CLIENT] role musíte lze zaškrtnout pouze client oprávnění.");
+                    return 0;
+                }
+                if (rec.j04IsClientRole == false && (TestOnePerm(BO.UserPermFlag.ClientAdmin, rec) || TestOnePerm(BO.UserPermFlag.ClientReader, rec)))
+                {
+                    _db.CurrentUser.AddMessage("U [MASTER] role musíte lze zaškrtnout pouze master oprávnění.");
+                    return 0;
+                }
+            }
+            
             var p = new DL.Params4Dapper();
 
             p.AddInt("pid", rec.j04ID);

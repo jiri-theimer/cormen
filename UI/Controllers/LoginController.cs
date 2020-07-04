@@ -55,9 +55,9 @@ namespace UI.Controllers
             }
             BO.j03User cJ03 = _f.j03UserBL.LoadByLogin(lu.Login);
             BO.j04UserRole cJ04 = _f.j04UserRoleBL.Load(cJ03.j04ID);
-            if (cJ04.j04IsClientRole && _f.p28CompanyBL.LoadValidSwLicense(_f.CurrentUser.p28ID)==null)
+            if (cJ04.j04IsClientRole && _f.p21LicenseBL.HasClientValidLicense(_f.CurrentUser.p28ID)==false)
             {
-                lu.Message = "Subjekt, s kterým je svázaný váš osobní profil, nemá platnou licenci!";
+                lu.Message = "Subjekt, s kterým je svázaný váš osobní profil, nemá ani jednu platnou licenci!";
                 Write2Accesslog(lu);
                 return View(lu);
             }
