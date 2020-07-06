@@ -143,11 +143,11 @@ namespace UI.Controllers
         [HttpGet]
         //[Route("movetaskstatus/{p41code}/{b02code}")]
         [Route("skutecna_vyroba_save")]
-        public BO.Result skutecna_vyroba_save(string p41Code,string p45OperCode,string p45MaterialCode,string p45MaterialBattch,double p45MaterialUnitsCount,double p45TotalDurationOperMin,DateTime p45Start, DateTime p45End,string p45OperStatus,int p45OperNum,double p45OperParam,string p45Operator)
+        public BO.Result skutecna_vyroba_save(string p41Code,string p45OperCode,string p45MaterialCode,int p45MaterialBatch,double p45MaterialUnitsCount,double p45TotalDurationOperMin,DateTime p45Start, DateTime p45End,string p45OperStatus,int p45OperNum,double p45OperParam,string p45Operator)
         {
             var c = new SkutecnaVyroba() {
                 p41Code = p41Code, p45OperCode= p45OperCode, p45MaterialCode= p45MaterialCode
-                , p45MaterialBattch= p45MaterialBattch, p45MaterialUnitsCount= p45MaterialUnitsCount, p45TotalDurationOperMin= p45TotalDurationOperMin                
+                , p45MaterialBatch= p45MaterialBatch, p45MaterialUnitsCount= p45MaterialUnitsCount, p45TotalDurationOperMin= p45TotalDurationOperMin                
                 ,p45Start= p45Start
                 ,p45End= p45End
                 ,p45OperStatus= p45OperStatus                
@@ -176,7 +176,7 @@ namespace UI.Controllers
                     return new BO.Result(true, string.Format("Nelze načíst materiál s kódem: {0}.", c.p45MaterialCode));
                 }
                 ret.p45MaterialCode = c.p45MaterialCode;                
-                ret.p45MaterialBattch = c.p45MaterialBattch;                
+                ret.p45MaterialBatch = c.p45MaterialBatch;                
                 ret.p19ID = recP19.pid;
             }
             var recP27 = _f.p27MszUnitBL.Load(recP41.p27ID);

@@ -55,7 +55,7 @@ namespace BL
             
             p.AddString("p45Name", rec.p45Name);
             p.AddString("p45MaterialCode", rec.p45MaterialCode);
-            p.AddString("p45MaterialBattch", rec.p45MaterialBattch);
+            p.AddInt("p45MaterialBatch", rec.p45MaterialBatch);
             p.AddString("p45MaterialName", rec.p45MaterialName);
 
            
@@ -71,8 +71,16 @@ namespace BL
             p.AddDouble("p45TotalDurationOperMin", rec.p45TotalDurationOperMin);
             p.AddString("p45Operator", rec.p45Operator);
 
+            int intP45ID = _db.SaveRecord("p45TaskOperReal", p.getDynamicDapperPars(), rec);
 
-            return _db.SaveRecord("p45TaskOperReal", p.getDynamicDapperPars(), rec);
+            var pars = new Dapper.DynamicParameters();
+            pars.Add("userid", _db.CurrentUser.pid);
+            pars.Add("pid", rec.p41ID, System.Data.DbType.Int32);
+            pars.Add("err_ret", "", System.Data.DbType.String, System.Data.ParameterDirection.Output);
+            _db.RunSp("p41_after_p45save", ref pars);
+
+
+            return intP45ID;
         }
 
 

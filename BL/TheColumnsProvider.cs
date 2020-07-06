@@ -372,6 +372,7 @@ namespace BL
             AF("p45TaskOperReal", "p45TotalDurationOperMin", "Celk. Čas", 2, null, "num", true);
 
             AF("p45TaskOperReal", "p45OperParam", "Parametr", 2, null, "num1");
+            AF("p45TaskOperReal", "p45MaterialBatch", "Šarže suroviny", 0, null, "num0");
 
             AF("p45TaskOperReal", "p45MaterialUnitsCount", "Množství ∑", 2, null, "num7", true);
             
