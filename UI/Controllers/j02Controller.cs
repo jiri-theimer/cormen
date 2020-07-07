@@ -125,7 +125,18 @@ namespace UI.Controllers
                         cU.j03Login = v.UserProfile.j03Login;
                         cU.j03IsMustChangePassword = v.UserProfile.j03IsMustChangePassword;
                         cU.ValidUntil = c.ValidUntil;
-                        if (c.j03ID==0) cU.j03EnvironmentFlag = 2;  //klientské rozhraní
+                        if (c.j03ID == 0)
+                        {
+                            var recJ04 = Factory.j04UserRoleBL.Load(cU.j04ID);
+                            if (recJ04.j04IsClientRole)
+                            {
+                                cU.j03EnvironmentFlag = 2;  //client prostředí
+                            }
+                            else
+                            {
+                                cU.j03EnvironmentFlag = 1;  //master prostředí
+                            }
+                        }
 
                         if (!string.IsNullOrEmpty(v.ResetPassword))
                         {                            

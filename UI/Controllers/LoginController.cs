@@ -75,6 +75,10 @@ namespace UI.Controllers
             }
             
             //ověřený
+            if (cJ03.j02Email == null)
+            {
+                cJ03.j02Email = "info@marktime.cz";
+            }
             var userClaims = new List<Claim>()
                 {
                 new Claim(ClaimTypes.Name, lu.Login),

@@ -16,6 +16,7 @@ namespace BO
         
         public string FullName { get; set; }
         public int j04PermissionValue { get;set;}
+        public bool j04IsClientRole { get; set; }
         public bool j03IsMustChangePassword { get; set; }
         public int j03FontStyleFlag { get; set; }
         public int j03EnvironmentFlag { get; set; }

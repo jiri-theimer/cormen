@@ -143,7 +143,7 @@ namespace UI.Controllers
         [HttpGet]
         //[Route("movetaskstatus/{p41code}/{b02code}")]
         [Route("skutecna_vyroba_save")]
-        public BO.Result skutecna_vyroba_save(string p41Code,string p45OperCode,string p45MaterialCode,int p45MaterialBatch,double p45MaterialUnitsCount,double p45TotalDurationOperMin,DateTime p45Start, DateTime p45End,string p45OperStatus,int p45OperNum,double p45OperParam,string p45Operator)
+        public BO.Result skutecna_vyroba_save(string p41Code,string p45OperCode,string p45MaterialCode,int p45MaterialBatch,double p45MaterialUnitsCount,double p45TotalDurationOperMin,DateTime p45Start, DateTime p45End,string p45OperStatus,int p45OperNum,double p45OperParam,string p45Operator,int p45RowNum)
         {
             var c = new SkutecnaVyroba() {
                 p41Code = p41Code, p45OperCode= p45OperCode, p45MaterialCode= p45MaterialCode
@@ -154,6 +154,7 @@ namespace UI.Controllers
                 ,p45OperNum= p45OperNum
                 ,p45OperParam= p45OperParam
                 ,p45Operator= p45Operator
+                ,p45RowNum= p45RowNum
             };
 
             var recP41 = _f.p41TaskBL.LoadByCode(c.p41Code,0);
@@ -196,7 +197,7 @@ namespace UI.Controllers
             ret.p45OperStatus = c.p45OperStatus;
             ret.p45OperNum = c.p45OperNum;
             ret.p45OperParam = c.p45OperParam;
-           
+            ret.p45RowNum = c.p45RowNum;
 
             ret.p45Operator = c.p45Operator;
 
