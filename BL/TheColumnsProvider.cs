@@ -424,7 +424,7 @@ namespace BL
             onecol.FixedWidth = 70;
             
             AF("p18OperCode", "p18Name", "Název operace",1, null, "string", false, true);
-            AF("p18OperCode", "p18Flag", "Atribut pro plánování", 2, "case a.p18Flag when 1 then 'TO' when 2 then 'PO-PRE' when 3 then 'PO-POST' end", "string", false, true);
+            AF("p18OperCode", "p18Flag", "Atribut pro plánování", 2, "case a.p18Flag when 1 then 'TO' when 2 then 'PO-PRE' when 3 then 'PO-POST' when 4 then 'PO-COOP' end", "string", false, true);
             
 
             AF("p18OperCode", "p18Memo", "Poznámka");
@@ -436,6 +436,7 @@ namespace BL
             AF("p18OperCode", "p18DurationPostOper", "Po Oper. Čas", 2, null, "num0");
             AF("p18OperCode", "p18OperParam", "Parametr", 2, null, "num1");
             AF("p18OperCode", "p18IsRepeatable", "Opakovatelná operace", 0, null, "bool", false, true);
+            AF("p18OperCode", "p18IsManualAmount", "Ruční zadání množství", 0, null, "bool", false, true);
 
             AF("p18OperCode", "p18Lang1", "Jazyk1");
             AF("p18OperCode", "p18Lang2", "Jazyk2");

@@ -12,6 +12,7 @@ namespace BO
     //    POST=3
     //}
     
+    
     public class p18OperCode:BaseBO
     {
         [Key]
@@ -21,7 +22,9 @@ namespace BO
         public int p25ID { get; set; }        
         public int p19ID { get; set; }  //předvyplňovat materiál v TPV
 
-        public int p18Flag { get; set; }    //1,2,3
+        public int p18Flag { get; set; }    //1,2,3,4
+
+        public bool p18IsManualAmount { get; set; } //vyžaduje se ruční změna množství
 
         [Required(ErrorMessage = "Chybí vyplnit název!")]
         public string p18Name { get; set; }

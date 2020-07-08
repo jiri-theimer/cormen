@@ -66,6 +66,7 @@ namespace BL
             p.AddString("p18Lang3", rec.p18Lang3);
             p.AddString("p18Lang4", rec.p18Lang4);
             p.AddBool("p18IsRepeatable", rec.p18IsRepeatable);
+            p.AddBool("p18IsManualAmount", rec.p18IsManualAmount);
 
             return _db.SaveRecord("p18OperCode", p.getDynamicDapperPars(), rec);
         }

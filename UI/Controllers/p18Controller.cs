@@ -77,6 +77,7 @@ namespace UI.Controllers
                 c.p18Lang4 = v.Rec.p18Lang4;
                 c.p18OperParam = v.Rec.p18OperParam;
                 c.p18IsRepeatable = v.Rec.p18IsRepeatable;
+                c.p18IsManualAmount = v.Rec.p18IsManualAmount;
 
                 v.Rec.pid = Factory.p18OperCodeBL.Save(c);
                 if (v.Rec.pid > 0)

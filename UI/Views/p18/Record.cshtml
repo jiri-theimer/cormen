@@ -17,17 +17,22 @@
 <div class="modal_record_container">
     <div class="form-row">
         <label class="col-sm-1 col-md-2 col-form-label">Atribut pro plánování:</label>
-        <div class="col-sm-4 col-md-4">
+        <div class="col-sm-3 col-md-3">
             <select asp-for="Rec.p18Flag" class="form-control">
                 <option value="1">Technologická operace (TO)</option>
                 <option value="2">Plánovací operace PRE (PO-PRE)</option>
                 <option value="3">Plánovací operace POST (PO-POST)</option>
+                <option value="4">Plánovací operace POST (PO-COOP)</option>
 
             </select>
         </div>
-        <div class="col-sm-4 col-md-4">
+        <div class="col-sm-3 col-md-3">
             <input asp-for="Rec.p18IsRepeatable" />
             <label for="Rec_p18IsRepeatable">Opakovatelná operace</label>
+        </div>
+        <div class="col-sm-4 col-md-4">
+            <input asp-for="Rec.p18IsManualAmount" />
+            <label for="Rec_p18IsManualAmount">Vyžaduje ruční zadání množství</label>
         </div>
     </div>
     
