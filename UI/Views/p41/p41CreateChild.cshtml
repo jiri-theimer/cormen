@@ -50,7 +50,35 @@
                     Zaškrtněte operace, které se mají vložit do zakázky:
                 </div>
                 <div class="card-body">
-                    <mycheckboxlist asp-for="@Model.SelectedP18IDs" textfield="CodePlusName" valuefield="pid" datasource="@Model.lisP18"></mycheckboxlist>
+
+                    <table>
+                        @for (int i = 0; i < Model.lisDestOper.Count(); i++)
+                        {
+                            <tr>
+
+                                <td>
+                                    <input id="chk@(i)" asp-for="@Model.lisDestOper[i].IsSelected" />
+                                    <label for="chk@(i)">@(Model.lisDestOper[i].OperCodePlusName)</label>
+                                    <input type="hidden" asp-for="@Model.lisDestOper[i].p18IsManualAmount" />
+                                    <input type="hidden" asp-for="@Model.lisDestOper[i].OperCodePlusName" />
+                                    <input type="hidden" asp-for="@Model.lisDestOper[i].p18Flag" />
+                                    <input type="hidden" asp-for="@Model.lisDestOper[i].p18ID" />
+                                </td>
+                                <td style="max-width:150px;">
+                                    @if (Model.lisDestOper[i].p18IsManualAmount)
+                                    {
+                                        <mynumber asp-for="@Model.lisDestOper[i].p44MaterialUnitsCount" decimal-digits="7"></mynumber>
+                                    }
+                                    else
+                                    {
+                                        <input type="hidden" asp-for="@Model.lisDestOper[i].p44MaterialUnitsCount" />
+                                    }
+
+                                </td>
+                            </tr>
+                        }
+                    </table>
+
                 </div>
             </div>
         </div>

@@ -27,5 +27,7 @@ namespace BO
         public string Material { get; set; }
         public string OperCode { get; set; }
         public string OperCodePlusName { get; set; }
+
+        
     }
 }

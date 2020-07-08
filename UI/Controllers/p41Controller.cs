@@ -21,7 +21,7 @@ namespace UI.Controllers
             var v = new Models.p41CreateChildViewModel();
             v.MasterID = p41id;
             v.p18flag = p18flag;
-            v.SelectedP18IDs = new List<int>();
+            v.lisDestOper = new List<BO.AppendPostPreP44Oper>();
             RefreshState_p41CreateChild(ref v);
             if (p18flag == 2 && Factory.p41TaskBL.LoadSuccessor(p41id) != null)
             {
@@ -49,20 +49,14 @@ namespace UI.Controllers
                 {
                     return View(v);
                 }
-                if (oper == "save" && (v.SelectedP18IDs==null || v.SelectedP18IDs.Count() == 0))
+                if (oper == "save" && (v.lisDestOper==null || v.lisDestOper.Where(p=>p.IsSelected==true).Count() == 0))
                 {
                     this.AddMessage("Musíte zaškrtnout minimálně jednu operaci.");
                     return View(v);
                 }
-                var mq = new BO.myQuery("p18OperCode");
-                mq.pids = v.SelectedP18IDs.Where(p => p != 0).ToList();
-                var lis = new List<BO.p18OperCode>();
-                if (mq.pids.Count() > 0 && oper == "save")
-                {
-                    lis = Factory.p18OperCodeBL.GetList(mq).ToList();
-                }
+                
                 var c = new BO.p41Task() { p41Name = v.p41Name, p27ID = v.SelectedP27ID };
-                int x = Factory.p41TaskBL.CreateChild(c, v.RecMasterP41, lis, v.p18flag);
+                int x = Factory.p41TaskBL.CreateChild(c, v.RecMasterP41, v.lisDestOper.Where(p=>p.IsSelected==true).ToList(), v.p18flag);
                 if (x > 0)
                 {
 
@@ -79,13 +73,19 @@ namespace UI.Controllers
         private void RefreshState_p41CreateChild(ref p41CreateChildViewModel v)
         {
             v.RecMasterP41 = Factory.p41TaskBL.Load(v.MasterID);
-            if (v.SelectedP27ID > 0)
+            if (v.SelectedP27ID > 0 && (v.lisDestOper==null || v.lisDestOper.Count()==0))
             {                
                 var mq = new BO.myQuery("p18OperCode");
                 mq.p27id = v.SelectedP27ID;
                 mq.p18flag = v.p18flag;
                 mq.explicit_orderby = "a.p18Code";  //nutno setřídit podle kódu/pořadí operace
-                v.lisP18 = Factory.p18OperCodeBL.GetList(mq);
+                var lisP18 = Factory.p18OperCodeBL.GetList(mq);
+                v.lisDestOper = new List<BO.AppendPostPreP44Oper>();
+                foreach (var recP18 in lisP18)
+                {
+                    var c = new BO.AppendPostPreP44Oper() { p18ID = recP18.pid, p18Flag = recP18.p18Flag, p18Code = recP18.p18Code, OperCodePlusName = recP18.CodePlusName, p44MaterialUnitsCount = v.RecMasterP41.p41PlanUnitsCount, p18IsManualAmount = recP18.p18IsManualAmount };
+                    v.lisDestOper.Add(c);
+                }
             }
 
 
@@ -116,7 +116,7 @@ namespace UI.Controllers
             var v = new Models.p41AppendPoViewModel();
             v.p41ID = p41id;
             v.p18flag = p18flag;
-            v.SelectedP18IDs = new List<int>();
+            
             RefreshState_p41AppendPo(ref v);
 
             var mq = new BO.myQuery("p44TaskOperPlan");
@@ -124,10 +124,12 @@ namespace UI.Controllers
             var lisP44 = Factory.p44TaskOperPlanBL.GetList(mq);
             foreach(var c in lisP44)
             {
-                if (v.lisP18.Where(p => p.p18ID == c.p18ID).Count() > 0)
+                if (v.lisDestOper.Where(p => p.p18ID == c.p18ID).Count() > 0)
                 {
-                    v.SelectedP18IDs.Add(c.p18ID);
+                    v.lisDestOper.Where(p => p.p18ID == c.p18ID).First().IsSelected = true;
+                    v.lisDestOper.Where(p => p.p18ID == c.p18ID).First().p44MaterialUnitsCount = c.p44MaterialUnitsCount;
                 }
+                
             }
 
             return View(v);
@@ -140,20 +142,20 @@ namespace UI.Controllers
 
             if (ModelState.IsValid)
             {
-                if (oper=="save" && v.SelectedP18IDs.Where(p => p > 0).Count() == 0)
+                if (oper=="save" && v.lisDestOper.Where(p => p.IsSelected==true).Count() == 0)
                 {
                     this.AddMessage("Musíte zaškrtnout minimálně jednu operaci.");
                     return View(v);
                 }
-                var mq = new BO.myQuery("p18OperCode");
-                mq.pids = v.SelectedP18IDs.Where(p=>p !=0).ToList();                
-                var lis = new List<BO.p18OperCode>();
-                if (mq.pids.Count() > 0 && oper=="save")
-                {
-                    lis = Factory.p18OperCodeBL.GetList(mq).ToList();
-                }
+                //var mq = new BO.myQuery("p18OperCode");
+                //mq.pids = v.SelectedP18IDs.Where(p=>p !=0).ToList();                
+                //var lis = new List<BO.p18OperCode>();
+                //if (mq.pids.Count() > 0 && oper=="save")
+                //{
+                //    lis = Factory.p18OperCodeBL.GetList(mq).ToList();
+                //}
 
-                int x = Factory.p41TaskBL.AppendPos(v.RecP41, lis, v.p18flag,true);
+                int x = Factory.p41TaskBL.AppendPos(v.RecP41, v.lisDestOper.Where(p=>p.IsSelected==true).ToList(), v.p18flag,true);
                 if (x > 0)
                 {
 
@@ -170,11 +172,24 @@ namespace UI.Controllers
         private void RefreshState_p41AppendPo(ref p41AppendPoViewModel v)
         {
             v.RecP41 = Factory.p41TaskBL.Load(v.p41ID);            
-            var mq = new BO.myQuery("p18OperCode");
-            mq.p41id = v.p41ID;
-            mq.p18flag = v.p18flag;
-            mq.explicit_orderby = "a.p18Code";  //nutno setřídit podle kódu/pořadí operace
-            v.lisP18 = Factory.p18OperCodeBL.GetList(mq);
+            
+
+            if (v.lisDestOper == null || v.lisDestOper.Count()==0)
+            {
+                var mq = new BO.myQuery("p18OperCode");
+                mq.p41id = v.p41ID;
+                mq.p18flag = v.p18flag;
+                mq.explicit_orderby = "a.p18Code";  //nutno setřídit podle kódu/pořadí operace
+                var lisP18 = Factory.p18OperCodeBL.GetList(mq);
+                v.lisDestOper = new List<BO.AppendPostPreP44Oper>();
+                foreach (var recP18 in lisP18)
+                {
+                    var c = new BO.AppendPostPreP44Oper() { p18ID = recP18.pid, p18Flag=recP18.p18Flag, p18Code=recP18.p18Code, OperCodePlusName = recP18.CodePlusName, p44MaterialUnitsCount = v.RecP41.p41PlanUnitsCount, p18IsManualAmount=recP18.p18IsManualAmount };
+                    v.lisDestOper.Add(c);
+                }
+            }
+            
+
         }
 
         public IActionResult p41Timeline(string d)

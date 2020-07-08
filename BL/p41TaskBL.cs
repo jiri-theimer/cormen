@@ -16,8 +16,8 @@ namespace BL
         public bool ValidateBeforeSave(BO.p41Task rec, string premessage = "");
         public int SaveBatch(List<BO.p41Task> lisP41);
         public string EstimateTaskCode(string strP52Code, int x);
-        public int AppendPos(BO.p41Task recP41, List<BO.p18OperCode> lisP18, int p18flag,bool bolRunSpAfter);
-        public int CreateChild(BO.p41Task rec, BO.p41Task recMaster, List<BO.p18OperCode> lisP18, int p18flag);
+        public int AppendPos(BO.p41Task recP41, List<BO.AppendPostPreP44Oper> lisDestP44, int p18flag,bool bolRunSpAfter);
+        public int CreateChild(BO.p41Task rec, BO.p41Task recMaster, List<BO.AppendPostPreP44Oper> lisDestP44, int p18flag);
         public BO.Result MoveStatus(string p41code, string b02code);
         public void RecoveryPlanInTask(int p41id);
 
@@ -231,14 +231,14 @@ namespace BL
         }
 
 
-        public int AppendPos(BO.p41Task recP41, List<BO.p18OperCode> lisP18, int p18flag,bool bolRunSpAfter)   //uložit do plánu PO operace p18flag>1
+        public int AppendPos(BO.p41Task recP41, List<BO.AppendPostPreP44Oper> lisDestP44, int p18flag,bool bolRunSpAfter)   //uložit do plánu PO operace p18flag>1
         {
             if (recP41 == null)
             {
                 _mother.CurrentUser.AddMessage("Chybí vazba na zakázku.");
                 return 0;
             }
-            if (lisP18.Where(p => p.p18Flag <= 1).Count() > 0)
+            if (lisDestP44.Where(p => p.p18Flag <= 1).Count() > 0)
             {
                 _mother.CurrentUser.AddMessage("Do plánu lze vkládat pouze [PO] operace.");
                 return 0;
@@ -252,17 +252,22 @@ namespace BL
                 x = _db.Load<BO.COM.GetInteger>("SELECT MAX(p44OperNum) as Value FROM p44TaskOperPlan WHERE p41ID=@p41id AND p18ID IN (select p18ID FROM p18OperCode WHERE p18flag=1)", new { p41id = recP41.pid }).Value;
             }
             int rets = 0;
-            foreach (var c in lisP18.Where(p => p.p18Flag == p18flag).OrderBy(p => p.p18Code))
+            foreach (var c in lisDestP44.Where(p => p.p18Flag == p18flag).OrderBy(p => p.p18Code))
             {
-                var rec = new BO.p44TaskOperPlan() { p18ID = c.pid, p19ID = c.p19ID, p41ID = recP41.pid };
+                var recP18 = _mother.p18OperCodeBL.Load(c.p18ID);
+                var rec = new BO.p44TaskOperPlan() { p18ID = recP18.pid, p19ID = recP18.p19ID, p41ID = recP41.pid };
 
                 var p = new DL.Params4Dapper();
                 p.AddInt("p41ID", recP41.pid, true);
                 p.AddInt("p19ID", rec.p19ID, true);
                 p.AddInt("p18ID", rec.p18ID, true);
-                p.AddDouble("p44DurationPreOper", c.p18DurationPreOper);
-                p.AddDouble("p44DurationOper", c.p18DurationOper);
-                p.AddDouble("p44DurationPostOper", c.p18DurationPostOper);
+                p.AddDouble("p44DurationPreOper", recP18.p18DurationPreOper);
+                p.AddDouble("p44DurationOper", recP18.p18DurationOper);
+                p.AddDouble("p44DurationPostOper", recP18.p18DurationPostOper);
+                if (recP18.p18IsManualAmount)
+                {
+                    p.AddDouble("p44MaterialUnitsCount", c.p44MaterialUnitsCount);
+                }
                 if (p18flag == 2)
                 {   //u PRE operace je 1-9 použitelných pozic
                     rec.p44RowNum = -1000 + x;
@@ -284,7 +289,7 @@ namespace BL
                 }
 
             }
-            if (lisP18.Count() == 0)
+            if (lisDestP44.Count() == 0)
             {
                 rets= 1;   //pouze vyčištění
             }
@@ -320,7 +325,7 @@ namespace BL
             _db.RunSp("p41_after_save", ref pars);
         }
 
-        public int CreateChild(BO.p41Task rec, BO.p41Task recMaster, List<BO.p18OperCode> lisP18, int p18flag)
+        public int CreateChild(BO.p41Task rec, BO.p41Task recMaster, List<BO.AppendPostPreP44Oper> lisDestP44, int p18flag)
         {
             if (p18flag==2 && LoadSuccessor(recMaster.pid) !=null)
             {
@@ -332,7 +337,7 @@ namespace BL
                 _mother.CurrentUser.AddMessage("Tato zakázka již má založeného následníka.");
                 return 0;
             }
-            if (lisP18.Count == 0)
+            if (lisDestP44.Count == 0)
             {
                 _mother.CurrentUser.AddMessage("Musíte zaškrtnout minimálně jednu operaci.");
                 return 0;
@@ -378,7 +383,7 @@ namespace BL
             }
 
             rec = Load(intPID);
-            AppendPos(rec, lisP18, p18flag,false);  //bez volání SP p41_after_save
+            AppendPos(rec, lisDestP44, p18flag,false);  //bez volání SP p41_after_save
 
             if (p18flag == 2)   //spočítat p41PlanStart
             {
