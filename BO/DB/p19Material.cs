@@ -5,6 +5,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BO
 {
+    public enum p19TypeFlagEnum
+    {
+        Surovina=1,
+        Polotovar=2,
+        BaliciMaterial=3
+    }
     public class p19Material: BaseBO
     {
         [Key]
@@ -13,6 +19,8 @@ namespace BO
         public int p20ID { get; set; }
         public int p28ID { get; set; }
         public int p10ID_Master { get; set; }
+
+        public p19TypeFlagEnum p19TypeFlag { get; set; }
         public int j02ID_Owner { get; set; }
         [Required(ErrorMessage = "Chybí vyplnit název!")]
         public string p19Name { get; set; }

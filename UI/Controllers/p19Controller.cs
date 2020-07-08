@@ -77,6 +77,7 @@ namespace UI.Controllers
                 c.p20ID = v.Rec.p20ID;
                 
                 c.p28ID = v.Rec.p28ID;
+                c.p19TypeFlag = v.Rec.p19TypeFlag;
 
                 c.p19Supplier = v.Rec.p19Supplier;
                 c.p19Intrastat = v.Rec.p19Intrastat;

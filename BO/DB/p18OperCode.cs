@@ -49,7 +49,7 @@ namespace BO
 
         public double p18OperParam { get; set; }
 
-
+        public bool p18IsRepeatable { get; set; }
 
     }
 }

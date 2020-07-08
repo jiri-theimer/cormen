@@ -55,7 +55,7 @@ namespace BL
             
             p.AddString("p45Name", rec.p45Name);
             p.AddString("p45MaterialCode", rec.p45MaterialCode);
-            p.AddInt("p45MaterialBatch", rec.p45MaterialBatch);
+            p.AddString("p45MaterialBatch", rec.p45MaterialBatch);
             p.AddString("p45MaterialName", rec.p45MaterialName);
 
            

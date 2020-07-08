@@ -30,7 +30,7 @@ namespace BO
         public string p45OperCode { get; set; }         //textově posílá stroj, pro jistotu ukládáme pro přípoad neshod
         public string p45Name { get; set; }             //textově posílá stroj, pro jistotu ukládáme pro přípoad neshod
         public string p45MaterialCode { get; set; }     //textově posílá stroj, pro jistotu ukládáme pro přípoad neshod
-        public int p45MaterialBatch { get; set; }   //textově posílá stroj, pro jistotu ukládáme pro přípoad neshod
+        public string p45MaterialBatch { get; set; }   //textově posílá stroj, pro jistotu ukládáme pro přípoad neshod
         public string p45MaterialName { get; set; }     //textově posílá stroj, pro jistotu ukládáme pro přípoad neshod
 
 

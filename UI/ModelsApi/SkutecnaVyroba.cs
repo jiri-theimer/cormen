@@ -10,7 +10,7 @@ namespace UI.ModelsApi
         public string p41Code { get; set; }
         
         public string p45MaterialCode { get; set; }
-        public int p45MaterialBatch { get; set; }
+        public string p45MaterialBatch { get; set; }
         
         public int p45RowNum { get; set; }
         public string p45OperCode { get; set; }

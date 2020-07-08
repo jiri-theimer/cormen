@@ -223,7 +223,7 @@ namespace BL
             AF("p19Material", "p19Code", "Kód suroviny", 1,null,"string",false,true);
             
             AF("p19Material", "p19Name", "Název suroviny", 1,null,"string",false,true);
-
+            AF("p19Material", "p19TypeFlag", "Typ suroviny", 1, "case a.p19TypeFlag when 1 then 'Surovina' when 2 then 'Polotovar' when 3 then 'Balící materiál' end","string",false,true);
             AF("p19Material", "p19Supplier", "Dodavatel", 2);
             AF("p19Material", "p19Intrastat", "Intrastat", 2);
             AF("p19Material", "p19NameAlias", "NAME-ALIAS");
@@ -372,7 +372,7 @@ namespace BL
             AF("p45TaskOperReal", "p45TotalDurationOperMin", "Celk. Čas", 2, null, "num", true);
 
             AF("p45TaskOperReal", "p45OperParam", "Parametr", 2, null, "num1");
-            AF("p45TaskOperReal", "p45MaterialBatch", "Šarže suroviny", 0, null, "num0");
+            AF("p45TaskOperReal", "p45MaterialBatch", "Šarže suroviny");
 
             AF("p45TaskOperReal", "p45MaterialUnitsCount", "Množství ∑", 2, null, "num7", true);
             
@@ -435,6 +435,7 @@ namespace BL
             AF("p18OperCode", "p18DurationOper", "Oper. Čas", 2, null, "num4");
             AF("p18OperCode", "p18DurationPostOper", "Po Oper. Čas", 2, null, "num0");
             AF("p18OperCode", "p18OperParam", "Parametr", 2, null, "num1");
+            AF("p18OperCode", "p18IsRepeatable", "Opakovatelná operace", 0, null, "bool", false, true);
 
             AF("p18OperCode", "p18Lang1", "Jazyk1");
             AF("p18OperCode", "p18Lang2", "Jazyk2");

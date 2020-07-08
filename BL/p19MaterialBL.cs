@@ -61,6 +61,7 @@ namespace BL
                 _db.CurrentUser.AddMessage("V klientském režimu se pořizuje materiál na míru klienta. Musíte záznam svázat s klientem s vazbou na váš profil.");
                 return 0;
             }
+            p.AddEnumInt("p19TypeFlag", rec.p19TypeFlag);
             p.AddInt("p10ID_Master", rec.p10ID_Master, true);
             p.AddString("p19Name", rec.p19Name);
             p.AddString("p19Code", rec.p19Code);

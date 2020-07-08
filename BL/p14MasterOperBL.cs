@@ -49,16 +49,18 @@ namespace BL
             BO.p14MasterOper cLast = rec;
             foreach (var c in GetList(mq).OrderBy(p => p.p14RowNum).Where(p => p.p14RowNum > rec.p14RowNum))
             {
-                if (c.OperCode != cLast.OperCode)
+                var recP18 = _mother.p18OperCodeBL.Load(c.p18ID);
+                if (c.OperCode == cLast.OperCode && recP18.p18IsRepeatable==true)
                 {
-                    rn=cLast.p14OperNum+10;
-                    _db.RunSql("UPDATE p14MasterOper set p14OperNum=@opernum WHERE p14ID=@pid", new { pid = c.pid, opernum = rn });
-                    c.p14OperNum = rn;
+                    //V následujícím řádku nepřičítává "10" pokud je Kód oper stejný jako předchozí Kód oper (současná funkcionalita), ale navíc (AND) "Opakovaná operace" je TRUE.
+                    _db.RunSql("UPDATE p14MasterOper set p14OperNum=@opernum WHERE p14ID=@pid", new { pid = c.pid, opernum = cLast.p14OperNum });
+                    c.p14OperNum = cLast.p14OperNum;                    
                 }
                 else
                 {
-                    _db.RunSql("UPDATE p14MasterOper set p14OperNum=@opernum WHERE p14ID=@pid", new { pid = c.pid, opernum = cLast.p14OperNum });
-                    c.p14OperNum = cLast.p14OperNum;
+                    rn = cLast.p14OperNum + 10;
+                    _db.RunSql("UPDATE p14MasterOper set p14OperNum=@opernum WHERE p14ID=@pid", new { pid = c.pid, opernum = rn });
+                    c.p14OperNum = rn;
                 }
                 cLast = c;
             }          

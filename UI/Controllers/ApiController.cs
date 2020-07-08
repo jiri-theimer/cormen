@@ -143,7 +143,7 @@ namespace UI.Controllers
         [HttpGet]
         //[Route("movetaskstatus/{p41code}/{b02code}")]
         [Route("skutecna_vyroba_save")]
-        public BO.Result skutecna_vyroba_save(string p41Code,string p45OperCode,string p45MaterialCode,int p45MaterialBatch,double p45MaterialUnitsCount,double p45TotalDurationOperMin,DateTime p45Start, DateTime p45End,string p45OperStatus,int p45OperNum,double p45OperParam,string p45Operator,int p45RowNum)
+        public BO.Result skutecna_vyroba_save(string p41Code,string p45OperCode,string p45MaterialCode,string p45MaterialBatch,double p45MaterialUnitsCount,double p45TotalDurationOperMin,DateTime p45Start, DateTime p45End,string p45OperStatus,int p45OperNum,double p45OperParam,string p45Operator,int p45RowNum)
         {
             var c = new SkutecnaVyroba() {
                 p41Code = p41Code, p45OperCode= p45OperCode, p45MaterialCode= p45MaterialCode
