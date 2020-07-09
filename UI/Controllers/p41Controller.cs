@@ -139,7 +139,10 @@ namespace UI.Controllers
         public IActionResult p41AppendPo(Models.p41AppendPoViewModel v,string oper)
         {
             RefreshState_p41AppendPo(ref v);
-
+            if (oper == "clear")
+            {
+                v.lisDestOper = new List<BO.AppendPostPreP44Oper>();
+            }
             if (ModelState.IsValid)
             {
                 if (oper=="save" && v.lisDestOper.Where(p => p.IsSelected==true).Count() == 0)
