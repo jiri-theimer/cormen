@@ -75,7 +75,7 @@
         </div>
 
 
-        @if (Model.p52ID > 0 && 1==2)
+        @if (Model.p52ID > 0 && 1 == 2)
         {
             <div class="form-row">
                 <div class="col-10">
@@ -127,7 +127,15 @@
                     <div class="col-sm-3 col-md-3">
                         <mycombo entity="p27MszUnit" view-flag="2" asp-for="Tasks[i].p27ID" selectedtext="Tasks[i].p27Name" masterprefix="p25" masterpid="@Model.p25ID"></mycombo>
                     </div>
-                    <label class="col-sm-1 col-md-1 col-form-label">Množství kg:</label>
+                    @if (Model.RecP52 != null)
+                    {
+                        <label class="col-sm-1 col-md-1 col-form-label">Množství @Model.RecP52.p20CodePro:</label>
+                    }
+                    else
+                    {
+                        <label class="col-sm-1 col-md-1 col-form-label">Množství:</label>
+                    }
+
                     <div class="col-sm-2 col-md-2">
                         <mynumber asp-for="Tasks[i].p41PlanUnitsCount"></mynumber>
                     </div>
@@ -168,12 +176,12 @@
     $(document).ready(function () {
 
 
-        $("#cmdSave").click(function () {            
+        $("#cmdSave").click(function () {
             $(this).text("Processing...");
             $(this).attr("disabled", true);
             form1.action = "/p41/Create?rec_oper=save";
             form1.submit();
-            
+
         });
 
         $("#cmdMoreP51").click(function () {
@@ -186,7 +194,7 @@
     });
 
     function append_task(p27id) {
-        form1.action = "/p41/Create?rec_oper=newitem&p27id="+p27id;
+        form1.action = "/p41/Create?rec_oper=newitem&p27id=" + p27id;
         form1.submit();
     }
 

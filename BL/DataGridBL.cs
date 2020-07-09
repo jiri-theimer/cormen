@@ -90,16 +90,25 @@ namespace BL
             sb.Append(" FROM ");
             BO.TheEntity ce = BL.TheEntities.ByPrefix(mq.Prefix);
             sb.Append(ce.SqlFromGrid);    //úvodní FROM klauzule s primární "a" tabulkou            
-
-            //var relSqls = mq.explicit_columns.Where(x=>x.RelName !=null && x.RelName !="a").Select(p => p.RelSql).Distinct();
+            
             List<string> relSqls = new List<string>();
             foreach (BO.TheGridColumn col in mq.explicit_columns.Where(x => x.RelName != null && x.RelName != "a"))
             {
                 if (col.RelSqlDependOn != null && relSqls.Exists(p=>p==col.RelSqlDependOn)==false)
-                {
+                {                    
+                    if (mq.Prefix=="p41" && (col.RelName == "p11_p20" || col.RelName== "p11_p20pro"))
+                    {   //natvrdo relace, protože bohužel neumíme závilost ob dvě relace:
+                        if (relSqls.Exists(p => p == "INNER JOIN p52OrderItem p41_p52 ON a.p52ID = p41_p52.p52ID") == false)
+                        {
+                            relSqls.Add("INNER JOIN p52OrderItem p41_p52 ON a.p52ID=p41_p52.p52ID");                            
+                            sb.Append(" INNER JOIN p52OrderItem p41_p52 ON a.p52ID=p41_p52.p52ID");
+                        }                            
+                    }
+
                     relSqls.Add(col.RelSqlDependOn);
                     sb.Append(" ");
                     sb.Append(col.RelSqlDependOn);
+
                 }
                 if (relSqls.Exists(p => p == col.RelSql) == false)
                 {

@@ -240,6 +240,10 @@ namespace BL
 
                     lis.Add(getREL("p52OrderItem", "p41_p52", "Položka objednávky", "INNER JOIN p52OrderItem p41_p52 ON a.p52ID=p41_p52.p52ID"));
                     lis.Add(getREL("p11ClientProduct", "p52_p11", "Produkt", "INNER JOIN p11ClientProduct p52_p11 ON p41_p52.p11ID = p52_p11.p11ID","p41_p52"));
+                    lis.Add(getREL("p20Unit", "p11_p20", "Měrná jednotka", "LEFT OUTER JOIN p20Unit p11_p20 ON p52_p11.p20ID=p11_p20.p20ID", "p52_p11"));
+                    lis.Add(getREL("p20Unit", "p11_p20pro", "Výrobní jednotka", "LEFT OUTER JOIN p20Unit p11_p20pro ON p52_p11.p20ID_Pro=p11_p20pro.p20ID", "p52_p11"));
+                    
+
                     lis.Add(getREL("p51Order", "p52_p51", "Objednávka", "INNER JOIN p51Order p52_p51 ON p41_p52.p51ID=p52_p51.p51ID","p41_p52"));
                     lis.Add(getREL("p28Company", "p51_p28", "Klient", "LEFT OUTER JOIN p28Company p51_p28 ON p52_p51.p28ID=p51_p28.p28ID", "p52_p51"));
                     lis.Add(getREL("o54TagBindingInline", "p41_o54", "Kategorie", "LEFT OUTER JOIN (SELECT * FROM o54TagBindingInline WHERE o54RecordEntity='p41') p41_o54 ON a.p41ID=p41_o54.o54RecordPid"));
@@ -267,6 +271,7 @@ namespace BL
                     lis.Add(getREL("p11ClientProduct", "p52_p11", "Produkt", "INNER JOIN p11ClientProduct p52_p11 ON a.p11ID = p52_p11.p11ID"));
                     lis.Add(getREL("p28Company", "p51_p28", "Klient", "LEFT OUTER JOIN p28Company p51_p28 ON p52_p51.p28ID=p51_p28.p28ID","p52_p51"));
                     lis.Add(getREL("p20Unit", "p11_p20", "Měrná jednotka", "INNER JOIN p20Unit p11_p20 ON p52_p11.p20ID=p11_p20.p20ID", "p52_p11"));
+                    lis.Add(getREL("p20Unit", "p11_p20pro", "Výrobní jednotka", "LEFT OUTER JOIN p20Unit p11_p20pro ON p11.p20ID_Pro=p11_p20pro.p20ID"));
                     break;
                 case "o23":
                     lis.Add(getREL("b02Status", "o23_b02", "Workflow stav", "LEFT OUTER JOIN b02Status o23_b02 ON a.b02ID = o23_b02.b02ID"));

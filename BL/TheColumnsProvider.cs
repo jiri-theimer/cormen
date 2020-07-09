@@ -388,9 +388,9 @@ namespace BL
             AF("p51Order", "p51DateDelivery", "Termín dodání", 2, null, "datetime",false,true);
             AF("p51Order", "p51DateDeliveryConfirmed", "Potvrzený termín dodání", 2, null, "datetime",false,true);
 
-            AF("p51Order", "p51Order_Kg", "Objednáno kg", 1, null, "num", true);
-            AF("p51Order", "p51Task_Kg", "Již naplánováno kg", 0, null, "num", true);            
-            AF("p51Order", "ZbyvaNaplanovat", "Zbývá naplánovat kg  ", 1, "a.p51Order_Kg - isnull(a.p51Task_Kg,0)", "num", true);
+            //AF("p51Order", "p51Order_Kg", "Objednáno kg", 1, null, "num", true);
+            //AF("p51Order", "p51Task_Kg", "Již naplánováno kg", 0, null, "num", true);            
+            //AF("p51Order", "ZbyvaNaplanovat", "Zbývá naplánovat kg  ", 1, "a.p51Order_Kg - isnull(a.p51Task_Kg,0)", "num", true);
 
 
             AF("p51Order", "p51CodeByClient", "Kód podle klienta", 0);
@@ -410,8 +410,8 @@ namespace BL
 
             AF("p52OrderItem", "p52Task_UnitsCount", "Již naplánováno", 0, null, "num");
             AF("p52OrderItem", "ZbyvaNaplanovatUnits", "Zbývá naplánovat", 1, "a.p52UnitsCount-isnull(a.p52Task_UnitsCount,0)", "num");
-            AF("p52OrderItem", "p52Task_Kg", "Již naplánováno kg", 0, null, "num",true);
-            AF("p52OrderItem", "ZbyvaNaplanovatKg", "Zbývá naplánovat kg", 0, "a.p52UnitsCount*p11RecalcUnit2Kg-isnull(a.p52Task_Kg,0)", "num",true);
+            AF("p52OrderItem", "p52Task_Kg", "Již naplánováno VJ", 0, null, "num",true);
+            AF("p52OrderItem", "ZbyvaNaplanovatKg", "Zbývá naplánovat VJ", 0, "a.p52UnitsCount*p11RecalcUnit2Kg-isnull(a.p52Task_Kg,0)", "num",true);
 
             AF("p52OrderItem", "RecordOwner", "Vlastník záznamu", 0, "dbo.j02_show_as_owner(a.j02ID_Owner)");
 
