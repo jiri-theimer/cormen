@@ -63,19 +63,27 @@
     }
 
 
-    <div class="form-row" style="margin-top:10px;">
-        <label class="col-sm-1 col-md-2 col-form-label">Plánované množství kg:</label>
-        <div class="col-sm-3 col-md-3">
-            <mynumber asp-for="Rec.p41PlanUnitsCount"></mynumber>
-        </div>
+<div class="form-row" style="margin-top:10px;">
+    @if (Model.RecP52 != null)
+    {
+        <label class="col-sm-1 col-md-2 col-form-label">Plánované množství @Model.RecP52.p20CodePro:</label>
+    }
+    else
+    {
+        <label class="col-sm-1 col-md-2 col-form-label">Plánované množství:</label>
+    }
 
-        <label class="col-sm-1 col-md-1 col-form-label">Kód skladu:</label>
-        <div class="col-sm-6 col-md-6">
-            <input class="form-control" asp-for="Rec.p41StockCode" />
-            <span asp-validation-for="Rec.p41StockCode" class="text-danger"></span>
-        </div>
-
+    <div class="col-sm-3 col-md-3">
+        <mynumber asp-for="Rec.p41PlanUnitsCount"></mynumber>
     </div>
+
+    <label class="col-sm-1 col-md-1 col-form-label">Kód skladu:</label>
+    <div class="col-sm-6 col-md-6">
+        <input class="form-control" asp-for="Rec.p41StockCode" />
+        <span asp-validation-for="Rec.p41StockCode" class="text-danger"></span>
+    </div>
+
+</div>
 
     <mystitky entity="p41Task" asp-for="@Model.TagPids" tagnames="@Model.TagNames" taghtml="@Model.TagHtml"></mystitky>
 

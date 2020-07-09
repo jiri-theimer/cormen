@@ -16,7 +16,7 @@
     </div>
     <div class="col-sm-1 col-md-1">
 
-        <span class="form-control bg-light font-weight-bold" style="text-align:right;">@(BO.BAS.Number2String(Model.Recalc2Kg)+"kg")</span>
+        <span class="form-control bg-light font-weight-bold" style="text-align:right;">@(BO.BAS.Number2String(Model.Recalc2Kg)+Model.p20CodePro)</span>
 
     </div>
 </div>
@@ -45,6 +45,6 @@
         <span class="form-control bg-light text-success" style="text-align:right;">@(BO.BAS.Number2String(Model.p52UnitsCount-Model.p52Task_UnitsCount) + " "+ @Model.p20Code)</span>
     </div>
     <div class="col-sm-1 col-md-1">
-        <span class="form-control bg-light font-weight-bold text-success" style="text-align:right;">@(BO.BAS.Number2String(Model.Recalc2Kg - Model.p52Task_Kg) + "kg")</span>
+        <span class="form-control bg-light font-weight-bold text-success" style="text-align:right;">@(BO.BAS.Number2String(Model.Recalc2Kg - Model.p52Task_Kg) + Model.p20CodePro)</span>
     </div>
 </div>

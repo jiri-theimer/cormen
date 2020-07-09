@@ -75,7 +75,15 @@
         </div>
 
         <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Plánované množství KG:</label>
+            @if (Model.RecP52 != null)
+            {
+                <label class="col-sm-1 col-md-2 col-form-label">Plánované množství @Model.RecP52.p20CodePro:</label>
+            }
+            else
+            {
+                <label class="col-sm-1 col-md-2 col-form-label">Plánované množství ??:</label>
+            }
+
             <div class="col-sm-3 col-md-3">
                 <span class="val-readonly">@(Model.Rec.p41PlanUnitsCount)</span>
             </div>
