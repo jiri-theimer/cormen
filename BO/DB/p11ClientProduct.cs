@@ -29,6 +29,7 @@ namespace BO
 
         public double p11UnitPrice { get; set; }
         public int p20ID { get; set; }
+        public int p20ID_Pro { get; set; }
 
         public ProductTypeEnum p11TypeFlag { get; set; }
 
@@ -43,6 +44,10 @@ namespace BO
         public string p20Code { get; set; } //get+set: kvůli mycombo
         public string p20Name;
         public string TagHtml;
-        
+
+        public string p20NamePro;
+        public string p20CodePro { get; set; } //combo
+
+
     }
 }

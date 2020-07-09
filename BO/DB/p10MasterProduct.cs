@@ -28,6 +28,7 @@ namespace BO
         
         public int b02ID { get; set; }
         public int p20ID { get; set; }
+        public int p20ID_Pro { get; set; }
         [Required(ErrorMessage = "Chybí vyplnit název!")]
         [MaxLength(100, ErrorMessage = "Maximum 100 znaků")]
         public string p10Name { get; set; }
@@ -45,6 +46,8 @@ namespace BO
         
         public string p20Code { get; set; }
         public string p20Name;
+        public string p20NamePro;
+        public string p20CodePro { get; set; }
         public string TagHtml;
         public int p25ID;
 

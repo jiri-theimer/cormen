@@ -23,6 +23,7 @@ namespace BO
         public string p11Code { get; set; }
         public string p51Code;
         public string p20Code { get; set; }//kvůli postback
+        public string p20CodePro { get; set; }
 
         public double p11RecalcUnit2Kg { get; set; }//kvůli postback
 

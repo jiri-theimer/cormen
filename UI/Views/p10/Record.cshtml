@@ -28,7 +28,7 @@
             <span asp-validation-for="Rec.p10Code" class="text-danger"></span>
         </div>
     </div>
-    
+
 
     <div class="form-row" style="margin-top:10px;">
         <label class="col-sm-1 col-md-2 col-form-label">Typ produktu:</label>
@@ -56,10 +56,19 @@
         <div class="col-sm-3 col-md-3">
             <mycombo entity="p20Unit" asp-for="Rec.p20ID" selectedtext="Rec.p20Code" view-flag="2"></mycombo>
         </div>
-        <label class="col-sm-1 col-md-2 col-form-label">Přepočet MJ na KG:</label>
+        <label class="col-sm-1 col-md-2 col-form-label">Přepočet MJ na VJ:</label>
         <div class="col-sm-2 col-md-2">
             <mynumber asp-for="Rec.p10RecalcUnit2Kg" decimal-digits="3"></mynumber>
         </div>
+
+
+    </div>
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Výrobní měrná jednotka (VJ):</label>
+        <div class="col-sm-3 col-md-3">
+            <mycombo entity="p20Unit" asp-for="Rec.p20ID_Pro" selectedtext="Rec.p20CodePro" view-flag="2"></mycombo>
+        </div>
+        
 
 
     </div>
@@ -74,7 +83,7 @@
         <span asp-validation-for="Rec.p10Memo" class="text-danger"></span>
     </div>
 
-  
+
 
 
 

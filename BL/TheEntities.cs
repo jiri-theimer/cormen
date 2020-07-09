@@ -154,7 +154,8 @@ namespace BL
                     lis.Add(getREL("j03User", "j92_j03", "Uživatelský účet", "INNER JOIN j03User j92_j03 ON a.j03ID=j92_j03.j03ID INNER JOIN j04UserRole j03_j04 ON j92_j03.j04ID=j03_j04.j04ID"));
                     break;
                 case "p10":
-                    lis.Add(getREL("p20Unit", "p10_p20", "Měrná jednotka", "INNER JOIN p20Unit p10_p20 ON a.p20ID=p10_p20.p20ID"));
+                    lis.Add(getREL("p20Unit", "p10_p20", "MJ", "INNER JOIN p20Unit p10_p20 ON a.p20ID=p10_p20.p20ID"));
+                    lis.Add(getREL("p20Unit", "p10_p20pro", "VJ", "LEFT OUTER JOIN p20Unit p10_p20pro ON a.p20ID_Pro=p10_p20pro.p20ID"));
                     lis.Add(getREL("p13MasterTpv", "p10_p13", "Master receptura", "LEFT OUTER JOIN p13MasterTpv p10_p13 ON a.p13ID=p10_p13.p13ID"));
                     lis.Add(getREL("b02Status", "p10_b02", "Workflow stav", "LEFT OUTER JOIN b02Status p10_b02 ON a.b02ID = p10_b02.b02ID"));
                     
@@ -162,6 +163,7 @@ namespace BL
                     break;
                 case "p11":
                     lis.Add(getREL("p20Unit", "p11_p20", "Měrná jednotka", "INNER JOIN p20Unit p11_p20 ON a.p20ID=p11_p20.p20ID"));
+                    lis.Add(getREL("p20Unit", "p11_p20pro", "Výrobní jednotka", "LEFT OUTER JOIN p20Unit p11_p20pro ON a.p20ID_Pro=p11_p20pro.p20ID"));
                     lis.Add(getREL("p21License", "p11_p21", "Licence", "INNER JOIN p21License p11_p21 ON a.p21ID=p11_p21.p21ID"));
                     lis.Add(getREL("p28Company", "p21_p28", "Klient", "LEFT OUTER JOIN p28Company p21_p28 ON p11_p21.p28ID=p21_p28.p28ID", "p11_p21"));
                     lis.Add(getREL("p12ClientTpv", "p11_p12", "Receptura", "INNER JOIN p12ClientTpv p11_p12 ON a.p12ID=p11_p12.p12ID"));

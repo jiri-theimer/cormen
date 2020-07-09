@@ -19,7 +19,7 @@ namespace BL
 
         private string GetSQL1()
         {
-            return "SELECT a.*," + _db.GetSQL1_Ocas("p11") + ",b02.b02Name,p12.p12Name,p12.p12Code,p21.p21Name,p21.p21Code,p10.p10Name,p10.p10Code,p20.p20Code,p20.p20Name,p28.p28Name FROM p11ClientProduct a INNER JOIN p12ClientTpv p12 ON a.p12ID=p12.p12ID INNER JOIN p20Unit p20 ON a.p20ID=p20.p20ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p21License p21 ON a.p21ID=p21.p21ID LEFT OUTER JOIN p28Company p28 ON p21.p28ID=p28.p28ID LEFT OUTER JOIN p10MasterProduct p10 ON a.p10ID_Master=p10.p10ID";
+            return "SELECT a.*," + _db.GetSQL1_Ocas("p11") + ",b02.b02Name,p12.p12Name,p12.p12Code,p21.p21Name,p21.p21Code,p10.p10Name,p10.p10Code,p20.p20Code,p20.p20Name,p28.p28Name,p20pro.p20Name as p20NamePro,p20pro.p20Code as p20CodePro FROM p11ClientProduct a INNER JOIN p12ClientTpv p12 ON a.p12ID=p12.p12ID INNER JOIN p20Unit p20 ON a.p20ID=p20.p20ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p21License p21 ON a.p21ID=p21.p21ID LEFT OUTER JOIN p28Company p28 ON p21.p28ID=p28.p28ID LEFT OUTER JOIN p10MasterProduct p10 ON a.p10ID_Master=p10.p10ID LEFT OUTER JOIN p20Unit p20pro ON a.p20ID_Pro=p20pro.p20ID";
         }
         public BO.p11ClientProduct Load(int pid)
         {
@@ -52,6 +52,7 @@ namespace BL
             p.AddInt("p10ID_Master", rec.p10ID_Master, true);
             p.AddInt("b02ID", rec.b02ID, true);
             p.AddInt("p20ID", rec.p20ID, true);
+            p.AddInt("p20ID_Pro", rec.p20ID_Pro, true);
             p.AddInt("p21ID", rec.p21ID, true);
             p.AddString("p11Name", rec.p11Name);
             p.AddString("p11Code", rec.p11Code);
@@ -73,6 +74,10 @@ namespace BL
             if (rec.p20ID == 0)
             {
                 _db.CurrentUser.AddMessage("Chybí vyplnit [Měrná jednotka]."); return false;
+            }
+            if (rec.p20ID_Pro == 0)
+            {
+                _db.CurrentUser.AddMessage("Chybí vyplnit [Výrobní jednotka]."); return false;
             }
             if (rec.p12ID == 0)
             {

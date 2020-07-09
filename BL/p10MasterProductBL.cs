@@ -20,7 +20,7 @@ namespace BL
        
         private string GetSQL1()
         {
-            return "SELECT a.*," + _db.GetSQL1_Ocas("p10") + ",b02.b02Name,p13.p13Name,p13.p13Code,p20.p20Code,p20.p20Name,p13.p25ID FROM p10MasterProduct a INNER JOIN p20Unit p20 ON a.p20ID=p20.p20ID LEFT OUTER JOIN p13MasterTpv p13 ON a.p13ID=p13.p13ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID";
+            return "SELECT a.*," + _db.GetSQL1_Ocas("p10") + ",b02.b02Name,p13.p13Name,p13.p13Code,p20.p20Code,p20.p20Name,p20pro.p20Name as p20NamePro,p20pro.p20Code as p20CodePro,p13.p25ID FROM p10MasterProduct a INNER JOIN p20Unit p20 ON a.p20ID=p20.p20ID LEFT OUTER JOIN p13MasterTpv p13 ON a.p13ID=p13.p13ID LEFT OUTER JOIN b02Status b02 ON a.b02ID=b02.b02ID LEFT OUTER JOIN p20Unit p20pro ON a.p20ID_Pro=p20pro.p20ID";
         }
         public BO.p10MasterProduct Load(int pid)
         {
@@ -53,6 +53,7 @@ namespace BL
             p.AddInt("b02ID", rec.b02ID,true);
             
             p.AddInt("p20ID", rec.p20ID, true);
+            p.AddInt("p20ID_Pro", rec.p20ID_Pro, true);
             p.AddString("p10Name", rec.p10Name);
             p.AddString("p10Code", rec.p10Code);
             p.AddString("p10Memo", rec.p10Memo);
@@ -90,6 +91,10 @@ namespace BL
             if (rec.p20ID == 0)
             {
                 _db.CurrentUser.AddMessage("Chybí vyplnit měrná jednotka."); return false;
+            }
+            if (rec.p20ID_Pro == 0)
+            {
+                _db.CurrentUser.AddMessage("Chybí vyplnit výrobní měrná jednotka."); return false;
             }
             if (rec.p10RecalcUnit2Kg == 0)
             {

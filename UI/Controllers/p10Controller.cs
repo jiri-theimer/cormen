@@ -66,6 +66,7 @@ namespace UI.Controllers
                 c.p10Memo = v.Rec.p10Memo;
                 c.b02ID = v.Rec.b02ID;
                 c.p20ID = v.Rec.p20ID;
+                c.p20ID_Pro = v.Rec.p20ID_Pro;
                 c.p13ID = v.Rec.p13ID;
                 c.p10TypeFlag = v.Rec.p10TypeFlag;                
                 c.p10RecalcUnit2Kg = v.Rec.p10RecalcUnit2Kg;

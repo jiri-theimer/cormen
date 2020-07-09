@@ -122,7 +122,7 @@ namespace BL
             AF("p10MasterProduct", "p10TypeFlag", "Typ produktu", 1, "case a.p10TypeFlag when 1 then 'Polotovar' when 2 then 'Výrobek' when 3 then 'Plnění' end");
             AF("p10MasterProduct", "p10Memo", "Podrobný popis");
             AF("p10MasterProduct", "p10SwLicenseFlag", "SW licence", 0, "case when a.p10SwLicenseFlag>0 then 'SW licence '+convert(varchar(10),a.p10SwLicenseFlag) else null end");
-            AF("p10MasterProduct", "p10RecalcUnit2Kg", "Přepočet MJ na KG", 0, null, "num3");
+            AF("p10MasterProduct", "p10RecalcUnit2Kg", "Přepočet MJ na VJ", 0, null, "num3");
             AppendTimestamp("p10MasterProduct");
 
             //p21 = licence
@@ -259,7 +259,7 @@ namespace BL
             
             AF("p14MasterOper", "p14OperParam", "Parameter", 2, null, "num1");
 
-            AF("p14MasterOper", "p14UnitsCount", "Množství na 1kg", 2, null, "num7", true);
+            AF("p14MasterOper", "p14UnitsCount", "Množství na 1VJ", 2, null, "num7", true);
             AF("p14MasterOper", "p14DurationPreOper", "Před Oper. Čas", 2, null, "num0", true);
             AF("p14MasterOper", "p14DurationOper", "Oper. Čas", 2, null, "num4", true);
             AF("p14MasterOper", "p14DurationPostOper", "Po Oper. Čas", 2, null, "num0", true);
@@ -275,7 +275,7 @@ namespace BL
             AF("p11ClientProduct", "p11UnitPrice", "Jedn.cena", 0, null, "num");
             AF("p11ClientProduct", "p11TypeFlag", "Typ produktu", 1, "case a.p11TypeFlag when 1 then 'Polotovar' when 2 then 'Výrobek' when 3 then 'Plnění' end");
 
-            AF("p11ClientProduct", "p11RecalcUnit2Kg", "Přepočet MJ na KG", 0, null, "num3");
+            AF("p11ClientProduct", "p11RecalcUnit2Kg", "Přepočet MJ na VJ", 0, null, "num3");
 
             AppendTimestamp("p11ClientProduct");
 
@@ -286,7 +286,7 @@ namespace BL
             AppendTimestamp("p12ClientTpv");
 
             //p20 = měrné jednotky
-            AF("p20Unit", "p20Code", "MJ", 1,null,"string",false,true);
+            AF("p20Unit", "p20Code", "MJ", 1,null,"string",false,false);
             AF("p20Unit", "p20Name", "Měrná jednotka", 1,null,"string",false,true);
 
             AppendTimestamp("p20Unit");
@@ -299,7 +299,7 @@ namespace BL
             
             AF("p15ClientOper", "p15OperParam", "Parametr", 2, null, "num1");
 
-            AF("p15ClientOper", "p15UnitsCount", "Množství na kg", 2, null, "num7", true);
+            AF("p15ClientOper", "p15UnitsCount", "Množství na 1VJ", 2, null, "num7", true);
             AF("p15ClientOper", "p15DurationPreOper", "Před Oper. Čas", 2, null, "num0", true);
             AF("p15ClientOper", "p15DurationOper", "Oper. Čas", 2, null, "num4", true);
             AF("p15ClientOper", "p15DurationPostOper", "Po Oper. Čas", 2, null, "num0", true);
@@ -405,7 +405,7 @@ namespace BL
             //p52 = položky objednávky
             AF("p52OrderItem", "p52Code", "Kód", 1);
             AF("p52OrderItem", "p52UnitsCount", "Množství", 1, null, "num");
-            onecol=AF("p52OrderItem", "Recalc2Kg", "Přepočet na KG", 0, "a.p52UnitsCount*p11RecalcUnit2Kg", "num", true);
+            onecol=AF("p52OrderItem", "Recalc2Kg", "Přepočet na VJ", 0, "a.p52UnitsCount*p11RecalcUnit2Kg", "num", true);
             onecol.RelName = "p52_p11";
 
             AF("p52OrderItem", "p52Task_UnitsCount", "Již naplánováno", 0, null, "num");

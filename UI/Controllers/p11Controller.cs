@@ -103,6 +103,7 @@ namespace UI.Controllers
                 c.p10ID_Master = v.Rec.p10ID_Master;
                 c.p11UnitPrice = v.Rec.p11UnitPrice;
                 c.p20ID = v.Rec.p20ID;
+                c.p20ID_Pro = v.Rec.p20ID_Pro;
                 c.p11RecalcUnit2Kg = v.Rec.p11RecalcUnit2Kg;
                 
                 
