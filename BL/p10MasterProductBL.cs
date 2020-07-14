@@ -7,6 +7,7 @@ namespace BL
     public interface Ip10MasterProductBL
     {
         public BO.p10MasterProduct Load(int pid);
+        public BO.p10MasterProduct LoadByCode(string strCode, int intExcludePID);
         public IEnumerable<BO.p10MasterProduct> GetList(BO.myQuery mq);
         public int Save(BO.p10MasterProduct rec);
     }

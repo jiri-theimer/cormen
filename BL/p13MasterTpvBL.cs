@@ -7,6 +7,7 @@ namespace BL
     public interface Ip13MasterTpvBL
     {
         public BO.p13MasterTpv Load(int pid);
+        public BO.p13MasterTpv LoadByCode(string strCode, int intExcludePID);
         public IEnumerable<BO.p13MasterTpv> GetList(BO.myQuery mq);
         public int Save(BO.p13MasterTpv rec,int intP13ID_CloneP14Recs);
     }
@@ -26,6 +27,10 @@ namespace BL
         {
 
             return _db.Load<BO.p13MasterTpv>(string.Format("{0} WHERE a.p13ID=@pid", GetSQL1()),new { pid = pid });
+        }
+        public BO.p13MasterTpv LoadByCode(string strCode, int intExcludePID)
+        {
+            return _db.Load<BO.p13MasterTpv>(string.Format("{0} WHERE a.p13Code LIKE @code AND a.p13ID<>@excludepid", GetSQL1()), new { code = strCode, excludepid = intExcludePID });
         }
         public IEnumerable<BO.p13MasterTpv> GetList(BO.myQuery mq)
         {

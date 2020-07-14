@@ -140,8 +140,7 @@ namespace UI.Controllers
             return handle_one_rozpis(lis.ToList()[0]);
         }
 
-        [HttpGet]
-        //[Route("movetaskstatus/{p41code}/{b02code}")]
+        [HttpGet]        
         [Route("skutecna_vyroba_save")]
         public BO.Result skutecna_vyroba_save(string p41Code,string p45OperCode,string p45MaterialCode,string p45MaterialBatch,double p45MaterialUnitsCount,double p45TotalDurationOperMin,DateTime p45Start, DateTime p45End,string p45OperStatus,int p45OperNum,double p45OperParam,string p45Operator,int p45RowNum)
         {
@@ -216,6 +215,169 @@ namespace UI.Controllers
             
         }
 
+        [HttpGet]        
+        [Route("receptura_hlavicka_save")]
+        public BO.Result receptura_hlavicka_save(string p13Code,string p13Name,string p25Code,string p13Memo)
+        {
+            if (string.IsNullOrEmpty(p13Code) == true || string.IsNullOrEmpty(p25Code) == true)
+            {
+                return new BO.Result(true, "Na vstupu chybí kód receptury nebo kód typu zařízení.");
+            }
+            var recP25 = _f.p25MszTypeBL.LoadByCode(p25Code, 0);            
+            if (recP25 == null)
+            {
+                return new BO.Result(true, string.Format("Nelze načíst typ zařízení s kódem: {0}.",p25Code));
+            }            
+            var recP13 = _f.p13MasterTpvBL.LoadByCode(p13Code, 0);
+            if (recP13 == null)
+            {
+                recP13 = new BO.p13MasterTpv() { p13Code = p13Code };               
+            }
+            recP13.p13Name = p13Name;
+            recP13.p25ID = recP25.pid;
+            recP13.p13Memo = p13Memo;
+
+            int intP13ID = _f.p13MasterTpvBL.Save(recP13, 0);
+
+            if (intP13ID > 0)
+            {
+                return new BO.Result(false, "Uloženo");
+            }
+            else
+            {
+                string strErrs = string.Join(" ** ", _f.CurrentUser.Messages4Notify.Select(p => p.Value));
+                return new BO.Result(true, strErrs);
+            }
+        }
+
+        [HttpGet]
+        [Route("receptura_operace_save")]
+        public BO.Result receptura_operace_save(string p13Code,string p18Code, string p19Code, double p14UnitsCount,double p14DurationPreOper, double p14DurationOper,double p14DurationPostOper,int p14OperNum, double p14OperParam, int p14RowNum)
+        {
+            if (string.IsNullOrEmpty(p13Code) == true || string.IsNullOrEmpty(p18Code) == true)
+            {
+                return new BO.Result(true, "Na vstupu je povinný kód receptury [p13Code] a kód operace [p18Code].");
+            }
+            if (p14RowNum <= 0 || p14OperNum<=0)
+            {
+                return new BO.Result(true, "[p14RowNum] a [p14OperNum] musí být kladné a nenulové číslo.");
+            }
+            var recP13 = _f.p13MasterTpvBL.LoadByCode(p13Code, 0);
+            if (recP13 == null)
+            {
+                return new BO.Result(true, string.Format("Nelze načíst recepturu s kódem: {0}.", p13Code));
+            }
+            var recP18 = _f.p18OperCodeBL.LoadByCode(p18Code,recP13.p25ID, 0);
+            if (recP18 == null)
+            {
+                return new BO.Result(true, string.Format("Nelze načíst šablonu operace s kódem: {0}.", p18Code));
+            }            
+            BO.p19Material recP19 = null;
+            if (string.IsNullOrEmpty(p19Code) == false)
+            {
+                recP19 = _f.p19MaterialBL.LoadByCode(p19Code, 0);
+                if (recP19 == null)
+                {
+                    return new BO.Result(true, string.Format("Nelze načíst surovinu s kódem: {0}.", p19Code));
+                }
+            }
+
+            var mq = new BO.myQuery("p14MasterOper");
+            mq.p13id = recP13.pid;
+            var lisP14 = _f.p14MasterOperBL.GetList(mq);
+
+            var recP14 = new BO.p14MasterOper() { p14RowNum = p14RowNum,p13ID=recP13.pid };
+            if (lisP14.Where(p => p.p14RowNum == p14RowNum).Count() > 0)
+            {
+                recP14 = lisP14.Where(p => p.p14RowNum == p14RowNum).First();
+            }
+            recP14.p14OperNum = p14OperNum;
+            recP14.p18ID = recP18.pid;
+            recP14.p14UnitsCount = p14UnitsCount;
+            recP14.p14OperParam = p14OperParam;
+            recP14.p14DurationOper = p14DurationOper;
+            recP14.p14DurationPreOper = p14DurationPreOper;
+            recP14.p14DurationPostOper = p14DurationPostOper;
+
+            if (recP19 != null)
+            {
+                recP14.p19ID = recP19.pid;
+            }
+
+            int intP14ID = _f.p14MasterOperBL.Save(recP14);
+
+            if (intP14ID > 0)
+            {
+                return new BO.Result(false, "Uloženo");
+            }
+            else
+            {
+                string strErrs = string.Join(" ** ", _f.CurrentUser.Messages4Notify.Select(p => p.Value));
+                return new BO.Result(true, strErrs);
+            }
+        }
+
+
+        [HttpGet]
+        [Route("master_produkt_save")]
+        public BO.Result master_produkt_save(string p10Code, string p13Code,string p10Name, string p20Code_MJ,string p20Code_VJ,int p10TypeFlag,double p10RecalcUnit2Kg,string p10Memo)
+        {
+            if (string.IsNullOrEmpty(p10Code) == true || string.IsNullOrEmpty(p10Name) == true || string.IsNullOrEmpty(p20Code_MJ)==true || string.IsNullOrEmpty(p20Code_VJ) == true || p10RecalcUnit2Kg<=0)
+            {
+                return new BO.Result(true, "Na vstupu je povinné: kód produktu [p10Code], název produktu [p10Name], MJ [p20Code_MJ], VJ [p20Code_VJ], typ produktu [p10TypeFlag], přepočet MJ na VJ [p10RecalcUnit2Kg].");
+            }
+            if (p10TypeFlag<=0 || p10TypeFlag > 3)
+            {
+                return new BO.Result(true, "Hodnota [p10TypeFlag] může být 1, 2, 3.");
+            }
+            var recP20MJ = _f.p20UnitBL.LoadByCode(p20Code_MJ, 0);
+            if (recP20MJ == null)
+            {
+                return new BO.Result(true, string.Format("Nelze načíst MJ s kódem: {0}.", p20Code_MJ));
+            }
+            var recP20VJ = _f.p20UnitBL.LoadByCode(p20Code_VJ, 0);
+            if (recP20VJ == null)
+            {
+                return new BO.Result(true, string.Format("Nelze načíst VJ s kódem: {0}.", p20Code_VJ));
+            }
+            BO.p13MasterTpv recP13 = null;
+            if (string.IsNullOrEmpty(p13Code) == false)
+            {
+                recP13 = _f.p13MasterTpvBL.LoadByCode(p13Code, 0);
+                if (recP13 == null)
+                {
+                    return new BO.Result(true, string.Format("Nelze načíst recepturu s kódem: {0}.", p13Code));
+                }
+            }
+
+            var recP10 = _f.p10MasterProductBL.LoadByCode(p10Code,0);
+            if (recP10 == null)
+            {
+                recP10 = new BO.p10MasterProduct() { p10Code = p10Code };
+            }
+            if (recP13 != null)
+            {
+                recP10.p13ID = recP13.pid;
+            }
+            recP10.p10Name = p10Name;
+            recP10.p10Memo = p10Memo;
+            recP10.p10TypeFlag =(BO.ProductTypeEnum) p10TypeFlag;
+            recP10.p10RecalcUnit2Kg = p10RecalcUnit2Kg;
+            recP10.p20ID = recP20MJ.pid;
+            recP10.p20ID_Pro = recP20VJ.pid;
+
+            int intP10ID = _f.p10MasterProductBL.Save(recP10);
+
+            if (intP10ID > 0)
+            {
+                return new BO.Result(false, "Uloženo");
+            }
+            else
+            {
+                string strErrs = string.Join(" ** ", _f.CurrentUser.Messages4Notify.Select(p => p.Value));
+                return new BO.Result(true, strErrs);
+            }
+        }
 
     }
 }

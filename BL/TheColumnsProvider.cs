@@ -243,6 +243,7 @@ namespace BL
 
             //p25 = typy zařízení
             AF("p25MszType", "p25Name", "Typ zařízení", 1,null,"string",false,true);
+            AF("p25MszType", "p25Code", "Kód", 2);
 
             //p31 = kapacitní fondy
             AF("p31CapacityFond", "p31Name", "Časový fond", 1,null,"string",false,true);

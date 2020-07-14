@@ -7,6 +7,7 @@ namespace BL
     public interface Ip25MszTypeBL
     {
         public BO.p25MszType Load(int pid);
+        public BO.p25MszType LoadByCode(string strCode, int intExcludePID);
         public IEnumerable<BO.p25MszType> GetList(BO.myQuery mq);
         public int Save(BO.p25MszType rec);
         public bool Copy_p18OperCode(int p25id_dest, int p25id_source);
@@ -27,6 +28,10 @@ namespace BL
         public BO.p25MszType Load(int pid)
         {
             return _db.Load<BO.p25MszType>(string.Format("{0} WHERE a.p25ID=@pid", GetSQL1()), new { pid = pid });
+        }
+        public BO.p25MszType LoadByCode(string strCode, int intExcludePID)
+        {
+            return _db.Load<BO.p25MszType>(string.Format("{0} WHERE a.p25Code LIKE @code AND a.p25ID<>@exclude", GetSQL1()), new { code = strCode, exclude = intExcludePID });
         }
         public IEnumerable<BO.p25MszType> GetList(BO.myQuery mq)
         {

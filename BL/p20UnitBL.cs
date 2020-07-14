@@ -7,6 +7,7 @@ namespace BL
     public interface Ip20UnitBL
     {
         public BO.p20Unit Load(int pid);
+        public BO.p20Unit LoadByCode(string strCode, int intExcludePID);
         public IEnumerable<BO.p20Unit> GetList(BO.myQuery mq);
         public int Save(BO.p20Unit rec);
     }
@@ -26,6 +27,10 @@ namespace BL
         public BO.p20Unit Load(int pid)
         {
             return _db.Load<BO.p20Unit>(string.Format("{0} WHERE a.p20ID=@pid", GetSQL1()), new { pid = pid });
+        }
+        public BO.p20Unit LoadByCode(string strCode, int intExcludePID)
+        {
+            return _db.Load<BO.p20Unit>(string.Format("{0} WHERE a.p20Code LIKE @code AND a.p20ID<>@excludepid", GetSQL1()), new { code = strCode, excludepid = intExcludePID });
         }
         public IEnumerable<BO.p20Unit> GetList(BO.myQuery mq)
         {

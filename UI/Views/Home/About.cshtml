@@ -73,30 +73,41 @@
 
 </div>
 
-<button type="button" onclick="pokus()">pokus REST API</button>
+<button type="button" onclick="pokus_p13()">pokus REST API: RECEPTURA</button>
+<button type="button" onclick="pokus_p10()">pokus REST API: MASTER PRODUKT</button>
+<button type="button" onclick="pokus_p14()">pokus REST API: p14 Operace</button>
 
 <script type="text/javascript">
-    function pokus() {
-        var d = new Date();
-
-        var c = {
-            p41Code: "1T20200003.1.001",
-            p45MaterialCode: "voda1",
-            p45MaterialBattch: null,
-            p45RowNum: 1,
-            p45OperCode: "010",
-            p45OperNum: 1,
-            p45OperParam: 0,
-            p45OperStatus: null,
-            p45Start: d.toISOString(),
-            p45End: d.toISOString(),
-            p45TotalDurationOperMin: 100,
-            p45EndFlag: 0,
-            p45MaterialUnitsCount: 1000,
-            p45Operator: "Josef"
-        }
+    function pokus_p13() {
         
-        $.get("/Api/skutecna_vyroba_save", { p41Code: c.p41Code, p45MaterialCode: c.p45MaterialCode, p45MaterialBattch: c.p45MaterialBattch, p45RowNum: c.p45RowNum, p45OperCode: c.p45OperCode, p45OperNum: c.p45OperNum, p45OperParam: c.p45OperParam, p45OperStatus: c.p45OperStatus, p45Start: c.p45Start, p45End: c.p45End, p45TotalDurationOperMin: c.p45TotalDurationOperMin, p45EndFlag: c.p45EndFlag, p45MaterialUnitsCount: c.p45MaterialUnitsCount, p45Operator: c.p45Operator }, function (data) {
+        
+        $.get("/Api/receptura_hlavicka_save", { p13Code: "Recept01", p13Name: "POKUS API RECEPTURA", p25Code: "LinkChlor", p13Memo:"Poznámka k api receptuře" }, function (data) {
+
+            alert(data.flag);
+            alert(data.message);
+
+        });
+
+
+    }
+
+    function pokus_p10() {
+
+
+        $.get("/Api/master_produkt_save", { p10Code: "Produkt001", p13Code: "Recept01", p10Name: "Šampón heřmánkový", p20Code_MJ: "kg", p20Code_VJ: "lt", p10TypeFlag: 1, p10RecalcUnit2Kg: 1, p10Memo:"Poznámka k produktu" }, function (data) {
+
+            alert(data.flag);
+            alert(data.message);
+
+        });
+
+
+    }
+
+    function pokus_p14() {
+
+
+        $.get("/Api/receptura_operace_save", { p18Code: "010", p13Code: "Recept01", p19Code: "MAT001", p14UnitsCount: 100.781, p14DurationOper: 90.5, p14OperNum: 10, p14OperParam: 1.1, p14RowNum: 1 }, function (data) {
 
             alert(data.flag);
             alert(data.message);
