@@ -61,6 +61,7 @@ namespace BL
             
             p.AddDouble("p10RecalcUnit2Kg", rec.p10RecalcUnit2Kg);
             p.AddEnumInt("p10TypeFlag", rec.p10TypeFlag);
+            p.AddString("p10PackagingCode", rec.p10PackagingCode);
 
             int intPID= _db.SaveRecord("p10MasterProduct", p.getDynamicDapperPars(), rec);
             var recP19 = _mother.p19MaterialBL.LoadByMasterP10ID(intPID);

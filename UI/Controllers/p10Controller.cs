@@ -70,6 +70,7 @@ namespace UI.Controllers
                 c.p13ID = v.Rec.p13ID;
                 c.p10TypeFlag = v.Rec.p10TypeFlag;                
                 c.p10RecalcUnit2Kg = v.Rec.p10RecalcUnit2Kg;
+                c.p10PackagingCode = v.Rec.p10PackagingCode;
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);

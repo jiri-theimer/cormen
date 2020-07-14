@@ -68,6 +68,8 @@ namespace UI.Controllers
                 c.p18Flag = v.Rec.p18Flag;
                 c.p18UnitsCount = v.Rec.p18UnitsCount;
                 c.p18DurationPreOper = v.Rec.p18DurationPreOper;
+                c.p18DurOperMinutes = v.Rec.p18DurOperMinutes;
+                c.p18DurOperUnits = v.Rec.p18DurOperUnits;
                 c.p18DurationOper = v.Rec.p18DurationOper;
                 c.p18DurationPostOper = v.Rec.p18DurationPostOper;
 

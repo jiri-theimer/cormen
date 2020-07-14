@@ -105,8 +105,7 @@ namespace UI.Controllers
                 c.p20ID = v.Rec.p20ID;
                 c.p20ID_Pro = v.Rec.p20ID_Pro;
                 c.p11RecalcUnit2Kg = v.Rec.p11RecalcUnit2Kg;
-                
-                
+                c.p11PackagingCode = v.Rec.p11PackagingCode;
 
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);

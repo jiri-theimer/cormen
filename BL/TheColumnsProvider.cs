@@ -123,6 +123,7 @@ namespace BL
             AF("p10MasterProduct", "p10Memo", "Podrobný popis");
             AF("p10MasterProduct", "p10SwLicenseFlag", "SW licence", 0, "case when a.p10SwLicenseFlag>0 then 'SW licence '+convert(varchar(10),a.p10SwLicenseFlag) else null end");
             AF("p10MasterProduct", "p10RecalcUnit2Kg", "Přepočet MJ na VJ", 0, null, "num3");
+            AF("p10MasterProduct", "p10PackagingCode", "Kód obalu");
             AppendTimestamp("p10MasterProduct");
 
             //p21 = licence
@@ -277,6 +278,7 @@ namespace BL
             AF("p11ClientProduct", "p11TypeFlag", "Typ produktu", 1, "case a.p11TypeFlag when 1 then 'Polotovar' when 2 then 'Výrobek' when 3 then 'Plnění' end");
 
             AF("p11ClientProduct", "p11RecalcUnit2Kg", "Přepočet MJ na VJ", 0, null, "num3");
+            AF("p11ClientProduct", "p11PackagingCode", "Kód obalu");
 
             AppendTimestamp("p11ClientProduct");
 
@@ -438,6 +440,9 @@ namespace BL
             AF("p18OperCode", "p18OperParam", "Parametr", 2, null, "num1");
             AF("p18OperCode", "p18IsRepeatable", "Opakovatelná operace", 0, null, "bool", false, true);
             AF("p18OperCode", "p18IsManualAmount", "Ruční zadání množství", 0, null, "bool", false, true);
+
+            AF("p18OperCode", "p18DurOperUnits", "Počet jednotek pro Oper-čas", 0, null, "num");
+            AF("p18OperCode", "p18DurOperMinutes", "Počet minut pro Oper-čas", 0, null, "num");
 
             AF("p18OperCode", "p18Lang1", "Jazyk1");
             AF("p18OperCode", "p18Lang2", "Jazyk2");

@@ -60,6 +60,7 @@ namespace BL
             p.AddDouble("p11UnitPrice", rec.p11UnitPrice);
             p.AddDouble("p11RecalcUnit2Kg", rec.p11RecalcUnit2Kg);
             p.AddEnumInt("p11TypeFlag", rec.p11TypeFlag);
+            p.AddString("p11PackagingCode", rec.p11PackagingCode);
 
             int intPID= _db.SaveRecord("p11ClientProduct", p.getDynamicDapperPars(), rec);
             return intPID;

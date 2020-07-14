@@ -36,7 +36,7 @@ namespace BO
 
         public double p18UnitsCount { get; set; }   //předvyplňovat v TPV
         public double p18DurationPreOper { get; set; }  //předvyplňovat v TPV
-        public double p18DurationOper { get; set; } //předvyplňovat v TPV
+        public double p18DurationOper { get; set; } //předvyplňovat v TPV, podíl: Počet minut / Počet jednotek
         public double p18DurationPostOper { get; set; } //předvyplňovat v TPV
 
         public string p18Lang1 { get; set; }
@@ -54,5 +54,7 @@ namespace BO
 
         public bool p18IsRepeatable { get; set; }
 
+        public double p18DurOperUnits { get; set; } //Počet jednotek
+        public double p18DurOperMinutes { get; set; }   //Počet minut
     }
 }

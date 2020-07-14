@@ -320,7 +320,7 @@ namespace UI.Controllers
 
         [HttpGet]
         [Route("master_produkt_save")]
-        public BO.Result master_produkt_save(string p10Code, string p13Code,string p10Name, string p20Code_MJ,string p20Code_VJ,int p10TypeFlag,double p10RecalcUnit2Kg,string p10Memo)
+        public BO.Result master_produkt_save(string p10Code, string p13Code,string p10Name, string p20Code_MJ,string p20Code_VJ,int p10TypeFlag,double p10RecalcUnit2Kg,string p10Memo,string p10PackagingCode)
         {
             if (string.IsNullOrEmpty(p10Code) == true || string.IsNullOrEmpty(p10Name) == true || string.IsNullOrEmpty(p20Code_MJ)==true || string.IsNullOrEmpty(p20Code_VJ) == true || p10RecalcUnit2Kg<=0)
             {
@@ -365,6 +365,7 @@ namespace UI.Controllers
             recP10.p10RecalcUnit2Kg = p10RecalcUnit2Kg;
             recP10.p20ID = recP20MJ.pid;
             recP10.p20ID_Pro = recP20VJ.pid;
+            recP10.p10PackagingCode = p10PackagingCode;
 
             int intP10ID = _f.p10MasterProductBL.Save(recP10);
 

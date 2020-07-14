@@ -58,7 +58,17 @@ namespace BL
             p.AddString("p18Memo", rec.p18Memo);            
             p.AddDouble("p18UnitsCount", rec.p18UnitsCount);
             p.AddDouble("p18DurationPreOper", rec.p18DurationPreOper);
-            p.AddDouble("p18DurationOper", rec.p18DurationOper);
+            p.AddDouble("p18DurOperUnits", rec.p18DurOperUnits);
+            p.AddDouble("p18DurOperMinutes", rec.p18DurOperMinutes);
+            if (rec.p18DurOperMinutes>0 && rec.p18DurOperUnits > 0)
+            {
+                p.AddDouble("p18DurationOper", rec.p18DurOperMinutes/rec.p18DurOperUnits);
+            }
+            else
+            {
+                p.AddDouble("p18DurationOper", rec.p18DurationOper);
+            }
+            
             p.AddDouble("p18DurationPostOper", rec.p18DurationPostOper);
             p.AddDouble("p18OperParam", rec.p18OperParam);
             p.AddString("p18Lang1", rec.p18Lang1);

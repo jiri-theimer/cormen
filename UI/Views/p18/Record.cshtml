@@ -79,20 +79,15 @@
                 </div>
             </div>
             <div class="form-row">
-                <label class="col-sm-1 col-md-2 col-form-label">Před Oper. Čas:</label>
-                <div class="col-sm-9 col-md-8">
+                <label class="col-sm-1 col-md-2 col-form-label">Před Oper. Čas (min.):</label>
+                <div class="col-sm-3 col-md-3">
                     <mynumber asp-for="Rec.p18DurationPreOper" decimal-digits="0"></mynumber>
                 </div>
             </div>
+            
             <div class="form-row">
-                <label class="col-sm-1 col-md-2 col-form-label">Oper. Čas:</label>
-                <div class="col-sm-9 col-md-8">
-                    <mynumber asp-for="Rec.p18DurationOper" decimal-digits="4"></mynumber>
-                </div>
-            </div>
-            <div class="form-row">
-                <label class="col-sm-1 col-md-2 col-form-label">Po Oper. Čas:</label>
-                <div class="col-sm-9 col-md-8">
+                <label class="col-sm-1 col-md-2 col-form-label">Po Oper. Čas (min.):</label>
+                <div class="col-sm-3 col-md-3">
                     <mynumber asp-for="Rec.p18DurationPostOper" decimal-digits="0"></mynumber>
                 </div>
             </div>
@@ -100,6 +95,35 @@
                 <label class="col-sm-1 col-md-2 col-form-label">Parameter (oper-par):</label>
                 <div class="col-sm-5 col-md-4">
                     <mynumber asp-for="Rec.p18OperParam" decimal-digits="1"></mynumber>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            Výpočet Oper. času pro jednu jednotku
+        </div>
+        <div class="card-body">
+            <div class="form-row">
+                <label class="col-sm-1 col-md-2 col-form-label">Počet minut:</label>
+                <div class="col-sm-3 col-md-3">
+                    <mynumber asp-for="Rec.p18DurOperMinutes" decimal-digits="4"></mynumber>
+                </div>
+            </div>
+            <div class="form-row">
+                <label class="col-sm-1 col-md-2 col-form-label">Počet jednotek:</label>
+                <div class="col-sm-3 col-md-3">
+                    <mynumber asp-for="Rec.p18DurOperUnits" decimal-digits="4"></mynumber>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label class="col-sm-1 col-md-2 col-form-label">Oper čas na jednotku (min.):</label>
+                <div class="col-sm-3 col-md-3">
+                    <mynumber asp-for="Rec.p18DurationOper" decimal-digits="4"></mynumber>
+                </div>
+                <div class="col-auto">
+                    <i>[Počet minut]/[Počet jednotek]: Vypočte se po uložení záznamu.</i>
                 </div>
             </div>
         </div>

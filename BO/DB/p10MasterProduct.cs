@@ -52,5 +52,7 @@ namespace BO
         public int p25ID;
 
         public ProductTypeEnum p10TypeFlag { get; set; }
+
+        public string p10PackagingCode { get; set; }
     }
 }
