@@ -380,5 +380,51 @@ namespace UI.Controllers
             }
         }
 
+
+        [HttpGet]
+        [Route("surovina_save")]
+        public BO.Result surovina_save(string p19Code, string p19Name, string p20Code, int p19TypeFlag, string p19Memo, string p19Supplier, string p19Intrastat, string p19NameAlias)
+        {
+            if (string.IsNullOrEmpty(p19Code) == true || string.IsNullOrEmpty(p19Name) == true || string.IsNullOrEmpty(p20Code) == true || p19TypeFlag <= 0)
+            {
+                return new BO.Result(true, "Na vstupu je povinné: kód suroviny [p19Code], název suroviny [p19Name], MJ [p20Code], typ suroviny [p19TypeFlag].");
+            }
+            if (p19TypeFlag <= 0 || p19TypeFlag > 3)
+            {
+                return new BO.Result(true, "Hodnota [p19TypeFlag] může být 1, 2, 3.");
+            }
+            var recP20 = _f.p20UnitBL.LoadByCode(p20Code, 0);
+            if (recP20 == null)
+            {
+                return new BO.Result(true, string.Format("Nelze načíst MJ s kódem: {0}.", p20Code));
+            }                        
+
+            var recP19 = _f.p19MaterialBL.LoadByCode(p19Code, 0);
+            if (recP19 == null)
+            {
+                recP19 = new BO.p19Material() { p19Code = p19Code };
+            }
+
+            recP19.p19Name = p19Name;
+            recP19.p19Memo = p19Memo;
+            recP19.p19TypeFlag = (BO.p19TypeFlagEnum)p19TypeFlag;
+            recP19.p19Supplier = p19Supplier;
+            recP19.p20ID = recP20.pid;
+            recP19.p19Intrastat = p19Intrastat;
+            recP19.p19NameAlias = p19NameAlias;
+
+            int intP19ID = _f.p19MaterialBL.Save(recP19);
+
+            if (intP19ID > 0)
+            {
+                return new BO.Result(false, "Uloženo");
+            }
+            else
+            {
+                string strErrs = string.Join(" ** ", _f.CurrentUser.Messages4Notify.Select(p => p.Value));
+                return new BO.Result(true, strErrs);
+            }
+        }
+
     }
 }
