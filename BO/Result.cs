@@ -30,7 +30,7 @@ namespace BO
                 
             }
             set {
-                 _message= Message;
+                 _message= value;
             }
         }
         public string PreMessage { get; set; }

@@ -77,8 +77,23 @@
 <button type="button" onclick="pokus_p10()">pokus REST API: MASTER PRODUKT</button>
 <button type="button" onclick="pokus_p14()">pokus REST API: p14 Operace</button>
 <button type="button" onclick="pokus_p19()">pokus REST API: SUROVINA</button>
+<button type="button" onclick="pokus_exist()">pokus REST API: EXIST</button>
 
 <script type="text/javascript">
+    function pokus_exist() {
+
+
+        $.get("/Api/zaznam_exist", { entity_prefix: "p10", record_code: "VXZPT006099" }, function (data) {
+
+            alert("návratový flag je 2: "+data.flag);
+            alert("pid záznamu je: "+data.pid);
+            alert(data.message);
+
+        });
+
+
+    }
+
     function pokus_p13() {
         
         

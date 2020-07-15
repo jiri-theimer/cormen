@@ -426,5 +426,74 @@ namespace UI.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("zaznam_exist")]
+        public BO.Result zaznam_exist(string entity_prefix, string record_code)
+        {
+            if (string.IsNullOrEmpty(entity_prefix) == true || string.IsNullOrEmpty(record_code) == true)
+            {
+                return new BO.Result(true, "Na vstupu chybí [entity_prefix] nebo [record_code].");
+            }
+            var ret = new BO.Result(false) { Flag = BO.ResultEnum.InfoOnly };
+            ret.Message = string.Format("Záznam s kódem '{0}' neexistuje.", record_code);
+            
+            switch (entity_prefix)
+            {
+                case "p41":
+                    if (_f.p41TaskBL.LoadByCode(record_code, 0) != null)
+                    {
+                        ret.pid = _f.p41TaskBL.LoadByCode(record_code, 0).pid;
+                        ret.Message = "Záznam existuje, pid: " + ret.pid.ToString();
+                    }
+                    return ret;
+                case "p10":
+                    if (_f.p10MasterProductBL.LoadByCode(record_code, 0) != null)
+                    {
+                        ret.pid = _f.p10MasterProductBL.LoadByCode(record_code, 0).pid;
+                        ret.Message = "Záznam existuje, pid: " + ret.pid.ToString();
+                    }
+                    return ret;
+                case "p13":
+                    if (_f.p13MasterTpvBL.LoadByCode(record_code, 0) != null)
+                    {
+                        ret.pid = _f.p13MasterTpvBL.LoadByCode(record_code, 0).pid;
+                        ret.Message = "Záznam existuje, pid: " + ret.pid.ToString();
+                    }
+                    return ret;
+                case "p19":
+                    if (_f.p19MaterialBL.LoadByCode(record_code, 0) != null)
+                    {
+                        ret.pid = _f.p19MaterialBL.LoadByCode(record_code, 0).pid;
+                        ret.Message = "Záznam existuje, pid: " + ret.pid.ToString();
+                    }
+                    return ret;
+                case "p20":
+                    if (_f.p20UnitBL.LoadByCode(record_code, 0) != null)
+                    {
+                        ret.pid = _f.p20UnitBL.LoadByCode(record_code, 0).pid;
+                        ret.Message = "Záznam existuje, pid: " + ret.pid.ToString();
+                    }
+                    return ret;
+                case "p25":
+                    if (_f.p25MszTypeBL.LoadByCode(record_code, 0) != null)
+                    {
+                        ret.pid = _f.p25MszTypeBL.LoadByCode(record_code, 0).pid;
+                        ret.Message = "Záznam existuje, pid: " + ret.pid.ToString();
+                    }
+                    return ret;
+                case "p27":
+                    if (_f.p27MszUnitBL.LoadByCode(record_code, 0) != null)
+                    {
+                        ret.pid = _f.p27MszUnitBL.LoadByCode(record_code, 0).pid;
+                        ret.Message = "Záznam existuje, pid: " + ret.pid.ToString();
+                    }
+                    return ret;
+                
+                default:
+                    return new BO.Result(true, string.Format("Zadaný prefix '{0}' není v této metodě podporován.", entity_prefix));
+            }
+            
+        }
+
     }
 }
