@@ -378,7 +378,10 @@ function tg_go2pid(pid) {       //již musí být ze serveru odstránkováno!
 function tg_select(records_count) {     //označí prvních X (records_count) záznamů
     tg_clear_selection();
     var arr = [];    
-    var rows = $("#tabgrid1_tbody tr");
+    var rows = $("#tabgrid1_tbody tr");   
+    if (records_count > rows.length) {
+        records_count = rows.length;
+    }
     for (var i = 0; i < records_count; i++) {
         $(rows[i]).addClass("selrow");
         var pid = rows[i].id.replace("r", "");
@@ -386,6 +389,7 @@ function tg_select(records_count) {     //označí prvních X (records_count) z�
         
         $("#chk" + pid).prop("checked", true);
     }
+    
     tg_save_selected_pids(arr.join(","));
     
 
