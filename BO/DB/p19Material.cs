@@ -7,9 +7,12 @@ namespace BO
 {
     public enum p19TypeFlagEnum
     {
-        Surovina=1,
+        Zbozi=1,
         Polotovar=2,
-        BaliciMaterial=3
+        Vyrobek=3,
+        Surovina=4,
+        Obal=5,
+        Etiketa=6
     }
     public class p19Material: BaseBO
     {

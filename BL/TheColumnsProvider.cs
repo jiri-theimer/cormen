@@ -224,7 +224,7 @@ namespace BL
             AF("p19Material", "p19Code", "Kód suroviny", 1,null,"string",false,true);
             
             AF("p19Material", "p19Name", "Název suroviny", 1,null,"string",false,true);
-            AF("p19Material", "p19TypeFlag", "Typ suroviny", 1, "case a.p19TypeFlag when 1 then 'Surovina' when 2 then 'Polotovar' when 3 then 'Balící materiál' end","string",false,true);
+            AF("p19Material", "p19TypeFlag", "Typ suroviny", 1, "case a.p19TypeFlag when 1 then 'Zboží' when 2 then 'Polotovar' when 3 then 'Výrobek' when 4 then 'Surovina' when 5 then 'Obal' when 6 then 'Etiketa' end","string",false,true);
             AF("p19Material", "p19Supplier", "Dodavatel", 2);
             AF("p19Material", "p19Intrastat", "Intrastat", 2);
             AF("p19Material", "p19NameAlias", "NAME-ALIAS");

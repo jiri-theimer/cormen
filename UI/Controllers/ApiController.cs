@@ -389,9 +389,9 @@ namespace UI.Controllers
             {
                 return new BO.Result(true, "Na vstupu je povinné: kód suroviny [p19Code], název suroviny [p19Name], MJ [p20Code], typ suroviny [p19TypeFlag].");
             }
-            if (p19TypeFlag <= 0 || p19TypeFlag > 3)
+            if (p19TypeFlag <= 0 || p19TypeFlag > 6)
             {
-                return new BO.Result(true, "Hodnota [p19TypeFlag] může být 1, 2, 3.");
+                return new BO.Result(true, "Hodnota [p19TypeFlag] může být 1 - 6.");
             }
             var recP20 = _f.p20UnitBL.LoadByCode(p20Code, 0);
             if (recP20 == null)
