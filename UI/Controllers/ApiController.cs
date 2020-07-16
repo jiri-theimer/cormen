@@ -252,7 +252,7 @@ namespace UI.Controllers
 
         [HttpGet]
         [Route("receptura_operace_save")]
-        public BO.Result receptura_operace_save(string p13Code,string p18Code, string p19Code, double p14UnitsCount,double p14DurationPreOper, double p14DurationOper,double p14DurationPostOper,int p14OperNum, double p14OperParam, int p14RowNum)
+        public BO.Result receptura_operace_save(string p13Code,string p18Code, string p19Code, double p14UnitsCount,double p14DurationPreOper, double p14DurationOper,double p14DurationPostOper,int p14OperNum, double p14OperParam, int p14RowNum,double p14DurOperUnits,double p14DurOperMinutes)
         {
             if (string.IsNullOrEmpty(p13Code) == true || string.IsNullOrEmpty(p18Code) == true)
             {
@@ -295,7 +295,9 @@ namespace UI.Controllers
             recP14.p18ID = recP18.pid;
             recP14.p14UnitsCount = p14UnitsCount;
             recP14.p14OperParam = p14OperParam;
-            recP14.p14DurationOper = p14DurationOper;
+            recP14.p14DurOperUnits = p14DurOperUnits;
+            recP14.p14DurOperMinutes = p14DurOperMinutes;
+            recP14.p14DurationOper = p14DurationOper;            
             recP14.p14DurationPreOper = p14DurationPreOper;
             recP14.p14DurationPostOper = p14DurationPostOper;
 

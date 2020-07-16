@@ -52,7 +52,17 @@ namespace BL
             p.AddDouble("p15UnitsCount", rec.p15UnitsCount);
             p.AddDouble("p15DurationPreOper", rec.p15DurationPreOper);
             p.AddDouble("p15DurationPostOper", rec.p15DurationPostOper);
-            p.AddDouble("p15DurationOper", rec.p15DurationOper);
+            
+            p.AddDouble("p15DurOperUnits", rec.p15DurOperUnits);
+            p.AddDouble("p15DurOperMinutes", rec.p15DurOperMinutes);
+            if (rec.p15DurOperMinutes > 0 && rec.p15DurOperUnits > 0)
+            {
+                p.AddDouble("p15DurationOper", rec.p15DurOperMinutes / rec.p15DurOperUnits);
+            }
+            else
+            {
+                p.AddDouble("p15DurationOper", rec.p15DurationOper);
+            }
 
             int intPID= _db.SaveRecord("p15ClientOper", p.getDynamicDapperPars(), rec);
 

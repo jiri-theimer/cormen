@@ -79,6 +79,9 @@ namespace UI.Controllers
                 c.p15UnitsCount = v.Rec.p15UnitsCount;
                 
                 c.p15DurationOper = v.Rec.p15DurationOper;
+                c.p15DurOperMinutes = v.Rec.p15DurOperMinutes;
+                c.p15DurOperUnits = v.Rec.p15DurOperUnits;
+
                 c.p15DurationPreOper = v.Rec.p15DurationPreOper;
                 c.p15DurationPostOper = v.Rec.p15DurationPostOper;
 

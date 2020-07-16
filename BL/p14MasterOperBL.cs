@@ -86,7 +86,16 @@ namespace BL
             p.AddDouble("p14UnitsCount", rec.p14UnitsCount);
             p.AddDouble("p14DurationPreOper", rec.p14DurationPreOper);
             p.AddDouble("p14DurationPostOper", rec.p14DurationPostOper);
-            p.AddDouble("p14DurationOper", rec.p14DurationOper);
+            p.AddDouble("p14DurOperUnits", rec.p14DurOperUnits);
+            p.AddDouble("p14DurOperMinutes", rec.p14DurOperMinutes);
+            if (rec.p14DurOperMinutes > 0 && rec.p14DurOperUnits > 0)
+            {
+                p.AddDouble("p14DurationOper", rec.p14DurOperMinutes / rec.p14DurOperUnits);
+            }
+            else
+            {
+                p.AddDouble("p14DurationOper", rec.p14DurationOper);
+            }
 
             var intPID= _db.SaveRecord("p14MasterOper", p.getDynamicDapperPars(), rec);
 

@@ -24,7 +24,10 @@ namespace BO
         public double p14DurationPreOper { get; set; }
         public double p14DurationPostOper { get; set; }
         public double p14DurationOper { get; set; }
-      
+        public double p14DurOperUnits { get; set; }
+        public double p14DurOperMinutes { get; set; }
+
+
 
         public string Material { get; set; }
         public string OperCode { get; set; }

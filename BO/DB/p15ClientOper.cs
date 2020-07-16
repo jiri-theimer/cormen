@@ -21,8 +21,9 @@ namespace BO
         public double p15DurationPreOper { get; set; }
         public double p15DurationPostOper { get; set; }
         public double p15DurationOper { get; set; }
+        public double p15DurOperUnits { get; set; }
+        public double p15DurOperMinutes { get; set; }
 
-       
         public string Material { get; set; }
         public string OperCode { get; set; }
         public string OperCodePlusName { get; set; }

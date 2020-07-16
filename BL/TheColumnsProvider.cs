@@ -264,6 +264,8 @@ namespace BL
             AF("p14MasterOper", "p14UnitsCount", "Množství na 1VJ", 2, null, "num7", true);
             AF("p14MasterOper", "p14DurationPreOper", "Před Oper. Čas", 2, null, "num0", true);
             AF("p14MasterOper", "p14DurationOper", "Oper. Čas", 2, null, "num4", true);
+            AF("p14MasterOper", "p14DurOperMinutes", "Počet minut OČ", 0, null, "num", false, true);
+            AF("p14MasterOper", "p14DurOperUnits", "Počet jednotek OČ", 0, null, "num", false, true);
             AF("p14MasterOper", "p14DurationPostOper", "Po Oper. Čas", 2, null, "num0", true);
             AF("p14MasterOper", "TotalDuration", "Celk.Čas", 2, "isnull(a.p14DurationPreOper,0)+isnull(a.p14DurationOper,0)+isnull(a.p14DurationPostOper,0)", "num", true);
 
@@ -305,6 +307,8 @@ namespace BL
             AF("p15ClientOper", "p15UnitsCount", "Množství na 1VJ", 2, null, "num7", true);
             AF("p15ClientOper", "p15DurationPreOper", "Před Oper. Čas", 2, null, "num0", true);
             AF("p15ClientOper", "p15DurationOper", "Oper. Čas", 2, null, "num4", true);
+            AF("p15ClientOper", "p15DurOperMinutes", "Počet minut OČ", 0, null, "num", false, true);
+            AF("p15ClientOper", "p15DurOperUnits", "Počet jednotek OČ", 0, null, "num", false, true);
             AF("p15ClientOper", "p15DurationPostOper", "Po Oper. Čas", 2, null, "num0", true);
             AF("p15ClientOper", "TotalDuration", "Celk.Čas", 2, "isnull(a.p15DurationPreOper,0)+isnull(a.p15DurationOper,0)+isnull(a.p15DurationPostOper,0)", "num", true);
 
@@ -436,6 +440,9 @@ namespace BL
             AF("p18OperCode", "p18UnitsCount", "Množství", 2, null, "num7");
             AF("p18OperCode", "p18DurationPreOper", "Před Oper. Čas", 2, null, "num0");
             AF("p18OperCode", "p18DurationOper", "Oper. Čas", 2, null, "num4");
+            AF("p18OperCode", "p18DurOperMinutes", "Počet minut OČ", 0, null, "num",false,true);
+            AF("p18OperCode", "p18DurOperUnits", "Počet jednotek OČ", 0, null, "num",false,true);
+
             AF("p18OperCode", "p18DurationPostOper", "Po Oper. Čas", 2, null, "num0");
             AF("p18OperCode", "p18OperParam", "Parametr", 2, null, "num1");
             AF("p18OperCode", "p18IsRepeatable", "Opakovatelná operace", 0, null, "bool", false, true);

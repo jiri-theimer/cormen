@@ -27,7 +27,7 @@
             <label class="col-sm-1 col-md-2 col-form-label" title="RowNum">Číslo Oper:</label>
             <div class="col-sm-5 col-md-4">
                 <mynumber asp-for="Rec.p14OperNum" decimal-digits="0"></mynumber>
-                
+
             </div>
         </div>
         <div class="form-row" style="margin-top:10px;">
@@ -36,8 +36,8 @@
                 <mycombo entity="p18OperCode" asp-for="Rec.p18ID" selectedtext="Rec.OperCodePlusName" param1="1" masterprefix="p25" masterpid="@Model.RecP13.p25ID" event_after_changevalue="p18id_change"></mycombo>
             </div>
         </div>
-       
-        
+
+
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label">Parameter (oper-par):</label>
             <div class="col-sm-5 col-md-4">
@@ -69,15 +69,7 @@
             </div>
         </div>
 
-        <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label" title="RowNum">Oper. Čas (jednotkový):</label>
-            <div class="col-sm-4 col-md-3">
-                <mynumber asp-for="Rec.p14DurationOper" decimal-digits="3"></mynumber>
-            </div>
-            <div class="col-1">
-                minuty
-            </div>
-        </div>
+       
 
         <div class="form-row" style="margin-top:10px;">
             <label class="col-sm-1 col-md-2 col-form-label" title="RowNum">Po Oper. Čas:</label>
@@ -88,7 +80,40 @@
                 minuty
             </div>
         </div>
+
+        <div class="card">
+            <div class="card-header">
+                Výpočet Oper. času pro jednu jednotku
+            </div>
+            <div class="card-body">
+                <div class="form-row">
+                    <label class="col-sm-1 col-md-2 col-form-label">Počet minut:</label>
+                    <div class="col-sm-3 col-md-3">
+                        <mynumber asp-for="Rec.p14DurOperMinutes" decimal-digits="4"></mynumber>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label class="col-sm-1 col-md-2 col-form-label">Počet jednotek:</label>
+                    <div class="col-sm-3 col-md-3">
+                        <mynumber asp-for="Rec.p14DurOperUnits" decimal-digits="4"></mynumber>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label class="col-sm-1 col-md-2 col-form-label">Oper čas na jednotku (min.):</label>
+                    <div class="col-sm-3 col-md-3">
+                        <mynumber asp-for="Rec.p14DurationOper" decimal-digits="4"></mynumber>
+                    </div>
+                    <div class="col-auto">
+                        <i>[Počet minut]/[Počet jednotek]: Vypočte se po uložení záznamu.</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
+
+
 
 </form>
 
@@ -113,6 +138,15 @@
             $("#Rec_p14DurationOper").val(s);
             $("[for-id=Rec_p14DurationOper]").val(s);
 
+            s = data.p18DurOperMinutes.toString().replace(".", ",");
+            $("#Rec_p14DurOperMinutes").val(s);
+            $("[for-id=Rec_p14DurOperMinutes]").val(s);
+
+            s = data.p18DurOperUnits.toString().replace(".", ",");
+            $("#Rec_p14DurOperUnits").val(s);
+            $("[for-id=Rec_p14DurOperUnits]").val(s);
+            
+            
             s = data.p18DurationPostOper.toString().replace(".", ",");
             $("#Rec_p14DurationPostOper").val(s);
             $("[for-id=Rec_p14DurationPostOper]").val(s);

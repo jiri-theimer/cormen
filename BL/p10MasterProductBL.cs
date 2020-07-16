@@ -76,6 +76,7 @@ namespace BL
                 recP19.p19Code = rec.p10Code;
                 recP19.p20ID = rec.p20ID;
                 recP19.p19Memo = rec.p10Memo;
+                recP19.p19TypeFlag = BO.p19TypeFlagEnum.Polotovar;
                 _mother.p19MaterialBL.Save(recP19);
             }
             else
