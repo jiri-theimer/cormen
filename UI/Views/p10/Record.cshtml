@@ -34,11 +34,16 @@
         <label class="col-sm-1 col-md-2 col-form-label">Typ produktu:</label>
         <div class="col-sm-4 col-md-4">
             <select asp-for="Rec.p10TypeFlag" class="form-control">
-                <option value="1">Polotovar</option>
-                <option value="2">Výrobek</option>
-                <option value="3">Plnění</option>
+                <option value="Zbozi">Zboží (1)</option>
+                <option value="Polotovar">Polotovar (2)</option>
+                <option value="Vyrobek">Výrobek (3)</option>
+                <option value="Surovina">Surovina (4)</option>
+                <option value="Obal">Balící materiál (5)</option>
+                <option value="Etiketa">Etiketa (6)</option>
 
             </select>
+
+            
         </div>
         <label class="col-sm-1 col-md-1 col-form-label">Aktuální stav:</label>
         <div class="col-sm-6 col-md-5">

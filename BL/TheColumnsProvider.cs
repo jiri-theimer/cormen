@@ -119,7 +119,7 @@ namespace BL
             //p10 = master produkty
             AF("p10MasterProduct", "p10Name", "Master produkt", 1,null,"string",false,true);
             AF("p10MasterProduct", "p10Code", "Kód produktu", 1);
-            AF("p10MasterProduct", "p10TypeFlag", "Typ produktu", 1, "case a.p10TypeFlag when 1 then 'Polotovar' when 2 then 'Výrobek' when 3 then 'Plnění' end");
+            AF("p10MasterProduct", "p10TypeFlag", "Typ produktu", 1, "case a.p10TypeFlag when 1 then 'Zboží' when 2 then 'Polotovar' when 3 then 'Výrobek' when 4 then 'Surovina' when 5 then 'Obal' when 6 then 'Etiketa' end");
             AF("p10MasterProduct", "p10Memo", "Podrobný popis");
             AF("p10MasterProduct", "p10SwLicenseFlag", "SW licence", 0, "case when a.p10SwLicenseFlag>0 then 'SW licence '+convert(varchar(10),a.p10SwLicenseFlag) else null end");
             AF("p10MasterProduct", "p10RecalcUnit2Kg", "Přepočet MJ na VJ", 0, null, "num3");
@@ -276,8 +276,8 @@ namespace BL
             AF("p11ClientProduct", "p11Name", "Produkt", 1,null,"string",false,true);
 
             AF("p11ClientProduct", "p11Memo", "Podrobný popis");
-            AF("p11ClientProduct", "p11UnitPrice", "Jedn.cena", 0, null, "num");
-            AF("p11ClientProduct", "p11TypeFlag", "Typ produktu", 1, "case a.p11TypeFlag when 1 then 'Polotovar' when 2 then 'Výrobek' when 3 then 'Plnění' end");
+            AF("p11ClientProduct", "p11UnitPrice", "Jedn.cena", 0, null, "num");            
+            AF("p11ClientProduct", "p11TypeFlag", "Typ produktu", 1, "case a.p11TypeFlag when 1 then 'Zboží' when 2 then 'Polotovar' when 3 then 'Výrobek' when 4 then 'Surovina' when 5 then 'Obal' when 6 then 'Etiketa' end");
 
             AF("p11ClientProduct", "p11RecalcUnit2Kg", "Přepočet MJ na VJ", 0, null, "num3");
             AF("p11ClientProduct", "p11PackagingCode", "Kód obalu");

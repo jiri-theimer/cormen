@@ -328,9 +328,9 @@ namespace UI.Controllers
             {
                 return new BO.Result(true, "Na vstupu je povinné: kód produktu [p10Code], název produktu [p10Name], MJ [p20Code_MJ], VJ [p20Code_VJ], typ produktu [p10TypeFlag], přepočet MJ na VJ [p10RecalcUnit2Kg].");
             }
-            if (p10TypeFlag<=0 || p10TypeFlag > 3)
+            if (p10TypeFlag<=0 || p10TypeFlag > 6)
             {
-                return new BO.Result(true, "Hodnota [p10TypeFlag] může být 1, 2, 3.");
+                return new BO.Result(true, "Hodnota [p10TypeFlag] může být 1 - 6.");
             }
             var recP20MJ = _f.p20UnitBL.LoadByCode(p20Code_MJ, 0);
             if (recP20MJ == null)

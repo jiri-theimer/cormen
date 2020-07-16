@@ -14,9 +14,15 @@ namespace BO
     //}
     public enum ProductTypeEnum
     {
-        Polotovar = 1,
-        Vyrobek = 2,
-        Plneni = 3
+        Zbozi = 1,
+        Polotovar = 2,
+        Vyrobek = 3,
+        Surovina = 4,
+        Obal = 5,
+        Etiketa = 6
+        //Polotovar = 1,
+        //Vyrobek = 2,
+        //Plneni = 3
     }
     public class p10MasterProduct:BaseBO
     {
