@@ -48,5 +48,9 @@ namespace BO
         
         public string p28Name { get; set; }
         public string p20Code { get; set; }
+
+        public double p19StockActual { get; set; }
+        public double p19StockReserve { get; set; }
+        public DateTime? p19StockDate { get; set; }
     }
 }

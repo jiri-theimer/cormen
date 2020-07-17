@@ -232,6 +232,9 @@ namespace BL
             AF("p19Material", "p19ITSCAS", "ITSCAS");
             AF("p19Material", "p19ITSEINECS", "ITSEINECS");
 
+            AF("p19Material", "p19StockActual", "Stav na skladě", 0, null, "num");
+            AF("p19Material", "p19StockReserve", "Rezervováno na skladě", 0, null, "num");
+            AF("p19Material", "p19StockDate", "Sklad k", 0, null, "datetime");
 
             AF("p19Material", "p19Lang1", "Jazyk1");
             AF("p19Material", "p19Lang2", "Jazyk2");

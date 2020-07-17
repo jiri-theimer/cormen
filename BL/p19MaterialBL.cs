@@ -79,6 +79,9 @@ namespace BL
             p.AddString("p19Lang3", rec.p19Lang3);
             p.AddString("p19Lang4", rec.p19Lang4);
 
+            p.AddDouble("p19StockActual", rec.p19StockActual);
+            p.AddDouble("p19StockReserve", rec.p19StockReserve);
+            p.AddDateTime("p19StockDate", rec.p19StockDate);
 
             return _db.SaveRecord("p19Material", p.getDynamicDapperPars(), rec);
         }

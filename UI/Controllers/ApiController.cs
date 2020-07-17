@@ -382,10 +382,38 @@ namespace UI.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("surovina_update_sklad")]
+        public BO.Result surovina_update_sklad(List<SurovinaSklad> lis)
+        {
+            var mes = new List<string>();
+            var x = 0;
+            foreach (var c in lis)
+            {
+                var rec = _f.p19MaterialBL.LoadByCode(c.p19Code, 0);
+                if (rec == null)
+                {
+                    mes.Add(string.Format("Surovinu s kódem '{0}' nelze najít.", c.p19Code));
+                }
+                else
+                {
+                    rec.p19StockActual = c.p19StockActual;
+                    rec.p19StockReserve = c.p19StockReserve;
+                    rec.p19StockDate = DateTime.Now;
+                    if (_f.p19MaterialBL.Save(rec) > 0)
+                    {
+                        x += 1;
+                    }
 
+                }
+            }
+            mes.Add("Počet aktualizovaných záznamů: " + x.ToString());
+
+            return new BO.Result(false) { Flag = BO.ResultEnum.InfoOnly,Message=string.Join("; ",mes) };
+        }
         [HttpGet]
         [Route("surovina_save")]
-        public BO.Result surovina_save(string p19Code, string p19Name, string p20Code, int p19TypeFlag, string p19Memo, string p19Supplier, string p19Intrastat, string p19NameAlias)
+        public BO.Result surovina_save(string p19Code, string p19Name, string p20Code, int p19TypeFlag, string p19Memo, string p19Supplier, string p19Intrastat, string p19NameAlias,double p19StockActual,double p19StockReserve)
         {
             if (string.IsNullOrEmpty(p19Code) == true || string.IsNullOrEmpty(p19Name) == true || string.IsNullOrEmpty(p20Code) == true || p19TypeFlag <= 0)
             {
@@ -414,6 +442,12 @@ namespace UI.Controllers
             recP19.p20ID = recP20.pid;
             recP19.p19Intrastat = p19Intrastat;
             recP19.p19NameAlias = p19NameAlias;
+            if (p19StockActual !=0 || p19StockReserve != 0)
+            {
+                recP19.p19StockActual = p19StockActual;
+                recP19.p19StockReserve = p19StockReserve;
+                recP19.p19StockDate = DateTime.Now;
+            }
 
             int intP19ID = _f.p19MaterialBL.Save(recP19);
 

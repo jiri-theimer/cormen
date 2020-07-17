@@ -79,6 +79,10 @@ namespace UI.Controllers
                 c.p28ID = v.Rec.p28ID;
                 c.p19TypeFlag = v.Rec.p19TypeFlag;
 
+                c.p19StockActual = v.Rec.p19StockActual;
+                c.p19StockReserve = v.Rec.p19StockReserve;
+                c.p19StockDate = v.Rec.p19StockDate;
+
                 c.p19Supplier = v.Rec.p19Supplier;
                 c.p19Intrastat = v.Rec.p19Intrastat;
                 c.p19NameAlias = v.Rec.p19NameAlias;

@@ -11,7 +11,7 @@
 <div class="modal_record_container">
     <h4>O aplikaci</h4>
 
-    
+
 
     <div class="form-row">
         <label class="col-sm-1 col-md-2 col-form-label">Název:</label>
@@ -78,6 +78,7 @@
 <button type="button" onclick="pokus_p14()">pokus REST API: p14 Operace</button>
 <button type="button" onclick="pokus_p19()">pokus REST API: SUROVINA</button>
 <button type="button" onclick="pokus_exist()">pokus REST API: EXIST</button>
+<button type="button" onclick="pokus_p19_sklad()">SUROVINA - update sklad</button>
 
 <script type="text/javascript">
     function pokus_exist() {
@@ -85,8 +86,8 @@
 
         $.get("/Api/zaznam_exist", { entity_prefix: "p10", record_code: "VXZPT006099" }, function (data) {
 
-            alert("návratový flag je 2: "+data.flag);
-            alert("pid záznamu je: "+data.pid);
+            alert("návratový flag je 2: " + data.flag);
+            alert("pid záznamu je: " + data.pid);
             alert(data.message);
 
         });
@@ -95,9 +96,9 @@
     }
 
     function pokus_p13() {
-        
-        
-        $.get("/Api/receptura_hlavicka_save", { p13Code: "Recept01", p13Name: "POKUS API RECEPTURA", p25Code: "LinkChlor", p13Memo:"Poznámka k api receptuře" }, function (data) {
+
+
+        $.get("/Api/receptura_hlavicka_save", { p13Code: "Recept01", p13Name: "POKUS API RECEPTURA", p25Code: "LinkChlor", p13Memo: "Poznámka k api receptuře" }, function (data) {
 
             alert(data.flag);
             alert(data.message);
@@ -110,7 +111,7 @@
     function pokus_p10() {
 
 
-        $.get("/Api/master_produkt_save", { p10Code: "Produkt001", p13Code: "Recept01", p10Name: "Šampón heřmánkový", p20Code_MJ: "kg", p20Code_VJ: "lt", p10TypeFlag: 1, p10RecalcUnit2Kg: 1, p10Memo:"Poznámka k produktu" }, function (data) {
+        $.get("/Api/master_produkt_save", { p10Code: "Produkt001", p13Code: "Recept01", p10Name: "Šampón heřmánkový", p20Code_MJ: "kg", p20Code_VJ: "lt", p10TypeFlag: 1, p10RecalcUnit2Kg: 1, p10Memo: "Poznámka k produktu" }, function (data) {
 
             alert(data.flag);
             alert(data.message);
@@ -143,6 +144,50 @@
             alert(data.message);
 
         });
+
+
+    }
+
+
+    function pokus_p19_sklad() {
+        var seznam = [];
+        var zaznam = {
+            p19Code: "O0901349",
+            p19StockActual: 999,
+            p19StockReserve: 15
+        }
+        seznam.push(zaznam);
+
+        zaznam = {
+            p19Code: "E0406881",
+            p19StockActual: 783,
+            p19StockReserve: 0
+        }
+        seznam.push(zaznam);
+
+        zaznam = {
+            p19Code: "VKIGS005097",
+            p19StockActual: 17000,
+            p19StockReserve: 2
+        }
+        seznam.push(zaznam);
+        
+        $.ajax({
+            url: "/Api/surovina_update_sklad",
+            type: "post",
+            contentType: "application/json",
+            data: JSON.stringify(seznam),
+            success: function (data) {
+                alert(data.flag);
+                alert(data.message);
+            },
+            error: function (errMsg) {
+                alert(errMsg);
+            }
+        });
+
+
+
 
 
     }
