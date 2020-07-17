@@ -255,6 +255,8 @@ namespace BL
                 case "p44":
                     lis.Add(getREL("p19Material", "p44_p19", "Suroviny", "LEFT OUTER JOIN p19Material p44_p19 ON a.p19ID=p44_p19.p19ID"));
                     lis.Add(getREL("p18OperCode", "p44_p18", "Kód operace", "LEFT OUTER JOIN p18OperCode p44_p18 ON a.p18ID=p44_p18.p18ID"));
+                    lis.Add(getREL("p41Task", "p44_p41", "Zakázka", "LEFT OUTER JOIN p41Task p44_p41 ON a.p41ID=p44_p41.p41ID"));
+                    lis.Add(getREL("p27MszUnit", "p41_p27", "Zařízení", "LEFT OUTER JOIN p27MszUnit p41_p27 ON p44_p41.p27ID=p41_p27.p27ID", "p44_p41"));
                     break;
                 case "p45":
                     lis.Add(getREL("p19Material", "p45_p19", "Suroviny", "LEFT OUTER JOIN p19Material p45_p19 ON a.p19ID=p45_p19.p19ID"));
