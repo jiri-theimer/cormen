@@ -100,9 +100,11 @@ namespace UI
                 ,UploadFolder = conf.GetSection("Folders")["Upload"]
                 , TempFolder = conf.GetSection("Folders")["Temp"]
                 , LogFolder = strLogFolder
+                ,ApiLogin=conf.GetSection("Api")["Login"]
             }) ;
 
             services.AddSingleton<BL.TheColumnsProvider>();
+            services.AddSingleton<BL.ThePeriodProvider>();
 
             services.AddScoped<BO.RunningUser, BO.RunningUser>();            
             services.AddScoped<BL.Factory,BL.Factory>();

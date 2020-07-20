@@ -22,10 +22,12 @@ namespace UI.Controllers
         private System.Text.StringBuilder _s;
         private UI.Models.TheGridViewModel _grid;
         private readonly BL.TheColumnsProvider _colsProvider;
+        private readonly BL.ThePeriodProvider _pp;
 
-        public TheGridController(BL.TheColumnsProvider cp)
+        public TheGridController(BL.TheColumnsProvider cp,BL.ThePeriodProvider pp)
         {
             _colsProvider = cp;
+            _pp = pp;
         }
 
         public IActionResult FlatView(string prefix,int go2pid)    //pouze grid bez subform
@@ -203,6 +205,11 @@ namespace UI.Controllers
             }
             else
             {
+                v.lisJ73 = Factory.gridBL.GetList_j73(v.Rec).ToList();
+                foreach (var c in v.lisJ73)
+                {
+                    c.TempGuid = BO.BAS.GetGuid();
+                }
                 Designer_RefreshState(v);
 
                 return View(v);
@@ -220,10 +227,66 @@ namespace UI.Controllers
             v.AllColumns.RemoveAll(p => p.VisibleWithinEntityOnly !=null && p.VisibleWithinEntityOnly.Contains(v.Rec.j72Entity.Substring(0, 3))==false);    //nepatřičné kategorie/štítky
 
             v.SelectedColumns = _colsProvider.ParseTheGridColumns(mq.Prefix,v.Rec.j72Columns);
+            v.lisQueryFields = new BL.TheQueryFieldProvider(v.Rec.j72Entity.Substring(0, 3)).getPallete();
+            v.lisPeriods = _pp.getPallete();
+            
+            if (v.lisJ73 == null)
+            {
+                v.lisJ73 = new List<BO.j73TheGridQuery>();
+            }
+            foreach (var c in v.lisJ73.Where(p => p.j73Column != null))
+            {
+                if (v.lisQueryFields.Where(p => p.Field == c.j73Column).Count() > 0)
+                {
+                    var cc = v.lisQueryFields.Where(p => p.Field == c.j73Column).First();
+                    c.FieldType = cc.FieldType;
+                    c.FieldEntity = cc.SourceEntity;
+                    c.MasterPrefix = cc.MasterPrefix;
+                    c.MasterPid = cc.MasterPid;
+                }
+            }
         }
         [HttpPost]
-        public IActionResult Designer(Models.TheGridDesignerViewModel v,bool restore2factory)    //uložení grid sloupců
+        public IActionResult Designer(Models.TheGridDesignerViewModel v,bool restore2factory, string oper, string guid)    //uložení grid sloupců
         {
+            Designer_RefreshState(v);
+
+            if (oper == "postback")
+            {
+                return View(v);
+            }
+            if (oper == "changefield" && guid != null)
+            {
+                if (v.lisJ73.Where(p => p.TempGuid == guid).Count() > 0)
+                {
+                    var c = v.lisJ73.Where(p => p.TempGuid == guid).First();
+                    c.j73Value = null; c.j73ValueAlias = null;
+                    c.j73ComboValue = 0;
+                    c.j73Date1 = null; c.j73Date2 = null;
+                    c.j73Num1 = 0; c.j73Num2 = 0;
+                }
+                return View(v);
+            }
+            
+            if (oper == "add_j73")
+            {
+                var c = new BO.j73TheGridQuery() { TempGuid = BO.BAS.GetGuid(), j73Column = v.lisQueryFields.First().Field };
+                c.FieldType = v.lisQueryFields.Where(p => p.Field == c.j73Column).First().FieldType;
+                c.FieldEntity = v.lisQueryFields.Where(p => p.Field == c.j73Column).First().SourceEntity;
+                v.lisJ73.Add(c);
+
+                return View(v);
+            }
+            if (oper == "delete_j73")
+            {
+                v.lisJ73.First(p => p.TempGuid == guid).IsTempDeleted = true;
+                return View(v);
+            }
+            if (oper == "clear_j73")
+            {
+                v.lisJ73.Clear();
+                return View(v);
+            }
             if (restore2factory == true)
             {
                 Factory.CBL.DeleteRecord("j72", v.Rec.pid);
@@ -246,18 +309,21 @@ namespace UI.Controllers
                         c.j72SortOrder = "";
                     }
                 }
-                if (Factory.gridBL.SaveTheGridState(c) > 0)
+                int intJ72ID = Factory.gridBL.SaveTheGridState(c, v.lisJ73.Where(p => p.j73ID > 0 || p.IsTempDeleted == false).ToList());
+                if (intJ72ID > 0)
                 {
-                    //Factory.CurrentUser.AddMessage("Změny uloženy.","info");
                     v.SetJavascript_CallOnLoad(v.Rec.pid);
                     return View(v);
                 }
+                else
+                {
+                    return View(v);
+                }
 
-                return RedirectToActionPermanent("Designer", new { j72id = v.Rec.pid });
+                //return RedirectToActionPermanent("Designer", new { j72id = v.Rec.pid });
             }
 
-            Designer_RefreshState(v);
-
+            
             return View(v);
            
         }
@@ -282,7 +348,7 @@ namespace UI.Controllers
             
             cJ72.j72Filter = string.Join("$$$", lis);
             
-            if (this.Factory.gridBL.SaveTheGridState(cJ72) > 0)
+            if (this.Factory.gridBL.SaveTheGridState(cJ72,null) > 0)
             {
                 return render_thegrid_html(cJ72);
             }
@@ -334,7 +400,7 @@ namespace UI.Controllers
                     break;
             }
 
-            if (this.Factory.gridBL.SaveTheGridState(cJ72)> 0)
+            if (this.Factory.gridBL.SaveTheGridState(cJ72,null)> 0)
             {
                 return render_thegrid_html(cJ72);
             }
@@ -377,6 +443,11 @@ namespace UI.Controllers
             if (String.IsNullOrEmpty(cJ72.j72Filter) == false)
             {
                 mq.TheGridFilter = _colsProvider.ParseAdhocFilterFromString(cJ72.j72Filter, mq.explicit_columns);
+            }
+            mq.lisPeriods = _pp.getPallete();
+            if (cJ72.j72HashJ73Query)
+            {
+                mq.lisJ73 = Factory.gridBL.GetList_j73(cJ72);
             }
             mq.InhaleMasterEntityQuery(cJ72.j72MasterEntity, cJ72.j72MasterPID);
 
@@ -439,6 +510,11 @@ namespace UI.Controllers
             if (String.IsNullOrEmpty(cJ72.j72Filter) == false)
             {
                 mq.TheGridFilter = _colsProvider.ParseAdhocFilterFromString(cJ72.j72Filter, mq.explicit_columns);
+            }
+            mq.lisPeriods = _pp.getPallete();
+            if (cJ72.j72HashJ73Query)
+            {
+                mq.lisJ73 = Factory.gridBL.GetList_j73(cJ72);
             }
             mq.InhaleMasterEntityQuery(cJ72.j72MasterEntity, cJ72.j72MasterPID);
             
@@ -785,7 +861,7 @@ namespace UI.Controllers
 
             sb.AppendLine(string.Format("<div style='margin-top:20px;background-color:#ADD8E6;padding-left:10px;font-weight:bold;'>GRID <kbd>{0}</kbd></div>", BL.TheEntities.ByTable(c.j72Entity).AliasPlural));
 
-            sb.AppendLine(string.Format("<a class='nav-link' href='javascript:_window_open(\"/TheGrid/Designer?j72id={0}\");'>Návrhář sloupců</a>",j72id));
+            sb.AppendLine(string.Format("<a class='nav-link' href='javascript:_window_open(\"/TheGrid/Designer?j72id={0}\",2);'>GRID Návrhář</a>",j72id));
             sb.AppendLine("<hr class='hr-mini' />");
 
             sb.AppendLine("<div style='padding-left:10px;'>");

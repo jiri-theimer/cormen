@@ -31,7 +31,9 @@ namespace BO
         public int j72SplitterFlag { get; set; }
         public int j72HeightPanel1 { get; set; }
         public int j72SelectableFlag { get; set; } = 1;
+        public bool j72HashJ73Query;
 
-       
+
+
     }
 }

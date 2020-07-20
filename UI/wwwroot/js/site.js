@@ -21,7 +21,7 @@ function _edit(controller, pid, header) {
         case "x40":
             url = "/Mail/Record?pid=" + pid;
             break;
-        case "p21":
+        case "p21":        
             flag = 2;
             break;
         case "j90":

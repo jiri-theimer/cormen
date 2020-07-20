@@ -182,8 +182,8 @@ namespace BL.DL
             }
         }
 
-        public  int SaveRecord(string strTable,DynamicParameters pars,BO.BaseBO rec)
-        {
+        public  int SaveRecord(string strTable,DynamicParameters pars,BO.BaseBO rec, bool isvalidity = true, bool istimestamp = true)
+        {            
             var strPidField = strTable.Substring(0, 3) + "ID";
             var s = new System.Text.StringBuilder();
             bool bolInsert = true;
@@ -192,20 +192,29 @@ namespace BL.DL
             if (bolInsert)
             {
                 s.Append(string.Format("INSERT INTO {0} (", strTable));
-                pars.Add("DateInsert", DateTime.Now, System.Data.DbType.DateTime);
-                pars.Add("UserInsert", this.CurrentUser.j03Login, System.Data.DbType.String);
+                if (istimestamp)
+                {
+                    pars.Add("DateInsert", DateTime.Now, System.Data.DbType.DateTime);
+                    pars.Add("UserInsert", this.CurrentUser.j03Login, System.Data.DbType.String);
+                }                
             }
             else
             {
                 s.Append(string.Format("UPDATE {0} SET ", strTable));
             }
-            pars.Add("DateUpdate", DateTime.Now, System.Data.DbType.DateTime);
-            pars.Add("UserUpdate", this.CurrentUser.j03Login, System.Data.DbType.String);
-            if (rec.ValidFrom == null) rec.ValidFrom = System.DateTime.Now;
-            pars.Add("ValidFrom", rec.ValidFrom, System.Data.DbType.DateTime);
-            if (rec.ValidUntil == null) rec.ValidUntil = new DateTime(3000, 1, 1);
-            pars.Add("ValidUntil", rec.ValidUntil, System.Data.DbType.DateTime);
-          
+            if (istimestamp)
+            {
+                pars.Add("DateUpdate", DateTime.Now, System.Data.DbType.DateTime);
+                pars.Add("UserUpdate", this.CurrentUser.j03Login, System.Data.DbType.String);
+            }
+            if (isvalidity == true)
+            {
+                if (rec.ValidFrom == null) rec.ValidFrom = System.DateTime.Now;
+                pars.Add("ValidFrom", rec.ValidFrom, System.Data.DbType.DateTime);
+                if (rec.ValidUntil == null) rec.ValidUntil = new DateTime(3000, 1, 1);
+                pars.Add("ValidUntil", rec.ValidUntil, System.Data.DbType.DateTime);
+            }
+
 
             string strF = "", strV = "";
             

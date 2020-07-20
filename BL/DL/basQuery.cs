@@ -8,10 +8,112 @@ namespace BL.DL
 {
    public class basQuery
     {
-        
+        private static void ParseJ73Query(ref List<DL.QueryRow> lis, BO.myQuery mq)
+        {
+            int x = 0; string ss = ""; string strField = ""; string strAndOrZleva = "";
+
+            foreach (var c in mq.lisJ73)
+            {
+                x += 1;
+                ss = x.ToString();
+                strField = c.j73Column;
+                if (c.FieldSqlSyntax != null)
+                {
+                    strField = c.FieldSqlSyntax;
+                }
+                strAndOrZleva = c.j73Op;
+
+                switch (c.j73Operator)
+                {
+                    case "ISNULL":
+                        AQ(ref lis, strField + " IS NULL", "", null, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
+                        break;
+                    case "NOT-ISNULL":
+                        AQ(ref lis, strField + " IS NOT NULL", "", null, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
+                        break;
+                    case "GREATERZERO":
+                        AQ(ref lis, "ISNULL(" + strField + ",0)>0", "", null, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
+                        break;
+                    case "ISNULLORZERO":
+                        AQ(ref lis, "ISNULL(" + strField + ",0)=0", "", null, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
+                        break;
+                    case "CONTAINS":
+                        AQ(ref lis, strField + " LIKE '%'+@expr" + ss + "+'%'", "expr" + ss, c.j73Value, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
+                        break;
+                    case "STARTS":
+                        AQ(ref lis, strField + " LIKE @expr" + ss + "+'%'", "expr" + ss, c.j73Value, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
+                        break;
+                    case "INTERVAL":
+                        if (c.FieldType == "date")
+                        {
+                            if (c.j73DatePeriodFlag > 0)
+                            {
+                                c.j73Date1 = mq.lisPeriods.Where(p => p.pid == c.j73DatePeriodFlag).First().d1;
+                                c.j73Date2 = mq.lisPeriods.Where(p => p.pid == c.j73DatePeriodFlag).First().d2.AddDays(1).AddMinutes(-1);
+                            }
+                            if (c.j73Date1 != null && c.j73Date2 != null)
+                            {
+                                AQ(ref lis, strField + " BETWEEN @dfrom" + ss + " AND @dto" + ss, "dfrom" + ss, c.j73Date1, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight, "dto" + ss, c.j73Date2);
+                            }
+                            else
+                            {
+                                if (c.j73Date1 != null)
+                                {
+                                    AQ(ref lis, strField + ">=@dfrom" + ss, "dfrom" + ss, c.j73Date1, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
+                                }
+                                if (c.j73Date2 != null)
+                                {
+                                    AQ(ref lis, strField + "<=@dto" + ss, "dto" + ss, c.j73Date2, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
+                                }
+                            }
+
+                        }
+                        if (c.FieldType == "number")
+                        {
+                            AQ(ref lis, c.WrapFilter(strField + " BETWEEN @nfrom" + ss + " AND @nto" + ss), "nfrom" + ss, c.j73Num1, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight, "nto" + ss, c.j73Num2);
+                        }
+                        break;
+                    case "EQUAL":
+                    case "NOT-EQUAL":
+                        string strOper = "=";
+                        if (c.j73Operator == "NOT-EQUAL")
+                        {
+                            strOper = "<>";
+                        }
+                        if (c.FieldType == "bool")
+                        {
+                            AQ(ref lis, strField + " " + strOper + " " + c.j73Value, "", null, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
+                        }
+                        if (c.FieldType == "string")
+                        {
+                            AQ(ref lis, strField + " " + strOper + " @expr" + ss, "expr" + ss, c.j73Value, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
+                        }
+                        if (c.FieldType == "combo")
+                        {
+                            AQ(ref lis, c.WrapFilter(strField + " " + strOper + " @combo" + ss), "combo" + ss, c.j73ComboValue, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
+
+                        }
+                        if (c.FieldType == "multi")
+                        {
+                            strOper = "IN";
+                            if (c.j73Operator == "NOT-EQUAL")
+                            {
+                                strOper = "NOT IN";
+                            }
+                            AQ(ref lis, c.WrapFilter(strField + " " + strOper + " (" + c.j73Value + ")"), "", null, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
+                        }
+                        break;
+                }
+
+            }
+        }
         public static DL.FinalSqlCommand ParseFinalSql(string strPrimarySql,BO.myQuery mq,BO.RunningUser ru, bool bolPrepareParam4DT = false)
         {
             var lis = new List<DL.QueryRow>();
+            if (mq.lisJ73 != null)
+            {
+                ParseJ73Query(ref lis, mq);
+            }
             if (mq.IsRecordValid == true)
             {
                 AQ(ref lis, "a.ValidUntil>GETDATE()","",null);
@@ -272,7 +374,15 @@ namespace BL.DL
                     if (bolPrepareParam4DT) ret.Parameters4DT.Add(new DL.Param4DT() { ParName = c.ParName, ParValue = c.ParValue });
                     
                 }
+                foreach (var c in lis.Where(p => String.IsNullOrEmpty(p.Par2Name) == false))
+                {
+                    ret.Parameters.Add(c.Par2Name, c.Par2Value);
+                    if (bolPrepareParam4DT) ret.Parameters4DT.Add(new DL.Param4DT() { ParName = c.Par2Name, ParValue = c.Par2Value });
+                }
 
+
+                ret.SqlWhere = String.Join(" ", lis.Select(p => p.AndOrZleva + " " + p.BracketLeft + p.StringWhere + p.BracketRight)).Trim();    //složit závěrčnou podmínku
+                //System.IO.File.WriteAllText("c:\\temp\\hovado"+mq.Prefix+".txt", ret.SqlWhere);
 
                 ret.SqlWhere = String.Join(" ", lis.Select(p =>p.AndOrZleva+" "+ p.StringWhere)).Trim();    //složit závěrčnou podmínku
                 
@@ -293,19 +403,19 @@ namespace BL.DL
 
         }
 
-        private static void AQ(ref List<DL.QueryRow> lis, string strWhere, string strParName, object ParValue,string strAndOrZleva="AND")
+        private static void AQ(ref List<DL.QueryRow> lis, string strWhere, string strParName, object ParValue, string strAndOrZleva = "AND", string strBracketLeft = null, string strBracketRight = null, string strPar2Name = null, object Par2Value = null)
         {
             if (lis.Count == 0)
             {
                 strAndOrZleva = ""; //první podmínka zleva
             }
-            if (String.IsNullOrEmpty(strParName)==false && lis.Where(p => p.ParName == strParName).Count() > 0)
+            if (String.IsNullOrEmpty(strParName) == false && lis.Where(p => p.ParName == strParName).Count() > 0)
             {
                 return; //parametr strParName již byl dříve přidán
             }
-            lis.Add(new DL.QueryRow() { StringWhere = strWhere, ParName = strParName, ParValue = ParValue,AndOrZleva= strAndOrZleva });
+            lis.Add(new DL.QueryRow() { StringWhere = strWhere, ParName = strParName, ParValue = ParValue, AndOrZleva = strAndOrZleva, BracketLeft = strBracketLeft, BracketRight = strBracketRight, Par2Name = strPar2Name, Par2Value = Par2Value });
         }
-        
+
         private static object get_param_value(string colType,string colValue)
         {
             if (String.IsNullOrEmpty(colValue)==true){

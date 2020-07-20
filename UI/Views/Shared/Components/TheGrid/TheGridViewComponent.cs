@@ -12,10 +12,12 @@ namespace UI.Views.Shared.Components.TheGrid
     {
         BL.Factory _f;
         private readonly BL.TheColumnsProvider _colsProvider;
-        public TheGridViewComponent(BL.Factory f, BL.TheColumnsProvider cp)
+        private readonly BL.ThePeriodProvider _pp;
+        public TheGridViewComponent(BL.Factory f, BL.TheColumnsProvider cp,BL.ThePeriodProvider pp)
         {
             _f = f;
             _colsProvider = cp;
+            _pp = pp;
         }
 
         public IViewComponentResult
@@ -41,7 +43,7 @@ namespace UI.Views.Shared.Components.TheGrid
                 var cols= _colsProvider.getDefaultPallete(false,mq);    //výchozí paleta sloupců
                 
                 cJ72 = new BO.j72TheGridState() { j72Entity = entity, j03ID = _f.CurrentUser.pid,j72Columns=String.Join(",",cols.Select(p=>p.UniqueName)),j72PageSize=100,j72MasterEntity= master_entity };
-                var intJ72ID = _f.gridBL.SaveTheGridState(cJ72);
+                var intJ72ID = _f.gridBL.SaveTheGridState(cJ72,null);
                 cJ72= _f.gridBL.LoadTheGridState(intJ72ID);
             }
 
@@ -51,7 +53,7 @@ namespace UI.Views.Shared.Components.TheGrid
             cJ72.j72MasterPID = master_pid;
             cJ72.OnDblClick = ondblclick;
                         
-            var cc = new TheGridController(_colsProvider);
+            var cc = new TheGridController(_colsProvider,_pp);
             cc.Factory = _f;
 
             ret.firstdata = cc.render_thegrid_html(cJ72);

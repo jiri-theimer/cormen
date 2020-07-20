@@ -14,7 +14,11 @@ namespace BL.DL
 
         public string AndOrZleva { get; set; } = "AND";
 
-        
+        public string BracketLeft { get; set; }
+        public string BracketRight { get; set; }
+
+        public string Par2Name { get; set; }
+        public object Par2Value { get; set; }
     }
 
    

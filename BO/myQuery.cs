@@ -44,6 +44,8 @@ namespace BO
             }
         }
         public List<BO.TheGridColumnFilter> TheGridFilter { get; set; }
+        public IEnumerable<BO.j73TheGridQuery> lisJ73 { get; set; }
+        public List<BO.ThePeriod> lisPeriods { get; set; }
 
         public List<int> pids;
         public IEnumerable<BO.TheGridColumn> explicit_columns { get; set; }

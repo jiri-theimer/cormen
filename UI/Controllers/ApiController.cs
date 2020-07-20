@@ -25,7 +25,7 @@ namespace UI.Controllers
         {
             
             _app = app;
-            var c = new BO.RunningUser() { j03Login = "treti@marktime.cz" };
+            var c = new BO.RunningUser() { j03Login = app.ApiLogin };
             _f = new BL.Factory(c, _app);
         }
 
@@ -250,6 +250,22 @@ namespace UI.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("receptura_operace_delete_all")]
+        public BO.Result receptura_operace_delete_all(string p13Code)
+        {
+            if (string.IsNullOrEmpty(p13Code) == true)
+            {
+                return new BO.Result(true, "Na vstupu je povinný kód receptury [p13Code].");
+            }
+            var recP13 = _f.p13MasterTpvBL.LoadByCode(p13Code, 0);
+            if (recP13 == null)
+            {
+                return new BO.Result(true, string.Format("Nelze načíst recepturu s kódem: {0}.", p13Code));
+            }
+            _f.p13MasterTpvBL.DeleteAllP14(recP13.pid);
+            return new BO.Result(false, "Odstraněno");
+        }
         [HttpGet]
         [Route("receptura_operace_save")]
         public BO.Result receptura_operace_save(string p13Code,string p18Code, string p19Code, double p14UnitsCount,double p14DurationPreOper, double p14DurationOper,double p14DurationPostOper,int p14OperNum, double p14OperParam, int p14RowNum,double p14DurOperUnits,double p14DurOperMinutes)

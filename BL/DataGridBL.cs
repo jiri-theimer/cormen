@@ -11,7 +11,8 @@ namespace BL
         public DataTable GetList(BO.myQuery mq, bool bolGetTotalsRow = false);
         public BO.j72TheGridState LoadTheGridState(int intJ72ID);
         public BO.j72TheGridState LoadTheGridState(string strEntity,int intJ03ID, string strMasterEntity);
-        public int SaveTheGridState(BO.j72TheGridState rec);
+        public int SaveTheGridState(BO.j72TheGridState rec, List<BO.j73TheGridQuery> lisJ73);
+        public IEnumerable<BO.j73TheGridQuery> GetList_j73(BO.j72TheGridState rec);
 
     }
     class DataGridBL:BaseBL,IDataGridBL
@@ -147,8 +148,12 @@ namespace BL
         }
 
 
-        public int SaveTheGridState(BO.j72TheGridState rec)
+        public int SaveTheGridState(BO.j72TheGridState rec, List<BO.j73TheGridQuery> lisJ73)
         {
+            if (ValidateBeforeSave(rec, lisJ73) == false)
+            {
+                return 0;
+            }
             var p = new DL.Params4Dapper();
             p.AddInt("pid", rec.j72ID);
             p.AddInt("j70ID", rec.j70ID,true);
@@ -171,7 +176,140 @@ namespace BL
             p.AddBool("j72IsNoWrap", rec.j72IsNoWrap);
             p.AddInt("j72SelectableFlag", rec.j72SelectableFlag);
 
-            return _db.SaveRecord("j72TheGridState", p.getDynamicDapperPars(), rec);
+            if (lisJ73 != null)
+            {
+                p.AddBool("j72HashJ73Query", false);
+            }
+
+            int intJ72ID = _db.SaveRecord("j72TheGridState", p.getDynamicDapperPars(), rec);
+            if (lisJ73 != null)
+            {
+                if (rec.pid > 0)
+                {
+                    _db.RunSql("if EXISTS(select j73ID FROM j73TheGridQuery WHERE j72ID=@pid) DELETE FROM j73TheGridQuery WHERE j72ID=@pid", new { pid = intJ72ID });
+                }
+                foreach (var c in lisJ73)
+                {
+                    if (c.IsTempDeleted == true && c.j73ID > 0)
+                    {
+                        _db.RunSql("DELETE FROM j73TheGridQuery WHERE j73ID=@pid", new { pid = c.j73ID });
+                    }
+                    else
+                    {
+                        p = new DL.Params4Dapper();
+                        p.AddInt("pid", c.j73ID, true);
+                        p.AddInt("j72ID", intJ72ID, true);
+                        p.AddString("j73Column", c.j73Column);
+                        p.AddString("j73Operator", c.j73Operator);
+                        p.AddInt("j73ComboValue", c.j73ComboValue);
+                        p.AddInt("j73DatePeriodFlag", c.j73DatePeriodFlag);
+                        if (c.j73DatePeriodFlag > 0)
+                        {
+                            c.j73Date1 = null; c.j73Date2 = null;
+                        }
+                        p.AddDateTime("j73Date1", c.j73Date1);
+                        p.AddDateTime("j73Date2", c.j73Date2);
+                        p.AddDouble("j73Num1", c.j73Num1);
+                        p.AddDouble("j73Num2", c.j73Num2);
+                        p.AddString("j73Value", c.j73Value);
+                        p.AddString("j73ValueAlias", c.j73ValueAlias);
+                        p.AddInt("j73Ordinal", c.j73Ordinal);
+                        p.AddString("j73Op", c.j73Op);
+                        p.AddString("j73BracketLeft", c.j73BracketLeft);
+                        p.AddString("j73BracketRight", c.j73BracketRight);
+                        
+                        _db.SaveRecord("j73TheGridQuery", p.getDynamicDapperPars(), c, false, true);
+                    }
+                }
+                if (GetList_j73(LoadTheGridState(intJ72ID)).Count() > 0)
+                {
+                    _db.RunSql("UPDATE j72TheGridState set j72HashJ73Query=1 WHERE j72ID=@pid", new { pid = intJ72ID });
+                }
+            }
+
+            return intJ72ID;
+        }
+        private bool ValidateBeforeSave(BO.j72TheGridState rec, List<BO.j73TheGridQuery> lisJ73)
+        {
+            if (string.IsNullOrEmpty(rec.j72Columns) == true)
+            {
+                this.AddMessage("GRID musí obsahovat minimálně jeden sloupec."); return false;
+            }
+            if (lisJ73 != null)
+            {
+                int x = 0; string lb = ""; string rb = "";
+                foreach (var c in lisJ73.Where(p => p.IsTempDeleted == false))
+                {
+                    x += 1;
+                    if (c.j73BracketLeft != null)
+                    {
+                        lb += c.j73BracketLeft;
+                    }
+                    if (c.j73BracketRight != null)
+                    {
+                        rb += c.j73BracketRight;
+                    }
+
+                    switch (c.FieldType)
+                    {
+                        case "date":
+                            if (c.j73Operator == "INTERVAL" && c.j73Date1 == null && c.j73Date2 == null && c.j73DatePeriodFlag==0)
+                            {
+                                this.AddMessage(string.Format("Filtr řádek [{0}] musí mít alespoň jedno vyplněné datum nebo pojmenované období.", x)); return false;
+                            }
+                            break;
+                        case "string":
+                            if (string.IsNullOrEmpty(c.j73Value) == true && (c.j73Operator == "CONTAINS" || c.j73Operator == "STARTS" || c.j73Operator == "EQUAL" || c.j73Operator == "NOT-EQUAL"))
+                            {
+                                this.AddMessage(string.Format("Filtr řádek [{0}] obsahuje nevyplněnou hodnotu.", x)); return false;
+                            }
+                            break;
+                        case "combo":
+                            if (c.j73ComboValue == 0 && (c.j73Operator == "EQUAL" || c.j73Operator == "NOT-EQUAL"))
+                            {
+                                this.AddMessage(string.Format("Filtr řádek [{0}] obsahuje nevyplněnou hodnotu.", x)); return false;
+                            }
+                            break;
+                        case "multi":
+                            if (string.IsNullOrEmpty(c.j73Value) == true && (c.j73Operator == "EQUAL" || c.j73Operator == "NOT-EQUAL"))
+                            {
+                                this.AddMessage(string.Format("Filtr řádek [{0}] obsahuje nevyplněnou hodnotu.", x)); return false;
+                            }
+                            break;
+                    }
+                }
+                if (lb.Length != rb.Length)
+                {
+                    this.AddMessage(string.Format("Ve filtrovací podmínce nejsou správně závorky.", x)); return false;
+                }
+            }
+
+
+            return true;
+        }
+        public IEnumerable<BO.j73TheGridQuery> GetList_j73(BO.j72TheGridState rec)
+        {
+            string s = "SELECT a.* FROM j73TheGridQuery a WHERE a.j72ID=@j72id ORDER BY a.j73Ordinal";
+
+            var lis = _db.GetList<BO.j73TheGridQuery>(s, new { j72id = rec.j72ID });
+            if (lis.Count() > 0)
+            {
+                var lisQueryFields = new BL.TheQueryFieldProvider(rec.j72Entity.Substring(0, 3)).getPallete();
+                foreach (var c in lis.Where(p => p.j73Column != null))
+                {
+                    if (lisQueryFields.Where(p => p.Field == c.j73Column).Count() > 0)
+                    {
+                        var cc = lisQueryFields.Where(p => p.Field == c.j73Column).First();
+                        c.FieldType = cc.FieldType;
+                        c.FieldEntity = cc.SourceEntity;
+                        c.FieldSqlSyntax = cc.FieldSqlSyntax;
+                        c.SqlWrapper = cc.SqlWrapper;
+                        c.MasterPrefix = cc.MasterPrefix;
+                        c.MasterPid = cc.MasterPid;
+                    }
+                }
+            }
+            return lis;
         }
     }
 }

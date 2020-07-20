@@ -10,6 +10,7 @@ namespace BL
         public BO.p13MasterTpv LoadByCode(string strCode, int intExcludePID);
         public IEnumerable<BO.p13MasterTpv> GetList(BO.myQuery mq);
         public int Save(BO.p13MasterTpv rec,int intP13ID_CloneP14Recs);
+        public void DeleteAllP14(int p13id);
     }
     class p13MasterTpvBL : BaseBL,Ip13MasterTpvBL
     {     
@@ -72,6 +73,11 @@ namespace BL
             
             return intPID;
 
+        }
+
+        public void DeleteAllP14(int p13id)
+        {
+            _db.RunSql("DELETE FROM p14MasterOper WHERE p13ID=@pid", new { pid = p13id });
         }
 
         

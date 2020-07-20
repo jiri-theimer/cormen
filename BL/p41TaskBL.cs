@@ -1,4 +1,5 @@
 ﻿using BO;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,7 +38,13 @@ namespace BL
         public string EstimateTaskCode(string strP52Code, int x)
         {
             if (x == 0) x = 1;
-            string strCode = strP52Code.Replace("R", "T") + "." + BO.BAS.RightString("000" + x.ToString(), 3);
+            string strCode = "R"+DateTime.Now.Year.ToString()+"."+BO.BAS.GetGuid().Substring(0,5);
+            if (string.IsNullOrEmpty(strP52Code) == false)
+            {
+                strCode = strP52Code.Replace("R", "T") + "." + BO.BAS.RightString("000" + x.ToString(), 3);
+            }
+            
+            
             while (LoadByCode(strCode, 0) != null)
             {
                 x += 1;
