@@ -33,7 +33,9 @@ namespace UI.Controllers
 
         public IActionResult FlatView(string prefix,int go2pid)    //pouze grid bez subform
         {
-            return View(inhaleGridViewInstance(prefix, go2pid));
+            var v = inhaleGridViewInstance(prefix, go2pid);
+            v.j72id = Factory.CBL.LoadUserParamInt("flatview-j72id-" + prefix);
+            return View(v);
         }
         public IActionResult MasterView(string prefix,int go2pid)    //grid horní + spodní panel
         {
@@ -53,6 +55,11 @@ namespace UI.Controllers
                     tabs.Add(new NavTab() { Name = "Klientská receptura", Entity = "p12ClientTpv", Url = "SlaveView?prefix=p12" });
                     tabs.Add(new NavTab() { Name = "Klientské produkty", Entity = "p11ClientProduct", Url = "SlaveView?prefix=p11" });
                     tabs.Add(new NavTab() { Name = "Dokumenty", Entity = "o23Doc", Url = "SlaveView?prefix=o23" });
+                    break;
+                case "p19":
+                    tabs.Add(new NavTab() { Name = "Info", Url = "/p19/Index?pid=" + AppendPid2Url(v.go2pid) });
+                    tabs.Add(new NavTab() { Name = "Master receptury", Entity = "p13MasterTpv", Url = "SlaveView?prefix=p13" });
+                    tabs.Add(new NavTab() { Name = "Master produkty", Entity = "p10MasterProduct", Url = "SlaveView?prefix=p10" });
                     break;
                 case "p28":
                     tabs.Add(new NavTab() { Name = "Info", Url = "/p28/Index?pid="+ AppendPid2Url(v.go2pid) });
@@ -177,6 +184,7 @@ namespace UI.Controllers
         public IActionResult SlaveView(string master_entity,int master_pid, string prefix, int go2pid)    //podřízený subform v rámci MasterView
         {
             TheGridInstanceViewModel v = inhaleGridViewInstance(prefix, go2pid);
+            v.j72id = Factory.CBL.LoadUserParamInt("slaveview-j72id-" + prefix+"-"+ master_entity);
             v.master_entity = master_entity;
             v.master_pid = master_pid;
             if (String.IsNullOrEmpty(v.master_entity) || v.master_pid == 0)
@@ -211,7 +219,13 @@ namespace UI.Controllers
                 if (v.Rec.j72IsSystem==false && v.Rec.j03ID == Factory.CurrentUser.pid)
                 {
                     v.HasOwnerPermissions = true;
+                    var mq = new BO.myQuery("j04UserRole");
+                    mq.j72id = j72id;
+                    var lis = Factory.j04UserRoleBL.GetList(mq);
+                    v.j04IDs = string.Join(",", lis.Select(p => p.pid));
+                    v.j04Names = string.Join(",", lis.Select(p => p.j04Name));
                 }
+                
                 v.lisJ73 = Factory.gridBL.GetList_j73(v.Rec).ToList();
                 foreach (var c in v.lisJ73)
                 {
@@ -266,15 +280,16 @@ namespace UI.Controllers
             {
                 var recJ72 = Factory.gridBL.LoadTheGridState(v.Rec.pid);
                 var lisJ73 = Factory.gridBL.GetList_j73(recJ72).ToList();
-                recJ72.j72IsSystem = false;recJ72.j72ID = 0;recJ72.pid = 0;recJ72.j72Name = j72name;recJ72.j03ID = Factory.CurrentUser.pid;       
-                var intJ72ID = Factory.gridBL.SaveTheGridState(recJ72,lisJ73);
+                recJ72.j72IsSystem = false;recJ72.j72ID = 0;recJ72.pid = 0;recJ72.j72Name = j72name;recJ72.j03ID = Factory.CurrentUser.pid;
+                List<int> j04ids = BO.BAS.ConvertString2ListInt(v.j04IDs);
+                var intJ72ID = Factory.gridBL.SaveTheGridState(recJ72,lisJ73,j04ids);
                 return RedirectToActionPermanent("Designer", new { j72id = intJ72ID });
             }
             if (oper == "rename" && j72name != null)
             {
                 var recJ72 = Factory.gridBL.LoadTheGridState(v.Rec.pid);
                 recJ72.j72Name = j72name;
-                var intJ72ID = Factory.gridBL.SaveTheGridState(recJ72, null);
+                var intJ72ID = Factory.gridBL.SaveTheGridState(recJ72, null,null);
                 return RedirectToActionPermanent("Designer", new { j72id = intJ72ID });
             }
             if (oper=="delete" && v.HasOwnerPermissions)
@@ -333,6 +348,7 @@ namespace UI.Controllers
                 c.j72Filter = "";   //automaticky vyčistit aktuální sloupcový filtr
                 c.j72CurrentPagerIndex = 0;
                 c.j72CurrentRecordPid = 0;
+                c.j72IsPublic = v.Rec.j72IsPublic;
                 if (c.j72SortDataField != null)
                 {
                     if (c.j72Columns.IndexOf(c.j72SortDataField)== -1){ //vyčistit sort field, pokud se již nenachází ve vybraných sloupcích
@@ -340,7 +356,8 @@ namespace UI.Controllers
                         c.j72SortOrder = "";
                     }
                 }
-                int intJ72ID = Factory.gridBL.SaveTheGridState(c, v.lisJ73.Where(p => p.j73ID > 0 || p.IsTempDeleted == false).ToList());
+                List<int> j04ids = BO.BAS.ConvertString2ListInt(v.j04IDs);
+                int intJ72ID = Factory.gridBL.SaveTheGridState(c, v.lisJ73.Where(p => p.j73ID > 0 || p.IsTempDeleted == false).ToList(),j04ids);
                 if (intJ72ID > 0)
                 {
                     if (c.j72MasterEntity == null)
@@ -384,7 +401,7 @@ namespace UI.Controllers
             
             cJ72.j72Filter = string.Join("$$$", lis);
             
-            if (this.Factory.gridBL.SaveTheGridState(cJ72,null) > 0)
+            if (this.Factory.gridBL.SaveTheGridState(cJ72,null,null) > 0)
             {
                 return render_thegrid_html(cJ72);
             }
@@ -436,7 +453,7 @@ namespace UI.Controllers
                     break;
             }
 
-            if (this.Factory.gridBL.SaveTheGridState(cJ72,null)> 0)
+            if (this.Factory.gridBL.SaveTheGridState(cJ72,null,null)> 0)
             {
                 return render_thegrid_html(cJ72);
             }

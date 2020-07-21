@@ -42,7 +42,7 @@ namespace UI.Views.Shared.Components.TheGrid
                 var cols= _colsProvider.getDefaultPallete(false,mq);    //výchozí paleta sloupců
                 
                 cJ72 = new BO.j72TheGridState() {j72IsSystem=true, j72Entity = entity, j03ID = _f.CurrentUser.pid,j72Columns=String.Join(",",cols.Select(p=>p.UniqueName)),j72PageSize=100,j72MasterEntity= master_entity };
-                var intJ72ID = _f.gridBL.SaveTheGridState(cJ72,null);
+                var intJ72ID = _f.gridBL.SaveTheGridState(cJ72,null,null);
                 cJ72= _f.gridBL.LoadTheGridState(intJ72ID);
             }
 

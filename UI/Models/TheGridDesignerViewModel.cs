@@ -22,6 +22,9 @@ namespace UI.Models
 
         public bool HasOwnerPermissions { get; set; }
 
+        public string j04IDs { get; set; }
+        public string j04Names { get; set; }
+
 
     }
 }

@@ -208,7 +208,7 @@
 
                 @for (var i = 0; i < Model.lisJ73.Count; i++)
                 {
-                    <div class="form-row my-1" style="@Model.lisJ73[i].CssTempDisplay">
+                    <div class="form-row my-1" style="@(Model.lisJ73[i].CssTempDisplay)">
                         <input type="hidden" asp-for="lisJ73[i].IsTempDeleted" value="@Model.lisJ73[i].IsTempDeleted" />
                         <input type="hidden" asp-for="lisJ73[i].j73ID" value="@Model.lisJ73[i].j73ID" />
 
@@ -352,6 +352,23 @@
         </div>
     }
 
+    @if (Model.HasOwnerPermissions)
+    {
+        <div class="card">
+            <div class="card-header">
+                Nasdílet GRID pro ostatní uživatele
+            </div>
+            <div class="card-body">
+                <div>
+                    <input type="checkbox" asp-for="Rec.j72IsPublic" />
+                    <label class="col-form-label" for="Rec_j72IsPublic">Přístupné pro všechny uživatele</label>
+                </div>
+                <mycombochecklist asp-for="@Model.j04IDs" entity="j04UserRole" selectedtext="@Model.j04Names" placeholder="Nasdílet pouze pro aplikační role..."></mycombochecklist>
+               
+                
+            </div>
+        </div>
+    }
 </form>
 
 

@@ -39,7 +39,7 @@
 
     <div id="splitter_panel2" class="splitter-panel-bottom">
 
-        <iframe id="fra_subgrid" name="fra_subgrid" frameborder="0" src="@Model.go2pid_url_in_iframe" scrolling="yes" width="100%" onload="$('#splitter_panel2').css('background','none');"></iframe>
+        <iframe id="fra_subgrid" name="fra_subgrid" frameborder="0" src="@Model.go2pid_url_in_iframe" scrolling="yes" style="width:100%;" onload="$('#splitter_panel2').css('background','none');"></iframe>
     </div>
 </div>
 
@@ -69,7 +69,17 @@
 
         tg_adjust_for_screen("splitter_panel1");
 
-        _mainmenu_select("@Model.prefix","grid11");
+        var data_menu = "grid11";
+        var prefix_caret = "@Model.prefix";
+        
+        if (prefix_caret == "p19") {
+            data_menu = prefix_caret;
+            prefix_caret = "p13";
+        }
+
+        _mainmenu_select(prefix_caret, data_menu);
+
+
 
 
     });
@@ -117,7 +127,7 @@
 
         }
 
-        function change_grid(j72id) {            
+        function change_grid(j72id) {
             $.post("/Common/SetUserParam", { key: "masterview-j72id-@(Model.prefix)",value:j72id  }, function (data) {
                 location.replace("/TheGrid/MasterView?prefix=@Model.prefix");
 

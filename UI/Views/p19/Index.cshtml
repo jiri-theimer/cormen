@@ -1,0 +1,56 @@
+﻿@model p19PreviewModel
+
+@{
+    ViewData["Title"] = "Surovina";
+    Layout = "~/Views/Shared/_LayoutSubform.cshtml";
+    if (Model.Rec == null) return;
+}
+
+    <div class="modal_record_container">
+
+
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Surovina:</label>
+            <div class="col-sm-6 col-md-6">
+                <span class="val-readonly">@(Model.Rec.p19Name)</span>
+
+            </div>
+            <div class="col-sm-5 col-md-4">
+                <span class="val-readonly">@(Model.Rec.p19Code)</span>
+
+            </div>
+        </div>
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Měrná jednotka:</label>
+            <div class="col-sm-1 col-md-1">
+                <span class="val-readonly">@(Model.Rec.p20Code)</span>
+            </div>
+
+        </div>
+
+
+        @Html.Raw(Model.Rec.TagHtml)
+    </div>
+@if (Model.Rec.p19Memo != null)
+{
+    <hr />
+
+    <pre>@Html.DisplayFor(m => m.Rec.p19Memo, new { @class = "form-control" });</pre>
+
+
+}
+
+
+@Html.DisplayFor(m => m.Rec, "~/Views/Shared/_MyTimestamp.cshtml")
+
+
+<script type="text/javascript">
+    $(document).ready(function ()
+    {
+
+
+
+    });
+</script>
+
+

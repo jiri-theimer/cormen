@@ -52,5 +52,8 @@ namespace BO
         public double p19StockActual { get; set; }
         public double p19StockReserve { get; set; }
         public DateTime? p19StockDate { get; set; }
+
+
+        public string TagHtml;
     }
 }

@@ -14,7 +14,7 @@
 @addTagHelper *,UI
 
     
-<vc:the-grid entity="@Model.entity" j72id="0" go2pid="@Model.go2pid" master_entity="" master_pid="0" contextmenuflag="@Model.contextmenuflag" ondblclick="tg_dblclick"></vc:the-grid>
+<vc:the-grid entity="@Model.entity" j72id="@Model.j72id" go2pid="@Model.go2pid" master_entity="" master_pid="0" contextmenuflag="@Model.contextmenuflag" ondblclick="tg_dblclick"></vc:the-grid>
 
 
 
@@ -32,11 +32,15 @@
 
         if (prefix_caret == "p27") {
             data_menu = prefix_caret;
-            prefix_caret = "p26";            
+            prefix_caret = "p26";
         }
         if (prefix_caret == "p44") {
             data_menu = prefix_caret;
             prefix_caret = "p41";
+        }
+        if (prefix_caret == "p19") {
+            data_menu = prefix_caret;
+            prefix_caret = "p13";
         }
 
         _mainmenu_select(prefix_caret, data_menu);
@@ -49,6 +53,14 @@
         /*automaticky volaná událost z thegrid controlu*/
         function thegrid_handle_event(event_name, pid) {
 
+        }
+
+
+        function change_grid(j72id) {
+            $.post("/Common/SetUserParam", { key: "flatview-j72id-@(Model.prefix)",value:j72id  }, function (data) {
+                location.replace("/TheGrid/FlatView?prefix=@Model.prefix");
+
+            });
         }
     </script>
 

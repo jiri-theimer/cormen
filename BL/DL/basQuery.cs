@@ -107,7 +107,7 @@ namespace BL.DL
 
             }
         }
-        public static DL.FinalSqlCommand ParseFinalSql(string strPrimarySql,BO.myQuery mq,BO.RunningUser ru, bool bolPrepareParam4DT = false)
+        public static DL.FinalSqlCommand ParseFinalSql(string strPrimarySql, BO.myQuery mq, BO.RunningUser ru, bool bolPrepareParam4DT = false)
         {
             var lis = new List<DL.QueryRow>();
             if (mq.lisJ73 != null)
@@ -116,13 +116,13 @@ namespace BL.DL
             }
             if (mq.IsRecordValid == true)
             {
-                AQ(ref lis, "a.ValidUntil>GETDATE()","",null);
+                AQ(ref lis, "a.ValidUntil>GETDATE()", "", null);
             }
             if (mq.IsRecordValid == false)
             {
                 AQ(ref lis, "GETDATE() NOT BETWEEN a.ValidFrom AND a.ValidUntil", "", null);
             }
-            if (mq.pids !=null && mq.pids.Any())
+            if (mq.pids != null && mq.pids.Any())
             {
                 AQ(ref lis, mq.PkField + " IN (" + String.Join(",", mq.pids) + ")", "", null);
             }
@@ -132,17 +132,26 @@ namespace BL.DL
             }
             if (mq.b02ids != null && mq.b02ids.Count() > 0)
             {
-                AQ(ref lis, "a.b02ID IN (select b02ID FROM b02Status WHERE b02ID IN (" + string.Join(",", mq.b02ids) + "))", "", null);               
+                AQ(ref lis, "a.b02ID IN (select b02ID FROM b02Status WHERE b02ID IN (" + string.Join(",", mq.b02ids) + "))", "", null);
             }
             if (mq.j04id > 0)
             {
                 AQ(ref lis, "a.j04ID=@j04id", "j04id", mq.j04id);
             }
-            if (mq.DateBetween != null && mq.DateBetweenDays>0)
+            if (mq.j72id > 0)
+            {
+                if (mq.Prefix == "j04") AQ(ref lis, "a.j04ID IN (select j04ID FROM j74TheGridReceiver WHERE j72ID=@j72id)", "j72id", mq.j72id);
+            }
+
+            if (mq.DateBetween != null && mq.DateBetweenDays > 0)
             {
                 AQ(ref lis, string.Format("(a.p41PlanStart BETWEEN @d1 AND DATEADD(DAY,{0},@d1) OR a.p41PlanEnd BETWEEN @d1 AND DATEADD(DAY,{0},@d1) OR @d1 BETWEEN a.p41PlanStart AND a.p41PlanEnd OR DATEADD(DAY,{0},@d1) BETWEEN a.p41PlanStart AND a.p41PlanEnd)", mq.DateBetweenDays), "d1", mq.DateBetween.Value);
             }
-           
+            if (mq.p19id > 0)
+            {
+                if (mq.Prefix == "p10") AQ(ref lis, "a.p10ID IN (select xa.p10ID FROM p10MasterProduct xa INNER JOIN p13MasterTpv xb ON xa.p13ID=xb.p13ID INNER JOIN p14MasterOper xc ON xb.p13ID=xc.p13ID WHERE xc.p19ID=@p19id)", "p19id", mq.p19id);
+                if (mq.Prefix == "p13") AQ(ref lis, "a.p13ID IN (select xa.p13ID FROM p10MasterProduct xa INNER JOIN p13MasterTpv xb ON xa.p13ID=xb.p13ID INNER JOIN p14MasterOper xc ON xb.p13ID=xc.p13ID WHERE xc.p19ID=@p19id)", "p19id", mq.p19id);
+            }
             if (mq.p21id >0)
             {
                 if (mq.Prefix == "p10") AQ(ref lis, "a.p10ID IN (select p10ID FROM p22LicenseBinding WHERE p21ID=@p21id)", "p21id", mq.p21id);

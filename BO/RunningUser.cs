@@ -8,6 +8,7 @@ namespace BO
     {
         public int pid { get; set; }
         public int j02ID { get; set; }
+        public int j04ID { get; set; }
         public int p28ID { get; set; }
         public string p28Name { get; set; }
         public bool isclosed { get; set; }

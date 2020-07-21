@@ -9,6 +9,23 @@ namespace UI.Controllers
 {
     public class p19Controller : BaseController
     {
+        public IActionResult Index(int pid)
+        {
+            var v = new Models.p19PreviewModel();
+            v.Rec = Factory.p19MaterialBL.Load(pid);
+
+            if (v.Rec == null)
+            {
+                return RecNotFound(v);
+            }
+            else
+            {                
+                var tg = Factory.o51TagBL.GetTagging("p19", pid);
+                v.Rec.TagHtml = tg.TagHtml;
+                return View(v);
+            }
+
+        }
         public IActionResult Record(int pid, bool isclone)
         {
             if (!this.TestIfUserEditor(true, true))

@@ -55,6 +55,7 @@ namespace BO
         public bool? IsRecordValid;
 
         public int j04id { get; set; }
+        public int j72id { get; set; }
         public int b02id { get; set; }
         public List<int> b02ids { get; set; }
         public List<int> p27ids { get; set; }
@@ -64,6 +65,7 @@ namespace BO
         public int p21id { get; set; }
         public int p21id_missing { get; set; }
         public int p10id { get; set; }
+        public int p19id { get; set; }
         public int p26id { get; set; }
         public int j02id {get;set;}
         public int p11id { get; set; }
@@ -115,6 +117,9 @@ namespace BO
                     break;
                 case "p13":
                     this.p13id = master_pid;
+                    break;
+                case "p19":
+                    this.p19id = master_pid;
                     break;
                 case "p21":
                     this.p21id = master_pid;

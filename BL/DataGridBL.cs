@@ -12,7 +12,7 @@ namespace BL
         public DataTable GetList(BO.myQuery mq, bool bolGetTotalsRow = false);
         public BO.j72TheGridState LoadTheGridState(int intJ72ID);
         public BO.j72TheGridState LoadTheGridState(string strEntity,int intJ03ID, string strMasterEntity);
-        public int SaveTheGridState(BO.j72TheGridState rec, List<BO.j73TheGridQuery> lisJ73);
+        public int SaveTheGridState(BO.j72TheGridState rec, List<BO.j73TheGridQuery> lisJ73, List<int> j04ids);
         public IEnumerable<BO.j73TheGridQuery> GetList_j73(BO.j72TheGridState rec);
         public IEnumerable<BO.j72TheGridState> GetList_j72(string strEntity, int intJ03ID, string strMasterEntity);
     }
@@ -150,7 +150,7 @@ namespace BL
         }
 
 
-        public int SaveTheGridState(BO.j72TheGridState rec, List<BO.j73TheGridQuery> lisJ73)
+        public int SaveTheGridState(BO.j72TheGridState rec, List<BO.j73TheGridQuery> lisJ73,List<int> j04ids)
         {
             if (ValidateBeforeSave(rec, lisJ73) == false)
             {
@@ -178,6 +178,7 @@ namespace BL
 
             p.AddBool("j72IsNoWrap", rec.j72IsNoWrap);
             p.AddInt("j72SelectableFlag", rec.j72SelectableFlag);
+            p.AddBool("j72IsPublic", rec.j72IsPublic);
 
             if (lisJ73 != null)
             {
@@ -185,6 +186,17 @@ namespace BL
             }
 
             int intJ72ID = _db.SaveRecord("j72TheGridState", p.getDynamicDapperPars(), rec);
+            if (j04ids != null)
+            {
+                if (rec.pid > 0)
+                {
+                    _db.RunSql("if EXISTS(select j74ID FROM j74TheGridReceiver WHERE j72ID=@pid) DELETE FROM j74TheGridReceiver WHERE j72ID=@pid", new { pid = intJ72ID });
+                }
+                if (j04ids.Count > 0)
+                {
+                    _db.RunSql("INSERT INTO j74TheGridReceiver(j72ID,j04ID) SELECT @pid,j04ID FROM j04UserRole WHERE j04ID IN (" + string.Join(",", j04ids) + ")", new { pid = intJ72ID });
+                }
+            }
             if (lisJ73 != null)
             {
                 if (rec.pid > 0)
@@ -296,16 +308,19 @@ namespace BL
             var p = new DynamicParameters();
             p.Add("j03id", intJ03ID);
             p.Add("entity", strEntity);
+            p.Add("j04id", _mother.CurrentUser.j04ID);
             if (string.IsNullOrEmpty(strMasterEntity) == true)
             {
-                s = string.Format("SELECT a.*,{0} FROM j72TheGridState a WHERE a.j72Entity=@entity AND a.j03ID=@j03id AND a.j72MasterEntity IS NULL", _db.GetSQL1_Ocas("j72"));
+                s = string.Format("SELECT a.*,{0} FROM j72TheGridState a WHERE a.j72Entity=@entity AND a.j72MasterEntity IS NULL", _db.GetSQL1_Ocas("j72"));
             }
             else
             {
-                s = string.Format("SELECT a.*,{0} FROM j72TheGridState a WHERE a.j72Entity=@entity AND a.j03ID=@j03id AND a.j72MasterEntity = @masterentity", _db.GetSQL1_Ocas("j72"));
+                s = string.Format("SELECT a.*,{0} FROM j72TheGridState a WHERE a.j72Entity=@entity AND a.j72MasterEntity = @masterentity", _db.GetSQL1_Ocas("j72"));
                 p.Add("masterentity", strMasterEntity);
             }
-            
+            s += " AND (a.j03ID=@j03id OR a.j72IsPublic=1 OR a.j72ID IN (select j72ID FROM j74TheGridReceiver WHERE j04ID=@j04id))";
+
+
             return _db.GetList<BO.j72TheGridState>(s+" ORDER BY a.j72IsSystem DESC", p);            
         }
         public IEnumerable<BO.j73TheGridQuery> GetList_j73(BO.j72TheGridState rec)
