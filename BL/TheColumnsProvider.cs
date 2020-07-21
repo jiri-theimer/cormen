@@ -127,6 +127,7 @@ namespace BL
             AF("p10MasterProduct", "p10Davka", "Dávka", 0, null, "num0");
             AF("p10MasterProduct", "p10DavkaMin", "Dávka Min.", 0, null, "num0");
             AF("p10MasterProduct", "p10DavkaMax", "Dávka Max.", 0, null, "num0");
+            AF("p10MasterProduct", "p21Names", "Zařazeno do licencí", 0, "dbo.p10_license_inline(a.p10ID)");
             AppendTimestamp("p10MasterProduct");
 
             //p21 = licence
