@@ -9,6 +9,7 @@ namespace UI.Models
     {
         public string entity { get; set; }
         public string prefix { get; set; }
+        public int j72id { get; set; }
         public int go2pid { get; set; }
         public int contextmenuflag { get; set; }
         

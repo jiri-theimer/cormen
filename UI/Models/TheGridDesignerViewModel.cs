@@ -20,6 +20,8 @@ namespace UI.Models
         public List<BO.TheQueryField> lisQueryFields { get; set; }
         public List<BO.ThePeriod> lisPeriods { get; set; }
 
+        public bool HasOwnerPermissions { get; set; }
+
 
     }
 }

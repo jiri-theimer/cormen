@@ -49,6 +49,8 @@ namespace BO
         public string p20NamePro;
         public string p20CodePro { get; set; } //combo
 
-
+        public double p11Davka { get; set; }
+        public double p11DavkaMin { get; set; }
+        public double p11DavkaMax { get; set; }
     }
 }

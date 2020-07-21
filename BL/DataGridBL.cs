@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using Dapper;
 
 namespace BL
 {
@@ -13,7 +14,7 @@ namespace BL
         public BO.j72TheGridState LoadTheGridState(string strEntity,int intJ03ID, string strMasterEntity);
         public int SaveTheGridState(BO.j72TheGridState rec, List<BO.j73TheGridQuery> lisJ73);
         public IEnumerable<BO.j73TheGridQuery> GetList_j73(BO.j72TheGridState rec);
-
+        public IEnumerable<BO.j72TheGridState> GetList_j72(string strEntity, int intJ03ID, string strMasterEntity);
     }
     class DataGridBL:BaseBL,IDataGridBL
     {
@@ -23,6 +24,7 @@ namespace BL
             
         }
 
+
         public BO.j72TheGridState LoadTheGridState(int intJ72ID)
         {
             return _db.Load<BO.j72TheGridState>(string.Format("SELECT a.*,{0} FROM j72TheGridState a WHERE a.j72ID=@j72id", _db.GetSQL1_Ocas("j72")), new { j72id = intJ72ID });
@@ -31,11 +33,11 @@ namespace BL
         {
             if (String.IsNullOrEmpty(strMasterEntity))
             {
-                return _db.Load<BO.j72TheGridState>(string.Format("SELECT a.*,{0} FROM j72TheGridState a WHERE a.j72Entity=@entity AND a.j03ID=@j03id AND a.j72MasterEntity IS NULL", _db.GetSQL1_Ocas("j72")), new { entity = strEntity, j03id = intJ03ID });
+                return _db.Load<BO.j72TheGridState>(string.Format("SELECT a.*,{0} FROM j72TheGridState a WHERE a.j72IsSystem=1 AND a.j72Entity=@entity AND a.j03ID=@j03id AND a.j72MasterEntity IS NULL", _db.GetSQL1_Ocas("j72")), new { entity = strEntity, j03id = intJ03ID });
             }
             else
             {
-                return _db.Load<BO.j72TheGridState>(string.Format("SELECT a.*,{0} FROM j72TheGridState a WHERE a.j72Entity=@entity AND a.j03ID=@j03id AND a.j72MasterEntity=@masterentity", _db.GetSQL1_Ocas("j72")), new { entity = strEntity, j03id = intJ03ID,masterentity=strMasterEntity });
+                return _db.Load<BO.j72TheGridState>(string.Format("SELECT a.*,{0} FROM j72TheGridState a WHERE a.j72IsSystem=1 AND a.j72Entity=@entity AND a.j03ID=@j03id AND a.j72MasterEntity=@masterentity", _db.GetSQL1_Ocas("j72")), new { entity = strEntity, j03id = intJ03ID,masterentity=strMasterEntity });
             }
             
         }
@@ -156,7 +158,8 @@ namespace BL
             }
             var p = new DL.Params4Dapper();
             p.AddInt("pid", rec.j72ID);
-            p.AddInt("j70ID", rec.j70ID,true);
+            p.AddString("j72Name", rec.j72Name);
+            p.AddBool("j72IsSystem", rec.j72IsSystem);
             p.AddInt("j03ID", rec.j03ID,true);
             
             p.AddString("j72Entity", rec.j72Entity);
@@ -286,6 +289,24 @@ namespace BL
 
 
             return true;
+        }
+        public IEnumerable<BO.j72TheGridState> GetList_j72(string strEntity, int intJ03ID, string strMasterEntity)
+        {
+            string s;
+            var p = new DynamicParameters();
+            p.Add("j03id", intJ03ID);
+            p.Add("entity", strEntity);
+            if (string.IsNullOrEmpty(strMasterEntity) == true)
+            {
+                s = string.Format("SELECT a.*,{0} FROM j72TheGridState a WHERE a.j72Entity=@entity AND a.j03ID=@j03id AND a.j72MasterEntity IS NULL", _db.GetSQL1_Ocas("j72"));
+            }
+            else
+            {
+                s = string.Format("SELECT a.*,{0} FROM j72TheGridState a WHERE a.j72Entity=@entity AND a.j03ID=@j03id AND a.j72MasterEntity = @masterentity", _db.GetSQL1_Ocas("j72"));
+                p.Add("masterentity", strMasterEntity);
+            }
+            
+            return _db.GetList<BO.j72TheGridState>(s+" ORDER BY a.j72IsSystem DESC", p);            
         }
         public IEnumerable<BO.j73TheGridQuery> GetList_j73(BO.j72TheGridState rec)
         {

@@ -62,6 +62,9 @@ namespace BL
             p.AddDouble("p10RecalcUnit2Kg", rec.p10RecalcUnit2Kg);
             p.AddEnumInt("p10TypeFlag", rec.p10TypeFlag);
             p.AddString("p10PackagingCode", rec.p10PackagingCode);
+            p.AddDouble("p10Davka", rec.p10Davka);
+            p.AddDouble("p10DavkaMin", rec.p10DavkaMin);
+            p.AddDouble("p10DavkaMax", rec.p10DavkaMax);
 
             int intPID= _db.SaveRecord("p10MasterProduct", p.getDynamicDapperPars(), rec);
             var recP19 = _mother.p19MaterialBL.LoadByMasterP10ID(intPID);

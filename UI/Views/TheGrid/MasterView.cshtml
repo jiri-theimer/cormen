@@ -20,7 +20,7 @@
 <div id="splitter_container" class="splitter-container-top2bottom">
 
     <div id="splitter_panel1" class="splitter-panel-top">
-        <vc:the-grid entity="@Model.entity" j72id="0" go2pid="@Model.go2pid" master_entity="" master_pid="0" contextmenuflag="@Model.contextmenuflag" ondblclick="tg_dblclick"></vc:the-grid>
+        <vc:the-grid entity="@Model.entity" j72id="@Model.j72id" go2pid="@Model.go2pid" master_entity="" master_pid="0" contextmenuflag="@Model.contextmenuflag" ondblclick="tg_dblclick"></vc:the-grid>
 
     </div>
     <div style="padding-top:1px;margin-bottom:1px;height:30px;background-color:#ADD8E6;">
@@ -60,7 +60,7 @@
         var defHeight = localStorage.getItem(key);
         if (defHeight == null) {
             defHeight = Math.floor(_device.innerHeight/2);
-            localStorage.setItem(key, defHeight);            
+            localStorage.setItem(key, defHeight);
         }
 
         _splitter_resize_after_init("1", defHeight);
@@ -115,6 +115,13 @@
             });
 
 
+        }
+
+        function change_grid(j72id) {            
+            $.post("/Common/SetUserParam", { key: "masterview-j72id-@(Model.prefix)",value:j72id  }, function (data) {
+                location.replace("/TheGrid/MasterView?prefix=@Model.prefix");
+
+            });
         }
 
     </script>

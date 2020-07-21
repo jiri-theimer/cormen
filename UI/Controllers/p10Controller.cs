@@ -71,6 +71,9 @@ namespace UI.Controllers
                 c.p10TypeFlag = v.Rec.p10TypeFlag;                
                 c.p10RecalcUnit2Kg = v.Rec.p10RecalcUnit2Kg;
                 c.p10PackagingCode = v.Rec.p10PackagingCode;
+                c.p10Davka = v.Rec.p10Davka;
+                c.p10DavkaMin = v.Rec.p10DavkaMin;
+                c.p10DavkaMax = v.Rec.p10DavkaMax;
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);

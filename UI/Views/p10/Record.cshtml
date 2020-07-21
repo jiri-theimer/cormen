@@ -43,7 +43,7 @@
 
             </select>
 
-            
+
         </div>
         <label class="col-sm-1 col-md-1 col-form-label">Aktuální stav:</label>
         <div class="col-sm-6 col-md-5">
@@ -81,7 +81,27 @@
 
 
     </div>
+    <div class="card">
+        <div class="card-header">Dávka</div>
+        <div class="card-body py-1">
+            <div class="form-row" style="margin-top:10px;">
+                <label class="col-sm-1 col-md-2 col-form-label">Výrobní dávka:</label>
+                <div class="col-sm-2 col-md-2">
+                    <mynumber asp-for="Rec.p10Davka" decimal-digits="0"></mynumber>
+                </div>
+                <label class="col-sm-1 col-md-1 col-form-label">Min.:</label>
+                <div class="col-sm-2 col-md-2">
+                    <mynumber asp-for="Rec.p10DavkaMin" decimal-digits="0"></mynumber>
+                </div>
+                <label class="col-sm-1 col-md-1 col-form-label">Max.:</label>
+                <div class="col-sm-2 col-md-2">
+                    <mynumber asp-for="Rec.p10DavkaMax" decimal-digits="0"></mynumber>
+                </div>
 
+            </div>
+        </div>
+    </div>
+    
 
 
     <mystitky entity="p10MasterProduct" asp-for="@Model.TagPids" tagnames="@Model.TagNames" taghtml="@Model.TagHtml"></mystitky>

@@ -29,20 +29,19 @@ namespace UI.Views.Shared.Components.TheGrid
            
 
             BO.j72TheGridState cJ72 = null;
-            if (j72id == 0)
-            {
-                cJ72=_f.gridBL.LoadTheGridState(entity, _f.CurrentUser.pid,master_entity);
-            }
-            else
+            if (j72id > 0)
             {
                 cJ72 = _f.gridBL.LoadTheGridState(j72id);
             }
-           
+            if (cJ72 == null)
+            {
+                cJ72=_f.gridBL.LoadTheGridState(entity, _f.CurrentUser.pid,master_entity);  //výchozí, systémový grid: j72IsSystem=1
+            }                       
             if (cJ72 == null)   //pro uživatele zatím nebyl vygenerován záznam v j72 -> vygenerovat
             {
                 var cols= _colsProvider.getDefaultPallete(false,mq);    //výchozí paleta sloupců
                 
-                cJ72 = new BO.j72TheGridState() { j72Entity = entity, j03ID = _f.CurrentUser.pid,j72Columns=String.Join(",",cols.Select(p=>p.UniqueName)),j72PageSize=100,j72MasterEntity= master_entity };
+                cJ72 = new BO.j72TheGridState() {j72IsSystem=true, j72Entity = entity, j03ID = _f.CurrentUser.pid,j72Columns=String.Join(",",cols.Select(p=>p.UniqueName)),j72PageSize=100,j72MasterEntity= master_entity };
                 var intJ72ID = _f.gridBL.SaveTheGridState(cJ72,null);
                 cJ72= _f.gridBL.LoadTheGridState(intJ72ID);
             }

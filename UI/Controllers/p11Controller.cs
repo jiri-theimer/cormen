@@ -106,7 +106,9 @@ namespace UI.Controllers
                 c.p20ID_Pro = v.Rec.p20ID_Pro;
                 c.p11RecalcUnit2Kg = v.Rec.p11RecalcUnit2Kg;
                 c.p11PackagingCode = v.Rec.p11PackagingCode;
-
+                c.p11Davka = v.Rec.p11Davka;
+                c.p11DavkaMin = v.Rec.p11DavkaMin;
+                c.p11DavkaMax = v.Rec.p11DavkaMax;
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);

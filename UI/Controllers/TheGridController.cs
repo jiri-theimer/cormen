@@ -11,6 +11,7 @@ using System.Text;
 
 using UI.Models;
 using System.ComponentModel;
+using DocumentFormat.OpenXml.EMMA;
 
 namespace UI.Controllers
 {
@@ -37,6 +38,8 @@ namespace UI.Controllers
         public IActionResult MasterView(string prefix,int go2pid)    //grid horní + spodní panel
         {
             TheGridInstanceViewModel v = inhaleGridViewInstance(prefix, go2pid);
+            v.j72id= Factory.CBL.LoadUserParamInt("masterview-j72id-" + prefix);
+
             BO.TheEntity ce = BL.TheEntities.ByPrefix(prefix);
             var tabs = new List<NavTab>();
             
@@ -205,6 +208,10 @@ namespace UI.Controllers
             }
             else
             {
+                if (v.Rec.j72IsSystem==false && v.Rec.j03ID == Factory.CurrentUser.pid)
+                {
+                    v.HasOwnerPermissions = true;
+                }
                 v.lisJ73 = Factory.gridBL.GetList_j73(v.Rec).ToList();
                 foreach (var c in v.lisJ73)
                 {
@@ -247,13 +254,37 @@ namespace UI.Controllers
             }
         }
         [HttpPost]
-        public IActionResult Designer(Models.TheGridDesignerViewModel v,bool restore2factory, string oper, string guid)    //uložení grid sloupců
+        public IActionResult Designer(Models.TheGridDesignerViewModel v,bool restore2factory, string oper, string guid,string j72name)    //uložení grid sloupců
         {
             Designer_RefreshState(v);
 
             if (oper == "postback")
             {
                 return View(v);
+            }
+            if (oper=="saveas" && j72name != null)
+            {
+                var recJ72 = Factory.gridBL.LoadTheGridState(v.Rec.pid);
+                var lisJ73 = Factory.gridBL.GetList_j73(recJ72).ToList();
+                recJ72.j72IsSystem = false;recJ72.j72ID = 0;recJ72.pid = 0;recJ72.j72Name = j72name;recJ72.j03ID = Factory.CurrentUser.pid;       
+                var intJ72ID = Factory.gridBL.SaveTheGridState(recJ72,lisJ73);
+                return RedirectToActionPermanent("Designer", new { j72id = intJ72ID });
+            }
+            if (oper == "rename" && j72name != null)
+            {
+                var recJ72 = Factory.gridBL.LoadTheGridState(v.Rec.pid);
+                recJ72.j72Name = j72name;
+                var intJ72ID = Factory.gridBL.SaveTheGridState(recJ72, null);
+                return RedirectToActionPermanent("Designer", new { j72id = intJ72ID });
+            }
+            if (oper=="delete" && v.HasOwnerPermissions)
+            {
+                if (Factory.CBL.DeleteRecord("j72", v.Rec.pid) == "1")
+                {
+                    v.Rec.pid = Factory.gridBL.LoadTheGridState(v.Rec.j72Entity, Factory.CurrentUser.pid, v.Rec.j72MasterEntity).pid;
+                    v.SetJavascript_CallOnLoad(v.Rec.pid);
+                    return View(v);
+                }
             }
             if (oper == "changefield" && guid != null)
             {
@@ -312,6 +343,11 @@ namespace UI.Controllers
                 int intJ72ID = Factory.gridBL.SaveTheGridState(c, v.lisJ73.Where(p => p.j73ID > 0 || p.IsTempDeleted == false).ToList());
                 if (intJ72ID > 0)
                 {
+                    if (c.j72MasterEntity == null)
+                    {
+                        Factory.CBL.SetUserParam("masterview-j72id-" + c.j72Entity.Substring(0, 3), intJ72ID.ToString());
+                    }
+                    
                     v.SetJavascript_CallOnLoad(v.Rec.pid);
                     return View(v);
                 }
@@ -856,13 +892,31 @@ namespace UI.Controllers
 
             }
 
+            string strHeader = BL.TheEntities.ByTable(c.j72Entity).AliasPlural + ":";
+        
+            sb.AppendLine(string.Format("<div style='margin-top:20px;background-color:#ADD8E6;padding-left:10px;font-weight:bold;'>GRID <kbd>{0}</kbd></div>", strHeader));
 
-            //sb.AppendLine("<hr />");
+            
+            var lis = Factory.gridBL.GetList_j72(c.j72Entity, c.j03ID, c.j72MasterEntity);
+            sb.AppendLine("<table style='width:100%;margin-bottom:20px;'>");
+            foreach (var rec in lis)
+            {
+                sb.AppendLine("<tr>");
+                if (rec.j72IsSystem)
+                {
+                    rec.j72Name = "Výchozí GRID přehled";
+                }
+                if (rec.pid == c.pid)
+                {
+                    rec.j72Name += " ✔";
+                }
+                sb.Append(string.Format("<td><a class='nav-link py-0' href='javascript:change_grid({0})'>{1}</a></td>", rec.pid,rec.j72Name));
 
-            sb.AppendLine(string.Format("<div style='margin-top:20px;background-color:#ADD8E6;padding-left:10px;font-weight:bold;'>GRID <kbd>{0}</kbd></div>", BL.TheEntities.ByTable(c.j72Entity).AliasPlural));
-
-            sb.AppendLine(string.Format("<a class='nav-link' href='javascript:_window_open(\"/TheGrid/Designer?j72id={0}\",2);'>GRID Návrhář</a>",j72id));
-            sb.AppendLine("<hr class='hr-mini' />");
+                sb.AppendLine(string.Format("<td style='width:30px;'><a title='Grid Návrhář' class='nav-link py-0' href='javascript:_window_open(\"/TheGrid/Designer?j72id={0}\",2);'><img src='/Images/setting.png'/></a></td>", rec.pid));
+                sb.AppendLine("</tr>");
+            }
+            sb.AppendLine("</table>");
+            //sb.AppendLine("<hr class='hr-mini' />");
 
             sb.AppendLine("<div style='padding-left:10px;'>");
             sb.AppendLine(string.Format("<a href='javascript:tg_export(\"xlsx\")'>MS-EXCEL Export (vše)</a>", j72id));
@@ -872,10 +926,10 @@ namespace UI.Controllers
           
 
             sb.AppendLine("<hr class='hr-mini' />");
-            sb.AppendLine("<a class='nav-link' href='javascript:tg_select(20)'>Vybrat prvních 20</a>");
-            sb.AppendLine("<a class='nav-link' href='javascript:tg_select(50)'>Vybrat prvních 50</a>");
-            sb.AppendLine("<a class='nav-link' href='javascript:tg_select(100)'>Vybrat prvních 100</a>");
-            sb.AppendLine("<a class='nav-link' href='javascript:tg_select(1000)'>Vybrat všechny záznamy na stránce</a>");
+            sb.AppendLine("<a  href='javascript:tg_select(20)'>Vybrat prvních 20</a>⌾");
+            sb.AppendLine("<a  href='javascript:tg_select(50)'>Vybrat prvních 50</a>⌾");
+            sb.AppendLine("<a href='javascript:tg_select(100)'>Vybrat prvních 100</a>⌾");
+            sb.AppendLine("<a href='javascript:tg_select(1000)'>Vybrat všechny záznamy na stránce</a>");
             
             return sb.ToString();
         }

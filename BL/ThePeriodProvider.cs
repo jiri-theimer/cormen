@@ -41,6 +41,11 @@ namespace BL
 
         public List<BO.ThePeriod> getPallete()
         {
+            if (_lis[1].d1 != DateTime.Today)
+            {
+                _lis.Clear();
+                SetupPallete();
+            }
             return _lis;
         }
          

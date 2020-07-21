@@ -96,12 +96,31 @@
     GRID [
     @(BL.TheEntities.ByTable(Model.Rec.j72Entity).AliasPlural)
     ]
-    Návrhář
+    Návrhář:
+    @if (Model.Rec.j72IsSystem == false)
+    {
+        <i>@Model.Rec.j72Name</i>
+    }
+    else
+    {
+        <i>Výchozí GRID šablona</i>
+    }
 </h4>
 
 <div class="bg-light" style="padding:10px;">
     <button id="cmdSave" onclick="savechanges()" class="btn btn-success">Uložit změny</button>
+    @if (Model.Rec.j72IsSystem == false && Model.HasOwnerPermissions == true)
+    {
+        <button id="cmdDelete" onclick="delete_record()" class="btn btn-danger">Odstranit</button>
+    }
+    <button id="cmdSaveAs" onclick="saveas()" class="btn btn-primary">Uložit jako...</button>
+    @if (Model.Rec.j72IsSystem == false && Model.HasOwnerPermissions == true)
+    {
+        <button id="cmdRename" onclick="rename()" class="btn btn-primary">Přejmenovat...</button>
+    }
+
     <button id="cmdClose" onclick="_window_close()" class="btn btn-light">Zavřít</button>
+
 
     <button id="cmdRestore2Factory" onclick="restore2factory()" class="btn btn-light" style="float:right;">Nahodit Grid do továrního stavu</button>
 
@@ -113,6 +132,10 @@
         <input type="hidden" asp-for="Rec.j72Columns" class="form-control" />
         <input type="hidden" asp-for="Rec.pid" />
         <input type="hidden" asp-for="Rec.j72Entity" />
+        <input type="hidden" asp-for="Rec.j72MasterEntity" />
+        <input type="hidden" asp-for="Rec.j72Name" />
+        <input type="hidden" asp-for="@Model.HasOwnerPermissions" />
+        <input type="hidden" asp-for="@Model.Rec.j72IsSystem" />
         <div class="row">
 
             <div class="col-6">
@@ -487,6 +510,7 @@
         form1.submit();
     }
 
+
     function restore2factory() {
         $.showConfirm({
             title: "Rozhodněte se...", body: "Tovární stav = Výchozí sada sloupců, vyčištění sloupců, filtru a souhrnů.<hr>Mám pokračovat?", textTrue: "ANO", textFalse: "NE",
@@ -528,6 +552,37 @@
     function handle_j73_clear() {
         form1.action = "/TheGrid/Designer?oper=clear_j73";
         form1.submit();
+    }
+    function saveas() {
+        var s = prompt("Zadejte název nové GRID šablony");
+        if (s.length > 0) {
+            form1.action = "/TheGrid/Designer?oper=saveas&j72name="+s;
+            form1.submit();
+        }
+    }
+    function rename() {
+        var s = prompt("Zadejte nový název GRID šablony","@Model.Rec.j72Name");
+        if (s.length > 0) {
+            form1.action = "/TheGrid/Designer?oper=rename&j72name=" + s;
+            form1.submit();
+        }
+    }
+    function delete_record(){
+        $.showConfirm({
+            title: "Rozhodněte se...", body: "Opravdu chcete nenávratně odstranit tuto GRID šablonu?", textTrue: "ANO", textFalse: "NE",
+            onSubmit: function (result) {
+                if (result) {
+                    form1.action = "/TheGrid/Designer?oper=delete";
+                    form1.submit();
+
+                } else {
+                    //nechce odstranit
+                }
+            },
+            onDispose: function () {
+                //nic
+            }
+        })
     }
 
 </script>

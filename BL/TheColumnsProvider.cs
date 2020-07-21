@@ -124,6 +124,9 @@ namespace BL
             AF("p10MasterProduct", "p10SwLicenseFlag", "SW licence", 0, "case when a.p10SwLicenseFlag>0 then 'SW licence '+convert(varchar(10),a.p10SwLicenseFlag) else null end");
             AF("p10MasterProduct", "p10RecalcUnit2Kg", "Přepočet MJ na VJ", 0, null, "num3");
             AF("p10MasterProduct", "p10PackagingCode", "Kód obalu");
+            AF("p10MasterProduct", "p10Davka", "Dávka", 0, null, "num0");
+            AF("p10MasterProduct", "p10DavkaMin", "Dávka Min.", 0, null, "num0");
+            AF("p10MasterProduct", "p10DavkaMax", "Dávka Max.", 0, null, "num0");
             AppendTimestamp("p10MasterProduct");
 
             //p21 = licence
@@ -284,6 +287,9 @@ namespace BL
 
             AF("p11ClientProduct", "p11RecalcUnit2Kg", "Přepočet MJ na VJ", 0, null, "num3");
             AF("p11ClientProduct", "p11PackagingCode", "Kód obalu");
+            AF("p11ClientProduct", "p11Davka", "Dávka", 0, null, "num0");
+            AF("p11ClientProduct", "p11DavkaMin", "Dávka Min.", 0, null, "num0");
+            AF("p11ClientProduct", "p11DavkaMax", "Dávka Max.", 0, null, "num0");
 
             AppendTimestamp("p11ClientProduct");
 

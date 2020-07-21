@@ -61,6 +61,9 @@ namespace BL
             p.AddDouble("p11RecalcUnit2Kg", rec.p11RecalcUnit2Kg);
             p.AddEnumInt("p11TypeFlag", rec.p11TypeFlag);
             p.AddString("p11PackagingCode", rec.p11PackagingCode);
+            p.AddDouble("p11Davka", rec.p11Davka);
+            p.AddDouble("p11DavkaMin", rec.p11DavkaMin);
+            p.AddDouble("p11DavkaMax", rec.p11DavkaMax);
 
             int intPID= _db.SaveRecord("p11ClientProduct", p.getDynamicDapperPars(), rec);
             return intPID;

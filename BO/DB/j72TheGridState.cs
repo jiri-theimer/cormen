@@ -10,7 +10,8 @@ namespace BO
         [Key]
         public int j72ID { get; set; }
         public int j03ID { get; set; }
-        public int j70ID { get; set; }
+        public string j72Name { get; set; }
+        public bool j72IsSystem { get; set; }
         public string j72Entity { get; set; }
         public string j72MasterEntity { get; set; }
         public int j72MasterPID { get; set; }       //pouze pro průběžnou práci -> neukládá se do db, byť v sloupec existuje

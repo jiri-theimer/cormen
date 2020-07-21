@@ -60,5 +60,8 @@ namespace BO
         public ProductTypeEnum p10TypeFlag { get; set; }
 
         public string p10PackagingCode { get; set; }
+        public double p10Davka { get; set; }
+        public double p10DavkaMin { get; set; }
+        public double p10DavkaMax { get; set; }
     }
 }
