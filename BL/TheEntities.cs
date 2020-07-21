@@ -64,7 +64,7 @@ namespace BL
             AE("j03User", "Uživatelé", "Uživatel", "j03User a INNER JOIN j04UserRole j03_j04 ON a.j04ID=j03_j04.j04ID", "a.j03Login");
             
             AE("p26Msz", "Skupiny zařízení", "Skupina zařízení", "p26Msz a LEFT OUTER JOIN b02Status bc ON a.b02ID=bc.b02ID", "a.p26Name");
-            AE("p21License", "Licence", "Licence", "p21License a LEFT OUTER JOIN b02Status bc ON a.b02ID=bc.b02ID", "p28.p28Name,a.p21Name");
+            AE("p21License", "Licence", "Licence", "p21License a LEFT OUTER JOIN b02Status bc ON a.b02ID=bc.b02ID", "a.p21Name");
             AE("p31CapacityFond", "Časové fondy", "Časový fond", "p31CapacityFond a", "a.p31Name");
 
             AE("p18OperCode", "Kódy operací", "Kód operace", "p18OperCode a", "a.p18Code", "a.p18Code");

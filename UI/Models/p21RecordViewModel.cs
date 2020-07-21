@@ -15,9 +15,7 @@ namespace UI.Models
         public string TagNames { get; set; }
         public string TagHtml { get; set; }
 
-        public int SelectedP10ID { get; set; }
-        public string SelectedP10Name { get; set; }
-        public string p10IDs { get; set; }
+        
         
     }
 }

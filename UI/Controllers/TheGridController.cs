@@ -902,6 +902,12 @@ namespace UI.Controllers
             sb.AppendLine(string.Format("<a style='margin-left:20px;' href='javascript:tg_export(\"csv\",\"selected\")'>CSV Export</a>", j72id));
             sb.AppendLine("</div>");
 
+            if (c.j72Entity.Substring(0, 3) == "p10")
+            {
+                sb.AppendLine("<hr class='hr-mini' />");
+                sb.AppendLine("<a class='nav-link' href='javascript:p21_update();'>Aktualizovat licenci vybranými produkty</a>");
+                
+            }
             if ("j02,p51,p41,p10,p11,p12,p13,p18,p19,p26,p28,p21,o23".Contains(c.j72Entity.Substring(0, 3)))
             {
                 sb.AppendLine("<hr class='hr-mini' />");

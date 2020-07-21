@@ -9,6 +9,44 @@ namespace UI.Controllers
 {
     public class p21Controller : BaseController
     {
+        public IActionResult p21AppendRemove(string p10ids)
+        {
+            var v = new p21AppendRemove() { p10IDs = p10ids };
+            if (BO.BAS.ConvertString2ListInt(p10ids).Count == 0)
+            {
+                return this.StopPage(true, "Na vstupu chybí výběr produktů.");
+            }
+
+            return View(v);
+        }
+        [HttpPost]
+        public IActionResult p21AppendRemove(Models.p21AppendRemove v, string oper)
+        {
+            if (ModelState.IsValid)
+            {
+                var p10ids = BO.BAS.ConvertString2ListInt(v.p10IDs);
+                if (oper == "append")
+                {
+                    if (Factory.p21LicenseBL.AppendP10IDs(v.p21ID, p10ids))
+                    {
+                        v.SetJavascript_CallOnLoad(v.p21ID);
+                    }
+                    
+                    
+
+                }
+                if (oper == "remove")
+                {
+
+                    if (Factory.p21LicenseBL.RemoveP10IDs(v.p21ID, p10ids))
+                    {
+                        v.SetJavascript_CallOnLoad(v.p21ID);
+                    }
+
+                }
+            }
+            return View(v);
+        }
         public IActionResult Index(int pid)
         {
             var v = new Models.p21PreviewViewModel();
@@ -46,9 +84,7 @@ namespace UI.Controllers
                 v.TagNames = tg.TagNames;
                 v.TagHtml = tg.TagHtml;
 
-                var mq = new BO.myQuery("p10");
-                mq.p21id = pid;                
-                v.p10IDs = string.Join(",", Factory.p10MasterProductBL.GetList(mq).Select(p => p.pid));
+                
             }
             else
             {
@@ -91,7 +127,7 @@ namespace UI.Controllers
                 c.ValidUntil = v.Rec.ValidUntil;
 
 
-                v.Rec.pid = Factory.p21LicenseBL.Save(c,BO.BAS.ConvertString2ListInt(v.p10IDs));
+                v.Rec.pid = Factory.p21LicenseBL.Save(c);
                 if (v.Rec.pid > 0)
                 {
                     Factory.o51TagBL.SaveTagging("p21", v.Rec.pid, v.TagPids);

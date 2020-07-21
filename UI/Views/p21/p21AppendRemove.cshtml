@@ -1,0 +1,58 @@
+﻿@model p21AppendRemove
+
+@{
+    ViewData["Title"] = "Aktualizovat licenci produktů";
+    Layout = "~/Views/Shared/_LayoutModal.cshtml";
+}
+
+@addTagHelper *, UI
+
+<div class="bg-light" style="padding:10px;">
+    <button type="button" onclick="append()" class="btn btn-success">Produkty přidat do licence</button>
+    <button type="button" onclick="remove()" class="btn btn-danger">Produkty vyjmout z licence</button>
+
+    <button type="button" onclick="_window_close()" class="btn btn-light">Zrušit</button>
+
+
+
+</div>
+
+
+<form id="form1" asp-controller="p21" asp-action="p21AppendRemove" method="POST">
+
+    <input type="hidden" asp-for="@Model.p10IDs" />
+
+    <div class="modal_record_container">
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Licence:</label>
+            <div class="col-sm-11 col-md-10">
+                <mycombo entity="p21License" asp-for="@Model.p21ID" selectedtext="@Model.p21Name" view-flag="2"></mycombo>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<kbd>Vybrané produkty:</kbd>
+<div id="divTableRecords"></div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $.post("/Common/GetWorkTable", { entity: "p10MasterProduct", pids:"@Model.p10IDs"}, function (data) {
+            $("#divTableRecords").html(data);
+
+        });
+
+    });
+
+    function append() {
+        form1.action = "/p21/p21AppendRemove?oper=append";
+        form1.submit();
+    }
+    function remove() {
+        form1.action = "/p21/p21AppendRemove?oper=remove";
+        form1.submit();
+    }
+</script>

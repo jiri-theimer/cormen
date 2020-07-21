@@ -77,25 +77,6 @@
     </div>
 
 
-
-    <div class="card">
-        <div class="card-header">
-            Master produkty v licenci
-            <button type="button" class="btn btn-danger btn-sm float-right" onclick="clear_all_products()">Vyčistit vše</button>
-            <button type="button" class="btn btn-secondary btn-sm float-right" onclick="append_all_products()">Doplnit všechny chybějící produkty</button>
-        </div>
-        <div class="card-body">
-            <div style="width:100%;">
-                <mycombo entity="p10MasterProduct" asp-for="@Model.SelectedP10ID" selectedtext="@Model.SelectedP10Name" masterprefix="21p" masterpid="@Model.Rec.pid" event_after_changevalue="handle_append_product" placeholder="Vybrat Master produkty do licence..."></mycombo>
-
-            </div>
-            <div id="divP10" style="margin-top:20px;"></div>
-
-        </div>
-    </div>
-
-    <input type="hidden" id="hidP10IDs" asp-for="@Model.p10IDs" />
-
     <div class="form-group" style="margin-top:10px;">
         <textarea asp-for="Rec.p21Memo" class="form-control" placeholder="Podrobný popis"></textarea>
         <span asp-validation-for="Rec.p21Memo" class="text-danger"></span>
@@ -122,78 +103,14 @@
     $(document).ready(function () {
 
 
-        if ($("#hidP10IDs").val() != "") {
-            $("#cmdCreateClientProducts").css("display", "block");
-            refresh_p10_table();
-        }
+        
 
 
 
 
     });
 
-    function handle_select_product(e) {
-        _notify_message("handle_select_product");
-    }
-    function handle_append_product(p10id) {
-        if (p10id == "") {
-            _notify_message("Musíte vybrat produkt.");
-            return;
-        }
-        var p10ids = [];
-        if ($("#hidP10IDs").val() != "") p10ids = $("#hidP10IDs").val().split(",");
-        if (p10ids.includes(p10id)) {
-            _notify_message("Tento produkt je již v seznamu.", "info");
-            return;
-        }
-        p10ids.push(p10id);
-        $("#hidP10IDs").val(p10ids.join(","));
-        refresh_p10_table();
-
-
-        $("#cbxProduct_clear").click(); //kliknout na vyčistit
-
-
-    }
-    function handle_delete_product(p10id) {
-        var p10ids = [];
-        p10ids = $("#hidP10IDs").val().split(",");
-        var x = p10ids.indexOf(p10id.toString());
-        p10ids.splice(x, 1);
-
-        $("#hidP10IDs").val(p10ids.join(","));
-        refresh_p10_table();
-        _toolbar_warn2save_changes();
-
-    }
-
-    function refresh_p10_table() {
-        var url = "@Url.Action("GetWorkTable", "Common")";
-        var pids = $("#hidP10IDs").val();
-
-        if (pids == "") {
-            $("#divP10").html("");
-            return;
-        }
-        $.post(url, { entity: "p10MasterProduct", tableid: "tabP10IDs", pids: pids, delete_function: "handle_delete_product" }, function (data) {
-            $("#divP10").html(data);
-
-        });
-    }
-
-    function append_all_products() {
-        $.post("/p21/GetAllP10IDs", function (data) {
-            $("#hidP10IDs").val(data);
-            refresh_p10_table();
-            _toolbar_warn2save_changes();
-        });
-        
-    }
-    function clear_all_products() {
-        $("#hidP10IDs").val("");
-        refresh_p10_table();
-        _toolbar_warn2save_changes();
-    }
+    
 
 
 </script>

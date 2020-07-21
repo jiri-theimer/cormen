@@ -8,9 +8,11 @@ namespace BL
     {
         public BO.p21License Load(int pid);
         public IEnumerable<BO.p21License> GetList(BO.myQuery mq);
-        public int Save(BO.p21License rec, List<int> p10ids = null);
+        public int Save(BO.p21License rec);
         BO.Result CreateClientProducts(int intP21ID);
         public bool HasClientValidLicense(int p28id);
+        public bool AppendP10IDs(int p21id, List<int> p10ids);
+        public bool RemoveP10IDs(int p21id, List<int> p10ids);
     }
     class p21LicenseBL:BaseBL,Ip21LicenseBL
     {
@@ -51,8 +53,35 @@ namespace BL
             }
         }
         
+        public bool AppendP10IDs(int p21id, List<int> p10ids)
+        {
+            if (p21id == 0)
+            {
+                this.AddMessage("Na vstupu chybí licence."); return false;
+            }
+            if (p10ids.Count == 0)
+            {
+                this.AddMessage("Na vstupu nejsou produkty.");return false;             
+            }
+            _db.RunSql("INSERT INTO p22LicenseBinding(p21ID,p10ID) SELECT @pid,p10ID FROM p10MasterProduct WHERE p10ID IN (" + string.Join(",", p10ids) + ")", new { pid = p21id });
 
-        public int Save(BO.p21License rec,List<int> p10ids)
+            return true;
+        }
+        public bool RemoveP10IDs(int p21id, List<int> p10ids)
+        {
+            if (p21id == 0)
+            {
+                this.AddMessage("Na vstupu chybí licence."); return false;
+            }
+            if (p10ids.Count == 0)
+            {
+                this.AddMessage("Na vstupu nejsou produkty."); return false;
+            }
+            _db.RunSql("DELETE FROM p22LicenseBinding WHERE p21ID=@pid AND p10ID IN (" + string.Join(",", p10ids) + ")", new { pid = p21id });
+
+            return true;
+        }
+        public int Save(BO.p21License rec)
         {
             var p = new DL.Params4Dapper();
             p.AddInt("pid", rec.p21ID);
@@ -72,48 +101,10 @@ namespace BL
             p.AddDateTime("ValidUntil", rec.ValidUntil);
 
             int intPID= _db.SaveRecord("p21License", p.getDynamicDapperPars(), rec);
-            if (intPID>0 && p10ids != null)
-            {
-                if (rec.pid > 0)
-                {
-                    _db.RunSql("DELETE FROM p22LicenseBinding WHERE p21ID=@pid", new { pid = rec.pid });
-                }
-                if (p10ids.Count > 0)
-                {
-                    _db.RunSql("INSERT INTO p22LicenseBinding(p21ID,p10ID) SELECT @pid,p10ID FROM p10MasterProduct WHERE p10ID IN (" + string.Join(",", p10ids) + ")", new { pid = intPID });
-                }
-                
-            }
-
+            
             return intPID;
 
-            //var strGUID = BO.BAS.GetGuid();
-            //BO.p85Tempbox cP85;
-
-            //cP85 = new BO.p85Tempbox() {p85RecordPid=rec.pid, p85GUID = strGUID, p85Prefix = "p21", p85FreeText01 = rec.p21Name, p85FreeText02 = rec.p21Code, p85Message = rec.p21Memo, p85OtherKey1 = rec.p28ID, p85OtherKey2 = rec.b02ID, p85FreeDate01 = rec.ValidFrom, p85FreeDate02 = rec.ValidUntil,p85FreeNumber01=rec.p21Price };
-            //_mother.p85TempboxBL.Save(cP85);
-
-            //foreach (var p10id in p10ids)
-            //{
-            //    cP85= new BO.p85Tempbox() { p85GUID = strGUID, p85Prefix = "p22", p85OtherKey1 = p10id };                
-            //    _mother.p85TempboxBL.Save(cP85);
-            //}
-
-            //var p = new Dapper.DynamicParameters();
-            //p.Add("userid", _db.CurrentUser.pid);                 
-            //p.Add("guid", strGUID);
-            //p.Add("pid_ret", rec.pid, System.Data.DbType.Int32, System.Data.ParameterDirection.Output);
-            //p.Add("err_ret", "", System.Data.DbType.String, System.Data.ParameterDirection.Output);
-
-            //string s1 = _db.RunSp("p21_save",ref p);
-            //if (s1 == "1")
-            //{
-            //    return p.Get<int>("pid_ret");
-            //}
-            //else
-            //{                                
-            //    return 0;
-            //}           
+            
 
         }
 
