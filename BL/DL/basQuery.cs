@@ -53,17 +53,17 @@ namespace BL.DL
                             }
                             if (c.j73Date1 != null && c.j73Date2 != null)
                             {
-                                AQ(ref lis, strField + " BETWEEN @dfrom" + ss + " AND @dto" + ss, "dfrom" + ss, c.j73Date1, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight, "dto" + ss, c.j73Date2);
+                                AQ(ref lis, c.WrapFilter(strField + " BETWEEN @dfrom" + ss + " AND @dto" + ss), "dfrom" + ss, c.j73Date1, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight, "dto" + ss, c.j73Date2);
                             }
                             else
                             {
                                 if (c.j73Date1 != null)
                                 {
-                                    AQ(ref lis, strField + ">=@dfrom" + ss, "dfrom" + ss, c.j73Date1, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
+                                    AQ(ref lis, c.WrapFilter(strField + ">=@dfrom" + ss), "dfrom" + ss, c.j73Date1, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
                                 }
                                 if (c.j73Date2 != null)
                                 {
-                                    AQ(ref lis, strField + "<=@dto" + ss, "dto" + ss, c.j73Date2, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
+                                    AQ(ref lis, c.WrapFilter(strField + "<=@dto" + ss), "dto" + ss, c.j73Date2, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
                                 }
                             }
 
