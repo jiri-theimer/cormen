@@ -53,6 +53,8 @@ namespace BO
         public string explicit_selectsql { get; set; }
 
         public bool? IsRecordValid;
+        public DateTime? global_d1;
+        public DateTime? global_d2;
 
         public int j04id { get; set; }
         public int j72id { get; set; }

@@ -48,6 +48,18 @@ namespace BL
             }
             return _lis;
         }
+
+        public BO.ThePeriod ByPid(int pid)
+        {
+            if (_lis.Where(p => p.pid == pid).Count() > 0)
+            {
+                return _lis.Where(p => p.pid == pid).First();
+            }
+            else
+            {
+                return null;
+            }
+        }
          
         
         private void AF(int pid)

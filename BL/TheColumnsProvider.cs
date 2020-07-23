@@ -511,6 +511,14 @@ namespace BL
             AF("x40MailQueue", "x40EmlFileSize_MB", "Velikost (MB)", 0, "convert(float,a.x40EmlFileSize)/1048576", "num", true);
             AF("x40MailQueue", "x40ErrorMessage", "Chyba", 1);
 
+
+            //VIEW
+
+           
+            AF("z01_produkty_plan_vyroby", "PocetVZ", "Počet VZ", 1, null, "num0");
+            AF("z01_produkty_plan_vyroby", "PlanMnozstvi", "Plánované množství", 1, null, "num");
+            AF("z01_produkty_plan_vyroby", "SkladoveMnozstvi", "Skladové množství", 1, null, "num");
+            
         }
 
         

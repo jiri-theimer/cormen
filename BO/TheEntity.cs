@@ -9,7 +9,8 @@ namespace BO
         private string _Prefix;
         private string _TableName;        
         public string AliasSingular { get; set; }
-        public string AliasPlural { get; set; }        
+        public string AliasPlural { get; set; }      
+        public bool IsGlobalPeriodQuery { get; set; }
         
         public string SqlFromGrid { get; set; } //kořenová from klauzule pro GRID sql dotaz
        

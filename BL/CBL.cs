@@ -10,6 +10,7 @@ namespace BL
         public string DeleteRecord(string prefix, int pid);
         public string LoadUserParam(string strKey,string strDefault="");
         public int LoadUserParamInt(string strKey, int intDefault =0);
+        public DateTime? LoadUserParamDate(string strKey);
         public bool LoadUserParamBool(string strKey, bool bolDefault);
         public bool SetUserParam(string strKey, string strValue);
         public string EstimateRecordCode(string entity);
@@ -112,6 +113,18 @@ namespace BL
                 {
                     return false;
                 }
+            }
+        }
+        public DateTime? LoadUserParamDate(string strKey)
+        {
+            string s = LoadUserParam(strKey);
+            if (String.IsNullOrEmpty(s) == true)
+            {
+                return null;
+            }
+            else
+            {
+                return BO.BAS.String2Date(s);
             }
         }
         public bool SetUserParam(string strKey,string strValue)

@@ -35,6 +35,8 @@ namespace UI.Controllers
         {
             var v = inhaleGridViewInstance(prefix, go2pid);
             v.j72id = Factory.CBL.LoadUserParamInt("flatview-j72id-" + prefix);
+           
+            
             return View(v);
         }
         public IActionResult MasterView(string prefix,int go2pid)    //grid horní + spodní panel
@@ -192,7 +194,24 @@ namespace UI.Controllers
                 Factory.CurrentUser.AddMessage("Musíte vybrat záznam z nadřízeného panelu.");
             }
             
+            
             return View(v);
+        }
+        private BO.ThePeriod InhaleGridPeriodDates()
+        {
+            var ret = _pp.ByPid(0);
+            var x= Factory.CBL.LoadUserParamInt("grid-period-value");
+            if (x > 0)
+            {
+                ret = _pp.ByPid(x);
+            }
+            else
+            {
+                ret.d1 = Factory.CBL.LoadUserParamDate("grid-period-d1");
+                ret.d2 = Factory.CBL.LoadUserParamDate("grid-period-d2");
+
+            }
+            return ret;
         }
         private TheGridInstanceViewModel inhaleGridViewInstance(string prefix,int go2pid)
         {
@@ -202,6 +221,28 @@ namespace UI.Controllers
             {
                 Factory.CurrentUser.AddMessage("Entity for Grid not found.");
             }
+            if (BL.TheEntities.ByPrefix(prefix).IsGlobalPeriodQuery)
+            {
+                v.period = new PeriodViewModel();
+                v.period.IsShowButtonRefresh = true;
+                BO.ThePeriod per = InhaleGridPeriodDates();
+                v.period.PeriodValue = per.pid;
+                v.period.d1 = per.d1;
+                v.period.d2 = per.d2;
+
+                //v.period.PeriodValue = Factory.CBL.LoadUserParamInt("grid-period-value");
+                //if (v.period.PeriodValue > 0)
+                //{
+                //    v.period.d1 = _pp.ByPid(v.period.PeriodValue).d1;
+                //    v.period.d2 = _pp.ByPid(v.period.PeriodValue).d2;
+                //}
+                //else
+                //{
+                //    v.period.d1 = Factory.CBL.LoadUserParamDate("grid-period-d1");
+                //    v.period.d2 = Factory.CBL.LoadUserParamDate("grid-period-d2");
+                //}
+            }
+            
             
             return v;
 
@@ -498,6 +539,12 @@ namespace UI.Controllers
                 mq.TheGridFilter = _colsProvider.ParseAdhocFilterFromString(cJ72.j72Filter, mq.explicit_columns);
             }
             mq.lisPeriods = _pp.getPallete();
+            if (BL.TheEntities.ByTable(cJ72.j72Entity).IsGlobalPeriodQuery)
+            {
+                BO.ThePeriod per = InhaleGridPeriodDates();
+                mq.global_d1 = per.d1;
+                mq.global_d2 = per.d2;
+            }
             if (cJ72.j72HashJ73Query)
             {
                 mq.lisJ73 = Factory.gridBL.GetList_j73(cJ72);
@@ -554,10 +601,15 @@ namespace UI.Controllers
             ret.sortdir = cJ72.j72SortOrder;
             
             var mq = new BO.myQuery(cJ72.j72Entity);
-            
-            
+            if (BL.TheEntities.ByTable(cJ72.j72Entity).IsGlobalPeriodQuery)
+            {
+                BO.ThePeriod per = InhaleGridPeriodDates();
+                mq.global_d1 = per.d1;
+                mq.global_d2 = per.d2;
+            }
+                        
             _grid.Columns =_colsProvider.ParseTheGridColumns(mq.Prefix,cJ72.j72Columns);            
-
+            
             mq.explicit_columns = _grid.Columns;
                         
             if (String.IsNullOrEmpty(cJ72.j72Filter) == false)

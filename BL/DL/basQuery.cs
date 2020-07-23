@@ -6,7 +6,7 @@ using BO;
 
 namespace BL.DL
 {
-   public class basQuery
+    public class basQuery
     {
         private static void ParseJ73Query(ref List<DL.QueryRow> lis, BO.myQuery mq)
         {
@@ -47,9 +47,9 @@ namespace BL.DL
                         if (c.FieldType == "date")
                         {
                             if (c.j73DatePeriodFlag > 0)
-                            {
-                                c.j73Date1 = mq.lisPeriods.Where(p => p.pid == c.j73DatePeriodFlag).First().d1;
-                                c.j73Date2 = mq.lisPeriods.Where(p => p.pid == c.j73DatePeriodFlag).First().d2.AddDays(1).AddMinutes(-1);
+                            {                                
+                                c.j73Date1 = mq.lisPeriods.Where(p => p.pid == c.j73DatePeriodFlag).First().d1;                                
+                                c.j73Date2 = Convert.ToDateTime(mq.lisPeriods.Where(p => p.pid == c.j73DatePeriodFlag).First().d2).AddDays(1).AddMinutes(-1);
                             }
                             if (c.j73Date1 != null && c.j73Date2 != null)
                             {
@@ -122,6 +122,12 @@ namespace BL.DL
             {
                 AQ(ref lis, "GETDATE() NOT BETWEEN a.ValidFrom AND a.ValidUntil", "", null);
             }
+            if (mq.global_d1 != null && mq.global_d2 !=null)
+            {
+                if (mq.Prefix == "p41") AQ(ref lis, "(a.p41PlanStart BETWEEN @d1 AND @d2 OR a.p41PlanEnd BETWEEN @d1 AND @d2 OR (@d1 >= a.p41PlanStart AND @d2<=a.p41PlanEnd))","d1",mq.global_d1,"AND",null,null,"d2",mq.global_d2);
+                if (mq.Prefix == "p44") AQ(ref lis, "a.p41ID IN (select p41ID FROM p41Task WHERE p41PlanStart BETWEEN @d1 AND @d2 OR p41PlanEnd BETWEEN @d1 AND @d2 OR (@d1 >= p41PlanStart AND @d2<=p41PlanEnd))", "d1", mq.global_d1, "AND", null, null, "d2", mq.global_d2);
+            }
+
             if (mq.pids != null && mq.pids.Any())
             {
                 AQ(ref lis, mq.PkField + " IN (" + String.Join(",", mq.pids) + ")", "", null);
@@ -152,17 +158,17 @@ namespace BL.DL
                 if (mq.Prefix == "p10") AQ(ref lis, "a.p10ID IN (select xa.p10ID FROM p10MasterProduct xa INNER JOIN p13MasterTpv xb ON xa.p13ID=xb.p13ID INNER JOIN p14MasterOper xc ON xb.p13ID=xc.p13ID WHERE xc.p19ID=@p19id)", "p19id", mq.p19id);
                 if (mq.Prefix == "p13") AQ(ref lis, "a.p13ID IN (select xa.p13ID FROM p10MasterProduct xa INNER JOIN p13MasterTpv xb ON xa.p13ID=xb.p13ID INNER JOIN p14MasterOper xc ON xb.p13ID=xc.p13ID WHERE xc.p19ID=@p19id)", "p19id", mq.p19id);
             }
-            if (mq.p21id >0)
+            if (mq.p21id > 0)
             {
                 if (mq.Prefix == "p10") AQ(ref lis, "a.p10ID IN (select p10ID FROM p22LicenseBinding WHERE p21ID=@p21id)", "p21id", mq.p21id);
                 if (mq.Prefix == "p13") AQ(ref lis, "a.p13ID IN (select xb.p13ID FROM p22LicenseBinding xa INNER JOIN p10MasterProduct xb ON xa.p10ID=xb.p10ID WHERE xa.p21ID=@p21id)", "p21id", mq.p21id);
-                if (mq.Prefix == "p11" || mq.Prefix=="p12") AQ(ref lis, "a.p21ID=@p21id", "p21id", mq.p21id);
+                if (mq.Prefix == "p11" || mq.Prefix == "p12") AQ(ref lis, "a.p21ID=@p21id", "p21id", mq.p21id);
                 if (mq.Prefix == "o23") AQ(ref lis, "a.o23Entity LIKE 'p21License' AND a.o23RecordPid=@p21id", "p21id", mq.p21id);
             }
             if (mq.p21id_missing > 0)
             {
                 if (mq.Prefix == "p10") AQ(ref lis, "a.p10ID NOT IN (select p10ID FROM p22LicenseBinding WHERE p21ID=@p21id)", "p21id", mq.p21id_missing);
-                
+
             }
             if (mq.p10id > 0)
             {
@@ -187,7 +193,7 @@ namespace BL.DL
             }
             if (mq.p13id > 0)
             {
-                if (mq.Prefix == "p10" || mq.Prefix=="p14") AQ(ref lis, "a.p13ID=@p13id", "p13id", mq.p13id);
+                if (mq.Prefix == "p10" || mq.Prefix == "p14") AQ(ref lis, "a.p13ID=@p13id", "p13id", mq.p13id);
                 if (mq.Prefix == "p12") AQ(ref lis, "a.p13ID_Master=@p13id", "p13id", mq.p13id);
                 if (mq.Prefix == "p11") AQ(ref lis, "a.p11ID IN (select xa.p11ID FROM p11ClientProduct xa INNER JOIN p12ClientTpv xb ON xa.p12ID=xb.p12ID WHERE xb.p13ID_Master=@p13id)", "p13id", mq.p13id);
                 if (mq.Prefix == "o23") AQ(ref lis, "a.o23Entity LIKE 'p13MasterTpv' AND a.o23RecordPid=@p13id", "p13id", mq.p13id);
@@ -195,7 +201,7 @@ namespace BL.DL
 
             if (mq.p28id > 0)
             {
-                if (mq.Prefix == "j02" || mq.Prefix == "p26" || mq.Prefix=="p21") AQ(ref lis, "a.p28ID=@p28id", "p28id", mq.p28id);
+                if (mq.Prefix == "j02" || mq.Prefix == "p26" || mq.Prefix == "p21") AQ(ref lis, "a.p28ID=@p28id", "p28id", mq.p28id);
                 if (mq.Prefix == "p11" || mq.Prefix == "p12") AQ(ref lis, "a.p21ID IN (select p21ID FROM p21License WHERE p28ID=@p28id)", "p28id", mq.p28id);
                 if (mq.Prefix == "o23") AQ(ref lis, "a.o23Entity LIKE 'p28Company' AND a.o23RecordPid=@p28id", "p28id", mq.p28id);
                 if (mq.Prefix == "p51") AQ(ref lis, "a.p28ID=@p28id", "p28id", mq.p28id);
@@ -204,13 +210,13 @@ namespace BL.DL
             if (mq.j02id > 0)
             {
                 if (mq.Prefix == "o23") AQ(ref lis, "a.o23Entity LIKE 'j02Person' AND a.o23RecordPid=@j02id", "j02id", mq.j02id);
-                if (mq.Prefix == "p51" || mq.Prefix=="p41") AQ(ref lis, "a.j02ID_Owner=@j02id", "j02id", mq.j02id);
+                if (mq.Prefix == "p51" || mq.Prefix == "p41") AQ(ref lis, "a.j02ID_Owner=@j02id", "j02id", mq.j02id);
                 if (mq.Prefix == "j90" || mq.Prefix == "j92" || mq.Prefix == "x40") AQ(ref lis, "a.j03ID IN (select j03ID FROM j03User WHERE j02ID=@j02id)", "j02id", mq.j02id);
-               
+
             }
             if (mq.p25id > 0)
             {
-                if (mq.Prefix=="p26") AQ(ref lis, "a.p25ID=@p25id", "p25id", mq.p25id);
+                if (mq.Prefix == "p26") AQ(ref lis, "a.p25ID=@p25id", "p25id", mq.p25id);
                 if (mq.Prefix == "p18") AQ(ref lis, "a.p25ID=@p25id", "p25id", mq.p25id);
                 if (mq.Prefix == "p27") AQ(ref lis, "a.p27ID IN (select xa.p27ID FROM p29MszUnitBinding xa INNER JOIN p26Msz xb ON xa.p26ID=xb.p26ID WHERE xb.p25ID=@p25id)", "p25id", mq.p25id);
             }
@@ -220,19 +226,19 @@ namespace BL.DL
             //    if (mq.Prefix == "p18") AQ(ref lis, "a.p25ID IN (" + string.Join(",", mq.p25ids) + ")", "", null);
             //    if (mq.Prefix == "p27") AQ(ref lis, "a.p27ID IN (select xa.p27ID FROM p29MszUnitBinding xa INNER JOIN p26Msz xb ON xa.p26ID=xb.p26ID WHERE xb.p25ID IN (" + string.Join(",", mq.p25ids) + "))", "", null);
             //}
-            if (mq.p18flag>0)
+            if (mq.p18flag > 0)
             {
-                if (mq.Prefix == "p18") AQ(ref lis, "a.p18Flag=@p18flag", "p18flag",mq.p18flag);
+                if (mq.Prefix == "p18") AQ(ref lis, "a.p18Flag=@p18flag", "p18flag", mq.p18flag);
             }
-            if (mq.p18flags !=null && mq.p18flags.Count()>0)
+            if (mq.p18flags != null && mq.p18flags.Count() > 0)
             {
-                if (mq.Prefix == "p18") AQ(ref lis, "a.p18Flag IN ("+string.Join(",",mq.p18flags)+")", "",null);
-                if (mq.Prefix == "p41") AQ(ref lis, "a.p41ID IN (select xa.p41ID FROM p44TaskOperPlan xa INNER JOIN p18OperCode xb ON xa.p18ID=xb.p18ID WHERE xb.p18Flag IN ("+string.Join(",",mq.p18flags)+"))", "", null);
+                if (mq.Prefix == "p18") AQ(ref lis, "a.p18Flag IN (" + string.Join(",", mq.p18flags) + ")", "", null);
+                if (mq.Prefix == "p41") AQ(ref lis, "a.p41ID IN (select xa.p41ID FROM p44TaskOperPlan xa INNER JOIN p18OperCode xb ON xa.p18ID=xb.p18ID WHERE xb.p18Flag IN (" + string.Join(",", mq.p18flags) + "))", "", null);
             }
             if (mq.p26id > 0)
             {
                 if (mq.Prefix == "o23") AQ(ref lis, "a.o23Entity LIKE 'p26Msz' AND a.o23RecordPid=@p26id", "p26id", mq.p26id);
-                if (mq.Prefix == "p27") AQ(ref lis, "a.p27ID IN (select p27ID FROM p29MszUnitBinding WHERE p26ID=@p26id)", "p26id", mq.p26id);                
+                if (mq.Prefix == "p27") AQ(ref lis, "a.p27ID IN (select p27ID FROM p29MszUnitBinding WHERE p26ID=@p26id)", "p26id", mq.p26id);
                 if (mq.Prefix == "p41") AQ(ref lis, "a.p27ID IN (select p27ID FROM p29MszUnitBinding WHERE p26ID=@p26id)", "p26id", mq.p26id);
 
             }
@@ -242,7 +248,7 @@ namespace BL.DL
                 if (mq.Prefix == "p27") AQ(ref lis, "a.p27ID IN (select p27ID FROM p29MszUnitBinding WHERE p26ID IN (" + string.Join(",", mq.p26ids) + "))", "", null);
             }
             if (mq.p27id > 0)
-            {   
+            {
                 if (mq.Prefix == "p18") AQ(ref lis, "a.p25ID IN (select p25ID_HW FROM p27MszUnit WHERE p27ID=@p27id)", "p27id", mq.p27id);  //zde se musí pracovat s kmenovým typem zařízení definovaným ve středisku!
             }
             if (mq.p27ids != null && mq.p27ids.Count() > 0)
@@ -269,7 +275,7 @@ namespace BL.DL
             }
             if (mq.p52id > 0)
             {
-                if (mq.Prefix == "p41") AQ(ref lis, "a.p52ID=@p52id", "p52id", mq.p52id);                
+                if (mq.Prefix == "p41") AQ(ref lis, "a.p52ID=@p52id", "p52id", mq.p52id);
             }
             if (mq.o53id > 0)
             {
@@ -285,7 +291,7 @@ namespace BL.DL
                 AQ(ref lis, "a.o12Entity=@prefix", "prefix", mq.query_by_entity_prefix);    //filtr seznamu kategorií podle druhu entity
             }
 
-            if (mq.TheGridFilter !=null)
+            if (mq.TheGridFilter != null)
             {
                 ParseSqlFromTheGridFilter(mq, ref lis);  //složit filtrovací podmínku ze sloupcového filtru gridu
             }
@@ -295,7 +301,7 @@ namespace BL.DL
                 //{
                 //    AQ(ref lis, "(a.p28ID=@p28id_my OR a.j02ID_Owner IN (select j02ID FROM j02Person WHERE p28ID=@p28id_my)", "p28id_my", ru.p28ID);
                 //}
-                if (mq.Prefix == "o23" ||  mq.Prefix == "p41" || mq.Prefix=="p31" || mq.Prefix=="p51")
+                if (mq.Prefix == "o23" || mq.Prefix == "p41" || mq.Prefix == "p31" || mq.Prefix == "p51")
                 {
 
                     AQ(ref lis, "a.j02ID_Owner IN (select j02ID FROM j02Person WHERE p28ID=@p28id_my)", "p28id_my", ru.p28ID);
@@ -313,7 +319,7 @@ namespace BL.DL
                 {
                     AQ(ref lis, "a.p21ID IN (SELECT p21ID FROM p21License WHERE p28ID = @p28id_my)", "p28id_my", ru.p28ID);    //pouze produkty v licenci klienta
                 }
-                if (mq.Prefix == "p26" || mq.Prefix=="p21")
+                if (mq.Prefix == "p26" || mq.Prefix == "p21")
                 {
                     AQ(ref lis, "a.p28ID = @p28id", "p28id", ru.p28ID);    //pouze licence a stroje klienta
                 }
@@ -327,18 +333,18 @@ namespace BL.DL
                 }
                 if (mq.Prefix == "j04")
                 {
-                    AQ(ref lis, "a.j04IsClientRole=1","",null); //pouze klientské role
+                    AQ(ref lis, "a.j04IsClientRole=1", "", null); //pouze klientské role
                 }
-                if (mq.Prefix == "p19" || mq.Prefix=="p20") //klientský materiál nebo měrné jednotky
+                if (mq.Prefix == "p19" || mq.Prefix == "p20") //klientský materiál nebo měrné jednotky
                 {
                     AQ(ref lis, "(a.p28ID IS NULL OR a.p28ID=@p28id)", "p28id", ru.p28ID);
                 }
             }
 
-           
 
 
-            if (String.IsNullOrEmpty(mq.SearchString)==false && mq.SearchString.Length>1)
+
+            if (String.IsNullOrEmpty(mq.SearchString) == false && mq.SearchString.Length > 1)
             {
                 if (mq.Prefix == "p28")
                 {
@@ -369,19 +375,19 @@ namespace BL.DL
                     AQ(ref lis, "(a.o23Name LIKE '%'+@expr+'%' OR a.o23Code LIKE '%'+@expr+'%' OR a.o23Memo LIKE '%'+@expr+'%')", "expr", mq.SearchString);
                 }
             }
-            
 
-            var ret = new DL.FinalSqlCommand();
-            
+
+            var ret = new DL.FinalSqlCommand();            
+
             if (lis.Count > 0)
             {
                 ret.Parameters = new Dapper.DynamicParameters();
                 if (bolPrepareParam4DT) ret.Parameters4DT = new List<DL.Param4DT>();
-                foreach (var c in lis.Where(p=>String.IsNullOrEmpty(p.ParName)==false))
-                {                    
+                foreach (var c in lis.Where(p => String.IsNullOrEmpty(p.ParName) == false))
+                {
                     ret.Parameters.Add(c.ParName, c.ParValue);
                     if (bolPrepareParam4DT) ret.Parameters4DT.Add(new DL.Param4DT() { ParName = c.ParName, ParValue = c.ParValue });
-                    
+
                 }
                 foreach (var c in lis.Where(p => String.IsNullOrEmpty(p.Par2Name) == false))
                 {
@@ -393,9 +399,11 @@ namespace BL.DL
                 ret.SqlWhere = String.Join(" ", lis.Select(p => p.AndOrZleva + " " + p.BracketLeft + p.StringWhere + p.BracketRight)).Trim();    //složit závěrčnou podmínku
                 //System.IO.File.WriteAllText("c:\\temp\\hovado"+mq.Prefix+".txt", ret.SqlWhere);
 
-                ret.SqlWhere = String.Join(" ", lis.Select(p =>p.AndOrZleva+" "+ p.StringWhere)).Trim();    //složit závěrčnou podmínku
-                
+                ret.SqlWhere = String.Join(" ", lis.Select(p => p.AndOrZleva + " " + p.StringWhere)).Trim();    //složit závěrčnou podmínku
+
             }
+
+
 
             if (!string.IsNullOrEmpty(ret.SqlWhere))
             {
@@ -406,7 +414,21 @@ namespace BL.DL
                 strPrimarySql += " ORDER BY " + mq.explicit_orderby;
             }
 
-            
+            if (strPrimarySql.Contains("@gd1"))
+            {   //view s napevno navrženou podmínkou časového filtru                            
+                if (mq.global_d1 == null) mq.global_d1 = new DateTime(2000, 1, 1);
+                if (mq.global_d2 == null) mq.global_d2 = new DateTime(3000, 1, 1);
+                if (ret.Parameters == null)
+                {
+                    ret.Parameters = new Dapper.DynamicParameters();
+                    if (bolPrepareParam4DT) ret.Parameters4DT = new List<DL.Param4DT>();
+                }
+                ret.Parameters.Add("gd1", mq.global_d1, System.Data.DbType.DateTime);
+                if (bolPrepareParam4DT) ret.Parameters4DT.Add(new DL.Param4DT() { ParName = "gd1", ParValue = mq.global_d1 });
+                ret.Parameters.Add("gd2", mq.global_d2, System.Data.DbType.DateTime);
+                if (bolPrepareParam4DT) ret.Parameters4DT.Add(new DL.Param4DT() { ParName = "gd2", ParValue = mq.global_d2 });
+            }
+
             ret.FinalSql = strPrimarySql;
             return ret;
 
@@ -425,14 +447,15 @@ namespace BL.DL
             lis.Add(new DL.QueryRow() { StringWhere = strWhere, ParName = strParName, ParValue = ParValue, AndOrZleva = strAndOrZleva, BracketLeft = strBracketLeft, BracketRight = strBracketRight, Par2Name = strPar2Name, Par2Value = Par2Value });
         }
 
-        private static object get_param_value(string colType,string colValue)
+        private static object get_param_value(string colType, string colValue)
         {
-            if (String.IsNullOrEmpty(colValue)==true){
+            if (String.IsNullOrEmpty(colValue) == true)
+            {
                 return null;
             }
             if (colType == "num")
             {
-                return  BO.BAS.InDouble(colValue);
+                return BO.BAS.InDouble(colValue);
             }
             if (colType == "date")
             {
@@ -453,30 +476,30 @@ namespace BL.DL
 
             return colValue;
         }
-        private static void ParseSqlFromTheGridFilter(BO.myQuery mq,ref List<DL.QueryRow> lisAQ)
+        private static void ParseSqlFromTheGridFilter(BO.myQuery mq, ref List<DL.QueryRow> lisAQ)
         {
-            
+
             int x = 0;
             foreach (var filterrow in mq.TheGridFilter)
             {
                 var col = filterrow.BoundColumn;
                 var strF = col.getFinalSqlSyntax_WHERE();
-               
+
                 x += 1;
                 string parName = "par" + x.ToString();
-               
+
                 int endIndex = 0;
                 string[] arr = new string[] { filterrow.value };
                 if (filterrow.value.IndexOf(";") > -1)  //v podmnínce sloupcového filtru může být středníkem odděleno více hodnot!
                 {
                     arr = filterrow.value.Split(";");
-                    endIndex = arr.Count()-1;
+                    endIndex = arr.Count() - 1;
                 }
-                
+
                 switch (filterrow.oper)
                 {
                     case "1":   //IS NULL
-                        AQ(ref lisAQ,strF+ " IS NULL", "", null);
+                        AQ(ref lisAQ, strF + " IS NULL", "", null);
                         break;
                     case "2":   //IS NOT NULL
                         AQ(ref lisAQ, strF + " IS NOT NULL", "", null);
@@ -485,10 +508,10 @@ namespace BL.DL
                         AQ(ref lisAQ, strF + " > 0", "", null);
                         break;
                     case "11":   //je nula nebo prázdné
-                        AQ(ref lisAQ, "ISNULL("+strF+ ",0)=0", "", null);
+                        AQ(ref lisAQ, "ISNULL(" + strF + ",0)=0", "", null);
                         break;
                     case "8":   //ANO
-                        AQ(ref lisAQ, strF+" = 1", "", null);
+                        AQ(ref lisAQ, strF + " = 1", "", null);
                         break;
                     case "9":   //NE
                         AQ(ref lisAQ, strF + " = 0", "", null);
@@ -500,9 +523,9 @@ namespace BL.DL
                             {
                                 AQ(ref lisAQ, leva_zavorka(i, endIndex) + string.Format(strF + " LIKE '%'+@{0}+'%'", parName + "i" + i.ToString()) + prava_zavorka(i, endIndex), parName + "i" + i.ToString(), arr[i], i == 0 ? "AND" : "OR"); ;
                             }
-                            
+
                         }
-                        
+
                         break;
                     case "5":   //začíná na 
                         for (var i = 0; i <= endIndex; i++)
@@ -511,9 +534,9 @@ namespace BL.DL
                             {
                                 AQ(ref lisAQ, leva_zavorka(i, endIndex) + string.Format(strF + " LIKE @{0}+'%'", parName + "i" + i.ToString()) + prava_zavorka(i, endIndex), parName + "i" + i.ToString(), arr[i], i == 0 ? "AND" : "OR");
                             }
-                                
+
                         }
-                            
+
                         break;
                     case "6":   //je rovno
                         for (var i = 0; i <= endIndex; i++)
@@ -522,13 +545,13 @@ namespace BL.DL
                             {
                                 AQ(ref lisAQ, leva_zavorka(i, endIndex) + string.Format(strF + " = @{0}", parName + "i" + i.ToString()) + prava_zavorka(i, endIndex), parName + "i" + i.ToString(), get_param_value(col.NormalizedTypeName, arr[i]), i == 0 ? "AND" : "OR");
                             }
-                                
+
                         }
-                        
+
                         break;
                     case "4":   //interval
-                        AQ(ref lisAQ, string.Format(strF + " >= @{0}", parName+"c1"), parName+"c1", get_param_value(col.NormalizedTypeName, filterrow.c1value));
-                        AQ(ref lisAQ, string.Format(strF + " <= @{0}", parName+"c2"), parName+"c2", get_param_value(col.NormalizedTypeName, filterrow.c2value));
+                        AQ(ref lisAQ, string.Format(strF + " >= @{0}", parName + "c1"), parName + "c1", get_param_value(col.NormalizedTypeName, filterrow.c1value));
+                        AQ(ref lisAQ, string.Format(strF + " <= @{0}", parName + "c2"), parName + "c2", get_param_value(col.NormalizedTypeName, filterrow.c2value));
                         break;
                     case "7":   //není rovno
                         for (var i = 0; i <= endIndex; i++)
@@ -538,14 +561,14 @@ namespace BL.DL
                                 AQ(ref lisAQ, leva_zavorka(i, endIndex) + string.Format(strF + " <> @{0}", parName + "i" + i.ToString()) + prava_zavorka(i, endIndex), parName + "i" + i.ToString(), get_param_value(col.NormalizedTypeName, arr[i]), i == 0 ? "AND" : "OR");
                             }
                         }
-                        
+
                         break;
                 }
-              
+
             }
 
-           
-            string leva_zavorka(int i,int intEndIndex)
+
+            string leva_zavorka(int i, int intEndIndex)
             {
                 if (intEndIndex > 0 && i == 0)
                 {

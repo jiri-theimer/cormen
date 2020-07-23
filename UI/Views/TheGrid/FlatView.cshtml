@@ -13,14 +13,22 @@
 
 @addTagHelper *,UI
 
+@if (Model.period !=null)
+{
     
+        @Html.EditorFor(m => m.period, "~/Views/Shared/_Period.cshtml")
+      
+}
+
+
+
 <vc:the-grid entity="@Model.entity" j72id="@Model.j72id" go2pid="@Model.go2pid" master_entity="" master_pid="0" contextmenuflag="@Model.contextmenuflag" ondblclick="tg_dblclick"></vc:the-grid>
 
 
 
 
 
-@section Scripts{ 
+@section Scripts{
 
     <script type="text/javascript">
     $(document.body).css("overflow", "hidden");
@@ -34,7 +42,7 @@
             data_menu = prefix_caret;
             prefix_caret = "p26";
         }
-        if (prefix_caret == "p44") {
+        if (prefix_caret == "p44" || prefix_caret == "z01") {
             data_menu = prefix_caret;
             prefix_caret = "p41";
         }
@@ -42,6 +50,30 @@
             data_menu = prefix_caret;
             prefix_caret = "p13";
         }
+
+        $("#PeriodValue").on("change", function () {
+            $.post("/Common/SetUserParam", { key: "grid-period-value",value:$(this).val()  }, function (data) {
+                location.replace("/TheGrid/FlatView?prefix=@Model.prefix");
+
+            });
+        });
+
+        $("#cmdRefreshPeriod").on("click", function () {
+            var k = [];
+            var v = [];
+            k.push("grid-period-value");
+            v.push($("#PeriodValue").val());
+            k.push("grid-period-d1");
+            v.push($("#d1helper").val());
+            k.push("grid-period-d2");
+            v.push($("#d2helper").val());
+            
+            $.post("/Common/SetUserParams", { keys: k, values:v  }, function (data) {
+                location.replace("/TheGrid/FlatView?prefix=@Model.prefix");
+
+            });
+
+        });
 
         _mainmenu_select(prefix_caret, data_menu);
 
@@ -62,6 +94,8 @@
 
             });
         }
+
+
     </script>
 
 }

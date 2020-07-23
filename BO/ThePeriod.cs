@@ -9,8 +9,8 @@ namespace BO
         public int pid { get; set; }
         public string PeriodName { get; set; }
         public string PeriodInterval { get; set; }
-        public DateTime d1 { get; set; }
-        public DateTime d2 { get; set; }
+        public DateTime? d1 { get; set; }
+        public DateTime? d2 { get; set; }
 
         public string Header
         {

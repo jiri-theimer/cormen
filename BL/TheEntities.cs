@@ -78,8 +78,10 @@ namespace BL
             AE("p12ClientTpv", "Klientské receptury", "Klientská receptura", "p12ClientTpv a", "a.p12Name");
             AE("p15ClientOper", "Technologický rozpis operací", "Technologická operace", "p15ClientOper a", "a.p15RowNum", "a.p15RowNum");
 
-            AE("p41Task", "Zakázky", "Zakázka", "p41Task a LEFT OUTER JOIN b02Status bc ON a.b02ID=bc.b02ID", "a.p41ID DESC");
-            AE("p44TaskOperPlan", "Plán výrobních operací", "Plán výrobních operací", "p44TaskOperPlan a", "a.p44RowNum", "a.p44RowNum");
+            AE("p41Task", "Zakázky", "Zakázka", "p41Task a LEFT OUTER JOIN b02Status bc ON a.b02ID=bc.b02ID", "a.p41ID DESC",null,true);
+            
+            AE("p44TaskOperPlan", "Plán výrobních operací", "Plán výrobních operací", "p44TaskOperPlan a", "a.p44RowNum", "a.p44RowNum",true);
+            
             AE("p45TaskOperReal", "Skutečná výroba", "Skutečná výroba", "p45TaskOperReal a", "a.p45RowNum", "a.p45RowNum");
 
 
@@ -108,13 +110,14 @@ namespace BL
 
             AE_TINY("o54TagBindingInline", "Kategorizace", "Kategorizace");
 
-
+            //VIEW:
+            AE("z01_produkty_plan_vyroby", "Plánování výroby výrobků", "Plánování výroby výrobků", "dbo.z01_produkty_plan_vyroby(@gd1,@gd2) a", "a.p10ID", "a.p10ID",true);            
         }
 
-        private static void AE (string strTabName, string strPlural, string strSingular, string strSqlFromGrid,string strSqlOrderByCombo, string strSqlOrderBy=null)
+        private static void AE (string strTabName, string strPlural, string strSingular, string strSqlFromGrid,string strSqlOrderByCombo, string strSqlOrderBy=null,bool bolGlobalPeriodQuery=false)
         {
             if (strSqlOrderBy == null) strSqlOrderBy = "a." + strTabName.Substring(0, 3) + "ID DESC";
-            _lis.Add(new BO.TheEntity() {TableName = strTabName, AliasPlural = strPlural, AliasSingular = strSingular,SqlFromGrid=strSqlFromGrid,SqlOrderByCombo= strSqlOrderByCombo, SqlOrderBy = strSqlOrderBy });
+            _lis.Add(new BO.TheEntity() {TableName = strTabName, AliasPlural = strPlural, AliasSingular = strSingular,SqlFromGrid=strSqlFromGrid,SqlOrderByCombo= strSqlOrderByCombo, SqlOrderBy = strSqlOrderBy,IsGlobalPeriodQuery= bolGlobalPeriodQuery });
             
         }
         private static void AE_TINY(string strTabName, string strPlural, string strSingular)
@@ -287,6 +290,11 @@ namespace BL
                 case "o51":                    
                     lis.Add(getREL("o53TagGroup", "o51_o53", "Kategorie", "LEFT OUTER JOIN o53TagGroup o51_o53 ON a.o53ID=o51_o53.o53ID"));
                     //lis.Add(getREL("j02Person", "o51_owner", "Vlastník záznamu", getOwnerSql("o51")));
+                    break;
+                case "z01":
+                    lis.Add(getREL("p10MasterProduct", "z01_p10", "Master produkt", "INNER JOIN p10MasterProduct z01_p10 ON a.p10ID = z01_p10.p10ID"));
+                    lis.Add(getREL("p19Material", "z01_p19", "Surovina", "LEFT OUTER JOIN p19Material z01_p19 ON a.p10Code=z01_p19.p19Code"));
+                    lis.Add(getREL("p11ClientProduct", "z01_p11", "Klientský produkt", "INNER JOIN p11ClientProduct z01_p11 ON a.p11ID = z01_p11.p11ID"));
                     break;
                 default:
                     break;
