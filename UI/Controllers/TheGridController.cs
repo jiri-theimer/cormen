@@ -33,7 +33,7 @@ namespace UI.Controllers
 
         public IActionResult FlatView(string prefix,int go2pid)    //pouze grid bez subform
         {
-            var v = inhaleGridViewInstance(prefix, go2pid);
+            var v = inhaleGridViewInstance(prefix, go2pid,true);
             v.j72id = Factory.CBL.LoadUserParamInt("flatview-j72id-" + prefix);
            
             
@@ -41,7 +41,7 @@ namespace UI.Controllers
         }
         public IActionResult MasterView(string prefix,int go2pid)    //grid horní + spodní panel
         {
-            TheGridInstanceViewModel v = inhaleGridViewInstance(prefix, go2pid);
+            TheGridInstanceViewModel v = inhaleGridViewInstance(prefix, go2pid,true);
             v.j72id= Factory.CBL.LoadUserParamInt("masterview-j72id-" + prefix);
 
             BO.TheEntity ce = BL.TheEntities.ByPrefix(prefix);
@@ -185,7 +185,7 @@ namespace UI.Controllers
         }
         public IActionResult SlaveView(string master_entity,int master_pid, string prefix, int go2pid)    //podřízený subform v rámci MasterView
         {
-            TheGridInstanceViewModel v = inhaleGridViewInstance(prefix, go2pid);
+            TheGridInstanceViewModel v = inhaleGridViewInstance(prefix, go2pid,false);
             v.j72id = Factory.CBL.LoadUserParamInt("slaveview-j72id-" + prefix+"-"+ master_entity);
             v.master_entity = master_entity;
             v.master_pid = master_pid;
@@ -213,7 +213,7 @@ namespace UI.Controllers
             }
             return ret;
         }
-        private TheGridInstanceViewModel inhaleGridViewInstance(string prefix,int go2pid)
+        private TheGridInstanceViewModel inhaleGridViewInstance(string prefix,int go2pid,bool istestperiod)
         {
             var v = new TheGridInstanceViewModel() { prefix = prefix, go2pid = go2pid,contextmenuflag=1 };
             v.entity = BL.TheEntities.ByPrefix(prefix).TableName;
@@ -221,7 +221,7 @@ namespace UI.Controllers
             {
                 Factory.CurrentUser.AddMessage("Entity for Grid not found.");
             }
-            if (BL.TheEntities.ByPrefix(prefix).IsGlobalPeriodQuery)
+            if (istestperiod==true && BL.TheEntities.ByPrefix(prefix).IsGlobalPeriodQuery)
             {
                 v.period = new PeriodViewModel();
                 v.period.IsShowButtonRefresh = true;
@@ -528,7 +528,7 @@ namespace UI.Controllers
                 mq.TheGridFilter = _colsProvider.ParseAdhocFilterFromString(cJ72.j72Filter, mq.explicit_columns);
             }
             mq.lisPeriods = _pp.getPallete();
-            if (BL.TheEntities.ByTable(cJ72.j72Entity).IsGlobalPeriodQuery)
+            if (cJ72.j72MasterEntity==null && BL.TheEntities.ByTable(cJ72.j72Entity).IsGlobalPeriodQuery)
             {
                 BO.ThePeriod per = InhaleGridPeriodDates();
                 mq.global_d1 = per.d1;
@@ -590,7 +590,7 @@ namespace UI.Controllers
             ret.sortdir = cJ72.j72SortOrder;
             
             var mq = new BO.myQuery(cJ72.j72Entity);
-            if (BL.TheEntities.ByTable(cJ72.j72Entity).IsGlobalPeriodQuery)
+            if (cJ72.j72MasterEntity==null && BL.TheEntities.ByTable(cJ72.j72Entity).IsGlobalPeriodQuery)
             {
                 BO.ThePeriod per = InhaleGridPeriodDates();
                 mq.global_d1 = per.d1;
