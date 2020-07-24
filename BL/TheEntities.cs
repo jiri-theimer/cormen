@@ -74,7 +74,7 @@ namespace BL
             AE("p13MasterTpv", "Master receptury", "Master receptura", "p13MasterTpv a", "a.p13Name");
             AE("p14MasterOper", "Technologický rozpis operací", "Technologická operace", "p14MasterOper a", "a.p14RowNum", "a.p14RowNum");
 
-            AE("p11ClientProduct", "Klientské produkty", "Klientský produkt", "p11ClientProduct a", "a.p11Name");
+            AE("p11ClientProduct", "Klientské produkty", "Klientský produkt", "p11ClientProduct a LEFT OUTER JOIN b02Status bc ON a.b02ID=bc.b02ID", "a.p11Name");
             AE("p12ClientTpv", "Klientské receptury", "Klientská receptura", "p12ClientTpv a", "a.p12Name");
             AE("p15ClientOper", "Technologický rozpis operací", "Technologická operace", "p15ClientOper a", "a.p15RowNum", "a.p15RowNum");
 
@@ -293,6 +293,7 @@ namespace BL
                     break;
                 case "z01":
                     lis.Add(getREL("p10MasterProduct", "z01_p10", "Master produkt", "INNER JOIN p10MasterProduct z01_p10 ON a.p10ID = z01_p10.p10ID"));
+                    lis.Add(getREL("p13MasterTpv", "z01_p13", "Master receptura", "LEFT OUTER JOIN p13MasterTpv z01_p13 ON a.p13ID=z01_p13.p13ID"));
                     lis.Add(getREL("p19Material", "z01_p19", "Surovina", "LEFT OUTER JOIN p19Material z01_p19 ON a.p10Code=z01_p19.p19Code"));
                     lis.Add(getREL("p11ClientProduct", "z01_p11", "Klientský produkt", "INNER JOIN p11ClientProduct z01_p11 ON a.p11ID = z01_p11.p11ID"));
                     break;

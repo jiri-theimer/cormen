@@ -81,6 +81,16 @@
 
 
     </div>
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Měsíční prodej:</label>
+        <div class="col-sm-3 col-md-3">
+            <mynumber asp-for="Rec.p10SalesPerMonth" decimal-digits="0"></mynumber>
+        </div>
+        <label class="col-sm-1 col-md-1 col-form-label">Paleta ks:</label>
+        <div class="col-sm-2 col-md-2">
+            <mynumber asp-for="Rec.p10UnitsPerPalette" decimal-digits="0"></mynumber>
+        </div>
+    </div>
     <div class="card">
         <div class="card-header">Dávka</div>
         <div class="card-body py-1">
@@ -101,7 +111,7 @@
             </div>
         </div>
     </div>
-    
+
 
 
     <mystitky entity="p10MasterProduct" asp-for="@Model.TagPids" tagnames="@Model.TagNames" taghtml="@Model.TagHtml"></mystitky>

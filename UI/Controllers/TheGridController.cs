@@ -230,17 +230,6 @@ namespace UI.Controllers
                 v.period.d1 = per.d1;
                 v.period.d2 = per.d2;
 
-                //v.period.PeriodValue = Factory.CBL.LoadUserParamInt("grid-period-value");
-                //if (v.period.PeriodValue > 0)
-                //{
-                //    v.period.d1 = _pp.ByPid(v.period.PeriodValue).d1;
-                //    v.period.d2 = _pp.ByPid(v.period.PeriodValue).d2;
-                //}
-                //else
-                //{
-                //    v.period.d1 = Factory.CBL.LoadUserParamDate("grid-period-d1");
-                //    v.period.d2 = Factory.CBL.LoadUserParamDate("grid-period-d2");
-                //}
             }
             
             

@@ -95,6 +95,7 @@ namespace UI.Controllers
                 BO.p11ClientProduct c = new BO.p11ClientProduct();
                 if (v.Rec.pid > 0) c = Factory.p11ClientProductBL.Load(v.Rec.pid);
 
+                c.b02ID = v.Rec.b02ID;
                 c.p11Code = v.Rec.p11Code;
                 c.p11Name = v.Rec.p11Name;
                 c.p11Memo = v.Rec.p11Memo;
@@ -109,6 +110,8 @@ namespace UI.Controllers
                 c.p11Davka = v.Rec.p11Davka;
                 c.p11DavkaMin = v.Rec.p11DavkaMin;
                 c.p11DavkaMax = v.Rec.p11DavkaMax;
+                c.p11SalesPerMonth = v.Rec.p11SalesPerMonth;
+                c.p11UnitsPerPalette = v.Rec.p11UnitsPerPalette;
 
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);

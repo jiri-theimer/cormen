@@ -78,7 +78,7 @@ namespace BL
                 sb.Append(string.Join(",", mq.explicit_columns.Select(p => p.getFinalSqlSyntax_SELECT())));    //grid sloupce               
             }
             sb.Append("," + GetSQL_SELECT_Ocas(mq.Prefix, bolGetTotalsRow));  //konstantní pole jako pid,isclosed
-            if (bolGetTotalsRow==false && (mq.Prefix == "p21" || mq.Prefix == "p41" || mq.Prefix=="o23" || mq.Prefix=="p51" || mq.Prefix=="p10" || mq.Prefix=="p26"))
+            if (bolGetTotalsRow==false && (mq.Prefix == "p21" || mq.Prefix == "p41" || mq.Prefix=="o23" || mq.Prefix=="p51" || mq.Prefix=="p10" || mq.Prefix=="p26" || mq.Prefix=="p11"))
             {
                 sb.Append(",bc.b02Color as bgcolor");
             }

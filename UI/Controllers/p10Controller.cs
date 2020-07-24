@@ -74,7 +74,8 @@ namespace UI.Controllers
                 c.p10Davka = v.Rec.p10Davka;
                 c.p10DavkaMin = v.Rec.p10DavkaMin;
                 c.p10DavkaMax = v.Rec.p10DavkaMax;
-
+                c.p10SalesPerMonth = v.Rec.p10SalesPerMonth;
+                c.p10UnitsPerPalette = v.Rec.p10UnitsPerPalette;
                 c.ValidUntil = v.Toolbar.GetValidUntil(c);
                 c.ValidFrom = v.Toolbar.GetValidFrom(c);
 

@@ -9,11 +9,11 @@ namespace BO
     {
         [Key]
         public int p11ID { get; set; }
+        public int b02ID { get; set; }
 
         public int p12ID { get; set; }
         public int p21ID { get; set; }
-       
-        public int b02ID { get; set; }
+               
         public int p10ID_Master { get; set; }
 
         [Required(ErrorMessage = "Chybí vyplnit název!")]
@@ -36,7 +36,7 @@ namespace BO
 
         public string p12Name { get; set; } //get+set: kvůli mycombo
         public string p12Code;
-        public string b02Name;        
+        public string b02Name { get; set; }      //combo
         public string p21Name { get; set; }//get+set: kvůli mycombo
         public string p21Code;
         public string p28Name;
@@ -52,5 +52,7 @@ namespace BO
         public double p11Davka { get; set; }
         public double p11DavkaMin { get; set; }
         public double p11DavkaMax { get; set; }
+        public double p11SalesPerMonth { get; set; }
+        public double p11UnitsPerPalette { get; set; }
     }
 }

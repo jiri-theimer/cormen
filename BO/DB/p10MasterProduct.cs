@@ -63,5 +63,8 @@ namespace BO
         public double p10Davka { get; set; }
         public double p10DavkaMin { get; set; }
         public double p10DavkaMax { get; set; }
+
+        public double p10SalesPerMonth { get; set; }
+        public double p10UnitsPerPalette { get; set; }
     }
 }

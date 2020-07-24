@@ -338,7 +338,7 @@ namespace UI.Controllers
 
         [HttpGet]
         [Route("master_produkt_save")]
-        public BO.Result master_produkt_save(string p10Code, string p13Code,string p10Name, string p20Code_MJ,string p20Code_VJ,int p10TypeFlag,double p10RecalcUnit2Kg,string p10Memo,string p10PackagingCode,double p10Davka,double p10DavkaMin,double p10DavkaMax)
+        public BO.Result master_produkt_save(string p10Code, string p13Code,string p10Name, string p20Code_MJ,string p20Code_VJ,int p10TypeFlag,double p10RecalcUnit2Kg,string p10Memo,string p10PackagingCode,double p10Davka,double p10DavkaMin,double p10DavkaMax,double p10SalesPerMonth,double p10UnitsPerPalette)
         {
             if (string.IsNullOrEmpty(p10Code) == true || string.IsNullOrEmpty(p10Name) == true || string.IsNullOrEmpty(p20Code_MJ)==true || string.IsNullOrEmpty(p20Code_VJ) == true || p10RecalcUnit2Kg<=0)
             {
@@ -387,6 +387,8 @@ namespace UI.Controllers
             recP10.p10Davka = p10Davka;
             recP10.p10DavkaMax = p10DavkaMax;
             recP10.p10DavkaMin = p10DavkaMin;
+            recP10.p10SalesPerMonth = p10SalesPerMonth;
+            recP10.p10UnitsPerPalette = p10UnitsPerPalette;
 
             int intP10ID = _f.p10MasterProductBL.Save(recP10);
 

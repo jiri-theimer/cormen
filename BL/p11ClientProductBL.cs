@@ -64,6 +64,8 @@ namespace BL
             p.AddDouble("p11Davka", rec.p11Davka);
             p.AddDouble("p11DavkaMin", rec.p11DavkaMin);
             p.AddDouble("p11DavkaMax", rec.p11DavkaMax);
+            p.AddDouble("p11SalesPerMonth", rec.p11SalesPerMonth);
+            p.AddDouble("p11UnitsPerPalette", rec.p11UnitsPerPalette);
 
             int intPID= _db.SaveRecord("p11ClientProduct", p.getDynamicDapperPars(), rec);
             return intPID;

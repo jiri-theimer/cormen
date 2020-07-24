@@ -127,6 +127,8 @@ namespace BL
             AF("p10MasterProduct", "p10Davka", "Dávka", 0, null, "num0");
             AF("p10MasterProduct", "p10DavkaMin", "Dávka Min.", 0, null, "num0");
             AF("p10MasterProduct", "p10DavkaMax", "Dávka Max.", 0, null, "num0");
+            AF("p10MasterProduct", "p10SalesPerMonth", "Měsíční prodej", 0, null, "num0");
+            AF("p10MasterProduct", "p10UnitsPerPalette", "Paleta ks", 0, null, "num0");
             AF("p10MasterProduct", "p21Names", "Zařazeno do licencí", 0, "dbo.p10_license_inline(a.p10ID)");
             AppendTimestamp("p10MasterProduct");
 
@@ -291,6 +293,8 @@ namespace BL
             AF("p11ClientProduct", "p11Davka", "Dávka", 0, null, "num0");
             AF("p11ClientProduct", "p11DavkaMin", "Dávka Min.", 0, null, "num0");
             AF("p11ClientProduct", "p11DavkaMax", "Dávka Max.", 0, null, "num0");
+            AF("p11ClientProduct", "p11SalesPerMonth", "Měsíční prodej", 0, null, "num0");
+            AF("p11ClientProduct", "p11UnitsPerPalette", "Paleta ks", 0, null, "num0");
 
             AppendTimestamp("p11ClientProduct");
 
@@ -516,6 +520,10 @@ namespace BL
 
            
             AF("z01_produkty_plan_vyroby", "PocetVZ", "Počet VZ", 1, null, "num0");
+            AF("z01_produkty_plan_vyroby", "MinStart", "Start první VZ", 1, null, "datetime");
+            AF("z01_produkty_plan_vyroby", "MaxStart", "Start poslední VZ", 1, null, "datetime");
+            AF("z01_produkty_plan_vyroby", "p41CodeFirst", "Kód první VZ");
+            
             AF("z01_produkty_plan_vyroby", "PlanMnozstvi", "Plánované množství", 1, null, "num");
             AF("z01_produkty_plan_vyroby", "SkladoveMnozstvi", "Skladové množství", 1, null, "num");
             
