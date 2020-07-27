@@ -99,15 +99,15 @@ namespace BL
             {
                 if (col.RelSqlDependOn != null && relSqls.Exists(p=>p==col.RelSqlDependOn)==false)
                 {                    
-                    if (mq.Prefix=="p41" && (col.RelName == "p11_p20" || col.RelName== "p11_p20pro"))
-                    {   //natvrdo relace, protože bohužel neumíme závilost ob dvě relace:
-                        if (relSqls.Exists(p => p == "INNER JOIN p52OrderItem p41_p52 ON a.p52ID = p41_p52.p52ID") == false)
-                        {
-                            relSqls.Add("INNER JOIN p52OrderItem p41_p52 ON a.p52ID=p41_p52.p52ID");                            
-                            sb.Append(" INNER JOIN p52OrderItem p41_p52 ON a.p52ID=p41_p52.p52ID");
-                        }                            
-                    }
-
+                    //if (mq.Prefix=="p41" && (col.RelName == "p11_p20" || col.RelName== "p11_p20pro"))
+                    //{   //natvrdo relace, protože bohužel neumíme závilost ob dvě relace:
+                    //    if (relSqls.Exists(p => p == "INNER JOIN p52OrderItem p41_p52 ON a.p52ID = p41_p52.p52ID") == false)
+                    //    {
+                    //        relSqls.Add("INNER JOIN p52OrderItem p41_p52 ON a.p52ID=p41_p52.p52ID");                            
+                    //        sb.Append(" INNER JOIN p52OrderItem p41_p52 ON a.p52ID=p41_p52.p52ID");
+                    //    }                            
+                    //}
+                    
                     relSqls.Add(col.RelSqlDependOn);
                     sb.Append(" ");
                     sb.Append(col.RelSqlDependOn);
