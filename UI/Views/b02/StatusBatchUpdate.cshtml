@@ -1,0 +1,61 @@
+﻿@model b02BatchUpdateViewModel
+
+@{
+    ViewData["Title"] = "Aktualizovat workflow stav vybraných záznamů";
+    Layout = "~/Views/Shared/_LayoutModal.cshtml";
+}
+
+@addTagHelper *, UI
+
+<div class="bg-light" style="padding:10px;">
+    <button type="button" onclick="updatestatus()" class="btn btn-success">Záznamům přiřadit stav</button>
+    <button type="button" onclick="clearstatus()" class="btn btn-danger">Záznamům vyčistit stav</button>
+
+    <button type="button" onclick="_window_close()" class="btn btn-light">Zrušit</button>
+
+
+
+</div>
+
+
+<form id="form1" asp-controller="b02" asp-action="StatusBatchUpdate" method="POST">
+
+    <input type="hidden" asp-for="@Model.pids" />
+    <input type="hidden" asp-for="@Model.prefix" />
+    <input type="hidden" asp-for="@Model.Entity" />
+
+    <div class="modal_record_container">
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Cílový workflow stav:</label>
+            <div class="col-sm-11 col-md-10">
+                <mycombo entity="b02WorkflowStatus" asp-for="@Model.b02ID" selectedtext="@Model.b02Name" view-flag="2" param1="@Model.prefix"></mycombo>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<kbd>Vybrané záznamy:</kbd>
+<div id="divTableRecords"></div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $.post("/Common/GetWorkTable", { entity: "@Model.Entity", pids:"@Model.pids"}, function (data) {
+            $("#divTableRecords").html(data);
+
+        });
+
+    });
+
+    function updatestatus() {
+        form1.action = "/b02/StatusBatchUpdate?oper=update";
+        form1.submit();
+    }
+    function clearstatus() {
+        form1.action = "/b02/StatusBatchUpdate?oper=clear";
+        form1.submit();
+    }
+</script>
+

@@ -7,6 +7,7 @@ namespace BL
     public interface Ip11ClientProductBL
     {
         public BO.p11ClientProduct Load(int pid);
+        public BO.p11ClientProduct LoadByCode(string strCode, int intExcludePID);
         public IEnumerable<BO.p11ClientProduct> GetList(BO.myQuery mq);
         public int Save(BO.p11ClientProduct rec);
     }

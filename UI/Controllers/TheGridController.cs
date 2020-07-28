@@ -528,11 +528,13 @@ namespace UI.Controllers
                 mq.TheGridFilter = _colsProvider.ParseAdhocFilterFromString(cJ72.j72Filter, mq.explicit_columns);
             }
             mq.lisPeriods = _pp.getPallete();
-            if (cJ72.j72MasterEntity==null && BL.TheEntities.ByTable(cJ72.j72Entity).IsGlobalPeriodQuery)
+            
+            if (string.IsNullOrEmpty(cJ72.j72MasterEntity) && BL.TheEntities.ByTable(cJ72.j72Entity).IsGlobalPeriodQuery)
             {
                 BO.ThePeriod per = InhaleGridPeriodDates();
                 mq.global_d1 = per.d1;
                 mq.global_d2 = per.d2;
+                
             }
             if (cJ72.j72HashJ73Query)
             {
@@ -542,44 +544,7 @@ namespace UI.Controllers
 
             return Factory.gridBL.GetList(mq);
         }
-        //private void CompleteGridMyQuery(ref BO.myQuery mq, BO.j72TheGridState cJ72)
-        //{
-        //    switch (cJ72.j72MasterEntity)
-        //    {
-        //        case "p28Company":
-        //            mq.p28id = cJ72.j72MasterPID;
-        //            break;
-        //        case "p10MasterProduct":
-        //            mq.p10id = cJ72.j72MasterPID;
-        //            break;
-        //        case "p13MasterTpv":
-        //            mq.p13id = cJ72.j72MasterPID;
-        //            break;
-        //        case "p21License":
-        //            mq.p21id = cJ72.j72MasterPID;
-        //            break;
-        //        case "p26Msz":
-        //            mq.p26id = cJ72.j72MasterPID;
-        //            break;
-        //        case "j02Person":
-        //            mq.j02id = cJ72.j72MasterPID;
-        //            break;
-        //        case "p11ClientProduct":
-        //            mq.p11id = cJ72.j72MasterPID;
-        //            break;
-        //        case "p12ClientTpv":
-        //            mq.p12id = cJ72.j72MasterPID;
-        //            break;
-        //        case "p41Task":
-        //            mq.p41id = cJ72.j72MasterPID;
-        //            break;
-        //        case "p51Order":
-        //            mq.p51id = cJ72.j72MasterPID;
-        //            break;
-        //        default:
-        //            break;
-        //    }
-        //}
+       
         public TheGridOutput render_thegrid_html(BO.j72TheGridState cJ72)
         {
             var ret = new TheGridOutput();
@@ -590,11 +555,13 @@ namespace UI.Controllers
             ret.sortdir = cJ72.j72SortOrder;
             
             var mq = new BO.myQuery(cJ72.j72Entity);
-            if (cJ72.j72MasterEntity==null && BL.TheEntities.ByTable(cJ72.j72Entity).IsGlobalPeriodQuery)
+            
+            if (string.IsNullOrEmpty(cJ72.j72MasterEntity) && BL.TheEntities.ByTable(cJ72.j72Entity).IsGlobalPeriodQuery)
             {
                 BO.ThePeriod per = InhaleGridPeriodDates();
                 mq.global_d1 = per.d1;
                 mq.global_d2 = per.d2;
+                
             }
                         
             _grid.Columns =_colsProvider.ParseTheGridColumns(mq.Prefix,cJ72.j72Columns);            
@@ -606,6 +573,7 @@ namespace UI.Controllers
                 mq.TheGridFilter = _colsProvider.ParseAdhocFilterFromString(cJ72.j72Filter, mq.explicit_columns);
             }
             mq.lisPeriods = _pp.getPallete();
+           
             if (cJ72.j72HashJ73Query)
             {
                 mq.lisJ73 = Factory.gridBL.GetList_j73(cJ72);
@@ -960,6 +928,12 @@ namespace UI.Controllers
                 sb.AppendLine("<hr class='hr-mini' />");
                 sb.AppendLine("<a class='nav-link' href='javascript:p21_update();'>Aktualizovat licenci vybranými produkty</a>");
                 
+            }
+            if ("p41,p51,p10,p11,p21,o23,p26".Contains(c.j72Entity.Substring(0, 3)))
+            {
+                sb.AppendLine("<hr class='hr-mini' />");
+                sb.AppendLine("<a class='nav-link' href='javascript:b02_update();'>Aktualizovat Workflow stav</a>");
+
             }
             if ("j02,p51,p41,p10,p11,p12,p13,p18,p19,p26,p28,p21,o23".Contains(c.j72Entity.Substring(0, 3)))
             {

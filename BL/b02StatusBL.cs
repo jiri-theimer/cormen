@@ -11,6 +11,7 @@ namespace BL
         public int LoadStartStatusPID(string entityprefix,int defaultB02ID);
         public IEnumerable<BO.b02Status> GetList(BO.myQuery mq);
         public int Save(BO.b02Status rec);
+        public bool StatusBatchUpdate(string prefix, List<int> pids, int b02ID);
     }
     class b02StatusBL : BaseBL,Ib02StatusBL
     {        
@@ -67,6 +68,14 @@ namespace BL
                 _db.RunSql("UPDATE b02Status SET b02StartFlag=0 WHERE b02Entity LIKE @entity AND b02ID<>@pid", new {entity=rec.b02Entity, pid = intPID });
             }
             return intPID;
+        }
+
+        public bool StatusBatchUpdate(string prefix,List<int> pids,int b02ID)
+        {            
+            string strTab = BL.TheEntities.ByPrefix(prefix).TableName;
+            string strPkField = prefix + "ID";
+            string s = "UPDATE " + strTab + " SET b02ID=(case when @b02id=0 then NULL else @b02id end) WHERE " + strPkField + " IN (" + string.Join(",",pids) + ")";
+            return _db.RunSql(s, new { b02id = b02ID });
         }
 
 

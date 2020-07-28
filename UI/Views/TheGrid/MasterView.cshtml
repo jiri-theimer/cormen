@@ -177,6 +177,17 @@
             _window_open(url, 2, "Aktualizovat licenci produktů");
 
         }
+        function b02_update() {
+            var pids = $("#tg_selected_pids").val();
+            if (pids === "") {
+                _notify_message("Musíte vybrat minimálně jeden záznam.");
+                return;
+            }
+            var url = "/b02/StatusBatchUpdate?prefix=@(Model.prefix)&pids=" + pids;
+
+            _window_open(url, 2, "Aktualizovat Workflow stav");
+
+        }
 
     </script>
 

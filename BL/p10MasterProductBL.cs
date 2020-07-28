@@ -70,7 +70,7 @@ namespace BL
 
             int intPID= _db.SaveRecord("p10MasterProduct", p.getDynamicDapperPars(), rec);
             var recP19 = _mother.p19MaterialBL.LoadByMasterP10ID(intPID);
-            if (rec.p10TypeFlag == BO.ProductTypeEnum.Polotovar)    //zkopírovat polotovar do surovin p19
+            if (rec.p10TypeFlag == BO.ProductTypeEnum.Polotovar || rec.p10TypeFlag==BO.ProductTypeEnum.Vyrobek)    //zkopírovat polotovar nebo výrobek do surovin p19
             {                
                 if (recP19 == null)
                 {
@@ -81,7 +81,14 @@ namespace BL
                 recP19.p19Code = rec.p10Code;
                 recP19.p20ID = rec.p20ID;
                 recP19.p19Memo = rec.p10Memo;
-                recP19.p19TypeFlag = BO.p19TypeFlagEnum.Polotovar;
+                if (rec.p10TypeFlag == BO.ProductTypeEnum.Polotovar)
+                {
+                    recP19.p19TypeFlag = BO.p19TypeFlagEnum.Polotovar;
+                }
+                if (rec.p10TypeFlag == BO.ProductTypeEnum.Vyrobek)
+                {
+                    recP19.p19TypeFlag = BO.p19TypeFlagEnum.Vyrobek;
+                }
                 _mother.p19MaterialBL.Save(recP19);
             }
             else

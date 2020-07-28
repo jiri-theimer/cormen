@@ -1,0 +1,59 @@
+﻿@model p52ImportViewModel
+
+@{
+    ViewData["Title"] = "Import položek objednávky";
+    Layout = "~/Views/Shared/_LayoutModal.cshtml";
+
+
+
+
+}
+
+@addTagHelper *, UI
+
+<h4>Import</h4>
+
+<form id="form1" asp-controller="p51" asp-action="Import" method="POST">
+    <input type="hidden" asp-for="@Model.Guid" />
+    <input type="hidden" asp-for="@Model.Protokol" />
+
+    <div class="bg-light" style="padding:10px;">
+        @if (Model.Protokol == null)
+        {
+            <button type="submit" onclick="save()" class="btn btn-success">Spustit import</button>
+        }
+
+
+        <button type="button" onclick="_window_close()" class="btn btn-light">Zavřít</button>
+
+
+
+    </div>
+    <hr />
+    @if (Model.Protokol != null)
+    {
+        <a style="font-size:200%;" target="_blank" href="/o23/FileDownloadTempFile?tempfilename=@Model.Protokol">Protokol o importu</a>
+    }
+    else
+    {
+        <iframe id="fraUpload" src="/o23/DoUpload?prefix=p51&guid=@Model.Guid" frameborder="0" height="200"></iframe>
+    }
+
+
+
+
+</form>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+
+    });
+
+
+</script>
+

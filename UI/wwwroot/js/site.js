@@ -26,8 +26,10 @@ function _edit(controller, pid, header) {
             break;
         case "j90":
         case "j92":
-        case "p44":
+        case "p44":        
         case "p45":
+        case "z01":
+        case "z02":
             _notify_message("Pro tento záznam neexistuje stránka detailu.", "info");
             return;
         default:            

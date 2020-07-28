@@ -129,7 +129,11 @@ namespace UI.Controllers
                 case "j92":
                 case "p44":
                 case "p45":
-                    AMI("Záznam bez menu nabídky", "javascript:_notify_message('nic')");
+                case "z01":
+                    AMI("Karta produktu", string.Format("javascript:_edit('p10',{0})", pid));
+                    break;
+                case "z02":
+                    AMI("Karta suroviny", string.Format("javascript:_edit('p19',{0})", pid));
                     break; 
                 default:
                     if (this.TestIfUserEditor(true, true))
@@ -150,6 +154,7 @@ namespace UI.Controllers
                    
                     DIV();
                     AMI("Přidat položku do objednávky", string.Format("javascript:_window_open('/p52/Record?p51id={0}')", pid));
+                    AMI("Naimportovat položky objednávky přes MS-EXCEL", string.Format("javascript:_window_open('/p51/Import')", pid));
                 }
                 if (prefix == "p52")
                 {
@@ -214,6 +219,7 @@ namespace UI.Controllers
                     AMI("Aktualizovat klientovi jeho produkty a receptury podle licence", string.Format("javascript:p21_handle_create_client_products({0})", pid));
                     
                 }
+                
             }
 
             if (prefix == "p28" || prefix == "j02" || prefix == "p10" || prefix == "p13" || prefix == "p26" || prefix=="p27" || prefix == "p21" || prefix == "p51" || prefix == "p41" || prefix=="p11" || prefix=="p12" || prefix=="o23")

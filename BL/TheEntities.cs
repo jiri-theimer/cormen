@@ -111,7 +111,8 @@ namespace BL
             AE_TINY("o54TagBindingInline", "Kategorizace", "Kategorizace");
 
             //VIEW:
-            AE("z01_produkty_plan_vyroby", "Plánování výroby výrobků", "Plánování výroby výrobků", "dbo.z01_produkty_plan_vyroby(@gd1,@gd2) a", "a.p10ID", "a.p10ID",true);            
+            AE("z01_produkty_plan_vyroby", "Plánování výroby produktů", "Plánování výroby produktů", "dbo.z01_produkty_plan_vyroby(@gd1,@gd2) a", "a.p10ID", "a.p10ID",true);
+            AE("z02_suroviny_plan_vyroby", "Plánování výroby surovin", "Plánování výroby surovin", "dbo.z02_suroviny_plan_vyroby(@gd1,@gd2) a", "a.p19ID", "a.p19ID", true);
         }
 
         private static void AE (string strTabName, string strPlural, string strSingular, string strSqlFromGrid,string strSqlOrderByCombo, string strSqlOrderBy=null,bool bolGlobalPeriodQuery=false)
@@ -296,6 +297,17 @@ namespace BL
                     lis.Add(getREL("p13MasterTpv", "z01_p13", "Master receptura", "LEFT OUTER JOIN p13MasterTpv z01_p13 ON a.p13ID=z01_p13.p13ID"));
                     lis.Add(getREL("p19Material", "z01_p19", "Surovina", "LEFT OUTER JOIN p19Material z01_p19 ON a.p10Code=z01_p19.p19Code"));
                     lis.Add(getREL("p11ClientProduct", "z01_p11", "Klientský produkt", "INNER JOIN p11ClientProduct z01_p11 ON a.p11ID = z01_p11.p11ID"));
+                    break;
+                case "z02":
+                    lis.Add(getREL("p19Material", "z02_p19", "Surovina", "INNER JOIN p19Material z02_p19 ON a.p19ID=z02_p19.p19ID"));
+                    lis.Add(getREL("p10MasterProduct", "z02_p10", "Master produkt", "LEFT OUTER JOIN p10MasterProduct z02_p10 ON a.p19Code = z02_p10.p10Code"));
+
+                    lis.Add(getREL("p20Unit", "z02_p20", "Měrná jednotka", "INNER JOIN p20Unit z02_p20 ON a.p20ID=z02_p20.p20ID"));
+                    
+                    
+                    lis.Add(getREL("o54TagBindingInline", "p19_o54", "Kategorie", "LEFT OUTER JOIN (SELECT * FROM o54TagBindingInline WHERE o54RecordEntity='p19') p19_o54 ON a.p19ID=p19_o54.o54RecordPid"));
+
+
                     break;
                 default:
                     break;

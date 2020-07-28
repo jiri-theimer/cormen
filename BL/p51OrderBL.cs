@@ -8,6 +8,7 @@ namespace BL
     public interface Ip51OrderBL
     {
         public BO.p51Order Load(int pid);
+        public BO.p51Order LoadByCode(string strCode, int intExcludePID);
         public IEnumerable<BO.p51Order> GetList(BO.myQuery mq);
         public int Save(BO.p51Order rec, List<BO.p52OrderItem> newitems);
 
@@ -31,6 +32,7 @@ namespace BL
             c.TagHtml = _mother.o51TagBL.GetTagging("p51Order", pid).TagHtml;
             return c;
         }
+        
         public BO.p51Order LoadByCode(string strCode, int intExcludePID)
         {
             return _db.Load<BO.p51Order>(string.Format("{0} WHERE a.p51Code LIKE @code AND a.p51ID<>@exclude", GetSQL1()), new { code = strCode, exclude = intExcludePID });

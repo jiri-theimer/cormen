@@ -68,6 +68,7 @@ namespace BO
 
         public string RecordOwner;
         public int p11ID;
+        public string p11Code;
 
         public bool IsTempDeleted { get; set; }
         public string TagHtml;

@@ -42,7 +42,7 @@
             data_menu = prefix_caret;
             prefix_caret = "p26";
         }
-        if (prefix_caret == "p44" || prefix_caret == "z01") {
+        if (prefix_caret == "p44" || prefix_caret.substring(0,2) == "z0") {
             data_menu = prefix_caret;
             prefix_caret = "p41";
         }
@@ -67,7 +67,7 @@
             v.push($("#d1helper").val());
             k.push("grid-period-d2");
             v.push($("#d2helper").val());
-            
+
             $.post("/Common/SetUserParams", { keys: k, values:v  }, function (data) {
                 location.replace("/TheGrid/FlatView?prefix=@Model.prefix");
 
@@ -84,6 +84,18 @@
 
         /*automaticky volaná událost z thegrid controlu*/
         function thegrid_handle_event(event_name, pid) {
+
+        }
+
+        function b02_update() {
+            var pids = $("#tg_selected_pids").val();
+            if (pids === "") {
+                _notify_message("Musíte vybrat minimálně jeden záznam.");
+                return;
+            }
+            var url = "/b02/StatusBatchUpdate?prefix=@(Model.prefix)&pids=" + pids;
+
+            _window_open(url, 2, "Aktualizovat Workflow stav");
 
         }
 

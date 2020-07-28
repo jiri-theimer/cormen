@@ -526,10 +526,20 @@ namespace BL
             
             AF("z01_produkty_plan_vyroby", "PlanMnozstvi", "Plánované množství", 1, null, "num");
             AF("z01_produkty_plan_vyroby", "SkladoveMnozstvi", "Skladové množství", 1, null, "num");
+
+            AF("z02_suroviny_plan_vyroby", "Mnozstvi", "Plánované množství", 1, null, "num");
+            AF("z02_suroviny_plan_vyroby", "PocetVZ", "Počet VZ", 1, null, "num0");
+            AF("z02_suroviny_plan_vyroby", "Pocet", "Počet operací", 1, null, "num0");
+            AF("z02_suroviny_plan_vyroby", "MinStart", "Start první VZ", 1, null, "datetime");
+            AF("z02_suroviny_plan_vyroby", "MaxStart", "Start poslední VZ", 1, null, "datetime");
+            AF("z02_suroviny_plan_vyroby", "p41CodeFirst", "Kód první VZ");
             
+            
+
+
         }
 
-        
+
         public List<BO.TheGridColumn> getDefaultPallete(bool bolComboColumns, BO.myQuery mq)
         {
             int intDefaultFlag1 = 1; int intDefaultFlag2 = 2;

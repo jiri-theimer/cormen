@@ -108,21 +108,21 @@
 </h4>
 
 <div class="bg-light" style="padding:10px;">
-    <button id="cmdSave" onclick="savechanges()" class="btn btn-success">Uložit změny</button>
+    <button type="button" id="cmdSave" onclick="savechanges()" class="btn btn-success">Uložit změny</button>
     @if (Model.Rec.j72IsSystem == false && Model.HasOwnerPermissions == true)
     {
-        <button id="cmdDelete" onclick="delete_record()" class="btn btn-danger">Odstranit</button>
+        <button type="button" id="cmdDelete" onclick="delete_record()" class="btn btn-danger">Odstranit</button>
     }
-    <button id="cmdSaveAs" onclick="saveas()" class="btn btn-primary">Uložit jako...</button>
+    <button type="button" id="cmdSaveAs" onclick="saveas()" class="btn btn-primary">Uložit jako...</button>
     @if (Model.Rec.j72IsSystem == false && Model.HasOwnerPermissions == true)
     {
-        <button id="cmdRename" onclick="rename()" class="btn btn-primary">Přejmenovat...</button>
+        <button type="button" id="cmdRename" onclick="rename()" class="btn btn-primary">Přejmenovat...</button>
     }
 
-    <button id="cmdClose" onclick="_window_close()" class="btn btn-light">Zavřít</button>
+    <button type="button" id="cmdClose" onclick="_window_close()" class="btn btn-light">Zavřít</button>
 
 
-    <button id="cmdRestore2Factory" onclick="restore2factory()" class="btn btn-light" style="float:right;">Nahodit Grid do továrního stavu</button>
+    <button type="button" id="cmdRestore2Factory" onclick="restore2factory()" class="btn btn-light" style="float:right;">Nahodit Grid do továrního stavu</button>
 
 </div>
 <form id="form1" asp-controller="TheGrid" asp-action="Designer" method="POST">
@@ -162,7 +162,7 @@
                                         <span data-field="@(strUniqueName)" class="@strClass">@col.Header</span>
 
 
-                                        <button data-entity="@(rel.RelName+"__"+col.Entity)" data-field="@(strUniqueName)" title="Přidat" style="font-size:150%;" class="btn btn-primary py-0 button_field_append">
+                                        <button type="button" data-entity="@(rel.RelName+"__"+col.Entity)" data-field="@(strUniqueName)" title="Přidat" style="font-size:150%;" class="btn btn-primary py-0 button_field_append">
                                             →
                                         </button>
 

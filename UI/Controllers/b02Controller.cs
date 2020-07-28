@@ -10,8 +10,45 @@ namespace UI.Controllers
 {
     public class b02Controller : BaseController
     {
-     
+
         //WORKFLOW STAV
+        public IActionResult StatusBatchUpdate(string prefix,string pids)
+        {
+            var v = new b02BatchUpdateViewModel() { pids = pids,prefix=prefix,Entity=BL.TheEntities.ByPrefix(prefix).TableName };
+            if (string.IsNullOrEmpty(prefix) == true)
+            {
+                return this.StopPage(true, "prefix missing.");
+            }
+            if (BO.BAS.ConvertString2ListInt(pids).Count == 0)
+            {
+                return this.StopPage(true, "Na vstupu chybí výběr záznamů.");
+            }
+
+            return View(v);
+        }
+        [HttpPost]
+        public IActionResult StatusBatchUpdate(Models.b02BatchUpdateViewModel v, string oper)
+        {            
+            if (oper == "update" && v.b02ID==0)
+            {
+                this.AddMessage("Musíte vybrat cílový stav.");
+                return View(v);
+            }
+            if (oper == "clear")
+            {
+                v.b02ID = 0;
+            }
+            if (ModelState.IsValid)
+            {
+                var arr = BO.BAS.ConvertString2ListInt(v.pids);
+                if (Factory.b02StatusBL.StatusBatchUpdate(v.prefix, arr, v.b02ID))
+                {
+                    v.SetJavascript_CallOnLoad(v.b02ID);
+                }
+
+            }
+            return View(v);
+        }
         public IActionResult Record(int pid, bool isclone)
         {
             if (!this.TestIfUserEditor(true, false))
