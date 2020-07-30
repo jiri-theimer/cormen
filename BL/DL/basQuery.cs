@@ -47,8 +47,8 @@ namespace BL.DL
                         if (c.FieldType == "date")
                         {
                             if (c.j73DatePeriodFlag > 0)
-                            {                                
-                                c.j73Date1 = mq.lisPeriods.Where(p => p.pid == c.j73DatePeriodFlag).First().d1;                                
+                            {
+                                c.j73Date1 = mq.lisPeriods.Where(p => p.pid == c.j73DatePeriodFlag).First().d1;
                                 c.j73Date2 = Convert.ToDateTime(mq.lisPeriods.Where(p => p.pid == c.j73DatePeriodFlag).First().d2).AddDays(1).AddMinutes(-1);
                             }
                             if (c.j73Date1 != null && c.j73Date2 != null)
@@ -122,9 +122,9 @@ namespace BL.DL
             {
                 AQ(ref lis, "GETDATE() NOT BETWEEN a.ValidFrom AND a.ValidUntil", "", null);
             }
-            if (mq.global_d1 != null && mq.global_d2 !=null)
+            if (mq.global_d1 != null && mq.global_d2 != null)
             {
-                if (mq.Prefix == "p41") AQ(ref lis, "(a.p41PlanStart BETWEEN @d1 AND @d2 OR a.p41PlanEnd BETWEEN @d1 AND @d2 OR (@d1 >= a.p41PlanStart AND @d2<=a.p41PlanEnd))","d1",mq.global_d1,"AND",null,null,"d2",mq.global_d2);
+                if (mq.Prefix == "p41") AQ(ref lis, "(a.p41PlanStart BETWEEN @d1 AND @d2 OR a.p41PlanEnd BETWEEN @d1 AND @d2 OR (@d1 >= a.p41PlanStart AND @d2<=a.p41PlanEnd))", "d1", mq.global_d1, "AND", null, null, "d2", mq.global_d2);
                 if (mq.Prefix == "p44") AQ(ref lis, "a.p41ID IN (select p41ID FROM p41Task WHERE p41PlanStart BETWEEN @d1 AND @d2 OR p41PlanEnd BETWEEN @d1 AND @d2 OR (@d1 >= p41PlanStart AND @d2<=p41PlanEnd))", "d1", mq.global_d1, "AND", null, null, "d2", mq.global_d2);
             }
 
@@ -138,7 +138,20 @@ namespace BL.DL
             }
             if (mq.b02ids != null && mq.b02ids.Count() > 0)
             {
-                AQ(ref lis, "a.b02ID IN (select b02ID FROM b02Status WHERE b02ID IN (" + string.Join(",", mq.b02ids) + "))", "", null);
+                switch (mq.Prefix)
+                {
+                    case "z01":
+                    case "z02":
+                    
+                        break;
+                    case "p44":
+                        AQ(ref lis, "a.p41ID IN (select p41ID FROM p41Task WHERE b02ID IN (" + string.Join(",", mq.b02ids) + "))", "", null);
+                        break;
+                    default:
+                        AQ(ref lis, "a.b02ID IN (select b02ID FROM b02Status WHERE b02ID IN (" + string.Join(",", mq.b02ids) + "))", "", null);
+                        break;
+                }
+
             }
             if (mq.j04id > 0)
             {
@@ -377,7 +390,7 @@ namespace BL.DL
             }
 
 
-            var ret = new DL.FinalSqlCommand();            
+            var ret = new DL.FinalSqlCommand();
 
             if (lis.Count > 0)
             {
@@ -427,6 +440,9 @@ namespace BL.DL
                 if (bolPrepareParam4DT) ret.Parameters4DT.Add(new DL.Param4DT() { ParName = "gd1", ParValue = mq.global_d1 });
                 ret.Parameters.Add("gd2", mq.global_d2, System.Data.DbType.DateTime);
                 if (bolPrepareParam4DT) ret.Parameters4DT.Add(new DL.Param4DT() { ParName = "gd2", ParValue = mq.global_d2 });
+
+                ret.Parameters.Add("b02ids_p41", string.Join(",", mq.b02ids), System.Data.DbType.String);
+                if (bolPrepareParam4DT) ret.Parameters4DT.Add(new DL.Param4DT() { ParName = "b02ids_p41", ParValue = string.Join(",", mq.b02ids) });
             }
 
             ret.FinalSql = strPrimarySql;

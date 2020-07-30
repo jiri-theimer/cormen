@@ -14,5 +14,8 @@ namespace UI.Models
         //public List<BO.ThePeriod> lisPeriods { get; set; }
 
         public bool IsShowButtonRefresh { get; set; }
+
+        public string SelectedB02IDs { get; set; }
+        public string SelectedB02Names { get; set; }
     }
 }

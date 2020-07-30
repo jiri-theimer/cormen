@@ -197,10 +197,10 @@ namespace UI.Controllers
             
             return View(v);
         }
-        private BO.ThePeriod InhaleGridPeriodDates()
+        private BO.ThePeriod InhaleGridPeriodDates(string prefix)
         {
             var ret = _pp.ByPid(0);
-            var x= Factory.CBL.LoadUserParamInt("grid-period-value");
+            int x= Factory.CBL.LoadUserParamInt("grid-period-value");
             if (x > 0)
             {
                 ret = _pp.ByPid(x);
@@ -211,6 +211,8 @@ namespace UI.Controllers
                 ret.d2 = Factory.CBL.LoadUserParamDate("grid-period-d2");
 
             }
+            ret.FilterB02IDs = Factory.CBL.LoadUserParam("grid-"+prefix+"-b02ids");
+           
             return ret;
         }
         private TheGridInstanceViewModel inhaleGridViewInstance(string prefix,int go2pid,bool istestperiod)
@@ -225,11 +227,20 @@ namespace UI.Controllers
             {
                 v.period = new PeriodViewModel();
                 v.period.IsShowButtonRefresh = true;
-                BO.ThePeriod per = InhaleGridPeriodDates();
+                BO.ThePeriod per = InhaleGridPeriodDates(prefix);
                 v.period.PeriodValue = per.pid;
                 v.period.d1 = per.d1;
                 v.period.d2 = per.d2;
-
+                v.period.SelectedB02IDs = per.FilterB02IDs;
+                
+                if (string.IsNullOrEmpty(v.period.SelectedB02IDs) == false)
+                {
+                    var mq = new BO.myQuery("b02");
+                    mq.b02ids = BO.BAS.ConvertString2ListInt(v.period.SelectedB02IDs);
+                    var lis = Factory.b02StatusBL.GetList(mq);
+                    v.period.SelectedB02Names = string.Join(",", lis.Select(p => p.b02Name));                    
+                }
+               
             }
             
             
@@ -531,10 +542,18 @@ namespace UI.Controllers
             
             if (string.IsNullOrEmpty(cJ72.j72MasterEntity) && BL.TheEntities.ByTable(cJ72.j72Entity).IsGlobalPeriodQuery)
             {
-                BO.ThePeriod per = InhaleGridPeriodDates();
+                BO.ThePeriod per = InhaleGridPeriodDates(mq.Prefix);
                 mq.global_d1 = per.d1;
                 mq.global_d2 = per.d2;
-                
+                if (string.IsNullOrEmpty(per.FilterB02IDs) == false)
+                {
+                    mq.b02ids = BO.BAS.ConvertString2ListInt(per.FilterB02IDs);
+                }
+                else
+                {                    
+                    mq.b02ids = Factory.b02StatusBL.GetList(new BO.myQuery("b02")).Select(p => p.pid).ToList();
+                }
+
             }
             if (cJ72.j72HashJ73Query)
             {
@@ -558,10 +577,19 @@ namespace UI.Controllers
             
             if (string.IsNullOrEmpty(cJ72.j72MasterEntity) && BL.TheEntities.ByTable(cJ72.j72Entity).IsGlobalPeriodQuery)
             {
-                BO.ThePeriod per = InhaleGridPeriodDates();
+                BO.ThePeriod per = InhaleGridPeriodDates(mq.Prefix);
                 mq.global_d1 = per.d1;
                 mq.global_d2 = per.d2;
-                
+                if (string.IsNullOrEmpty(per.FilterB02IDs) == false)
+                {
+                    mq.b02ids = BO.BAS.ConvertString2ListInt(per.FilterB02IDs);
+                }
+                else
+                {
+                    mq.b02ids = Factory.b02StatusBL.GetList(new BO.myQuery("b02")).Select(p => p.pid).ToList();
+                }
+
+
             }
                         
             _grid.Columns =_colsProvider.ParseTheGridColumns(mq.Prefix,cJ72.j72Columns);            

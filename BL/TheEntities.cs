@@ -111,8 +111,8 @@ namespace BL
             AE_TINY("o54TagBindingInline", "Kategorizace", "Kategorizace");
 
             //VIEW:
-            AE("z01_produkty_plan_vyroby", "Plánování výroby produktů", "Plánování výroby produktů", "dbo.z01_produkty_plan_vyroby(@gd1,@gd2) a", "a.p10ID", "a.p10ID",true);
-            AE("z02_suroviny_plan_vyroby", "Plánování výroby surovin", "Plánování výroby surovin", "dbo.z02_suroviny_plan_vyroby(@gd1,@gd2) a", "a.p19ID", "a.p19ID", true);
+            AE("z01_produkty_plan_vyroby", "Plánování výroby produktů", "Plánování výroby produktů", "dbo.z01_produkty_plan_vyroby(@gd1,@gd2,@b02ids_p41) a", "a.p10ID", "a.p10ID",true);
+            AE("z02_suroviny_plan_vyroby", "Plánování výroby surovin", "Plánování výroby surovin", "dbo.z02_suroviny_plan_vyroby(@gd1,@gd2,@b02ids_p41) a", "a.p19ID", "a.p19ID", true);
         }
 
         private static void AE (string strTabName, string strPlural, string strSingular, string strSqlFromGrid,string strSqlOrderByCombo, string strSqlOrderBy=null,bool bolGlobalPeriodQuery=false)
@@ -278,6 +278,9 @@ namespace BL
                     lis.Add(getREL("p28Company", "p51_p28", "Klient", "LEFT OUTER JOIN p28Company p51_p28 ON p52_p51.p28ID=p51_p28.p28ID","p52_p51"));
                     lis.Add(getREL("p20Unit", "p11_p20", "Měrná jednotka", "INNER JOIN p20Unit p11_p20 ON p52_p11.p20ID=p11_p20.p20ID", "p52_p11"));
                     lis.Add(getREL("p20Unit", "p11_p20pro", "Výrobní jednotka", "LEFT OUTER JOIN p20Unit p11_p20pro ON p52_p11.p20ID_Pro=p11_p20pro.p20ID", "p52_p11"));
+                    lis.Add(getREL("p13MasterTpv", "p10_p13", "Master receptura", "LEFT OUTER JOIN p10MasterProduct p11_p10 ON p52_p11.p10ID_Master=p11_p10.p10ID LEFT OUTER JOIN p13MasterTpv p10_p13 ON p11_p10.p13ID=p10_p13.p13ID", "p52_p11"));
+                    lis.Add(getREL("p25MszType", "p13_p25", "Typ zařízení", "LEFT OUTER JOIN p25MszType p13_p25 ON p10_p13.p25ID=p13_p25.p25ID"));
+
                     break;
                 case "o23":
                     lis.Add(getREL("b02Status", "o23_b02", "Workflow stav", "LEFT OUTER JOIN b02Status o23_b02 ON a.b02ID = o23_b02.b02ID"));

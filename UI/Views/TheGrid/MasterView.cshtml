@@ -76,6 +76,9 @@
             v.push($("#d1helper").val());
             k.push("grid-period-d2");
             v.push($("#d2helper").val());
+            var b02ids = $("#SelectedB02IDs").val();
+            k.push("grid-@Model.prefix-b02ids");
+            v.push(b02ids);
 
             $.post("/Common/SetUserParams", { keys: k, values:v  }, function (data) {
                 location.replace("/TheGrid/MasterView?prefix=@Model.prefix");

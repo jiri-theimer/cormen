@@ -12,6 +12,7 @@ namespace BO
         public DateTime? d1 { get; set; }
         public DateTime? d2 { get; set; }
 
+        public string FilterB02IDs { get; set; }
         public string Header
         {
             get

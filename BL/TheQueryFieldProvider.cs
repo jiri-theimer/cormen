@@ -99,6 +99,7 @@ namespace BL
                     AF("p10MasterProduct", "p20ID", "a.p20ID", "Měrná jednotka", "p20Unit", null, "multi");
                     AF("p10MasterProduct", "p20ID_Pro", "a.p20ID_Pro", "Výrobní měrná jednotka", "p20Unit", null, "multi");
                     break;
+                case "z02":
 
                 default:
                     break;

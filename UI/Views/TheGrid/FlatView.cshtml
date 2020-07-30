@@ -22,6 +22,7 @@
 
 
 
+
 <vc:the-grid entity="@Model.entity" j72id="@Model.j72id" go2pid="@Model.go2pid" master_entity="" master_pid="0" contextmenuflag="@Model.contextmenuflag" ondblclick="tg_dblclick"></vc:the-grid>
 
 
@@ -67,6 +68,10 @@
             v.push($("#d1helper").val());
             k.push("grid-period-d2");
             v.push($("#d2helper").val());
+
+            var b02ids = $("#SelectedB02IDs").val();
+            k.push("grid-@Model.prefix-b02ids");
+            v.push(b02ids);
 
             $.post("/Common/SetUserParams", { keys: k, values:v  }, function (data) {
                 location.replace("/TheGrid/FlatView?prefix=@Model.prefix");
