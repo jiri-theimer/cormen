@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BL
@@ -63,6 +64,13 @@ namespace BL
             {
                 this.AddMessage("Na vstupu nejsou produkty.");return false;             
             }
+            var mq = new BO.myQuery("p10");
+            mq.pids = p10ids;
+            if (_mother.p10MasterProductBL.GetList(mq).Where(p => p.p13ID == 0).Count() > 0)
+            {
+                this.AddMessage("Ve výběru produktů je minimálně jeden, u kterého chybí vazba na recepturu."); return false;
+            }
+
             _db.RunSql("INSERT INTO p22LicenseBinding(p21ID,p10ID) SELECT @pid,p10ID FROM p10MasterProduct WHERE p10ID IN (" + string.Join(",", p10ids) + ")", new { pid = p21id });
 
             return true;

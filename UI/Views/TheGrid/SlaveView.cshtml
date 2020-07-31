@@ -53,6 +53,18 @@
             });
         }
 
+        function p21_update() {
+            var pids = $("#tg_selected_pids").val();
+            if (pids === "") {
+                _notify_message("Musíte vybrat minimálně jeden záznam.");
+                return;
+            }
+            var url = "/p21/p21AppendRemove?p10ids=" + pids;
+
+            _window_open(url, 2, "Aktualizovat licenci produktů");
+
+        }
+
         function change_grid(j72id) {
             var strKey = "slaveview-j72id-@(Model.prefix)-@(Model.master_entity)";
             
