@@ -132,6 +132,10 @@ namespace BL.DL
             {
                 AQ(ref lis, mq.PkField + " IN (" + String.Join(",", mq.pids) + ")", "", null);
             }
+            if (mq.b03id > 0)
+            {
+                if (mq.Prefix == "b02") AQ(ref lis, "a.b02ID IN (select b02ID FROM b04StatusGroupBinding WHERE b03ID=@b03id)", "b03id", mq.b03id);
+            }
             if (mq.b02id > 0)
             {
                 AQ(ref lis, "a.b02ID=@b02id", "b02id", mq.b02id);
@@ -441,8 +445,8 @@ namespace BL.DL
                 ret.Parameters.Add("gd2", mq.global_d2, System.Data.DbType.DateTime);
                 if (bolPrepareParam4DT) ret.Parameters4DT.Add(new DL.Param4DT() { ParName = "gd2", ParValue = mq.global_d2 });
 
-                ret.Parameters.Add("b02ids_p41", string.Join(",", mq.b02ids), System.Data.DbType.String);
-                if (bolPrepareParam4DT) ret.Parameters4DT.Add(new DL.Param4DT() { ParName = "b02ids_p41", ParValue = string.Join(",", mq.b02ids) });
+                //ret.Parameters.Add("b02ids_p41", string.Join(",", mq.b02ids), System.Data.DbType.String);
+                //if (bolPrepareParam4DT) ret.Parameters4DT.Add(new DL.Param4DT() { ParName = "b02ids_p41", ParValue = string.Join(",", mq.b02ids) });
             }
 
             ret.FinalSql = strPrimarySql;

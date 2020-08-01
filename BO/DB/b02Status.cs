@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
+using System.Reflection.Metadata;
 
 namespace BO
 {
@@ -36,5 +37,15 @@ namespace BO
         public string b02MoveBySql { get; set; }
 
         public string b02Color { get; set; }
+
+        public string NamePlusCode
+        {
+            get
+            {
+                return this.b02Code + " - "+this.b02Name;
+            }
+        }
+
+        
     }
 }

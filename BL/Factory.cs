@@ -25,6 +25,7 @@ namespace BL
         private Ip27MszUnitBL _p27;
         private Ij04UserRoleBL _j04;
         private Ib02StatusBL _b02;
+        private Ib03StatusGroupBL _b03;
         private Io53TagGroupBL _o53;
         private Io51TagBL _o51;
         private Io23DocBL _o23;
@@ -205,6 +206,14 @@ namespace BL
             {
                 if (_b02 == null) _b02 = new b02StatusBL(this);
                 return _b02;
+            }
+        }
+        public Ib03StatusGroupBL b03StatusGroupBL
+        {
+            get
+            {
+                if (_b03 == null) _b03 = new b03StatusGroupBL(this);
+                return _b03;
             }
         }
         public Io53TagGroupBL o53TagGroupBL

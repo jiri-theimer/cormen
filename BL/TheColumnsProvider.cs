@@ -128,6 +128,7 @@ namespace BL
             AF("p10MasterProduct", "p10DavkaMin", "Dávka Min.", 0, null, "num0");
             AF("p10MasterProduct", "p10DavkaMax", "Dávka Max.", 0, null, "num0");
             AF("p10MasterProduct", "p10SalesPerMonth", "Měsíční prodej", 0, null, "num0");
+            AF("p10MasterProduct", "p10SalesPerWeeek", "Týdenní prodej", 0, "a.p10SalesPerMonth/4", "num0");
             AF("p10MasterProduct", "p10UnitsPerPalette", "Paleta ks", 0, null, "num0");
             AF("p10MasterProduct", "p21Names", "Zařazeno do licencí", 0, "dbo.p10_license_inline(a.p10ID)");
             AppendTimestamp("p10MasterProduct");
@@ -184,7 +185,6 @@ namespace BL
             AF("o23Doc", "o23Memo", "Podrobný popis");
             AF("o23Doc", "o23Date", "Datum dokumentu", 0, null, "date");
             AF("o23Doc", "RecordOwner", "Vlastník záznamu", 0, "dbo.j02_show_as_owner(a.j02ID_Owner)");
-
             AppendTimestamp("o23Doc");
 
             //b02 = workflow stavy            
@@ -196,6 +196,10 @@ namespace BL
             AF("b02Status", "b02StartFlag", "Start", 0, "case when a.b02StartFlag=1 then 'ANO' end");
             AF("b02Status", "b02MoveFlag", "Pohyb", 0, "case a.b02MoveFlag when 1 then 'Uživatel' when 2 then 'Systém' end");
             AF("b02Status", "b02Memo", "Poznámka");
+
+            //b03 = skupina stavů          
+            AF("b03StatusGroup", "b03Name", "Skupina stavů", 1, null, "string", false, true);
+            AppendTimestamp("b03StatusGroup");
 
             //o51 = položka kategorie
             AF("o51Tag", "o51Name", "Položka kategorie", 1, null, "string", false, true);            
@@ -294,9 +298,32 @@ namespace BL
             AF("p11ClientProduct", "p11DavkaMin", "Dávka Min.", 0, null, "num0");
             AF("p11ClientProduct", "p11DavkaMax", "Dávka Max.", 0, null, "num0");
             AF("p11ClientProduct", "p11SalesPerMonth", "Měsíční prodej", 0, null, "num0");
-            AF("p11ClientProduct", "p11UnitsPerPalette", "Paleta ks", 0, null, "num0");
+            AF("p11ClientProduct", "p11SalesPerWeeek", "Týdenní prodej", 0, "a.p11SalesPerMonth/4", "num0");
+            AF("p11ClientProduct", "p11ZasobaTydny", "Zásoba (týdny)", 0, "(isnull(p11_p19.p19StockActual,0)+isnull(sum_p11_p51.ObjednaneMnozstvi1,0)-isnull(sum_p11_p41.PlanMnozstvi1,0)) / (a.p11SalesPerMonth/4)", "num0");
+            AF("p11ClientProduct", "p11ZbyvaNaplanovat", "Zbývá naplánovat", 0, "isnull(sum_p11_p51.ObjednaneMnozstvi1,0) - isnull(sum_p11_p41.PlanMnozstvi1,0)", "num0");
 
+            AF("p11ClientProduct", "p11VyrobniPotreba", "Výrobní potřeba", 0, "case when isnull(p11_p19.p19StockActual,0)+isnull(sum_p11_p51.ObjednaneMnozstvi1,0)-isnull(a.p11SalesPerMonth,0)<0 then isnull(p11_p19.p19StockActual,0)+isnull(sum_p11_p51.ObjednaneMnozstvi1,0)-isnull(a.p11SalesPerMonth,0) end", "num0");
+
+            AF("p11ClientProduct", "p11DoporuceneVyrMnozstvi", "Doporučené výr.množství", 0, "case when a.p11SalesPerMonth/4<0 then (case when isnull(p11_p19.p19StockActual,0)+isnull(sum_p11_p51.ObjednaneMnozstvi1,0)-isnull(a.p11SalesPerMonth,0)<0 then isnull(p11_p19.p19StockActual,0)+isnull(sum_p11_p51.ObjednaneMnozstvi1,0)-isnull(a.p11SalesPerMonth,0) end) else a.p11SalesPerMonth end", "num0");
+
+            AF("p11ClientProduct", "p11UnitsPerPalette", "Paleta ks", 0, null, "num0");
             AppendTimestamp("p11ClientProduct");
+
+            AF("sum_p11_p41", "PocetVZ", "Počet VZ", 1, null, "num0", true, true);
+            AF("sum_p11_p41", "PlanMnozstvi", "Plán.množství", 1, null, "num", true, true);
+            AF("sum_p11_p41", "PlanMnozstvi1", "Plán.množství wsz(50-90)", 0, null, "num", true, true);            
+            AF("sum_p11_p41", "MinStart", "Start první VZ", 1, null, "datetime");
+            AF("sum_p11_p41", "MaxStart", "Start poslední VZ", 1, null, "datetime");
+            AF("sum_p11_p41", "p41CodeFirst", "Kód první VZ");
+
+            AF("sum_p11_p51", "ObjednaneMnozstvi", "Obj.množství", 1, null, "num", true, true);
+            AF("sum_p11_p51", "ObjednaneMnozstvi1", "Obj.množství wso(-10,-900)", 1, null, "num", true, true);
+            
+            
+
+
+            AF("sum_p11_p51", "PocetP51", "Počet obj.", 1, null, "num", true, true);
+            AF("sum_p11_p51", "PocetP52", "Počet položek obj.", 1, null, "num", true, true);
 
             //p12 = klientské receptury
             AF("p12ClientTpv", "p12Name", "Název receptury", 1,null,"string",false,true);
@@ -535,7 +562,7 @@ namespace BL
             AF("z02_suroviny_plan_vyroby", "p41CodeFirst", "Kód první VZ");
             
             
-
+            
 
         }
 

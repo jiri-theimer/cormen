@@ -11,7 +11,7 @@
 @addTagHelper *, UI
 
     <div class="form-row">
-        
+
         <div class="col-sm-3 col-md-2">
             <mydropdown asp-for="@Model.PeriodValue" datasource="@_lisPeriods" valuefield="pid" textfield="Header" isfirstemptyrow="false"></mydropdown>
 
@@ -21,9 +21,6 @@
         </div>
         <div class="col-sm-1 col-md-1">
             <mydate asp-for="@Model.d2"></mydate>
-        </div>
-        <div class="col-sm-5 col-md-4">
-            <mycombochecklist entity="b02Status" asp-for="@Model.SelectedB02IDs" param1="p41" placeholder="Workflow stavy" selectedtext="@Model.SelectedB02Names"></mycombochecklist>
         </div>
         @if (Model.IsShowButtonRefresh)
         {

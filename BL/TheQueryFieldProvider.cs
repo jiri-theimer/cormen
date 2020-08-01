@@ -92,12 +92,16 @@ namespace BL
 
                 case "p10":
                     AF("p10MasterProduct", "p10TypeFlag", "a.p10TypeFlag", "Typ produktu (1-6)",null, null, "number");
-                    AF("p10MasterProduct", "b02ID", "a.b02ID", "Workflow stav", "b02Status", null, "multi");
+                    AF("p10MasterProduct", "b02ID", "a.b02ID", "Stav produktu", "b02Status", null, "multi");
                     of = AF("p10MasterProduct", "p10-p21ID", "p21ID", "Licence", "p21License", null, "multi");
                     of.SqlWrapper = "a.p10ID IN (select p10ID FROM p22LicenseBinding WHERE #filter#)";
 
                     AF("p10MasterProduct", "p20ID", "a.p20ID", "Měrná jednotka", "p20Unit", null, "multi");
                     AF("p10MasterProduct", "p20ID_Pro", "a.p20ID_Pro", "Výrobní měrná jednotka", "p20Unit", null, "multi");
+                    break;
+                case "p11":
+                    AF("p11ClientProduct", "p11TypeFlag", "a.p11TypeFlag", "Typ produktu (1-6)", null, null, "number");
+                    AF("p10MasterProduct", "b02ID", "a.b02ID", "Stav produktu", "b02Status", null, "multi");
                     break;
                 case "z02":
 

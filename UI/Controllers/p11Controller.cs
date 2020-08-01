@@ -100,6 +100,7 @@ namespace UI.Controllers
                 c.p11Name = v.Rec.p11Name;
                 c.p11Memo = v.Rec.p11Memo;
                 c.b02ID = v.Rec.b02ID;
+                c.p11TypeFlag = v.Rec.p11TypeFlag;
                 c.p12ID = v.Rec.p12ID;
                 c.p10ID_Master = v.Rec.p10ID_Master;
                 c.p11UnitPrice = v.Rec.p11UnitPrice;

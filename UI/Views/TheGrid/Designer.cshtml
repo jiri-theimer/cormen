@@ -121,8 +121,11 @@
 
     <button type="button" id="cmdClose" onclick="_window_close()" class="btn btn-light">Zavřít</button>
 
+    @if (Model.Rec.j72IsSystem == true)
+    {
+        <button type="button" id="cmdRestore2Factory" onclick="restore2factory()" class="btn btn-light" style="float:right;">Nahodit Grid do továrního stavu</button>
+    }
 
-    <button type="button" id="cmdRestore2Factory" onclick="restore2factory()" class="btn btn-light" style="float:right;">Nahodit Grid do továrního stavu</button>
 
 </div>
 <form id="form1" asp-controller="TheGrid" asp-action="Designer" method="POST">

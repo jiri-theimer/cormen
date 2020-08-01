@@ -15,7 +15,7 @@ namespace UI.Models
 
         public bool IsShowButtonRefresh { get; set; }
 
-        public string SelectedB02IDs { get; set; }
-        public string SelectedB02Names { get; set; }
+        //public string SelectedB02IDs { get; set; }
+        //public string SelectedB02Names { get; set; }
     }
 }

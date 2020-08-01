@@ -74,7 +74,7 @@ namespace BL
             AE("p13MasterTpv", "Master receptury", "Master receptura", "p13MasterTpv a", "a.p13Name");
             AE("p14MasterOper", "Technologický rozpis operací", "Technologická operace", "p14MasterOper a", "a.p14RowNum", "a.p14RowNum");
 
-            AE("p11ClientProduct", "Klientské produkty", "Klientský produkt", "p11ClientProduct a LEFT OUTER JOIN b02Status bc ON a.b02ID=bc.b02ID", "a.p11Name");
+            AE("p11ClientProduct", "Klientské produkty", "Klientský produkt", "p11ClientProduct a LEFT OUTER JOIN b02Status bc ON a.b02ID=bc.b02ID", "a.p11Name",null,true);
             AE("p12ClientTpv", "Klientské receptury", "Klientská receptura", "p12ClientTpv a", "a.p12Name");
             AE("p15ClientOper", "Technologický rozpis operací", "Technologická operace", "p15ClientOper a", "a.p15RowNum", "a.p15RowNum");
 
@@ -92,7 +92,8 @@ namespace BL
 
             AE("x40MailQueue", "Outbox", "Poštovní zpráva", "x40MailQueue a", null,"a.x40ID DESC");
             AE("b02Status", "Workflow stavy", "Workflow stav", "b02Status a", "a.b02Ordinary,a.b02Name", "a.b02Ordinary,a.b02Name");
-
+            AE("b03StatusGroup", "Skupiny stavů", "Skupina stavu", "b03StatusGroup a", "a.b03Name", "a.b03Name");
+            
 
 
             AE_TINY("j04UserRole", "Aplikační role", "Aplikační role");            
@@ -111,8 +112,10 @@ namespace BL
             AE_TINY("o54TagBindingInline", "Kategorizace", "Kategorizace");
 
             //VIEW:
-            AE("z01_produkty_plan_vyroby", "Plánování výroby produktů", "Plánování výroby produktů", "dbo.z01_produkty_plan_vyroby(@gd1,@gd2,@b02ids_p41) a", "a.p10ID", "a.p10ID",true);
-            AE("z02_suroviny_plan_vyroby", "Plánování výroby surovin", "Plánování výroby surovin", "dbo.z02_suroviny_plan_vyroby(@gd1,@gd2,@b02ids_p41) a", "a.p19ID", "a.p19ID", true);
+            AE("z01_produkty_plan_vyroby", "Plánování výroby produktů", "Plánování výroby produktů", "dbo.z01_produkty_plan_vyroby(@gd1,@gd2) a", "a.p10ID", "a.p10ID",true);
+            AE("z02_suroviny_plan_vyroby", "Plánování výroby surovin", "Plánování výroby surovin", "dbo.z02_suroviny_plan_vyroby(@gd1,@gd2) a", "a.p19ID", "a.p19ID", true);
+            AE("sum_p11_p41", "Plán výroby produktů", "Plán výroby produktů", "sum_p11_p41 a", "a.p11ID", "a.p11ID", true);
+            AE("sum_p11_p51", "Objednávky produktů", "Objednávky produktů", "sum_p11_p51 a", "a.p11ID", "a.p11ID", true);
         }
 
         private static void AE (string strTabName, string strPlural, string strSingular, string strSqlFromGrid,string strSqlOrderByCombo, string strSqlOrderBy=null,bool bolGlobalPeriodQuery=false)
@@ -169,12 +172,34 @@ namespace BL
                     lis.Add(getREL("p20Unit", "p11_p20", "Měrná jednotka", "INNER JOIN p20Unit p11_p20 ON a.p20ID=p11_p20.p20ID"));
                     lis.Add(getREL("p20Unit", "p11_p20pro", "Výrobní jednotka", "LEFT OUTER JOIN p20Unit p11_p20pro ON a.p20ID_Pro=p11_p20pro.p20ID"));
                     lis.Add(getREL("p21License", "p11_p21", "Licence", "INNER JOIN p21License p11_p21 ON a.p21ID=p11_p21.p21ID"));
-                    lis.Add(getREL("p28Company", "p21_p28", "Klient", "LEFT OUTER JOIN p28Company p21_p28 ON p11_p21.p28ID=p21_p28.p28ID", "p11_p21"));
+                    lis.Add(getREL("p28Company", "p21_p28", "Klient licence", "LEFT OUTER JOIN p28Company p21_p28 ON p11_p21.p28ID=p21_p28.p28ID", "p11_p21"));
                     lis.Add(getREL("p12ClientTpv", "p11_p12", "Receptura", "INNER JOIN p12ClientTpv p11_p12 ON a.p12ID=p11_p12.p12ID"));
-                    lis.Add(getREL("p10MasterProduct", "p11_p10", "Vzorový Master produkt", "LEFT OUTER JOIN p10MasterProduct p11_p10 ON a.p10ID_Master = p11_p10.p10ID"));
-                    lis.Add(getREL("b02Status", "p11_b02", "Workflow stav", "LEFT OUTER JOIN b02Status p11_b02 ON a.b02ID = p11_b02.b02ID"));
+                    lis.Add(getREL("p25MszType", "p12_p25", "Typ zařízení", "LEFT OUTER JOIN (select xa.p13ID,xb.* from p13MasterTpv xa INNER JOIN p25MszType xb ON xa.p25ID=xb.p25ID) p12_p25 ON p11_p12.p13ID_Master=p12_p25.p13ID", "p11_p12"));
+                    lis.Add(getREL("p10MasterProduct", "p11_p10", "Master produkt", "LEFT OUTER JOIN p10MasterProduct p11_p10 ON a.p10ID_Master = p11_p10.p10ID"));
+                    lis.Add(getREL("p19Material", "p11_p19", "Surovina", "LEFT OUTER JOIN p19Material p11_p19 ON a.p11Code=p11_p19.p19Code"));
+
+                    lis.Add(getREL("b02Status", "p11_b02", "Workflow stav produktu", "LEFT OUTER JOIN b02Status p11_b02 ON a.b02ID = p11_b02.b02ID"));
                     lis.Add(getREL("o54TagBindingInline", "p11_o54", "Kategorie", "LEFT OUTER JOIN (SELECT * FROM o54TagBindingInline WHERE o54RecordEntity='p11') p11_o54 ON a.p11ID=p11_o54.o54RecordPid"));
+                    
+                    string ss = "LEFT OUTER JOIN (";
+                    ss += "select xb.p11ID,count(xa.p41ID) as PocetVZ,sum(xa.p41PlanUnitsCount) as PlanMnozstvi,min(xa.p41PlanStart) as MinStart,max(xa.p41PlanStart) as MaxStart,min(xa.p41Code) as p41CodeFirst";
+                    ss += ",sum(case when xa.b02ID IN (23,37,24,25,27) then xa.p41PlanUnitsCount end) as PlanMnozstvi1";
+                    ss += " FROM p41Task xa INNER JOIN p52OrderItem xb ON xa.p52ID=xb.p52ID";
+                    ss += " WHERE 1=1 AND xa.p41PlanEnd BETWEEN @gd1 AND @gd2 GROUP BY xb.p11ID";
+                    ss += ") sum_p11_p41 ON a.p11ID=sum_p11_p41.p11ID";
+
+                    lis.Add(getREL("sum_p11_p41", "sum_p11_p41", "Σ plán výroby", ss));
+                    
+                    ss = "LEFT OUTER JOIN (";
+                    ss += " SELECT xa.p11ID,count(DISTINCT xb.p51ID) as PocetP51,count(xa.p52ID) as PocetP52,sum(xa.p52UnitsCount) as ObjednaneMnozstvi";
+                    ss += ",sum(case when xb.b02ID NOT IN (14,20) then xa.p52UnitsCount end) as ObjednaneMnozstvi1";
+                    ss += " FROM p52OrderItem xa INNER JOIN p51Order xb ON xa.p51ID=xb.p51ID";
+                    ss += " WHERE 1=1 AND isnull(xb.p51DateDeliveryConfirmed,xb.p51DateDelivery) BETWEEN @gd1 AND @gd2 GROUP BY xa.p11ID";
+                    ss += ") sum_p11_p51 ON a.p11ID=sum_p11_p51.p11ID";
+
+                    lis.Add(getREL("sum_p11_p51", "sum_p11_p51", "Σ objednáno", ss));
                     break;
+                    
                 case "p12":
                     lis.Add(getREL("p25MszType", "p12_p25", "Typ zařízení", "INNER JOIN p25MszType p12_p25 ON a.p25ID=p12_p25.p25ID"));
                     lis.Add(getREL("p21License", "p12_p21", "Licence", "INNER JOIN p21License p12_p21 ON a.p21ID=p12_p21.p21ID"));
