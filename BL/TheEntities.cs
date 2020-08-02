@@ -206,7 +206,7 @@ namespace BL
                     //ss += " GROUP BY xa.p11ID";
                     //ss += ") sum_p11_p51 ON a.p11ID=sum_p11_p51.p11ID";
 
-                    //lis.Add(getREL("sum_p11_p51", "sum_p11_p51", "Σ objednáno", ss));
+                    ////lis.Add(getREL("sum_p11_p51", "sum_p11_p51", "Σ objednáno", ss));
 
 
 
