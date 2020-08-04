@@ -270,6 +270,7 @@ namespace UI.Controllers
                 //var slot = new Slot() { p41ID = task.pid,p27ID=task.p27ID,Start=task.p41PlanStart.AddMinutes(task.p41DurationPoPre),End=task.p41PlanEnd.AddMinutes(-1*task.p41DurationPoPost),CssName="onetask" };
                 var slot = new Slot() { p41ID = task.pid, p27ID = task.p27ID, Start = task.p41PlanStart, End = task.p41PlanEnd, CssName = "onetask",p41Code=task.p41Code,b02Color=task.b02Color,b02Name=task.b02Name };
                 slot.Title = task.p11Code + ": " + BO.BAS.ObjectDateTime2String(slot.Start, "HH:mm") + " - " + BO.BAS.ObjectDateTime2String(slot.End, "HH:mm") + ": " + BO.BAS.OM2(task.p41Name, 30);
+                slot.DurationHours = task.DurationHours;
                 if (task.p41Duration>task.p41DurationPoPre+task.p41DurationPoPost)
                 {
                     slot.TitleClear = BO.BAS.ObjectDateTime2String(task.p41PlanStart.AddMinutes(task.p41DurationPoPre), "HH:mm") + " - " + BO.BAS.ObjectDateTime2String(task.p41PlanEnd.AddMinutes(-1 * task.p41DurationPoPost), "HH:mm");

@@ -442,7 +442,7 @@ namespace BL.DL
                 }
                 ret.Parameters.Add("gd1", mq.global_d1, System.Data.DbType.DateTime);
                 if (bolPrepareParam4DT) ret.Parameters4DT.Add(new DL.Param4DT() { ParName = "gd1", ParValue = mq.global_d1 });
-                ret.Parameters.Add("gd2", mq.global_d2, System.Data.DbType.DateTime);
+                ret.Parameters.Add("gd2", Convert.ToDateTime(mq.global_d2).AddDays(1).AddMinutes(-1), System.Data.DbType.DateTime);
                 if (bolPrepareParam4DT) ret.Parameters4DT.Add(new DL.Param4DT() { ParName = "gd2", ParValue = mq.global_d2 });
 
                 //ret.Parameters.Add("b02ids_p41", string.Join(",", mq.b02ids), System.Data.DbType.String);

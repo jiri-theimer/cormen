@@ -369,7 +369,7 @@ namespace BL
 
             AF("p41Task", "p41PlanStart", "Plán zahájení", 2, null, "datetime");
             AF("p41Task", "p41PlanEnd", "Plán dokončení", 2, null, "datetime");
-            AF("p41Task", "p41PlanUnitsCount", "Plán kg", 2, null, "num", true);
+            AF("p41Task", "p41PlanUnitsCount", "Plán (VJ)", 2, null, "num", true);
             AF("p41Task", "p41Duration", "Plán trvá (min)", 2, null, "num", true);
             AF("p41Task", "DurationHours", "Plán trvá (hod)", 0, "a.p41Duration/60", "num", true);
             AF("p41Task", "p41DurationPoPre", "Plán PO-PRE trvá (min)", 2, null, "num", true);

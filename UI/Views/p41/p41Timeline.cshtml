@@ -21,7 +21,8 @@
                                                           //int intCOlPosunUntil = (24 - Model.HourUntil) * 60 / 10;
 
     string strClass = "";
-    
+    double dblVytizenost = 0;
+
 }
 
 <style type="text/css">
@@ -62,6 +63,14 @@
 
     span.kapacita {
         background-color: khaki;
+        border: solid 1px silver;
+        border-radius: 3px;
+        padding-left: 2px;
+        padding-right: 2px;
+        font-weight: normal;
+    }
+
+    span.vytizenost {
         border: solid 1px silver;
         border-radius: 3px;
         padding-left: 2px;
@@ -267,7 +276,7 @@
             for (int j = 0; j < 60; j = j + 10)
             {
                 d = Model.CurrentDate.AddHours(i).AddMinutes(j);
-                if (Model.lisFond.Where(p => (p.p31ID==stredisko.p31ID && d >= p.p33DateTime && d <= p.p33DateTimeUntil)).Count() > 0)
+                if (Model.lisFond.Where(p => (p.p31ID == stredisko.p31ID && d >= p.p33DateTime && d <= p.p33DateTimeUntil)).Count() > 0)
                 {
 
 
@@ -291,11 +300,45 @@
 
     <div class="grid-container" style="grid-template-columns:150px repeat(@(_colsHours*6),10px);border-bottom: dashed 1px silver;margin-bottom: 3px;">
         <div class="stredisko" style="grid-column: 1/span 1;">
-            <div style="margin-left:16px;">@stredisko.p27Code</div>
+            <div>
+                @{
+                    dblVytizenost = 100 * (double)Model.Slots.Where(p => p.p27ID == stredisko.pid).Sum(p => p.DurationHours) / ((double)Model.lisFond.Where(p => (p.p31ID == stredisko.p31ID && p.p33Date == Model.CurrentDate)).Count() / 2);
+                }
+                @if (dblVytizenost <= 30)
+                {
+                    <span class="vytizenost" style="color:red;" title="Vytíženost zařízení">
+                        @(Convert.ToInt32(dblVytizenost).ToString()+"%")
+                    </span>
+                }
+                @if (dblVytizenost > 30 && dblVytizenost <= 50)
+                {
+                    <span class="vytizenost" style="color:gold;" title="Vytíženost zařízení">
+                        @(Convert.ToInt32(dblVytizenost).ToString()+"%")
+                    </span>
+                }
+                @if (dblVytizenost > 50 && dblVytizenost <= 95)
+                {
+                    <span class="vytizenost" style="color:green;" title="Vytíženost zařízení">
+                        @(Convert.ToInt32(dblVytizenost).ToString()+"%")
+                    </span>
+                }
+                @if (dblVytizenost > 95)
+                {
+                    <span class="vytizenost" style="color:orange;" title="Vytíženost zařízení">
+                        @(Convert.ToInt32(dblVytizenost).ToString()+"%")
+                    </span>
+                }
+                <span>
+                    @stredisko.p27Code
+                </span>
+            </div>
             <a class="cm" onclick="_cm(event,'p27',@stredisko.pid)">☰</a>
             @stredisko.p27Name <span class="kapacita">
                 @stredisko.p27Capacity
             </span>
+
+
+
         </div>
         @foreach (var slot in Model.Slots.Where(p => p.p27ID == stredisko.pid).OrderBy(p => p.Start))
         {
@@ -311,16 +354,16 @@
                         @for (int i = 1; i <= slot.ColSpan; i++)
                         {
                             strClass = "colheader";
-                           
+
                             if (slot.ColEndPre > 0 && slot.ColEndPre >= i)
                             {
                                 strClass += " popre";
-                                
+
                             }
                             if (slot.ColStartPost > 0 && slot.ColStartPost <= i)
                             {
                                 strClass += " popost";
-                                
+
                             }
                             <div class="@strClass" style="grid-column: @(i)/span 1;"></div>
                         }

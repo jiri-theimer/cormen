@@ -64,7 +64,7 @@ namespace UI.Models
 
         public int ColStart { get; set; }
 
-        
+        public double DurationHours { get; set; }
         
         public int ColSpan
         {
