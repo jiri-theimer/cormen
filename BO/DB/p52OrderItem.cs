@@ -16,8 +16,8 @@ namespace BO
 
         
         public double p52UnitsCount { get; set; }
-        public DateTime? p52PlanStart { get; set; }
-        public DateTime? p52PlanEnd { get; set; }
+       
+        public DateTime? p52DateNeeded { get; set; }
 
         public string p11Name { get; set; }
         public string p11Code { get; set; }

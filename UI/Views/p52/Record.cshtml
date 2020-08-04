@@ -49,13 +49,19 @@
                     <div class="col-2">
                         <span>Již naplánováno:</span>
                         <strong class="text-primary">@(BO.BAS.Number2String(Model.Rec.p52Task_UnitsCount))</strong>
-                        
+
                     </div>
                 }
             </div>
+            <div class="form-row" style="margin-top:10px;">
+                <label class="col-sm-1 col-md-2 col-form-label">Datum potřeby:</label>
+                <div class="col-sm-3 col-md-3">
+                    <mydate asp-for="Rec.p52DateNeeded" include-time="true"></mydate>
+                </div>
+            </div>
             @if (Model.RecP51 != null)
             {
-                
+
                 <div class="card" style="margin-top:10px;">
                     <div class="card-header">
                         Hlavička objednávky [@Model.RecP51.p51Code]

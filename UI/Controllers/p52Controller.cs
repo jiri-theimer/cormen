@@ -71,7 +71,7 @@ namespace UI.Controllers
                 c.p51ID = v.Rec.p51ID;
                 c.p11ID = v.Rec.p11ID;
                 c.p52UnitsCount = v.Rec.p52UnitsCount;
-
+                c.p52DateNeeded = v.Rec.p52DateNeeded;
 
                 v.Rec.pid = Factory.p52OrderItemBL.Save(c);
                 if (v.Rec.pid > 0)

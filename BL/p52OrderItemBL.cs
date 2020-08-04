@@ -51,6 +51,7 @@ namespace BL
             p.AddInt("j02ID_Owner", rec.j02ID_Owner, true);
             p.AddInt("p11ID", rec.p11ID, true);
             p.AddDouble("p52UnitsCount", rec.p52UnitsCount);
+            p.AddDateTime("p52DateNeeded", rec.p52DateNeeded);
 
             int intP52ID = _db.SaveRecord("p52OrderItem", p.getDynamicDapperPars(), rec);
 
