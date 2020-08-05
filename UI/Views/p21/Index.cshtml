@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_LayoutSubform.cshtml";
     if (Model.Rec == null) return;
 }
-
+@addTagHelper *, UI
 
 
 <div class="modal_record_container">
@@ -25,7 +25,8 @@
     <div class="form-row" style="margin-top:10px;">
         <label class="col-sm-1 col-md-2 col-form-label">Klient:</label>
         <div class="col-sm-6 col-md-5">
-            <span class="val-readonly">@(Model.Rec.p28Name)</span>
+            <myval value="@Model.Rec.p28Name" hoverprefix="p28" hoverpid="@Model.Rec.p28ID"></myval>
+            
         </div>
         <label class="col-sm-1 col-md-1 col-form-label">Typ licence:</label>
         <div class="col-sm-4 col-md-4">
@@ -54,7 +55,7 @@
     </div>
     @Html.Raw(Model.Rec.TagHtml)
 
-    
+
 
 </div>
 @if (Model.Rec.p21Memo != null)

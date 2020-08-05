@@ -718,6 +718,7 @@ button.cmdDropdown {
     text-overflow: ellipsis;
 }
 
+
 .val-readonly-wrap {
     display: block;
     width: 100%;
@@ -730,4 +731,53 @@ button.cmdDropdown {
     background-clip: padding-box;
     border: 1px solid #E5E5E5; /*původní barva byla: #ced4da*/
     border-radius: 0.25rem;
+}
+
+
+.valhover_tooltip {
+    visibility: hidden;
+    font-weight: normal;
+    width: 16px;
+    background-color: darkgray;
+    color: white;
+    text-align: center;
+    border-radius: 4px;
+    padding: 1px 5px;
+    margin-left: 5px;
+    cursor: pointer;
+    /* Position the tooltip */
+    position: sticky;
+    right: 4px;
+    z-index: 1000;
+}
+
+    .valhover_tooltip:hover {
+        color: white;
+    }
+
+
+
+.rowvalhover:hover .valhover_tooltip {
+    visibility: visible;
+}
+
+
+
+/* qtip - ZOOM vybraného záznamu  
+----------------------------------------------------------*/
+a.reczoom {
+    font: normal 15px Arial bold;
+    padding-left: 5px;
+    padding-right: 5px;
+    color: blue;
+    background-color: lightblue;
+    border-radius: 5px;
+    margin-left: 1px;
+    text-decoration: none;
+    cursor: help;
+    visibility: hidden;
+}
+
+.rowvalhover:hover .reczoom {
+    visibility: visible;
 }

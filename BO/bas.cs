@@ -7,6 +7,26 @@ namespace BO
 {
     public static class BAS
     {
+        public static string GS(string s)
+        {
+            if (string.IsNullOrEmpty(s) == true)
+            {
+                return "NULL";
+            }
+            s = s.Replace("'", "");
+            return "'" + s + "'";
+        }
+        public static string IIFS(bool b, string value_true, string value_false)
+        {
+            if (b)
+            {
+                return value_true;
+            }
+            else
+            {
+                return value_false;
+            }
+        }
         public static string OM2(string s,int maxlen)
         {
             if (s.Length > maxlen)

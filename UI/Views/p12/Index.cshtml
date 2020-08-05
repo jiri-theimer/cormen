@@ -5,68 +5,70 @@
     Layout = "~/Views/Shared/_LayoutSubform.cshtml";
     if (Model.Rec == null) return;
 }
+@addTagHelper *, UI
 
 @Html.HiddenFor(m => m.Rec.pid)
 
 
-    <div class="modal_record_container">
+<div class="modal_record_container">
 
 
-        <div class="form-row">
-            <label class="col-sm-1 col-md-2 col-form-label">Receptura:</label>
-            <div class="col-sm-9 col-md-8">
-                <span class="val-readonly">@(Model.Rec.p12Name)</span>
+    <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Receptura:</label>
+        <div class="col-sm-9 col-md-8">
+            <span class="val-readonly">@(Model.Rec.p12Name)</span>
 
 
-            </div>
-            <div class="col-sm-2 col-md-2">
-                <span class="val-readonly">@(Model.Rec.p12Code)</span>
-
-
-            </div>
         </div>
-        <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Licence:</label>
-            <div class="col-sm-8 col-md-7">
-                <span class="val-readonly">@(Model.RecP21.p21Name+" ["+Model.RecP21.p28Name+"]")</span>
-            </div>
-            <div class="col-sm-1 col-md-1">
+        <div class="col-sm-2 col-md-2">
+            <span class="val-readonly">@(Model.Rec.p12Code)</span>
 
-                <span class="val-readonly">@(Model.RecP21.PermFlagAlias)</span>
-            </div>
-            <div class="col-sm-2 col-md-2">
-                <span class="val-readonly">@(Model.RecP21.p21Code)</span>
-            </div>
+
         </div>
-        @if (Model.RecP13 != null)
-        {
-            <div class="form-row" style="margin-top:10px;">
-                <label class="col-sm-1 col-md-2 col-form-label">Vzorová Master receptura:</label>
-                <div class="col-sm-5 col-md-4">
-                    <span class="val-readonly">@(Model.RecP13.p13Name)</span>
-
-
-                </div>
-                <div class="col-sm-4 col-md-4">
-                    <span class="val-readonly">@(Model.RecP13.p25Name)</span>
-
-
-                </div>
-                <div class="col-sm-2 col-md-2">
-                    <span class="val-readonly">@(Model.RecP13.p13Code)</span>
-
-
-                </div>
-
-            </div>
-        }
-        @Html.Raw(Model.Rec.TagHtml)
-
-
-
-
-
     </div>
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Licence:</label>
+        <div class="col-sm-8 col-md-7">
+            <myval value="@(Model.RecP21.p21Name+" ["+Model.RecP21.p28Name+"]")" hoverprefix="p21" hoverpid="@Model.Rec.p21ID"></myval>
+
+        </div>
+        <div class="col-sm-1 col-md-1">
+
+            <span class="val-readonly">@(Model.RecP21.PermFlagAlias)</span>
+        </div>
+        <div class="col-sm-2 col-md-2">
+            <span class="val-readonly">@(Model.RecP21.p21Code)</span>
+        </div>
+    </div>
+    @if (Model.RecP13 != null)
+    {
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Vzorová Master receptura:</label>
+            <div class="col-sm-5 col-md-4">
+                <span class="val-readonly">@(Model.RecP13.p13Name)</span>
+
+
+            </div>
+            <div class="col-sm-4 col-md-4">
+                <span class="val-readonly">@(Model.RecP13.p25Name)</span>
+
+
+            </div>
+            <div class="col-sm-2 col-md-2">
+                <span class="val-readonly">@(Model.RecP13.p13Code)</span>
+
+
+            </div>
+
+        </div>
+    }
+    @Html.Raw(Model.Rec.TagHtml)
+
+
+
+
+
+</div>
 
 @if (Model.Rec.p12Memo != null)
 {

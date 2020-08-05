@@ -342,8 +342,9 @@
         </div>
         @foreach (var slot in Model.Slots.Where(p => p.p27ID == stredisko.pid).OrderBy(p => p.Start))
         {
-            <div class="@slot.CssName" style="background-color:@(slot.b02Color); grid-column: @(slot.ColStart+intColPosun-intZpetPosunHourFrom)/span @slot.ColSpan;" title="@slot.Title">
+            <div class="@slot.CssName" style="background-color:@(slot.b02Color); grid-column: @(slot.ColStart+intColPosun-intZpetPosunHourFrom)/span @slot.ColSpan;">
                 <a class="cm" title="@slot.b02Name" onclick="_cm(event,'p41',@slot.p41ID)">☰</a>
+                <a class="reczoom" data-title="@slot.Title" data-rel="/p41/Index?pid=@(slot.p41ID)&hover_by_reczoom=1" style="visibility:visible!important;">ℹ</a>
                 @if (slot.ColSpan > 6)
                 {
                     <small>@slot.p41Code</small>

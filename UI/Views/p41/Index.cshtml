@@ -5,98 +5,99 @@
     Layout = "~/Views/Shared/_LayoutSubform.cshtml";
     if (Model.Rec == null) return;
 }
+@addTagHelper *, UI
 
-    <div class="modal_record_container">
+<div class="modal_record_container">
 
 
-        <div class="form-row">
-            <label class="col-sm-1 col-md-2 col-form-label">Zakázka:</label>
-            <div class="col-sm-8 col-md-7">
-
-                <span class="val-readonly">@(Model.Rec.p41Name)</span>
-            </div>
-            <div class="col-sm-3 col-md-3">
-                <span class="val-readonly">@(Model.Rec.p41Code)</span>
-
-            </div>
+    <div class="form-row">
+        <label class="col-sm-1 col-md-2 col-form-label">Zakázka:</label>
+        <div class="col-sm-8 col-md-7">
+            <myval value="@Model.Rec.p41Name"></myval>
+            
         </div>
-        @if (Model.RecSuccessor != null)
-        {
-            <div class="form-row" style="margin-top:10px;">
-                <label class="col-sm-1 col-md-2 col-form-label">Následovník:</label>
-                <div class="col-sm-8 col-md-7">
-
-                    <span class="val-readonly">@(Model.RecSuccessor.p41Name)</span>
-                </div>
-                <div class="col-sm-3 col-md-3">
-                    <span class="val-readonly">@(Model.RecSuccessor.p41Code)</span>
-
-                </div>
-            </div>
-        }
-        @if (Model.RecPredecessor != null)
-        {
-            <div class="form-row" style="margin-top:10px;">
-                <label class="col-sm-1 col-md-2 col-form-label">Předchůdce:</label>
-                <div class="col-sm-8 col-md-7">
-
-                    <span class="val-readonly">@(Model.RecPredecessor.p41Name)</span>
-                </div>
-                <div class="col-sm-3 col-md-3">
-                    <span class="val-readonly">@(Model.RecPredecessor.p41Code)</span>
-
-                </div>
-            </div>
-        }
-        <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Zařízení:</label>
-            <div class="col-sm-3 col-md-3">
-                <span class="val-readonly">@(Model.Rec.p27Name)</span>
-            </div>
-            <label class="col-sm-1 col-md-1 col-form-label">Aktuální stav:</label>
-            <div class="col-sm-5 col-md-5">
-                <span class="val-readonly">@(Model.Rec.b02Name)</span>
-            </div>
+        <div class="col-sm-3 col-md-3">            
+            <myval value="@Model.Rec.p41Code" hoverprefix="p41" hoverpid="@Model.Rec.pid"></myval>
         </div>
-
-        <div class="form-row" style="margin-top:10px;">
-            <label class="col-sm-1 col-md-2 col-form-label">Plán zahájení:</label>
-            <div class="col-sm-3 col-md-3">
-                <span class="val-readonly">@(Model.Rec.p41PlanStart)</span>
-            </div>
-            <label class="col-sm-1 col-md-1 col-form-label">Dokončení:</label>
-            <div class="col-sm-3 col-md-3">
-                <span class="val-readonly">@(Model.Rec.p41PlanEnd)</span>
-            </div>
-            <label class="col-sm-1 col-md-1 col-form-label">Trvá (min):</label>
-            <div class="col-sm-1 col-md-1">
-                <span class="val-readonly">@(BO.BAS.Number2String(Model.Rec.p41Duration))</span>
-            </div>
-        </div>
-
-        <div class="form-row" style="margin-top:10px;">
-            @if (Model.RecP52 != null)
-            {
-                <label class="col-sm-1 col-md-2 col-form-label">Plánované množství @Model.RecP52.p20CodePro:</label>
-            }
-            else
-            {
-                <label class="col-sm-1 col-md-2 col-form-label">Plánované množství ??:</label>
-            }
-
-            <div class="col-sm-3 col-md-3">
-                <span class="val-readonly">@(Model.Rec.p41PlanUnitsCount)</span>
-            </div>
-
-            <label class="col-sm-1 col-md-1 col-form-label">Kód skladu:</label>
-            <div class="col-sm-6 col-md-6">
-                <span class="val-readonly">@(Model.Rec.p41StockCode)</span>
-            </div>
-
-        </div>
-
-        @Html.Raw(Model.Rec.TagHtml)
     </div>
+    @if (Model.RecSuccessor != null)
+    {
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Následovník:</label>
+            <div class="col-sm-8 col-md-7">
+                <myval value="@Model.RecSuccessor.p41Name" hoverprefix="p41" hoverpid="@Model.RecSuccessor.pid"></myval>
+                
+            </div>
+            <div class="col-sm-3 col-md-3">
+                <span class="val-readonly">@(Model.RecSuccessor.p41Code)</span>
+
+            </div>
+        </div>
+    }
+    @if (Model.RecPredecessor != null)
+    {
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Předchůdce:</label>
+            <div class="col-sm-8 col-md-7">
+                <myval value="@Model.RecPredecessor.p41Name" hoverprefix="p41" hoverpid="@Model.RecPredecessor.pid"></myval>
+                
+            </div>
+            <div class="col-sm-3 col-md-3">
+                <span class="val-readonly">@(Model.RecPredecessor.p41Code)</span>
+
+            </div>
+        </div>
+    }
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Zařízení:</label>
+        <div class="col-sm-3 col-md-3">
+            <myval value="@Model.Rec.p27Name" hoverprefix="p27" hoverpid="@Model.Rec.p27ID"></myval>
+            
+        </div>
+        <label class="col-sm-1 col-md-1 col-form-label">Stav:</label>
+        <div class="col-sm-5 col-md-5">
+            <span class="val-readonly">@(Model.Rec.b02Name)</span>
+        </div>
+    </div>
+
+    <div class="form-row" style="margin-top:10px;">
+        <label class="col-sm-1 col-md-2 col-form-label">Plán zahájení:</label>
+        <div class="col-sm-3 col-md-3">
+            <span class="val-readonly">@(Model.Rec.p41PlanStart)</span>
+        </div>
+        <label class="col-sm-1 col-md-1 col-form-label">Dokončení:</label>
+        <div class="col-sm-3 col-md-3">
+            <span class="val-readonly">@(Model.Rec.p41PlanEnd)</span>
+        </div>
+        <label class="col-sm-1 col-md-1 col-form-label">Trvá:</label>
+        <div class="col-sm-1 col-md-1">
+            <span class="val-readonly">@(BO.BAS.Number2String(Model.Rec.p41Duration))</span>
+        </div>
+    </div>
+
+    <div class="form-row" style="margin-top:10px;">
+        @if (Model.RecP52 != null)
+        {
+            <label class="col-sm-1 col-md-2 col-form-label">Plán.množství @Model.RecP52.p20CodePro:</label>
+        }
+        else
+        {
+            <label class="col-sm-1 col-md-2 col-form-label">Plán.množství ??:</label>
+        }
+
+        <div class="col-sm-3 col-md-3">
+            <span class="val-readonly">@(Model.Rec.p41PlanUnitsCount)</span>
+        </div>
+
+        <label class="col-sm-1 col-md-1 col-form-label">Sklad:</label>
+        <div class="col-sm-6 col-md-6">
+            <span class="val-readonly">@(Model.Rec.p41StockCode)</span>
+        </div>
+
+    </div>
+
+    @Html.Raw(Model.Rec.TagHtml)
+</div>
 
 
 @if (Model.Rec.p41Memo != null)

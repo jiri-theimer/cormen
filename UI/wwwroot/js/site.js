@@ -648,3 +648,65 @@ function _p41_record_recovery(p41id) {
 
     });
 }
+
+
+
+function _init_qtip_onpage() {
+    //qtip:
+
+    var iframeWidth = "900px";
+    var maxwidth = $(window).innerWidth();
+    if (maxwidth < 800) {
+        iframeWidth = maxwidth.toString() + "px";
+    }
+
+    if (window !== top && _get_request_param("hover_by_reczoom") === "1") {   //voláno uvnitř qtip iframe: zde už reczoom schovat
+        $("a.reczoom").each(function () {
+            $(this).css("display", "none");
+            $(this).removeClass("reczoom");
+        });
+        return;
+    }
+
+    $("a.reczoom").each(function () {
+
+        var $this = $(this);
+        var myurl = $this.attr("data-rel");
+        var mytitle = $this.attr("data-title");
+        if (mytitle === null || mytitle === "") {
+            mytitle = "Detail";
+        }
+
+
+
+
+        $this.qtip({
+            content: {
+                text: "<iframe id='fraRecZoom' framemargin='0' style='height:290px;width:100%;' src='" + myurl + "'></iframe>",
+                title: {
+                    text: mytitle
+                },
+
+            },
+            position: {
+                my: "top center",  // Position my top left...
+                at: "bottom center", // at the bottom right of...
+                viewport: $(window),
+                adjust: {
+                    method: "shift"
+                }
+            },
+
+            hide: {
+                fixed: true,
+                delay: 100
+            },
+            style: {
+                classes: "qtip-tipped",
+                width: 800,
+                height: 320
+
+            }
+        });
+    });
+}

@@ -15,6 +15,7 @@
     <title></title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link href="~/lib/datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/lib/qtip/jquery.qtip.css" rel="stylesheet" type="text/css" />
 
     <link rel="stylesheet" href="~/css/site.css" />
     @if (_f.CurrentUser.j03GridSelectionModeFlag == 1)
@@ -37,6 +38,7 @@
     <script src="~/lib/selection/ds.min.js"></script>
     <script src="~/lib/datepicker/bootstrap-datepicker.min.js"></script>
     <script src="~/lib/datepicker/bootstrap-datepicker.cs.min.js"></script>
+    <script src="~/lib/qtip/jquery.qtip.min.js"></script>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/mycombo.js" asp-append-version="true"></script>
@@ -74,9 +76,9 @@
             </text>
              }
         }
-        
 
 
+        _init_qtip_onpage();
     });
 
 
@@ -87,7 +89,7 @@
             }
             window.parent._window_open(url, flag, header, layout);
         }
-        
+
     </script>
 
     @RenderSection("Scripts", required: false)
