@@ -122,6 +122,10 @@ namespace BL.DL
             {
                 AQ(ref lis, "GETDATE() NOT BETWEEN a.ValidFrom AND a.ValidUntil", "", null);
             }
+            if (mq.global_d2 != null && Convert.ToDateTime(mq.global_d2).Hour==0)
+            {
+                mq.global_d2 = Convert.ToDateTime(mq.global_d2).AddDays(1).AddMinutes(-1);
+            }
             if (mq.global_d1 != null && mq.global_d2 != null)
             {
                 if (mq.Prefix == "p41") AQ(ref lis, "(a.p41PlanStart BETWEEN @d1 AND @d2 OR a.p41PlanEnd BETWEEN @d1 AND @d2 OR (@d1 >= a.p41PlanStart AND @d2<=a.p41PlanEnd))", "d1", mq.global_d1, "AND", null, null, "d2", mq.global_d2);
@@ -434,7 +438,11 @@ namespace BL.DL
             if (strPrimarySql.Contains("@gd1"))
             {   //view s napevno navrženou podmínkou časového filtru                            
                 if (mq.global_d1 == null) mq.global_d1 = new DateTime(2000, 1, 1);
-                if (mq.global_d2 == null) mq.global_d2 = new DateTime(3000, 1, 1);
+                if (mq.global_d2 == null)
+                {
+                    mq.global_d2 = new DateTime(3000, 1, 1);
+                }
+                
                 if (ret.Parameters == null)
                 {
                     ret.Parameters = new Dapper.DynamicParameters();
@@ -442,11 +450,8 @@ namespace BL.DL
                 }
                 ret.Parameters.Add("gd1", mq.global_d1, System.Data.DbType.DateTime);
                 if (bolPrepareParam4DT) ret.Parameters4DT.Add(new DL.Param4DT() { ParName = "gd1", ParValue = mq.global_d1 });
-                ret.Parameters.Add("gd2", Convert.ToDateTime(mq.global_d2).AddDays(1).AddMinutes(-1), System.Data.DbType.DateTime);
+                ret.Parameters.Add("gd2", mq.global_d2, System.Data.DbType.DateTime);
                 if (bolPrepareParam4DT) ret.Parameters4DT.Add(new DL.Param4DT() { ParName = "gd2", ParValue = mq.global_d2 });
-
-                //ret.Parameters.Add("b02ids_p41", string.Join(",", mq.b02ids), System.Data.DbType.String);
-                //if (bolPrepareParam4DT) ret.Parameters4DT.Add(new DL.Param4DT() { ParName = "b02ids_p41", ParValue = string.Join(",", mq.b02ids) });
             }
 
             ret.FinalSql = strPrimarySql;
