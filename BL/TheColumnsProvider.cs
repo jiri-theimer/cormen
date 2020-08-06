@@ -310,6 +310,8 @@ namespace BL
             //AF("p11ClientProduct", "p11DoporuceneVyrMnozstvi", "Doporučené výr.množství", 0, "case when p11_z03.ZasobaTydny<4 then case when p11_z03.ZasobaTydny<0,p11_z03.VyrobniPotreba,a.p11SalesPerMonth end", "num0");
             //AF("p11ClientProduct", "p11DoporuceneVyrMnozstvi", "Dop.výr. množství", 0, "p11_z03.DoporVyrMnozstvi", "num0");
             AF("p11ClientProduct", "p11DoporuceneVyrMnozstvi", "Dop.výr. množství", 0, "case when p11_z03.ZasobaTydny<4 then case when p11_z03.ZasobaTydny<0 then p11_z03.VyrobniPotreba else a.p11SalesPerMonth end end", "num0");
+            AF("p11ClientProduct", "p11VyrobniPotrebaPolotovar", "Výrobní potřeba Polotovar", 0, "p11_z03.VyrobniPotreba_Polotovar", "num0");
+            AF("p11ClientProduct", "p11DoporuceneVyrMnozstvi_Polotovar", "Dop.výr. množství Polotovar", 0, "p11_z03.DoporVyrMnozstvi_Polotovar", "num0");
 
 
             AF("p11ClientProduct", "p11UnitsPerPalette", "Paleta ks", 0, null, "num0");
@@ -324,6 +326,9 @@ namespace BL
             AF("z03_produkty_plan_vyroby", "MinStart", "Start první VZ", 1, null, "datetime");
             AF("z03_produkty_plan_vyroby", "MaxStart", "Start poslední VZ", 1, null, "datetime");
             AF("z03_produkty_plan_vyroby", "p41CodeFirst", "Kód první VZ");
+
+            AF("z03_produkty_plan_vyroby", "PlanMnozstvi_Polotovar", "Σ plánováno Polotovar wsz(50-90)", 0, null, "num", true, true);
+            
 
             AF("z03_produkty_plan_vyroby", "ObjednaneMnozstvi", "Σ objednáno", 1, null, "num", true, true);
             AF("z03_produkty_plan_vyroby", "ObjednaneMnozstvi1", "Σ objednáno wso(-10,-900)", 1, null, "num", true, true);
@@ -569,9 +574,9 @@ namespace BL
             AF("z02_suroviny_plan_vyroby", "MinStart", "Start první VZ", 1, null, "datetime");
             AF("z02_suroviny_plan_vyroby", "MaxStart", "Start poslední VZ", 1, null, "datetime");
             AF("z02_suroviny_plan_vyroby", "p41CodeFirst", "Kód první VZ");
-            
-            
-            
+            AF("z02_suroviny_plan_vyroby", "PokrytiSurovinou", "Pokrytí Surovinou", 1, "z02_p19.p19StockActual-a.Mnozstvi", "num");
+
+
 
         }
 
