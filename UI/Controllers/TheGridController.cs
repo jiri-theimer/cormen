@@ -31,18 +31,26 @@ namespace UI.Controllers
             _pp = pp;
         }
 
-        public IActionResult FlatView(string prefix,int go2pid)    //pouze grid bez subform
+        public IActionResult FlatView(string prefix,int go2pid, int j72id)    //pouze grid bez subform
         {
             var v = inhaleGridViewInstance(prefix, go2pid,true);
-            v.j72id = Factory.CBL.LoadUserParamInt("flatview-j72id-" + prefix);
-           
+            v.j72id = j72id;
+            if (v.j72id == 0)
+            {
+                v.j72id = Factory.CBL.LoadUserParamInt("flatview-j72id-" + prefix);
+            }
+                       
             
             return View(v);
         }
-        public IActionResult MasterView(string prefix,int go2pid)    //grid horní + spodní panel
+        public IActionResult MasterView(string prefix,int go2pid,int j72id)    //grid horní + spodní panel
         {
             TheGridInstanceViewModel v = inhaleGridViewInstance(prefix, go2pid,true);
-            v.j72id= Factory.CBL.LoadUserParamInt("masterview-j72id-" + prefix);
+            v.j72id = j72id;
+            if (v.j72id == 0)
+            {
+                v.j72id = Factory.CBL.LoadUserParamInt("masterview-j72id-" + prefix);
+            }            
 
             BO.TheEntity ce = BL.TheEntities.ByPrefix(prefix);
             var tabs = new List<NavTab>();
@@ -183,12 +191,13 @@ namespace UI.Controllers
                 return  "@pid";
             }
         }
-        public IActionResult SlaveView(string master_entity,int master_pid, string prefix, int go2pid)    //podřízený subform v rámci MasterView
+        public IActionResult SlaveView(string master_entity,int master_pid, string prefix, int go2pid, string master_flag)    //podřízený subform v rámci MasterView
         {
-            TheGridInstanceViewModel v = inhaleGridViewInstance(prefix, go2pid,false);
+            TheGridInstanceViewModel v = inhaleGridViewInstance(prefix, go2pid,false);            
             v.j72id = Factory.CBL.LoadUserParamInt("slaveview-j72id-" + prefix+"-"+ master_entity);
             v.master_entity = master_entity;
             v.master_pid = master_pid;
+            v.master_flag = master_flag;
             if (String.IsNullOrEmpty(v.master_entity) || v.master_pid == 0)
             {
                 Factory.CurrentUser.AddMessage("Musíte vybrat záznam z nadřízeného panelu.");
@@ -796,9 +805,17 @@ namespace UI.Controllers
             render_select_option("500", "500", intPageSize.ToString());
             render_select_option("1000", "1000", intPageSize.ToString());            
             _s.Append("</select>");
-            if (intRowsCount < 0) return;
+            if (intRowsCount < 0)
+            {
+                RenderPanelsSwitchFlag();
+                return;
+            }
             
-            if (intRowsCount <= intPageSize) return;
+            if (intRowsCount <= intPageSize)
+            {
+                RenderPanelsSwitchFlag();
+                return;
+            }
 
             _s.Append("<button title='První' class='btn btn-light tgp' style='margin-left:6px;' onclick='tg_pager(\n0\n)'>&lt;&lt;</button>");
 
@@ -857,7 +874,7 @@ namespace UI.Controllers
             int intLastIndex = intRowsCount - (intRowsCount % intPageSize);  //% je zbytek po celočíselném dělení
             _s.Append(string.Format("<button title='Poslední' class='btn btn-light tgp' onclick='tg_pager(\n{0}\n)'>&gt;&gt;</button>", intLastIndex));
 
-
+            RenderPanelsSwitchFlag();
         }
 
 
@@ -923,7 +940,7 @@ namespace UI.Controllers
                 {
                     rec.j72Name += " ✔";
                 }
-                sb.Append(string.Format("<td><a class='nav-link py-0' href='javascript:change_grid({0})'>{1}</a></td>", rec.pid,rec.j72Name));
+                sb.Append(string.Format("<td><a class='nav-link py-0' href='javascript:_change_grid({0},\"{1}\")'>{2}</a></td>", rec.pid,rec.j72Entity.Substring(0,3),rec.j72Name));
 
                 sb.AppendLine(string.Format("<td style='width:30px;'><a title='Grid Návrhář' class='nav-link py-0' href='javascript:_window_open(\"/TheGrid/Designer?j72id={0}\",2);'><img src='/Images/setting.png'/></a></td>", rec.pid));
                 sb.AppendLine("</tr>");
@@ -985,10 +1002,38 @@ namespace UI.Controllers
 
         }
 
-        
-
-
-
+        private void RenderPanelsSwitchFlag()
+        {
+            if (_grid.GridState.MasterViewFlag < 3)
+            {
+                switch (_grid.Entity.Substring(0, 3))
+                {
+                    case "p51":
+                    case "p41":
+                    case "p10":
+                    case "p11":
+                    case "p12":
+                    case "p13":
+                    case "p19":
+                    case "p21":
+                    case "p26":
+                    case "p28":
+                    case "o23":
+                    case "j02":
+                        if (_grid.GridState.MasterViewFlag == 2)
+                        {
+                            _s.Append("<button type='button' class='btn btn-secondary btn-sm mx-4' onclick='tg_switchflag(\"" + _grid.Entity.Substring(0, 3) + "\",0)'>Vypnout spodní panel</button>");
+                        }
+                        else
+                        {
+                            _s.Append("<button type='button' class='btn btn-secondary btn-sm mx-4' onclick='tg_switchflag(\"" + _grid.Entity.Substring(0, 3) + "\",1)'>Zapnout spodní panel</button>");
+                        }
+                        break;
+                }
+            }
+        }
 
     }
+
+
 }

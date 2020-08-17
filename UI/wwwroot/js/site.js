@@ -21,18 +21,18 @@ function _edit(controller, pid, header) {
         case "x40":
             url = "/Mail/Record?pid=" + pid;
             break;
-        case "p21":        
+        case "p21":
             flag = 2;
             break;
         case "j90":
         case "j92":
-        case "p44":        
+        case "p44":
         case "p45":
         case "z01":
         case "z02":
             _notify_message("Pro tento záznam neexistuje stránka detailu.", "info");
             return;
-        default:            
+        default:
             break;
     }
 
@@ -318,26 +318,35 @@ function _mainmenu_init() {     //inicializace chování hlavního menu v postra
 
 }
 
-function _mainmenu_select(prefix_caret, data_menu) {
-    if (!document.getElementById("mainmenu_caret_" + prefix_caret)) {
-        data_menu = prefix_caret;
-        prefix_caret = "other";
+function _mainmenu_select(prefix, j72id) {
+    var caretid;
+    var ctl;
+
+    if (typeof j72id !== "undefined" && document.getElementById("gridlink" + j72id)) {
+        ctl = document.getElementById("gridlink" + j72id);
+
+    } else {
+        if (document.getElementById("gridlink_" + prefix)) {
+            ctl = document.getElementById("gridlink_" + prefix);
+
+
+        } else {
+            return; //na stránce nenalezeno
+        }
     }
 
-    $("#mainmenu_caret_" + prefix_caret).click();
 
-    if (typeof data_menu !== "undefined") {
-        var skupina = $("#mainmenu_caret_" + prefix_caret).closest("li");
+    caretid = $(ctl).attr("data-caretid");
+    $("#" + caretid).click();
 
-        $(skupina).find("[data-menu=" + data_menu + "]").first().addClass("selected_menu_item");
+    $(ctl).addClass("selected_menu_item");
 
-    }
 }
 
 
 //vyvolání kontextového menu
 function _cm(e, entity, pid) {
-    
+
     var ctl = e.target;
 
     var w = $(window).width();
@@ -345,8 +354,8 @@ function _cm(e, entity, pid) {
 
     var cssname = "cm_left2right";
     if (pos_left + 300 >= w) cssname = "cm_right2left";
-    var menuid = "cm_" + entity + "_"+pid;
-    
+    var menuid = "cm_" + entity + "_" + pid;
+
     if (!document.getElementById(menuid)) {
         //div na stránce neště existuje
         var el = document.createElement("DIV");
@@ -629,11 +638,11 @@ function _format_date(d, is_include_time) {
 
 
 function p21_handle_create_client_products(p21id) {
-    
+
     if (confirm("Chcete zaktualizovat klientské produkty a receptury podle vzoru vybraných Master produktů v licenci?") === true) {
-        
+
         $.post("/p21/CreateClientProducts", { p21id: p21id }, function (data) {
-            _notify_message(data.message,"info");
+            _notify_message(data.message, "info");
 
 
         });
@@ -708,5 +717,12 @@ function _init_qtip_onpage() {
 
             }
         });
+    });
+}
+
+function _change_grid(j72id, prefix) {
+    $.post("/Common/SetUserParam", { key: "masterview-j72id-" + prefix, value: j72id }, function (data) {
+        location.replace("/TheGrid/MasterView?prefix=" + prefix);
+
     });
 }

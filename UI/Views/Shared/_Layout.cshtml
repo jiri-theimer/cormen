@@ -134,15 +134,20 @@
 
         }
 
-        <ul id="mainmenu1">
+
+        <ul id="mainmenu1" style="background-color:@(BO.BAS.IIFS(_f.CurrentUser.j03EnvironmentFlag == 1,"#e6fff2","transparent"))">
             @if (_f.CurrentUser.j03EnvironmentFlag == 1)
             {
+
                 @Html.Display("mainmenu", "~/Views/Shared/_MainMenu_Master.cshtml");    //prostředí cormen mastera
+
+
             }
             else
             {
 
                 @Html.Display("mainmenu", "~/Views/Shared/_MainMenu_Client.cshtml");    //prostředí klienta
+
             }
         </ul>
         <hr />
@@ -427,6 +432,8 @@
             });
 
         }
+
+
     </script>
 
 

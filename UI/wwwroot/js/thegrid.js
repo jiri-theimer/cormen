@@ -946,3 +946,17 @@ function tg_select_one_row(ctl, pid) {
     $("#tg_selected_pid").val(pid);
     $("#tg_selected_pids").val(pid);
 }
+
+function tg_switchflag(prefix, show_view_11) {    //zapnout/vypnout spodní panel
+
+    $.post("/Common/SetUserParam", { key: "grid-" + prefix + "-show11", value: show_view_11 }, function (data) {
+        if (show_view_11 === 1) {
+            location.replace("/TheGrid/MasterView?prefix=" + prefix);
+        } else {
+            location.replace("/TheGrid/FlatView?prefix=" + prefix);
+        }
+
+
+    });
+
+}

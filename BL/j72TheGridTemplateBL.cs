@@ -255,9 +255,16 @@ namespace BL
         {
             string s;
             var p = new Dapper.DynamicParameters();
-            p.Add("j03id", intJ03ID);
-            p.Add("entity", strEntity);
+            p.Add("j03id", intJ03ID);            
             p.Add("j04id", _mother.CurrentUser.j04ID);
+
+            if (strEntity==null && strMasterEntity == null)
+            {
+                s = string.Format("SELECT a.*,{0} FROM j72TheGridTemplate a WHERE a.j03ID=@j03id OR a.j72IsPublic=1 OR a.j72ID IN (select j72ID FROM j74TheGridReceiver WHERE j04ID=@j04id)", _db.GetSQL1_Ocas("j72"));
+                return _db.GetList<BO.j72TheGridTemplate>(s + " ORDER BY a.j72IsSystem DESC", p);
+            }
+
+            p.Add("entity", strEntity);
             if (string.IsNullOrEmpty(strMasterEntity) == true)
             {
                 s = string.Format("SELECT a.*,{0} FROM j72TheGridTemplate a WHERE a.j72Entity=@entity AND a.j72MasterEntity IS NULL", _db.GetSQL1_Ocas("j72"));

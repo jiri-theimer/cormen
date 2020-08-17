@@ -21,7 +21,7 @@ namespace UI.Views.Shared.Components.TheGrid
         }
 
         public IViewComponentResult
-            Invoke(string entity,int j72id,int go2pid,string master_entity,int master_pid,int contextmenuflag,string ondblclick)
+            Invoke(string entity,int j72id,int go2pid,string master_entity,int master_pid,int contextmenuflag,string ondblclick, string master_flag, int masterviewflag)
         {
             var ret = new TheGridViewModel();
             ret.Entity = entity;
@@ -53,8 +53,10 @@ namespace UI.Views.Shared.Components.TheGrid
             gridState.j72MasterEntity = master_entity;
             gridState.MasterPID = master_pid;
             gridState.OnDblClick = ondblclick;
+            gridState.MasterViewFlag = masterviewflag;
+            gridState.MasterFlag = master_flag;
 
-            
+
             var cc = new TheGridController(_colsProvider,_pp);
             cc.Factory = _f;
 

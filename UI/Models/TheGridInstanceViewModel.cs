@@ -23,6 +23,8 @@ namespace UI.Models
         public string dblclick { get; set; } = "tg_dblclick";
 
         public PeriodViewModel period { get; set; }
+
+        public string master_flag { get; set; }
     }
 
 

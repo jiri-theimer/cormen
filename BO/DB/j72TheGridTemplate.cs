@@ -31,5 +31,7 @@ namespace BO
 
 
         public bool j72HashJ73Query;
+
+
     }
 }

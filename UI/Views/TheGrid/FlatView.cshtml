@@ -23,7 +23,7 @@
 
 
 
-<vc:the-grid entity="@Model.entity" j72id="@Model.j72id" go2pid="@Model.go2pid" master_entity="" master_pid="0" contextmenuflag="@Model.contextmenuflag" ondblclick="tg_dblclick"></vc:the-grid>
+<vc:the-grid entity="@Model.entity" j72id="@Model.j72id" go2pid="@Model.go2pid" master_entity="" master_pid="0" contextmenuflag="@Model.contextmenuflag" ondblclick="tg_dblclick" master_flag="@Model.master_flag" masterviewflag="1"></vc:the-grid>
 
 
 
@@ -35,22 +35,7 @@
     $(document.body).css("overflow", "hidden");
 
     $(document).ready(function () {
-
-        var prefix_caret = "@Model.prefix";
-        var data_menu = "grid1";
-
-        if (prefix_caret == "p27") {
-            data_menu = prefix_caret;
-            prefix_caret = "p26";
-        }
-        if (prefix_caret == "p44" || prefix_caret.substring(0,2) == "z0") {
-            data_menu = prefix_caret;
-            prefix_caret = "p41";
-        }
-        if (prefix_caret == "p19") {
-            data_menu = prefix_caret;
-            prefix_caret = "p13";
-        }
+        
 
         $("#PeriodValue").on("change", function () {
             $.post("/Common/SetUserParam", { key: "grid-period-value",value:$(this).val()  }, function (data) {
@@ -77,7 +62,7 @@
 
         });
 
-        _mainmenu_select(prefix_caret, data_menu);
+        _mainmenu_select("@Model.prefix","@Model.j72id");
 
 
     });
@@ -102,12 +87,7 @@
         }
 
 
-        function change_grid(j72id) {
-            $.post("/Common/SetUserParam", { key: "flatview-j72id-@(Model.prefix)",value:j72id  }, function (data) {
-                location.replace("/TheGrid/FlatView?prefix=@Model.prefix");
-
-            });
-        }
+        
 
 
     </script>

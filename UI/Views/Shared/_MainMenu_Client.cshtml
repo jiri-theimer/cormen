@@ -1,48 +1,138 @@
-﻿<li>
+﻿@inject BL.Factory _f
+
+@{
+    var _strDefGridName = "Výchozí GRID";
+    var _lisJ72 = _f.j72TheGridTemplateBL.GetList(null, _f.CurrentUser.pid, null).Where(p => p.j72MasterEntity == null);
+    foreach (var c in _lisJ72.Where(p => p.j72IsSystem == true))
+    {
+        c.j72Name = _strDefGridName;
+    }
+
+    var _bolP11 = _f.CBL.LoadUserParamBool("grid-p11-show11", true);
+    var _bolP12 = _f.CBL.LoadUserParamBool("grid-p12-show11", true);
+    var _bolP21 = _f.CBL.LoadUserParamBool("grid-p21-show11", true);
+    var _bolP41 = _f.CBL.LoadUserParamBool("grid-p41-show11", true);
+    var _bolP51 = _f.CBL.LoadUserParamBool("grid-p51-show11", true);
+    var _bolP28 = _f.CBL.LoadUserParamBool("grid-p28-show11", true);
+    var _bolO23 = _f.CBL.LoadUserParamBool("grid-o23-show11", true);
+    var _bolJ02 = _f.CBL.LoadUserParamBool("grid-j02-show11", true);
+    var _bolP26 = _f.CBL.LoadUserParamBool("grid-p26-show11", true);
+}
+<li>
     <span id="mainmenu_caret_p51" class="nav-link caret">OBJEDNÁVKY</span>
     <ul class="collapsed">
-        <li>
-            <a data-menu="grid11" class="nav-link" href="/TheGrid/MasterView?prefix=p51">Grid 1+1</a>
-        </li>
-        <li>
-            <a data-menu="grid1" class="nav-link" href="/TheGrid/FlatView?prefix=p51">Grid 1</a>
-        </li>
+        @if (_lisJ72.Where(p => p.j72Entity == "p51Order").Count() == 0)
+        {
+            <a id="gridlink_p51" data-caretid="mainmenu_caret_p51" class="nav-link" href="/TheGrid/MasterView?prefix=p51">@_strDefGridName</a>
+        }
+        @foreach (var c in _lisJ72.Where(p => p.j72Entity == "p51Order"))
+        {
+            <li>
+                @if (_bolP51)
+                {
+                    <a id="gridlink@(c.pid)" data-caretid="mainmenu_caret_p51" class="nav-link" href="/TheGrid/MasterView?prefix=p51&j72id=@c.pid">@c.j72Name</a>
+                }
+                else
+                {
+                    <a id="gridlink@(c.pid)" data-caretid="mainmenu_caret_p51" class="nav-link" href="/TheGrid/FlatView?prefix=p51&j72id=@c.pid">@c.j72Name</a>
+                }
+            </li>
+        }
+
 
 
     </ul>
 </li>
+
+<li>
+    <span id="mainmenu_caret_pvv" class="nav-link caret">PLÁN VÝROBY</span>
+    <ul class="collapsed">
+        @foreach (var c in _lisJ72.Where(p => p.j72IsSystem==false && p.j72Entity == "p11ClientProduct"))
+        {
+            <li>
+                @if (_bolP11)
+                {
+                    <a id="gridlink@(c.pid)" data-caretid="mainmenu_caret_pvv" class="nav-link" href="/TheGrid/MasterView?prefix=p11&j72id=@c.pid">@c.j72Name</a>
+                }
+                else
+                {
+                    <a id="gridlink@(c.pid)" data-caretid="mainmenu_caret_pvv" class="nav-link" href="/TheGrid/FlatView?prefix=p11&j72id=@c.pid">@c.j72Name</a>
+                }
+            </li>
+        }
+
+        <li class="lihead">Plán výrobních operací</li>
+        @foreach (var c in _lisJ72.Where(p => p.j72Entity == "p44TaskOperPlan"))
+        {
+            <li>
+                <a id="gridlink@(c.pid)" data-caretid="mainmenu_caret_pvv" class="nav-link" href="/TheGrid/FlatView?prefix=p44&j72id=@c.pid">@c.j72Name</a>
+            </li>
+        }
+
+        <li class="lihead">Plán výroby: Σ surovin</li>
+        @foreach (var c in _lisJ72.Where(p => p.j72Entity == "z02_suroviny_plan_vyroby"))
+        {
+            <li>
+                <a id="gridlink@(c.pid)" data-caretid="mainmenu_caret_pvv" class="nav-link" href="/TheGrid/FlatView?prefix=z02&j72id=@c.pid">@c.j72Name</a>
+            </li>
+        }
+        <li style="border-top:solid 1px lightgrey"></li>
+        <li>
+            <a id="gridlink_z01" data-caretid="mainmenu_caret_pvv" class="nav-link" href="/TheGrid/FlatView?prefix=z01">Plán výroby podle produktů</a>
+        </li>
+    </ul>
+</li>
+
 <li>
     <span id="mainmenu_caret_p41" class="nav-link caret">Výrobní ZAKÁZKY</span>
     <ul class="collapsed">
-        <li>
-            <a data-menu="p41timeline" class="nav-link" href="/p41/p41Timeline">Timeline zakázek</a>
+        <li style="border-bottom:solid 1px lightgrey;">
+            <a id="gridlink_p41timeline" data-caretid="mainmenu_caret_p41" class="nav-link" href="/p41/p41Timeline">Timeline zakázek</a>
         </li>
-        <li>
-            <a data-menu="grid11" class="nav-link" href="/TheGrid/MasterView?prefix=p41">Grid 1+1</a>
-        </li>
-        <li>
-            <a data-menu="grid1" class="nav-link" href="/TheGrid/FlatView?prefix=p41">Grid 1</a>
-        </li>
-        <li>
-            <a data-menu="p44" class="nav-link" href="/TheGrid/FlatView?prefix=p44">Plán výrobních operací</a>
-        </li>
-        <li>
-            <a data-menu="z01" class="nav-link" href="/TheGrid/FlatView?prefix=z01">Plán výroby podle produktů</a>
-        </li>
-        <li>
-            <a data-menu="z02" class="nav-link" href="/TheGrid/FlatView?prefix=z02">Plán výroby: Σ surovin</a>
-        </li>
+        @if (_lisJ72.Where(p => p.j72Entity == "p41Task").Count() == 0)
+        {
+            <a id="gridlink_p41" data-caretid="mainmenu_caret_p41" class="nav-link" href="/TheGrid/MasterView?prefix=p41">@_strDefGridName</a>
+        }
+        @foreach (var c in _lisJ72.Where(p => p.j72Entity == "p41Task"))
+        {
+            <li>
+                @if (_bolP51)
+                {
+                    <a id="gridlink@(c.pid)" data-caretid="mainmenu_caret_p41" class="nav-link" href="/TheGrid/MasterView?prefix=p41&j72id=@c.pid">@c.j72Name</a>
+                }
+                else
+                {
+                    <a id="gridlink@(c.pid)" data-caretid="mainmenu_caret_p41" class="nav-link" href="/TheGrid/FlatView?prefix=p41&j72id=@c.pid">@c.j72Name</a>
+                }
+            </li>
+        }
+
+
+
+
+
     </ul>
 </li>
 <li>
     <span id="mainmenu_caret_p11" class="nav-link caret">PRODUKTY [Klient]</span>
     <ul class="collapsed">
-        <li>
-            <a data-menu="grid11" class="nav-link" href="/TheGrid/MasterView?prefix=p11">Grid 1+1</a>
-        </li>
-        <li>
-            <a data-menu="grid1" class="nav-link" href="/TheGrid/FlatView?prefix=p11">Grid 1</a>
-        </li>
+        @if (_lisJ72.Where(p => p.j72Entity == "p11ClientProduct").Count() == 0)
+        {
+            <a id="gridlink_p11" data-caretid="mainmenu_caret_p11" class="nav-link" href="/TheGrid/MasterView?prefix=p11">@_strDefGridName</a>
+        }
+        @foreach (var c in _lisJ72.Where(p => p.j72IsSystem == true && p.j72Entity == "p11ClientProduct"))
+        {
+            <li>
+                @if (_bolP11)
+                {
+                    <a id="gridlink@(c.pid)" data-caretid="mainmenu_caret_p11" class="nav-link" href="/TheGrid/MasterView?prefix=p11&j72id=@c.pid">@c.j72Name</a>
+                }
+                else
+                {
+                    <a id="gridlink@(c.pid)" data-caretid="mainmenu_caret_p11" class="nav-link" href="/TheGrid/FlatView?prefix=p11&j72id=@c.pid">@c.j72Name</a>
+                }
+            </li>
+        }
 
 
     </ul>
@@ -50,43 +140,73 @@
 <li>
     <span id="mainmenu_caret_p12" class="nav-link caret">RECEPTURY [Klient]</span>
     <ul class="collapsed">
-        <li>
-            <a data-menu="grid11" class="nav-link" href="/TheGrid/MasterView?prefix=p12">Grid 1+1</a>
-        </li>
-        <li>
-            <a data-menu="grid1" class="nav-link" href="/TheGrid/FlatView?prefix=p12">Grid 1</a>
-        </li>
-
-
+        @if (_lisJ72.Where(p => p.j72Entity == "p12ClientTpv").Count() == 0)
+        {
+            <a id="gridlink_p12" data-caretid="mainmenu_caret_p12" class="nav-link" href="/TheGrid/MasterView?prefix=p12">@_strDefGridName</a>
+        }
+        @foreach (var c in _lisJ72.Where(p => p.j72Entity == "p12ClientTpv"))
+        {
+            <li>
+                @if (_bolP12)
+                {
+                    <a id="gridlink@(c.pid)" data-caretid="mainmenu_caret_p12" class="nav-link" href="/TheGrid/MasterView?prefix=p12&j72id=@c.pid">@c.j72Name</a>
+                }
+                else
+                {
+                    <a id="gridlink@(c.pid)" data-caretid="mainmenu_caret_p12" class="nav-link" href="/TheGrid/FlatView?prefix=p12&j72id=@c.pid">@c.j72Name</a>
+                }
+            </li>
+        }
     </ul>
 </li>
 <li>
     <span id="mainmenu_caret_p21" class="nav-link caret">LICENCE</span>
     <ul class="collapsed">
-        <li>
-            <a data-menu="grid11" class="nav-link" href="/TheGrid/MasterView?prefix=p21">Grid 1+1</a>
-        </li>
-        <li>
-            <a data-menu="grid1" class="nav-link" href="/TheGrid/FlatView?prefix=p21">Grid 1</a>
-        </li>
-
-
+        @if (_lisJ72.Where(p => p.j72Entity == "p21License").Count() == 0)
+        {
+            <a id="gridlink_p21" data-caretid="mainmenu_caret_p21" class="nav-link" href="/TheGrid/MasterView?prefix=p21">@_strDefGridName</a>
+        }
+        @foreach (var c in _lisJ72.Where(p => p.j72Entity == "p21License"))
+        {
+            <li>
+                @if (_bolP21)
+                {
+                    <a id="gridlink@(c.pid)" data-caretid="mainmenu_caret_p21" class="nav-link" href="/TheGrid/MasterView?prefix=p21&j72id=@c.pid">@c.j72Name</a>
+                }
+                else
+                {
+                    <a id="gridlink@(c.pid)" data-caretid="mainmenu_caret_p21" class="nav-link" href="/TheGrid/FlatView?prefix=p21&j72id=@c.pid">@c.j72Name</a>
+                }
+            </li>
+        }
     </ul>
 </li>
 <li>
     <span id="mainmenu_caret_p26" class="nav-link caret">ZAŘÍZENÍ</span>
     <ul class="collapsed">
+        @if (_lisJ72.Where(p => p.j72Entity == "p26Msz").Count() == 0)
+        {
+            <a id="gridlink_p26" data-caretid="mainmenu_caret_p26" class="nav-link" href="/TheGrid/MasterView?prefix=p26">@_strDefGridName</a>
+        }
+        @foreach (var c in _lisJ72.Where(p => p.j72Entity == "p26Msz"))
+        {
+            <li>
+                @if (_bolP26)
+                {
+                    <a id="gridlink@(c.pid)" data-caretid="mainmenu_caret_p26" class="nav-link" href="/TheGrid/MasterView?prefix=p26&j72id=@c.pid">@c.j72Name</a>
+                }
+                else
+                {
+                    <a id="gridlink@(c.pid)" data-caretid="mainmenu_caret_p26" class="nav-link" href="/TheGrid/FlatView?prefix=p26&j72id=@c.pid">@c.j72Name</a>
+                }
+            </li>
+        }
+        <li style="border-top:solid 1px lightgrey;"></li>
         <li>
-            <a data-menu="grid11" class="nav-link" href="/TheGrid/MasterView?prefix=p26">Skupiny Grid 1+1</a>
+            <a id="gridlink_p31timeline" data-caretid="mainmenu_caret_p26" class="nav-link" href="/p31/p31Timeline">Časové fondy</a>
         </li>
         <li>
-            <a data-menu="grid1" class="nav-link" href="/TheGrid/FlatView?prefix=p26">Skupiny Grid 1</a>
-        </li>
-        <li>
-            <a data-menu="p31timeline" class="nav-link" href="/p31/p31Timeline">Časové fondy</a>
-        </li>
-        <li>
-            <a data-menu="p27" class="nav-link" href="/TheGrid/FlatView?prefix=p27">Zařízení</a>
+            <a id="gridlink_p27" data-caretid="mainmenu_caret_p26" class="nav-link" href="/TheGrid/FlatView?prefix=p27">Zařízení</a>
         </li>
 
     </ul>
@@ -94,12 +214,24 @@
 <li>
     <span id="mainmenu_caret_p28" class="nav-link caret">KLIENTI</span>
     <ul class="collapsed">
-        <li>
-            <a data-menu="grid11" class="nav-link" href="/TheGrid/MasterView?prefix=p28">Grid 1+1</a>
-        </li>
-        <li>
-            <a data-menu="grid1" class="nav-link" href="/TheGrid/FlatView?prefix=p28">Grid 1</a>
-        </li>
+        @if (_lisJ72.Where(p => p.j72Entity == "p28Client").Count() == 0)
+        {
+            <a id="gridlink_p28" data-caretid="mainmenu_caret_p28" class="nav-link" href="/TheGrid/MasterView?prefix=p28">@_strDefGridName</a>
+        }
+        @foreach (var c in _lisJ72.Where(p => p.j72Entity == "p28Client"))
+        {
+            <li>
+                @if (_bolP28)
+                {
+                    <a id="gridlink@(c.pid)" data-caretid="mainmenu_caret_p28" class="nav-link" href="/TheGrid/MasterView?prefix=p28&j72id=@c.pid">@c.j72Name</a>
+                }
+                else
+                {
+                    <a id="gridlink@(c.pid)" data-caretid="mainmenu_caret_p28" class="nav-link" href="/TheGrid/FlatView?prefix=p28&j72id=@c.pid">@c.j72Name</a>
+                }
+            </li>
+        }
+
 
 
     </ul>
@@ -107,25 +239,45 @@
 <li>
     <span id="mainmenu_caret_o23" class="nav-link caret">DOKUMENTY</span>
     <ul class="collapsed">
-        <li>
-            <a data-menu="grid11" class="nav-link" href="/TheGrid/MasterView?prefix=o23">Grid 1+1</a>
-        </li>
-        <li>
-            <a data-menu="grid1" class="nav-link" href="/TheGrid/FlatView?prefix=o23">Grid 1</a>
-        </li>
-
-
+        @if (_lisJ72.Where(p => p.j72Entity == "o23Doc").Count() == 0)
+        {
+            <a id="gridlink_o23" data-caretid="mainmenu_caret_o23" class="nav-link" href="/TheGrid/MasterView?prefix=o23">@_strDefGridName</a>
+        }
+        @foreach (var c in _lisJ72.Where(p => p.j72Entity == "o23Doc"))
+        {
+            <li>
+                @if (_bolO23)
+                {
+                    <a id="gridlink@(c.pid)" data-caretid="mainmenu_caret_o23" class="nav-link" href="/TheGrid/MasterView?prefix=o23&j72id=@c.pid">@c.j72Name</a>
+                }
+                else
+                {
+                    <a id="gridlink@(c.pid)" data-caretid="mainmenu_caret_o23" class="nav-link" href="/TheGrid/FlatView?prefix=o23&j72id=@c.pid">@c.j72Name</a>
+                }
+            </li>
+        }
     </ul>
 </li>
 <li>
     <span id="mainmenu_caret_j02" class="nav-link caret">LIDÉ</span>
     <ul class="collapsed">
-        <li>
-            <a data-menu="grid11" class="nav-link" href="/TheGrid/MasterView?prefix=j02">Grid 1+1</a>
-        </li>
-        <li>
-            <a data-menu="grid1" class="nav-link" href="/TheGrid/FlatView?prefix=j02">Grid 1</a>
-        </li>
+        @if (_lisJ72.Where(p => p.j72Entity == "j02Person").Count() == 0)
+        {
+            <a id="gridlink_j02" data-caretid="mainmenu_caret_j02" class="nav-link" href="/TheGrid/MasterView?prefix=j02">@_strDefGridName</a>
+        }
+        @foreach (var c in _lisJ72.Where(p => p.j72Entity == "j02Person"))
+        {
+            <li>
+                @if (_bolJ02)
+                {
+                    <a id="gridlink@(c.pid)" data-caretid="mainmenu_caret_j02" class="nav-link" href="/TheGrid/MasterView?prefix=j02&j72id=@c.pid">@c.j72Name</a>
+                }
+                else
+                {
+                    <a id="gridlink@(c.pid)" data-caretid="mainmenu_caret_j02" class="nav-link" href="/TheGrid/FlatView?prefix=j02&j72id=@c.pid">@c.j72Name</a>
+                }
+            </li>
+        }
 
 
     </ul>
@@ -136,14 +288,12 @@
     <ul class="collapsed">
 
 
+        
         <li>
-            <a data-menu="p19" class="nav-link" href="/TheGrid/FlatView?prefix=p19">Suroviny</a>
+            <a id="gridlink_p31" data-caretid="mainmenu_caret_other" class="nav-link" href="/TheGrid/FlatView?prefix=p31">Číselník kapacitních fondů</a>
         </li>
         <li>
-            <a data-menu="p31" class="nav-link" href="/TheGrid/FlatView?prefix=p31">Číselník kapacitních fondů</a>
-        </li>
-        <li>
-            <a data-menu="o51" class="nav-link" href="/TheGrid/FlatView?prefix=o51">Položky kategorií</a>
+            <a id="gridlink_o51" data-caretid="mainmenu_caret_other" class="nav-link" href="/TheGrid/FlatView?prefix=o51">Položky kategorií</a>
         </li>
     </ul>
 </li>

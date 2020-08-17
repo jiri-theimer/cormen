@@ -781,3 +781,31 @@ a.reczoom {
 .rowvalhover:hover .reczoom {
     visibility: visible;
 }
+
+
+.hr-text {
+    display: flex;
+    flex-basis: 100%;
+    align-items: center;
+    color: silver;
+    font-size: 12px;
+    margin: 1px 0px;
+}
+
+    .hr-text::before,
+    .hr-text::after {
+        content: "";
+        flex-grow: 1;
+        background: rgba(0, 0, 0, 0.35);
+        height: 1px;
+        font-size: 0px;
+        line-height: 0px;
+        margin: 0px 2px;
+    }
+
+li.lihead{
+    color:navy;
+    background-color:lightgray;
+    font-weight:500;
+
+}

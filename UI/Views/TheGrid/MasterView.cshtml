@@ -26,7 +26,7 @@
     }
     <div id="splitter_panel1" class="splitter-panel-top">
 
-        <vc:the-grid entity="@Model.entity" j72id="@Model.j72id" go2pid="@Model.go2pid" master_entity="" master_pid="0" contextmenuflag="@Model.contextmenuflag" ondblclick="tg_dblclick"></vc:the-grid>
+        <vc:the-grid entity="@Model.entity" j72id="@Model.j72id" go2pid="@Model.go2pid" master_entity="" master_pid="0" contextmenuflag="@Model.contextmenuflag" ondblclick="tg_dblclick" master_flag="@Model.master_flag" masterviewflag="2"></vc:the-grid>
 
     </div>
     <div style="padding-top:1px;margin-bottom:1px;height:30px;background-color:#ADD8E6;">
@@ -100,15 +100,8 @@
 
         tg_adjust_for_screen("splitter_panel1");
 
-        var data_menu = "grid11";
-        var prefix_caret = "@Model.prefix";
-
-        if (prefix_caret == "p19") {
-            data_menu = prefix_caret;
-            prefix_caret = "p13";
-        }
-
-        _mainmenu_select(prefix_caret, data_menu);
+        
+        _mainmenu_select("@Model.prefix","@Model.j72id");
 
 
 
@@ -158,12 +151,7 @@
 
         }
 
-        function change_grid(j72id) {
-            $.post("/Common/SetUserParam", { key: "masterview-j72id-@(Model.prefix)",value:j72id  }, function (data) {
-                location.replace("/TheGrid/MasterView?prefix=@Model.prefix");
-
-            });
-        }
+        
 
 
 
