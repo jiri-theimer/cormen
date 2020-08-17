@@ -16,6 +16,7 @@ namespace BL
 
         private Ij02PersonBL _j02;
         private Ij03UserBL _j03;
+        private Ij72TheGridTemplateBL _j72;
         private Ip10MasterProductBL _p10;        
         private Ip13MasterTpvBL _p13;
         private Ip28CompanyBL _p28;
@@ -158,6 +159,14 @@ namespace BL
             {
                 if (_j04 == null) _j04= new j04UserRoleBL(this);
                 return _j04;
+            }
+        }
+        public Ij72TheGridTemplateBL j72TheGridTemplateBL
+        {
+            get
+            {
+                if (_j72 == null) _j72 = new j72TheGridTemplateBL(this);
+                return _j72;
             }
         }
         public Ip28CompanyBL p28CompanyBL

@@ -11,7 +11,7 @@ namespace UI.Models
         public int MasterPID { get; set; }
         public string MasterEntity { get; set; }
         public string ondblclick { get; set; }
-        public BO.j72TheGridState GridState { get; set; }
+        public BO.TheGridState GridState { get; set; }
         
         public IEnumerable<BO.TheGridColumn> Columns { get; set; }
 

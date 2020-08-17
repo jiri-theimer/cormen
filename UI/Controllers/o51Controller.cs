@@ -229,7 +229,7 @@ namespace UI.Controllers
         
         private void RefreshState_Batch(ref TagsBatch v,int j72id,string pids)
         {
-            BO.j72TheGridState c = Factory.gridBL.LoadTheGridState(j72id);            
+            BO.TheGridState c = Factory.j72TheGridTemplateBL.LoadState(j72id,Factory.CurrentUser.pid);            
             v.j72ID = j72id;
             v.Record_Entity = c.j72Entity;
             v.Record_Pids = pids;
