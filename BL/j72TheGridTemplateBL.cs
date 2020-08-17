@@ -115,7 +115,7 @@ namespace BL
             p.AddString("j72MasterEntity", rec.j72MasterEntity);
             p.AddString("j72Columns", rec.j72Columns);
             p.AddInt("j72SplitterFlag", rec.j72SplitterFlag);
-
+            p.AddBool("j72IsMainMenu", rec.j72IsMainMenu);
 
             p.AddBool("j72IsNoWrap", rec.j72IsNoWrap);
             p.AddInt("j72SelectableFlag", rec.j72SelectableFlag);

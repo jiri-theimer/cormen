@@ -1,10 +1,11 @@
 ﻿@inject BL.Factory _f
 
 @{
-    var _lisJ72 = _f.j72TheGridTemplateBL.GetList(null, _f.CurrentUser.pid, null).Where(p => p.j72MasterEntity == null);
+    var _strDefGridName = "Výchozí GRID";
+    var _lisJ72 = _f.j72TheGridTemplateBL.GetList(null, _f.CurrentUser.pid, null).Where(p =>(p.j72IsSystem==true || p.j72IsMainMenu==true) && p.j72MasterEntity == null);
     foreach (var c in _lisJ72.Where(p => p.j72IsSystem == true))
     {
-        c.j72Name = "Výchozí GRID";
+        c.j72Name = _strDefGridName;
     }
 
     var _bolP10 = _f.CBL.LoadUserParamBool("grid-p10-show11", true);
@@ -20,6 +21,10 @@
 <li>
     <span id="mainmenu_caret_p10" class="nav-link caret">PRODUKTY [Master]</span>
     <ul class="collapsed">
+        @if (_lisJ72.Where(p => p.j72Entity == "p10MasterProduct").Count() == 0)
+        {
+            <a id="gridlink_p10" data-caretid="mainmenu_caret_p10" class="nav-link" href="/TheGrid/MasterView?prefix=p10">@_strDefGridName</a>
+        }
         @foreach (var c in _lisJ72.Where(p => p.j72Entity == "p10MasterProduct"))
         {
             <li>
@@ -39,6 +44,10 @@
 <li>
     <span id="mainmenu_caret_p13" class="nav-link caret">RECEPTURY [Master]</span>
     <ul class="collapsed">
+        @if (_lisJ72.Where(p => p.j72Entity == "p13MasterTpv").Count() == 0)
+        {
+            <a id="gridlink_p10" data-caretid="mainmenu_caret_p13" class="nav-link" href="/TheGrid/MasterView?prefix=p13">@_strDefGridName</a>
+        }
         @foreach (var c in _lisJ72.Where(p => p.j72Entity == "p13MasterTpv"))
         {
             <li>
@@ -54,6 +63,10 @@
         }
 
         <li class="lihead">Suroviny</li>
+        @if (_lisJ72.Where(p => p.j72Entity == "p13MasterTpv").Count() == 0)
+        {
+            <a id="gridlink_p10" data-caretid="mainmenu_caret_p13" class="nav-link" href="/TheGrid/MasterView?prefix=p19">@_strDefGridName</a>
+        }
         @foreach (var c in _lisJ72.Where(p => p.j72Entity == "p19Material"))
         {
             <li>
@@ -74,6 +87,10 @@
 <li>
     <span id="mainmenu_caret_p21" class="nav-link caret">LICENCE</span>
     <ul class="collapsed">
+        @if (_lisJ72.Where(p => p.j72Entity == "p21License").Count() == 0)
+        {
+            <a id="gridlink_p21" data-caretid="mainmenu_caret_p21" class="nav-link" href="/TheGrid/MasterView?prefix=p21">@_strDefGridName</a>
+        }
         @foreach (var c in _lisJ72.Where(p => p.j72Entity == "p21License"))
         {
             <li>
@@ -94,6 +111,10 @@
 <li>
     <span id="mainmenu_caret_p26" class="nav-link caret">ZAŘÍZENÍ</span>
     <ul class="collapsed">
+        @if (_lisJ72.Where(p => p.j72Entity == "p26Msz").Count() == 0)
+        {
+            <a id="gridlink_p26" data-caretid="mainmenu_caret_p26" class="nav-link" href="/TheGrid/MasterView?prefix=p26">@_strDefGridName</a>
+        }
         @foreach (var c in _lisJ72.Where(p => p.j72Entity == "p26Msz"))
         {
             <li>
@@ -123,6 +144,10 @@
 <li>
     <span id="mainmenu_caret_p28" class="nav-link caret">KLIENTI</span>
     <ul class="collapsed">
+        @if (_lisJ72.Where(p => p.j72Entity == "p28Client").Count() == 0)
+        {
+            <a id="gridlink_p28" data-caretid="mainmenu_caret_p28" class="nav-link" href="/TheGrid/MasterView?prefix=p28">@_strDefGridName</a>
+        }
         @foreach (var c in _lisJ72.Where(p => p.j72Entity == "p28Client"))
         {
             <li>
@@ -142,6 +167,10 @@
 <li>
     <span id="mainmenu_caret_o23" class="nav-link caret">DOKUMENTY</span>
     <ul class="collapsed">
+        @if (_lisJ72.Where(p => p.j72Entity == "o23Doc").Count() == 0)
+        {
+            <a id="gridlink_o23" data-caretid="mainmenu_caret_o23" class="nav-link" href="/TheGrid/MasterView?prefix=o23">@_strDefGridName</a>
+        }
         @foreach (var c in _lisJ72.Where(p => p.j72Entity == "o23Doc"))
         {
             <li>
@@ -160,6 +189,10 @@
 <li>
     <span id="mainmenu_caret_j02" class="nav-link caret">LIDÉ</span>
     <ul class="collapsed">
+        @if (_lisJ72.Where(p => p.j72Entity == "j02Person").Count() == 0)
+        {
+            <a id="gridlink_j02" data-caretid="mainmenu_caret_j02" class="nav-link" href="/TheGrid/MasterView?prefix=j02">@_strDefGridName</a>
+        }
         @foreach (var c in _lisJ72.Where(p => p.j72Entity == "j02Person"))
         {
             <li>
@@ -184,7 +217,7 @@
     <span id="mainmenu_caret_other" class="nav-link caret">OSTATNÍ</span>
     <ul class="collapsed">
         <li>
-            <a data-menu="gridlink_p18" data-caretid="mainmenu_caret_other" class="nav-link" href="/TheGrid/FlatView?prefix=p18">Kódy operací</a>
+            <a id="gridlink_p18" data-caretid="mainmenu_caret_other" class="nav-link" href="/TheGrid/FlatView?prefix=p18">Kódy operací</a>
         </li>
 
         <li>

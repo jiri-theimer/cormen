@@ -366,9 +366,15 @@
                     <input type="checkbox" asp-for="Rec.j72IsPublic" />
                     <label class="col-form-label" for="Rec_j72IsPublic">Přístupné pro všechny uživatele</label>
                 </div>
-                <mycombochecklist asp-for="@Model.j04IDs" entity="j04UserRole" selectedtext="@Model.j04Names" placeholder="Nasdílet pouze pro aplikační role..."></mycombochecklist>
-               
+
+                <div>
+                    <input type="checkbox" asp-for="Rec.j72IsMainMenu" />
+                    <label class="col-form-label" for="Rec_j72IsMainMenu">Zobrazovat odkaz v hlavním menu</label>
+                </div>
                 
+                <mycombochecklist asp-for="@Model.j04IDs" entity="j04UserRole" selectedtext="@Model.j04Names" placeholder="Nasdílet pouze pro aplikační role..."></mycombochecklist>
+
+
             </div>
         </div>
     }

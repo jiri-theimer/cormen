@@ -2,11 +2,13 @@
 
 @{
     var _strDefGridName = "Výchozí GRID";
-    var _lisJ72 = _f.j72TheGridTemplateBL.GetList(null, _f.CurrentUser.pid, null).Where(p => p.j72MasterEntity == null);
+    var _lisJ72 = _f.j72TheGridTemplateBL.GetList(null, _f.CurrentUser.pid, null).Where(p => (p.j72IsSystem == true || p.j72IsMainMenu == true) && p.j72MasterEntity == null);
+
     foreach (var c in _lisJ72.Where(p => p.j72IsSystem == true))
     {
         c.j72Name = _strDefGridName;
     }
+
 
     var _bolP11 = _f.CBL.LoadUserParamBool("grid-p11-show11", true);
     var _bolP12 = _f.CBL.LoadUserParamBool("grid-p12-show11", true);
@@ -17,6 +19,9 @@
     var _bolO23 = _f.CBL.LoadUserParamBool("grid-o23-show11", true);
     var _bolJ02 = _f.CBL.LoadUserParamBool("grid-j02-show11", true);
     var _bolP26 = _f.CBL.LoadUserParamBool("grid-p26-show11", true);
+
+
+
 }
 <li>
     <span id="mainmenu_caret_p51" class="nav-link caret">OBJEDNÁVKY</span>
@@ -47,7 +52,7 @@
 <li>
     <span id="mainmenu_caret_pvv" class="nav-link caret">PLÁN VÝROBY</span>
     <ul class="collapsed">
-        @foreach (var c in _lisJ72.Where(p => p.j72IsSystem==false && p.j72Entity == "p11ClientProduct"))
+        @foreach (var c in _lisJ72.Where(p => p.j72IsSystem == false && p.j72Entity == "p11ClientProduct"))
         {
             <li>
                 @if (_bolP11)
@@ -62,6 +67,10 @@
         }
 
         <li class="lihead">Plán výrobních operací</li>
+        @if (_lisJ72.Where(p => p.j72Entity == "p44TaskOperPlan").Count() == 0)
+        {
+            <a id="gridlink_p44" data-caretid="mainmenu_caret_pvv" class="nav-link" href="/TheGrid/FlatView?prefix=p44">@_strDefGridName</a>
+        }
         @foreach (var c in _lisJ72.Where(p => p.j72Entity == "p44TaskOperPlan"))
         {
             <li>
@@ -70,6 +79,10 @@
         }
 
         <li class="lihead">Plán výroby: Σ surovin</li>
+        @if (_lisJ72.Where(p => p.j72Entity == "z02_suroviny_plan_vyroby").Count() == 0)
+        {
+            <a id="gridlink_z02" data-caretid="mainmenu_caret_pvv" class="nav-link" href="/TheGrid/FlatView?prefix=z02">@_strDefGridName</a>
+        }
         @foreach (var c in _lisJ72.Where(p => p.j72Entity == "z02_suroviny_plan_vyroby"))
         {
             <li>
@@ -288,7 +301,7 @@
     <ul class="collapsed">
 
 
-        
+
         <li>
             <a id="gridlink_p31" data-caretid="mainmenu_caret_other" class="nav-link" href="/TheGrid/FlatView?prefix=p31">Číselník kapacitních fondů</a>
         </li>

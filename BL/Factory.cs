@@ -79,26 +79,7 @@ namespace BL
                     this.CurrentUser.j03EnvironmentFlag = 1;    //natvrdo MASTER prostředí
                 }
             }
-            
-
-            //System.IO.File.AppendAllText("c:\\temp\\hovado.txt", "Byl jsem tu: " + DateTime.Now.ToString());
-            //if (this.CurrentUser != null)
-            //{
-            //    if (this.CurrentUser.j03PingTimestamp == null || this.CurrentUser.j03PingTimestamp.Value.AddSeconds(200) < DateTime.Now)
-            //    {
-            //        db.RunSql("UPDATE j03User set j03PingTimestamp=GETDATE() WHERE j03ID=@pid", new { pid = this.CurrentUser.pid });    //ping aktualizace po 200 sekundách
-
-            //        if (this.CurrentUser.j03LiveChatTimestamp != null)
-            //        {
-            //            if (this.CurrentUser.j03LiveChatTimestamp.Value.AddMinutes(20) < DateTime.Now)
-            //            {
-            //                var c = this.j03UserBL.Load(this.CurrentUser.pid);
-            //                c.j03LiveChatTimestamp = null;   //vypnout smartsupp
-            //                this.j03UserBL.Save(c);
-            //            }
-            //        }
-            //    }
-            //}
+                        
 
 
         }
@@ -111,7 +92,7 @@ namespace BL
             db.RunSql(s,new {j03id=BO.BAS.TestIntAsDbKey(c.j03ID), useragent = c.j90BrowserUserAgent,browser= c.j90BrowserFamily,os=c.j90BrowserOS, devicetype=c.j90BrowserDeviceType, devicefamily=c.j90BrowserDeviceFamily,aw=c.j90BrowserAvailWidth,ah=c.j90BrowserAvailHeight,iw=c.j90BrowserInnerWidth,ih=c.j90BrowserInnerHeight,mes=c.j90LoginMessage, loginname=c.j90LoginName, cookieexpire=c.j90CookieExpiresInHours, host=c.j90LocationHost });
         }
 
-
+        
 
         public IDataGridBL gridBL
         {

@@ -398,7 +398,7 @@ namespace UI.Controllers
 
                 recJ72.j72Columns = v.Rec.j72Columns;
                 recJ72.j72IsPublic = v.Rec.j72IsPublic;
-
+                recJ72.j72IsMainMenu = v.Rec.j72IsMainMenu;
                 gridState.j75Filter = "";   //automaticky vyčistit aktuální sloupcový filtr
                 gridState.j75CurrentPagerIndex = 0;
                 gridState.j75CurrentRecordPid = 0;

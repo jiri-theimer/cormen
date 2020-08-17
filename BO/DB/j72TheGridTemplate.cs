@@ -32,6 +32,6 @@ namespace BO
 
         public bool j72HashJ73Query;
 
-
+        public bool j72IsMainMenu { get; set; }
     }
 }
