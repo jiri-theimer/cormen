@@ -299,7 +299,7 @@ namespace BL
             AF("p11ClientProduct", "p11DavkaMax", "Dávka Max.", 0, null, "num0");
             AF("p11ClientProduct", "p11SalesPerMonth", "Měsíční prodej", 0, null, "num0");
             AF("p11ClientProduct", "p11SalesPerWeeek", "Týdenní prodej", 0, "a.p11SalesPerMonth/4", "num0");
-            //AF("p11ClientProduct", "p11ZasobaTydny", "Zásoba (týdny)", 0, "(isnull(p11_p19.p19StockActual,0)+isnull(p11_z03.PlanMnozstvi1,0)+isnull(p11_z03.ZbyvaNaplanovat,0)) / (a.p11SalesPerMonth/4)", "num0");
+            
             AF("p11ClientProduct", "p11ZasobaTydny", "Zásoba (týdny)", 0, "p11_z03.ZasobaTydny", "num0");
 
             AF("p11ClientProduct", "p11ZbyvaNaplanovat", "Zbývá naplánovat", 0, "p11_z03.ZbyvaNaplanovat", "num0");
@@ -307,9 +307,9 @@ namespace BL
             //AF("p11ClientProduct", "p11VyrobniPotreba", "Výrobní potřeba", 0, "case when (isnull(p11_p19.p19StockActual,0)+isnull(p11_z03.PlanMnozstvi1,0)+isnull(p11_z03.ZbyvaNaplanovat,0)-a.p11SalesPerMonth)<0 then isnull(p11_p19.p19StockActual,0)+isnull(p11_z03.PlanMnozstvi1,0)+isnull(p11_z03.ZbyvaNaplanovat,0)-a.p11SalesPerMonth end", "num0");
             AF("p11ClientProduct", "p11VyrobniPotreba", "Výrobní potřeba", 0, "p11_z03.VyrobniPotreba", "num0");
 
-            //AF("p11ClientProduct", "p11DoporuceneVyrMnozstvi", "Doporučené výr.množství", 0, "case when p11_z03.ZasobaTydny<4 then case when p11_z03.ZasobaTydny<0,p11_z03.VyrobniPotreba,a.p11SalesPerMonth end", "num0");
-            //AF("p11ClientProduct", "p11DoporuceneVyrMnozstvi", "Dop.výr. množství", 0, "p11_z03.DoporVyrMnozstvi", "num0");
-            AF("p11ClientProduct", "p11DoporuceneVyrMnozstvi", "Dop.výr. množství", 0, "case when p11_z03.ZasobaTydny<4 then case when p11_z03.ZasobaTydny<0 then p11_z03.VyrobniPotreba else a.p11SalesPerMonth end end", "num0");
+            //AF("p11ClientProduct", "p11DoporuceneVyrMnozstvi", "Dop.výr. množství", 0, "case when p11_z03.ZasobaTydny<4 then case when p11_z03.ZasobaTydny<0 then p11_z03.VyrobniPotreba else a.p11SalesPerMonth end end", "num0");
+            AF("p11ClientProduct", "p11DoporuceneVyrMnozstvi", "Dop.výr. množství", 0, "case when a.p11Davka>0 then ROUND(p11_z03.VyrobniPotreba/a.p11Davka,0)*a.p11Davka else p11_z03.VyrobniPotreba end", "num0");
+
             AF("p11ClientProduct", "p11VyrobniPotrebaPolotovar", "Výrobní potřeba Polotovar", 0, "p11_z03.VyrobniPotreba_Polotovar", "num0");
             AF("p11ClientProduct", "p11DoporuceneVyrMnozstvi_Polotovar", "Dop.výr. množství Polotovar", 0, "p11_z03.DoporVyrMnozstvi_Polotovar", "num0");
 

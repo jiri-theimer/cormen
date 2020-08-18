@@ -18,7 +18,8 @@ namespace BL
         public string AppBuild { get; set; }
 
         public string ApiLogin { get; set; }
-       
+
+        
 
 
     }

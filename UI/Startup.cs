@@ -99,7 +99,7 @@ namespace UI
                 ,AppBuild= "build: "+BO.BAS.ObjectDateTime2String(versionTime)                
                 ,UploadFolder = conf.GetSection("Folders")["Upload"]
                 , TempFolder = conf.GetSection("Folders")["Temp"]
-                , LogFolder = strLogFolder
+                , LogFolder = strLogFolder                
                 ,ApiLogin=conf.GetSection("Api")["Login"]
             }) ;
 

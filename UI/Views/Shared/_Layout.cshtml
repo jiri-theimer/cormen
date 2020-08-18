@@ -2,7 +2,19 @@
 @inject BL.Factory _f
 
 @{
+    var _strMenuBorder = "none";
+    if (_f.App.AppName == "DEV")
+    {
+        if (_f.CurrentUser.j03EnvironmentFlag == 2)
+        {
+            _strMenuBorder = "dashed 1px navy";
+        }
+        else
+        {
+            _strMenuBorder = "dashed 1px green";
+        }
 
+    }
 
 }
 <!DOCTYPE html>
@@ -92,14 +104,14 @@
         @if (_f.CurrentUser.j03EnvironmentFlag == 2)
         {
             <div style="text-align:center;overflow:hidden;text-overflow:ellipsis;color:white;background-color:navy;padding-bottom:20px;">
-                <span title="Držitel licence">CLIENT [@_f.CurrentUser.p28Name]</span>
+                <span title="Držitel licence">@(_f.App.AppName+": ")CLIENT [@_f.CurrentUser.p28Name]</span>
             </div>
 
         }
         else
         {
             <div style="text-align:center;background-color:green;color:white;padding-bottom:20px;">
-                <span style="color:white;">MASTER [@_f.CurrentUser.p28Name]</span>
+                <span style="color:white;">@(_f.App.AppName+": ")MASTER [@_f.CurrentUser.p28Name]</span>
             </div>
         }
         @if ((_f.CurrentUser.TestPermission(BO.UserPermFlag.MasterAdmin) && _f.CurrentUser.j03EnvironmentFlag == 2) || _f.CurrentUser.j03Login.Contains("marktime"))
@@ -135,12 +147,11 @@
         }
 
 
-        <ul id="mainmenu1" style="background-color:@(BO.BAS.IIFS(_f.CurrentUser.j03EnvironmentFlag == 1,"#e6fff2","transparent"))">
+        <ul id="mainmenu1" style="border:@_strMenuBorder;">
             @if (_f.CurrentUser.j03EnvironmentFlag == 1)
             {
 
                 @Html.Display("mainmenu", "~/Views/Shared/_MainMenu_Master.cshtml");    //prostředí cormen mastera
-
 
             }
             else
