@@ -51,7 +51,7 @@ namespace BL
                     of.SqlWrapper = "a.p41ID IN (select xa.p41ID FROM p41Task xa INNER JOIN p52OrderItem p52 ON xa.p52ID=p52.p52ID INNER JOIN p11ClientProduct p11 ON p52.p11ID=p11.p11ID INNER JOIN p10MasterProduct p10 ON p11.p10ID_Master=p10.p10ID WHERE #filter#)";
 
                     AF("p44TaskOperPlan", "p44-p18ID", "a.p18ID", "Šablona kódu operace", "p18OperCode", null, "multi");
-                    of = AF("p44TaskOperPlan", "p44-p19Code", "p18Code", "Kód operace", null, null, "string");
+                    of = AF("p44TaskOperPlan", "p44-p18Code", "p18Code", "Kód operace", null, null, "string");
                     of.SqlWrapper = "a.p18ID IN (select p18ID FROM p18OperCode WHERE #filter#)";
                     of = AF("p44TaskOperPlan", "p44-p25ID", "p25ID", "Typ zařízení operace", "p25MszType", null, "multi");
                     of.SqlWrapper = "a.p18ID IN (select p18ID FROM p18OperCode WHERE #filter#)";

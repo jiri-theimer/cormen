@@ -721,8 +721,15 @@ function _init_qtip_onpage() {
 }
 
 function _change_grid(j72id, prefix) {
+    var s = location.pathname;
+    
     $.post("/Common/SetUserParam", { key: "masterview-j72id-" + prefix, value: j72id }, function (data) {
-        location.replace("/TheGrid/MasterView?prefix=" + prefix);
+        if (location.pathname.toLowerCase().indexOf("flatview")>0) {
+            location.replace("/TheGrid/FlatView?prefix=" + prefix + "&j72id=" + j72id);
+        } else {
+            location.replace("/TheGrid/MasterView?prefix=" + prefix + "&j72id=" + j72id);
+        }
+        
 
     });
 }

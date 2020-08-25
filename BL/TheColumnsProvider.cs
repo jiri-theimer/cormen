@@ -301,7 +301,7 @@ namespace BL
             AF("p11ClientProduct", "p11SalesPerWeeek", "Týdenní prodej", 0, "a.p11SalesPerMonth/4", "num0");
 
             //AF("p11ClientProduct", "p11ZasobaTydny", "Zásoba (týdny)", 0, "p11_z03.ZasobaTydny", "num0");
-            AF("p11ClientProduct", "p11ZasobaTydny", "Zásoba (týdny)", 0, "case when a.p11SalesPerMonth>0 then (isnull(p11_p19.p19StockActual,0)+isnull(p11_z03.PlanMnozstvi1,0)+isnull(p11_z03.ZbyvaNaplanovat,0))/a.p11SalesPerMonth/4 end", "num0");
+            AF("p11ClientProduct", "p11ZasobaTydny", "Zásoba (týdny)", 0, "case when a.p11SalesPerMonth>0 then (isnull(p11_p19.p19StockActual,0)+isnull(p11_z03.PlanMnozstvi1,0)+isnull(p11_z03.ZbyvaNaplanovat,0))/(a.p11SalesPerMonth/4) end", "num0");
 
             AF("p11ClientProduct", "p11ZbyvaNaplanovat", "Zbývá naplánovat", 0, "p11_z03.ZbyvaNaplanovat", "num0");
 
