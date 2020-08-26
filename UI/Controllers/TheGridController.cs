@@ -191,10 +191,15 @@ namespace UI.Controllers
                 return  "@pid";
             }
         }
-        public IActionResult SlaveView(string master_entity,int master_pid, string prefix, int go2pid, string master_flag)    //podřízený subform v rámci MasterView
+        public IActionResult SlaveView(string master_entity,int master_pid, string prefix, int go2pid, string master_flag,int j72id)    //podřízený subform v rámci MasterView
         {
-            TheGridInstanceViewModel v = inhaleGridViewInstance(prefix, go2pid,false);            
-            v.j72id = Factory.CBL.LoadUserParamInt("slaveview-j72id-" + prefix+"-"+ master_entity);
+            TheGridInstanceViewModel v = inhaleGridViewInstance(prefix, go2pid,false);
+            v.j72id = j72id;
+            if (v.j72id == 0)
+            {
+                v.j72id = Factory.CBL.LoadUserParamInt("slaveview-j72id-" + prefix + "-" + master_entity);
+            }
+            
             v.master_entity = master_entity;
             v.master_pid = master_pid;
             v.master_flag = master_flag;
@@ -892,7 +897,7 @@ namespace UI.Controllers
 
        
 
-        public string getHTML_ContextMenu(int j72id)
+        public string getHTML_ContextMenu(int j72id,int master_pid)
         {
             var sb = new System.Text.StringBuilder();
             var c = Factory.j72TheGridTemplateBL.Load(j72id);
@@ -940,7 +945,7 @@ namespace UI.Controllers
                 {
                     rec.j72Name += " ✔";
                 }
-                sb.Append(string.Format("<td><a class='nav-link py-0' href='javascript:_change_grid({0},\"{1}\")'>{2}</a></td>", rec.pid,rec.j72Entity.Substring(0,3),rec.j72Name));
+                sb.Append(string.Format("<td><a class='nav-link py-0' href='javascript:_change_grid({0},\"{1}\",\"{2}\",\"{3}\")'>{4}</a></td>", rec.pid,rec.j72Entity.Substring(0,3),rec.j72MasterEntity,master_pid,rec.j72Name));
 
                 sb.AppendLine(string.Format("<td style='width:30px;'><a title='Grid Návrhář' class='nav-link py-0' href='javascript:_window_open(\"/TheGrid/Designer?j72id={0}\",2);'><img src='/Images/setting.png'/></a></td>", rec.pid));
                 sb.AppendLine("</tr>");

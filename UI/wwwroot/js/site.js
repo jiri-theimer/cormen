@@ -720,16 +720,29 @@ function _init_qtip_onpage() {
     });
 }
 
-function _change_grid(j72id, prefix) {
-    var s = location.pathname;
-    
-    $.post("/Common/SetUserParam", { key: "masterview-j72id-" + prefix, value: j72id }, function (data) {
-        if (location.pathname.toLowerCase().indexOf("flatview")>0) {
-            location.replace("/TheGrid/FlatView?prefix=" + prefix + "&j72id=" + j72id);
-        } else {
-            location.replace("/TheGrid/MasterView?prefix=" + prefix + "&j72id=" + j72id);
+function _change_grid(j72id, prefix,master_entity,master_pid) {
+    var url = "";
+    var key = "";
+    if (location.pathname.toLowerCase().indexOf("flatview") > 0) {
+        url = "/TheGrid/FlatView?prefix=" + prefix + "&j72id=" + j72id;
+        key = "flatview-j72id-" + prefix;
+    }
+    if (location.pathname.toLowerCase().indexOf("masterview") > 0) {
+        url = "/TheGrid/MasterView?prefix=" + prefix + "&j72id=" + j72id;
+        key = "masterview-j72id-" + prefix;
+    }
+    if (location.pathname.toLowerCase().indexOf("slaveview") > 0) {
+        url = "/TheGrid/SlaveView?prefix=" + prefix + "&j72id=" + j72id;
+        key = "slaveview-j72id-" + prefix + "-" + master_entity;
+
+        if (typeof master_entity !== "undefined") {
+            url += "&master_entity=" + master_entity + "&master_pid=" + master_pid;
         }
+    }
+
+    $.post("/Common/SetUserParam", { key: key, value: j72id }, function (data) {                
         
+        location.replace(url);
 
     });
 }

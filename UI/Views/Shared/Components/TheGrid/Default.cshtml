@@ -226,7 +226,7 @@
         $("#cmdTheGridBatchSelect").click(function () {
             if (_gridMenuFilled == true) return;
 
-            $.post("/TheGrid/getHTML_ContextMenu", { j72id:@Model.GridState.pid}, function (data) {
+            $.post("/TheGrid/getHTML_ContextMenu", { j72id:@Model.GridState.pid,master_pid:@Model.MasterPID}, function (data) {
                 if (_device.innerHeight <= 300) {
                     data = data.replace(/nav-link/g, "nav-link-mini");                    
                     
