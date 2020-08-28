@@ -47,6 +47,7 @@ namespace BL
         private Ip20UnitBL _p20;
         private Ip18OperCodeBL _p18;
         private Ip31CapacityFondBL _p31;
+        private Ix31ReportBL _x31;
         private IMailBL _mail;
 
         public Factory(BO.RunningUser c,BL.RunningApp runningapp)
@@ -360,6 +361,14 @@ namespace BL
             }
         }
 
+        public Ix31ReportBL x31ReportBL
+        {
+            get
+            {
+                if (_x31 == null) _x31 = new x31ReportBL(this);
+                return _x31;
+            }
+        }
         public IMailBL MailBL
         {
             get
