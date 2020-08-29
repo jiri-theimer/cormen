@@ -11,6 +11,6 @@ namespace UI.Models
 
         public MyToolbarViewModel Toolbar { get; set; }
 
-        
+        public string UploadGuid { get; set; }
     }
 }

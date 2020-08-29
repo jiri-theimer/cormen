@@ -578,6 +578,22 @@ namespace BL
             AF("z02_suroviny_plan_vyroby", "PokrytiSurovinou", "Pokrytí Surovinou", 1, "z02_p19.p19StockActual-a.Mnozstvi", "num");
 
 
+            //x31 = tisková sestava
+            AF("x31Report", "x31Name", "Tisková sestava", 1, null, "string", false, true);
+            AF("x31Report", "x31Code", "Kód sestavy");
+            AF("x31Report", "x31FileName", "Šablona sestavy", 2);
+            AF("x31Report", "x31Is4SingleRecord", "Kontextová sestava", 2, null, "bool");
+                        
+            AF("x31Report", "RepFormat", "Formát", 1, "case a.x31ReportFormat when 1 then 'REP' when 2 then 'DOCX' when 3 then 'XLSX' when 4 then 'MSREP' end");
+            AF("x31Report", "x31Description", "Popis");
+            AppendTimestamp("x31Report");
+
+            //y01 = pevné tiskové sestavy pro tisk
+            AF("y01_core_view_reports", "x31Name", "Tisková sestava", 1, null, "string", false, true);
+            AF("y01_core_view_reports", "Preview", "Náhled", 2, "'<a class='+char(34)+'grid-link'+char(34)+' href='+char(34)+'javascript:report_nocontext('+convert(varchar(10),a.x31ID)+')'+CHAR(34)+'>Náhled</a>'");
+            AF("y01_core_view_reports", "x31Code", "Kód sestavy", 2);
+            AF("y01_core_view_reports", "x31FileName", "Šablona sestavy", 2);
+            AF("y01_core_view_reports", "x31Description", "Popis", 1);
 
         }
 

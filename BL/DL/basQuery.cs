@@ -38,10 +38,10 @@ namespace BL.DL
                         AQ(ref lis, "ISNULL(" + strField + ",0)=0", "", null, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
                         break;
                     case "CONTAINS":
-                        AQ(ref lis, strField + " LIKE '%'+@expr" + ss + "+'%'", "expr" + ss, c.j73Value, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
+                        AQ(ref lis, strField + " LIKE '%" + BO.BAS.GSS(c.j73Value) + "+%'", null, null, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
                         break;
                     case "STARTS":
-                        AQ(ref lis, strField + " LIKE @expr" + ss + "+'%'", "expr" + ss, c.j73Value, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
+                        AQ(ref lis, strField + " LIKE '" + BO.BAS.GSS(c.j73Value) + "+%'", null, null, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
                         break;
                     case "INTERVAL":
                         if (c.FieldType == "date")
@@ -53,24 +53,24 @@ namespace BL.DL
                             }
                             if (c.j73Date1 != null && c.j73Date2 != null)
                             {
-                                AQ(ref lis, c.WrapFilter(strField + " BETWEEN @dfrom" + ss + " AND @dto" + ss), "dfrom" + ss, c.j73Date1, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight, "dto" + ss, c.j73Date2);
+                                AQ(ref lis, c.WrapFilter(strField + " BETWEEN " + BO.BAS.GD(c.j73Date1) + " AND " + BO.BAS.GD(c.j73Date2)), null, null, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
                             }
                             else
                             {
                                 if (c.j73Date1 != null)
                                 {
-                                    AQ(ref lis, c.WrapFilter(strField + ">=@dfrom" + ss), "dfrom" + ss, c.j73Date1, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
+                                    AQ(ref lis, c.WrapFilter(strField + ">=" + BO.BAS.GD(c.j73Date1)), null, null, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
                                 }
                                 if (c.j73Date2 != null)
                                 {
-                                    AQ(ref lis, c.WrapFilter(strField + "<=@dto" + ss), "dto" + ss, c.j73Date2, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
+                                    AQ(ref lis, c.WrapFilter(strField + "<=" + BO.BAS.GD(c.j73Date2)), null, null, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
                                 }
                             }
 
                         }
                         if (c.FieldType == "number")
                         {
-                            AQ(ref lis, c.WrapFilter(strField + " BETWEEN @nfrom" + ss + " AND @nto" + ss), "nfrom" + ss, c.j73Num1, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight, "nto" + ss, c.j73Num2);
+                            AQ(ref lis, c.WrapFilter(strField + " BETWEEN " + BO.BAS.GN(c.j73Num1) + " AND " + BO.BAS.GN(c.j73Num2)), null, null, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
                         }
                         break;
                     case "EQUAL":
@@ -86,11 +86,11 @@ namespace BL.DL
                         }
                         if (c.FieldType == "string")
                         {
-                            AQ(ref lis, strField + " " + strOper + " @expr" + ss, "expr" + ss, c.j73Value, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
+                            AQ(ref lis, strField + " " + strOper + " '" + BO.BAS.GSS(c.j73Value) + "'", null, null, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
                         }
                         if (c.FieldType == "combo")
                         {
-                            AQ(ref lis, c.WrapFilter(strField + " " + strOper + " @combo" + ss), "combo" + ss, c.j73ComboValue, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
+                            AQ(ref lis, c.WrapFilter(strField + " " + strOper + " " + c.j73ComboValue.ToString()), null, null, strAndOrZleva, c.j73BracketLeft, c.j73BracketRight);
 
                         }
                         if (c.FieldType == "multi")

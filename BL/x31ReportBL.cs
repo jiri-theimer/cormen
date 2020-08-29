@@ -24,9 +24,9 @@ namespace BL
 
         private string GetSQL1(string strAppend = null)
         {
-            sb("SELECT a.*,x29.x29Name,");
+            sb("SELECT a.*,");
             sb(_db.GetSQL1_Ocas("x31"));
-            sb(" FROM x31Report a LEFT OUTER JOIN x29Entity x29 ON a.x29ID=x29.x29ID");
+            sb(" FROM x31Report a");
             sb(strAppend);
             return sbret();
         }
@@ -36,7 +36,7 @@ namespace BL
         }
         public BO.x31Report LoadByCode(string code, int pid_exclude)
         {
-            return _db.Load<BO.x31Report>(GetSQL1(" WHERE a.x31PID LIKE @code AND a.x31ID<>@pid_exclude"), new { code = code, pid_exclude = pid_exclude });
+            return _db.Load<BO.x31Report>(GetSQL1(" WHERE a.x31Code LIKE @code AND a.x31ID<>@pid_exclude"), new { code = code, pid_exclude = pid_exclude });
         }
 
 

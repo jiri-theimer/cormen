@@ -14,7 +14,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
-
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Telerik.Reporting.Services;
+using Telerik.Reporting.Services.AspNetCore;
 
 namespace UI
 {
@@ -79,7 +81,14 @@ namespace UI
                 options.TextEncoderSettings = new System.Text.Encodings.Web.TextEncoderSettings(System.Text.Unicode.UnicodeRanges.All);
             });
 
+            services.AddControllers();      //kvùli telerik reporting
             services.AddControllersWithViews();
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;      //kvùli telerik reporting
+            });
+
+            services.AddRazorPages().AddNewtonsoftJson();   //kvùli telerik reporting
 
             var conf = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
             var strLogFolder = conf.GetSection("Folders")["Log"];
@@ -106,6 +115,14 @@ namespace UI
 
             services.AddSingleton<BL.TheColumnsProvider>();
             services.AddSingleton<BL.ThePeriodProvider>();
+
+            services.TryAddSingleton<IReportServiceConfiguration>(sp =>
+            new ReportServiceConfiguration
+            {
+                ReportingEngineConfiguration = ConfigurationHelper.ResolveConfiguration(sp.GetService<IWebHostEnvironment>()),
+                HostAppId = "ReportingCore3App",
+                Storage = new Telerik.Reporting.Cache.File.FileStorage()                
+            });
 
             services.AddScoped<BO.RunningUser, BO.RunningUser>();            
             services.AddScoped<BL.Factory,BL.Factory>();

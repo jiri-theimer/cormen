@@ -156,16 +156,52 @@ namespace UI.Controllers
 
             v.Toolbar = new MyToolbarViewModel(v.Rec);
             
-            //if (Request.Method == "GET")    //myCombo má vstupní parametry modelu v hidden polích a proto se v POST vše dostane na server
-            //{
-            //    v.ComboB02ID = new MyComboViewModel() { Entity = "b02Status", SelectedText = v.Rec.b02Name, SelectedValue = v.Rec.b02ID, Param1 = "o23" };
-            //    v.ComboO12ID = new MyComboViewModel() { Entity = "o12Category", SelectedText = v.Rec.o12Name, SelectedValue = v.Rec.o12ID, Param1 = "o23" };
-            //    v.ComboRecordPid = new MyComboViewModel() { Entity = v.Rec.o23Entity, SelectedText = v.RecordPidAlias, SelectedValue = v.Rec.o23RecordPid, Param1 = "o23" };
-                
-            //}
-          
             
+        }
+
+        public IActionResult SingleUpload(string guid)
+        {
+            if (string.IsNullOrEmpty(guid) == true)
+            {
+                return this.StopPage(true,"guid missing");
+            }
+            var v = new FileUploadSingleViewModel() { Guid = guid };
+            var lisO27 = BO.BASFILE.GetUploadedFiles(Factory.App.TempFolder, v.Guid);
+            if (lisO27.Count() > 0)
+            {
+                v.TempFileName = lisO27.First().o27ArchiveFileName;
+                v.OrigFileName = lisO27.First().o27Name;
+            }
+           
+            return View(v);
+        }
+        [HttpPost]
+        public async Task<IActionResult> SingleUpload(FileUploadSingleViewModel v, List<IFormFile> files)
+        {
+
+            var tempDir = Factory.App.TempFolder + "\\";
+
+            foreach (var formFile in files)
+            {
+                if (formFile.Length > 0)
+                {
+                    v.OrigFileName = formFile.FileName;
+                    v.TempFileName = v.Guid + "_" + formFile.FileName;
+                    var strTempFullPath = tempDir + v.TempFileName;
+
+
+                    System.IO.File.WriteAllText(tempDir + v.Guid + ".infox", formFile.ContentType + "|" + formFile.Length.ToString() + "|" + formFile.FileName + "|" + v.Guid + "_" + formFile.FileName + "|" + v.Guid + "|0|||0");
+
+
+                    using (var stream = new FileStream(strTempFullPath, FileMode.Create))
+                    {
+                        await formFile.CopyToAsync(stream);
+                    }
+                }
+            }
+
             
+            return View(v);
 
         }
 
@@ -233,7 +269,21 @@ namespace UI.Controllers
             }
 
         }
-        //}
+
+        public ActionResult FileDownloadReport(string filename)
+        {
+            string fullPath = Factory.App.ReportFolder + "\\" + filename;
+            if (System.IO.File.Exists(fullPath))
+            {
+                return File(System.IO.File.ReadAllBytes(fullPath), "application/octet-stream", filename);
+            }
+            else
+            {
+                return FileDownloadNotFound(new BO.o27Attachment());
+            }
+        }
+
+
         [HttpGet]
         public ActionResult FileDownload(string guid)
         {
@@ -254,6 +304,7 @@ namespace UI.Controllers
             }
         }
 
+       
         public ActionResult FileDownloadNotFound(BO.o27Attachment c)
         {            
             var fullPath = _app.TempFolder + "\\notfound.txt";

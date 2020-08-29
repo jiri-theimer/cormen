@@ -110,6 +110,9 @@ namespace BL
             AE_TINY("j92PingLog", "PING Log", "PING Log");
 
             AE_TINY("o54TagBindingInline", "Kategorizace", "Kategorizace");
+            AE_TINY("x31Report", "Tiskové sestavy", "Tisková sestava");
+
+            AE("y01_core_view_reports", "Tiskové sestavy", "Tisková sestava", "y01_core_view_reports a", "a.x31Name", "a.x31Name");
 
             //VIEW:
             AE("z01_produkty_plan_vyroby", "Plánování výroby produktů", "Plánování výroby produktů", "dbo.z01_produkty_plan_vyroby(@gd1,@gd2) a", "a.p10ID", "a.p10ID",true);

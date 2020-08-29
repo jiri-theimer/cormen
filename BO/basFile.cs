@@ -45,7 +45,7 @@ namespace BO
         public static List<BO.o27Attachment> GetUploadedFiles(string strSourceTempDir, string strTempGUID)
         {
             var lisO27 = new List<BO.o27Attachment>();
-            foreach (string file in System.IO.Directory.EnumerateFiles(strSourceTempDir, strTempGUID + "_*.infox", System.IO.SearchOption.TopDirectoryOnly))
+            foreach (string file in System.IO.Directory.EnumerateFiles(strSourceTempDir, strTempGUID + "*.infox", System.IO.SearchOption.TopDirectoryOnly))
             {
                 var info = System.IO.File.ReadAllText(file).Split("|");                
                 var cO27 = new BO.o27Attachment() { o27ContentType = info[0], o27FileSize = BO.BAS.InInt(info[1]), o27Name = info[2], o27GUID = strTempGUID };

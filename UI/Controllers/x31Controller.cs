@@ -55,7 +55,7 @@ namespace UI.Controllers
                 {
                     var xmlReportSource = new Telerik.Reporting.XmlReportSource();
                     var strXmlContent = System.IO.File.ReadAllText(Factory.App.ReportFolder + "\\" +v.RecX31.x31FileName);
-                    if (strXmlContent.Contains("datFrom") && strXmlContent.Contains("datUntil"))
+                    if (strXmlContent.Contains("datfrom") && strXmlContent.Contains("datuntil"))
                     {
                         v.IsPeriodFilter = true;
                         v.PeriodFilter = new PeriodViewModel();
@@ -142,7 +142,7 @@ namespace UI.Controllers
 
         public IActionResult Record(int pid, bool isclone)
         {
-            var v = new Models.x31RecordViewModel();
+            var v = new Models.x31RecordViewModel() { UploadGuid = BO.BAS.GetGuid() };
             if (pid > 0)
             {
                 v.Rec = Factory.x31ReportBL.Load(pid);
@@ -168,16 +168,26 @@ namespace UI.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Record(x31RecordViewModel v)
+        public IActionResult Record(x31RecordViewModel v,string oper)
         {
             RefreshState(v);
+            if (oper == "postback")
+            {
+                return View(v);
+            }
             if (ModelState.IsValid)
             {
+                
                 BO.x31Report c = new BO.x31Report();
                 if (v.Rec.pid > 0) c = Factory.x31ReportBL.Load(v.Rec.pid);
+                var lisO27 = BO.BASFILE.GetUploadedFiles(Factory.App.TempFolder, v.UploadGuid);
+                if (lisO27.Count() > 0)
+                {
+                    c.x31FileName = lisO27.First().o27Name;
+                }
                 c.x31Entity = v.Rec.x31Entity;
                 c.x31Name = v.Rec.x31Name;
-                c.x31PID = v.Rec.x31PID;
+                c.x31Code = v.Rec.x31Code;
                 c.x31Description = v.Rec.x31Description;
                 c.x31Is4SingleRecord = v.Rec.x31Is4SingleRecord;
                 c.x31ReportFormat = v.Rec.x31ReportFormat;
@@ -186,14 +196,14 @@ namespace UI.Controllers
                 
                 c.pid = Factory.x31ReportBL.Save(c);
                 if (c.pid > 0)
-                {
+                {                    
+                    if (lisO27.Count() > 0)
+                    {
+                        System.IO.File.Copy(Factory.App.TempFolder + "\\" + lisO27.First().o27ArchiveFileName, Factory.App.ReportFolder + "\\" + lisO27.First().o27Name, true);                        
+                    }
                     v.SetJavascript_CallOnLoad(c.pid);
                     return View(v);
-                    //if (Factory.o27AttachmentBL.SaveSingleUpload(v.UploadGuid, 931, c.pid))
-                    //{
-                    //    v.SetJavascript_CallOnLoad(c.pid);
-                    //    return View(v);
-                    //}
+                    
 
 
                 }
@@ -205,9 +215,11 @@ namespace UI.Controllers
 
         private void RefreshState(x31RecordViewModel v)
         {
-            
-            
+            v.Toolbar = new MyToolbarViewModel(v.Rec);
+
         }
+
+
 
 
         private BO.ThePeriod InhalePeriodFilter()
