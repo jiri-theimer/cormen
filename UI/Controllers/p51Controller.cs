@@ -52,14 +52,24 @@ namespace UI.Controllers
                         string strP51Code = worksheet.Cell(row, 1).Value.ToString();
                         string strP11Code = worksheet.Cell(row, 2).Value.ToString();
                         double dblP52UnitsCount = Convert.ToDouble(worksheet.Cell(row, 3).Value);
-                        string strFce= worksheet.Cell(row, 4).Value.ToString();
+                        DateTime? datP52DateNeeded = null;
+                        try
+                        {
+                            datP52DateNeeded=Convert.ToDateTime(worksheet.Cell(row, 4).Value);
+                        }
+                        catch
+                        {
+
+                        }
+
+                        string strFce= worksheet.Cell(row, 5).Value.ToString();
                         if (string.IsNullOrEmpty(strFce) == true) strFce = "A";
 
                         var recP51 = Factory.p51OrderBL.LoadByCode(strP51Code, 0);
                         var recP11 = Factory.p11ClientProductBL.LoadByCode(strP11Code, 0);
                         if (recP51 != null && recP11 != null && dblP52UnitsCount > 0)
                         {
-                            var c = new BO.p52OrderItem() { p11ID = recP11.pid, p51ID = recP51.pid, p52UnitsCount = dblP52UnitsCount };
+                            var c = new BO.p52OrderItem() { p11ID = recP11.pid, p51ID = recP51.pid, p52UnitsCount = dblP52UnitsCount,p52DateNeeded=datP52DateNeeded };
                             if (strFce == "U")
                             {
                                 var lisP52 = Factory.p52OrderItemBL.GetList(recP51.pid);
