@@ -145,8 +145,8 @@ namespace UI.Controllers
                 v.Rec.p51Code = Factory.CBL.EstimateRecordCode("p51");
                 v.Rec.p51Date = DateTime.Now;
                 v.Rec.p51DateDelivery = DateTime.Today.AddDays(10).AddSeconds(-1);
-                v.NewItems = new List<BO.p52OrderItem>();
-                v.NewItems.Add(new BO.p52OrderItem());
+                //v.NewItems = new List<BO.p52OrderItem>();
+                //v.NewItems.Add(new BO.p52OrderItem());
             }
 
             RefreshState(v);

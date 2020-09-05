@@ -130,6 +130,7 @@ namespace BL.DL
             {
                 if (mq.Prefix == "p41") AQ(ref lis, "(a.p41PlanStart BETWEEN @d1 AND @d2 OR a.p41PlanEnd BETWEEN @d1 AND @d2 OR (@d1 >= a.p41PlanStart AND @d2<=a.p41PlanEnd))", "d1", mq.global_d1, "AND", null, null, "d2", mq.global_d2);
                 if (mq.Prefix == "p44") AQ(ref lis, "a.p41ID IN (select p41ID FROM p41Task WHERE p41PlanStart BETWEEN @d1 AND @d2 OR p41PlanEnd BETWEEN @d1 AND @d2 OR (@d1 >= p41PlanStart AND @d2<=p41PlanEnd))", "d1", mq.global_d1, "AND", null, null, "d2", mq.global_d2);
+                if (mq.Prefix=="y02") AQ(ref lis, "p33Date BETWEEN @d1 AND @d2", "d1", mq.global_d1, "AND", null, null, "d2", mq.global_d2);
             }
 
             if (mq.pids != null && mq.pids.Any())
@@ -211,6 +212,9 @@ namespace BL.DL
                 if (mq.Prefix == "p52") AQ(ref lis, "a.p11ID=@p11id", "p11id", mq.p11id);
                 if (mq.Prefix == "p41") AQ(ref lis, "a.p52ID IN (select p52ID FROM p52OrderItem WHERE p11ID=@p11id)", "p11id", mq.p11id);
                 if (mq.Prefix == "p15") AQ(ref lis, "a.p12ID IN (select p12ID FROM p11ClientProduct WHERE p11ID=@p11id)", "p11id", mq.p11id);
+                //if (mq.Prefix == "p44") AQ(ref lis, "a.p41ID IN (select xa.p41ID FROM p41Task xa INNER JOIN p52OrderItem xb ON xa.p52ID=xb.p52ID WHERE xb.p11ID=@p11id)", "p11id", mq.p11id);
+                if (mq.Prefix == "p44") AQ(ref lis, "a.p19ID IN (select xa.p19ID FROM p19Material xa INNER JOIN p11ClientProduct xb ON xa.p19Code=xb.p11Code WHERE xb.p11ID=@p11id)", "p11id", mq.p11id);
+
             }
             if (mq.p13id > 0)
             {

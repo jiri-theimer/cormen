@@ -595,6 +595,14 @@ namespace BL
             AF("y01_core_view_reports", "x31FileName", "Šablona sestavy", 2);
             AF("y01_core_view_reports", "x31Description", "Popis", 1);
 
+            //y02 = řádkový rozpis kapacitních fondů
+            AF("y02_fond_zarizeni", "p33Date", "Den", 1, null, "date");            
+            onecol =AF("y02_fond_zarizeni", "Hodina1", "Začátek", 1, null, "time");
+            onecol.FixedWidth = 70;
+            onecol=AF("y02_fond_zarizeni", "Hodina2", "Konec", 1, null, "time");
+            onecol.FixedWidth = 70;
+            AF("y02_fond_zarizeni", "Den v týdnu", "Den", 0, "DATENAME(weekday,p33Date)");
+            AF("y02_fond_zarizeni", "Měsíc", "Mesic", 0, "DATENAME(month,p33Date)");
         }
 
 
@@ -693,6 +701,10 @@ namespace BL
                     break;
                 case "o51":
                     ret.Add(InhaleColumn4Relation("o51_o53", "o53TagGroup", "o53Name", rels, bolComboColumns));
+                    break;
+                case "y02":
+                    ret.Add(InhaleColumn4Relation("y02_p31", "p31CapacityFond", "p31Name", rels, bolComboColumns));
+                    ret.Add(InhaleColumn4Relation("y02_p27", "p27MszUnit", "p27Name", rels, bolComboColumns));
                     break;
             }
 

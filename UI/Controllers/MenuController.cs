@@ -130,7 +130,15 @@ namespace UI.Controllers
                 case "j90":
                 case "j92":
                 case "p44":
-                case "p45":
+                case "p45":               
+                case "y02":
+                    AMI("Bez nabídky kontextového menu", "");
+                    break;
+                case "y01":
+                    AMI("Náhled sestavy", string.Format("javascript:report_nocontext({0})", pid));
+                    DIV();
+                    AMI("Administrace sestavy", string.Format("javascript:_edit('x31',{0})", pid));
+                    break;
                 case "z01":
                     AMI("Karta produktu", string.Format("javascript:_edit('p10',{0})", pid));
                     break;

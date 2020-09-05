@@ -26,7 +26,8 @@ namespace UI
         }
         public TaskSimulation(BL.Factory f)
         {
-            _dat0 = DateTime.Now;
+            //_dat0 = DateTime.Now;
+            _dat0 = new DateTime(2000, 1, 1);
             _f = f;
             _tasks = new List<BO.p41Task>();
 
@@ -60,12 +61,29 @@ namespace UI
             }
         }
 
-        
+        private DateTime getStartPlanDatePerP27(DateTime dat0,BO.p27MszUnit kotel)
+        {
+            var d = dat0;
+            if (d.Year == 2000 && kotel.p31ID>0) //default datum - je třeba ho nastavit buď podle kapacitního plánu zařízení nebo aktuální čas
+            {
+                var lisP33=_f.p31CapacityFondBL.GetCells(kotel.pid, DateTime.Today, DateTime.Today.AddDays(1).AddMinutes(-1));
+                if (lisP33.Count() > 0)
+                {
+                    d = lisP33.First().p33DateTime;
+                }
+            }
+            if (d.Year <= 2000)
+            {
+                d = new DateTime(); //aktuální čas, protože stroj nemá pro dnešní den kapacitní fond
+            }
+            return d;
+        }
         public List<BO.p41Task> getTasksByP51(int p51id)
         {
             foreach (var kotel in _lisP27)
             {
-                kotel.DateInsert = _dat0;
+                kotel.DateInsert = getStartPlanDatePerP27(_dat0,kotel);
+                
             }
             var lisP52 = _f.p52OrderItemBL.GetList(p51id);
             foreach (var rec in lisP52)
@@ -90,7 +108,7 @@ namespace UI
             
             foreach (var kotel in _lisP27)
             {
-                kotel.DateInsert = _dat0;
+                kotel.DateInsert = getStartPlanDatePerP27(_dat0, kotel);
             }
             handle_create_by_p52(p52id);
             return _tasks;

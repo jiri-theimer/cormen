@@ -113,7 +113,9 @@ namespace BL
             AE_TINY("x31Report", "Tiskové sestavy", "Tisková sestava");
 
             AE("y01_core_view_reports", "Tiskové sestavy", "Tisková sestava", "y01_core_view_reports a", "a.x31Name", "a.x31Name");
+            AE("y02_fond_zarizeni", "", "Řádkový fond zařízení", "y02_fond_zarizeni a", "a.p31ID", "a.p31ID",true);
 
+            
             //VIEW:
             AE("z01_produkty_plan_vyroby", "Plánování výroby produktů", "Plánování výroby produktů", "dbo.z01_produkty_plan_vyroby(@gd1,@gd2) a", "a.p10ID", "a.p10ID",true);
             AE("z02_suroviny_plan_vyroby", "Plánování výroby surovin", "Plánování výroby surovin", "dbo.z02_suroviny_plan_vyroby(@gd1,@gd2) a", "a.p19ID", "a.p19ID", true);
@@ -349,7 +351,10 @@ namespace BL
                     
                     
                     lis.Add(getREL("o54TagBindingInline", "p19_o54", "Kategorie", "LEFT OUTER JOIN (SELECT * FROM o54TagBindingInline WHERE o54RecordEntity='p19') p19_o54 ON a.p19ID=p19_o54.o54RecordPid"));
-
+                    break;
+                case "y02":
+                    lis.Add(getREL("p31CapacityFond", "y02_p31", "Časový fond", "LEFT OUTER JOIN p31CapacityFond y02_p31 ON a.p31ID=y02_p31.p31ID"));
+                    lis.Add(getREL("p27MszUnit", "y02_p27", "Zařízení", "LEFT OUTER JOIN p27MszUnit y02_p27 ON a.p27ID=y02_p27.p27ID"));
 
                     break;
                 default:

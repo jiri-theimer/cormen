@@ -428,6 +428,10 @@ namespace UI.Controllers
                 v.p52Code = v.RecP52.p52Code;
                 v.RecP51 = Factory.p51OrderBL.Load(v.RecP52.p51ID);
                 v.p51Code = v.RecP51.p51Code;
+                if (v.RecP52.p52DateNeeded != null)
+                {
+                    v.Date0 = v.RecP52.p52DateNeeded;
+                }
                 //var simul = new UI.TaskSimulation(Factory);
                 //simul.Date0 = getDate0(v);
                 //v.Tasks = simul.getTasksByP52(v.p52ID,v.p27ID);
@@ -688,7 +692,9 @@ namespace UI.Controllers
         {
             if (v.Date0 == null)
             {
-                return DateTime.Now;
+                //return DateTime.Now;
+                return new DateTime(2000, 1, 1);    //rok 2000 znamená výchozí datum, které se má v simulaci změnit dle kapacitního fondu stroje
+               
             }
             else
             {
