@@ -2,7 +2,7 @@
 
 @{
     var _strDefGridName = "Výchozí GRID";
-    var _lisJ72 = _f.j72TheGridTemplateBL.GetList(null, _f.CurrentUser.pid, null).Where(p =>(p.j72IsSystem==true || p.j72IsMainMenu==true) && p.j72MasterEntity == null);
+    var _lisJ72 = _f.j72TheGridTemplateBL.GetList(null, _f.CurrentUser.pid, null).Where(p => (p.j72IsSystem == true || p.j72IsMainMenu == true) && p.j72MasterEntity == null);
     foreach (var c in _lisJ72.Where(p => p.j72IsSystem == true))
     {
         c.j72Name = _strDefGridName;
@@ -65,7 +65,7 @@
         <li class="lihead">Suroviny</li>
         @if (_lisJ72.Where(p => p.j72Entity == "p13MasterTpv").Count() == 0)
         {
-            <a id="gridlink_p10" data-caretid="mainmenu_caret_p13" class="nav-link" href="/TheGrid/MasterView?prefix=p19">@_strDefGridName</a>
+            <a id="gridlink_p13" data-caretid="mainmenu_caret_p13" class="nav-link" href="/TheGrid/MasterView?prefix=p19">@_strDefGridName</a>
         }
         @foreach (var c in _lisJ72.Where(p => p.j72Entity == "p19Material"))
         {
