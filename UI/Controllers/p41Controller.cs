@@ -407,13 +407,22 @@ namespace UI.Controllers
 
         }
 
-        public IActionResult Create(int p52id, int p51id)
+        public IActionResult Create(int p52id, int p51id,string p52ids)
         {
             var v = new p41CreateViewModel();
             v.Tasks = new List<BO.p41Task>();
             v.lisP27 = new List<BO.p27MszUnit>();
             if (p52id > 0) { v.p52ID = p52id; };
             if (p51id > 0) { v.p51ID = p51id; };
+            if (p52ids != null)
+            {
+                v.SelectedP52IDs = p52ids;
+                foreach(int intP52ID in BO.BAS.ConvertString2ListInt(p52ids))
+                {
+
+                    v.SelectedP52Codes += ", " + Factory.p52OrderItemBL.Load(intP52ID).p52Code;
+                }
+            }
             if (v.p51ID > 0)
             {
                 v.RecP51 = Factory.p51OrderBL.Load(v.p51ID);
@@ -431,6 +440,7 @@ namespace UI.Controllers
                 if (v.RecP52.p52DateNeeded != null)
                 {
                     v.Date0 = v.RecP52.p52DateNeeded;
+                    
                 }
                 //var simul = new UI.TaskSimulation(Factory);
                 //simul.Date0 = getDate0(v);
@@ -486,6 +496,13 @@ namespace UI.Controllers
                     v.Tasks = simul.getTasksByP52(v.p52ID,v.p27ID);
                 }                
             }
+            if (rec_oper == "simulation_p52ids")
+            {
+                var simul = new UI.TaskSimulation(Factory);
+                simul.Date0 = getDate0(v);
+                v.Tasks = simul.getTasksByP52IDs(BO.BAS.ConvertString2ListInt(v.SelectedP52IDs));
+            }
+
             if (rec_oper == "newitem")
             {
                 if (v.Tasks == null) v.Tasks = new List<BO.p41Task>();

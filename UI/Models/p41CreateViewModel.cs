@@ -30,5 +30,8 @@ namespace UI.Models
         public int DeleteIndex { get; set; } = -1;
 
         public int p25ID { get; set; }  //typ zařízení pro combo středisek
+
+        public string SelectedP52IDs { get; set; }  //hromadný ruční výběr vybraných položek objednávek
+        public string SelectedP52Codes { get; set; }
     }
 }

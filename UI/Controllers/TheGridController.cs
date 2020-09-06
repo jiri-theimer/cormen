@@ -915,6 +915,12 @@ namespace UI.Controllers
                 sb.AppendLine("<a class='nav-link' href='javascript:p21_update();'>Aktualizovat licenci vybranými produkty</a>");
                 
             }
+            if (c.j72Entity.Substring(0, 3) == "p52")
+            {
+                sb.AppendLine("<hr class='hr-mini' />");
+                sb.AppendLine("<a class='nav-link' href='javascript:p52ids_create_task();'>Nová zakázka pro vybrané položky objednávky</a>");
+
+            }
             if ("p41,p51,p10,p11,p21,o23,p26".Contains(c.j72Entity.Substring(0, 3)))
             {
                 sb.AppendLine("<hr class='hr-mini' />");

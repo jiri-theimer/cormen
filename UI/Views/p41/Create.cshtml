@@ -15,6 +15,8 @@
 </div>
 
 <form id="form1" asp-controller="p41" asp-action="Create" method="POST">
+    <input type="hidden" asp-for="@Model.SelectedP52IDs" />
+    <input type="hidden" asp-for="@Model.SelectedP52Codes" />
 
     <div class="input-group">
         <div>
@@ -39,10 +41,19 @@
             <div class="col-3">
                 <button class="btn btn-primary" type="button" onclick="simulation_p52()">Navrhnout zakázky pro položku objednávky</button>
             </div>
+
         </div>
         <hr />
+        @if (Model.SelectedP52IDs != null)
+        {
+            <div class="form-row my-2">
+                <button class="btn btn-info" type="button" onclick="simulation_p52ids()">Navrhnout zakázky pro výběr vybraných položek objednávky</button>
+                <br />
+                <input type="text" class="form-control" disabled asp-for="@Model.SelectedP52Codes" />
+            </div>
+        }
 
-        <div class="form-row">
+        <div class="form-row my-2">
             <div class="col-10">
                 <mycombo entity="p51Order" placeholder="Vybrat objednávku..." asp-for="@Model.p51ID" selectedtext="@Model.p51Code" event_after_changevalue="p51id_change"></mycombo>
             </div>
@@ -232,6 +243,10 @@
 
     function simulation_p52() {
         form1.action = "/p41/Create?rec_oper=simulation_p52";
+        form1.submit();
+    }
+    function simulation_p52ids() {
+        form1.action = "/p41/Create?rec_oper=simulation_p52ids";
         form1.submit();
     }
     function simulation_p51() {

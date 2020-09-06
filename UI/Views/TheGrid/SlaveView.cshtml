@@ -65,6 +65,17 @@
 
         }
 
+        function p52ids_create_task() {
+            var pids = $("#tg_selected_pids").val();
+            if (pids === "") {
+                _notify_message("Musíte vybrat minimálně jeden záznam.");
+                return;
+            }
+            var url = "/p41/Create?p52ids=" + pids;
+
+            _window_open(url, 2, "Vytvořit zakázky z položek objednávky");
+        }
+
         function change_grid(j72id) {
             var strKey = "slaveview-j72id-@(Model.prefix)-@(Model.master_entity)";
             

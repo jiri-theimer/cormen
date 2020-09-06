@@ -31,10 +31,10 @@ namespace UI
             _f = f;
             _tasks = new List<BO.p41Task>();
 
-            
+
         }
 
-        private void InhaleListP27(int p52id,int p27id)
+        private void InhaleListP27(int p52id, int p27id)
         {
             var mq = new BO.myQuery("p27MszUnit");
             mq.IsRecordValid = true;
@@ -52,7 +52,7 @@ namespace UI
                     mq.p25id = _f.p12ClientTpvBL.Load(cP11.p12ID).p25ID;    //vlastní klientská receptura
                 }
             }
-            
+
             _lisP27 = _f.p27MszUnitBL.GetList(mq).ToList();
 
             if (p27id > 0)
@@ -61,15 +61,20 @@ namespace UI
             }
         }
 
-        private DateTime getStartPlanDatePerP27(DateTime dat0,BO.p27MszUnit kotel)
+        private DateTime getStartPlanDatePerP27(DateTime dat0, BO.p27MszUnit kotel)
         {
             var d = dat0;
-            if (d.Year == 2000 && kotel.p31ID>0) //default datum - je třeba ho nastavit buď podle kapacitního plánu zařízení nebo aktuální čas
+            if (d.Year == 2000 && kotel.p31ID > 0)   //default datum - je třeba ho nastavit buď podle kapacitního plánu zařízení nebo aktuální čas
             {
-                var lisP33=_f.p31CapacityFondBL.GetCells(kotel.pid, DateTime.Today, DateTime.Today.AddDays(1).AddMinutes(-1));
+                d = DateTime.Today;
+            }
+
+            if (d.Hour==0 && d.Minute==0 && kotel.p31ID > 0)
+            {
+                var lisP33 = _f.p31CapacityFondBL.GetCells(kotel.p31ID, d, d.AddDays(10)).OrderBy(p=>p.p33DateTime);
                 if (lisP33.Count() > 0)
                 {
-                    d = lisP33.First().p33DateTime;
+                    d = lisP33.First().p33DateTime; //první datum+čas podle kapacitního plánu stroje
                 }
             }
             if (d.Year <= 2000)
@@ -82,8 +87,8 @@ namespace UI
         {
             foreach (var kotel in _lisP27)
             {
-                kotel.DateInsert = getStartPlanDatePerP27(_dat0,kotel);
-                
+                kotel.DateInsert = getStartPlanDatePerP27(_dat0, kotel);
+
             }
             var lisP52 = _f.p52OrderItemBL.GetList(p51id);
             foreach (var rec in lisP52)
@@ -93,19 +98,43 @@ namespace UI
                 {
                     _dat0 = _tasks.Last().p41PlanEnd;
                 }
-                
+
             }
-                        
-            
+
+
             return _tasks;
         }
-        public List<BO.p41Task> getTasksByP52(int p52id,int p27id)
+        public List<BO.p41Task> getTasksByP52IDs(List<int> p52ids)
         {
             if (_lisP27 == null)
             {
-                InhaleListP27(p52id,p27id);
+                InhaleListP27(p52ids[0], 0);
             }
-            
+            foreach (var kotel in _lisP27)
+            {
+                kotel.DateInsert = getStartPlanDatePerP27(_dat0, kotel);
+            }
+            foreach(int intP52ID in p52ids)
+            {
+                var recP52 = _f.p52OrderItemBL.Load(intP52ID);
+                if (recP52.p52DateNeeded != null)
+                {
+                    foreach (var kotel in _lisP27)
+                    {
+                        kotel.DateInsert = getStartPlanDatePerP27(Convert.ToDateTime(recP52.p52DateNeeded), kotel);
+                    }
+                }
+                handle_create_by_p52(intP52ID);
+            }
+            return _tasks;
+        }
+        public List<BO.p41Task> getTasksByP52(int p52id, int p27id)
+        {
+            if (_lisP27 == null)
+            {
+                InhaleListP27(p52id, p27id);
+            }
+
             foreach (var kotel in _lisP27)
             {
                 kotel.DateInsert = getStartPlanDatePerP27(_dat0, kotel);
@@ -123,7 +152,7 @@ namespace UI
             var cP52 = _f.p52OrderItemBL.Load(p52id);
             var cP11 = _f.p11ClientProductBL.Load(cP52.p11ID);
 
-            double dblTotalKG = cP52.Recalc2Kg-cP52.p52Task_Kg;
+            double dblTotalKG = cP52.Recalc2Kg - cP52.p52Task_Kg;
             double dblUsedKG = 0;
             DateTime dat0 = _dat0;
             var mq = new BO.myQuery("p41Task");
@@ -134,7 +163,7 @@ namespace UI
             {
                 _f.CurrentUser.AddMessage(string.Format("Položka objednávky [{0}] je již kompletně rozplánovaná.", cP52.p52Code));
             }
-            
+
             while (dblUsedKG < dblTotalKG)
             {
                 foreach (var kotel in _lisP27)
@@ -154,14 +183,14 @@ namespace UI
                     dat0 = kotel.DateInsert;
                     rec.p41PlanStart = dat0;
                     rec.p41Duration = dur;
-                   
-                    rec.p41Code = _f.p41TaskBL.EstimateTaskCode(cP52.p52Code,x);
-                    while(strLastCode == rec.p41Code)
+
+                    rec.p41Code = _f.p41TaskBL.EstimateTaskCode(cP52.p52Code, x);
+                    while (strLastCode == rec.p41Code)
                     {
                         x += 1;
                         rec.p41Code = _f.p41TaskBL.EstimateTaskCode(cP52.p52Code, x);
                     }
-                    
+
                     //kotel.DateInsert = rec.p41PlanEnd.AddSeconds(1);
                     kotel.DateInsert = rec.p41PlanEnd;
 
