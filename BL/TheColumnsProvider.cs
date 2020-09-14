@@ -300,19 +300,18 @@ namespace BL
             AF("p11ClientProduct", "p11SalesPerMonth", "Měsíční prodej", 0, null, "num0");
             AF("p11ClientProduct", "p11SalesPerWeeek", "Týdenní prodej", 0, "a.p11SalesPerMonth/4", "num0");
 
-            //AF("p11ClientProduct", "p11ZasobaTydny", "Zásoba (týdny)", 0, "p11_z03.ZasobaTydny", "num0");
-            AF("p11ClientProduct", "p11ZasobaTydny", "Zásoba (týdny)", 0, "case when a.p11SalesPerMonth>0 then (isnull(p11_p19.p19StockActual,0)+isnull(p11_z03.PlanMnozstvi1,0)+isnull(p11_z03.ZbyvaNaplanovat,0))/(a.p11SalesPerMonth/4) end", "num0");
+            
+            AF("p11ClientProduct", "p11ZasobaTydny", "Zásoba (týdny)", 0, "p11_z03.ZasobaTydny", "num0");
 
             AF("p11ClientProduct", "p11ZbyvaNaplanovat", "Zbývá naplánovat", 0, "p11_z03.ZbyvaNaplanovat", "num0");
-
-            //AF("p11ClientProduct", "p11VyrobniPotreba", "Výrobní potřeba", 0, "case when (isnull(p11_p19.p19StockActual,0)+isnull(p11_z03.PlanMnozstvi1,0)+isnull(p11_z03.ZbyvaNaplanovat,0)-a.p11SalesPerMonth)<0 then isnull(p11_p19.p19StockActual,0)+isnull(p11_z03.PlanMnozstvi1,0)+isnull(p11_z03.ZbyvaNaplanovat,0)-a.p11SalesPerMonth end", "num0");
+            
             AF("p11ClientProduct", "p11VyrobniPotreba", "Výrobní potřeba", 0, "p11_z03.VyrobniPotreba", "num0");
 
-            //AF("p11ClientProduct", "p11DoporuceneVyrMnozstvi", "Dop.výr. množství", 0, "case when p11_z03.ZasobaTydny<4 then case when p11_z03.ZasobaTydny<0 then p11_z03.VyrobniPotreba else a.p11SalesPerMonth end end", "num0");
-            AF("p11ClientProduct", "p11DoporuceneVyrMnozstvi", "Dop.výr. množství", 0, "case when a.p11Davka>0 then ROUND(p11_z03.VyrobniPotreba/a.p11Davka,0)*a.p11Davka else p11_z03.VyrobniPotreba end", "num0");
+            
+            AF("p11ClientProduct", "p11DoporuceneVyrMnozstvi", "Dop.výr. množství", 0, "p11_z03.DopVyrMnozstvi", "num0");
 
-            AF("p11ClientProduct", "p11VyrobniPotrebaPolotovar", "Výrobní potřeba Polotovar", 0, "p11_z03.VyrobniPotreba_Polotovar", "num0");
-            AF("p11ClientProduct", "p11DoporuceneVyrMnozstvi_Polotovar", "Dop.výr. množství Polotovar", 0, "p11_z03.DoporVyrMnozstvi_Polotovar", "num0");
+            AF("p11ClientProduct", "p11VyrobniPotrebaPolotovar", "Výrobní potřeba Polotovar", 0, "p11_z04.VyrobniPotreba", "num0");
+            AF("p11ClientProduct", "p11DoporuceneVyrMnozstvi_Polotovar", "Dop.výr. množství Polotovar", 0, "p11_z04.DopVyrMnozstvi", "num0");
 
 
             AF("p11ClientProduct", "p11UnitsPerPalette", "Paleta ks", 0, null, "num0");
@@ -321,23 +320,27 @@ namespace BL
 
             AF("z03_produkty_plan_vyroby", "PocetVZ", "Počet VZ", 1, null, "num0", true, true);
             AF("z03_produkty_plan_vyroby", "PlanMnozstvi", "Σ plánováno", 1, null, "num", true, true);
-            AF("z03_produkty_plan_vyroby", "PlanMnozstvi1", "Σ plánováno wsz(50-90)", 0, null, "num", true, true);
-            AF("z03_produkty_plan_vyroby", "PlanMnozstvi0", "Σ plánováno bez vlivu období", 0, null, "num", true, true);
+            AF("z03_produkty_plan_vyroby", "PlanMnozstvi_krome_WS50az90", "Σ plánováno wsz(50-90)", 0, null, "num", true, true);
+            //AF("z03_produkty_plan_vyroby", "PlanMnozstvi0", "Σ plánováno bez vlivu období", 0, null, "num", true, true);
 
-            AF("z03_produkty_plan_vyroby", "MinStart", "Start první VZ", 1, null, "datetime");
-            AF("z03_produkty_plan_vyroby", "MaxStart", "Start poslední VZ", 1, null, "datetime");
-            AF("z03_produkty_plan_vyroby", "p41CodeFirst", "Kód první VZ");
-
-            AF("z03_produkty_plan_vyroby", "PlanMnozstvi_Polotovar", "Σ plánováno Polotovar wsz(50-90)", 0, null, "num", true, true);
+            //AF("z03_produkty_plan_vyroby", "MinStart", "Start první VZ", 1, null, "datetime");
+            //AF("z03_produkty_plan_vyroby", "MaxStart", "Start poslední VZ", 1, null, "datetime");
+            //AF("z03_produkty_plan_vyroby", "p41CodeFirst", "Kód první VZ");
+                
+            //AF("p11ClientProduct", "PlanMnozstvi_Polotovar", "Σ plánováno Polotovar wsz(50-90)", 0, null, "num", true, true);
             
 
-            AF("z03_produkty_plan_vyroby", "ObjednaneMnozstvi", "Σ objednáno", 1, null, "num", true, true);
-            AF("z03_produkty_plan_vyroby", "ObjednaneMnozstvi1", "Σ objednáno wso(-10,-900)", 1, null, "num", true, true);
-            
-            //AF("sum_p11_p51", "ObjednaneMnozstvi_Obdobi", "Σ obj.v období", 1, null, "num", true, true);
-            //AF("sum_p11_p51", "ObjednaneMnozstvi1_Obdobi", "Σ obj. v období wso(-10,-900)", 1, null, "num", true, true);
-            AF("z03_produkty_plan_vyroby", "PocetP51", "Počet obj.", 1, null, "num", true, true);
-            AF("z03_produkty_plan_vyroby", "PocetP52", "Počet položek obj.", 1, null, "num", true, true);
+            //AF("z03_produkty_plan_vyroby", "ObjednaneMnozstvi", "Σ objednáno", 1, null, "num", true, true);
+            AF("z03_produkty_plan_vyroby", "ObjednaneMnozstvi_krome_WS10_900", "Σ objednáno wso(-10,-900)", 1, null, "num", true, true);
+
+
+            AF("z04_produkty_plan_vyroby_polotovar", "PocetVZ", "Počet VZ Polotovar", 1, null, "num0", true, true);
+            AF("z04_produkty_plan_vyroby_polotovar", "PlanMnozstvi", "Σ plánováno Polotovar", 1, null, "num", true, true);
+            AF("z04_produkty_plan_vyroby_polotovar", "PlanMnozstvi_krome_WS50az90", "Σ plánováno wsz(50-90) Polotovar", 0, null, "num", true, true);
+            AF("z04_produkty_plan_vyroby_polotovar", "ObjednaneMnozstvi_krome_WS10_900", "Σ objednáno wso(-10,-900) Polotovar", 1, null, "num", true, true);
+
+            //AF("z03_produkty_plan_vyroby", "PocetP51", "Počet obj.", 1, null, "num", true, true);
+            //AF("z03_produkty_plan_vyroby", "PocetP52", "Počet položek obj.", 1, null, "num", true, true);
 
             //p12 = klientské receptury
             AF("p12ClientTpv", "p12Name", "Název receptury", 1,null,"string",false,true);

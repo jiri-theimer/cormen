@@ -24,7 +24,16 @@
                 <div class="col-sm-11 col-md-10">
                     <mycombo entity="p11ClientProduct" asp-for="Rec.p11ID" selectedtext="Rec.p11Name" event_after_changevalue="p11id_change"></mycombo>
                 </div>
-
+               
+            </div>
+            <div class="form-row my-2">
+                <div class="col-sm-1 col-md-2"></div>
+                <div class="col-sm-2 col-md-2">
+                    @Model.Rec.p11Code
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    @Model.Rec.p11Name
+                </div>
             </div>
 
             <div class="form-row" style="margin-top:10px;">

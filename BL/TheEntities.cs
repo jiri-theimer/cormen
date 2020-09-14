@@ -120,7 +120,8 @@ namespace BL
             AE("z01_produkty_plan_vyroby", "Plánování výroby produktů", "Plánování výroby produktů", "dbo.z01_produkty_plan_vyroby(@gd1,@gd2) a", "a.p10ID", "a.p10ID",true);
             AE("z02_suroviny_plan_vyroby", "Plánování výroby surovin", "Plánování výroby surovin", "dbo.z02_suroviny_plan_vyroby(@gd1,@gd2) a", "a.p19ID", "a.p19ID", true);
             AE("z03_produkty_plan_vyroby", "Plán a objednávky produtků", "Plán a objednávky produtků", "dbo.z03_produkty_plan_vyroby(@gd1,@gd2) a", "a.p11ID", "a.p11ID", true);
-            
+            AE("z04_produkty_plan_vyroby_polotovar", "Plán a objednávky polotovarů", "Plán a objednávky polotovarů", "dbo.z04_produkty_plan_vyroby_polotovar(@gd1,@gd2) a", "a.p11ID", "a.p11ID", true);
+
             //AE("sum_p11_p41", "Plán výroby produktů", "Plán výroby produktů", "sum_p11_p41 a", "a.p11ID", "a.p11ID", true);
             //AE("sum_p11_p51", "Objednávky produktů", "Objednávky produktů", "sum_p11_p51 a", "a.p11ID", "a.p11ID", true);
         }
@@ -189,6 +190,7 @@ namespace BL
                     lis.Add(getREL("o54TagBindingInline", "p11_o54", "Kategorie", "LEFT OUTER JOIN (SELECT * FROM o54TagBindingInline WHERE o54RecordEntity='p11') p11_o54 ON a.p11ID=p11_o54.o54RecordPid"));
 
                     lis.Add(getREL("z03_produkty_plan_vyroby", "p11_z03", "Σ plán a objednávky", "LEFT OUTER JOIN dbo.z03_produkty_plan_vyroby(@gd1,@gd2) p11_z03 ON a.p11ID=p11_z03.p11ID"));
+                    lis.Add(getREL("z04_produkty_plan_vyroby_polotovar", "p11_z04", "Σ plán a objednávky polotovar", "LEFT OUTER JOIN dbo.z04_produkty_plan_vyroby_polotovar(@gd1,@gd2) p11_z04 ON a.p11ID=p11_z04.p11ID"));
 
                     //string ss = "LEFT OUTER JOIN (";
                     //ss += "select xb.p11ID,count(xa.p41ID) as PocetVZ,sum(xa.p41PlanUnitsCount) as PlanMnozstvi,min(xa.p41PlanStart) as MinStart,max(xa.p41PlanStart) as MaxStart,min(xa.p41Code) as p41CodeFirst";
