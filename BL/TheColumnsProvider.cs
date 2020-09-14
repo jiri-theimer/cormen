@@ -302,16 +302,19 @@ namespace BL
 
             
             AF("p11ClientProduct", "p11ZasobaTydny", "Zásoba (týdny)", 0, "p11_z03.ZasobaTydny", "num0");
+            AF("p11ClientProduct", "p11ZasobaTydnyPolotovar", "Zásoba (týdny) Polotovar", 0, "p11_z04.ZasobaTydny", "num0");
 
             AF("p11ClientProduct", "p11ZbyvaNaplanovat", "Zbývá naplánovat", 0, "p11_z03.ZbyvaNaplanovat", "num0");
-            
+            AF("p11ClientProduct", "p11ZbyvaNaplanovatPolotovar", "Zbývá naplánovat Polotovar", 0, "p11_z04.ZbyvaNaplanovat", "num0");
+
             AF("p11ClientProduct", "p11VyrobniPotreba", "Výrobní potřeba", 0, "p11_z03.VyrobniPotreba", "num0");
+            AF("p11ClientProduct", "p11VyrobniPotrebaPolotovar", "Výrobní potřeba Polotovar", 0, "p11_z04.VyrobniPotrebaPolotovar", "num0");
+
+
+            AF("p11ClientProduct", "p11DoporuceneVyrMnozstvi", "Dop.výr. množství", 0, "p11_z03.DopVyrMnozstvi", "num0");
+            AF("p11ClientProduct", "p11DoporuceneVyrMnozstviPolotovar", "Dop.výr. množství Polotovar", 0, "p11_z04.DopVyrMnozstviPolotovar", "num0");
 
             
-            AF("p11ClientProduct", "p11DoporuceneVyrMnozstvi", "Dop.výr. množství", 0, "p11_z03.DopVyrMnozstvi", "num0");
-
-            AF("p11ClientProduct", "p11VyrobniPotrebaPolotovar", "Výrobní potřeba Polotovar", 0, "p11_z04.VyrobniPotreba", "num0");
-            AF("p11ClientProduct", "p11DoporuceneVyrMnozstvi_Polotovar", "Dop.výr. množství Polotovar", 0, "p11_z04.DopVyrMnozstvi", "num0");
 
 
             AF("p11ClientProduct", "p11UnitsPerPalette", "Paleta ks", 0, null, "num0");
