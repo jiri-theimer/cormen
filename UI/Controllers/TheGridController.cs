@@ -551,8 +551,15 @@ namespace UI.Controllers
             mq.explicit_columns = _colsProvider.ParseTheGridColumns(mq.Prefix,gridState.j72Columns);
             if (string.IsNullOrEmpty(gridState.j75SortDataField) == false)
             {
+                try
+                {
+                    mq.explicit_orderby = _colsProvider.ByUniqueName(gridState.j75SortDataField).getFinalSqlSyntax_ORDERBY() + " " + gridState.j75SortOrder;
+                }
+                catch
+                {
 
-                mq.explicit_orderby = _colsProvider.ByUniqueName(gridState.j75SortDataField).getFinalSqlSyntax_ORDERBY() + " " + gridState.j75SortOrder;
+                }
+                
             }
             if (String.IsNullOrEmpty(gridState.j75Filter) == false)
             {
