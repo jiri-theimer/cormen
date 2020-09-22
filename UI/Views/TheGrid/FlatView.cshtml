@@ -85,6 +85,17 @@
             _window_open(url, 2, "Aktualizovat Workflow stav");
 
         }
+        function p52_batch_insert() {
+            var pids = $("#tg_selected_pids").val();
+            if (pids === "") {
+                _notify_message("Musíte vybrat minimálně jeden záznam.");
+                return;
+            }
+            var url = "/p52/BatchInsertByP11?p11ids=" + pids;
+
+            _window_open(url, 2, "Vytvořit položky objednávky");
+
+        }
 
         function report_nocontext(x31id) {
             _window_open("/x31/ReportNoContext?x31id=" + x31id, 2);

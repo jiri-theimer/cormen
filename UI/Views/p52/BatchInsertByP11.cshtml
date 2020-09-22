@@ -1,0 +1,85 @@
+﻿@model p52BatchInsertByP11
+
+@{
+    ViewData["Title"] = "Hromadně založit položky objednávky";
+    Layout = "~/Views/Shared/_LayoutModal.cshtml";
+}
+
+@addTagHelper *, UI
+
+
+<div class="bg-light" style="padding:10px;">
+    <button type="button" id="cmdSave" class="btn btn-success">Uložit změny</button>
+
+    <button type="button" onclick="_window_close()" class="btn btn-light">Zrušit</button>
+
+
+
+</div>
+
+
+<form id="form1" asp-controller="p52" asp-action="BatchInsertByP11" method="POST">
+    <h4>Hromadně vytvořit položky objednávky z vybraných produktů</h4>
+
+ 
+    <input type="hidden" asp-for="@Model.p11ids" />
+
+    <div class="modal_record_container">
+
+        <div class="form-row">
+            <label class="col-sm-1 col-md-2 col-form-label">Cílová objednávka:</label>
+            <div class="col-sm-11 col-md-10">
+                <mycombo entity="p51Order" asp-for="@Model.SelectedP51ID" selectedtext="@Model.p51Name"></mycombo>
+            </div>
+
+        </div>
+
+        <div class="form-row" style="margin-top:10px;">
+            <label class="col-sm-1 col-md-2 col-form-label">Datum potřeby:</label>
+            <div class="col-sm-3 col-md-3">
+                <mydate asp-for="@Model.p52DateNeeded" include-time="false"></mydate>
+            </div>
+        </div>
+
+    </div>
+    <strong>Vybrané produkty:</strong>
+
+    <table class="table table-sm table-hover" style="max-width:1000px;">
+        @for (var i = 0; i < Model.lisP52.Count; i++)
+        {
+            <tr>
+                <td>
+                    <input type="hidden" asp-for="@Model.lisP52[i].p11ID" />
+                    <input type="hidden" asp-for="@Model.lisP52[i].p11Code" />
+                    <input type="hidden" asp-for="@Model.lisP52[i].p11Name" />
+                    @Model.lisP52[i].p11Code
+                </td>
+                <td>
+                    @Model.lisP52[i].p11Name
+                </td>
+                <td>
+                    <mynumber asp-for="@Model.lisP52[i].p52UnitsCount" decimal-digits="2"></mynumber>
+                </td>
+
+            </tr>
+        }
+    </table>
+</form>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#cmdSave").click(function () {
+            $(this).text("Processing...");
+            $(this).attr("disabled", true);
+            form1.submit();
+
+        });
+
+
+
+    });
+
+
+</script>

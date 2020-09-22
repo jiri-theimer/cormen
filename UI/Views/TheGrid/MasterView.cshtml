@@ -76,7 +76,7 @@
             v.push($("#d1helper").val());
             k.push("grid-period-d2");
             v.push($("#d2helper").val());
-            
+
 
             $.post("/Common/SetUserParams", { keys: k, values:v  }, function (data) {
                 location.replace("/TheGrid/MasterView?prefix=@Model.prefix");
@@ -100,7 +100,7 @@
 
         tg_adjust_for_screen("splitter_panel1");
 
-        
+
         _mainmenu_select("@Model.prefix","@Model.j72id");
 
 
@@ -151,7 +151,7 @@
 
         }
 
-        
+
 
 
 
@@ -175,6 +175,18 @@
             var url = "/b02/StatusBatchUpdate?prefix=@(Model.prefix)&pids=" + pids;
 
             _window_open(url, 2, "Aktualizovat Workflow stav");
+
+        }
+
+        function p52_batch_insert() {
+            var pids = $("#tg_selected_pids").val();
+            if (pids === "") {
+                _notify_message("Musíte vybrat minimálně jeden záznam.");
+                return;
+            }
+            var url = "/p52/BatchInsertByP11?p11ids=" + pids;
+
+            _window_open(url, 2, "Vytvořit položky objednávky");
 
         }
 

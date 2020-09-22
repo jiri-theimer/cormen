@@ -9,6 +9,68 @@ namespace UI.Controllers
 {
     public class p52Controller : BaseController
     {
+        public IActionResult BatchInsertByP11(string p11ids)
+        {
+            //hromadné založení položek objednávky z výběru produktů
+            var v = new p52BatchInsertByP11() { p11ids = p11ids };
+            if (BO.BAS.ConvertString2ListInt(p11ids).Count==0)
+            {
+                return this.StopPage(true, "p11ids missing.");
+            }
+            var arr = BO.BAS.ConvertString2ListInt(v.p11ids);
+
+            RefreshState_BatchInsertByP11(v);
+            return View(v);
+        }
+        [HttpPost]
+        public IActionResult BatchInsertByP11(p52BatchInsertByP11 v, string oper)
+        {
+            RefreshState_BatchInsertByP11(v);
+            if (ModelState.IsValid)
+            {
+                if (v.SelectedP51ID==0)
+                {
+                    this.AddMessage("Musíte vybrat objednávku.");return View(v);
+                }
+                if (v.p52DateNeeded == null)
+                {
+                    this.AddMessage("Musíte zadat Datum potřeby."); return View(v);
+                }
+                if (v.lisP52.Where(p => p.p52UnitsCount <= 0).Count() > 0)
+                {
+                    this.AddMessage("Množství položky musí být větší než nula."); return View(v);
+                }
+                int x = 0;
+                foreach(var c in v.lisP52)
+                {
+                    c.p52DateNeeded = v.p52DateNeeded;
+                    c.p51ID = v.SelectedP51ID;                   
+                    x+=Factory.p52OrderItemBL.Save(c);
+                }
+                if (x>0)
+                {
+                    v.SetJavascript_CallOnLoad(v.SelectedP51ID);
+                }
+
+            }
+            return View(v);
+        }
+
+        private void RefreshState_BatchInsertByP11(p52BatchInsertByP11 v)
+        {
+            if (v.lisP52 == null)
+            {
+                v.lisP52 = new List<BO.p52OrderItem>();
+                var arr = BO.BAS.ConvertString2ListInt(v.p11ids);
+                foreach (int intP11ID in arr)
+                {
+                    var recP11 = Factory.p11ClientProductBL.Load(intP11ID);
+                    var c = new BO.p52OrderItem() { p11ID = intP11ID, p11Code = recP11.p11Code, p11Name = recP11.p11Name,p52UnitsCount=recP11.p11Davka };
+                    v.lisP52.Add(c);
+                }
+            }
+        }
+
         //položka objednávky
         public IActionResult Record(int pid, int p51id, bool isclone)
         {
